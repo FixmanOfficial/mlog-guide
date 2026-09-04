@@ -53,6 +53,30 @@ export const CATEGORY_ORDER = ['unknown', 'io', 'block', 'operation', 'control',
 export const categoryColor = (category) => CATEGORY_COLORS[category] ?? CATEGORY_COLORS.unknown
 
 /**
+ * Цвет имени инструкции и номера строки в шапке.
+ *
+ * В игре они рисуются цветом категории поверх шапки, тонированной тем же цветом: строка
+ * `t.add(st.name()).color(color)` живёт внутри таблицы, которой выставлен тот же цвет.
+ * Тонировка перемножается, поэтому текст выходит той же краской, но заметно темнее фона.
+ * Читаемым его делает тёмная обводка шрифта — Styles.outlineLabel.
+ *
+ * LCanvas.java:428,434,437
+ */
+export function headerTextColor(category) {
+    const hex = categoryColor(category).slice(1)
+
+    const channel = (offset) => {
+        const value = Number.parseInt(hex.slice(offset, offset + 2), 16) / 255
+        return Math.round(value * value * 255).toString(16).padStart(2, '0')
+    }
+
+    return `#${channel(0)}${channel(2)}${channel(4)}`
+}
+
+/** Кнопки строки чёрные: Styles.logici задаёт imageUpColor = Color.black. */
+export const BUTTON_COLOR = '#000000'
+
+/**
  * Имя инструкции в шапке. Игра берёт имя класса и разделяет слова пробелами
  * (`Strings.insertSpaces` в LStatement.name), поэтому PrintFlush становится «Print Flush».
  */

@@ -63,13 +63,16 @@
     cursor: grab;
 }
 
-/* Текст в игре набран шрифтом с обводкой — Styles.outlineLabel */
+/*
+ * Имя инструкции и номер строки рисуются цветом категории поверх шапки того же цвета,
+ * поэтому выходят темнее фона. Читаемыми их делает обводка — Styles.outlineLabel.
+ */
 .statement__name,
 .statement__index {
+    color: var(--header-text);
     text-shadow:
         1px 0 0 var(--outline), -1px 0 0 var(--outline),
         0 1px 0 var(--outline), 0 -1px 0 var(--outline);
-    color: #fff;
 }
 
 .statement__spacer {
@@ -82,21 +85,23 @@
 }
 
 /* Кнопки шапки: 24 пикселя с зазором 6 — LCanvas.java:441-451 */
+/* Кнопки шапки чёрные: Styles.logici задаёт imageUpColor = Color.black */
 .statement__button {
     width: 24px;
     height: 24px;
     display: grid;
     place-items: center;
     border: none;
-    background: rgba(0, 0, 0, 0.25);
-    color: inherit;
-    font-size: 13px;
+    background: transparent;
+    color: #000;
+    font-size: 17px;
+    font-weight: 700;
     line-height: 1;
     cursor: pointer;
 }
 
 .statement__button:hover {
-    background: rgba(0, 0, 0, 0.45);
+    background: rgba(0, 0, 0, 0.2);
 }
 
 /* Тело: отступ 4, сверху 2, слева ещё 4 — LCanvas.java:495-500 */

@@ -1,5 +1,5 @@
 import {INSTRUCTIONS, ENUMS, SENSEABLE, CONTROLS, visibleParams, targetIndex} from './program.js'
-import {categoryColor, displayName} from './theme.js'
+import {categoryColor, headerTextColor, displayName} from './theme.js'
 import {instructionTip, propertyTip} from './tooltips.js'
 
 /**
@@ -25,7 +25,7 @@ export function StatementRow({
     return (
         <div
             class={`statement${dragging ? ' statement--dragging' : ''}`}
-            style={{'--category': color}}
+            style={{'--category': color, '--header-text': headerTextColor(definition.category)}}
         >
             <div class="statement__header" onPointerDown={onDragStart}>
                 <span class="statement__name" title={instructionTip(statement.opcode) ?? ''}>
