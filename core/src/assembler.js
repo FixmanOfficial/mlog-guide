@@ -15,6 +15,7 @@ import {LVar} from './lvar.js'
 import {Diagnostic, diagnostic} from './errors.js'
 import {operations, conditions} from './ops.js'
 import {parse} from './parser.js'
+import {PI, E, degRad, radDeg, parseDouble, parseLong} from './arc.js'
 
 /** Все 53 инструкции из LStatements.java: нужны, чтобы отличать опечатку от неперенесённого. */
 export const KNOWN_INSTRUCTIONS = new Set([
@@ -47,11 +48,13 @@ function baseGlobals() {
     constant('true', 1)
     constant('null', null, true)
 
-    constant('@pi', Math.PI)
-    constant('π', Math.PI)
-    constant('@e', Math.E)
-    constant('@degToRad', Math.PI / 180)
-    constant('@radToDeg', 180 / Math.PI)
+    // Все четыре берутся из Mathf, где они объявлены как float. Поэтому @pi в mlog это
+    // 3.1415927410125732, а вовсе не число пи двойной точности
+    constant('@pi', PI)
+    constant('π', PI)
+    constant('@e', E)
+    constant('@degToRad', degRad)
+    constant('@radToDeg', radDeg)
 
     return globals
 }
@@ -140,18 +143,13 @@ export class Assembler {
 
     /** LAssembler.parseDouble. */
     parseNumber(symbol) {
-        const radix = (prefix, base) => {
-            if (!symbol.startsWith(prefix)) return undefined
-            const negative = symbol[0] === '-'
-            const digits = symbol.slice(prefix.length)
-            if (digits === '' || !isRadixDigits(digits, base)) return NaN
-            const parsed = Number(BigInt((base === 2 ? '0b' : '0x') + digits))
-            return negative ? -parsed : parsed
-        }
-
         for (const [prefix, base] of [['0b', 2], ['+0b', 2], ['-0b', 2], ['0x', 16], ['+0x', 16], ['-0x', 16]]) {
-            const parsed = radix(prefix, base)
-            if (parsed !== undefined) return parsed
+            if (!symbol.startsWith(prefix)) continue
+
+            const parsed = parseLong(symbol, base, prefix.length, symbol.length)
+            if (parsed === null) return NaN
+
+            return prefix[0] === '-' ? -Number(parsed) : Number(parsed)
         }
 
         if (symbol.startsWith('%[') && symbol.endsWith(']') && symbol.length > 3) {
@@ -171,7 +169,7 @@ export class Assembler {
             )
         }
 
-        return /^[+-]?(\d+\.?\d*|\.\d+)([eE][+-]?\d+)?$/.test(symbol) ? Number(symbol) : NaN
+        return parseDouble(symbol)
     }
 
     report(code, line, data) {
@@ -193,10 +191,6 @@ const builders = {
 
         if (operation === undefined) {
             asm.report(Diagnostic.UNKNOWN_OPERATION, line, {operation: name})
-            return null
-        }
-        if (operation.notImplemented !== undefined) {
-            asm.report(operation.notImplemented, line, {instruction: 'op', operation: name})
             return null
         }
 
@@ -295,6 +289,3 @@ export function assemble(text, options = {}) {
     }
 }
 
-function isRadixDigits(text, base) {
-    return base === 2 ? /^[01]+$/.test(text) : /^[0-9a-fA-F]+$/.test(text)
-}

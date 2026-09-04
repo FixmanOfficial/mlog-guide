@@ -9,7 +9,7 @@
  *  - angle, angleDiff и len считаются во float, отсюда Math.fround.
  */
 
-import {Diagnostic} from './errors.js'
+import {angle, angleDist, dst, doubleDegRad, doubleRadDeg, Rand, simplexRaw2d} from './arc.js'
 
 export const EPSILON = 0.000001
 
@@ -34,58 +34,11 @@ function fromLong(value) {
 
 const bitwise = (fn) => (a, b) => fromLong(fn(toLong(a), toLong(b)))
 
-/** Angles.angle: направление вектора в градусах, приведённое к [0, 360). */
-function angle(x, y) {
-    const degrees = Math.fround(Math.atan2(y, x) * (180 / Math.PI))
-    return degrees < 0 ? degrees + 360 : degrees
-}
-
-/** Angles.angleDist: кратчайшее расстояние между направлениями, [0, 180]. */
-function angleDiff(a, b) {
-    const mod = (value) => ((value % 360) + 360) % 360
-    const first = mod(a)
-    const second = mod(b)
-    const forward = first - second < 0 ? first - second + 360 : first - second
-    const backward = second - first < 0 ? second - first + 360 : second - first
-    return Math.fround(Math.min(forward, backward))
-}
-
 /**
- * Rand из arc — xorshift128+. Игра засеивает его случайно при старте, поэтому совпасть с ней
- * значение в значение невозможно и не нужно. Нам важна воспроизводимость: одинаковый seed даёт
- * одинаковую последовательность, иначе тесты и перемотка симуляции не работают.
+ * Соответствует GlobalVars.rand. Игра засеивает его случайно при старте, поэтому совпасть
+ * с конкретным её запуском невозможно; нам важна воспроизводимость, отсюда фиксированный seed.
+ * Сам алгоритм перенесён из arc точно, так что при равном seed последовательности совпадают.
  */
-export class Rand {
-    constructor(seed = 0n) {
-        this.setSeed(seed)
-    }
-
-    setSeed(seed) {
-        // Разгоняем seed splitmix-подобным шагом, чтобы нулевое состояние не выродилось.
-        const scramble = (value) => BigInt.asUintN(64, value * 0x9e3779b97f4a7c15n + 0x1n)
-        this.seed0 = scramble(BigInt(seed))
-        this.seed1 = scramble(this.seed0)
-        if (this.seed0 === 0n && this.seed1 === 0n) this.seed1 = 1n
-    }
-
-    nextLong() {
-        let s1 = this.seed0
-        const s0 = this.seed1
-
-        this.seed0 = s0
-        s1 = BigInt.asUintN(64, s1 ^ BigInt.asUintN(64, s1 << 23n))
-        this.seed1 = BigInt.asUintN(64, s1 ^ s0 ^ (s1 >> 17n) ^ (s0 >> 26n))
-
-        return BigInt.asUintN(64, this.seed1 + s0)
-    }
-
-    /** Rand.nextDouble: старшие 53 бита, как в arc. */
-    nextDouble() {
-        return Number(this.nextLong() >> 11n) * (2 ** -53)
-    }
-}
-
-/** Общий генератор: соответствует GlobalVars.rand, но с фиксированным seed. */
 export const rand = new Rand(1n)
 
 /**
@@ -124,10 +77,9 @@ export const operations = {
     max: {fn: (a, b) => Math.max(a, b)},
     min: {fn: (a, b) => Math.min(a, b)},
     angle: {fn: angle},
-    angleDiff: {fn: angleDiff},
-    len: {fn: (a, b) => Math.fround(Math.sqrt(Math.fround(a) * Math.fround(a) + Math.fround(b) * Math.fround(b)))},
-    // Simplex.raw2d из arc пока не перенесён: лучше явная диагностика, чем правдоподобное враньё
-    noise: {notImplemented: Diagnostic.NOT_IMPLEMENTED, fn: () => 0},
+    angleDiff: {fn: angleDist},
+    len: {fn: dst},
+    noise: {fn: (a, b) => simplexRaw2d(0, a, b)},
 
     abs: {unary: true, fn: (a) => Math.abs(a)},
     sign: {unary: true, fn: (a) => Math.sign(a)},
@@ -140,12 +92,12 @@ export const operations = {
     sqrt: {unary: true, fn: (a) => Math.sqrt(a)},
     rand: {unary: true, fn: (a) => rand.nextDouble() * a},
 
-    sin: {unary: true, fn: (a) => Math.sin(a * (Math.PI / 180))},
-    cos: {unary: true, fn: (a) => Math.cos(a * (Math.PI / 180))},
-    tan: {unary: true, fn: (a) => Math.tan(a * (Math.PI / 180))},
-    asin: {unary: true, fn: (a) => Math.asin(a) * (180 / Math.PI)},
-    acos: {unary: true, fn: (a) => Math.acos(a) * (180 / Math.PI)},
-    atan: {unary: true, fn: (a) => Math.atan(a) * (180 / Math.PI)}
+    sin: {unary: true, fn: (a) => Math.sin(a * doubleDegRad)},
+    cos: {unary: true, fn: (a) => Math.cos(a * doubleDegRad)},
+    tan: {unary: true, fn: (a) => Math.tan(a * doubleDegRad)},
+    asin: {unary: true, fn: (a) => Math.asin(a) * doubleRadDeg},
+    acos: {unary: true, fn: (a) => Math.acos(a) * doubleRadDeg},
+    atan: {unary: true, fn: (a) => Math.atan(a) * doubleRadDeg}
 }
 
 /** Устаревшие имена, которые LParser молча подменяет. */

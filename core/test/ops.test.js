@@ -42,9 +42,11 @@ test('тригонометрия считается в градусах', () => 
 })
 
 test('angle даёт направление вектора в диапазоне 0-360', () => {
-    assert.equal(run('op angle result 1 0').num('result'), 0)
+    // Приближение arc точно попадает в кратные 45 градусам по оси y, но не по оси x
     assert.equal(run('op angle result 0 1').num('result'), 90)
-    assert.equal(run('op angle result -1 0').num('result'), 180)
+    assert.equal(run('op angle result 1 1').num('result'), 45)
+    assert.ok(Math.abs(run('op angle result -1 0').num('result') - 180) < 0.001)
+    assert.ok(Math.abs(run('op angle result 0 -1').num('result') - 270) < 0.001)
 })
 
 test('angleDiff берёт кратчайшую дугу', () => {
@@ -73,10 +75,25 @@ test('деление на ноль не сохраняется как беско
     assert.equal(result.num(), 0)
 })
 
-test('noise пока не перенесён и говорит об этом явно', () => {
-    const processor = new Processor('op noise result 1 2')
+test('noise даёт воспроизводимый результат в диапазоне -1..1', () => {
+    const first = run('op noise result 12.5 7.25').num('result')
+    const second = run('op noise result 12.5 7.25').num('result')
 
-    assert.equal(processor.diagnostics.length, 1)
-    assert.equal(processor.diagnostics[0].code, 'run.not-implemented')
-    assert.equal(processor.diagnostics[0].operation, 'noise')
+    assert.equal(first, second)
+    assert.ok(first >= -1 && first <= 1)
+    // В узлах решётки шум обращается в ноль — свойство симплекс-шума
+    assert.equal(run('op noise result 0 0').num('result'), 0)
+})
+
+test('rand воспроизводим при одинаковом состоянии генератора', () => {
+    const processor = new Processor('op rand a 1\nop rand b 1')
+    processor.run(2)
+
+    const a = processor.num('a')
+    const b = processor.num('b')
+
+    assert.ok(a >= 0 && a < 1)
+    assert.ok(b >= 0 && b < 1)
+    // Два вызова подряд не должны давать одно и то же
+    assert.notEqual(a, b)
 })

@@ -94,3 +94,18 @@ node tools/gen-bundles.mjs <путь-к-Mindustry> [локали...]
 3. **Урок переводится целиком, вместе с текстами проверок.** Сообщения проверок живут внутри
    локализованного урока, а не в отдельном словаре ключей.
 4. **Структура симметрична:** `/ru/...` и `/en/...`, без «языка по умолчанию в корне».
+
+## Библиотека arc
+
+Часть семантики mlog живёт не в Mindustry, а в arc — там `Mathf`, `Angles`, `Rand`, `Simplex`
+и разбор чисел. Игра закрепляет arc хешем коммита в `gradle.properties`, для v159.7 это
+`archash=208a754044`. Пин такой же жёсткий, как у самой игры.
+
+```bash
+git clone --filter=blob:none --no-checkout --sparse https://github.com/Anuken/Arc.git
+git -C Arc sparse-checkout set arc-core/src/arc/math arc-core/src/arc/util arc-core/src/arc/graphics
+git -C Arc checkout 208a754044
+```
+
+Перенос лежит в `core/src/arc.js`. Трогать его без сверки с исходником нельзя: там всё написано
+ради совпадения значений с игрой, а не ради красоты.
