@@ -21,14 +21,30 @@ export function JumpArrows({statements, containerRef}) {
         const measure = () => {
             const base = container.getBoundingClientRect()
 
-            // Стрелка выходит из середины шапки: там же, где в игре сидит её кнопка
-            const centers = Array.from(container.querySelectorAll('.statement__header'))
-                .map(header => {
-                    const box = header.getBoundingClientRect()
+            /*
+             * Стрелка приходит в середину строки ЦЕЛИКОМ, а не в её шапку: в игре точка входа
+             * задаётся как `t.set(hover.getWidth(), hover.getHeight() / 2f)` на самом элементе
+             * инструкции. LCanvas.JumpCurve.act
+             */
+            const centers = Array.from(container.querySelectorAll('.statement'))
+                .map(row => {
+                    const box = row.getBoundingClientRect()
                     return box.top - base.top + box.height / 2
                 })
 
-            setRows({centers, width: base.width, height: base.height})
+            /*
+             * А выходит она из середины кнопки перехода, которая сидит в теле строки справа.
+             * Если кнопки нет, берём середину строки.
+             */
+            const starts = Array.from(container.querySelectorAll('.statement')).map((row, index) => {
+                const button = row.querySelector('.jump-target')
+                if (button === null) return centers[index]
+
+                const box = button.getBoundingClientRect()
+                return box.top - base.top + box.height / 2
+            })
+
+            setRows({centers, starts, width: base.width, height: base.height})
         }
 
         measure()
@@ -60,7 +76,7 @@ export function JumpArrows({statements, containerRef}) {
             style={{left: `${rows.width}px`}}
         >
             {jumps.map(jump => {
-                const y = rows.centers[jump.from]
+                const y = rows.starts[jump.from]
                 const y2 = rows.centers[jump.to]
                 if (y === undefined || y2 === undefined) return null
 
