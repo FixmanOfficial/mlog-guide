@@ -100,3 +100,28 @@ test('раскладка ссылается только на существую
         }
     }
 })
+
+test('символы операций сняты из перечисления', () => {
+    // На кнопке в редакторе стоит символ, а не имя значения. LogicOp.toString
+    assert.equal(schema.enumSymbols.LogicOp.add, '+')
+    assert.equal(schema.enumSymbols.LogicOp.idiv, '//')
+    assert.equal(schema.enumSymbols.LogicOp.emod, '%%')
+    assert.equal(schema.enumSymbols.LogicOp.strictEqual, '===')
+    assert.equal(schema.enumSymbols.LogicOp.and, 'b-and')
+    assert.equal(schema.enumSymbols.LogicOp.not, 'flip')
+})
+
+test('символ есть у каждой операции и каждого условия', () => {
+    for (const value of schema.enums.LogicOp) {
+        assert.ok(schema.enumSymbols.LogicOp[value] !== undefined, value)
+    }
+    for (const value of schema.enums.ConditionOp) {
+        assert.ok(schema.enumSymbols.ConditionOp[value] !== undefined, value)
+    }
+})
+
+test('функциями записываются шесть операций', () => {
+    const funcs = Object.keys(schema.enumFlags.LogicOp ?? {}).sort()
+
+    assert.deepEqual(funcs, ['angle', 'angleDiff', 'len', 'max', 'min', 'noise'])
+})

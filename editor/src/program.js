@@ -24,6 +24,12 @@ export const ENUMS = schema.enums
  */
 export const ENUM_PARAMS = schema.enumParams
 
+/** Символ значения для кнопки: у операций это «+», а не «add». LogicOp.toString */
+export const ENUM_SYMBOLS = schema.enumSymbols
+
+/** Признаки значения: func означает запись функцией — max(a, b), а не a max b. */
+export const ENUM_FLAGS = schema.enumFlags
+
 /** Безымянные ячейки под значения: p1, p2 и так далее. Имена им даёт выбранное значение. */
 const isSlot = (name) => /^p\d+$/.test(name)
 

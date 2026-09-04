@@ -563,6 +563,87 @@
       ]
     }
   },
+  "enumSymbols": {
+    "LogicOp": {
+      "add": "+",
+      "sub": "-",
+      "mul": "*",
+      "div": "/",
+      "idiv": "//",
+      "mod": "%",
+      "emod": "%%",
+      "pow": "^",
+      "equal": "==",
+      "notEqual": "not",
+      "land": "and",
+      "lessThan": "<",
+      "lessThanEq": "<=",
+      "greaterThan": ">",
+      "greaterThanEq": ">=",
+      "strictEqual": "===",
+      "shl": "<<",
+      "shr": ">>",
+      "ushr": ">>>",
+      "or": "or",
+      "and": "b-and",
+      "xor": "xor",
+      "not": "flip",
+      "max": "max",
+      "min": "min",
+      "angle": "angle",
+      "angleDiff": "anglediff",
+      "len": "len",
+      "noise": "noise",
+      "abs": "abs",
+      "sign": "sign",
+      "log": "log",
+      "logn": "logn",
+      "log10": "log10",
+      "floor": "floor",
+      "ceil": "ceil",
+      "round": "round",
+      "sqrt": "sqrt",
+      "rand": "rand",
+      "sin": "sin",
+      "cos": "cos",
+      "tan": "tan",
+      "asin": "asin",
+      "acos": "acos",
+      "atan": "atan"
+    },
+    "ConditionOp": {
+      "equal": "==",
+      "notEqual": "not",
+      "lessThan": "<",
+      "lessThanEq": "<=",
+      "greaterThan": ">",
+      "greaterThanEq": ">=",
+      "strictEqual": "===",
+      "always": "always"
+    }
+  },
+  "enumFlags": {
+    "LogicOp": {
+      "max": {
+        "func": true
+      },
+      "min": {
+        "func": true
+      },
+      "angle": {
+        "func": true
+      },
+      "angleDiff": {
+        "func": true
+      },
+      "len": {
+        "func": true
+      },
+      "noise": {
+        "func": true
+      }
+    }
+  },
   "instructions": [
     {
       "opcode": "noop",

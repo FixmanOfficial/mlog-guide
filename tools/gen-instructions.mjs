@@ -143,6 +143,14 @@ function parseEnum(root, name) {
     const clean = stripComments(body)
     const carriesParams = /String\[\]\s+params/.test(clean)
 
+    // Часть перечислений несёт символ для показа: у LogicOp это «+», «//», «%%» и так далее,
+    // и в редакторе на кнопке видно именно его, а не имя значения. LogicOp.toString
+    const carriesSymbol = /String\s+symbol/.test(clean)
+    const symbols = {}
+
+    // Флаг func у операции означает запись функцией: max(a, b) вместо a max b
+    const flags = {}
+
     // Значения перечисления идут до первой точки с запятой ВЕРХНЕГО уровня: внутри лямбд
     // и списков параметров точек с запятой нет, но скобки есть, поэтому считаем глубину
     const head = cutAtTopLevel(clean, ';')
@@ -157,17 +165,28 @@ function parseEnum(root, name) {
         if (match === null || values.includes(match[1])) continue
 
         values.push(match[1])
+        const args = part.includes('(') ? part.slice(part.indexOf('(') + 1) : ''
 
         if (carriesParams) {
             // Ведущее true или false — это флаг объектного значения, а не имя поля
-            const args = part.slice(part.indexOf('(') + 1)
-            params[match[1]] = part.includes('(')
-                ? [...args.matchAll(/"([^"]*)"/g)].map(argument => argument[1])
-                : []
+            params[match[1]] = [...args.matchAll(/"([^"]*)"/g)].map(argument => argument[1])
+        }
+
+        if (carriesSymbol) {
+            const symbol = args.match(/"([^"]*)"/)
+            if (symbol !== null) symbols[match[1]] = symbol[1]
+
+            // Второй аргумент, равный true, означает запись функцией: max(a, b)
+            if (/^\s*"[^"]*"\s*,\s*true\s*,/.test(args)) flags[match[1]] = {func: true}
         }
     }
 
-    return {values, params: carriesParams ? params : null}
+    return {
+        values,
+        params: carriesParams ? params : null,
+        symbols: carriesSymbol ? symbols : null,
+        flags: carriesSymbol && Object.keys(flags).length > 0 ? flags : null
+    }
 }
 
 /**
@@ -363,6 +382,8 @@ function main() {
 
     const enums = {}
     const enumParams = {}
+    const enumSymbols = {}
+    const enumFlags = {}
     const instructions = []
 
     for (const className of order) {
@@ -376,6 +397,8 @@ function main() {
             if (parsed !== null) {
                 enums[field.type] = parsed.values
                 if (parsed.params !== null) enumParams[field.type] = parsed.params
+                if (parsed.symbols !== null) enumSymbols[field.type] = parsed.symbols
+                if (parsed.flags !== null) enumFlags[field.type] = parsed.flags
             }
 
             return {
@@ -415,6 +438,10 @@ function main() {
         // Имена полей, которые игра показывает для каждого значения перечисления.
         // Значение без параметров не показывает полей вовсе — так работает control idle.
         enumParams,
+        // Символ значения: у LogicOp на кнопке видно «+», а не «add». LogicOp.toString
+        enumSymbols,
+        // Дополнительные признаки значения: func означает запись функцией, max(a, b)
+        enumFlags,
         instructions
     }
 

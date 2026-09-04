@@ -1,13 +1,19 @@
-import {INSTRUCTIONS, ENUMS, SENSEABLE, CONTROLS, visibleParams, targetIndex} from './program.js'
+import {useRef, useState} from 'preact/hooks'
+
+import {
+    INSTRUCTIONS, ENUMS, ENUM_SYMBOLS, ENUM_FLAGS,
+    SENSEABLE, CONTROLS, visibleParams, targetIndex
+} from './program.js'
 import {categoryColor, headerTextColor, displayName} from './theme.js'
 import {instructionTip, propertyTip} from './tooltips.js'
+import {SelectPopup} from './SelectPopup.jsx'
 
 /**
  * Одна строка программы.
  *
  * Повторяет строение из LCanvas.StatementElem: шапка в цвете категории с именем, номером
  * и тремя кнопками, под ней тело с полями. Раскладка тела берётся из подсказки, снятой
- * из игры; там, где подсказка неполна (инструкции с ветвлениями), поля выкладываются подряд.
+ * из игры; у инструкций с ветвлениями — своя, здесь.
  */
 export function StatementRow({
     statement, index, statements, onParam, onAdd, onCopy, onRemove,
@@ -40,7 +46,9 @@ export function StatementRow({
             </div>
 
             <div class="statement__body">
-                {renderBody(definition, statement, onParam)}
+                {statement.opcode === 'op'
+                    ? <OperationBody statement={statement} onParam={onParam} />
+                    : renderBody(definition, statement, onParam)}
 
                 {statement.opcode === 'jump' && (
                     <>
@@ -58,6 +66,60 @@ export function StatementRow({
         </div>
     )
 }
+
+/**
+ * Операция строится не как остальные инструкции. LStatements.OperationStatement.rebuild:
+ *
+ *   унарная    dest = <оп> a
+ *   функция    dest = <оп> a b
+ *   остальные  dest =  /  a <оп> b
+ *
+ * Символ операции стоит на кнопке, открывающей сетку выбора, а не в выпадающем списке.
+ */
+function OperationBody({statement, onParam}) {
+    const definition = INSTRUCTIONS.get('op')
+    const operation = statement.params.op
+    const unary = UNARY_OPS.has(operation)
+    const func = ENUM_FLAGS.LogicOp?.[operation]?.func === true
+
+    const button = (
+        <EnumButton
+            param={definition.params[0]}
+            statement={statement}
+            onParam={onParam}
+            values={ENUMS.LogicOp}
+            cellWidth={64}
+            wide
+        />
+    )
+
+    const field = (name) => (
+        <Field param={definition.params.find(candidate => candidate.name === name)}
+            statement={statement} onParam={onParam} />
+    )
+
+    if (unary) {
+        return <>{field('dest')}<span class="label"> = </span>{button}{field('a')}</>
+    }
+
+    if (func) {
+        return <>{field('dest')}<span class="label"> = </span>{button}{field('a')}{field('b')}</>
+    }
+
+    return (
+        <>
+            {field('dest')}<span class="label"> = </span>
+            <div class="break" />
+            {field('a')}{button}{field('b')}
+        </>
+    )
+}
+
+/** Унарные операции: у них второй аргумент не используется и поля для него нет. */
+const UNARY_OPS = new Set([
+    'not', 'abs', 'sign', 'log', 'log10', 'floor', 'ceil', 'round', 'sqrt', 'rand',
+    'sin', 'cos', 'tan', 'asin', 'acos', 'atan'
+])
 
 function renderBody(definition, statement, onParam) {
     const hint = definition.layoutHint
@@ -94,31 +156,65 @@ function renderItem(item, definition, statement, onParam, position) {
 }
 
 function renderParam(param, statement, onParam) {
-    const value = statement.params[param.name] ?? ''
-
-    // Параметр с перечислением — выпадающий список: свободный ввод там смысла не имеет
     if (param.enum !== undefined && ENUMS[param.enum] !== undefined) {
-        const options = optionsFor(param, statement)
-
         return (
-            <select
-                class="select"
-                value={value}
-                title={propertyTip(value) ?? ''}
-                onChange={(event) => onParam(param.name, event.currentTarget.value)}
-            >
-                {options.map(option => <option key={option} value={option}>{option}</option>)}
-            </select>
+            <EnumButton
+                param={param}
+                statement={statement}
+                onParam={onParam}
+                values={optionsFor(param, statement)}
+            />
         )
     }
 
+    return <Field param={param} statement={statement} onParam={onParam} />
+}
+
+function Field({param, statement, onParam}) {
     return (
         <input
             class="field"
-            value={value}
+            value={statement.params[param.name] ?? ''}
             spellcheck={false}
             onInput={(event) => onParam(param.name, event.currentTarget.value)}
         />
+    )
+}
+
+/** Кнопка со значением перечисления: нажатие открывает сетку выбора, как в игре. */
+function EnumButton({param, statement, onParam, values, cellWidth, wide}) {
+    const anchor = useRef(null)
+    const [open, setOpen] = useState(false)
+
+    const value = statement.params[param.name] ?? ''
+    const symbols = ENUM_SYMBOLS[param.enum] ?? {}
+
+    return (
+        <>
+            <button
+                class={`enum${wide ? ' enum--wide' : ''}`}
+                ref={anchor}
+                title={propertyTip(value) ?? ''}
+                onClick={() => setOpen(!open)}
+            >
+                {symbols[value] ?? value}
+            </button>
+
+            {open && (
+                <SelectPopup
+                    values={values}
+                    current={value}
+                    enumName={param.enum}
+                    cellWidth={cellWidth}
+                    anchor={anchor}
+                    onPick={(picked) => {
+                        onParam(param.name, picked)
+                        setOpen(false)
+                    }}
+                    onClose={() => setOpen(false)}
+                />
+            )}
+        </>
     )
 }
 

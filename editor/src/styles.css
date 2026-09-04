@@ -280,3 +280,65 @@
     outline-color: #6335f8;
     cursor: pointer;
 }
+
+/*
+ * Кнопка со значением перечисления. В игре это Styles.logict размером 64×40 у операций
+ * и обычная кнопка у остальных. LStatement.opButton
+ */
+.enum {
+    height: 40px;
+    min-width: 60px;
+    padding: 0 8px;
+    border: none;
+    border-bottom: 2px solid var(--category);
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text);
+    font: inherit;
+    cursor: pointer;
+}
+
+.enum--wide {
+    width: 64px;
+    margin: 0 4px;
+}
+
+.enum:hover {
+    background: rgba(255, 255, 255, 0.14);
+}
+
+/* Сетка выбора значения: LStatement.showSelectTable кладёт её поверх сцены */
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+}
+
+.popup {
+    position: fixed;
+    display: grid;
+    gap: 0;
+    padding: 4px;
+    max-height: 90vh;
+    overflow: auto;
+    background: #14141a;
+    border: 2px solid var(--outline, #3f3f3f);
+}
+
+.popup__item {
+    height: 38px;
+    border: none;
+    background: transparent;
+    color: #e6e6e6;
+    font: inherit;
+    cursor: pointer;
+}
+
+.popup__item:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/* Выбранное подсвечено акцентом — Pal.accent */
+.popup__item--current {
+    background: #ffd37f;
+    color: #14141a;
+}
