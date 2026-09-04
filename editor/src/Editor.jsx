@@ -15,6 +15,7 @@ export function Editor({initial = [], onChange}) {
     const [statements, setStatements] = useState(initial)
     const [adding, setAdding] = useState(null)
     const [dragIndex, setDragIndex] = useState(null)
+    const [selecting, setSelecting] = useState(null)
     const listRef = useRef(null)
 
     const update = useCallback((next) => {
@@ -39,16 +40,34 @@ export function Editor({initial = [], onChange}) {
         setDragIndex(index)
     }
 
+    /**
+     * Выбор цели перехода в два касания: сначала стрелка на переходе, потом строка-цель.
+     * В игре это перетаскивание за ту же кнопку, но по клику попасть проще, а результат тот же.
+     */
+    const onRowClick = (statement) => () => {
+        if (selecting === null || selecting === statement.id) return
+        update(operations.setTarget(statements, selecting, statement.id))
+        setSelecting(null)
+    }
+
     return (
         <div class="editor" onPointerUp={() => setDragIndex(null)} onPointerLeave={() => setDragIndex(null)}>
-            <div class="editor__list" ref={listRef}>
+            <div class={`editor__list${selecting !== null ? ' editor__list--selecting' : ''}`} ref={listRef}>
                 {statements.map((statement, index) => (
-                    <div key={statement.id} onPointerEnter={onDragOver(index)}>
+                    <div
+                        key={statement.id}
+                        onPointerEnter={onDragOver(index)}
+                        onClick={onRowClick(statement)}
+                    >
                         <StatementRow
                             statement={statement}
+                            statements={statements}
                             index={index}
                             dragging={dragIndex === index}
+                            selecting={selecting === statement.id}
                             onDragStart={onDragStart(index)}
+                            onPickTarget={() =>
+                                setSelecting(selecting === statement.id ? null : statement.id)}
                             onParam={(name, value) =>
                                 update(operations.setParam(statements, statement.id, name, value))}
                             onAdd={() => setAdding(index + 1)}

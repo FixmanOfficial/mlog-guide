@@ -11,7 +11,7 @@ import {Processor} from '@mlog/core/src/vm.js'
 
 import {
     createStatement, operations, toText, AVAILABLE, INSTRUCTIONS,
-    visibleParams, SENSEABLE, CONTROLS
+    visibleParams, SENSEABLE, CONTROLS, sanitize, targetIndex
 } from '../src/program.js'
 
 const withParams = (opcode, params) => {
@@ -142,4 +142,56 @@ test('sensor и control предлагают разные наборы свой�
 
     assert.ok(CONTROLS.includes('shoot'))
     assert.equal(CONTROLS.includes('health'), false)
+})
+
+test('значение чистится при вводе, как в игре', () => {
+    // Пробел, кавычка и точка с запятой сломали бы разбор — игра их подменяет
+    assert.equal(sanitize('две слова'), 'две_слова')
+    assert.equal(sanitize('a;b'), 'asb')
+    assert.equal(sanitize('a"b'), "a'b")
+
+    // Одиночный опасный символ заменяется целиком
+    assert.equal(sanitize('"'), 'invalid')
+    assert.equal(sanitize(';'), 'invalid')
+})
+
+test('строковый литерал переживает чистку, кавычки внутри становятся апострофами', () => {
+    assert.equal(sanitize('"текст с пробелом"'), '"текст с пробелом"')
+    assert.equal(sanitize('"а "вот" так"'), '"а \'вот\' так"')
+})
+
+test('цель перехода — ссылка, и вставка строки её не ломает', () => {
+    let statements = [createStatement('set'), createStatement('set'), createStatement('jump')]
+    statements[2].target = statements[0].id
+
+    assert.equal(targetIndex(statements, statements[2]), 0)
+
+    // Вставляем строку в самое начало: цель уехала на позицию 1, ссылка это учла
+    statements = operations.insert(statements, 0, createStatement('print'))
+    assert.equal(targetIndex(statements, statements[3]), 1)
+
+    // А в тексте появится уже новый номер
+    assert.ok(toText(statements).split('\n')[3].startsWith('jump 1 '))
+})
+
+test('удаление цели оставляет переход без адреса', () => {
+    let statements = [createStatement('set'), createStatement('jump')]
+    statements[1].target = statements[0].id
+
+    statements = operations.remove(statements, statements[0].id)
+
+    assert.equal(targetIndex(statements, statements[0]), -1)
+    assert.ok(toText(statements).startsWith('jump -1 '))
+})
+
+test('цель переключается тем же нажатием', () => {
+    let statements = [createStatement('set'), createStatement('jump')]
+    const [first, jump] = statements
+
+    statements = operations.setTarget(statements, jump.id, first.id)
+    assert.equal(statements[1].target, first.id)
+
+    // Повторный выбор той же строки снимает цель
+    statements = operations.setTarget(statements, jump.id, first.id)
+    assert.equal(statements[1].target, null)
 })

@@ -24,10 +24,11 @@
     font-size: 14px;
 }
 
+/* Промежуток между строками — DragLayout.space, а нижний отступ строки — marginBottom(7) */
 .editor__list {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 10px;
 }
 
 /*
@@ -40,6 +41,9 @@
     outline-offset: 0;
     background: #000;
     user-select: none;
+    /* StatementElem.draw кладёт под строку тень и полупрозрачную чёрную подложку */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+    margin-bottom: 7px;
 }
 
 .statement--dragging {
@@ -124,15 +128,28 @@
 }
 
 /* У полей в игре не рамка, а подчёркивание в цвете категории */
+/* LStatement.field: одиночное поле 144x40, подписанное — 85 в ширину */
 .field,
 .select {
-    min-width: 72px;
+    width: 144px;
+    height: 40px;
+    box-sizing: border-box;
     padding: 3px 6px;
     border: none;
     border-bottom: 2px solid var(--category);
     background: transparent;
     color: var(--text);
     font: inherit;
+}
+
+.pair .field,
+.pair .select {
+    width: 85px;
+}
+
+/* Подпись поля: padLeft 10, поле padRight 10 */
+.pair {
+    padding: 0 10px;
 }
 
 .field:focus,
@@ -222,4 +239,39 @@
     top: 0;
     overflow: visible;
     pointer-events: none;
+}
+
+/*
+ * Переносы внутри строки игра делает только в узкой раскладке: LStatement.row вызывает
+ * table.row() лишь когда useRows(), то есть при ширине меньше 900 * 1.2 = 1080.
+ */
+@media (min-width: 1080px) {
+    .break {
+        display: none;
+    }
+}
+
+/* Кнопка выбора цели перехода. В игре это Tex.logicNode справа в теле строки */
+.jump-target {
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    margin-left: -8px;
+    border: none;
+    background: transparent;
+    color: #fff;
+    text-shadow: 0 0 2px var(--outline);
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.jump-target--active {
+    color: #6335f8;
+}
+
+/* Пока выбирают цель, строки подсвечиваются под курсором */
+.editor__list--selecting .statement:hover {
+    outline-color: #6335f8;
+    cursor: pointer;
 }

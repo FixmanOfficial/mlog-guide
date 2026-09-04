@@ -18,8 +18,8 @@ const initial = [
     withParams('drawflush', {target: 'display1'}),
     withParams('control', {type: 'enabled', target: 'switch1', p1: '1'}),
     withParams('control', {type: 'shoot', target: 'turret1', p1: '10', p2: '20', p3: '1'}),
-    withParams('jump', {destIndex: '4', op: 'greaterThan', value: 'level', compare: '50'}),
-    withParams('jump', {destIndex: '0', op: 'lessThan', value: 'level', compare: '100'}),
+    withParams('jump', {op: 'greaterThan', value: 'level', compare: '50'}),
+    withParams('jump', {op: 'lessThan', value: 'level', compare: '100'}),
     withParams('end', {})
 ]
 
@@ -27,6 +27,11 @@ function withParams(opcode, params) {
     const statement = createStatement(opcode)
     return {...statement, params: {...statement.params, ...params}}
 }
+
+// Цели переходов задаются ссылками, а не номерами: вставка строки выше цели их не ломает
+const jumps = initial.filter(statement => statement.opcode === 'jump')
+jumps[0].target = initial[4].id
+jumps[1].target = initial[0].id
 
 function Stand() {
     const [text, setText] = useState(toText(initial))

@@ -1,6 +1,7 @@
 import {useState, useLayoutEffect} from 'preact/hooks'
 
 import {assignLanes, curvePoints, laneOffset, STROKE} from './jumps.js'
+import {targetIndex} from './program.js'
 import {JUMP_COLOR, OUTLINE_COLOR, OUTLINE_WIDTH} from './theme.js'
 
 /**
@@ -42,7 +43,7 @@ export function JumpArrows({statements, containerRef}) {
     const jumps = assignLanes(statements
         .map((statement, index) => ({
             from: index,
-            to: statement.opcode === 'jump' ? Number.parseInt(statement.params.destIndex, 10) : NaN
+            to: statement.opcode === 'jump' ? targetIndex(statements, statement) : -1
         }))
         .filter(jump => Number.isInteger(jump.to) && jump.to < statements.length))
 

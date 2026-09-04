@@ -66,6 +66,28 @@ export const AVAILABLE = schema.instructions.filter(instruction => !instruction.
 
 let nextId = 1
 
+/**
+ * Приведение введённого значения, как в LStatement.sanitize.
+ *
+ * Поле в игре не даёт ввести то, что сломает разбор: пробел, кавычка и точка с запятой
+ * подменяются. Строковый литерал при этом сохраняется целиком, а кавычки внутри него
+ * становятся апострофами.
+ */
+export function sanitize(value) {
+    if (value.length === 0) return ''
+
+    if (value.length === 1) {
+        return value === '"' || value === ';' || value === ' ' ? 'invalid' : value
+    }
+
+    if (value.startsWith('"') && value.endsWith('"')) {
+        return '"' + value.slice(1, -1).split('"').join("'") + '"'
+    }
+
+    return [...value].map(char =>
+        char === ';' ? 's' : char === '"' ? "'" : char === ' ' ? '_' : char).join('')
+}
+
 /** Новая инструкция со значениями по умолчанию из схемы. */
 export function createStatement(opcode) {
     const definition = INSTRUCTIONS.get(opcode)
@@ -76,7 +98,10 @@ export function createStatement(opcode) {
         params[param.name] = param.default ?? '0'
     }
 
-    return {id: nextId++, opcode, params}
+    // Цель перехода хранится ссылкой на инструкцию, а не номером строки: в игре это
+    // поле dest типа StatementElem, а destIndex считается только при сохранении.
+    // Иначе вставка строки выше цели ломала бы все переходы под ней
+    return {id: nextId++, opcode, params, target: null}
 }
 
 /**
@@ -86,10 +111,26 @@ export function createStatement(opcode) {
 export function toText(statements) {
     return statements.map(statement => {
         const definition = INSTRUCTIONS.get(statement.opcode)
-        const values = definition.params.map(param => quote(statement.params[param.name] ?? '0'))
+
+        const values = definition.params.map(param => {
+            // Номер строки для перехода считается здесь, из ссылки. LStatement.saveUI
+            if (statement.opcode === 'jump' && param.name === 'destIndex') {
+                return String(targetIndex(statements, statement))
+            }
+
+            return quote(statement.params[param.name] ?? '0')
+        })
 
         return [statement.opcode, ...values].join(' ')
     }).join('\n')
+}
+
+/** Номер строки, на которую указывает переход, или -1, если цель не задана. */
+export function targetIndex(statements, statement) {
+    if (statement.target === null || statement.target === undefined) return -1
+
+    const index = statements.findIndex(candidate => candidate.id === statement.target)
+    return index
 }
 
 /**
@@ -118,8 +159,16 @@ export const operations = {
         const index = statements.findIndex(statement => statement.id === id)
         if (index === -1) return statements
 
+        // Копия ссылается на ту же цель: ссылка переживает вставку, в отличие от номера строки
         const copy = {...statements[index], id: nextId++, params: {...statements[index].params}}
         return operations.insert(statements, index + 1, copy)
+    },
+
+    /** Задать или снять цель перехода. Цель — идентификатор инструкции, а не её номер. */
+    setTarget(statements, id, targetId) {
+        return statements.map(statement => statement.id === id
+            ? {...statement, target: statement.target === targetId ? null : targetId}
+            : statement)
     },
 
     move(statements, from, to) {
@@ -132,8 +181,11 @@ export const operations = {
     },
 
     setParam(statements, id, name, value) {
+        // Значение чистится сразу при вводе, как в игре: пробел и кавычка сломали бы разбор
+        const clean = sanitize(value)
+
         return statements.map(statement => statement.id === id
-            ? {...statement, params: {...statement.params, [name]: value}}
+            ? {...statement, params: {...statement.params, [name]: clean}}
             : statement)
     }
 }
