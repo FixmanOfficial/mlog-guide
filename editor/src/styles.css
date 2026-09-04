@@ -1,8 +1,14 @@
 /*
- * Моноширинный шрифт игры — Fira Code под SIL OFL 1.1, core/assets/fonts/monospace.woff.
- * Основной шрифт интерфейса игры мы не берём: он весит 3.6 МБ, содержит 42 тысячи глифов
- * и не называет исходную гарнитуру. См. docs/decisions.md
+ * Шрифты игры. Основной — вырезка из font.woff: из 42 515 глифов оставлены латиница,
+ * кириллица и знаки препинания, 47 КБ вместо 3.5 МБ. Снимает tools/gen-font.mjs.
+ * Моноширинный — Fira Code под SIL OFL 1.1, им набран код. См. editor/assets/README.md
  */
+@font-face {
+    font-family: 'Mindustry';
+    src: url('../assets/ui.ttf') format('truetype');
+    font-display: swap;
+}
+
 @font-face {
     font-family: 'Mindustry Mono';
     src: url('../assets/mono.woff') format('woff');
@@ -49,7 +55,7 @@
     padding: 8px 96px 8px 8px;
     background: var(--bg);
     color: var(--text);
-    font-family: 'Mindustry Mono', ui-monospace, monospace;
+    font-family: 'Mindustry', system-ui, sans-serif;
     font-size: 14px;
 }
 
@@ -217,7 +223,7 @@
     background: var(--panel, #2b2b2f);
     color: var(--text, #e6e6e6);
     border: 2px solid #000;
-    font-family: 'Mindustry Mono', ui-monospace, monospace;
+    font-family: 'Mindustry', system-ui, sans-serif;
     font-size: 14px;
 }
 
