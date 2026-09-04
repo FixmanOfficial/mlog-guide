@@ -7,6 +7,7 @@ import {
 import {categoryColor, headerTextColor, displayName} from './theme.js'
 import {instructionTip, propertyTip} from './tooltips.js'
 import {SelectPopup} from './SelectPopup.jsx'
+import {Icon} from './Icon.jsx'
 
 /**
  * Одна строка программы.
@@ -40,9 +41,15 @@ export function StatementRow({
                 <span class="statement__spacer" />
                 <span class="statement__index">{index}</span>
 
-                <button class="statement__button" title="Добавить после" onClick={onAdd}>+</button>
-                <button class="statement__button" title="Копировать" onClick={onCopy}>⧉</button>
-                <button class="statement__button" title="Удалить" onClick={onRemove}>✕</button>
+                <button class="statement__button" title="Добавить после" onClick={onAdd}>
+                    <Icon name="add" size={20} />
+                </button>
+                <button class="statement__button" title="Копировать" onClick={onCopy}>
+                    <Icon name="copy" size={20} />
+                </button>
+                <button class="statement__button" title="Удалить" onClick={onRemove}>
+                    <Icon name="cancel" size={20} />
+                </button>
             </div>
 
             <div class="statement__body">

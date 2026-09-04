@@ -1,4 +1,33 @@
 /*
+ * Моноширинный шрифт игры — Fira Code под SIL OFL 1.1, core/assets/fonts/monospace.woff.
+ * Основной шрифт интерфейса игры мы не берём: он весит 3.6 МБ, содержит 42 тысячи глифов
+ * и не называет исходную гарнитуру. См. docs/decisions.md
+ */
+@font-face {
+    font-family: 'Mindustry Mono';
+    src: url('../assets/mono.woff') format('woff');
+    font-weight: 500;
+    font-display: swap;
+}
+
+/*
+ * Шрифт иконок из игры. Иконки в Mindustry — глифы этого шрифта, а не картинки,
+ * поэтому подключаем его так же, как это делает игра. См. editor/assets/README.md
+ */
+@font-face {
+    font-family: 'Mindustry Icons';
+    src: url('../assets/icon.ttf') format('truetype');
+    font-display: block;
+}
+
+.icon {
+    font-family: 'Mindustry Icons';
+    line-height: 1;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+}
+
+/*
  * Вид редактора. Размеры взяты из logic/LCanvas.java, цвета приходят переменной --category
  * из палитры игры. Стиль плоский и прямоугольный, как интерфейс Mindustry: скруглений
  * и теней в игре нет.
@@ -20,7 +49,7 @@
     padding: 8px 96px 8px 8px;
     background: var(--bg);
     color: var(--text);
-    font-family: system-ui, sans-serif;
+    font-family: 'Mindustry Mono', ui-monospace, monospace;
     font-size: 14px;
 }
 
@@ -188,7 +217,7 @@
     background: var(--panel, #2b2b2f);
     color: var(--text, #e6e6e6);
     border: 2px solid #000;
-    font-family: system-ui, sans-serif;
+    font-family: 'Mindustry Mono', ui-monospace, monospace;
     font-size: 14px;
 }
 
