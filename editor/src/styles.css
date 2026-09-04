@@ -324,12 +324,20 @@
     border: 2px solid var(--outline, #3f3f3f);
 }
 
+/*
+ * Кнопки сетки набраны шрифтом с обводкой: Styles.logicTogglet берёт Fonts.outline.
+ * Поля ввода и кнопка операции — наоборот, обычным Fonts.def, поэтому обводки там нет.
+ * Styles.java:200-208, 411-421, 166-173
+ */
 .popup__item {
     height: 38px;
     border: none;
     background: transparent;
-    color: #e6e6e6;
+    color: #fff;
     font: inherit;
+    text-shadow:
+        1px 0 0 var(--outline, #3f3f3f), -1px 0 0 var(--outline, #3f3f3f),
+        0 1px 0 var(--outline, #3f3f3f), 0 -1px 0 var(--outline, #3f3f3f);
     cursor: pointer;
 }
 
@@ -341,4 +349,5 @@
 .popup__item--current {
     background: #ffd37f;
     color: #14141a;
+    text-shadow: none;
 }
