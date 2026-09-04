@@ -25,9 +25,11 @@
 | --- | --- | --- |
 | **Логические идентификаторы не выводятся из порядка регистрации контента.** Игра читает готовое соответствие из ассета `logicids.dat`, собираемого `ImagePacker` при сборке. Файл фиксирует идентификаторы между версиями, чтобы не ломались старые схемы | `logic/GlobalVars.java:158-184` | — |
 | Формат `logicids.dat` — `DataInputStream`: для каждого типа `short` количество, затем столько же `readUTF()`. Порядок типов строго `block`, `unit`, `item`, `liquid` | `logic/GlobalVars.java:26,162-176` | ✓ разбор в `tools/gen-content.mjs` |
+| `logicids.dat` хранит и записи снятого контента: `command-center` есть в таблице блоков, но названия в бандлах уже нет. Идентификаторы не переиспользуются — в этом и смысл файла | `core/assets/logicids.dat` | ✓ проверка покрытия в `tools/gen-bundles.mjs` |
 | Константы `@copper`, `@router` и прочие строятся на старте обходом зарегистрированного контента — это отдельный механизм от логических идентификаторов | `logic/GlobalVars.java:110-151` | — |
 | Константы `@blockCount`, `@unitCount`, `@itemCount`, `@liquidCount` берутся из количеств в том же `logicids.dat` | `logic/GlobalVars.java:168` | — |
 | `lookableContent` включает `team`, а `writableLookableContent` — нет. Команды участвуют в поиске, но не в таблице идентификаторов | `logic/GlobalVars.java:25-26` | — |
+| Официальные переводы игры лежат в `core/assets/bundles` — 36 локалей, включая всю терминологию логики: `lcategory.*`, `lst.*` (51 описание инструкций), `lenum.*` (113 описаний свойств) | `core/assets/bundles/*.properties` | ✓ разбор в `tools/gen-bundles.mjs` |
 | Есть алиас `π` для `@pi` — «for the cool kids» | `logic/GlobalVars.java:60` | — |
 | `@time` считается от `@tick`, а не от системных часов — в комментарии прямо сказано, что прошлый вариант был плохой идеей | `logic/GlobalVars.java:188` | — |
 
