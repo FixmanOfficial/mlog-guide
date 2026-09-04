@@ -80,7 +80,23 @@
 | Неизвестное свойство в `sense` возвращает `NaN`, а не 0 | `world/Block.java:1671` | — |
 | Каждое здание переопределяет 1–4 свойства, остальное падает в базовую реализацию | `world/blocks/logic/*.java` | — |
 | `control` не всегда мгновенный: у двери таймер `timerToggle` 80 тиков и отказ, если под ней есть юниты | `world/blocks/defense/Door.java` | — |
-| Буферы ограничены: графика 256 команд, дисплей 1024, текст 400 символов | `LExecutor.java:44-46` | — |
+| Буферы ограничены: графика 256 команд, дисплей 1024, текст 400 символов | `LExecutor.java:44-46` | ✓ `world.test.js` |
+| Чтение за границей памяти даёт **NaN, а не ноль** — и потому превращается в объект null. Запись за границей молча игнорируется | `world/blocks/logic/MemoryBlock.java` | ✓ `world.test.js` |
+| Размеры: `memory-cell` 64 ячейки, `memory-bank` 512, `logic-display` 80 точек, `large-logic-display` 176, сообщение 400 символов | `content/Blocks.java:6875-6896`, `MessageBlock.java:29` | ✓ `world.test.js` |
+| `printflush` и `drawflush` чистят буфер **всегда**, даже если цель не подходит по типу или команде | `LExecutor.PrintFlushI`, `DrawFlushI` | ✓ `world.test.js` |
+| `flushCommands` увеличивает счётчик `operations` при каждом сбросе, даже когда буфер дисплея переполнен и команды не влезли | `world/blocks/logic/LogicDisplay.java` | ✓ `world.test.js` |
+| `sensor` от пустого объекта со свойством `@dead` возвращает 1, а не пустое значение | `LExecutor.SenseI` | — |
+| `sensor` от строки со свойством `@size` или `@bufferSize` даёт её длину | `LExecutor.SenseI` | — |
+
+## Текст и цвет
+
+| Деталь | Источник | Тест |
+| --- | --- | --- |
+| `print` печатает число целым, если оно отличается от целого меньше чем на `1e-5`. Иначе включается форматирование `double` из Java, а оно не совпадает с JS на краях диапазона | `LExecutor.PrintI` | ✓ `world.test.js` |
+| **`format` подставляет значение в место `{N}` с наименьшим номером, а не в первое попавшееся.** Если подходящего места нет, инструкция не делает ничего | `LExecutor.FormatI` | ✓ `world.test.js` |
+| **`packcolor` принимает доли от нуля до единицы**, а литерал `%RRGGBB` — байты 0-255. Две разные шкалы в одном языке | `LExecutor.PackColorI`, `LAssembler.parseColor` | ✓ `world.test.js` |
+| `Color.toFloatBits` маскирует упакованное значение по `0xfeffffff`, поэтому старший бит альфы теряется | `arc/graphics/Color.java` | — |
+| `draw print` считает раскладку по метрикам шрифта игры. У нас команда несёт текст, а раскладку делает рендер — сознательное упрощение | `LExecutor.DrawI` | — |
 
 ## Библиотека arc
 

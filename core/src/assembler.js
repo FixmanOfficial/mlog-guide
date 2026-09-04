@@ -15,7 +15,8 @@ import {LVar} from './lvar.js'
 import {Diagnostic, diagnostic} from './errors.js'
 import {operations, conditions} from './ops.js'
 import {parse} from './parser.js'
-import {PI, E, degRad, radDeg, parseDouble, parseLong} from './arc.js'
+import {PI, E, degRad, radDeg, parseDouble, parseLong, javaDoubleToString} from './arc.js'
+import {NOT_SENSED} from './world.js'
 
 /** Все 53 инструкции из LStatements.java: нужны, чтобы отличать опечатку от неперенесённого. */
 export const KNOWN_INSTRUCTIONS = new Set([
@@ -56,6 +57,9 @@ function baseGlobals() {
     constant('@degToRad', degRad)
     constant('@radToDeg', radDeg)
 
+    // Свойства sensor: в игре они кладутся в константы обходом LAccess.all
+    for (const access of LACCESS) constant(`@${access}`, {access}, true)
+
     return globals
 }
 
@@ -68,7 +72,66 @@ function packColorBits(r, g, b, a) {
     return colorBuffer.getFloat32(0)
 }
 
+/** Color.fromDouble: обратная распаковка. Красный лежит в младшем байте. */
+function unpackColorBits(value) {
+    colorBuffer.setFloat32(0, value)
+    const packed = colorBuffer.getUint32(0)
+
+    return [
+        (packed & 0xff) / 255,
+        ((packed >>> 8) & 0xff) / 255,
+        ((packed >>> 16) & 0xff) / 255,
+        ((packed >>> 24) & 0xff) / 255
+    ]
+}
+
+const clamp01 = (value) => Math.min(1, Math.max(0, value))
+
 const hex = (text, from, to) => parseInt(text.slice(from, to), 16)
+
+/** Свойства LAccess, читаемые через sensor. Имена совпадают с logic/LAccess.java. */
+export const LACCESS = [
+    'totalItems', 'firstItem', 'totalLiquids', 'totalPower', 'itemCapacity', 'liquidCapacity',
+    'powerCapacity', 'powerNetStored', 'powerNetCapacity', 'powerNetIn', 'powerNetOut', 'ammo',
+    'ammoCapacity', 'currentAmmoType', 'memoryCapacity', 'health', 'maxHealth', 'heat', 'shield',
+    'armor', 'efficiency', 'progress', 'timescale', 'rotation', 'x', 'y', 'velocityX', 'velocityY',
+    'shootX', 'shootY', 'cameraX', 'cameraY', 'cameraWidth', 'cameraHeight', 'displayWidth',
+    'displayHeight', 'bufferSize', 'operations', 'size', 'solid', 'dead', 'range', 'shooting',
+    'boosting', 'mineX', 'mineY', 'mining', 'buildX', 'buildY', 'pingX', 'pingY', 'pingText',
+    'building', 'breaking', 'speed', 'team', 'type', 'flag', 'flying', 'controlled', 'controller',
+    'name', 'payloadCount', 'payloadType', 'totalPayload', 'payloadCapacity', 'maxUnits', 'id',
+    'selectedBlock', 'selectedRotation', 'bulletLifetime', 'bulletTime', 'enabled', 'shoot',
+    'shootp', 'config', 'color'
+]
+
+/** Свойства control, принимающие объект, а не число. LAccess: isObj */
+const OBJECT_CONTROLS = new Set(['shootp', 'config'])
+
+/** Достаёт имя свойства из константы вида @enabled. */
+function propertyName(variable) {
+    const object = variable.obj()
+    return object !== null && object.access !== undefined ? object.access : null
+}
+
+/** PrintI.toString плюс правило «целое печатается без дробной части». */
+function printValue(variable) {
+    if (variable.isobj) {
+        const object = variable.objval
+
+        if (object === null) return 'null'
+        if (typeof object === 'string') return object
+        if (object.access !== undefined) return object.access
+        if (object.name !== undefined) return object.name
+        return '[object]'
+    }
+
+    // Порог 1e-5, тот же, что у bool(): близкое к целому печатается целым
+    if (Math.abs(variable.numval - Math.round(variable.numval)) < 0.00001) {
+        return String(Math.round(variable.numval))
+    }
+
+    return javaDoubleToString(variable.numval)
+}
 
 export class Assembler {
     /**
@@ -235,6 +298,254 @@ const builders = {
     },
 
     // EndI ставит счётчик за последнюю инструкцию, а не в ноль: на ноль его вернёт следующий шаг
+    read: (asm, params) => {
+        const output = asm.var(params[0] ?? 'result')
+        const target = asm.var(params[1] ?? 'cell1')
+        const position = asm.var(params[2] ?? '0')
+
+        return {
+            run: () => {
+                const object = target.obj()
+
+                if (object !== null && typeof object.read === 'function') {
+                    output.setnum(object.read(position.num() | 0))
+                } else if (typeof object === 'string') {
+                    // Чтение из строки отдаёт код символа, а за границами — NaN
+                    const index = position.num() | 0
+                    output.setnum(index < 0 || index >= object.length ? NaN : object.charCodeAt(index))
+                } else {
+                    output.setobj(null)
+                }
+            }
+        }
+    },
+
+    write: (asm, params) => {
+        const value = asm.var(params[0] ?? 'result')
+        const target = asm.var(params[1] ?? 'cell1')
+        const position = asm.var(params[2] ?? '0')
+
+        return {
+            run: () => {
+                const object = target.obj()
+                if (object !== null && typeof object.write === 'function') {
+                    object.write(position.num() | 0, value.num())
+                }
+            }
+        }
+    },
+
+    print: (asm, params) => {
+        const value = asm.var(params[0] ?? '"frog"')
+        return {run: (vm) => vm.appendText(printValue(value))}
+    },
+
+    printchar: (asm, params) => {
+        const value = asm.var(params[0] ?? '0')
+
+        return {
+            run: (vm) => {
+                if (value.isobj) return
+                vm.appendText(String.fromCharCode(Math.floor(value.numval)))
+            }
+        }
+    },
+
+    format: (asm, params) => {
+        const value = asm.var(params[0] ?? '0')
+        return {run: (vm) => vm.formatText(printValue(value))}
+    },
+
+    printflush: (asm, params) => {
+        const target = asm.var(params[0] ?? 'message1')
+
+        return {
+            run: (vm) => {
+                const building = target.obj()
+                if (building !== null && typeof building.setMessage === 'function') {
+                    building.setMessage(vm.textBuffer)
+                }
+                // Буфер чистится всегда, даже если цель не подходит
+                vm.textBuffer = ''
+            }
+        }
+    },
+
+    draw: (asm, params) => {
+        const type = params[0] ?? 'clear'
+        const args = [1, 2, 3, 4, 5, 6].map(i => asm.var(params[i] ?? '0'))
+
+        return {
+            run: (vm) => vm.appendDraw(type, args)
+        }
+    },
+
+    drawflush: (asm, params) => {
+        const target = asm.var(params[0] ?? 'display1')
+
+        return {
+            run: (vm) => {
+                const building = target.obj()
+                if (building !== null && typeof building.flush === 'function') {
+                    building.flush(vm.graphicsBuffer)
+                }
+                vm.graphicsBuffer = []
+            }
+        }
+    },
+
+    sensor: (asm, params) => {
+        const output = asm.var(params[0] ?? 'result')
+        const target = asm.var(params[1] ?? 'block1')
+        const property = asm.var(params[2] ?? '@copper')
+
+        return {
+            run: () => {
+                const object = target.obj()
+                const name = propertyName(property)
+
+                // Мёртвым считается и отсутствующий объект. SenseI
+                if (object === null && name === 'dead') {
+                    output.setnum(1)
+                    return
+                }
+
+                if (object === null || typeof object.sense !== 'function') {
+                    if ((name === 'size' || name === 'bufferSize') && typeof object === 'string') {
+                        output.setnum(object.length)
+                        return
+                    }
+                    output.setobj(null)
+                    return
+                }
+
+                const asObject = object.senseObject(name)
+                if (asObject !== NOT_SENSED) {
+                    output.setobj(asObject)
+                    return
+                }
+
+                output.setnum(object.sense(name))
+            }
+        }
+    },
+
+    control: (asm, params) => {
+        const property = params[0] ?? 'enabled'
+        const target = asm.var(params[1] ?? 'block1')
+        const values = [2, 3, 4, 5].map(i => asm.var(params[i] ?? '0'))
+
+        return {
+            run: () => {
+                const object = target.obj()
+                if (object === null || typeof object.control !== 'function') return
+
+                // Объектные свойства передают объект, остальные — число. ControlI
+                const first = OBJECT_CONTROLS.has(property) && values[0].isobj
+                    ? values[0].obj()
+                    : values[0].num()
+
+                object.control(property, first, values[1].num(), values[2].num(), values[3].num())
+            }
+        }
+    },
+
+    getlink: (asm, params) => {
+        const output = asm.var(params[0] ?? 'result')
+        const index = asm.var(params[1] ?? '0')
+
+        return {
+            run: (vm) => {
+                const address = index.num() | 0
+                output.setobj(address >= 0 && address < vm.links.length ? vm.links[address] : null)
+            }
+        }
+    },
+
+    lookup: (asm, params) => {
+        const type = params[0] ?? 'block'
+        const output = asm.var(params[1] ?? 'result')
+        const index = asm.var(params[2] ?? '0')
+
+        return {
+            run: (vm) => output.setobj(vm.lookup(type, index.num() | 0))
+        }
+    },
+
+    packcolor: (asm, params) => {
+        const result = asm.var(params[0] ?? 'result')
+        const channels = [1, 2, 3, 4].map(i => asm.var(params[i] ?? '0'))
+
+        return {
+            run: () => {
+                // Каналы здесь в долях от нуля до единицы, а не 0-255 как в литерале %RRGGBB
+                const [r, g, b, a] = channels.map(channel => clamp01(channel.num()))
+                result.setnum(packColorBits(
+                    Math.round(r * 255), Math.round(g * 255),
+                    Math.round(b * 255), Math.round(a * 255)
+                ))
+            }
+        }
+    },
+
+    unpackcolor: (asm, params) => {
+        const outputs = [0, 1, 2, 3].map(i => asm.var(params[i] ?? 'result'))
+        const value = asm.var(params[4] ?? '0')
+
+        return {
+            run: () => {
+                const channels = unpackColorBits(value.num())
+                outputs.forEach((output, index) => output.setnum(channels[index]))
+            }
+        }
+    },
+
+    select: (asm, params, line) => {
+        const result = asm.var(params[0] ?? 'result')
+        const name = params[1] ?? 'always'
+
+        if (conditions[name] === undefined) {
+            asm.report(Diagnostic.UNKNOWN_CONDITION, line, {condition: name})
+            return null
+        }
+
+        const [compareA, compareB, whenTrue, whenFalse] =
+            [2, 3, 4, 5].map(i => asm.var(params[i] ?? '0'))
+
+        return {
+            run: (vm) => {
+                if (result.constant) return
+                result.set(vm.test(name, compareA, compareB) ? whenTrue : whenFalse)
+            }
+        }
+    },
+
+    /**
+     * WaitI хранит собственный счётчик времени, поэтому у инструкции есть состояние.
+     * Ноль и меньше — просто уступить, не залипая на себе.
+     */
+    wait: (asm, params) => {
+        const value = asm.var(params[0] ?? '0.5')
+        let elapsed = 0
+
+        return {
+            run: (vm) => {
+                const target = value.num()
+
+                if (target <= 0) {
+                    vm.yield = true
+                    elapsed = 0
+                } else if (elapsed >= target) {
+                    elapsed = 0
+                } else {
+                    vm.counter.numval--
+                    vm.yield = true
+                    elapsed += vm.delta / 60
+                }
+            }
+        }
+    },
+
     end: () => ({run: (vm) => { vm.counter.numval = vm.instructions.length }}),
 
     // StopI отступает на шаг назад, чтобы застрять на себе же, и просит исполнителя уступить

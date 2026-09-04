@@ -205,6 +205,32 @@ export function simplexRaw2d(seed, x, y) {
     return 70 * (n0 + n1 + n2)
 }
 
+/**
+ * Приведение числа к строке так, как это делает StringBuilder.append в Java.
+ *
+ * Целые печатаются без дробной части — этим занимается вызывающий код, здесь только double.
+ * Java уходит в экспоненциальную запись за пределами [1e-3, 1e7) и всегда оставляет хотя бы
+ * один знак после точки; JS ведёт себя иначе, поэтому разница видна в print и format.
+ */
+export function javaDoubleToString(value) {
+    if (Number.isNaN(value)) return 'NaN'
+    if (!Number.isFinite(value)) return value > 0 ? 'Infinity' : '-Infinity'
+    if (value === 0) return Object.is(value, -0) ? '-0.0' : '0.0'
+
+    const magnitude = Math.abs(value)
+
+    if (magnitude >= 1e-3 && magnitude < 1e7) {
+        const text = String(value)
+        return text.includes('.') || text.includes('e') ? text : `${text}.0`
+    }
+
+    // Экспоненциальная запись Java: одна цифра до точки, показатель без ведущих нулей
+    const [mantissa, exponent] = value.toExponential().split('e')
+    const withPoint = mantissa.includes('.') ? mantissa : `${mantissa}.0`
+    const sign = exponent.startsWith('-') ? '-' : ''
+    return `${withPoint}E${sign}${Math.abs(Number(exponent))}`
+}
+
 const LONG_MIN = -(2n ** 63n)
 const LONG_MAX = 2n ** 63n - 1n
 
