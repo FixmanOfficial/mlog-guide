@@ -417,3 +417,31 @@
     -webkit-text-stroke: 0;
     text-shadow: none;
 }
+
+/*
+ * Кнопка условия у перехода: 48 в ширину, а при `always` — 80, потому что поля сравнения
+ * пропадают и слово не влезает в узкую. LStatements.addOp
+ */
+.enum--condition {
+    width: 48px;
+    min-width: 48px;
+}
+
+.enum--always {
+    width: 80px;
+    min-width: 80px;
+}
+
+.enum--condition,
+.enum--always {
+    height: 40px;
+    box-sizing: border-box;
+    padding: 4px 4px 0;
+    margin: 0 4px;
+    border: none;
+    border-bottom: 4px solid var(--category);
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text);
+    font: inherit;
+    cursor: pointer;
+}

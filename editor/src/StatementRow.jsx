@@ -53,9 +53,10 @@ export function StatementRow({
             </div>
 
             <div class="statement__body">
-                {statement.opcode === 'op'
-                    ? <OperationBody statement={statement} onParam={onParam} />
-                    : renderBody(definition, statement, onParam)}
+                {statement.opcode === 'op' && <OperationBody statement={statement} onParam={onParam} />}
+                {statement.opcode === 'jump' && <JumpBody statement={statement} onParam={onParam} />}
+                {statement.opcode !== 'op' && statement.opcode !== 'jump' &&
+                    renderBody(definition, statement, onParam)}
 
                 {statement.opcode === 'jump' && (
                     <>
@@ -65,7 +66,7 @@ export function StatementRow({
                             title="Выбрать, куда прыгать"
                             onClick={onPickTarget}
                         >
-                            ➤
+                            <Icon name="right" size={18} />
                         </button>
                     </>
                 )}
@@ -118,6 +119,40 @@ function OperationBody({statement, onParam}) {
             {field('dest')}<span class="label"> = </span>
             <div class="break" />
             {field('a')}{button}{field('b')}
+        </>
+    )
+}
+
+/**
+ * Условный переход. LStatements.JumpStatement.build и addOp:
+ *
+ *   if <value> <условие> <compare>
+ *
+ * Подписей у полей нет вовсе — вместо них слово «if» в начале. А при условии `always`
+ * оба поля пропадают, потому что сравнивать нечего, и кнопка условия становится шире:
+ * 80 вместо 48.
+ */
+function JumpBody({statement, onParam}) {
+    const definition = INSTRUCTIONS.get('jump')
+    const always = statement.params.op === 'always'
+
+    const field = (name) => (
+        <Field param={definition.params.find(candidate => candidate.name === name)}
+            statement={statement} onParam={onParam} />
+    )
+
+    return (
+        <>
+            <span class="label">if </span>
+            {!always && field('value')}
+            <EnumButton
+                param={definition.params.find(candidate => candidate.name === 'op')}
+                statement={statement}
+                onParam={onParam}
+                values={ENUMS.ConditionOp}
+                className={always ? 'enum enum--always' : 'enum enum--condition'}
+            />
+            {!always && field('compare')}
         </>
     )
 }
@@ -189,7 +224,7 @@ function Field({param, statement, onParam}) {
 }
 
 /** Кнопка со значением перечисления: нажатие открывает сетку выбора, как в игре. */
-function EnumButton({param, statement, onParam, values, cellWidth, wide}) {
+function EnumButton({param, statement, onParam, values, cellWidth, wide, className}) {
     const anchor = useRef(null)
     const [open, setOpen] = useState(false)
 
@@ -199,7 +234,7 @@ function EnumButton({param, statement, onParam, values, cellWidth, wide}) {
     return (
         <>
             <button
-                class={`enum${wide ? ' enum--wide' : ''}`}
+                class={className ?? `enum${wide ? ' enum--wide' : ''}`}
                 ref={anchor}
                 title={propertyTip(value) ?? ''}
                 onClick={() => setOpen(!open)}

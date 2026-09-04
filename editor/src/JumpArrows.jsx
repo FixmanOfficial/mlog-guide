@@ -38,10 +38,15 @@ export function JumpArrows({statements, containerRef}) {
              */
             const starts = Array.from(container.querySelectorAll('.statement')).map((row, index) => {
                 const button = row.querySelector('.jump-target')
-                if (button === null) return centers[index]
+                if (button === null) return {y: centers[index], x: 0}
 
                 const box = button.getBoundingClientRect()
-                return box.top - base.top + box.height / 2
+                return {
+                    y: box.top - base.top + box.height / 2,
+                    // Начало отсчёта у полотна стрелок — правый край списка, поэтому
+                    // до кнопки, сидящей внутри строки, смещение отрицательное
+                    x: box.left - base.right + box.width / 2
+                }
             })
 
             setRows({centers, starts, width: base.width, height: base.height})
@@ -76,11 +81,11 @@ export function JumpArrows({statements, containerRef}) {
             style={{left: `${rows.width}px`}}
         >
             {jumps.map(jump => {
-                const y = rows.starts[jump.from]
+                const start = rows.starts[jump.from]
                 const y2 = rows.centers[jump.to]
-                if (y === undefined || y2 === undefined) return null
+                if (start === undefined || y2 === undefined) return null
 
-                const points = curvePoints(0, y, 0, y2, jump.lane, narrow)
+                const points = curvePoints(start.x, start.y, 0, y2, jump.lane, narrow)
                 const line = points.map(([px, py]) => `${px},${py}`).join(' ')
                 const head = arrowHead(y2)
 
