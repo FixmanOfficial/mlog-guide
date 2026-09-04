@@ -26,8 +26,10 @@ export function StatementRow({
 
     // У перехода в заголовке видна его цель: «Jump -> 3». LStatements.JumpStatement.build
     const destination = statement.opcode === 'jump' ? targetIndex(statements, statement) : -1
+    // В игре это буквально строка " -> " из двух знаков ASCII, а не стрелка Unicode:
+    // name + " -> " + dest.index. Шрифт рисует их своим глифом, и выглядит это иначе
     const title = destination >= 0
-        ? `${displayName(statement.opcode)} → ${destination}`
+        ? `${displayName(statement.opcode)} -> ${destination}`
         : displayName(statement.opcode)
 
     return (
