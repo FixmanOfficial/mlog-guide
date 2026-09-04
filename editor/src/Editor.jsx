@@ -1,7 +1,8 @@
-import {useState, useCallback} from 'preact/hooks'
+import {useState, useCallback, useRef} from 'preact/hooks'
 
 import {StatementRow} from './StatementRow.jsx'
 import {AddDialog} from './AddDialog.jsx'
+import {JumpArrows} from './JumpArrows.jsx'
 import {createStatement, operations, toText} from './program.js'
 
 /**
@@ -14,6 +15,7 @@ export function Editor({initial = [], onChange}) {
     const [statements, setStatements] = useState(initial)
     const [adding, setAdding] = useState(null)
     const [dragIndex, setDragIndex] = useState(null)
+    const listRef = useRef(null)
 
     const update = useCallback((next) => {
         setStatements(next)
@@ -39,7 +41,7 @@ export function Editor({initial = [], onChange}) {
 
     return (
         <div class="editor" onPointerUp={() => setDragIndex(null)} onPointerLeave={() => setDragIndex(null)}>
-            <div class="editor__list">
+            <div class="editor__list" ref={listRef}>
                 {statements.map((statement, index) => (
                     <div key={statement.id} onPointerEnter={onDragOver(index)}>
                         <StatementRow
@@ -55,6 +57,7 @@ export function Editor({initial = [], onChange}) {
                         />
                     </div>
                 ))}
+                <JumpArrows statements={statements} containerRef={listRef} />
             </div>
 
             <button class="editor__add" onClick={() => setAdding(statements.length)}>

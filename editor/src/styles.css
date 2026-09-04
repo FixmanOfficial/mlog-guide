@@ -192,3 +192,15 @@
     background: var(--category);
     color: #14141a;
 }
+
+/* Стрелки переходов идут справа от кода, как в игре, и кликов не перехватывают */
+.editor__list {
+    position: relative;
+}
+
+.jumps {
+    position: absolute;
+    top: 0;
+    overflow: visible;
+    pointer-events: none;
+}
