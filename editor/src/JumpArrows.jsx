@@ -66,7 +66,7 @@ export function JumpArrows({statements, containerRef}) {
 
                 const points = curvePoints(0, y, 0, y2, jump.lane, narrow)
                 const line = points.map(([px, py]) => `${px},${py}`).join(' ')
-                const head = `0,${y2} 11,${y2 - 7} 11,${y2 + 7}`
+                const head = arrowHead(y2)
 
                 return (
                     <g key={`${jump.from}-${jump.to}`}>
@@ -77,10 +77,28 @@ export function JumpArrows({statements, containerRef}) {
                             stroke-width={STROKE} stroke-linejoin="miter" />
                         {/* Наконечник у точки входа, повёрнут к коду — Tex.logicNode в игре */}
                         <polygon points={head} fill={JUMP_COLOR}
-                            stroke={OUTLINE_COLOR} stroke-width={OUTLINE_WIDTH} />
+                            stroke={OUTLINE_COLOR} stroke-width={OUTLINE_WIDTH} stroke-linejoin="miter" />
                     </g>
                 )
             })}
         </svg>
     )
+}
+
+/**
+ * Наконечник стрелки. В игре это спрайт logic-node 32×32, отрисованный так:
+ *
+ *   Tex.logicNode.draw(x + s * 0.75, y - s / 2, -s, s),  s = ширина кнопки = 30
+ *
+ * Отрицательная ширина зеркалит спрайт, поэтому остриё смотрит на код. С учётом того,
+ * что рисунок занимает в спрайте столбцы с 13 по 29 и строки с 4 по 27, остриё выходит
+ * примерно на пять пикселей ЗА точку входа, внутрь строки, а тупой край — на десять после неё.
+ * Высота получается около двадцати одного пикселя, вдвое больше моей прежней заглушки.
+ */
+function arrowHead(y) {
+    const tip = -5
+    const back = 10
+    const half = 10.5
+
+    return `${tip},${y} ${back},${y - half} ${back},${y + half}`
 }

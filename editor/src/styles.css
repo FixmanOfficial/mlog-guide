@@ -67,17 +67,16 @@
 }
 
 /*
- * Строка инструкции: рамка в цвете категории поверх чёрного тела, а снаружи тёмная обводка.
- * Так выглядит Tex.whitePane с тонировкой — у спрайтов игры обводка запечена в картинку.
+ * Строка инструкции. Рамка — девятипатч white-pane: в спрайте она 5 пикселей и рисуется
+ * цветом категории. Отдельного тёмного кольца вокруг неё нет: тёмный контур на скриншотах
+ * из игры даёт тень под строкой, а не рамка. StatementElem.draw кладёт dropShadow
+ * и полупрозрачную чёрную подложку.
  */
 .statement {
-    border: 3px solid var(--category);
-    outline: 2px solid var(--outline);
-    outline-offset: 0;
+    border: 5px solid var(--category);
     background: #000;
     user-select: none;
-    /* StatementElem.draw кладёт под строку тень и полупрозрачную чёрную подложку */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.9);
     margin-bottom: 7px;
 }
 
@@ -168,15 +167,22 @@
 }
 
 /* У полей в игре не рамка, а подчёркивание в цвете категории */
-/* LStatement.field: одиночное поле 144x40, подписанное — 85 в ширину */
+/*
+ * LStatement.field: поле 144×40, подписанное — 85 в ширину.
+ *
+ * Подчёркивание в игре не занимает место у текста: это фон девятипатча underline-white,
+ * нарисованный по нижнему краю. У нас его роль играет нижняя рамка, и она область текста
+ * съедает — поэтому текст центрировался в 33 пикселях вместо 40 и сидел выше, чем надо.
+ * Отступ сверху возвращает середину текста на двадцатый пиксель, как в игре.
+ */
 .field,
 .select {
     width: 144px;
     height: 40px;
     box-sizing: border-box;
-    padding: 3px 6px;
+    padding: 4px 6px 0;
     border: none;
-    border-bottom: 2px solid var(--category);
+    border-bottom: 4px solid var(--category);
     background: transparent;
     color: var(--text);
     font: inherit;
@@ -322,10 +328,11 @@
  */
 .enum {
     height: 40px;
+    box-sizing: border-box;
     min-width: 60px;
-    padding: 0 8px;
+    padding: 4px 8px 0;
     border: none;
-    border-bottom: 2px solid var(--category);
+    border-bottom: 4px solid var(--category);
     background: rgba(255, 255, 255, 0.06);
     color: var(--text);
     font: inherit;
