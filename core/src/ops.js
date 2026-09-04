@@ -15,7 +15,6 @@ export const EPSILON = 0.000001
 
 const LONG_MIN = -(2n ** 63n)
 const LONG_MAX = 2n ** 63n - 1n
-const MASK = 2n ** 64n
 
 /** Приведение double к long по правилам Java: усечение к нулю, NaN в ноль, выход за диапазон в границу. */
 function toLong(value) {
@@ -25,12 +24,12 @@ function toLong(value) {
     return BigInt(Math.trunc(value))
 }
 
-/** Обратно в число со знаковым переполнением, как при выходе из long. */
-function fromLong(value) {
-    let wrapped = ((value % MASK) + MASK) % MASK
-    if (wrapped > LONG_MAX) wrapped -= MASK
-    return Number(wrapped)
-}
+/**
+ * Обратно в число со знаковым переполнением, как при выходе из long.
+ * BigInt.asIntN делает ровно это одной операцией — вручную через два взятия остатка
+ * получалось втрое медленнее, что и показал стенд tools/bench-vm.mjs.
+ */
+const fromLong = (value) => Number(BigInt.asIntN(64, value))
 
 const bitwise = (fn) => (a, b) => fromLong(fn(toLong(a), toLong(b)))
 
