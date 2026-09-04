@@ -323,7 +323,11 @@
     }
 }
 
-/* Кнопка выбора цели перехода. В игре это Tex.logicNode справа в теле строки */
+/*
+ * Кнопка выбора цели — тот же треугольник, что и наконечник у цели: в игре это один спрайт
+ * logic-node, просто у цели он зеркальный. Размер 30, прижата вправо, отступ слева -8.
+ * LStatements.JumpStatement.build
+ */
 .jump-target {
     width: 30px;
     height: 30px;
@@ -332,14 +336,12 @@
     margin-left: -8px;
     border: none;
     background: transparent;
-    color: #fff;
-    text-shadow: 0 0 2px var(--outline);
-    font-size: 16px;
     cursor: pointer;
 }
 
-.jump-target--active {
-    color: #6335f8;
+/* При выборе цели узел подсвечивается, как JumpButton при наведении — Pal.place */
+.jump-target--active .node polygon {
+    fill: #6335f8;
 }
 
 /* Пока выбирают цель, строки подсвечиваются под курсором */

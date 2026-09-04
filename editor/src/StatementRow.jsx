@@ -8,6 +8,7 @@ import {categoryColor, headerTextColor, displayName} from './theme.js'
 import {instructionTip, propertyTip} from './tooltips.js'
 import {SelectPopup} from './SelectPopup.jsx'
 import {Icon} from './Icon.jsx'
+import {JumpNode} from './JumpNode.jsx'
 
 /**
  * Одна строка программы.
@@ -66,7 +67,7 @@ export function StatementRow({
                             title="Выбрать, куда прыгать"
                             onClick={onPickTarget}
                         >
-                            <Icon name="right" size={18} />
+                            <JumpNode />
                         </button>
                     </>
                 )}

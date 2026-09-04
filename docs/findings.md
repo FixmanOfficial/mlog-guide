@@ -197,6 +197,7 @@ Mindustry закрепляет arc хешем коммита в `gradle.properti
 | **Кнопки строки чёрные**: `Styles.logici` задаёт `imageUpColor = Color.black` | `ui/Styles.java:287` | — |
 | **У перехода своя раскладка:** `if <value> <условие> <compare>`, без единой подписи у полей. При условии `always` оба поля сравнения пропадают, а кнопка условия расширяется с 48 до 80 — слово не влезает в узкую | `LStatements.JumpStatement.build`, `addOp` | — |
 | Стрелка перехода начинается у кнопки в теле строки, а не у края списка: полотно стрелок приходится сдвигать, иначе линия отрывается от кнопки | `LStatements.JumpStatement.build`, `LCanvas.JumpCurve.act` | — |
+| **Кнопка перехода и наконечник у цели — один и тот же спрайт** `logic-node`. `JumpButton` наследует `ImageButton` и берёт его напрямую, а у цели он рисуется зеркально. Значит и выглядеть они должны одинаково: треугольник с плоским основанием, остриём вправо у источника и влево у цели | `LCanvas.JumpButton`, `JumpCurve.draw` | — |
 | **У операции своя раскладка.** Унарная: `dest = <оп> a`. Функция (`max`, `min`, `angle`, `angleDiff`, `len`, `noise`): `dest = <оп> a b`. Остальные: `dest =`, перенос, `a <оп> b` | `LStatements.OperationStatement.rebuild` | — |
 | **На кнопке операции стоит символ, а не имя**: `+`, `//`, `%%`, `===`, `b-and`, `flip`. Их несёт само перечисление, `LogicOp.toString` возвращает `symbol` | `logic/LogicOp.java:101` | ✓ `instructions.test.js` |
 | Признак `func` у операции означает запись функцией — второй аргумент конструктора равен `true` | `logic/LogicOp.java:71` | ✓ `instructions.test.js` |
