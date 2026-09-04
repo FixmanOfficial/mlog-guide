@@ -219,6 +219,76 @@ function splitTopLevel(text, separator) {
     return parts.filter(part => part.trim() !== '')
 }
 
+/**
+ * Приводит сырую подсказку к виду, годному для редактора: выбрасывает ссылки на то,
+ * что параметром не является (в разбор попадают локальные переменные вроде get у radar),
+ * и решает, можно ли считать раскладку полной.
+ */
+function buildHint(hint, params) {
+    const names = new Set(params.map(param => param.name))
+    const items = hint.items.filter(item => item.param === undefined || names.has(item.param))
+
+    return {
+        // Полной считается раскладка без ветвлений, в которой упомянут каждый параметр
+        complete: !hint.dynamic && params.every(param =>
+            items.some(item => item.param === param.name)),
+        items
+    }
+}
+
+/** Тело метода по сигнатуре, или null, если метода нет. */
+function methodBody(classBody, signature) {
+    const index = classBody.indexOf(signature)
+    if (index === -1) return null
+    return block(classBody, classBody.indexOf('{', index + signature.length))
+}
+
+/**
+ * Подсказка по раскладке строки инструкции в редакторе игры.
+ *
+ * ВАЖНО: подсказка, а не истина. Надёжно снимается примерно у трети инструкций — остальные
+ * строят раскладку динамически или через обёртки, которые статическим разбором не берутся.
+ * У неполных стоит complete: false, и редактор строит строку сам, по списку параметров.
+ * Гнаться за полнотой тут не стоит: расположение полей — наше решение, а не данные игры,
+ * и сами параметры всё равно генерируются и сверяются тестом.
+ *
+ * Метод build(Table) собирает строку из подписей и полей: `table.add(" = ")` рисует текст,
+ * `field(table, имя, ...)` — редактируемое поле, `row(table)` переносит строку, а кнопка
+ * с `showSelect` открывает список значений перечисления. Порядок вызовов и есть порядок
+ * элементов на экране.
+ *
+ * Часть инструкций строит раскладку динамически, через rebuild(Table) с ветвлениями —
+ * для них берётся тело rebuild, а порядок сохраняется линейно. Такие помечаются dynamic.
+ */
+function parseLayout(classBody) {
+    let body = methodBody(classBody, 'public void build(Table table)')
+    if (body === null) return null
+
+    // build часто только зовёт rebuild: настоящая раскладка там
+    if (/^\s*rebuild\(table\);\s*$/.test(stripComments(body))) {
+        body = methodBody(classBody, 'void rebuild(Table table)') ?? body
+    }
+
+    const clean = stripComments(body)
+    const layout = []
+
+    const token = /(?:table|t)\.add\(\s*"([^"]*)"\s*\)|(?:^|[^\w.])field\(\s*\w+\s*,\s*(\w+)|fields\(\s*\w+\s*,\s*"([^"]*)"\s*,\s*(\w+)|(?:^|[^\w.])row\(\s*\w+\s*\)|showSelect\(\s*\w+\s*,\s*(\w+)\.all\s*,\s*(\w+)/g
+
+    for (const match of clean.matchAll(token)) {
+        const [, label, fieldName, fieldsLabel, fieldsName, enumType, enumParam] = match
+
+        if (label !== undefined) layout.push({kind: 'label', text: label})
+        else if (fieldName !== undefined) layout.push({kind: 'field', param: fieldName})
+        else if (fieldsName !== undefined) {
+            layout.push({kind: 'label', text: fieldsLabel})
+            layout.push({kind: 'field', param: fieldsName})
+        } else if (enumParam !== undefined) layout.push({kind: 'select', param: enumParam, enum: enumType})
+        else layout.push({kind: 'row'})
+    }
+
+    return {dynamic: /\bif\s*\(/.test(clean), items: layout}
+}
+
 function main() {
     const gameRoot = resolve(process.argv[2] ?? '../Mindustry')
     const source = join(gameRoot, 'core/src/mindustry/logic/LStatements.java')
@@ -246,7 +316,11 @@ function main() {
         const category = full.match(/return LCategory\.(\w+)/)
         const privileged = /boolean privileged\(\)\s*\{\s*return true/.test(full)
 
-        classes.set(className, {opcode, parent, fields: parseFields(body), category, privileged})
+        classes.set(className, {
+            opcode, parent, category, privileged,
+            fields: parseFields(body),
+            layout: parseLayout(full)
+        })
         order.push(className)
     }
 
@@ -277,24 +351,30 @@ function main() {
             }
         })
 
+        const hint = entry.layout ?? classes.get(entry.parent)?.layout ?? null
+
         instructions.push({
             opcode: entry.opcode,
             category: entry.category === null
                 ? (classes.get(entry.parent)?.category?.[1] ?? 'unknown')
                 : entry.category[1],
             privileged: entry.privileged,
-            params
+            params,
+            layoutHint: hint === null ? null : buildHint(hint, params)
         })
     }
 
     const output = {
         gameVersion: GAME_VERSION,
         source: 'core/src/mindustry/logic/LStatements.java',
-        note: 'Файл сгенерирован. Порядок параметров совпадает с порядком объявления полей — именно его использует сериализация игры.',
+        note: 'Файл сгенерирован. Порядок параметров совпадает с порядком объявления полей — ' +
+            'именно его использует сериализация игры. layoutHint снят из build(Table) и полон ' +
+            'не везде: при complete=false редактор строит строку сам, по списку параметров.',
         counts: {
             instructions: instructions.length,
             processor: instructions.filter(instruction => !instruction.privileged).length,
-            world: instructions.filter(instruction => instruction.privileged).length
+            world: instructions.filter(instruction => instruction.privileged).length,
+            completeLayoutHints: instructions.filter(instruction => instruction.layoutHint?.complete).length
         },
         enums,
         instructions
@@ -306,6 +386,7 @@ function main() {
     console.log(`${target} — из ${source}`)
     console.log(`  инструкций ${output.counts.instructions}: ` +
         `процессорных ${output.counts.processor}, мира ${output.counts.world}`)
+    console.log(`  полных раскладок из игры: ${output.counts.completeLayoutHints}`)
     console.log(`  перечислений ${Object.keys(enums).length}: ${Object.keys(enums).join(', ')}`)
 }
 

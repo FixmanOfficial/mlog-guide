@@ -76,3 +76,27 @@ test('первая версия покрывает двадцать две ин�
 
     assert.equal(v1.length, 22)
 })
+
+test('подсказка по раскладке либо полна, либо честно помечена', () => {
+    for (const instruction of schema.instructions) {
+        const hint = instruction.layoutHint
+        if (hint === null || !hint.complete) continue
+
+        // Полной считается только та, где упомянут каждый параметр
+        const used = new Set(hint.items.filter(item => item.param).map(item => item.param))
+        for (const param of instruction.params) {
+            assert.ok(used.has(param.name), `${instruction.opcode}: нет ${param.name}`)
+        }
+    }
+})
+
+test('раскладка ссылается только на существующие параметры', () => {
+    for (const instruction of schema.instructions) {
+        const names = new Set(instruction.params.map(param => param.name))
+
+        for (const item of instruction.layoutHint?.items ?? []) {
+            if (item.param === undefined) continue
+            assert.ok(names.has(item.param), `${instruction.opcode}: лишний ${item.param}`)
+        }
+    }
+})

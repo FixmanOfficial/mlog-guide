@@ -1,11 +1,12 @@
 {
   "gameVersion": "v159.7",
   "source": "core/src/mindustry/logic/LStatements.java",
-  "note": "Файл сгенерирован. Порядок параметров совпадает с порядком объявления полей — именно его использует сериализация игры.",
+  "note": "Файл сгенерирован. Порядок параметров совпадает с порядком объявления полей — именно его использует сериализация игры. layoutHint снят из build(Table) и полон не везде: при complete=false редактор строит строку сам, по списку параметров.",
   "counts": {
     "instructions": 53,
     "processor": 27,
-    "world": 26
+    "world": 26,
+    "completeLayoutHints": 16
   },
   "enums": {
     "GraphicsType": [
@@ -309,7 +310,11 @@
       "opcode": "noop",
       "category": "unknown",
       "privileged": false,
-      "params": []
+      "params": [],
+      "layoutHint": {
+        "complete": true,
+        "items": []
+      }
     },
     {
       "opcode": "read",
@@ -331,7 +336,39 @@
           "type": "value",
           "default": "0"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": true,
+        "items": [
+          {
+            "kind": "label",
+            "text": " read "
+          },
+          {
+            "kind": "field",
+            "param": "output"
+          },
+          {
+            "kind": "label",
+            "text": " = "
+          },
+          {
+            "kind": "field",
+            "param": "target"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": " at "
+          },
+          {
+            "kind": "field",
+            "param": "address"
+          }
+        ]
+      }
     },
     {
       "opcode": "write",
@@ -353,7 +390,39 @@
           "type": "value",
           "default": "0"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": true,
+        "items": [
+          {
+            "kind": "label",
+            "text": " write "
+          },
+          {
+            "kind": "field",
+            "param": "input"
+          },
+          {
+            "kind": "label",
+            "text": " to "
+          },
+          {
+            "kind": "field",
+            "param": "target"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": " at "
+          },
+          {
+            "kind": "field",
+            "param": "address"
+          }
+        ]
+      }
     },
     {
       "opcode": "draw",
@@ -396,7 +465,354 @@
           "type": "value",
           "default": "0"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "select",
+            "param": "type",
+            "enum": "GraphicsType"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": "r"
+          },
+          {
+            "kind": "field",
+            "param": "x"
+          },
+          {
+            "kind": "label",
+            "text": "g"
+          },
+          {
+            "kind": "field",
+            "param": "y"
+          },
+          {
+            "kind": "label",
+            "text": "b"
+          },
+          {
+            "kind": "field",
+            "param": "p1"
+          },
+          {
+            "kind": "label",
+            "text": "r"
+          },
+          {
+            "kind": "field",
+            "param": "x"
+          },
+          {
+            "kind": "label",
+            "text": "g"
+          },
+          {
+            "kind": "field",
+            "param": "y"
+          },
+          {
+            "kind": "label",
+            "text": "b"
+          },
+          {
+            "kind": "field",
+            "param": "p1"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": "a"
+          },
+          {
+            "kind": "field",
+            "param": "p2"
+          },
+          {
+            "kind": "label",
+            "text": "color"
+          },
+          {
+            "kind": "field",
+            "param": "x"
+          },
+          {
+            "kind": "label",
+            "text": "x"
+          },
+          {
+            "kind": "field",
+            "param": "x"
+          },
+          {
+            "kind": "label",
+            "text": "y"
+          },
+          {
+            "kind": "field",
+            "param": "y"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": "x2"
+          },
+          {
+            "kind": "field",
+            "param": "p1"
+          },
+          {
+            "kind": "label",
+            "text": "y2"
+          },
+          {
+            "kind": "field",
+            "param": "p2"
+          },
+          {
+            "kind": "label",
+            "text": "x"
+          },
+          {
+            "kind": "field",
+            "param": "x"
+          },
+          {
+            "kind": "label",
+            "text": "y"
+          },
+          {
+            "kind": "field",
+            "param": "y"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": "width"
+          },
+          {
+            "kind": "field",
+            "param": "p1"
+          },
+          {
+            "kind": "label",
+            "text": "height"
+          },
+          {
+            "kind": "field",
+            "param": "p2"
+          },
+          {
+            "kind": "label",
+            "text": "x"
+          },
+          {
+            "kind": "field",
+            "param": "x"
+          },
+          {
+            "kind": "label",
+            "text": "y"
+          },
+          {
+            "kind": "field",
+            "param": "y"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": "sides"
+          },
+          {
+            "kind": "field",
+            "param": "p1"
+          },
+          {
+            "kind": "label",
+            "text": "radius"
+          },
+          {
+            "kind": "field",
+            "param": "p2"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": "rotation"
+          },
+          {
+            "kind": "field",
+            "param": "p3"
+          },
+          {
+            "kind": "label",
+            "text": "x"
+          },
+          {
+            "kind": "field",
+            "param": "x"
+          },
+          {
+            "kind": "label",
+            "text": "y"
+          },
+          {
+            "kind": "field",
+            "param": "y"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": "x2"
+          },
+          {
+            "kind": "field",
+            "param": "p1"
+          },
+          {
+            "kind": "label",
+            "text": "y2"
+          },
+          {
+            "kind": "field",
+            "param": "p2"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": "x3"
+          },
+          {
+            "kind": "field",
+            "param": "p3"
+          },
+          {
+            "kind": "label",
+            "text": "y3"
+          },
+          {
+            "kind": "field",
+            "param": "p4"
+          },
+          {
+            "kind": "label",
+            "text": "x"
+          },
+          {
+            "kind": "field",
+            "param": "x"
+          },
+          {
+            "kind": "label",
+            "text": "y"
+          },
+          {
+            "kind": "field",
+            "param": "y"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": "image"
+          },
+          {
+            "kind": "field",
+            "param": "p1"
+          },
+          {
+            "kind": "label",
+            "text": "size"
+          },
+          {
+            "kind": "field",
+            "param": "p2"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": "rotation"
+          },
+          {
+            "kind": "field",
+            "param": "p3"
+          },
+          {
+            "kind": "label",
+            "text": "x"
+          },
+          {
+            "kind": "field",
+            "param": "x"
+          },
+          {
+            "kind": "label",
+            "text": "y"
+          },
+          {
+            "kind": "field",
+            "param": "y"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": "align"
+          },
+          {
+            "kind": "field",
+            "param": "p1"
+          },
+          {
+            "kind": "label",
+            "text": "x"
+          },
+          {
+            "kind": "field",
+            "param": "x"
+          },
+          {
+            "kind": "label",
+            "text": "y"
+          },
+          {
+            "kind": "field",
+            "param": "y"
+          },
+          {
+            "kind": "label",
+            "text": "degrees"
+          },
+          {
+            "kind": "field",
+            "param": "p1"
+          }
+        ]
+      }
     },
     {
       "opcode": "print",
@@ -408,7 +824,16 @@
           "type": "value",
           "default": "\\\"frog\\\""
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": true,
+        "items": [
+          {
+            "kind": "field",
+            "param": "value"
+          }
+        ]
+      }
     },
     {
       "opcode": "printchar",
@@ -420,7 +845,20 @@
           "type": "value",
           "default": "65"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "label",
+            "text": " char "
+          },
+          {
+            "kind": "field",
+            "param": "value"
+          }
+        ]
+      }
     },
     {
       "opcode": "format",
@@ -432,7 +870,16 @@
           "type": "value",
           "default": "\\\"frog\\\""
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": true,
+        "items": [
+          {
+            "kind": "field",
+            "param": "value"
+          }
+        ]
+      }
     },
     {
       "opcode": "drawflush",
@@ -444,7 +891,20 @@
           "type": "value",
           "default": "display1"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": true,
+        "items": [
+          {
+            "kind": "label",
+            "text": " to "
+          },
+          {
+            "kind": "field",
+            "param": "target"
+          }
+        ]
+      }
     },
     {
       "opcode": "printflush",
@@ -456,7 +916,20 @@
           "type": "value",
           "default": "message1"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": true,
+        "items": [
+          {
+            "kind": "label",
+            "text": " to "
+          },
+          {
+            "kind": "field",
+            "param": "target"
+          }
+        ]
+      }
     },
     {
       "opcode": "getlink",
@@ -473,7 +946,24 @@
           "type": "value",
           "default": "0"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": true,
+        "items": [
+          {
+            "kind": "field",
+            "param": "output"
+          },
+          {
+            "kind": "label",
+            "text": " = link# "
+          },
+          {
+            "kind": "field",
+            "param": "address"
+          }
+        ]
+      }
     },
     {
       "opcode": "control",
@@ -511,7 +1001,30 @@
           "type": "value",
           "default": "0"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "label",
+            "text": " set "
+          },
+          {
+            "kind": "label",
+            "text": " of "
+          },
+          {
+            "kind": "field",
+            "param": "target"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "row"
+          }
+        ]
+      }
     },
     {
       "opcode": "radar",
@@ -557,7 +1070,39 @@
           "type": "value",
           "default": "result"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "label",
+            "text": " from "
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": " order "
+          },
+          {
+            "kind": "label",
+            "text": " sort "
+          },
+          {
+            "kind": "select",
+            "param": "sort",
+            "enum": "RadarSort"
+          },
+          {
+            "kind": "label",
+            "text": " output "
+          }
+        ]
+      }
     },
     {
       "opcode": "sensor",
@@ -579,7 +1124,35 @@
           "type": "value",
           "default": "@copper"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "field",
+            "param": "to"
+          },
+          {
+            "kind": "label",
+            "text": " = "
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "field",
+            "param": "type"
+          },
+          {
+            "kind": "label",
+            "text": " in "
+          },
+          {
+            "kind": "field",
+            "param": "from"
+          }
+        ]
+      }
     },
     {
       "opcode": "set",
@@ -596,7 +1169,24 @@
           "type": "value",
           "default": "0"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": true,
+        "items": [
+          {
+            "kind": "field",
+            "param": "to"
+          },
+          {
+            "kind": "label",
+            "text": " = "
+          },
+          {
+            "kind": "field",
+            "param": "from"
+          }
+        ]
+      }
     },
     {
       "opcode": "op",
@@ -624,7 +1214,35 @@
           "type": "value",
           "default": "b"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "field",
+            "param": "dest"
+          },
+          {
+            "kind": "label",
+            "text": " = "
+          },
+          {
+            "kind": "field",
+            "param": "a"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "field",
+            "param": "a"
+          },
+          {
+            "kind": "field",
+            "param": "b"
+          }
+        ]
+      }
     },
     {
       "opcode": "select",
@@ -662,7 +1280,39 @@
           "type": "value",
           "default": "b"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "field",
+            "param": "result"
+          },
+          {
+            "kind": "label",
+            "text": " = if "
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": "then "
+          },
+          {
+            "kind": "field",
+            "param": "a"
+          },
+          {
+            "kind": "label",
+            "text": " else "
+          },
+          {
+            "kind": "field",
+            "param": "b"
+          }
+        ]
+      }
     },
     {
       "opcode": "wait",
@@ -674,13 +1324,30 @@
           "type": "value",
           "default": "0.5"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": true,
+        "items": [
+          {
+            "kind": "field",
+            "param": "value"
+          },
+          {
+            "kind": "label",
+            "text": " sec"
+          }
+        ]
+      }
     },
     {
       "opcode": "stop",
       "category": "control",
       "privileged": false,
-      "params": []
+      "params": [],
+      "layoutHint": {
+        "complete": true,
+        "items": []
+      }
     },
     {
       "opcode": "lookup",
@@ -702,7 +1369,23 @@
           "type": "value",
           "default": "0"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "label",
+            "text": " = lookup "
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": " # "
+          }
+        ]
+      }
     },
     {
       "opcode": "packcolor",
@@ -734,7 +1417,19 @@
           "type": "value",
           "default": "1"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "label",
+            "text": " = pack "
+          },
+          {
+            "kind": "row"
+          }
+        ]
+      }
     },
     {
       "opcode": "unpackcolor",
@@ -766,13 +1461,29 @@
           "type": "value",
           "default": "color"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": " = unpack "
+          }
+        ]
+      }
     },
     {
       "opcode": "end",
       "category": "control",
       "privileged": false,
-      "params": []
+      "params": [],
+      "layoutHint": {
+        "complete": true,
+        "items": []
+      }
     },
     {
       "opcode": "jump",
@@ -800,7 +1511,16 @@
           "type": "value",
           "default": "false"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "label",
+            "text": "if "
+          }
+        ]
+      }
     },
     {
       "opcode": "ubind",
@@ -812,7 +1532,20 @@
           "type": "value",
           "default": "@poly"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "label",
+            "text": " type "
+          },
+          {
+            "kind": "field",
+            "param": "type"
+          }
+        ]
+      }
     },
     {
       "opcode": "ucontrol",
@@ -850,7 +1583,22 @@
           "type": "value",
           "default": "0"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "label",
+            "text": " "
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "row"
+          }
+        ]
+      }
     },
     {
       "opcode": "uradar",
@@ -896,7 +1644,39 @@
           "type": "value",
           "default": "result"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "label",
+            "text": " from "
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": " order "
+          },
+          {
+            "kind": "label",
+            "text": " sort "
+          },
+          {
+            "kind": "select",
+            "param": "sort",
+            "enum": "RadarSort"
+          },
+          {
+            "kind": "label",
+            "text": " output "
+          }
+        ]
+      }
     },
     {
       "opcode": "ulocate",
@@ -944,7 +1724,58 @@
           "type": "value",
           "default": "building"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "label",
+            "text": " find "
+          },
+          {
+            "kind": "select",
+            "param": "locate",
+            "enum": "LLocate"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": " group "
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": " enemy "
+          },
+          {
+            "kind": "label",
+            "text": " ore "
+          },
+          {
+            "kind": "label",
+            "text": " outX "
+          },
+          {
+            "kind": "label",
+            "text": " outY "
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": " found "
+          },
+          {
+            "kind": "label",
+            "text": " building "
+          }
+        ]
+      }
     },
     {
       "opcode": "query",
@@ -988,7 +1819,63 @@
           "type": "value",
           "default": "10"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "label",
+            "text": "team"
+          },
+          {
+            "kind": "field",
+            "param": "team"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": "x"
+          },
+          {
+            "kind": "field",
+            "param": "x"
+          },
+          {
+            "kind": "label",
+            "text": "y"
+          },
+          {
+            "kind": "field",
+            "param": "y"
+          },
+          {
+            "kind": "label",
+            "text": "radius"
+          },
+          {
+            "kind": "field",
+            "param": "w"
+          },
+          {
+            "kind": "label",
+            "text": "width"
+          },
+          {
+            "kind": "field",
+            "param": "w"
+          },
+          {
+            "kind": "label",
+            "text": "height"
+          },
+          {
+            "kind": "field",
+            "param": "h"
+          }
+        ]
+      }
     },
     {
       "opcode": "getblock",
@@ -1016,7 +1903,32 @@
           "type": "value",
           "default": "0"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "label",
+            "text": " = get "
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "select",
+            "param": "layer",
+            "enum": "TileLayer"
+          },
+          {
+            "kind": "label",
+            "text": " at "
+          },
+          {
+            "kind": "label",
+            "text": ", "
+          }
+        ]
+      }
     },
     {
       "opcode": "setblock",
@@ -1054,7 +1966,45 @@
           "type": "value",
           "default": "0"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "label",
+            "text": "set"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": " at "
+          },
+          {
+            "kind": "label",
+            "text": ", "
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": " to "
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": "team "
+          },
+          {
+            "kind": "label",
+            "text": " rotation "
+          }
+        ]
+      }
     },
     {
       "opcode": "spawn",
@@ -1096,7 +2046,50 @@
           "type": "value",
           "default": "true"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "label",
+            "text": " = spawn "
+          },
+          {
+            "kind": "field",
+            "param": "type"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": " at "
+          },
+          {
+            "kind": "label",
+            "text": ", "
+          },
+          {
+            "kind": "label",
+            "text": "team "
+          },
+          {
+            "kind": "field",
+            "param": "team"
+          },
+          {
+            "kind": "label",
+            "text": " rot "
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": "effect "
+          }
+        ]
+      }
     },
     {
       "opcode": "bullet",
@@ -1168,7 +2161,124 @@
           "type": "value",
           "default": "-1"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "label",
+            "text": " = bullet "
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": "from"
+          },
+          {
+            "kind": "field",
+            "param": "from"
+          },
+          {
+            "kind": "label",
+            "text": "index"
+          },
+          {
+            "kind": "field",
+            "param": "index"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": "x"
+          },
+          {
+            "kind": "field",
+            "param": "x"
+          },
+          {
+            "kind": "label",
+            "text": "y"
+          },
+          {
+            "kind": "field",
+            "param": "y"
+          },
+          {
+            "kind": "label",
+            "text": "rotation"
+          },
+          {
+            "kind": "field",
+            "param": "rotation"
+          },
+          {
+            "kind": "label",
+            "text": "team"
+          },
+          {
+            "kind": "field",
+            "param": "team"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": "owner"
+          },
+          {
+            "kind": "field",
+            "param": "owner"
+          },
+          {
+            "kind": "label",
+            "text": "damage"
+          },
+          {
+            "kind": "field",
+            "param": "damage"
+          },
+          {
+            "kind": "label",
+            "text": "velocityScl"
+          },
+          {
+            "kind": "field",
+            "param": "velocityScl"
+          },
+          {
+            "kind": "label",
+            "text": "lifeScl"
+          },
+          {
+            "kind": "field",
+            "param": "lifeScl"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": "aimX"
+          },
+          {
+            "kind": "field",
+            "param": "aimX"
+          },
+          {
+            "kind": "label",
+            "text": "aimY"
+          },
+          {
+            "kind": "field",
+            "param": "aimY"
+          }
+        ]
+      }
     },
     {
       "opcode": "status",
@@ -1195,7 +2305,23 @@
           "type": "value",
           "default": "10"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": " for "
+          },
+          {
+            "kind": "label",
+            "text": " sec"
+          }
+        ]
+      }
     },
     {
       "opcode": "weathersense",
@@ -1212,7 +2338,27 @@
           "type": "value",
           "default": "@rain"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "field",
+            "param": "to"
+          },
+          {
+            "kind": "label",
+            "text": " = weather "
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "field",
+            "param": "weather"
+          }
+        ]
+      }
     },
     {
       "opcode": "weatherset",
@@ -1229,7 +2375,24 @@
           "type": "value",
           "default": "true"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "label",
+            "text": " set weather "
+          },
+          {
+            "kind": "field",
+            "param": "weather"
+          },
+          {
+            "kind": "label",
+            "text": " state "
+          }
+        ]
+      }
     },
     {
       "opcode": "spawnwave",
@@ -1251,7 +2414,24 @@
           "type": "value",
           "default": "false"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "label",
+            "text": "natural "
+          },
+          {
+            "kind": "label",
+            "text": "x "
+          },
+          {
+            "kind": "label",
+            "text": " y "
+          }
+        ]
+      }
     },
     {
       "opcode": "setrule",
@@ -1289,7 +2469,90 @@
           "type": "value",
           "default": "100"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "select",
+            "param": "rule",
+            "enum": "LogicRule"
+          },
+          {
+            "kind": "label",
+            "text": " = "
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": "x"
+          },
+          {
+            "kind": "field",
+            "param": "p1"
+          },
+          {
+            "kind": "label",
+            "text": "y"
+          },
+          {
+            "kind": "field",
+            "param": "p2"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": "w"
+          },
+          {
+            "kind": "field",
+            "param": "p3"
+          },
+          {
+            "kind": "label",
+            "text": "h"
+          },
+          {
+            "kind": "field",
+            "param": "p4"
+          },
+          {
+            "kind": "label",
+            "text": "of"
+          },
+          {
+            "kind": "field",
+            "param": "p1"
+          },
+          {
+            "kind": "label",
+            "text": " = "
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "field",
+            "param": "value"
+          },
+          {
+            "kind": "label",
+            "text": " block/unit "
+          },
+          {
+            "kind": "label",
+            "text": " = "
+          },
+          {
+            "kind": "field",
+            "param": "value"
+          }
+        ]
+      }
     },
     {
       "opcode": "message",
@@ -1312,7 +2575,32 @@
           "type": "value",
           "default": "@wait"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "select",
+            "param": "type",
+            "enum": "MessageType"
+          },
+          {
+            "kind": "label",
+            "text": " for "
+          },
+          {
+            "kind": "label",
+            "text": " sec "
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": " success "
+          }
+        ]
+      }
     },
     {
       "opcode": "cutscene",
@@ -1345,7 +2633,36 @@
           "type": "value",
           "default": "0"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "select",
+            "param": "action",
+            "enum": "CutsceneAction"
+          },
+          {
+            "kind": "label",
+            "text": " x "
+          },
+          {
+            "kind": "label",
+            "text": " y "
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": " speed "
+          },
+          {
+            "kind": "label",
+            "text": " level "
+          }
+        ]
+      }
     },
     {
       "opcode": "effect",
@@ -1382,7 +2699,53 @@
           "type": "value",
           "default": ""
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": "x"
+          },
+          {
+            "kind": "field",
+            "param": "x"
+          },
+          {
+            "kind": "label",
+            "text": "y"
+          },
+          {
+            "kind": "field",
+            "param": "y"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": "color"
+          },
+          {
+            "kind": "field",
+            "param": "color"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": "data"
+          },
+          {
+            "kind": "field",
+            "param": "data"
+          }
+        ]
+      }
     },
     {
       "opcode": "explosion",
@@ -1434,7 +2797,90 @@
           "type": "value",
           "default": "true"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": true,
+        "items": [
+          {
+            "kind": "label",
+            "text": "team"
+          },
+          {
+            "kind": "field",
+            "param": "team"
+          },
+          {
+            "kind": "label",
+            "text": "x"
+          },
+          {
+            "kind": "field",
+            "param": "x"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": "y"
+          },
+          {
+            "kind": "field",
+            "param": "y"
+          },
+          {
+            "kind": "label",
+            "text": "radius"
+          },
+          {
+            "kind": "field",
+            "param": "radius"
+          },
+          {
+            "kind": "label",
+            "text": "damage"
+          },
+          {
+            "kind": "field",
+            "param": "damage"
+          },
+          {
+            "kind": "label",
+            "text": "air"
+          },
+          {
+            "kind": "field",
+            "param": "air"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": "ground"
+          },
+          {
+            "kind": "field",
+            "param": "ground"
+          },
+          {
+            "kind": "label",
+            "text": "pierce"
+          },
+          {
+            "kind": "field",
+            "param": "pierce"
+          },
+          {
+            "kind": "label",
+            "text": "effect"
+          },
+          {
+            "kind": "field",
+            "param": "effect"
+          }
+        ]
+      }
     },
     {
       "opcode": "setrate",
@@ -1446,7 +2892,20 @@
           "type": "value",
           "default": "10"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": true,
+        "items": [
+          {
+            "kind": "label",
+            "text": "ipt = "
+          },
+          {
+            "kind": "field",
+            "param": "amount"
+          }
+        ]
+      }
     },
     {
       "opcode": "fetch",
@@ -1479,7 +2938,61 @@
           "type": "value",
           "default": "@conveyor"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "label",
+            "text": " = "
+          },
+          {
+            "kind": "select",
+            "param": "type",
+            "enum": "FetchType"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": "team"
+          },
+          {
+            "kind": "field",
+            "param": "team"
+          },
+          {
+            "kind": "label",
+            "text": " # "
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": "block"
+          },
+          {
+            "kind": "field",
+            "param": "extra"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": "unit"
+          },
+          {
+            "kind": "field",
+            "param": "extra"
+          }
+        ]
+      }
     },
     {
       "opcode": "sync",
@@ -1491,7 +3004,11 @@
           "type": "value",
           "default": "var"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": []
+      }
     },
     {
       "opcode": "clientdata",
@@ -1513,7 +3030,24 @@
           "type": "value",
           "default": "0"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "label",
+            "text": "send "
+          },
+          {
+            "kind": "label",
+            "text": " on "
+          },
+          {
+            "kind": "label",
+            "text": ", reliable "
+          }
+        ]
+      }
     },
     {
       "opcode": "getflag",
@@ -1530,7 +3064,16 @@
           "type": "value",
           "default": "\\\"flag\\\""
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "label",
+            "text": " = flag "
+          }
+        ]
+      }
     },
     {
       "opcode": "setflag",
@@ -1547,7 +3090,16 @@
           "type": "value",
           "default": "true"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "label",
+            "text": " = "
+          }
+        ]
+      }
     },
     {
       "opcode": "setprop",
@@ -1569,7 +3121,42 @@
           "type": "value",
           "default": "0"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "label",
+            "text": " set "
+          },
+          {
+            "kind": "field",
+            "param": "type"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": " of "
+          },
+          {
+            "kind": "field",
+            "param": "of"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "label",
+            "text": " to "
+          },
+          {
+            "kind": "field",
+            "param": "value"
+          }
+        ]
+      }
     },
     {
       "opcode": "playsound",
@@ -1616,7 +3203,22 @@
           "type": "value",
           "default": "true"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "field",
+            "param": "id"
+          },
+          {
+            "kind": "row"
+          }
+        ]
+      }
     },
     {
       "opcode": "playmusic",
@@ -1633,7 +3235,28 @@
           "type": "value",
           "default": "true"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": true,
+        "items": [
+          {
+            "kind": "label",
+            "text": "music"
+          },
+          {
+            "kind": "field",
+            "param": "name"
+          },
+          {
+            "kind": "label",
+            "text": "interrupt"
+          },
+          {
+            "kind": "field",
+            "param": "interrupt"
+          }
+        ]
+      }
     },
     {
       "opcode": "setmarker",
@@ -1666,7 +3289,27 @@
           "type": "value",
           "default": "0"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "label",
+            "text": "set"
+          },
+          {
+            "kind": "select",
+            "param": "type",
+            "enum": "LMarkerControl"
+          },
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "row"
+          }
+        ]
+      }
     },
     {
       "opcode": "makemarker",
@@ -1698,7 +3341,18 @@
           "type": "value",
           "default": "true"
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": false,
+        "items": [
+          {
+            "kind": "row"
+          },
+          {
+            "kind": "row"
+          }
+        ]
+      }
     },
     {
       "opcode": "localeprint",
@@ -1710,7 +3364,16 @@
           "type": "value",
           "default": "\\\"name\\\""
         }
-      ]
+      ],
+      "layoutHint": {
+        "complete": true,
+        "items": [
+          {
+            "kind": "field",
+            "param": "value"
+          }
+        ]
+      }
     }
   ]
 }
