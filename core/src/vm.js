@@ -184,7 +184,7 @@ export class Processor {
     lookup(type, index) {
         const table = this.content?.types?.[type]
         if (table === undefined) return null
-        return index >= 0 && index < table.length ? {name: table[index]} : null
+        return index >= 0 && index < table.length ? table[index] : null
     }
 
     /** LExecutor.runOnce: один шаг исполнения. */

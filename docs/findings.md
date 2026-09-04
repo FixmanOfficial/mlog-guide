@@ -12,9 +12,9 @@
 | --- | --- | --- |
 | Переменная по умолчанию — **объект null, а не ноль**. Это разные вещи: `strictEqual` их различает | `logic/LAssembler.java` `putVar` | ✓ `parser.test.js` |
 | NaN и бесконечность в переменной не хранятся: `setnum` превращает их в объект null. Поэтому деление на ноль даёт не бесконечность, а «ничего» | `logic/LVar.java` `setnum`, `invalid` | ✓ `ops.test.js` |
-| Порог истинности `bool()` равен **1e-5**, а эпсилон сравнения в `op` и `jump` — **1e-6**. Числа разные, и это не опечатка в исходниках | `logic/LVar.java` `bool`, `logic/LogicOp.java` | — |
-| `set(other)` копирует значение мимо проверки на константу — проверку делает сама инструкция | `logic/LVar.java` `set`, `LExecutor.SetI` | — |
-| Объект в числовом контексте даёт 1, объект null — 0 | `logic/LVar.java` `num` | — |
+| Порог истинности `bool()` равен **1e-5**, а эпсилон сравнения в `op` и `jump` — **1e-6**. Числа разные, и это не опечатка в исходниках | `logic/LVar.java` `bool`, `logic/LogicOp.java` | ✓ `semantics.test.js` |
+| `set(other)` копирует значение мимо проверки на константу — проверку делает сама инструкция | `logic/LVar.java` `set`, `LExecutor.SetI` | ✓ `content.test.js` |
+| Объект в числовом контексте даёт 1, объект null — 0 | `logic/LVar.java` `num` | ✓ `semantics.test.js` |
 
 ## Операции и сравнения
 
@@ -37,27 +37,27 @@
 | Разделитель инструкций — и перевод строки, и точка с запятой | `logic/LParser.java` `parse` | ✓ `parser.test.js` |
 | Метка занимает строку, но не номер инструкции: адреса `jump` считаются по инструкциям | `logic/LParser.java` `statement` | ✓ `parser.test.js` |
 | У `jump` второй токен считается меткой, если это не целое число | `logic/LParser.java` `statement` | ✓ `parser.test.js` |
-| Ограничения: 16 токенов в строке, 500 меток, 1000 инструкций, 65535 байт в строковом литерале | `logic/LParser.java`, `LExecutor.java:41` | — |
+| Ограничения: 16 токенов в строке, 500 меток, 1000 инструкций, 65535 байт в строковом литерале | `logic/LParser.java`, `LExecutor.java:41` | ✓ `semantics.test.js` |
 | Нераспознанная строка не роняет разбор, а становится `noop` и **занимает место в программе** — иначе адреса `jump` разъедутся | `logic/LParser.java` `statement` | ✓ `parser.test.js` |
 | В нестроковых токенах пробелы заменяются подчёркиванием, в строковых — нет | `logic/LAssembler.java` `var` | ✓ `parser.test.js` |
 | Числовые литералы понимают `0b`, `0x` и знак перед ними, а также цвета `%RRGGBB`, `%RRGGBBAA` и `%[имя]` | `logic/LAssembler.java` `parseDouble` | ✓ `parser.test.js` |
-| Бесконечность в литерале превращается в ноль, а не в недопустимое число | `logic/LAssembler.java` `var` | — |
-| Единственное экранирование в строковом литерале — `\n` | `logic/LAssembler.java` `var` | — |
-| Параметры `@configure` и `configure` молча переименовываются в `@config` и `config` | `logic/LParser.java` `statement` | — |
+| Бесконечность в литерале превращается в ноль, а не в недопустимое число | `logic/LAssembler.java` `var` | ✓ `semantics.test.js` |
+| Единственное экранирование в строковом литерале — `\n` | `logic/LAssembler.java` `var` | ✓ `semantics.test.js` |
+| Параметры `@configure` и `configure` молча переименовываются в `@config` и `config` | `logic/LParser.java` `statement` | ✓ `semantics.test.js` |
 
 ## Переменные и константы
 
 | Деталь | Источник | Тест |
 | --- | --- | --- |
-| **Логические идентификаторы не выводятся из порядка регистрации контента.** Игра читает готовое соответствие из ассета `logicids.dat`, собираемого `ImagePacker` при сборке. Файл фиксирует идентификаторы между версиями, чтобы не ломались старые схемы | `logic/GlobalVars.java:158-184` | — |
+| **Логические идентификаторы не выводятся из порядка регистрации контента.** Игра читает готовое соответствие из ассета `logicids.dat`, собираемого `ImagePacker` при сборке. Файл фиксирует идентификаторы между версиями, чтобы не ломались старые схемы | `logic/GlobalVars.java:158-184` | ✓ `content.test.js` |
 | Формат `logicids.dat` — `DataInputStream`: для каждого типа `short` количество, затем столько же `readUTF()`. Порядок типов строго `block`, `unit`, `item`, `liquid` | `logic/GlobalVars.java:26,162-176` | ✓ `tools/gen-content.mjs` |
 | `logicids.dat` хранит и записи снятого контента: `command-center` есть в таблице блоков, но названия в бандлах уже нет. Идентификаторы не переиспользуются — в этом и смысл файла | `core/assets/logicids.dat` | ✓ `tools/gen-bundles.mjs` |
-| Константы `@copper`, `@router` и прочие строятся на старте обходом зарегистрированного контента — это отдельный механизм от логических идентификаторов | `logic/GlobalVars.java:110-151` | — |
-| Константы `@blockCount`, `@unitCount`, `@itemCount`, `@liquidCount` берутся из количеств в том же `logicids.dat` | `logic/GlobalVars.java:168` | — |
-| `lookableContent` включает `team`, а `writableLookableContent` — нет | `logic/GlobalVars.java:25-26` | — |
+| Константы `@copper`, `@router` и прочие строятся на старте обходом зарегистрированного контента — это отдельный механизм от логических идентификаторов | `logic/GlobalVars.java:110-151` | ✓ `content.test.js` |
+| Константы `@blockCount`, `@unitCount`, `@itemCount`, `@liquidCount` берутся из количеств в том же `logicids.dat` | `logic/GlobalVars.java:168` | ✓ `content.test.js` |
+| `lookableContent` включает `team`, а `writableLookableContent` — нет | `logic/GlobalVars.java:25-26` | ✓ `content.test.js` |
 | Официальные переводы игры лежат в `core/assets/bundles` — 36 локалей, включая всю терминологию логики: `lcategory.*`, `lst.*` (51 описание инструкций), `lenum.*` (113 описаний свойств) | `core/assets/bundles/*.properties` | ✓ `tools/gen-bundles.mjs` |
-| Есть алиас `π` для `@pi` — «for the cool kids» | `logic/GlobalVars.java:60` | — |
-| `@time` считается от `@tick`, а не от системных часов — в комментарии прямо сказано, что прошлый вариант был плохой идеей | `logic/GlobalVars.java:188` | — |
+| Есть алиас `π` для `@pi` — «for the cool kids» | `logic/GlobalVars.java:60` | ✓ `semantics.test.js` |
+| `@time` считается от `@tick`, а не от системных часов — в комментарии прямо сказано, что прошлый вариант был плохой идеей | `logic/GlobalVars.java:188` | ✓ `world.test.js` |
 
 ## Исполнение и счётчик
 
@@ -67,7 +67,7 @@
 | `end` ставит счётчик за последнюю инструкцию, а не в ноль. На ноль его возвращает начало следующего шага | `LExecutor.EndI` | ✓ `vm.test.js` |
 | `stop` отступает счётчиком на шаг назад, уступает и застревает на себе же | `LExecutor.StopI` | ✓ `vm.test.js` |
 | `@counter` принудительно становится числовым на каждом шаге: туда можно записать объект | `LExecutor.java:118` | ✓ `vm.test.js` |
-| `jump` с адресом `-1` не делает ничего | `LExecutor.JumpI` | — |
+| `jump` с адресом `-1` не делает ничего | `LExecutor.JumpI` | ✓ `semantics.test.js` |
 | За тик исполняется `@ipt` инструкций: micro 2, logic 8, hyper 25 | `content/Blocks.java:6849`, `6856`, `6867` | ✓ `vm.test.js` |
 | Накопленное прибавляется **после** цикла исполнения, а не до: в исходниках на это есть отдельный комментарий. Иначе первый тик исполняет инструкции досрочно | `world/blocks/logic/LogicBlock.java:555-574` | ✓ `vm.test.js` |
 | Уступившая инструкция накопленное не тратит — `yield` проверяется до уменьшения счётчика | `world/blocks/logic/LogicBlock.java:563-568` | ✓ `vm.test.js` |
@@ -77,16 +77,16 @@
 
 | Деталь | Источник | Тест |
 | --- | --- | --- |
-| Неизвестное свойство в `sense` возвращает `NaN`, а не 0 | `world/Block.java:1671` | — |
+| Неизвестное свойство в `sense` возвращает `NaN`, а не 0 | `world/Block.java:1671` | ✓ `world.test.js` |
 | Каждое здание переопределяет 1–4 свойства, остальное падает в базовую реализацию | `world/blocks/logic/*.java` | — |
-| `control` не всегда мгновенный: у двери таймер `timerToggle` 80 тиков и отказ, если под ней есть юниты | `world/blocks/defense/Door.java` | — |
+| `control` не всегда мгновенный: у двери таймер `timerToggle` 80 тиков и отказ, если под ней есть юниты | `world/blocks/defense/Door.java` | ✓ `world.test.js` |
 | Буферы ограничены: графика 256 команд, дисплей 1024, текст 400 символов | `LExecutor.java:44-46` | ✓ `world.test.js` |
 | Чтение за границей памяти даёт **NaN, а не ноль** — и потому превращается в объект null. Запись за границей молча игнорируется | `world/blocks/logic/MemoryBlock.java` | ✓ `world.test.js` |
 | Размеры: `memory-cell` 64 ячейки, `memory-bank` 512, `logic-display` 80 точек, `large-logic-display` 176, сообщение 400 символов | `content/Blocks.java:6875-6896`, `MessageBlock.java:29` | ✓ `world.test.js` |
 | `printflush` и `drawflush` чистят буфер **всегда**, даже если цель не подходит по типу или команде | `LExecutor.PrintFlushI`, `DrawFlushI` | ✓ `world.test.js` |
 | `flushCommands` увеличивает счётчик `operations` при каждом сбросе, даже когда буфер дисплея переполнен и команды не влезли | `world/blocks/logic/LogicDisplay.java` | ✓ `world.test.js` |
-| `sensor` от пустого объекта со свойством `@dead` возвращает 1, а не пустое значение | `LExecutor.SenseI` | — |
-| `sensor` от строки со свойством `@size` или `@bufferSize` даёт её длину | `LExecutor.SenseI` | — |
+| `sensor` от пустого объекта со свойством `@dead` возвращает 1, а не пустое значение | `LExecutor.SenseI` | ✓ `semantics.test.js` |
+| `sensor` от строки со свойством `@size` или `@bufferSize` даёт её длину | `LExecutor.SenseI` | ✓ `semantics.test.js` |
 
 ## Текст и цвет
 
