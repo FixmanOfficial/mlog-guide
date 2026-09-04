@@ -198,3 +198,50 @@ test('здание находится по тайлу', () => {
     assert.equal(world.at(12, 12), display)
     assert.equal(world.at(20, 20), undefined)
 })
+
+test('draw print раскладывает текст по символам моноширинного шрифта', () => {
+    const {processor, links} = setup('print "AB"\ndraw print 10 20 0\ndrawflush display1')
+    processor.run(3)
+
+    const glyphs = links[2].commands
+    assert.equal(glyphs.length, 2)
+    assert.deepEqual(glyphs.map(g => g.char), ['A', 'B'])
+
+    // Шаг 7 пикселей: шрифт логического дисплея моноширинный
+    assert.equal(glyphs[1].x - glyphs[0].x, 7)
+})
+
+test('draw print расходует текстовый буфер', () => {
+    const {processor} = setup('print "AB"\ndraw print 0 0 0')
+    processor.run(2)
+
+    assert.equal(processor.textBuffer, '')
+})
+
+test('кириллица не рисуется, но место занимает', () => {
+    const {processor, links} = setup('print "AяB"\ndraw print 0 0 0\ndrawflush display1')
+    processor.run(3)
+
+    const glyphs = links[2].commands
+    // В наборе шрифта только ASCII, поэтому я не даёт команды вовсе
+    assert.deepEqual(glyphs.map(g => g.char), ['A', 'B'])
+    // Но курсор через неё шагнул: между A и B две ширины символа
+    assert.equal(glyphs[1].x - glyphs[0].x, 14)
+})
+
+test('пробела в наборе шрифта нет', () => {
+    const {processor, links} = setup('print "A B"\ndraw print 0 0 0\ndrawflush display1')
+    processor.run(3)
+
+    assert.equal(links[2].commands.length, 2)
+})
+
+test('перенос строки сдвигает вниз на высоту строки', () => {
+    // В исходнике mlog это два символа, обратный слэш и n: их раскрывает сборщик
+    const {processor, links} = setup('print "A\\nB"\ndraw print 0 0 0\ndrawflush display1')
+    processor.run(3)
+
+    const [first, second] = links[2].commands
+    assert.equal(first.x, second.x)
+    assert.equal(first.y - second.y, 13)
+})

@@ -16,6 +16,7 @@ import {assemble} from './assembler.js'
 import {testCondition} from './ops.js'
 import {MAX_INSTRUCTIONS} from './parser.js'
 import {LVar} from './lvar.js'
+import {layoutPrint} from './font.js'
 
 /** Сколько инструкций процессор успевает за тик. content/Blocks.java */
 export const IPT = {
@@ -152,12 +153,31 @@ export class Processor {
         if (this.graphicsBuffer.length >= MAX_GRAPHICS_BUFFER) return
 
         const [x, y, p1, p2, p3, p4] = args.map(variable => variable.num())
-        const command = {type, x, y, p1, p2, p3, p4}
 
-        // draw print рисует содержимое текстового буфера; раскладку считает рендер
-        if (type === 'print') command.text = this.textBuffer
+        if (type === 'print') {
+            this.appendPrintGlyphs(Math.trunc(x), Math.trunc(y), Math.trunc(p1))
+            return
+        }
 
-        this.graphicsBuffer.push(command)
+        this.graphicsBuffer.push({type, x, y, p1, p2, p3, p4})
+    }
+
+    /**
+     * draw print раскладывает текстовый буфер по символам и кладёт по команде на каждый глиф.
+     * Символы без глифа пропускаются, но шаг курсора делается всё равно — поэтому пробел
+     * оставляет пропуск, а кириллица не рисуется вовсе.
+     *
+     * Текстовый буфер после этого очищается: draw print его расходует.
+     */
+    appendPrintGlyphs(x, y, align) {
+        if (this.textBuffer.length === 0) return
+
+        for (const command of layoutPrint(this.textBuffer, x, y, align)) {
+            if (this.graphicsBuffer.length >= MAX_GRAPHICS_BUFFER) break
+            this.graphicsBuffer.push(command)
+        }
+
+        this.textBuffer = ''
     }
 
     /** LookupI: имя контента по логическому идентификатору. */
