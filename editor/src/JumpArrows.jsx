@@ -3,6 +3,7 @@ import {useState, useLayoutEffect} from 'preact/hooks'
 import {assignLanes, curvePoints, laneOffset, STROKE} from './jumps.js'
 import {targetIndex} from './program.js'
 import {JUMP_COLOR, OUTLINE_COLOR, OUTLINE_WIDTH} from './theme.js'
+import {NODE, nodePoints} from './JumpNode.jsx'
 
 /**
  * Стрелки переходов справа от кода.
@@ -107,19 +108,20 @@ export function JumpArrows({statements, containerRef}) {
 }
 
 /**
- * Наконечник стрелки. В игре это спрайт logic-node 32×32, отрисованный так:
+ * Наконечник у цели — тот же узел, что и кнопка на строке с переходом, только зеркальный.
  *
- *   Tex.logicNode.draw(x + s * 0.75, y - s / 2, -s, s),  s = ширина кнопки = 30
- *
- * Отрицательная ширина зеркалит спрайт, поэтому остриё смотрит на код. С учётом того,
- * что рисунок занимает в спрайте столбцы с 13 по 29 и строки с 4 по 27, остриё выходит
- * примерно на пять пикселей ЗА точку входа, внутрь строки, а тупой край — на десять после неё.
- * Высота получается около двадцати одного пикселя, вдвое больше моей прежней заглушки.
+ * В игре: Tex.logicNode.draw(x + s * 0.75, y - s / 2, -s, s) при s = 30. Отрицательная ширина
+ * зеркалит спрайт, поэтому остриё смотрит на код. Пересчёт координат спрайта в эту рамку даёт
+ * остриё примерно на 4.7 пикселя ЗА точкой входа, внутрь строки, и плоское основание
+ * на 10.3 после неё.
  */
 function arrowHead(y) {
-    const tip = -5
-    const back = 10
-    const half = 10.5
+    const right = 10.3
+    const left = right - NODE.width
 
-    return `${tip},${y} ${back},${y - half} ${back},${y + half}`
+    const top = y - NODE.height / 2
+
+    return nodePoints(NODE.width, NODE.height, NODE.base, true)
+        .map(([x, py]) => `${left + x},${top + py}`)
+        .join(' ')
 }
