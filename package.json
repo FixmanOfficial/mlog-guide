@@ -6,7 +6,8 @@
   "description": "Интерактивный учебник и песочница по логике Mindustry (mlog)",
   "license": "GPL-3.0-only",
   "workspaces": [
-    "core"
+    "core",
+    "editor"
   ],
   "scripts": {
     "test": "npm run test --workspaces --if-present",

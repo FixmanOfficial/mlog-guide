@@ -1,0 +1,194 @@
+/*
+ * Вид редактора. Размеры взяты из logic/LCanvas.java, цвета приходят переменной --category
+ * из палитры игры. Стиль плоский и прямоугольный, как интерфейс Mindustry: скруглений
+ * и теней в игре нет.
+ */
+
+.editor {
+    --bg: #1f1f22;
+    --panel: #2b2b2f;
+    --field: #16161a;
+    --text: #e6e6e6;
+    --muted: #9a9a9a;
+
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-width: 900px;
+    padding: 8px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, sans-serif;
+    font-size: 14px;
+}
+
+.editor__list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Строка инструкции: рамка в цвете категории, как Tex.whitePane с тонировкой */
+.statement {
+    border: 2px solid var(--category);
+    background: var(--panel);
+    user-select: none;
+}
+
+.statement--dragging {
+    opacity: 0.6;
+}
+
+/* Шапка: высота 38 и отступ 6 — LCanvas.java:491,430 */
+.statement__header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    height: 38px;
+    padding: 0 6px;
+    background: var(--category);
+    color: #14141a;
+    font-weight: 600;
+    cursor: grab;
+}
+
+.statement__spacer {
+    flex: 1;
+}
+
+.statement__index {
+    font-variant-numeric: tabular-nums;
+    opacity: 0.75;
+}
+
+/* Кнопки шапки: 24 пикселя с зазором 6 — LCanvas.java:441-451 */
+.statement__button {
+    width: 24px;
+    height: 24px;
+    display: grid;
+    place-items: center;
+    border: none;
+    background: rgba(0, 0, 0, 0.25);
+    color: inherit;
+    font-size: 13px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.statement__button:hover {
+    background: rgba(0, 0, 0, 0.45);
+}
+
+/* Тело: отступ 4, сверху 2, слева ещё 4 — LCanvas.java:495-500 */
+.statement__body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px;
+    padding: 4px;
+    padding-top: 2px;
+    padding-left: 8px;
+}
+
+.label {
+    color: var(--muted);
+    white-space: pre;
+}
+
+.pair {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Перенос строки внутри тела: row(table) в раскладке игры */
+.break {
+    flex-basis: 100%;
+    height: 0;
+}
+
+.field,
+.select {
+    min-width: 72px;
+    padding: 3px 6px;
+    border: 1px solid #000;
+    background: var(--field);
+    color: var(--text);
+    font: inherit;
+}
+
+.field:focus,
+.select:focus {
+    outline: 1px solid var(--category);
+}
+
+.editor__add {
+    align-self: flex-start;
+    padding: 6px 12px;
+    border: 1px solid var(--muted);
+    background: var(--panel);
+    color: var(--text);
+    font: inherit;
+    cursor: pointer;
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.dialog {
+    width: min(900px, 92vw);
+    max-height: 82vh;
+    overflow: auto;
+    background: var(--panel, #2b2b2f);
+    color: var(--text, #e6e6e6);
+    border: 2px solid #000;
+    font-family: system-ui, sans-serif;
+    font-size: 14px;
+}
+
+.dialog__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    background: #14141a;
+    font-weight: 600;
+}
+
+.dialog__groups {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+}
+
+.group__title {
+    margin-bottom: 4px;
+    color: var(--category);
+    font-weight: 600;
+}
+
+.group__items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.group__item {
+    padding: 5px 10px;
+    border: 1px solid var(--category);
+    background: transparent;
+    color: var(--text, #e6e6e6);
+    font: inherit;
+    cursor: pointer;
+}
+
+.group__item:hover {
+    background: var(--category);
+    color: #14141a;
+}
