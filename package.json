@@ -5,9 +5,13 @@
   "type": "module",
   "description": "Интерактивный учебник и песочница по логике Mindustry (mlog)",
   "license": "GPL-3.0-only",
+  "workspaces": [
+    "core"
+  ],
   "scripts": {
-    "test": "node --test",
+    "test": "npm run test --workspaces --if-present",
     "gen:content": "node tools/gen-content.mjs",
-    "gen:bundles": "node tools/gen-bundles.mjs"
+    "gen:bundles": "node tools/gen-bundles.mjs",
+    "gen:instructions": "node tools/gen-instructions.mjs"
   }
 }

@@ -1,0 +1,1716 @@
+{
+  "gameVersion": "v159.7",
+  "source": "core/src/mindustry/logic/LStatements.java",
+  "note": "Файл сгенерирован. Порядок параметров совпадает с порядком объявления полей — именно его использует сериализация игры.",
+  "counts": {
+    "instructions": 53,
+    "processor": 27,
+    "world": 26
+  },
+  "enums": {
+    "GraphicsType": [
+      "clear",
+      "color",
+      "col",
+      "stroke",
+      "line",
+      "rect",
+      "lineRect",
+      "poly",
+      "linePoly",
+      "triangle",
+      "image",
+      "print",
+      "translate",
+      "scale",
+      "rotate",
+      "reset"
+    ],
+    "LAccess": [
+      "totalItems",
+      "firstItem",
+      "totalLiquids",
+      "totalPower",
+      "itemCapacity",
+      "liquidCapacity",
+      "powerCapacity",
+      "powerNetStored",
+      "powerNetCapacity",
+      "powerNetIn",
+      "powerNetOut",
+      "ammo",
+      "ammoCapacity",
+      "currentAmmoType",
+      "memoryCapacity",
+      "health",
+      "maxHealth",
+      "heat",
+      "shield",
+      "armor",
+      "efficiency",
+      "progress",
+      "timescale",
+      "rotation",
+      "x",
+      "y",
+      "velocityX",
+      "velocityY",
+      "shootX",
+      "shootY",
+      "cameraX",
+      "cameraY",
+      "cameraWidth",
+      "cameraHeight",
+      "displayWidth",
+      "displayHeight",
+      "bufferSize",
+      "operations",
+      "size",
+      "solid",
+      "dead",
+      "range",
+      "shooting",
+      "boosting",
+      "mineX",
+      "mineY",
+      "mining",
+      "buildX",
+      "buildY",
+      "pingX",
+      "pingY",
+      "pingText",
+      "building",
+      "breaking",
+      "speed",
+      "team",
+      "type",
+      "flag",
+      "flying",
+      "controlled",
+      "controller",
+      "name",
+      "payloadCount",
+      "payloadType",
+      "totalPayload",
+      "payloadCapacity",
+      "maxUnits",
+      "id",
+      "selectedBlock",
+      "selectedRotation",
+      "bulletLifetime",
+      "bulletTime",
+      "enabled",
+      "shoot",
+      "shootp",
+      "config",
+      "color"
+    ],
+    "RadarTarget": [
+      "any",
+      "enemy",
+      "ally",
+      "player",
+      "attacker",
+      "flying",
+      "boss",
+      "ground"
+    ],
+    "RadarSort": [
+      "distance",
+      "health",
+      "shield",
+      "armor",
+      "maxHealth"
+    ],
+    "LogicOp": [
+      "add",
+      "sub",
+      "mul",
+      "div",
+      "idiv",
+      "mod",
+      "emod",
+      "pow",
+      "equal",
+      "notEqual",
+      "land",
+      "lessThan",
+      "lessThanEq",
+      "greaterThan",
+      "greaterThanEq",
+      "strictEqual",
+      "shl",
+      "shr",
+      "ushr",
+      "or",
+      "and",
+      "xor",
+      "not",
+      "max",
+      "min",
+      "angle",
+      "angleDiff",
+      "len",
+      "noise",
+      "abs",
+      "sign",
+      "log",
+      "logn",
+      "log10",
+      "floor",
+      "ceil",
+      "round",
+      "sqrt",
+      "rand",
+      "sin",
+      "cos",
+      "tan",
+      "asin",
+      "acos",
+      "atan"
+    ],
+    "ConditionOp": [
+      "equal",
+      "notEqual",
+      "lessThan",
+      "lessThanEq",
+      "greaterThan",
+      "greaterThanEq",
+      "strictEqual",
+      "always"
+    ],
+    "LUnitControl": [
+      "idle",
+      "stop",
+      "move",
+      "approach",
+      "pathfind",
+      "autoPathfind",
+      "boost",
+      "target",
+      "targetp",
+      "itemDrop",
+      "itemTake",
+      "payDrop",
+      "payTake",
+      "payEnter",
+      "mine",
+      "flag",
+      "build",
+      "deconstruct",
+      "getBlock",
+      "within",
+      "unbind"
+    ],
+    "LLocate": [
+      "ore",
+      "building",
+      "spawn",
+      "damaged"
+    ],
+    "QueryShape": [
+      "circle",
+      "rect"
+    ],
+    "QueryType": [
+      "unit",
+      "building",
+      "bullet"
+    ],
+    "TileLayer": [
+      "floor",
+      "ore",
+      "block",
+      "building"
+    ],
+    "LogicRule": [
+      "currentWaveTime",
+      "waveTimer",
+      "waves",
+      "wave",
+      "waveSpacing",
+      "waveSending",
+      "attackMode",
+      "enemyCoreBuildRadius",
+      "dropZoneRadius",
+      "unitCap",
+      "mapArea",
+      "lighting",
+      "canGameOver",
+      "ambientLight",
+      "solarMultiplier",
+      "dragMultiplier",
+      "ban",
+      "unban",
+      "pauseDisabled",
+      "musicVolume",
+      "buildSpeed",
+      "unitHealth",
+      "unitBuildSpeed",
+      "unitMineSpeed",
+      "unitCost",
+      "unitDamage",
+      "blockHealth",
+      "blockDamage",
+      "rtsMinWeight",
+      "rtsMinSquad"
+    ],
+    "MessageType": [
+      "notify",
+      "announce",
+      "toast",
+      "mission"
+    ],
+    "CutsceneAction": [
+      "pan",
+      "zoom",
+      "stop"
+    ],
+    "FetchType": [
+      "unit",
+      "unitCount",
+      "player",
+      "playerCount",
+      "core",
+      "coreCount",
+      "build",
+      "buildCount"
+    ],
+    "LMarkerControl": [
+      "remove",
+      "world",
+      "minimap",
+      "autoscale",
+      "pos",
+      "endPos",
+      "drawLayer",
+      "color",
+      "radius",
+      "stroke",
+      "outline",
+      "rotation",
+      "shape",
+      "arc",
+      "flushText",
+      "fontSize",
+      "textHeight",
+      "textAlign",
+      "lineAlign",
+      "labelFlags",
+      "texture",
+      "textureSize",
+      "posi",
+      "uvi",
+      "colori"
+    ]
+  },
+  "instructions": [
+    {
+      "opcode": "noop",
+      "category": "unknown",
+      "privileged": false,
+      "params": []
+    },
+    {
+      "opcode": "read",
+      "category": "io",
+      "privileged": false,
+      "params": [
+        {
+          "name": "output",
+          "type": "value",
+          "default": "result"
+        },
+        {
+          "name": "target",
+          "type": "value",
+          "default": "cell1"
+        },
+        {
+          "name": "address",
+          "type": "value",
+          "default": "0"
+        }
+      ]
+    },
+    {
+      "opcode": "write",
+      "category": "io",
+      "privileged": false,
+      "params": [
+        {
+          "name": "input",
+          "type": "value",
+          "default": "result"
+        },
+        {
+          "name": "target",
+          "type": "value",
+          "default": "cell1"
+        },
+        {
+          "name": "address",
+          "type": "value",
+          "default": "0"
+        }
+      ]
+    },
+    {
+      "opcode": "draw",
+      "category": "io",
+      "privileged": false,
+      "params": [
+        {
+          "name": "type",
+          "type": "GraphicsType",
+          "default": "clear",
+          "enum": "GraphicsType"
+        },
+        {
+          "name": "x",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "y",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "p1",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "p2",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "p3",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "p4",
+          "type": "value",
+          "default": "0"
+        }
+      ]
+    },
+    {
+      "opcode": "print",
+      "category": "io",
+      "privileged": false,
+      "params": [
+        {
+          "name": "value",
+          "type": "value",
+          "default": "\\\"frog\\\""
+        }
+      ]
+    },
+    {
+      "opcode": "printchar",
+      "category": "io",
+      "privileged": false,
+      "params": [
+        {
+          "name": "value",
+          "type": "value",
+          "default": "65"
+        }
+      ]
+    },
+    {
+      "opcode": "format",
+      "category": "io",
+      "privileged": false,
+      "params": [
+        {
+          "name": "value",
+          "type": "value",
+          "default": "\\\"frog\\\""
+        }
+      ]
+    },
+    {
+      "opcode": "drawflush",
+      "category": "block",
+      "privileged": false,
+      "params": [
+        {
+          "name": "target",
+          "type": "value",
+          "default": "display1"
+        }
+      ]
+    },
+    {
+      "opcode": "printflush",
+      "category": "block",
+      "privileged": false,
+      "params": [
+        {
+          "name": "target",
+          "type": "value",
+          "default": "message1"
+        }
+      ]
+    },
+    {
+      "opcode": "getlink",
+      "category": "block",
+      "privileged": false,
+      "params": [
+        {
+          "name": "output",
+          "type": "value",
+          "default": "result"
+        },
+        {
+          "name": "address",
+          "type": "value",
+          "default": "0"
+        }
+      ]
+    },
+    {
+      "opcode": "control",
+      "category": "block",
+      "privileged": false,
+      "params": [
+        {
+          "name": "type",
+          "type": "LAccess",
+          "default": "enabled",
+          "enum": "LAccess"
+        },
+        {
+          "name": "target",
+          "type": "value",
+          "default": "block1"
+        },
+        {
+          "name": "p1",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "p2",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "p3",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "p4",
+          "type": "value",
+          "default": "0"
+        }
+      ]
+    },
+    {
+      "opcode": "radar",
+      "category": "block",
+      "privileged": false,
+      "params": [
+        {
+          "name": "target1",
+          "type": "RadarTarget",
+          "default": "enemy",
+          "enum": "RadarTarget"
+        },
+        {
+          "name": "target2",
+          "type": "RadarTarget",
+          "default": "any",
+          "enum": "RadarTarget"
+        },
+        {
+          "name": "target3",
+          "type": "RadarTarget",
+          "default": "any",
+          "enum": "RadarTarget"
+        },
+        {
+          "name": "sort",
+          "type": "RadarSort",
+          "default": "distance",
+          "enum": "RadarSort"
+        },
+        {
+          "name": "radar",
+          "type": "value",
+          "default": "turret1"
+        },
+        {
+          "name": "sortOrder",
+          "type": "value",
+          "default": "1"
+        },
+        {
+          "name": "output",
+          "type": "value",
+          "default": "result"
+        }
+      ]
+    },
+    {
+      "opcode": "sensor",
+      "category": "block",
+      "privileged": false,
+      "params": [
+        {
+          "name": "to",
+          "type": "value",
+          "default": "result"
+        },
+        {
+          "name": "from",
+          "type": "value",
+          "default": "block1"
+        },
+        {
+          "name": "type",
+          "type": "value",
+          "default": "@copper"
+        }
+      ]
+    },
+    {
+      "opcode": "set",
+      "category": "operation",
+      "privileged": false,
+      "params": [
+        {
+          "name": "to",
+          "type": "value",
+          "default": "result"
+        },
+        {
+          "name": "from",
+          "type": "value",
+          "default": "0"
+        }
+      ]
+    },
+    {
+      "opcode": "op",
+      "category": "operation",
+      "privileged": false,
+      "params": [
+        {
+          "name": "op",
+          "type": "LogicOp",
+          "default": "add",
+          "enum": "LogicOp"
+        },
+        {
+          "name": "dest",
+          "type": "value",
+          "default": "result"
+        },
+        {
+          "name": "a",
+          "type": "value",
+          "default": "a"
+        },
+        {
+          "name": "b",
+          "type": "value",
+          "default": "b"
+        }
+      ]
+    },
+    {
+      "opcode": "select",
+      "category": "operation",
+      "privileged": false,
+      "params": [
+        {
+          "name": "result",
+          "type": "value",
+          "default": "result"
+        },
+        {
+          "name": "op",
+          "type": "ConditionOp",
+          "default": "notEqual",
+          "enum": "ConditionOp"
+        },
+        {
+          "name": "comp0",
+          "type": "value",
+          "default": "x"
+        },
+        {
+          "name": "comp1",
+          "type": "value",
+          "default": "false"
+        },
+        {
+          "name": "a",
+          "type": "value",
+          "default": "a"
+        },
+        {
+          "name": "b",
+          "type": "value",
+          "default": "b"
+        }
+      ]
+    },
+    {
+      "opcode": "wait",
+      "category": "control",
+      "privileged": false,
+      "params": [
+        {
+          "name": "value",
+          "type": "value",
+          "default": "0.5"
+        }
+      ]
+    },
+    {
+      "opcode": "stop",
+      "category": "control",
+      "privileged": false,
+      "params": []
+    },
+    {
+      "opcode": "lookup",
+      "category": "operation",
+      "privileged": false,
+      "params": [
+        {
+          "name": "type",
+          "type": "ContentType",
+          "default": "item"
+        },
+        {
+          "name": "result",
+          "type": "value",
+          "default": "result"
+        },
+        {
+          "name": "id",
+          "type": "value",
+          "default": "0"
+        }
+      ]
+    },
+    {
+      "opcode": "packcolor",
+      "category": "operation",
+      "privileged": false,
+      "params": [
+        {
+          "name": "result",
+          "type": "value",
+          "default": "result"
+        },
+        {
+          "name": "r",
+          "type": "value",
+          "default": "1"
+        },
+        {
+          "name": "g",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "b",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "a",
+          "type": "value",
+          "default": "1"
+        }
+      ]
+    },
+    {
+      "opcode": "unpackcolor",
+      "category": "operation",
+      "privileged": false,
+      "params": [
+        {
+          "name": "r",
+          "type": "value",
+          "default": "r"
+        },
+        {
+          "name": "g",
+          "type": "value",
+          "default": "g"
+        },
+        {
+          "name": "b",
+          "type": "value",
+          "default": "b"
+        },
+        {
+          "name": "a",
+          "type": "value",
+          "default": "a"
+        },
+        {
+          "name": "value",
+          "type": "value",
+          "default": "color"
+        }
+      ]
+    },
+    {
+      "opcode": "end",
+      "category": "control",
+      "privileged": false,
+      "params": []
+    },
+    {
+      "opcode": "jump",
+      "category": "control",
+      "privileged": false,
+      "params": [
+        {
+          "name": "destIndex",
+          "type": "int",
+          "default": null
+        },
+        {
+          "name": "op",
+          "type": "ConditionOp",
+          "default": "notEqual",
+          "enum": "ConditionOp"
+        },
+        {
+          "name": "value",
+          "type": "value",
+          "default": "x"
+        },
+        {
+          "name": "compare",
+          "type": "value",
+          "default": "false"
+        }
+      ]
+    },
+    {
+      "opcode": "ubind",
+      "category": "unit",
+      "privileged": false,
+      "params": [
+        {
+          "name": "type",
+          "type": "value",
+          "default": "@poly"
+        }
+      ]
+    },
+    {
+      "opcode": "ucontrol",
+      "category": "unit",
+      "privileged": false,
+      "params": [
+        {
+          "name": "type",
+          "type": "LUnitControl",
+          "default": "move",
+          "enum": "LUnitControl"
+        },
+        {
+          "name": "p1",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "p2",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "p3",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "p4",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "p5",
+          "type": "value",
+          "default": "0"
+        }
+      ]
+    },
+    {
+      "opcode": "uradar",
+      "category": "unit",
+      "privileged": false,
+      "params": [
+        {
+          "name": "target1",
+          "type": "RadarTarget",
+          "default": "enemy",
+          "enum": "RadarTarget"
+        },
+        {
+          "name": "target2",
+          "type": "RadarTarget",
+          "default": "any",
+          "enum": "RadarTarget"
+        },
+        {
+          "name": "target3",
+          "type": "RadarTarget",
+          "default": "any",
+          "enum": "RadarTarget"
+        },
+        {
+          "name": "sort",
+          "type": "RadarSort",
+          "default": "distance",
+          "enum": "RadarSort"
+        },
+        {
+          "name": "radar",
+          "type": "value",
+          "default": "turret1"
+        },
+        {
+          "name": "sortOrder",
+          "type": "value",
+          "default": "1"
+        },
+        {
+          "name": "output",
+          "type": "value",
+          "default": "result"
+        }
+      ]
+    },
+    {
+      "opcode": "ulocate",
+      "category": "unit",
+      "privileged": false,
+      "params": [
+        {
+          "name": "locate",
+          "type": "LLocate",
+          "default": "building",
+          "enum": "LLocate"
+        },
+        {
+          "name": "flag",
+          "type": "BlockFlag",
+          "default": "core"
+        },
+        {
+          "name": "enemy",
+          "type": "value",
+          "default": "true"
+        },
+        {
+          "name": "ore",
+          "type": "value",
+          "default": "@copper"
+        },
+        {
+          "name": "outX",
+          "type": "value",
+          "default": "outx"
+        },
+        {
+          "name": "outY",
+          "type": "value",
+          "default": "outy"
+        },
+        {
+          "name": "outFound",
+          "type": "value",
+          "default": "found"
+        },
+        {
+          "name": "outBuild",
+          "type": "value",
+          "default": "building"
+        }
+      ]
+    },
+    {
+      "opcode": "query",
+      "category": "world",
+      "privileged": true,
+      "params": [
+        {
+          "name": "shape",
+          "type": "QueryShape",
+          "default": "circle",
+          "enum": "QueryShape"
+        },
+        {
+          "name": "type",
+          "type": "QueryType",
+          "default": "unit",
+          "enum": "QueryType"
+        },
+        {
+          "name": "team",
+          "type": "value",
+          "default": "null"
+        },
+        {
+          "name": "x",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "y",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "w",
+          "type": "value",
+          "default": "10"
+        },
+        {
+          "name": "h",
+          "type": "value",
+          "default": "10"
+        }
+      ]
+    },
+    {
+      "opcode": "getblock",
+      "category": "world",
+      "privileged": true,
+      "params": [
+        {
+          "name": "layer",
+          "type": "TileLayer",
+          "default": "block",
+          "enum": "TileLayer"
+        },
+        {
+          "name": "result",
+          "type": "value",
+          "default": "result"
+        },
+        {
+          "name": "x",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "y",
+          "type": "value",
+          "default": "0"
+        }
+      ]
+    },
+    {
+      "opcode": "setblock",
+      "category": "world",
+      "privileged": true,
+      "params": [
+        {
+          "name": "layer",
+          "type": "TileLayer",
+          "default": "block",
+          "enum": "TileLayer"
+        },
+        {
+          "name": "block",
+          "type": "value",
+          "default": "@air"
+        },
+        {
+          "name": "x",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "y",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "team",
+          "type": "value",
+          "default": "@derelict"
+        },
+        {
+          "name": "rotation",
+          "type": "value",
+          "default": "0"
+        }
+      ]
+    },
+    {
+      "opcode": "spawn",
+      "category": "world",
+      "privileged": true,
+      "params": [
+        {
+          "name": "type",
+          "type": "value",
+          "default": "@dagger"
+        },
+        {
+          "name": "x",
+          "type": "value",
+          "default": "10"
+        },
+        {
+          "name": "y",
+          "type": "value",
+          "default": "10"
+        },
+        {
+          "name": "rotation",
+          "type": "value",
+          "default": "90"
+        },
+        {
+          "name": "team",
+          "type": "value",
+          "default": "@sharded"
+        },
+        {
+          "name": "result",
+          "type": "value",
+          "default": "result"
+        },
+        {
+          "name": "effect",
+          "type": "value",
+          "default": "true"
+        }
+      ]
+    },
+    {
+      "opcode": "bullet",
+      "category": "world",
+      "privileged": true,
+      "params": [
+        {
+          "name": "result",
+          "type": "value",
+          "default": "result"
+        },
+        {
+          "name": "from",
+          "type": "value",
+          "default": "@dagger"
+        },
+        {
+          "name": "index",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "x",
+          "type": "value",
+          "default": "x"
+        },
+        {
+          "name": "y",
+          "type": "value",
+          "default": "y"
+        },
+        {
+          "name": "rotation",
+          "type": "value",
+          "default": "angle"
+        },
+        {
+          "name": "team",
+          "type": "value",
+          "default": "null"
+        },
+        {
+          "name": "owner",
+          "type": "value",
+          "default": "null"
+        },
+        {
+          "name": "damage",
+          "type": "value",
+          "default": "-1"
+        },
+        {
+          "name": "velocityScl",
+          "type": "value",
+          "default": "1"
+        },
+        {
+          "name": "lifeScl",
+          "type": "value",
+          "default": "1"
+        },
+        {
+          "name": "aimX",
+          "type": "value",
+          "default": "-1"
+        },
+        {
+          "name": "aimY",
+          "type": "value",
+          "default": "-1"
+        }
+      ]
+    },
+    {
+      "opcode": "status",
+      "category": "world",
+      "privileged": true,
+      "params": [
+        {
+          "name": "clear",
+          "type": "boolean",
+          "default": null
+        },
+        {
+          "name": "effect",
+          "type": "value",
+          "default": "wet"
+        },
+        {
+          "name": "unit",
+          "type": "value",
+          "default": "unit"
+        },
+        {
+          "name": "duration",
+          "type": "value",
+          "default": "10"
+        }
+      ]
+    },
+    {
+      "opcode": "weathersense",
+      "category": "world",
+      "privileged": true,
+      "params": [
+        {
+          "name": "to",
+          "type": "value",
+          "default": "result"
+        },
+        {
+          "name": "weather",
+          "type": "value",
+          "default": "@rain"
+        }
+      ]
+    },
+    {
+      "opcode": "weatherset",
+      "category": "world",
+      "privileged": true,
+      "params": [
+        {
+          "name": "weather",
+          "type": "value",
+          "default": "@rain"
+        },
+        {
+          "name": "state",
+          "type": "value",
+          "default": "true"
+        }
+      ]
+    },
+    {
+      "opcode": "spawnwave",
+      "category": "world",
+      "privileged": true,
+      "params": [
+        {
+          "name": "x",
+          "type": "value",
+          "default": "10"
+        },
+        {
+          "name": "y",
+          "type": "value",
+          "default": "10"
+        },
+        {
+          "name": "natural",
+          "type": "value",
+          "default": "false"
+        }
+      ]
+    },
+    {
+      "opcode": "setrule",
+      "category": "world",
+      "privileged": true,
+      "params": [
+        {
+          "name": "rule",
+          "type": "LogicRule",
+          "default": "waveSpacing",
+          "enum": "LogicRule"
+        },
+        {
+          "name": "value",
+          "type": "value",
+          "default": "10"
+        },
+        {
+          "name": "p1",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "p2",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "p3",
+          "type": "value",
+          "default": "100"
+        },
+        {
+          "name": "p4",
+          "type": "value",
+          "default": "100"
+        }
+      ]
+    },
+    {
+      "opcode": "message",
+      "category": "world",
+      "privileged": true,
+      "params": [
+        {
+          "name": "type",
+          "type": "MessageType",
+          "default": "announce",
+          "enum": "MessageType"
+        },
+        {
+          "name": "duration",
+          "type": "value",
+          "default": "3"
+        },
+        {
+          "name": "outSuccess",
+          "type": "value",
+          "default": "@wait"
+        }
+      ]
+    },
+    {
+      "opcode": "cutscene",
+      "category": "world",
+      "privileged": true,
+      "params": [
+        {
+          "name": "action",
+          "type": "CutsceneAction",
+          "default": "pan",
+          "enum": "CutsceneAction"
+        },
+        {
+          "name": "p1",
+          "type": "value",
+          "default": "100"
+        },
+        {
+          "name": "p2",
+          "type": "value",
+          "default": "100"
+        },
+        {
+          "name": "p3",
+          "type": "value",
+          "default": "0.06"
+        },
+        {
+          "name": "p4",
+          "type": "value",
+          "default": "0"
+        }
+      ]
+    },
+    {
+      "opcode": "effect",
+      "category": "world",
+      "privileged": true,
+      "params": [
+        {
+          "name": "type",
+          "type": "value",
+          "default": "warn"
+        },
+        {
+          "name": "x",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "y",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "sizerot",
+          "type": "value",
+          "default": "2"
+        },
+        {
+          "name": "color",
+          "type": "value",
+          "default": "%ffaaff"
+        },
+        {
+          "name": "data",
+          "type": "value",
+          "default": ""
+        }
+      ]
+    },
+    {
+      "opcode": "explosion",
+      "category": "world",
+      "privileged": true,
+      "params": [
+        {
+          "name": "team",
+          "type": "value",
+          "default": "@crux"
+        },
+        {
+          "name": "x",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "y",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "radius",
+          "type": "value",
+          "default": "5"
+        },
+        {
+          "name": "damage",
+          "type": "value",
+          "default": "50"
+        },
+        {
+          "name": "air",
+          "type": "value",
+          "default": "true"
+        },
+        {
+          "name": "ground",
+          "type": "value",
+          "default": "true"
+        },
+        {
+          "name": "pierce",
+          "type": "value",
+          "default": "false"
+        },
+        {
+          "name": "effect",
+          "type": "value",
+          "default": "true"
+        }
+      ]
+    },
+    {
+      "opcode": "setrate",
+      "category": "world",
+      "privileged": true,
+      "params": [
+        {
+          "name": "amount",
+          "type": "value",
+          "default": "10"
+        }
+      ]
+    },
+    {
+      "opcode": "fetch",
+      "category": "world",
+      "privileged": true,
+      "params": [
+        {
+          "name": "type",
+          "type": "FetchType",
+          "default": "unit",
+          "enum": "FetchType"
+        },
+        {
+          "name": "result",
+          "type": "value",
+          "default": "result"
+        },
+        {
+          "name": "team",
+          "type": "value",
+          "default": "@sharded"
+        },
+        {
+          "name": "index",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "extra",
+          "type": "value",
+          "default": "@conveyor"
+        }
+      ]
+    },
+    {
+      "opcode": "sync",
+      "category": "world",
+      "privileged": true,
+      "params": [
+        {
+          "name": "variable",
+          "type": "value",
+          "default": "var"
+        }
+      ]
+    },
+    {
+      "opcode": "clientdata",
+      "category": "world",
+      "privileged": true,
+      "params": [
+        {
+          "name": "channel",
+          "type": "value",
+          "default": "\\\"frog\\\""
+        },
+        {
+          "name": "value",
+          "type": "value",
+          "default": "\\\"bar\\\""
+        },
+        {
+          "name": "reliable",
+          "type": "value",
+          "default": "0"
+        }
+      ]
+    },
+    {
+      "opcode": "getflag",
+      "category": "world",
+      "privileged": true,
+      "params": [
+        {
+          "name": "result",
+          "type": "value",
+          "default": "result"
+        },
+        {
+          "name": "flag",
+          "type": "value",
+          "default": "\\\"flag\\\""
+        }
+      ]
+    },
+    {
+      "opcode": "setflag",
+      "category": "world",
+      "privileged": true,
+      "params": [
+        {
+          "name": "flag",
+          "type": "value",
+          "default": "\\\"flag\\\""
+        },
+        {
+          "name": "value",
+          "type": "value",
+          "default": "true"
+        }
+      ]
+    },
+    {
+      "opcode": "setprop",
+      "category": "world",
+      "privileged": true,
+      "params": [
+        {
+          "name": "type",
+          "type": "value",
+          "default": "@copper"
+        },
+        {
+          "name": "of",
+          "type": "value",
+          "default": "block1"
+        },
+        {
+          "name": "value",
+          "type": "value",
+          "default": "0"
+        }
+      ]
+    },
+    {
+      "opcode": "playsound",
+      "category": "world",
+      "privileged": true,
+      "params": [
+        {
+          "name": "positional",
+          "type": "boolean",
+          "default": null
+        },
+        {
+          "name": "id",
+          "type": "value",
+          "default": "@sfx-shoot"
+        },
+        {
+          "name": "volume",
+          "type": "value",
+          "default": "1"
+        },
+        {
+          "name": "pitch",
+          "type": "value",
+          "default": "1"
+        },
+        {
+          "name": "pan",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "x",
+          "type": "value",
+          "default": "@thisx"
+        },
+        {
+          "name": "y",
+          "type": "value",
+          "default": "@thisy"
+        },
+        {
+          "name": "limit",
+          "type": "value",
+          "default": "true"
+        }
+      ]
+    },
+    {
+      "opcode": "playmusic",
+      "category": "world",
+      "privileged": true,
+      "params": [
+        {
+          "name": "name",
+          "type": "value",
+          "default": "\\\"game1\\\""
+        },
+        {
+          "name": "interrupt",
+          "type": "value",
+          "default": "true"
+        }
+      ]
+    },
+    {
+      "opcode": "setmarker",
+      "category": "world",
+      "privileged": true,
+      "params": [
+        {
+          "name": "type",
+          "type": "LMarkerControl",
+          "default": "pos",
+          "enum": "LMarkerControl"
+        },
+        {
+          "name": "id",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "p1",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "p2",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "p3",
+          "type": "value",
+          "default": "0"
+        }
+      ]
+    },
+    {
+      "opcode": "makemarker",
+      "category": "world",
+      "privileged": true,
+      "params": [
+        {
+          "name": "type",
+          "type": "value",
+          "default": "shape"
+        },
+        {
+          "name": "id",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "x",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "y",
+          "type": "value",
+          "default": "0"
+        },
+        {
+          "name": "replace",
+          "type": "value",
+          "default": "true"
+        }
+      ]
+    },
+    {
+      "opcode": "localeprint",
+      "category": "world",
+      "privileged": true,
+      "params": [
+        {
+          "name": "value",
+          "type": "value",
+          "default": "\\\"name\\\""
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "@mlog/core",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Интерпретатор mlog и модель мира. Ноль зависимостей, ноль обращений к браузеру.",
+  "license": "GPL-3.0-only",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./data/logic-ids.json": "./data/logic-ids.json",
+    "./data/i18n/*.json": "./data/i18n/*.json"
+  },
+  "scripts": {
+    "test": "node --test"
+  }
+}
