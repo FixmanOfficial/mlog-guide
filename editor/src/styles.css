@@ -104,9 +104,35 @@
 .statement__name,
 .statement__index {
     color: var(--header-text);
-    text-shadow:
-        1px 0 0 var(--outline), -1px 0 0 var(--outline),
-        0 1px 0 var(--outline), 0 -1px 0 var(--outline);
+}
+
+/*
+ * Обводка текста. В игре это шрифт с рамкой шириной 2 (Fonts.java:249, borderWidth =
+ * Scl.scl(2f)), то есть два пикселя НАРУЖУ от контура глифа. Тень со смещением в один
+ * пиксель, которая тут была раньше, давала вдвое тоньше.
+ *
+ * paint-order кладёт обводку ПОД заливку, поэтому глиф не худеет; ширина обводки берётся
+ * вдвое больше нужной, так как штрих идёт по контуру, половиной внутрь.
+ */
+.statement__name,
+.statement__index,
+.popup__item {
+    -webkit-text-stroke: 4px var(--outline, #3f3f3f);
+    paint-order: stroke fill;
+}
+
+/* Там, где paint-order не поддержан, обводка собирается тенями по восьми направлениям */
+@supports not (paint-order: stroke) {
+    .statement__name,
+    .statement__index,
+    .popup__item {
+        -webkit-text-stroke: 0;
+        text-shadow:
+            2px 0 0 var(--outline, #3f3f3f), -2px 0 0 var(--outline, #3f3f3f),
+            0 2px 0 var(--outline, #3f3f3f), 0 -2px 0 var(--outline, #3f3f3f),
+            1px 1px 0 var(--outline, #3f3f3f), -1px 1px 0 var(--outline, #3f3f3f),
+            1px -1px 0 var(--outline, #3f3f3f), -1px -1px 0 var(--outline, #3f3f3f);
+    }
 }
 
 .statement__spacer {
@@ -377,9 +403,6 @@
     background: transparent;
     color: #fff;
     font: inherit;
-    text-shadow:
-        1px 0 0 var(--outline, #3f3f3f), -1px 0 0 var(--outline, #3f3f3f),
-        0 1px 0 var(--outline, #3f3f3f), 0 -1px 0 var(--outline, #3f3f3f);
     cursor: pointer;
 }
 
@@ -391,5 +414,6 @@
 .popup__item--current {
     background: #ffd37f;
     color: #14141a;
+    -webkit-text-stroke: 0;
     text-shadow: none;
 }
