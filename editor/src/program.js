@@ -17,6 +17,50 @@ export const INSTRUCTIONS = new Map(
 
 export const ENUMS = schema.enums
 
+/**
+ * Имена полей, которые игра показывает для каждого значения перечисления.
+ * Из-за них у `control enabled` видно одно поле, подписанное «to», у `control shoot` — три,
+ * а у `ucontrol idle` не видно ни одного.
+ */
+export const ENUM_PARAMS = schema.enumParams
+
+/** Безымянные ячейки под значения: p1, p2 и так далее. Имена им даёт выбранное значение. */
+const isSlot = (name) => /^p\d+$/.test(name)
+
+/**
+ * Разбирает инструкцию на видимые поля с учётом выбранного значения перечисления.
+ *
+ * Возвращает список `{param, label, hidden}`: ячейки, для которых у значения нет имени,
+ * помечаются скрытыми — ровно как в игровом редакторе.
+ */
+export function visibleParams(definition, statement) {
+    const driver = definition.params.find(param =>
+        param.enum !== undefined && ENUM_PARAMS[param.enum] !== undefined)
+
+    if (driver === undefined) {
+        return definition.params.map(param => ({param, label: param.name, hidden: false}))
+    }
+
+    const selected = statement.params[driver.name]
+    const names = ENUM_PARAMS[driver.enum][selected] ?? []
+    let slot = 0
+
+    return definition.params.map(param => {
+        if (!isSlot(param.name)) return {param, label: param.name, hidden: false}
+
+        const label = names[slot++]
+        return {param, label: label ?? param.name, hidden: label === undefined}
+    })
+}
+
+/** Свойства, доступные sensor: у них не больше одного параметра. LAccess.senseable */
+export const SENSEABLE = ENUMS.LAccess.filter(value =>
+    (ENUM_PARAMS.LAccess[value] ?? []).length <= 1)
+
+/** Свойства, доступные control: у них есть хотя бы один параметр. LAccess.controls */
+export const CONTROLS = ENUMS.LAccess.filter(value =>
+    (ENUM_PARAMS.LAccess[value] ?? []).length > 0)
+
 /** Инструкции, доступные обычному процессору: у процессора мира отдельный набор. */
 export const AVAILABLE = schema.instructions.filter(instruction => !instruction.privileged)
 

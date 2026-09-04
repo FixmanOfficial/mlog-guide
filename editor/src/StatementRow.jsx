@@ -1,4 +1,4 @@
-import {INSTRUCTIONS, ENUMS} from './program.js'
+import {INSTRUCTIONS, ENUMS, SENSEABLE, CONTROLS, visibleParams} from './program.js'
 import {categoryColor, displayName} from './theme.js'
 
 /**
@@ -42,13 +42,16 @@ function renderBody(definition, statement, onParam) {
         return hint.items.map((item, position) => renderItem(item, definition, statement, onParam, position))
     }
 
-    // Иначе выкладываем параметры подряд, подписывая их именами из схемы
-    return definition.params.map(param => (
-        <span class="pair" key={param.name}>
-            <span class="label">{param.name}</span>
-            {renderParam(param, statement, onParam)}
-        </span>
-    ))
+    // Иначе выкладываем поля подряд. Скрытые не рисуем вовсе: у control enabled видно
+    // одно поле, у control shoot — три, и подписаны они по-человечески, как в игре
+    return visibleParams(definition, statement)
+        .filter(entry => !entry.hidden)
+        .map(entry => (
+            <span class="pair" key={entry.param.name}>
+                <span class="label">{entry.label}</span>
+                {renderParam(entry.param, statement, onParam)}
+            </span>
+        ))
 }
 
 function renderItem(item, definition, statement, onParam, position) {
@@ -66,13 +69,15 @@ function renderParam(param, statement, onParam) {
 
     // Параметр с перечислением — выпадающий список: свободный ввод там смысла не имеет
     if (param.enum !== undefined && ENUMS[param.enum] !== undefined) {
+        const options = optionsFor(param, statement)
+
         return (
             <select
                 class="select"
                 value={value}
                 onChange={(event) => onParam(param.name, event.currentTarget.value)}
             >
-                {ENUMS[param.enum].map(option => <option key={option} value={option}>{option}</option>)}
+                {options.map(option => <option key={option} value={option}>{option}</option>)}
             </select>
         )
     }
@@ -85,4 +90,14 @@ function renderParam(param, statement, onParam) {
             onInput={(event) => onParam(param.name, event.currentTarget.value)}
         />
     )
+}
+
+/**
+ * Игра сужает список свойств по инструкции: sensor читает только те, у которых не больше
+ * одного параметра, а control управляет только теми, у которых параметры есть.
+ * LAccess.senseable и LAccess.controls.
+ */
+function optionsFor(param, statement) {
+    if (param.enum !== 'LAccess') return ENUMS[param.enum]
+    return statement.opcode === 'control' ? CONTROLS : SENSEABLE
 }

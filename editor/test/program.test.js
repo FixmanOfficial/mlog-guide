@@ -9,7 +9,10 @@ import assert from 'node:assert/strict'
 import {assemble} from '@mlog/core'
 import {Processor} from '@mlog/core/src/vm.js'
 
-import {createStatement, operations, toText, AVAILABLE, INSTRUCTIONS} from '../src/program.js'
+import {
+    createStatement, operations, toText, AVAILABLE, INSTRUCTIONS,
+    visibleParams, SENSEABLE, CONTROLS
+} from '../src/program.js'
 
 const withParams = (opcode, params) => {
     const statement = createStatement(opcode)
@@ -96,4 +99,47 @@ test('пустое значение параметра не ломает пор�
 test('инструкции процессора мира в редактор не попадают', () => {
     assert.equal(AVAILABLE.some(instruction => instruction.opcode === 'setblock'), false)
     assert.equal(INSTRUCTIONS.has('setblock'), true)
+})
+
+test('control показывает столько полей, сколько у выбранного свойства', () => {
+    const definition = INSTRUCTIONS.get('control')
+
+    const enabled = visibleParams(definition, withParams('control', {type: 'enabled'}))
+    const shoot = visibleParams(definition, withParams('control', {type: 'shoot'}))
+
+    // enabled принимает одно значение, shoot — три
+    assert.deepEqual(enabled.filter(entry => !entry.hidden).map(entry => entry.label),
+        ['type', 'target', 'to'])
+    assert.deepEqual(shoot.filter(entry => !entry.hidden).map(entry => entry.label),
+        ['type', 'target', 'x', 'y', 'shoot'])
+})
+
+test('ucontrol без параметров не показывает ни одной ячейки', () => {
+    const definition = INSTRUCTIONS.get('ucontrol')
+    const idle = visibleParams(definition, withParams('ucontrol', {type: 'idle'}))
+
+    assert.deepEqual(idle.filter(entry => !entry.hidden).map(entry => entry.label), ['type'])
+})
+
+test('ucontrol build подписывает все пять ячеек', () => {
+    const definition = INSTRUCTIONS.get('ucontrol')
+    const build = visibleParams(definition, withParams('ucontrol', {type: 'build'}))
+
+    assert.deepEqual(build.filter(entry => !entry.hidden).map(entry => entry.label),
+        ['type', 'x', 'y', 'block', 'rotation', 'config'])
+})
+
+test('скрытые ячейки всё равно попадают в текст: порядок аргументов важнее', () => {
+    const text = toText([withParams('control', {type: 'enabled', target: 'switch1', p1: '1'})])
+
+    assert.equal(text, 'control enabled switch1 1 0 0 0')
+})
+
+test('sensor и control предлагают разные наборы свойств', () => {
+    // senseable — свойства не больше чем с одним параметром, controls — с параметрами
+    assert.ok(SENSEABLE.includes('health'))
+    assert.equal(SENSEABLE.includes('shoot'), false)
+
+    assert.ok(CONTROLS.includes('shoot'))
+    assert.equal(CONTROLS.includes('health'), false)
 })

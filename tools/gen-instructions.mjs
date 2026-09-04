@@ -117,7 +117,20 @@ function cleanDefault(value, type) {
     return trimmed
 }
 
-/** Достаёт значения перечисления: идентификаторы в начале тела до точки с запятой. */
+/**
+ * Достаёт значения перечисления и, если оно их несёт, имена параметров каждого значения.
+ *
+ * Часть перечислений в игре хранит человеческие имена полей прямо в объявлении:
+ *
+ *   move("x", "y"), build("x", "y", "block", "rotation", "config"), idle
+ *   enabled("to"), shoot("x", "y", "shoot"), shootp(true, "unit", "shoot")
+ *
+ * Именно поэтому в игровом редакторе у `control enabled` видно одно поле, а у `control shoot` —
+ * три, и подписаны они по-человечески. Значение без параметров не показывает полей вовсе.
+ *
+ * Признак такого перечисления — объявленное в нём поле `String[] params`. Без этой проверки
+ * разбор потащил бы мусор: у LogicOp в скобках стоит символ операции, а не имя поля.
+ */
 function parseEnum(root, name) {
     const path = enumPath(root, name)
     if (!existsSync(path)) return null
@@ -127,18 +140,34 @@ function parseEnum(root, name) {
     if (start === -1) return null
 
     const body = block(text, text.indexOf('{', start))
+    const clean = stripComments(body)
+    const carriesParams = /String\[\]\s+params/.test(clean)
 
     // Значения перечисления идут до первой точки с запятой ВЕРХНЕГО уровня: внутри лямбд
     // и списков параметров точек с запятой нет, но скобки есть, поэтому считаем глубину
-    const head = cutAtTopLevel(stripComments(body), ';')
+    const head = cutAtTopLevel(clean, ';')
 
     // Делим по запятым верхнего уровня и берём ведущий идентификатор каждого куска.
     // Регулярка тут не годится: лямбды вроде max("max", true, Math::max) полны запятых
-    return splitTopLevel(head, ',')
-        .map(part => part.trim().match(/^([a-zA-Z_]\w*)/))
-        .filter(match => match !== null)
-        .map(match => match[1])
-        .filter((name, index, all) => all.indexOf(name) === index)
+    const values = []
+    const params = {}
+
+    for (const part of splitTopLevel(head, ',')) {
+        const match = part.trim().match(/^([a-zA-Z_]\w*)/)
+        if (match === null || values.includes(match[1])) continue
+
+        values.push(match[1])
+
+        if (carriesParams) {
+            // Ведущее true или false — это флаг объектного значения, а не имя поля
+            const args = part.slice(part.indexOf('(') + 1)
+            params[match[1]] = part.includes('(')
+                ? [...args.matchAll(/"([^"]*)"/g)].map(argument => argument[1])
+                : []
+        }
+    }
+
+    return {values, params: carriesParams ? params : null}
 }
 
 /**
@@ -333,6 +362,7 @@ function main() {
     }
 
     const enums = {}
+    const enumParams = {}
     const instructions = []
 
     for (const className of order) {
@@ -340,8 +370,13 @@ function main() {
         const fields = fieldsOf(className)
 
         const params = fields.map(field => {
-            const values = parseEnum(gameRoot, field.type)
-            if (values !== null) enums[field.type] = values
+            const parsed = parseEnum(gameRoot, field.type)
+            const values = parsed === null ? null : parsed.values
+
+            if (parsed !== null) {
+                enums[field.type] = parsed.values
+                if (parsed.params !== null) enumParams[field.type] = parsed.params
+            }
 
             return {
                 name: field.name,
@@ -377,6 +412,9 @@ function main() {
             completeLayoutHints: instructions.filter(instruction => instruction.layoutHint?.complete).length
         },
         enums,
+        // Имена полей, которые игра показывает для каждого значения перечисления.
+        // Значение без параметров не показывает полей вовсе — так работает control idle.
+        enumParams,
         instructions
     }
 
