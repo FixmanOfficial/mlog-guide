@@ -27,7 +27,7 @@
 
 ```bash
 git clone --depth 1 --branch v159.7 --filter=blob:none --sparse https://github.com/Anuken/Mindustry.git
-git -C Mindustry sparse-checkout set core/src/mindustry/logic core/src/mindustry/world core/src/mindustry/content core/src/mindustry/type
+git -C Mindustry sparse-checkout set core/src/mindustry/logic core/src/mindustry/world core/src/mindustry/content core/src/mindustry/type core/assets
 ```
 
 Главное — `core/src/mindustry/logic/LExecutor.java` и `LStatements.java`.
@@ -61,6 +61,16 @@ tools/   генераторы дампов контента из исходни�
    выход, всегда.
 3. **Каждая семантическая деталь закрывается тестом** со ссылкой на файл и строку в исходниках
    игры. Через полгода никто не вспомнит, почему в `equal` стоит эпсилон.
-4. **Таблицы контента генерируются, а не пишутся руками.** Идентификаторы зависят от порядка
-   регистрации в игре.
+4. **Таблицы контента генерируются, а не пишутся руками.** Логические идентификаторы лежат
+   в ассете `logicids.dat`, снимает их `tools/gen-content.mjs`.
 5. **Границы v1 держим.** `radar`, юниты и инструкции мира отложены осознанно, см. `PLAN.md`.
+
+## Генераторы
+
+```bash
+node tools/gen-content.mjs <путь-к-Mindustry>
+```
+
+Снимает таблицы контента из `core/assets/logicids.dat` в `core/data/logic-ids.json`. Результат
+коммитится: без него сайт не соберётся, а пересоздать его можно только имея под рукой исходники
+игры. Править файл руками нельзя.
