@@ -10,12 +10,14 @@
     --field: #16161a;
     --text: #e6e6e6;
     --muted: #9a9a9a;
+    --outline: #3f3f3f;
 
     display: flex;
     flex-direction: column;
     gap: 6px;
     max-width: 900px;
-    padding: 8px;
+    /* Справа оставлено место под стрелки переходов: в игре у них своя полоса */
+    padding: 8px 96px 8px 8px;
     background: var(--bg);
     color: var(--text);
     font-family: system-ui, sans-serif;
@@ -28,10 +30,15 @@
     gap: 4px;
 }
 
-/* Строка инструкции: рамка в цвете категории, как Tex.whitePane с тонировкой */
+/*
+ * Строка инструкции: рамка в цвете категории поверх чёрного тела, а снаружи тёмная обводка.
+ * Так выглядит Tex.whitePane с тонировкой — у спрайтов игры обводка запечена в картинку.
+ */
 .statement {
-    border: 2px solid var(--category);
-    background: var(--panel);
+    border: 3px solid var(--category);
+    outline: 2px solid var(--outline);
+    outline-offset: 0;
+    background: #000;
     user-select: none;
 }
 
@@ -50,6 +57,15 @@
     color: #14141a;
     font-weight: 600;
     cursor: grab;
+}
+
+/* Текст в игре набран шрифтом с обводкой — Styles.outlineLabel */
+.statement__name,
+.statement__index {
+    text-shadow:
+        1px 0 0 var(--outline), -1px 0 0 var(--outline),
+        0 1px 0 var(--outline), 0 -1px 0 var(--outline);
+    color: #fff;
 }
 
 .statement__spacer {
@@ -107,19 +123,22 @@
     height: 0;
 }
 
+/* У полей в игре не рамка, а подчёркивание в цвете категории */
 .field,
 .select {
     min-width: 72px;
     padding: 3px 6px;
-    border: 1px solid #000;
-    background: var(--field);
+    border: none;
+    border-bottom: 2px solid var(--category);
+    background: transparent;
     color: var(--text);
     font: inherit;
 }
 
 .field:focus,
 .select:focus {
-    outline: 1px solid var(--category);
+    outline: none;
+    background: rgba(255, 255, 255, 0.08);
 }
 
 .editor__add {

@@ -1,7 +1,7 @@
 import {useState, useLayoutEffect} from 'preact/hooks'
 
 import {assignLanes, curvePoints, laneOffset, STROKE} from './jumps.js'
-import {categoryColor} from './theme.js'
+import {JUMP_COLOR, OUTLINE_COLOR, OUTLINE_WIDTH} from './theme.js'
 
 /**
  * Стрелки переходов справа от кода.
@@ -50,7 +50,6 @@ export function JumpArrows({statements, containerRef}) {
 
     const narrow = rows.width < 600
     const widest = Math.max(...jumps.map(jump => laneOffset(jump.lane, narrow)))
-    const color = categoryColor('control')
 
     return (
         <svg
@@ -65,16 +64,19 @@ export function JumpArrows({statements, containerRef}) {
                 if (y === undefined || y2 === undefined) return null
 
                 const points = curvePoints(0, y, 0, y2, jump.lane, narrow)
+                const line = points.map(([px, py]) => `${px},${py}`).join(' ')
+                const head = `0,${y2} 11,${y2 - 7} 11,${y2 + 7}`
 
                 return (
-                    <g key={`${jump.from}-${jump.to}`} stroke={color} fill={color}>
-                        <polyline
-                            points={points.map(([px, py]) => `${px},${py}`).join(' ')}
-                            fill="none"
-                            stroke-width={STROKE}
-                        />
+                    <g key={`${jump.from}-${jump.to}`}>
+                        {/* Тёмная подложка даёт обводку, как у спрайтов игры */}
+                        <polyline points={line} fill="none" stroke={OUTLINE_COLOR}
+                            stroke-width={STROKE + OUTLINE_WIDTH * 2} stroke-linejoin="miter" />
+                        <polyline points={line} fill="none" stroke={JUMP_COLOR}
+                            stroke-width={STROKE} stroke-linejoin="miter" />
                         {/* Наконечник у точки входа, повёрнут к коду — Tex.logicNode в игре */}
-                        <polygon points={`0,${y2} 10,${y2 - 6} 10,${y2 + 6}`} stroke="none" />
+                        <polygon points={head} fill={JUMP_COLOR}
+                            stroke={OUTLINE_COLOR} stroke-width={OUTLINE_WIDTH} />
                     </g>
                 )
             })}

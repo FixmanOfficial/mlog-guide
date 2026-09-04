@@ -33,6 +33,20 @@ export const METRICS = {
     canvasWidthNarrow: 400
 }
 
+/**
+ * Стрелки переходов белые, а не в цвет категории: JumpButton ставит себе Color.white
+ * и переключается на Pal.place при наведении. LCanvas.java:598, Pal.java:85
+ */
+export const JUMP_COLOR = '#ffffff'
+export const JUMP_HOVER_COLOR = '#6335f8'
+
+/**
+ * Обводка текста и рамок. В игре это не чёрный, а darkGray — Color.darkGray из arc,
+ * ширина 2. Fonts.java:249,266
+ */
+export const OUTLINE_COLOR = '#3f3f3f'
+export const OUTLINE_WIDTH = 2
+
 /** Порядок категорий в меню добавления — как в LCategory.all. */
 export const CATEGORY_ORDER = ['unknown', 'io', 'block', 'operation', 'control', 'unit', 'world']
 
