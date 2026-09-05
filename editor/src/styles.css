@@ -74,21 +74,26 @@
  */
 .statement {
     border: 5px solid var(--category);
-    background: #000;
+    /* StatementElem.draw: под содержимым лежит чёрный на 30 процентов, а не сплошной */
+    background: rgba(0, 0, 0, 0.3);
     user-select: none;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
-    margin-bottom: 7px;
+    /* Fill.dropShadow: размер элемента плюс 5, размытие 10, прозрачность 0.9 */
+    box-shadow: 0 0 10px 2.5px rgba(0, 0, 0, 0.9);
+    /* marginBottom(7) — отступ ВНУТРИ строки: рамка спускается ниже тела */
+    padding-bottom: 7px;
 }
 
 .statement--dragging {
     opacity: 0.6;
 }
 
-/* Шапка: высота 38 и отступ 6 — LCanvas.java:491,430 */
+/*
+ * Шапка: отступ внутри 6 (`t.margin(6f)`), имя и номер строки с отбивкой 8 справа,
+ * между кнопками 6, после последней ничего. LCanvas.StatementElem
+ */
 .statement__header {
     display: flex;
     align-items: center;
-    gap: 6px;
     height: 38px;
     padding: 0 6px;
     background: var(--category);
@@ -104,6 +109,11 @@
 .statement__name,
 .statement__index {
     color: var(--header-text);
+    margin-right: 8px;
+}
+
+.statement__button + .statement__button {
+    margin-left: 6px;
 }
 
 /*
