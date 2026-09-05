@@ -117,9 +117,7 @@
 .statement__name,
 .statement__index,
 .popup__item,
-.content-popup__item,
-.group__item,
-.dialog__header {
+.group__item {
     -webkit-text-stroke: 4px var(--outline, #3f3f3f);
     paint-order: stroke fill;
 }
@@ -129,9 +127,7 @@
     .statement__name,
     .statement__index,
     .popup__item,
-    .content-popup__item,
-    .group__item,
-    .dialog__header {
+    .group__item {
         -webkit-text-stroke: 0;
         text-shadow:
             2px 0 0 var(--outline, #3f3f3f), -2px 0 0 var(--outline, #3f3f3f),
@@ -286,30 +282,41 @@
     padding: 10px;
 }
 
+/* Заголовок категории набран Pal.darkishGray, а не цветом самой категории. LogicDialog */
 .group__title {
-    margin-bottom: 4px;
-    color: var(--category);
-    font-weight: 600;
-}
-
-.group__items {
     display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+    color: #4d4d4d;
 }
 
+/* Три кнопки в ряд — LogicDialog.showAddDialog */
+.group__items {
+    display: grid;
+    grid-template-columns: repeat(3, 130px);
+    gap: 2px;
+}
+
+/*
+ * Кнопка инструкции: 130 на 50, текст цветом категории. Стиль копируется с flatt,
+ * но шрифт подменяется на Fonts.outline, а fontColor — на цвет категории.
+ * LogicDialog.showAddDialog:329-336
+ */
 .group__item {
-    padding: 5px 10px;
-    border: 1px solid var(--category);
-    background: transparent;
-    color: var(--text, #e6e6e6);
+    width: 130px;
+    height: 50px;
+    padding: 4px 8px;
+    border: none;
+    background: #000;
+    color: var(--category);
     font: inherit;
+    text-align: left;
     cursor: pointer;
 }
 
 .group__item:hover {
-    background: var(--category);
-    color: #14141a;
+    background: rgba(255, 255, 255, 0.12);
 }
 
 /* Стрелки переходов идут справа от кода, как в игре, и кликов не перехватывают */
@@ -554,7 +561,9 @@
     background: #ffd37f;
 }
 
+/* Кнопка свойства 240 на 40. flex: none, иначе прокручиваемый столбец их сжимает */
 .content-popup__item {
+    flex: none;
     height: 40px;
     border: none;
     background: transparent;

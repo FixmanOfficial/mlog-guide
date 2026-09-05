@@ -1,5 +1,6 @@
 import {AVAILABLE} from './program.js'
 import {CATEGORY_ORDER, categoryColor, displayName} from './theme.js'
+import {categoryName, categoryTip, instructionTip} from './tooltips.js'
 
 /**
  * Меню добавления инструкции: список, сгруппированный по категориям, как в игре.
@@ -21,13 +22,16 @@ export function AddDialog({onPick, onClose}) {
                 <div class="dialog__groups">
                     {groups.map(([category, list]) => (
                         <div class="group" key={category} style={{'--category': categoryColor(category)}}>
-                            <div class="group__title">{category}</div>
+                            <div class="group__title" title={categoryTip(category) ?? ''}>
+                                {categoryName(category)}
+                            </div>
 
                             <div class="group__items">
                                 {list.map(instruction => (
                                     <button
                                         class="group__item"
                                         key={instruction.opcode}
+                                        title={instructionTip(instruction.opcode) ?? ''}
                                         onClick={() => onPick(instruction.opcode)}
                                     >
                                         {displayName(instruction.opcode)}
