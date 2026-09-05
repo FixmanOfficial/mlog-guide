@@ -23,12 +23,15 @@ import {Variables} from './Variables.jsx'
 /** Тайл мира в пикселях. Всё остальное рендер считает от него сам. */
 const TILE = 40
 
-/*
- * Таблица переменных обновляется каждый кадр, хотя в игре — раз в 15 тиков (`LogicDialog`).
- * Расхождение осознанное: там это модальное окно, у нас таблица всё время на виду. К тому же
- * редкая выборка врёт: программа из 12 инструкций при 8 за тик возвращает счётчик в одно и то же
- * место каждые 15 тиков, и @counter выглядит застывшим, хотя он бежит.
+/**
+ * Через сколько кадров таблица переменных перечитывает значения. `LogicDialog`: `period = 15f`,
+ * а копится в него `Time.delta`, то есть счёт идёт по кадрам, а не по игровым тикам.
+ *
+ * Выборка редкая, и это заметно: программа из 12 инструкций при 8 за тик каждые 15 кадров
+ * возвращает счётчик в одно и то же место, поэтому @counter выглядит застывшим. В игре ровно
+ * так же — потому и оставлено. Видно, что значение живое, по вспышке при изменении.
  */
+const VARS_PERIOD = 15
 
 const withParams = (opcode, params) => {
     const statement = createStatement(opcode)
@@ -111,6 +114,8 @@ export function Sandbox() {
         if (!running || !ready) return
 
         let frame = 0
+        let counter = 0
+
         const step = () => {
             const {scene, worldView, displayView} = stand.current
 
@@ -119,7 +124,11 @@ export function Sandbox() {
             displayView.draw(scene.display)
             worldView.draw({selected: scene.processorBuilding})
 
-            setBeat(scene.world.tick)
+            // Значения переменных перечитываются раз в 15 кадров, как в игре
+            if (++counter >= VARS_PERIOD) {
+                counter = 0
+                setBeat(scene.world.tick)
+            }
 
             frame = requestAnimationFrame(step)
         }
@@ -235,7 +244,7 @@ export function Sandbox() {
                 </div>
 
                 <div class="sandbox__title">Переменные</div>
-                {processor !== null && <Variables processor={processor} key={beat} />}
+                {processor !== null && <Variables processor={processor} beat={beat} />}
 
                 {errors.length > 0 && (
                     <div class="sandbox__errors">
