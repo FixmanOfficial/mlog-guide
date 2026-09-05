@@ -98,12 +98,17 @@ function main() {
 
         const units = join(work, 'unit-specs.json')
         const blocks = join(work, 'block-specs.json')
+        const teams = join(work, 'teams.json')
 
-        const counts = execFileSync(jdk.java, ['-cp', classpath, 'ContentDump', units, blocks],
+        const counts = execFileSync(jdk.java, ['-cp', classpath, 'ContentDump', units, blocks, teams],
             {encoding: 'utf8', stdio: ['ignore', 'pipe', 'inherit']}).trim().split(' ')
 
         // Игра печатает всё одной строкой; раскладываем тем же способом, что и прочие таблицы
-        for (const [from, to] of [[units, 'core/data/unit-specs.json'], [blocks, 'core/data/block-specs.json']]) {
+        for (const [from, to] of [
+            [units, 'core/data/unit-specs.json'],
+            [blocks, 'core/data/block-specs.json'],
+            [teams, 'core/data/teams.json']
+        ]) {
             const data = JSON.parse(readFileSync(from, 'utf8'))
 
             if (data.gameVersion !== VERSION) throw new Error(`jar не той версии: ${data.gameVersion}`)
@@ -113,6 +118,7 @@ function main() {
 
         console.log(`core/data/unit-specs.json: ${counts[0]} юнитов`)
         console.log(`core/data/block-specs.json: ${counts[1]} блоков`)
+        console.log('core/data/teams.json: шесть базовых команд')
     } finally {
         rmSync(work, {recursive: true, force: true})
     }

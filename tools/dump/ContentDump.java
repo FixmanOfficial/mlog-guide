@@ -4,6 +4,7 @@ import arc.util.Log;
 
 import mindustry.Vars;
 import mindustry.core.ContentLoader;
+import mindustry.game.Team;
 import mindustry.type.ItemStack;
 import mindustry.type.UnitType;
 import mindustry.world.Block;
@@ -40,8 +41,8 @@ public class ContentDump{
     static final String VERSION = "v159.7";
 
     public static void main(String[] args) throws Exception{
-        if(args.length < 2){
-            System.err.println("нужны два пути: <unit-specs.json> <block-specs.json>");
+        if(args.length < 3){
+            System.err.println("нужны три пути: <unit-specs.json> <block-specs.json> <teams.json>");
             System.exit(1);
         }
 
@@ -60,6 +61,7 @@ public class ContentDump{
 
         write(Path.of(args[0]), units());
         write(Path.of(args[1]), blocks());
+        write(Path.of(args[2]), teams());
 
         System.out.println(Vars.content.units().size + " " + Vars.content.blocks().size);
     }
@@ -203,6 +205,37 @@ public class ContentDump{
             if(Modifier.isStatic(field.getModifiers()) && field.get(null) == visibility) return field.getName();
         }
         return "unknown";
+    }
+
+    /**
+     * Шесть базовых команд с их цветами. Цвет команды виден в мире: им красится «ячейка»
+     * юнита поверх спрайта, и `sensor @color` отдаёт именно его.
+     */
+    static String teams(){
+        Json out = new Json();
+        out.string("gameVersion", VERSION);
+        out.string("source", "game/Team.java через ContentDump");
+        out.string("note", "Файл сгенерирован, править вручную нельзя.");
+
+        Json teams = new Json();
+
+        for(Team team : Team.baseTeams){
+            Json entry = new Json();
+
+            entry.number("id", team.id);
+            entry.string("color", "#" + team.color.toString().substring(0, 6));
+
+            List<String> palette = new ArrayList<>();
+            for(int i = 0; i < team.palette.length; i++){
+                palette.add("\"#" + team.palette[i].toString().substring(0, 6) + "\"");
+            }
+            entry.raw("palette", "[" + String.join(", ", palette) + "]");
+
+            teams.raw(team.name, entry.object());
+        }
+
+        out.raw("teams", teams.object());
+        return out.object();
     }
 
     static void write(Path path, String text) throws Exception{

@@ -1,0 +1,61 @@
+{
+  "gameVersion": "v159.7",
+  "source": "game/Team.java через ContentDump",
+  "note": "Файл сгенерирован, править вручную нельзя.",
+  "teams": {
+    "derelict": {
+      "id": 0,
+      "color": "#4d4e58",
+      "palette": [
+        "#4d4e58",
+        "#393a42",
+        "#26272c"
+      ]
+    },
+    "sharded": {
+      "id": 1,
+      "color": "#ffd37f",
+      "palette": [
+        "#ffd37f",
+        "#eab678",
+        "#d4816b"
+      ]
+    },
+    "crux": {
+      "id": 2,
+      "color": "#f25555",
+      "palette": [
+        "#fc8e6c",
+        "#f25555",
+        "#a04553"
+      ]
+    },
+    "malis": {
+      "id": 3,
+      "color": "#a27ce5",
+      "palette": [
+        "#c7a4f5",
+        "#896fd6",
+        "#504cba"
+      ]
+    },
+    "green": {
+      "id": 4,
+      "color": "#54d67d",
+      "palette": [
+        "#54d67d",
+        "#3fa05d",
+        "#2a6b3e"
+      ]
+    },
+    "blue": {
+      "id": 5,
+      "color": "#6c87fd",
+      "palette": [
+        "#6c87fd",
+        "#5165bd",
+        "#36437e"
+      ]
+    }
+  }
+}

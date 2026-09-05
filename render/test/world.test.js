@@ -7,6 +7,9 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 
 import {World} from '@mlog/core/src/world.js'
+import {UNIT_SPECS} from '@mlog/core/src/unit.js'
+import unitSprites from '@mlog/core/data/unit-sprites.json' with {type: 'json'}
+import teams from '@mlog/core/data/teams.json' with {type: 'json'}
 import pal from '@mlog/core/data/pal.json' with {type: 'json'}
 
 import {WorldView, TILE_UNITS, SPRITE_SCALE, PAL} from '../src/world.js'
@@ -68,4 +71,51 @@ test('цвета вида на мир взяты из палитры игры', 
     assert.equal(PAL.accent, pal.colors.accent)
     assert.equal(PAL.remove, pal.colors.remove)
     assert.equal(BACKGROUND, pal.colors.darkerMetal)
+})
+
+test('атлас юнитов держит корпус и накладку команды для каждого юнита', () => {
+    const bodies = Object.keys(unitSprites.sprites).filter(name => !name.endsWith('-cell'))
+
+    // У каждой накладки есть корпус: без него её не на что класть
+    for (const name of Object.keys(unitSprites.sprites)) {
+        if (!name.endsWith('-cell')) continue
+        assert.ok(unitSprites.sprites[name.slice(0, -5)] !== undefined, `${name} без корпуса`)
+    }
+
+    // Размеры не нулевые и не выходят за атлас
+    for (const [name, entry] of Object.entries(unitSprites.sprites)) {
+        assert.ok(entry.width > 0 && entry.height > 0, name)
+        assert.ok(entry.x + entry.width <= unitSprites.width, name)
+        assert.ok(entry.y + entry.height <= unitSprites.height, name)
+    }
+
+    // Юниты, которых водит песочница, в атласе есть обязательно
+    for (const name of ['poly', 'mono', 'dagger', 'flare']) {
+        assert.ok(bodies.includes(name), name)
+    }
+})
+
+test('цвет команды берётся из таблицы, а не из палитры интерфейса', () => {
+    const world = new World({width: 10, height: 10})
+    const it = new WorldView(fakeCanvas(), {world, tile: 32, teams})
+
+    assert.equal(it.teamColor(1), '#ffd37f', 'sharded')
+    assert.equal(it.teamColor(2), '#f25555', 'crux')
+    assert.equal(it.teamColor(0), '#4d4e58', 'derelict')
+})
+
+test('юнит занимает на холсте столько же, сколько в игре', () => {
+    const world = new World({width: 10, height: 10, content: null})
+    world.spawn('poly', {x: 1, y: 1})
+
+    const it = new WorldView(fakeCanvas(), {world, tile: 32, unitSprites})
+    const sprite = unitSprites.sprites.poly
+
+    // Draw.scl = 1/4: спрайт вчетверо крупнее мировых единиц, а на тайл их восемь.
+    // При 32 пикселях на тайл спрайт выходит один в один со своим разрешением
+    const expected = sprite.width / SPRITE_SCALE * it.unit
+    assert.equal(expected, sprite.width)
+
+    // И размер юнита в игре не равен спрайту: hitSize это коробка попаданий, она меньше
+    assert.ok(UNIT_SPECS.poly.hitSize * it.unit < expected)
 })

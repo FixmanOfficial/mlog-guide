@@ -17,7 +17,8 @@ import logicIds from '@mlog/core/data/logic-ids.json'
 export const content = createContent(logicIds)
 
 export function createScene() {
-    const world = new World({width: 20, height: 11})
+    // Контент миру нужен, чтобы `sensor @unit @type` отдавал @poly, а не строку
+    const world = new World({width: 20, height: 11, content})
 
     const display = world.add('logic-display', {x: 15, y: 7})
     const cell = world.add('memory-cell', {x: 4, y: 3})
@@ -25,13 +26,20 @@ export function createScene() {
     const toggle = world.add('switch', {x: 4, y: 8})
     const door = world.add('door', {x: 7, y: 8})
 
-    // Рисующий процессор стоит у дисплея, считающий — у памяти и тумблера
+    // Рисующий процессор стоит у дисплея, считающий — у памяти и тумблера,
+    // а пилот ни к чему не подключён: юнитам связи не нужны, их находит `ubind`
     const painter = world.add('logic-processor', {x: 11, y: 7})
     const counter = world.add('micro-processor', {x: 5, y: 5})
+    const pilot = world.add('micro-processor', {x: 1, y: 1})
+
+    // Два юнита разных типов: `ubind` выбирает по типу, и один процессор водит обоих
+    world.spawn('poly', {x: 4, y: 1})
+    world.spawn('mono', {x: 12, y: 9})
 
     const processors = [
         {building: painter, links: [display, cell]},
-        {building: counter, links: [cell, message, toggle, door]}
+        {building: counter, links: [cell, message, toggle, door]},
+        {building: pilot, links: []}
     ]
 
     return {world, display, cell, message, toggle, door, processors}
@@ -49,7 +57,11 @@ export function attachProcessor(scene, entry, code) {
         world: scene.world,
         content,
         globals: content.globals,
-        ipt: entry.building.spec.ipt
+        ipt: entry.building.spec.ipt,
+
+        // Своё здание и команда нужны `ucontrol`: он записывает юниту, кто им командует
+        building: entry.building,
+        team: entry.building.team
     })
 
     entry.building.processor = processor

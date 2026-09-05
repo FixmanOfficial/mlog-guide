@@ -48,6 +48,7 @@ export class WorldView {
     constructor(canvas, {
         world, tile = 32,
         blocks = null, blockSprites = null,
+        units = null, unitSprites = null, teams = null,
         atlas = null, sprites = null,
         displays = new Map(), font = 'MlogUi'
     } = {}) {
@@ -56,6 +57,9 @@ export class WorldView {
         this.tile = tile
         this.blocks = blocks
         this.blockSprites = blockSprites
+        this.units = units
+        this.unitSprites = unitSprites
+        this.teams = teams
         this.atlas = atlas
         this.sprites = sprites
         this.displays = displays
@@ -112,6 +116,9 @@ export class WorldView {
 
         this.drawGrid()
         for (const building of this.world.buildings) this.drawBuilding(building)
+
+        // Юниты идут поверх зданий: в игре у них слой 60 против 30 у блоков
+        for (const unit of this.world.units ?? []) this.drawUnit(unit)
 
         if (configured !== null) {
             this.drawLinks(configured)
@@ -189,6 +196,59 @@ export class WorldView {
             const screen = building.spec.displaySize * SCALE_FACTOR / SPRITE_SCALE * this.unit
             context.drawImage(picture, cx - screen / 2, cy - screen / 2, screen, screen)
         }
+    }
+
+    /**
+     * Юнит: корпус и поверх него «ячейка» цветом команды.
+     *
+     * `UnitType.draw` рисует спрайт под углом `rotation - 90`: в игре угол отсчитывается против
+     * часовой от оси X, а спрайт нарисован смотрящим вверх. Ось Y холста смотрит вниз, поэтому
+     * тот же поворот здесь берётся с обратным знаком.
+     *
+     * Ног, гусениц и огня двигателей нет — они рисуются отдельными спрайтами по фазе шага.
+     */
+    drawUnit(unit) {
+        const sprite = this.unitSprite(unit.type)
+        if (sprite === null) return
+
+        const step = this.tile * this.ratio
+        const cx = unit.x / TILE_UNITS * step
+        const cy = (this.world.height - unit.y / TILE_UNITS) * step
+
+        const width = sprite.width / SPRITE_SCALE * this.unit
+        const height = sprite.height / SPRITE_SCALE * this.unit
+
+        const context = this.context
+
+        context.save()
+        context.translate(cx, cy)
+        context.rotate(-(unit.rotation - 90) * Math.PI / 180)
+        context.drawImage(sprite.image, -width / 2, -height / 2, width, height)
+
+        const cell = this.unitSprite(`${unit.type}-cell`, this.teamColor(unit.team))
+        if (cell !== null) context.drawImage(cell.image, -width / 2, -height / 2, width, height)
+
+        context.restore()
+    }
+
+    /** Цвет команды. Им красится ячейка юнита, и его же отдаёт `sensor @color`. */
+    teamColor(id) {
+        const found = Object.values(this.teams?.teams ?? {}).find(team => team.id === id)
+        return found?.color ?? PAL.accent
+    }
+
+    /**
+     * Спрайт юнита из атласа. С цветом — вырезанное перекрашивается целиком, как `Draw.color`
+     * перед `Draw.rect`: у ячейки собственный рисунок это маска, а не картинка.
+     */
+    unitSprite(name, color = null) {
+        const entry = this.unitSprites?.sprites?.[name]
+        if (entry === undefined || this.units === null) return null
+
+        const key = color === null ? `unit:${name}` : `unit:${name}:${color}`
+        const image = this.cut(key, this.units, entry.x, entry.y, entry.width, entry.height, color)
+
+        return image === null ? null : {image, width: entry.width, height: entry.height}
     }
 
     /**
@@ -307,19 +367,26 @@ export class WorldView {
      * картинку браузер молча отказывается. Отсюда пара условий: `complete` про загрузку,
      * ширина про то, что картинка не битая.
      */
-    cut(key, image, x, y, size) {
+    cut(key, image, x, y, width, height = width, color = null) {
         if (!image.complete || !(image.naturalWidth > 0)) return null
 
         const cached = this.icons.get(key)
         if (cached !== undefined) return cached
 
         const canvas = document.createElement('canvas')
-        canvas.width = size
-        canvas.height = size
+        canvas.width = width
+        canvas.height = height
 
         const context = canvas.getContext('2d')
         context.imageSmoothingEnabled = false
-        context.drawImage(image, x, y, size, size, 0, 0, size, size)
+        context.drawImage(image, x, y, width, height, 0, 0, width, height)
+
+        // Перекраска целиком, с сохранением прозрачности: рисунок ячейки — маска
+        if (color !== null) {
+            context.globalCompositeOperation = 'source-in'
+            context.fillStyle = color
+            context.fillRect(0, 0, width, height)
+        }
 
         this.icons.set(key, canvas)
         return canvas

@@ -18,13 +18,16 @@ import {WorldView} from '@mlog/render/src/world.js'
 // ?url обязателен: без него Astro пропускает картинку через свой конвейер и отдаёт объект
 import atlasUrl from '@mlog/editor/assets/content.png?url'
 import blocksUrl from '@mlog/render/assets/blocks.png?url'
+import unitsUrl from '@mlog/render/assets/units.png?url'
 import logicFontUrl from '@mlog/render/assets/logic.ttf'
 import sprites from '@mlog/core/data/sprites.json'
 import blockSprites from '@mlog/core/data/block-sprites.json'
+import unitSprites from '@mlog/core/data/unit-sprites.json'
+import teams from '@mlog/core/data/teams.json'
 
 import {createScene, attachProcessor} from './scene.js'
 import {MessageDialog, MemoryDialog} from './BlockDialogs.jsx'
-import {PAINTER, COUNTER} from './programs.js'
+import {PAINTER, COUNTER, PILOT} from './programs.js'
 import {Variables} from './Variables.jsx'
 
 /** Тайл мира в пикселях. Всё остальное рендер считает от него сам. */
@@ -112,6 +115,7 @@ export function Sandbox() {
 
         scene.processors[0].program = PAINTER
         scene.processors[1].program = COUNTER
+        scene.processors[2].program = PILOT
         for (const entry of scene.processors) attachProcessor(scene, entry, toText(entry.program))
 
         const atlas = new Image()
@@ -120,6 +124,9 @@ export function Sandbox() {
         // Блоки рисуются своим атласом: там они в родном разрешении и не расплываются
         const blocks = new Image()
         blocks.src = blocksUrl
+
+        const units = new Image()
+        units.src = unitsUrl
 
         const displayView = new DisplayView(displayCanvas.current, {
             size: scene.display.spec.displaySize,
@@ -133,6 +140,9 @@ export function Sandbox() {
             tile: TILE,
             blocks,
             blockSprites,
+            units,
+            unitSprites,
+            teams,
             atlas,
             sprites,
             font: 'Mindustry',
@@ -154,6 +164,7 @@ export function Sandbox() {
         // и тогда события не будет вовсе — а мир останется без иконок до первого кадра
         atlas.decode().then(first, () => {})
         blocks.decode().then(first, () => {})
+        units.decode().then(first, () => {})
         font.load().then(first, () => {})
         first()
         setReady(true)
