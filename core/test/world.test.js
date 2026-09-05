@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 
-import {World, DOOR_TOGGLE_DELAY, BLOCK_SPECS} from '../src/world.js'
+import {World, DOOR_TOGGLE_DELAY, DOOR_TAP_DELAY, BLOCK_SPECS} from '../src/world.js'
 import {Processor} from '../src/vm.js'
 
 /** Собирает мир с набором блоков и процессор, подключённый ко всем сразу. */
@@ -345,4 +345,20 @@ test('правка сообщения руками строже, чем printflu
 
     message.setMessage('  без обрезки  ')
     assert.equal(message.message, '  без обрезки  ')
+})
+
+test('дверь открывается рукой, и порог у щелчка свой', () => {
+    // Door.tapped: 60 тиков, тогда как логика через control ждёт 80. Door.java:98,149
+    const world = new World()
+    const door = world.add('door')
+
+    assert.equal(door.tap(), true)
+    assert.equal(door.sense('enabled'), 1)
+
+    // Сразу второй раз не переключить
+    assert.equal(door.tap(), false)
+
+    world.steps(DOOR_TAP_DELAY)
+    assert.equal(door.tap(), true)
+    assert.equal(door.sense('enabled'), 0)
 })

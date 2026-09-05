@@ -4,7 +4,7 @@
   "note": "Файл сгенерирован, править вручную нельзя. Спрайты лежат в своём разрешении: сторона блока в тайлах, умноженная на 32.",
   "atlas": "render/assets/blocks.png",
   "width": 256,
-  "height": 352,
+  "height": 384,
   "sprites": {
     "large-logic-display": {
       "x": 0,
@@ -46,19 +46,24 @@
       "y": 288,
       "size": 32
     },
-    "door": {
+    "door-open": {
       "x": 160,
       "y": 288,
       "size": 32
     },
-    "micro-processor": {
+    "door": {
       "x": 192,
       "y": 288,
       "size": 32
     },
-    "memory-cell": {
+    "micro-processor": {
       "x": 224,
       "y": 288,
+      "size": 32
+    },
+    "memory-cell": {
+      "x": 0,
+      "y": 352,
       "size": 32
     }
   }

@@ -58,8 +58,9 @@ function main() {
     const found = []
 
     // Кроме основного спрайта, у некоторых блоков есть вариант состояния: у тумблера
-    // `switch-on` рисуется поверх, когда он включён (`SwitchBlock.draw`)
-    const variants = {switch: ['switch-on']}
+    // `switch-on` рисуется поверх включённого (`SwitchBlock.draw`), а открытая дверь
+    // рисуется целиком другим спрайтом (`Door.draw`)
+    const variants = {switch: ['switch-on'], door: ['door-open']}
 
     for (const [type, spec] of Object.entries(BLOCK_SPECS)) {
         for (const variant of variants[type] ?? []) {

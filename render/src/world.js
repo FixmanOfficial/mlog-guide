@@ -162,7 +162,9 @@ export class WorldView {
         const side = building.size * this.tile * this.ratio
         const context = this.context
 
-        const icon = this.sprite(building.type)
+        // Открытая дверь рисуется своим спрайтом целиком, а не поверх закрытой. Door.draw
+        const open = building.type === 'door' && building.open
+        const icon = this.sprite(open ? 'door-open' : building.type)
 
         if (icon === null) {
             // Блока нет в атласе — рисуем заглушкой, чтобы он всё равно был виден
@@ -194,6 +196,13 @@ export class WorldView {
      * вокруг каждого подключённого здания, и над ней — имя связи.
      */
     drawLinks(building) {
+        /*
+         * Круг дальности и рамки связей рисует `LogicBlock.drawConfigure` — то есть только
+         * процессор. У сообщения и ячейки памяти своей настройки в игре нет, а базовый
+         * `Building.drawConfigure` умеет ровно одно: обвести блок квадратом.
+         */
+        if (building.processor === undefined) return
+
         const [px, py] = this.place(building)
         // Дальность приходит из спеки блока: она снята генератором вместе с размером
         const range = (building.spec.range ?? DEFAULT_RANGE) * this.unit
@@ -201,8 +210,7 @@ export class WorldView {
         // Drawf.circles: окружность из отрезков, тёмная подложка толщиной 3 и цвет толщиной 1
         this.circles(px, py, range, PAL.accent)
 
-        // Связи держит не здание, а сам процессор: страница вешает его на здание сама
-        for (const link of building.processor?.links ?? []) {
+        for (const link of building.processor.links) {
             const [lx, ly] = this.place(link)
             const radius = (link.size * TILE_UNITS / 2 + 1) * this.unit
 

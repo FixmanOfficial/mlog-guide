@@ -33,8 +33,11 @@ export const MAX_MESSAGE_NEWLINES = 24
 /** LExecutor.maxDisplayBuffer */
 export const MAX_DISPLAY_BUFFER = 1024
 
-/** Door.timerToggle: дверь не переключается чаще, чем раз в 80 тиков. */
+/** Door: логика переключает дверь не чаще раза в 80 тиков. Door.java:98 */
 export const DOOR_TOGGLE_DELAY = 80
+
+/** А рукой — не чаще раза в 60. У `tapped` свой порог, меньше. Door.java:149 */
+export const DOOR_TAP_DELAY = 60
 
 /**
  * Здание. Разделение sense и senseObject повторяет Senseable: сначала спрашивают объект,
@@ -291,6 +294,19 @@ export class DoorBuilding extends Building {
         if (this.world.tick - this.lastToggle < DOOR_TOGGLE_DELAY) return false
 
         this.open = shouldOpen
+        this.lastToggle = this.world.tick
+        return true
+    }
+
+    /**
+     * Щелчок рукой. `Door.tapped` переключает дверь напрямую, и порог у него свой — 60 тиков
+     * вместо 80. Открытую дверь, под которой стоят юниты, закрыть нельзя; юнитов у нас пока
+     * нет, поэтому от той проверки остался только таймер.
+     */
+    tap() {
+        if (this.world.tick - this.lastToggle < DOOR_TAP_DELAY) return false
+
+        this.open = !this.open
         this.lastToggle = this.world.tick
         return true
     }

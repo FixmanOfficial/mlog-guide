@@ -79,7 +79,9 @@
 | --- | --- | --- |
 | Неизвестное свойство в `sense` возвращает `NaN`, а не 0 | `world/Block.java:1671` | ✓ `world.test.js` |
 | Каждое здание переопределяет 1–4 свойства, остальное падает в базовую реализацию | `world/blocks/logic/*.java` | — |
-| `control` не всегда мгновенный: у двери таймер `timerToggle` 80 тиков и отказ, если под ней есть юниты | `world/blocks/defense/Door.java` | ✓ `world.test.js` |
+| `control` не всегда мгновенный: у двери таймер `timerToggle` 80 тиков и отказ, если под ней есть юниты | `world/blocks/defense/Door.java:98` | ✓ `world.test.js` |
+| **У щелчка по двери свой порог — 60 тиков**, а не 80: `tapped` и `control` идут разными путями и делят один таймер | `world/blocks/defense/Door.java:149` | ✓ `world.test.js` |
+| Круг дальности и рамки связей рисует `LogicBlock.drawConfigure`, а не всякий настраиваемый блок: у прочих от настройки остаётся только квадрат из `Building.drawConfigure` | `LogicBlock.drawConfigure`, `BuildingComp:1733` | — |
 | Буферы ограничены: графика 256 команд, дисплей 1024, текст 400 символов | `LExecutor.java:44-46` | ✓ `world.test.js` |
 | Чтение за границей памяти даёт **NaN, а не ноль** — и потому превращается в объект null. Запись за границей молча игнорируется | `world/blocks/logic/MemoryBlock.java` | ✓ `world.test.js` |
 | Размеры: `memory-cell` 64 ячейки, `memory-bank` 512, `logic-display` 80 точек, `large-logic-display` 176, сообщение 400 символов | `content/Blocks.java:6875-6896`, `MessageBlock.java:29` | ✓ `world.test.js` |

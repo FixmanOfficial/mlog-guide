@@ -304,9 +304,17 @@ export function Sandbox() {
             return
         }
 
-        // SwitchBlock.configTapped: щелчок по тумблеру сразу его переключает
+        // SwitchBlock.configTapped и Door.tapped: щелчок переключает их сразу, без ряда кнопок.
+        // У двери при этом свой порог — 60 тиков вместо 80 у логики
         if (building === scene.toggle) {
             building.enabled = !building.enabled
+            hideConfig()
+            worldView.draw({configured: null})
+            return
+        }
+
+        if (building === scene.door) {
+            building.tap()
             hideConfig()
             worldView.draw({configured: null})
             return
