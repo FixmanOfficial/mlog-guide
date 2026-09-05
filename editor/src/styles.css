@@ -498,29 +498,34 @@
 
 .content-popup__tabs {
     display: flex;
-    gap: 2px;
-    margin-bottom: 4px;
+    width: 240px;
 }
 
-/* Вкладки — иконки, кнопка со стилем squareTogglei: выбранная подсвечена рамкой */
+/*
+ * Вкладки растянуты по ширине без зазоров: в игре у кнопки .height(50f).growX(),
+ * то есть четыре штуки поровну делят 240 пикселей стопки. SensorStatement.build
+ *
+ * Обычное состояние у squareTogglei — чёрное, наведение — #454545 (flatOver),
+ * выбранное — девятипатч flat-down-base: рамка Pal.accent толщиной 4 на чёрном.
+ */
 .content-popup__tab {
-    width: 60px;
-    height: 44px;
+    flex: 1;
+    height: 50px;
     display: grid;
     place-items: center;
-    border: 2px solid transparent;
-    background: transparent;
+    border: 4px solid transparent;
+    background: #000;
     color: #fff;
     cursor: pointer;
 }
 
 .content-popup__tab:hover {
-    background: rgba(255, 255, 255, 0.12);
+    background: #454545;
 }
 
 .content-popup__tab--current {
     border-color: #ffd37f;
-    background: rgba(255, 211, 127, 0.15);
+    background: #000;
 }
 
 /* Шесть в ряд, ячейка 40 — как в игре */
@@ -586,4 +591,35 @@
     background: rgba(255, 255, 255, 0.08);
     color: #9a9a9a;
     font-size: 11px;
+}
+
+/*
+ * Полоса прокрутки. Спрайты игры: дорожка scroll.9 — чёрная с прозрачностью 0.6,
+ * ползунок scroll-knob-vertical-black — сплошной #454545 шириной 24. Скруглений нет.
+ */
+.content-popup__list,
+.content-popup__grid,
+.popup {
+    scrollbar-width: auto;
+    scrollbar-color: #454545 rgba(0, 0, 0, 0.6);
+}
+
+.content-popup__list::-webkit-scrollbar,
+.content-popup__grid::-webkit-scrollbar,
+.popup::-webkit-scrollbar {
+    width: 24px;
+}
+
+.content-popup__list::-webkit-scrollbar-track,
+.content-popup__grid::-webkit-scrollbar-track,
+.popup::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.content-popup__list::-webkit-scrollbar-thumb,
+.content-popup__grid::-webkit-scrollbar-thumb,
+.popup::-webkit-scrollbar-thumb {
+    background: #454545;
+    border: none;
+    border-radius: 0;
 }
