@@ -22,7 +22,7 @@ import {JumpNode} from './JumpNode.jsx'
 export function StatementRow({
     statement,
     full = false, index, statements, onParam, onAdd, onCopy, onRemove,
-    onDragStart, onPickTarget, dragging, selecting
+    onDragStart, onPickTarget, dragging, selecting, next = false
 }) {
     const definition = INSTRUCTIONS.get(statement.opcode)
     const color = categoryColor(definition.category)
@@ -36,7 +36,7 @@ export function StatementRow({
 
     return (
         <div
-            class={`statement${dragging ? ' statement--dragging' : ''}`}
+            class={`statement${next ? ' statement--next' : ''}${dragging ? ' statement--dragging' : ''}`}
             style={{'--category': color, '--header-text': headerTextColor(definition.category)}}
         >
             <div class="statement__header" onPointerDown={onDragStart}>

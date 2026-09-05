@@ -12,11 +12,15 @@ import {METRICS} from './theme.js'
  * Держит список инструкций и отдаёт текст mlog наружу через onChange. Про виртуальную машину
  * не знает ничего: её запускает страница, получив текст.
  *
+ * `counter` — номер строки, которую процессор выполнит следующей. В игре такого нет: там
+ * программа не подсвечивается вовсе. Нам это нужно для пошагового разбора, поэтому подсветка
+ * своя и намеренно неяркая, чтобы её не приняли за часть игры.
+ *
  * Перетаскивание устроено как в `LCanvas.DragLayout`: строка следует за указателем, место
  * вставки считается по координате — сколько прочих строк осталось выше, — а остальные
  * расступаются. Перестановка «по наведению» промахивалась при быстром движении мыши.
  */
-export function Editor({initial = [], onChange}) {
+export function Editor({initial = [], onChange, counter = null}) {
     const [statements, setStatements] = useState(initial)
     const [adding, setAdding] = useState(null)
     const [selecting, setSelecting] = useState(null)
@@ -136,6 +140,7 @@ export function Editor({initial = [], onChange}) {
                             statements={statements}
                             index={index}
                             dragging={drag?.index === index}
+                            next={counter === index}
                             selecting={selecting === statement.id}
                             full={full}
                             onDragStart={onDragStart(index)}

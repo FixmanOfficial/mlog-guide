@@ -17,7 +17,7 @@ import {fromText, toText} from './program.js'
  * Заголовок — имя связи процессора, как оно подписано в мире: игрок должен понимать,
  * какой из процессоров правит.
  */
-export function LogicDialog({title, initial, onChange, onRestart, onClose}) {
+export function LogicDialog({title, initial, onChange, onRestart, onClose, counter = null}) {
     const [program, setProgram] = useState(initial)
     const [editing, setEditing] = useState(false)
 
@@ -38,6 +38,7 @@ export function LogicDialog({title, initial, onChange, onRestart, onClose}) {
                 <div class="logic-dialog__canvas">
                     <Editor
                         key={version}
+                        counter={counter}
                         initial={program}
                         onChange={(text, statements) => {
                             setProgram(statements)

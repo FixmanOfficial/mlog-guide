@@ -47,6 +47,18 @@ const VARS_PERIOD = 15
  */
 const MAX_DELTA = 4
 
+/**
+ * Номер строки, которую процессор выполнит следующей.
+ *
+ * Счётчик увеличивается ДО запуска инструкции, поэтому на паузе он показывает именно
+ * следующую, а не только что отработавшую. Выход за границы программы возвращает к нулю —
+ * так же, как это делает сама машина на следующем шаге.
+ */
+function nextIndex(processor) {
+    const value = Math.trunc(processor.counter.numval)
+    return value >= 0 && value < processor.instructions.length ? value : 0
+}
+
 /** Подпись скорости: степень двойки от 1/256 до 256. */
 const speedLabel = (power) => power >= 0 ? `×${2 ** power}` : `×1/${2 ** -power}`
 
@@ -437,6 +449,7 @@ export function Sandbox() {
                     title={editingEntry.building.name}
                     initial={editingEntry.program}
                     onChange={rebuild(editingEntry)}
+                    counter={nextIndex(editingEntry.building.processor)}
                     onRestart={() => {
                         editingEntry.building.processor.reset()
                         redraw()
