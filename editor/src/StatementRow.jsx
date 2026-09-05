@@ -22,7 +22,7 @@ import {JumpNode} from './JumpNode.jsx'
 export function StatementRow({
     statement,
     full = false, index, statements, onParam, onAdd, onCopy, onRemove,
-    onDragStart, onPickTarget, dragging, selecting, next = false
+    onDragStart, onPickTarget, dragging, selecting, hovered = false, next = false
 }) {
     const definition = INSTRUCTIONS.get(statement.opcode)
     const color = categoryColor(definition.category)
@@ -36,7 +36,7 @@ export function StatementRow({
 
     return (
         <div
-            class={`statement${next ? ' statement--next' : ''}${dragging ? ' statement--dragging' : ''}`}
+            class={`statement${next ? ' statement--next' : ''}${hovered ? ' statement--hovered' : ''}${dragging ? ' statement--dragging' : ''}`}
             style={{'--category': color, '--header-text': headerTextColor(definition.category)}}
         >
             <div class="statement__header" onPointerDown={onDragStart}>
@@ -68,8 +68,8 @@ export function StatementRow({
                         <span class="statement__spacer" />
                         <button
                             class={`jump-target${selecting ? ' jump-target--active' : ''}`}
-                            title="Выбрать, куда прыгать"
-                            onClick={onPickTarget}
+                            title="Перетащить на строку, куда прыгать"
+                            onPointerDown={onPickTarget}
                         >
                             <JumpNode />
                         </button>

@@ -11,8 +11,11 @@ import {NODE, nodePoints} from './JumpNode.jsx'
  * Геометрию считает jumps.js — здесь только измерение строк и отрисовка. Рисуем в SVG,
  * а не отдельными узлами на стрелку: линий бывает много, и каждая лишняя обёртка в DOM
  * стоит дороже, чем весь путь целиком.
+ *
+ * Пока цель перехода выбирают, стрелка тянется к строке под курсором: в игре `JumpCurve.act`
+ * берёт `canvas.hovered`, если цель ещё не задана. Отпустили мимо строк — цели нет.
  */
-export function JumpArrows({statements, containerRef}) {
+export function JumpArrows({statements, containerRef, selecting = null, hovered = null}) {
     const [rows, setRows] = useState([])
 
     useLayoutEffect(() => {
@@ -62,12 +65,19 @@ export function JumpArrows({statements, containerRef}) {
 
     if (rows.centers === undefined || rows.centers.length === 0) return null
 
+    const selectingIndex = selecting === null
+        ? -1
+        : statements.findIndex(statement => statement.id === selecting)
+
     const jumps = assignLanes(statements
         .map((statement, index) => ({
             from: index,
-            to: statement.opcode === 'jump' ? targetIndex(statements, statement) : -1
+            // Выбираемый переход тянется к строке под курсором, а не к своей цели
+            to: index === selectingIndex
+                ? (hovered ?? -1)
+                : statement.opcode === 'jump' ? targetIndex(statements, statement) : -1
         }))
-        .filter(jump => Number.isInteger(jump.to) && jump.to < statements.length))
+        .filter(jump => Number.isInteger(jump.to) && jump.to >= 0 && jump.to < statements.length))
 
     if (jumps.length === 0) return null
 

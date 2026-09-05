@@ -683,9 +683,13 @@
 }
 
 /* Пока выбирают цель, строки подсвечиваются под курсором */
-.editor__list--selecting .statement:hover {
-    outline-color: #6335f8;
-    cursor: pointer;
+/*
+ * Строка под курсором, пока тянут цель перехода. В игре её берёт `canvas.hovered`,
+ * и стрелка на лету тянется именно к ней.
+ */
+.statement--hovered {
+    outline: 2px solid #6335f8;
+    outline-offset: 2px;
 }
 
 /*

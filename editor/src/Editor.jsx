@@ -28,6 +28,7 @@ export function Editor({initial = [], onChange, counter = null, addOpen = false,
     const [statements, setStatements] = useState(initial)
     const [adding, setAdding] = useState(null)
     const [selecting, setSelecting] = useState(null)
+    const [hovered, setHovered] = useState(null)
 
     // Тащимая строка: откуда взяли, куда встанет и на сколько сдвинута от исходного места
     const [drag, setDrag] = useState(null)
@@ -74,10 +75,15 @@ export function Editor({initial = [], onChange, counter = null, addOpen = false,
         }
 
         setDrag({index, insert: index, offset: 0, height: box.height})
-        event.currentTarget.setPointerCapture?.(event.pointerId)
+        capture(event)
     }
 
     const onPointerMove = (event) => {
+        if (selecting !== null) {
+            setHovered(rowUnder(event))
+            return
+        }
+
         const state = dragState.current
         if (state === null) return
 
@@ -100,7 +106,12 @@ export function Editor({initial = [], onChange, counter = null, addOpen = false,
         scrollNearEdge(listRef.current, event.clientY)
     }
 
-    const onPointerUp = () => {
+    const onPointerUp = (event) => {
+        if (selecting !== null) {
+            finishTarget(event)
+            return
+        }
+
         const state = dragState.current
         if (state === null) return
 
@@ -113,13 +124,41 @@ export function Editor({initial = [], onChange, counter = null, addOpen = false,
     }
 
     /**
-     * Выбор цели перехода в два касания: сначала стрелка на переходе, потом строка-цель.
-     * В игре это перетаскивание за ту же кнопку, но по клику попасть проще, а результат тот же.
+     * Цель перехода выбирается перетаскиванием узла на строку — `LCanvas.JumpButton`.
+     *
+     * Нажатие сразу снимает старую цель (`setter.get(null)` в `touchDown`), пока тащат, стрелка
+     * тянется к строке под курсором, а отпускание мимо строк оставляет переход без цели.
+     * На свою же строку указать нельзя: в игре это проверка `!isDescendantOf(elem)`.
      */
-    const onRowClick = (statement) => () => {
-        if (selecting === null || selecting === statement.id) return
-        update(operations.setTarget(statements, selecting, statement.id))
+    const onPickTarget = (statement) => (event) => {
+        update(operations.setTarget(statements, statement.id, null))
+        setSelecting(statement.id)
+        setHovered(null)
+        capture(event)
+        event.stopPropagation()
+    }
+
+    const rowUnder = (event) => {
+        const rows = [...listRef.current.querySelectorAll('.statement')]
+        const index = rows.findIndex(row => {
+            const box = row.getBoundingClientRect()
+            return event.clientY >= box.top && event.clientY <= box.bottom
+                && event.clientX >= box.left && event.clientX <= box.right
+        })
+
+        return index === -1 ? null : index
+    }
+
+    const finishTarget = (event) => {
+        const index = rowUnder(event)
+        const own = statements.findIndex(statement => statement.id === selecting)
+
+        if (index !== null && index !== own) {
+            update(operations.setTarget(statements, selecting, statements[index].id))
+        }
+
         setSelecting(null)
+        setHovered(null)
     }
 
     // Строка, которую тащат, следует за указателем; на её месте остаётся пустота
@@ -147,7 +186,6 @@ export function Editor({initial = [], onChange, counter = null, addOpen = false,
                         style={index === drag?.index
                             ? {transform: `translateY(${drag.offset}px)`, zIndex: 5, position: 'relative'}
                             : {transform: shift(index)}}
-                        onClick={onRowClick(statement)}
                     >
                         <StatementRow
                             statement={statement}
@@ -156,10 +194,10 @@ export function Editor({initial = [], onChange, counter = null, addOpen = false,
                             dragging={drag?.index === index}
                             next={counter === index}
                             selecting={selecting === statement.id}
+                            hovered={selecting !== null && hovered === index}
                             full={full}
                             onDragStart={onDragStart(index)}
-                            onPickTarget={() =>
-                                setSelecting(selecting === statement.id ? null : statement.id)}
+                            onPickTarget={onPickTarget(statement)}
                             onParam={(name, value) =>
                                 update(operations.setParam(statements, statement.id, name, value))}
                             onAdd={() => setAdding(index + 1)}
@@ -168,7 +206,12 @@ export function Editor({initial = [], onChange, counter = null, addOpen = false,
                         />
                     </div>
                 ))}
-                <JumpArrows statements={statements} containerRef={listRef} />
+                <JumpArrows
+                    statements={statements}
+                    containerRef={listRef}
+                    selecting={selecting}
+                    hovered={hovered}
+                />
             </div>
 
             {adding !== null && (
@@ -179,6 +222,18 @@ export function Editor({initial = [], onChange, counter = null, addOpen = false,
             )}
         </div>
     )
+}
+
+/**
+ * Захват указателя, чтобы движение доходило даже за пределами кнопки. Не всякий указатель
+ * это умеет, а падать из-за такого нельзя — отсюда try.
+ */
+function capture(event) {
+    try {
+        event.currentTarget.setPointerCapture?.(event.pointerId)
+    } catch {
+        // указателя с таким номером уже нет: тащить всё равно можно
+    }
 }
 
 /**
