@@ -3,16 +3,33 @@
  * и панели, которых в игре нет: таблица переменных, сообщение, кнопки прогона.
  */
 
+/*
+ * Ширина колонки редактора — 900, как `LCanvas.targetWidth` в игре. Меньше нельзя: при 400
+ * игра сама переключается на узкую раскладку, где поля инструкции идут в столбик.
+ * Starlight ограничивает статью, поэтому страницу с песочницей расширяем отдельно.
+ */
+.sl-markdown-content:has(.sandbox),
+.content-panel:has(.sandbox),
+.main-pane:has(.sandbox) .sl-container {
+    max-width: none;
+}
+
 .sandbox {
     display: grid;
-    grid-template-columns: minmax(0, 420px) minmax(0, 1fr);
-    gap: 16px;
+    grid-template-columns: minmax(0, 916px) minmax(0, 1fr);
+    gap: 24px;
     align-items: start;
     font-family: 'Mindustry', system-ui, sans-serif;
 }
 
+@media (max-width: 1500px) {
+    .sandbox {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
 .sandbox__editor {
-    max-height: 80vh;
+    max-height: 82vh;
     overflow: auto;
 }
 

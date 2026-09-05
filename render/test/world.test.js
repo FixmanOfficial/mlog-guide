@@ -48,3 +48,11 @@ test('картинка дисплея меньше самого блока', () 
     assert.equal(screen, 20)
     assert.ok(screen < display.size * TILE_UNITS)
 })
+
+test('блок с чётной стороной рисуется по углу тайла', () => {
+    // Block.offset: центр смещается на половину тайла, иначе блок 2 на 2 не ложится на сетку
+    const world = new World({width: 10, height: 10})
+    const processor = world.add('logic-processor', {x: 4, y: 4})
+
+    assert.deepEqual(view(world).place(processor), [4 * 32 + 32, 320 - (4 * 32 + 32)])
+})

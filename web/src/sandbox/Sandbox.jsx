@@ -23,8 +23,12 @@ import {Variables} from './Variables.jsx'
 /** Тайл мира в пикселях. Всё остальное рендер считает от него сам. */
 const TILE = 40
 
-/** Сколько тиков проходит между обновлениями таблицы переменных. LogicDialog: period 15 */
-const VARS_PERIOD = 15
+/*
+ * Таблица переменных обновляется каждый кадр, хотя в игре — раз в 15 тиков (`LogicDialog`).
+ * Расхождение осознанное: там это модальное окно, у нас таблица всё время на виду. К тому же
+ * редкая выборка врёт: программа из 12 инструкций при 8 за тик возвращает счётчик в одно и то же
+ * место каждые 15 тиков, и @counter выглядит застывшим, хотя он бежит.
+ */
 
 const withParams = (opcode, params) => {
     const statement = createStatement(opcode)
@@ -94,7 +98,9 @@ export function Sandbox() {
             worldView.draw({selected: scene.processorBuilding})
         }
 
-        atlas.addEventListener('load', redraw)
+        // decode вместо события load: картинка из кеша успевает загрузиться раньше подписки,
+        // и тогда события не будет вовсе — а мир останется без иконок до первого кадра
+        atlas.decode().then(redraw, () => {})
         font.load().then(redraw, () => {})
         redraw()
         setReady(true)
@@ -113,7 +119,7 @@ export function Sandbox() {
             displayView.draw(scene.display)
             worldView.draw({selected: scene.processorBuilding})
 
-            if (scene.world.tick % VARS_PERIOD < speed) setBeat(scene.world.tick)
+            setBeat(scene.world.tick)
 
             frame = requestAnimationFrame(step)
         }
@@ -187,8 +193,10 @@ export function Sandbox() {
     const message = stand.current?.scene.message.message ?? ''
     const tick = stand.current?.scene.world.tick ?? 0
 
+    // not-content — метка Starlight: внутри неё статья не навязывает свои отступы и стили,
+    // а интерфейсу редактора они ломают раскладку
     return (
-        <div class="sandbox" data-beat={beat}>
+        <div class="sandbox not-content" data-beat={beat}>
             <div class="sandbox__editor">
                 <Editor initial={STARTER} onChange={rebuild} />
             </div>

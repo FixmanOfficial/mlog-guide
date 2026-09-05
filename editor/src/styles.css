@@ -247,48 +247,125 @@
     cursor: pointer;
 }
 
+/*
+ * Диалог добавления инструкции. Рамки у него нет вовсе: `Styles.defaultDialog` берёт фоном
+ * `window-empty.9.png`, а он полностью прозрачный. Видимое — затемнение позади (`black9`),
+ * заголовок цветом `Pal.accent` и таблица содержимого с фоном `Tex.button`.
+ */
 .overlay {
     position: fixed;
     inset: 0;
     display: grid;
     place-items: center;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 20;
 }
 
 .dialog {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     width: min(900px, 92vw);
-    max-height: 82vh;
-    overflow: auto;
-    background: var(--panel, #2b2b2f);
+    max-height: 88vh;
     color: var(--text, #e6e6e6);
-    border: 2px solid #000;
     font-family: 'Mindustry', system-ui, sans-serif;
     font-size: 14px;
 }
 
-.dialog__header {
+/* Styles.defaultDialog: titleFontColor = Pal.accent */
+.dialog__title {
+    text-align: center;
+    color: #ffd37f;
+    font-size: 18px;
+}
+
+/* Tex.button: рамка 4 пикселя #454545, внутри сплошной чёрный */
+.dialog__body {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: auto;
+    background: #000;
+    border: 4px solid #454545;
+    padding: 10px;
+}
+
+/* Поиск с лупой: он получает фокус сразу, а Enter добавляет первое совпадение */
+.dialog__search {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 8px 10px;
+    gap: 8px;
+    padding-bottom: 4px;
+}
+
+.dialog__field {
+    flex: 1;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid #454545;
+    color: var(--text, #e6e6e6);
+    font: inherit;
+    padding: 4px 2px;
+}
+
+.dialog__field:focus {
+    outline: none;
+    border-bottom-color: #ffd37f;
+}
+
+.dialog__empty {
+    color: #4d4d4d;
+    padding: 10px 0;
+}
+
+.dialog__buttons {
+    display: flex;
+    justify-content: center;
+}
+
+/* BaseDialog.addCloseButton: кнопка «Назад» со стрелкой, 210 на 64 */
+.dialog__back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 210px;
+    height: 64px;
+    background: #000;
+    border: 4px solid #454545;
+    color: var(--text, #e6e6e6);
+    font: inherit;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.dialog__back:hover {
     background: #14141a;
-    font-weight: 600;
 }
 
 .dialog__groups {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    padding: 10px;
+    padding: 5px 0;
 }
 
-/* Заголовок категории набран Pal.darkishGray, а не цветом самой категории. LogicDialog */
+/*
+ * Заголовок категории набран Pal.darkishGray, а не цветом самой категории: иконка, название
+ * и линия высотой 5 на всю оставшуюся ширину. LogicDialog.showAddDialog:315-320
+ */
 .group__title {
     display: flex;
     align-items: center;
     gap: 10px;
     margin-bottom: 4px;
     color: #4d4d4d;
+}
+
+.group__line {
+    flex: 1;
+    height: 5px;
+    background: #4d4d4d;
 }
 
 /* Три кнопки в ряд — LogicDialog.showAddDialog */

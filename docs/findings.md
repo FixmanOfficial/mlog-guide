@@ -85,6 +85,7 @@
 | Размеры: `memory-cell` 64 ячейки, `memory-bank` 512, `logic-display` 80 точек, `large-logic-display` 176, сообщение 400 символов | `content/Blocks.java:6875-6896`, `MessageBlock.java:29` | ✓ `world.test.js` |
 | `printflush` и `drawflush` чистят буфер **всегда**, даже если цель не подходит по типу или команде | `LExecutor.PrintFlushI`, `DrawFlushI` | ✓ `world.test.js` |
 | `flushCommands` увеличивает счётчик `operations` при каждом сбросе, даже когда буфер дисплея переполнен и команды не влезли | `world/blocks/logic/LogicDisplay.java` | ✓ `world.test.js` |
+| **Блок с чётной стороной стоит по углу тайла**: `offset = ((size + 1) % 2) * tilesize / 2`, а занимает тайлы начиная со своего (`sizeOffset = -((size - 1) / 2)`). Поэтому `sensor @x` у процессора 2 на 2 отдаёт половинную координату | `world/Block.java:761-762`, `BuildingComp:2101` | ✓ `world.test.js` |
 | `sensor` от пустого объекта со свойством `@dead` возвращает 1, а не пустое значение | `LExecutor.SenseI` | ✓ `semantics.test.js` |
 | `sensor` от строки со свойством `@size` или `@bufferSize` даёт её длину | `LExecutor.SenseI` | ✓ `semantics.test.js` |
 
@@ -120,6 +121,15 @@
 | Радиус рамки связи `size * 8 / 2 + 1`, внутри `Drawf.square` прибавляется ещё единица | `LogicBlock.drawConfigure` | — |
 | Дальность связи процессора: микро 10 тайлов, логический 22, гипер 42 | `LogicBlock.range`, `content/Blocks.java:6846-6870` | — |
 | Круг дальности — не окружность, а многоугольник: `11 + радиус * 0.4` сторон | `arc/Lines.circleVertices` | — |
+
+## Диалоги редактора
+
+| Деталь | Источник | Тест |
+| --- | --- | --- |
+| **У диалога нет рамки**: `Styles.defaultDialog` берёт фоном `window-empty.9.png`, а он весь прозрачный. Видны только затемнение позади (`black9`), заголовок цветом `Pal.accent` и таблица содержимого | `ui/Styles.java:458`, `sprites/ui/window-empty.9.png` | — |
+| Фон таблицы содержимого — `Tex.button`: рамка 4 пикселя `#454545`, внутри сплошной чёрный | `sprites/ui/button.9.png` | — |
+| **В меню добавления есть поиск**: поле с лупой получает фокус сразу, фильтрует и по имени инструкции, и по её типу, а Enter добавляет первое совпадение | `LogicDialog.showAddDialog:270-290` | — |
+| Заголовок категории: иконка 15 пикселей, название и линия высотой 5 во всю оставшуюся ширину, всё цветом `Pal.darkishGray` | `LogicDialog.showAddDialog:315-320` | — |
 
 ## Текст и цвет
 

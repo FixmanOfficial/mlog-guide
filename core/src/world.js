@@ -58,13 +58,27 @@ export class Building {
         this.spec = spec
     }
 
+    /**
+     * Смещение центра. У блока с чётной стороной центр приходится на угол тайла, а не на его
+     * середину, поэтому `sensor @x` у такого блока отдаёт половинную координату. Block.java:761
+     */
+    get offset() {
+        return ((this.size + 1) % 2) * 0.5
+    }
+
+    /** С какого тайла начинается блок относительно своего. Block.java:762 */
+    get sizeOffset() {
+        return -Math.trunc((this.size - 1) / 2)
+    }
+
     /** Общие свойства, Block.sense плюс базовая часть Building.sense. */
     sense(property) {
         switch (property) {
             case 'health': return this.health
             case 'maxHealth': return this.maxHealth
-            case 'x': return this.x
-            case 'y': return this.y
+            // World.conv: координата в тайлах, у чётных блоков с половиной. BuildingComp:2101
+            case 'x': return this.x + this.offset
+            case 'y': return this.y + this.offset
             case 'size': return this.size
             case 'team': return this.team
             case 'enabled': return this.enabled ? 1 : 0
@@ -275,11 +289,17 @@ export class World {
         return this.buildings.find(building => building.name === name)
     }
 
-    /** Здание, занимающее тайл. Нужно для sensor по координатам и для будущего radar. */
+    /**
+     * Здание, занимающее тайл. Блок начинается не со своего тайла, а со сдвига `sizeOffset`:
+     * у размера 2 это сам тайл и следующий, у размера 3 — по одному в каждую сторону.
+     */
     at(x, y) {
         return this.buildings.find(building => {
-            const half = (building.size - 1) / 2
-            return Math.abs(x - building.x) <= half && Math.abs(y - building.y) <= half
+            const fromX = building.x + building.sizeOffset
+            const fromY = building.y + building.sizeOffset
+
+            return x >= fromX && x < fromX + building.size
+                && y >= fromY && y < fromY + building.size
         })
     }
 

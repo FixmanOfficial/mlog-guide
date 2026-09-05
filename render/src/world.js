@@ -78,11 +78,18 @@ export class WorldView {
         return this.tile * this.ratio / TILE_UNITS
     }
 
-    /** Центр здания в пикселях холста. Ось Y холста смотрит вниз, мира — вверх. */
+    /**
+     * Центр здания в пикселях холста. Ось Y холста смотрит вниз, мира — вверх.
+     *
+     * У блока с чётной стороной центр приходится на угол тайла: `Block.offset` в игре
+     * прибавляет половину тайла именно к таким. Без этого процессор 2 на 2 съезжает с сетки.
+     */
     place(building) {
+        const step = this.tile * this.ratio
+
         return [
-            (building.x + 0.5) * this.tile * this.ratio,
-            (this.world.height - building.y - 0.5) * this.tile * this.ratio
+            (building.x + building.offset + 0.5) * step,
+            (this.world.height - building.y - building.offset - 0.5) * step
         ]
     }
 

@@ -209,5 +209,7 @@ sampleBox.addEventListener('change', () => {
 })
 
 codeArea.value = SAMPLES['Фигуры']
-Promise.all([logicFont.load(), uiFont.load()]).then(restart)
+
+// decode, а не событие load: картинка из кеша успевает загрузиться раньше подписки
+Promise.all([logicFont.load(), uiFont.load(), atlas.decode()]).then(restart, () => {})
 restart()

@@ -245,3 +245,28 @@ test('перенос строки сдвигает вниз на высоту с
     assert.equal(first.x, second.x)
     assert.equal(first.y - second.y, 13)
 })
+
+test('блок с чётной стороной стоит по углу тайла, а не по центру', () => {
+    // Block.java:761-762: offset у чётных размеров половина тайла, sizeOffset нулевой
+    const world = new World()
+    const processor = world.add('logic-processor', {x: 8, y: 4})
+
+    assert.equal(processor.sense('x'), 8.5)
+    assert.equal(processor.sense('y'), 4.5)
+
+    // Занимает свой тайл и следующий по каждой оси
+    assert.equal(world.at(8, 4), processor)
+    assert.equal(world.at(9, 5), processor)
+    assert.equal(world.at(7, 4), undefined)
+    assert.equal(world.at(10, 4), undefined)
+})
+
+test('блок с нечётной стороной занимает тайлы вокруг своего', () => {
+    const world = new World()
+    const display = world.add('logic-display', {x: 5, y: 5})
+
+    assert.equal(display.sense('x'), 5)
+    assert.equal(world.at(4, 4), display)
+    assert.equal(world.at(6, 6), display)
+    assert.equal(world.at(7, 5), undefined)
+})
