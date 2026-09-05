@@ -345,6 +345,32 @@
 }
 
 /*
+ * Окно редактора процессора. `Styles.fullDialog` кладёт позади сплошной чёрный, а рамки
+ * у самого окна нет: `window-empty.9.png` прозрачный целиком. Ширина холста — 900,
+ * как `LCanvas.targetWidth`.
+ */
+.overlay--full {
+    background: #000;
+    align-items: start;
+    padding: 16px 0;
+    overflow: auto;
+}
+
+.logic-dialog {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: min(916px, 96vw);
+    color: var(--text, #e6e6e6);
+    font-family: 'Mindustry', system-ui, sans-serif;
+}
+
+.logic-dialog__canvas {
+    max-height: 76vh;
+    overflow: auto;
+}
+
+/*
  * Окно встроенных переменных. Строка та же, что в таблице переменных: полоска в 8 пикселей,
  * имя на Pal.gray, ещё полоска и описание в рамке Tex.pane. Заголовок раздела — надпись
  * цветом Pal.accent и линия толщиной 4 под ней. GlobalVarsDialog.setup

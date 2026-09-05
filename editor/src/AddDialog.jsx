@@ -4,6 +4,7 @@ import {AVAILABLE} from './program.js'
 import {CATEGORY_ORDER, categoryColor, displayName} from './theme.js'
 import {categoryName, categoryTip, instructionTip} from './tooltips.js'
 import {Icon} from './Icon.jsx'
+import {Overlay} from './Overlay.jsx'
 
 /**
  * Меню добавления инструкции. `LogicDialog.showAddDialog`:
@@ -45,7 +46,7 @@ export function AddDialog({onPick, onClose}) {
     const first = groups[0]?.[1][0] ?? null
 
     return (
-        <div class="overlay" onClick={onClose}>
+        <Overlay onClose={onClose}>
             <div class="dialog" onClick={(event) => event.stopPropagation()}>
                 <div class="dialog__title">Добавить</div>
 
@@ -105,6 +106,6 @@ export function AddDialog({onPick, onClose}) {
                     </button>
                 </div>
             </div>
-        </div>
+        </Overlay>
     )
 }

@@ -1,6 +1,7 @@
 import globals from '@mlog/core/data/globals.json'
 
 import {globalTip} from './tooltips.js'
+import {Overlay} from './Overlay.jsx'
 
 /**
  * Окно «Встроенные переменные» — перенос `GlobalVarsDialog`.
@@ -15,7 +16,7 @@ import {globalTip} from './tooltips.js'
  */
 export function GlobalsDialog({onClose}) {
     return (
-        <div class="overlay" onClick={onClose}>
+        <Overlay onClose={onClose}>
             <div class="dialog" onClick={(event) => event.stopPropagation()}>
                 <div class="dialog__title">Встроенные переменные</div>
 
@@ -43,6 +44,6 @@ export function GlobalsDialog({onClose}) {
                     <button class="dialog__back" onClick={onClose}>Назад</button>
                 </div>
             </div>
-        </div>
+        </Overlay>
     )
 }

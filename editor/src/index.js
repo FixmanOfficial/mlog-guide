@@ -2,5 +2,6 @@
 
 export {Editor} from './Editor.jsx'
 export {GlobalsDialog} from './GlobalsDialog.jsx'
+export {LogicDialog} from './LogicDialog.jsx'
 export {createStatement, operations, toText, INSTRUCTIONS, AVAILABLE, ENUMS} from './program.js'
 export {CATEGORY_COLORS, METRICS, categoryColor, displayName} from './theme.js'
