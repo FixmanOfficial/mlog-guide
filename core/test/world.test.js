@@ -306,9 +306,10 @@ test('сброс чистит дисплей и возвращает дверь 
     assert.equal(door.sense('enabled'), 0)
 })
 
-test('спеки блоков совпадают с посчитанными по формуле игры', () => {
-    // Block.init: round(size * size * 40 * (1 + сумма healthScaling), 5), если здоровье
-    // не задано числом. Ни у одного логического блока оно не задано
+test('спеки блоков сняты из игры и совпадают с формулой Block.init', () => {
+    // Таблица приезжает дампом из запущенной игры. Формула здесь для понимания, откуда
+    // берутся числа: round(size * size * 40 * (1 + сумма healthScaling)), если здоровье
+    // не задано прямо. Ни у одного логического блока оно не задано
     assert.equal(BLOCK_SPECS['micro-processor'].health, 40)
     assert.equal(BLOCK_SPECS['logic-processor'].health, 190, 'торий добавляет 0.2')
     assert.equal(BLOCK_SPECS['hyper-processor'].health, 520, 'торий и сплав добавляют 0.45')
@@ -326,6 +327,11 @@ test('спеки блоков совпадают с посчитанными п�
         ['micro-processor', 'logic-processor', 'hyper-processor'].map(name => BLOCK_SPECS[name].range),
         [80, 176, 336]
     )
+
+    // Дамп покрывает весь контент, а не только логику: это же и каталог для постройки
+    assert.ok(Object.keys(BLOCK_SPECS).length > 400)
+    assert.equal(BLOCK_SPECS.router.size, 1)
+    assert.equal(BLOCK_SPECS.duo.category, 'turret')
 })
 
 test('правка сообщения руками строже, чем printflush', () => {

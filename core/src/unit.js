@@ -31,8 +31,9 @@ import specs from '../data/unit-specs.json' with {type: 'json'}
 export const TILE_SIZE = 8
 
 /**
- * Спеки юнитов, снятые `tools/gen-unit-specs.mjs`. У вооружённых юнитов `range` равен null:
- * в игре он выводится из дальности пуль, и восстановить его разбором исходника нельзя.
+ * Спеки юнитов. Сняты дампом из запущенной игры (`tools/gen-dump.mjs`), уже после
+ * `UnitType.init()` — то есть с выведенными дальностью и вместимостью, которых в исходнике
+ * нет ни одним числом.
  */
 export const UNIT_SPECS = specs.units
 
@@ -229,7 +230,10 @@ export class Unit {
         return f(this.spec.speed * boost)
     }
 
-    /** UnitComp.range — это maxRange типа, а не range. */
+    /**
+     * UnitComp.range — это `maxRange` типа, а не `range`. Они разные: первый складывается как
+     * максимум по оружию, второй как минимум. У поли, например, 196 против 130.
+     */
     range() {
         return this.spec.maxRange
     }
@@ -334,7 +338,7 @@ export class Unit {
             case 'dead': return this.dead ? 1 : 0
             case 'team': return this.team
             case 'shooting': return 0
-            case 'range': return this.range() === null ? NaN : this.range() / TILE_SIZE
+            case 'range': return this.range() / TILE_SIZE
             case 'mining': return this.mineTile !== null ? 1 : 0
             case 'mineX': return this.mineTile !== null ? this.mineTile.x : -1
             case 'mineY': return this.mineTile !== null ? this.mineTile.y : -1

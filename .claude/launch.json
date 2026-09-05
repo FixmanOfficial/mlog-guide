@@ -4,8 +4,24 @@
     {
       "name": "editor",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev", "--workspace", "@mlog/editor"],
+      "runtimeArgs": [
+        "run",
+        "dev",
+        "--workspace",
+        "@mlog/editor"
+      ],
       "port": 5180
+    },
+    {
+      "name": "web",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev",
+        "--workspace",
+        "@mlog/web"
+      ],
+      "port": 4321
     }
   ]
 }

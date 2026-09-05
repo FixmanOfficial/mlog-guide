@@ -246,17 +246,28 @@ test('вместимость выводится из размера там, гд
     assert.notEqual(derive(UNIT_SPECS.flare.hitSize), 10)
 })
 
-test('дальность вооружённого юнита не выдумывается', () => {
-    // range выводится в игре из дальности пуль; пока её не снять, sensor честно молчит
-    assert.equal(UNIT_SPECS.dagger.range, null)
+test('дальность берётся из maxRange, а он у юнита не тот же, что range', () => {
+    // Оба выводятся в UnitType.init из дальности пуль: range — минимум по оружию,
+    // maxRange — максимум. У поли они расходятся, и sensor отдаёт именно maxRange
+    assert.equal(UNIT_SPECS.poly.range, 130)
+    assert.equal(UNIT_SPECS.poly.maxRange, 196)
 
-    const {world, processor} = setup('ubind @dagger\nsensor range @unit @range')
-    world.spawn('dagger', {x: 0, y: 0})
+    const {world, processor} = setup('ubind @poly\nsensor range @unit @range')
+    world.spawn('poly', {x: 0, y: 0})
     processor.run(2)
 
-    const range = processor.get('range')
-    assert.equal(range.isobj, true, 'NaN превращается в пустое значение, а не в ноль')
-    assert.equal(range.objval, null)
+    assert.equal(processor.num('range'), 196 / 8)
+})
+
+test('дальность вооружённого юнита снята из игры, а не выведена из литералов', () => {
+    // Она собирается из скорости и времени жизни пуль минус запас в 4 единицы: у кинжала
+    // это 2.5 * 60 - 4, и числа 146 в UnitTypes.java нет вовсе
+    assert.equal(UNIT_SPECS.dagger.maxRange, 146)
+    assert.equal(UNIT_SPECS.flare.maxRange, 76)
+
+    // Где дальность всё-таки задана числом, оно и остаётся: у моно это 50, а не дальность добычи
+    assert.equal(UNIT_SPECS.mono.maxRange, 50)
+    assert.equal(UNIT_SPECS.mono.mineRange, 70)
 })
 
 test('сброс мира возвращает юнитов на место и повторяет прогон в точности', () => {

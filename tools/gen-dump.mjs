@@ -1,0 +1,121 @@
+/**
+ * Снимает спеки контента, запуская саму игру.
+ *
+ * Остальные генераторы читают исходники — здесь так нельзя. Половина чисел в игре не записана,
+ * а выводится в `init()`: дальность юнита собирается из скорости и времени жизни пуль каждого
+ * оружия, здоровье блока — из размера и состава, вместимость — из размера корпуса. Разбирать эту
+ * цепочку регулярками означает получить правдоподобные, но неверные числа, что уже случалось.
+ *
+ * Поэтому берётся официальный jar нужной версии, поднимается `ContentLoader` — ровно тот же,
+ * что при запуске игры, только без графики и звука, — и значения читаются из готовых объектов.
+ *
+ *   node tools/gen-dump.mjs <путь-к-Mindustry.jar>
+ *
+ * Нужен JDK 17 или новее: игра собрана под 17 и на восьмой не запустится. Ищется он сам —
+ * в JAVA_HOME, среди установленных Adoptium и в PATH.
+ *
+ * Скачать jar (86 МБ, в репозиторий не кладём):
+ *   https://github.com/Anuken/Mindustry/releases/download/v159.7/Mindustry.jar
+ */
+
+import {execFileSync} from 'node:child_process'
+import {existsSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync} from 'node:fs'
+import {tmpdir} from 'node:os'
+import {join, resolve} from 'node:path'
+
+/** Версия, под которую написан дампер. Совпадает с закреплённой в CLAUDE.md. */
+const VERSION = 'v159.7'
+
+const MIN_JAVA = 17
+const separator = process.platform === 'win32' ? ';' : ':'
+const exe = (name) => process.platform === 'win32' ? `${name}.exe` : name
+
+/** Мажорная версия JDK по выводу `javac -version`, или null, если это не JDK. */
+function javacVersion(path) {
+    try {
+        const output = execFileSync(path, ['-version'], {encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe']})
+        const match = output.match(/javac (\d+)/)
+        return match === null ? null : Number(match[1])
+    } catch {
+        return null
+    }
+}
+
+/**
+ * Ищет JDK нужной версии. Порядок обычный: сначала то, что выбрал пользователь, потом то,
+ * что нашлось на машине. В PATH вполне может стоять восьмёрка — она не подойдёт, и это
+ * не повод сдаваться.
+ */
+function findJdk() {
+    const candidates = []
+
+    if (process.env.JAVA_HOME !== undefined) candidates.push(join(process.env.JAVA_HOME, 'bin'))
+
+    const adoptium = 'C:/Program Files/Eclipse Adoptium'
+    if (existsSync(adoptium)) {
+        for (const entry of readdirSync(adoptium)) candidates.push(join(adoptium, entry, 'bin'))
+    }
+
+    candidates.push('')
+
+    for (const bin of candidates) {
+        const javac = bin === '' ? exe('javac') : join(bin, exe('javac'))
+        const version = javacVersion(javac)
+
+        if (version !== null && version >= MIN_JAVA) {
+            return {javac, java: bin === '' ? exe('java') : join(bin, exe('java')), version}
+        }
+    }
+
+    return null
+}
+
+function main() {
+    const jar = process.argv[2]
+
+    if (jar === undefined || !existsSync(jar)) {
+        console.error('Укажите путь к Mindustry.jar нужной версии:')
+        console.error('  node tools/gen-dump.mjs <путь-к-Mindustry.jar>')
+        console.error(`  скачать: https://github.com/Anuken/Mindustry/releases/download/${VERSION}/Mindustry.jar`)
+        process.exit(1)
+    }
+
+    const jdk = findJdk()
+
+    if (jdk === null) {
+        console.error(`Не найден JDK ${MIN_JAVA} или новее. Игра собрана под 17, на восьмёрке не запустится.`)
+        console.error('Подскажите путь через JAVA_HOME.')
+        process.exit(1)
+    }
+
+    const work = mkdtempSync(join(tmpdir(), 'mlog-dump-'))
+    const source = resolve('tools/dump/ContentDump.java')
+    const classpath = [resolve(jar), work].join(separator)
+
+    try {
+        execFileSync(jdk.javac, ['-nowarn', '-encoding', 'UTF-8', '-cp', resolve(jar), '-d', work, source],
+            {stdio: ['ignore', 'inherit', 'inherit']})
+
+        const units = join(work, 'unit-specs.json')
+        const blocks = join(work, 'block-specs.json')
+
+        const counts = execFileSync(jdk.java, ['-cp', classpath, 'ContentDump', units, blocks],
+            {encoding: 'utf8', stdio: ['ignore', 'pipe', 'inherit']}).trim().split(' ')
+
+        // Игра печатает всё одной строкой; раскладываем тем же способом, что и прочие таблицы
+        for (const [from, to] of [[units, 'core/data/unit-specs.json'], [blocks, 'core/data/block-specs.json']]) {
+            const data = JSON.parse(readFileSync(from, 'utf8'))
+
+            if (data.gameVersion !== VERSION) throw new Error(`jar не той версии: ${data.gameVersion}`)
+
+            writeFileSync(to, JSON.stringify(data, null, 2) + '\n')
+        }
+
+        console.log(`core/data/unit-specs.json: ${counts[0]} юнитов`)
+        console.log(`core/data/block-specs.json: ${counts[1]} блоков`)
+    } finally {
+        rmSync(work, {recursive: true, force: true})
+    }
+}
+
+main()
