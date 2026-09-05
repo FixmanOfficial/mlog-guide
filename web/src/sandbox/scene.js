@@ -7,25 +7,12 @@
  */
 
 import {World} from '@mlog/core/src/world.js'
-import {Processor, IPT} from '@mlog/core/src/vm.js'
+import {Processor} from '@mlog/core/src/vm.js'
 import {createContent} from '@mlog/core/src/content.js'
 
 import logicIds from '@mlog/core/data/logic-ids.json'
 
 export const content = createContent(logicIds)
-
-/** Программа, с которой открывается песочница. */
-export const STARTER = `set x 0
-op add x x 1
-op mod y x 80
-draw clear 0 0 0
-draw color 255 210 120 255
-draw rect y 30 12 12
-drawflush display1
-print "тик: "
-print @tick
-printflush message1
-write x cell1 0`
 
 export function createScene() {
     const world = new World({width: 16, height: 9})
@@ -42,14 +29,20 @@ export function createScene() {
     return {world, display, cell, message, toggle, door, processorBuilding, links}
 }
 
-/** Собирает процессор и вешает его на здание: рендеру связи видны именно оттуда. */
+/**
+ * Собирает процессор и вешает его на здание: рендеру связи видны именно оттуда.
+ *
+ * Скорость берётся из спеки блока, а не задаётся отдельно: `instructionsPerTick` — свойство
+ * процессора, у микро 2, у логического 8, у гипера 25 (`content/Blocks.java:6849-6867`).
+ * Поменяется блок в сцене — поменяется и скорость.
+ */
 export function attachProcessor(scene, code) {
     const processor = new Processor(code, {
         links: scene.links,
         world: scene.world,
         content,
         globals: content.globals,
-        ipt: IPT.logic
+        ipt: scene.processorBuilding.spec.ipt
     })
 
     scene.processorBuilding.processor = processor
