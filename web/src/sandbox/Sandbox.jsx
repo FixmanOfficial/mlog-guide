@@ -170,20 +170,34 @@ export function Sandbox() {
             const delta = Math.min((time - last) / 1000 * 60, MAX_DELTA)
             last = time
 
-            // Дробная скорость копится: при 1/256 тик случается раз в четыре с лишним секунды
-            pending += delta * speed
-            while (pending >= 1) {
-                scene.world.step()
-                // Дисплей вычерпывает очередь на каждом тике, как при отрисовке кадра в игре
+            if (speed <= 1) {
+                /*
+                 * Замедление — это дробный тик, а не редкий целый. Так же ведёт себя игра при
+                 * низком кадре: `accumulator += delta * ipt`, и при delta 1/8 у процессора на
+                 * восемь инструкций в тик исполняется ровно одна. Иначе на любой скорости
+                 * счётчик прыгал бы через восемь строк разом, и разглядеть ход было бы нельзя.
+                 */
+                scene.world.step(delta * speed)
                 displayView.draw(scene.display)
-                pending--
+            } else {
+                pending += delta * speed
+                while (pending >= 1) {
+                    scene.world.step()
+                    // Дисплей вычерпывает очередь на каждом тике, как при отрисовке кадра
+                    displayView.draw(scene.display)
+                    pending--
+                }
             }
 
             worldView.draw({configured: configuredRef.current})
 
             // Значения переменных перечитываются раз в 15 тиков времени, как в игре
+            /*
+             * На полном ходу значения перечитываются раз в 15 тиков, как в игре: чаще их всё
+             * равно не разглядеть. На замедлении — каждый кадр, иначе смысл замедления теряется.
+             */
             counter += delta
-            if (counter >= VARS_PERIOD) {
+            if (speed <= 1 || counter >= VARS_PERIOD) {
                 counter = 0
                 setBeat(scene.world.tick)
             }
@@ -235,7 +249,8 @@ export function Sandbox() {
      */
     const rewind = (ticks) => {
         const {scene, displayView} = stand.current
-        const target = Math.max(0, scene.world.tick - ticks)
+        // Тик бывает дробным: на замедлении мир идёт долями. Отматываем к целому
+        const target = Math.max(0, Math.floor(scene.world.tick) - ticks)
 
         setRunning(false)
         scene.world.reset()
@@ -404,7 +419,7 @@ export function Sandbox() {
                     <div class="sandbox__panel">
                         <div class="sandbox__title">Блок сообщений</div>
                         <div class="sandbox__message">{scene?.message.message || '—'}</div>
-                        <div class="sandbox__meta">тик {scene?.world.tick ?? 0}</div>
+                        <div class="sandbox__meta">тик {Math.floor(scene?.world.tick ?? 0)}</div>
                     </div>
                 </div>
 

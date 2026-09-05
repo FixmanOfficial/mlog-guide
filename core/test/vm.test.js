@@ -93,3 +93,20 @@ test('пустая программа не исполняется', () => {
     assert.equal(processor.loaded, false)
     assert.equal(processor.step(), false)
 })
+
+test('дробный тик исполняет инструкции по одной', () => {
+    // accumulator += delta * ipt: при delta 1/8 у процессора на восемь инструкций в тик
+    // накапливается ровно одна. Так игра ведёт себя при низкой частоте кадров, и на этом же
+    // держится замедление в песочнице
+    const code = ['op add n n 1', 'op add n n 1', 'op add n n 1', 'op add n n 1'].join('\n')
+    const processor = new Processor(code, {ipt: 8})
+
+    processor.tick(1 / 8)
+    assert.equal(processor.num('n'), 0, 'первый шаг только копит')
+
+    processor.tick(1 / 8)
+    assert.equal(processor.num('n'), 1)
+
+    processor.tick(1 / 8)
+    assert.equal(processor.num('n'), 2)
+})
