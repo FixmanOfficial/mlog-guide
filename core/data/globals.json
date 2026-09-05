@@ -1,0 +1,155 @@
+{
+  "gameVersion": "v159.7",
+  "source": "core/src/mindustry/logic/GlobalVars.java",
+  "note": "Файл сгенерирован, править вручную нельзя. Порядок тот же, что в окне игры; строки sectionX — заголовки разделов, описания лежат в i18n под ключами lglobal.",
+  "entries": [
+    {
+      "name": "sectionProcessor",
+      "privileged": false
+    },
+    {
+      "name": "@this",
+      "privileged": false
+    },
+    {
+      "name": "@thisx",
+      "privileged": false
+    },
+    {
+      "name": "@thisy",
+      "privileged": false
+    },
+    {
+      "name": "@links",
+      "privileged": false
+    },
+    {
+      "name": "@ipt",
+      "privileged": false
+    },
+    {
+      "name": "sectionGeneral",
+      "privileged": false
+    },
+    {
+      "name": "false",
+      "privileged": false
+    },
+    {
+      "name": "true",
+      "privileged": false
+    },
+    {
+      "name": "@pi",
+      "privileged": false
+    },
+    {
+      "name": "@e",
+      "privileged": false
+    },
+    {
+      "name": "@degToRad",
+      "privileged": false
+    },
+    {
+      "name": "@radToDeg",
+      "privileged": false
+    },
+    {
+      "name": "sectionMap",
+      "privileged": false
+    },
+    {
+      "name": "@time",
+      "privileged": false
+    },
+    {
+      "name": "@tick",
+      "privileged": false
+    },
+    {
+      "name": "@second",
+      "privileged": false
+    },
+    {
+      "name": "@minute",
+      "privileged": false
+    },
+    {
+      "name": "@waveNumber",
+      "privileged": false
+    },
+    {
+      "name": "@waveTime",
+      "privileged": false
+    },
+    {
+      "name": "@mapw",
+      "privileged": false
+    },
+    {
+      "name": "@maph",
+      "privileged": false
+    },
+    {
+      "name": "sectionNetwork",
+      "privileged": false
+    },
+    {
+      "name": "@server",
+      "privileged": true
+    },
+    {
+      "name": "@client",
+      "privileged": true
+    },
+    {
+      "name": "@clientLocale",
+      "privileged": true
+    },
+    {
+      "name": "@clientUnit",
+      "privileged": true
+    },
+    {
+      "name": "@clientName",
+      "privileged": true
+    },
+    {
+      "name": "@clientTeam",
+      "privileged": true
+    },
+    {
+      "name": "@clientMobile",
+      "privileged": true
+    },
+    {
+      "name": "@clientMusicPlaying",
+      "privileged": true
+    },
+    {
+      "name": "@clientCurrentMusic",
+      "privileged": true
+    },
+    {
+      "name": "sectionLookup",
+      "privileged": false
+    },
+    {
+      "name": "@blockCount",
+      "privileged": false
+    },
+    {
+      "name": "@unitCount",
+      "privileged": false
+    },
+    {
+      "name": "@itemCount",
+      "privileged": false
+    },
+    {
+      "name": "@liquidCount",
+      "privileged": false
+    }
+  ]
+}

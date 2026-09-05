@@ -129,6 +129,14 @@ git -C Arc checkout 208a754044
 ради совпадения значений с игрой, а не ради красоты.
 
 ```bash
+node tools/gen-globals.mjs <путь-к-Mindustry>
+```
+
+Снимает опись встроенных переменных из `GlobalVars.init()` в `core/data/globals.json`: 32
+переменные в 5 разделах, в том же порядке, в каком их показывает окно игры. Описания к ним
+лежат в бандлах под ключами `lglobal.` и снимаются `gen-bundles.mjs`.
+
+```bash
 node tools/gen-icons.mjs <путь-к-Mindustry>
 ```
 

@@ -28,6 +28,12 @@ export function instructionTip(opcode) {
     return text === undefined ? null : stripMarkup(text)
 }
 
+/** Описание встроенной переменной или заголовок раздела: ключи lglobal.<имя>. */
+export function globalTip(name) {
+    const text = bundle.logic?.globals?.[name]
+    return text === undefined ? null : stripMarkup(text)
+}
+
 export function propertyTip(name) {
     const text = bundle.logic?.properties?.[name]
     return text === undefined ? null : stripMarkup(text)

@@ -8,7 +8,7 @@
 
 import {useEffect, useRef, useState} from 'preact/hooks'
 
-import {Editor, createStatement, toText} from '@mlog/editor'
+import {Editor, GlobalsDialog, createStatement, toText} from '@mlog/editor'
 import {Icon} from '@mlog/editor/src/Icon.jsx'
 import {DisplayView} from '@mlog/render/src/display.js'
 import {WorldView} from '@mlog/render/src/world.js'
@@ -72,6 +72,7 @@ export function Sandbox() {
     // в игре такого нет, но без этого пошаговый разбор превращается в пытку
     const [power, setPower] = useState(0)
     const [ready, setReady] = useState(false)
+    const [globalsOpen, setGlobalsOpen] = useState(false)
     const [beat, setBeat] = useState(0)
     const [errors, setErrors] = useState([])
 
@@ -309,8 +310,17 @@ export function Sandbox() {
                     </div>
                 </div>
 
-                <div class="sandbox__title">Переменные</div>
+                <div class="sandbox__title sandbox__title--row">
+                    <span>Переменные</span>
+                    {/* В игре эта кнопка стоит в самом окне переменных: LogicDialog, "@logic.globals" */}
+                    <button class="sandbox__link" onClick={() => setGlobalsOpen(true)}>
+                        <Icon name="list" size={16} />
+                        встроенные
+                    </button>
+                </div>
                 {processor !== null && <Variables processor={processor} beat={beat} />}
+
+                {globalsOpen && <GlobalsDialog onClose={() => setGlobalsOpen(false)} />}
 
                 {errors.length > 0 && (
                     <div class="sandbox__errors">

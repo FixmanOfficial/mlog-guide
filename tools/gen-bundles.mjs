@@ -129,7 +129,9 @@ function main() {
             categories: collectByPrefix(props, 'lcategory.'),
             categoryDescriptions: collectByPrefix(props, 'lcategory.', {suffix: '.description', strip: true}),
             instructions: collectByPrefix(props, 'lst.'),
-            properties: collectByPrefix(props, 'lenum.')
+            properties: collectByPrefix(props, 'lenum.'),
+            // Описания встроенных переменных и заголовки их разделов: окно GlobalVarsDialog
+            globals: collectByPrefix(props, 'lglobal.')
         }
 
         const output = {
@@ -149,7 +151,8 @@ function main() {
             `${target.padEnd(24)} контент ${String(translated).padStart(3)}/${total} (${percent}%), ` +
             `категорий ${Object.keys(logic.categories).length}, ` +
             `инструкций ${Object.keys(logic.instructions).length}, ` +
-            `свойств ${Object.keys(logic.properties).length}`
+            `свойств ${Object.keys(logic.properties).length}, ` +
+            `встроенных переменных ${Object.keys(logic.globals).length}`
         )
     }
 }
