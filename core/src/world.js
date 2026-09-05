@@ -56,6 +56,18 @@ export class Building {
         this.efficiency = options.efficiency ?? 1
         this.config = null
         this.spec = spec
+
+        // Каким здание было при постановке. Нужно перемотке: симуляция детерминированная,
+        // поэтому «назад на N тиков» — это сброс и прогон вперёд, а не хранение истории
+        this.initial = {health: this.health, enabled: this.enabled, efficiency: this.efficiency}
+    }
+
+    /** Возвращает здание в исходное состояние. Переопределяется там, где есть что чистить. */
+    reset() {
+        this.health = this.initial.health
+        this.enabled = this.initial.enabled
+        this.efficiency = this.initial.efficiency
+        this.config = null
     }
 
     /**
@@ -130,6 +142,11 @@ export class MemoryBuilding extends Building {
         return super.sense(property)
     }
 
+    reset() {
+        super.reset()
+        this.memory.fill(0)
+    }
+
     read(address) {
         return address < 0 || address >= this.memory.length ? NaN : this.memory[address]
     }
@@ -150,6 +167,11 @@ export class MessageBuilding extends Building {
     sense(property) {
         if (property === 'bufferSize') return this.message.length
         return super.sense(property)
+    }
+
+    reset() {
+        super.reset()
+        this.message = ''
     }
 
     setMessage(text) {
@@ -202,6 +224,12 @@ export class DisplayBuilding extends Building {
     clear() {
         this.commands.length = 0
     }
+
+    reset() {
+        super.reset()
+        this.commands = []
+        this.operations = 0
+    }
 }
 
 /** Тумблер: единственное, что он умеет — быть включённым. */
@@ -215,6 +243,13 @@ export class DoorBuilding extends Building {
     constructor(world, type, options) {
         super(world, type, options)
         this.open = options.open ?? false
+        this.lastToggle = -Infinity
+        this.initial.open = this.open
+    }
+
+    reset() {
+        super.reset()
+        this.open = this.initial.open
         this.lastToggle = -Infinity
     }
 
@@ -317,6 +352,21 @@ export class World {
         for (const processor of this.processors) processor.tick(delta)
 
         return this.tick
+    }
+
+    /**
+     * Возвращает мир и процессоры в исходное состояние.
+     *
+     * Перемотка назад делается через него: состояние на тике N — это сброс и N шагов вперёд.
+     * Хранить историю не нужно, потому что симуляция детерминированная. Цена — то, что игрок
+     * успел натыкать руками (тумблер, дверь), при перемотке не воспроизводится: это внешний
+     * ввод, а не часть симуляции.
+     */
+    reset() {
+        this.tick = 0
+        for (const building of this.buildings) building.reset()
+        for (const processor of this.processors) processor.reset()
+        return this
     }
 
     steps(count, delta = 1) {

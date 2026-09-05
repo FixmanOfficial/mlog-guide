@@ -9,6 +9,7 @@
 import {useEffect, useRef, useState} from 'preact/hooks'
 
 import {Editor, createStatement, toText} from '@mlog/editor'
+import {Icon} from '@mlog/editor/src/Icon.jsx'
 import {DisplayView} from '@mlog/render/src/display.js'
 import {WorldView} from '@mlog/render/src/world.js'
 
@@ -22,6 +23,12 @@ import {Variables} from './Variables.jsx'
 
 /** Тайл мира в пикселях. Всё остальное рендер считает от него сам. */
 const TILE = 40
+
+/** Двойная стрелка перематывает на секунду — 60 тиков. */
+const SECOND = 60
+
+/** Подпись скорости: степень двойки от 1/256 до 256. */
+const speedLabel = (power) => power >= 0 ? `×${2 ** power}` : `×1/${2 ** -power}`
 
 /**
  * Через сколько кадров таблица переменных перечитывает значения. `LogicDialog`: `period = 15f`,
@@ -60,7 +67,10 @@ export function Sandbox() {
     const stand = useRef(null)
 
     const [running, setRunning] = useState(true)
-    const [speed, setSpeed] = useState(1)
+
+    // Скорость степенями двойки от 1/256 до 256, как в моде time control:
+    // в игре такого нет, но без этого пошаговый разбор превращается в пытку
+    const [power, setPower] = useState(0)
     const [ready, setReady] = useState(false)
     const [beat, setBeat] = useState(0)
     const [errors, setErrors] = useState([])
@@ -115,13 +125,22 @@ export function Sandbox() {
 
         let frame = 0
         let counter = 0
+        let pending = 0
+
+        const speed = 2 ** power
 
         const step = () => {
             const {scene, worldView, displayView} = stand.current
 
-            for (let i = 0; i < speed; i++) scene.world.step()
+            // Дробная скорость копится: при 1/256 тик случается раз в 256 кадров
+            pending += speed
+            while (pending >= 1) {
+                scene.world.step()
+                // Дисплей вычерпывает очередь на каждом тике, как при отрисовке кадра в игре
+                displayView.draw(scene.display)
+                pending--
+            }
 
-            displayView.draw(scene.display)
             worldView.draw({selected: scene.processorBuilding})
 
             // Значения переменных перечитываются раз в 15 кадров, как в игре
@@ -135,7 +154,7 @@ export function Sandbox() {
 
         frame = requestAnimationFrame(step)
         return () => cancelAnimationFrame(frame)
-    }, [running, speed, ready])
+    }, [running, power, ready])
 
     const rebuild = (text) => {
         if (stand.current === null) return
@@ -153,36 +172,59 @@ export function Sandbox() {
         setBeat(beat + 1)
     }
 
-    /** Шаг — одна инструкция, а не тик: именно так на программу и смотрят. */
-    const stepInstruction = () => {
-        const {scene, processor, displayView, worldView} = stand.current
+    const redraw = () => {
+        const {scene, displayView, worldView} = stand.current
 
-        setRunning(false)
-        processor.step()
         displayView.draw(scene.display)
         worldView.draw({selected: scene.processorBuilding})
         setBeat(scene.world.tick + Math.random())
     }
 
-    const stepTick = () => {
-        const {scene, displayView, worldView} = stand.current
+    /** Шаг — одна инструкция, а не тик: именно так на программу и смотрят. */
+    const stepInstruction = () => {
+        setRunning(false)
+        stand.current.processor.step()
+        redraw()
+    }
+
+    /** Прокрутка вперёд. Дисплей вычерпывается на каждом тике, как при отрисовке кадра. */
+    const forward = (ticks) => {
+        const {scene, displayView} = stand.current
 
         setRunning(false)
-        scene.world.step()
-        displayView.draw(scene.display)
-        worldView.draw({selected: scene.processorBuilding})
-        setBeat(scene.world.tick)
+        for (let i = 0; i < ticks; i++) {
+            scene.world.step()
+            displayView.draw(scene.display)
+        }
+        redraw()
+    }
+
+    /**
+     * Назад. Истории у нас нет и не нужно: симуляция детерминированная, поэтому состояние
+     * на тике N — это сброс и N шагов вперёд.
+     */
+    const rewind = (ticks) => {
+        const {scene, displayView} = stand.current
+        const target = Math.max(0, scene.world.tick - ticks)
+
+        setRunning(false)
+        scene.world.reset()
+        displayView.reset()
+
+        for (let i = 0; i < target; i++) {
+            scene.world.step()
+            displayView.draw(scene.display)
+        }
+        redraw()
     }
 
     const reset = () => {
-        const {scene, processor, displayView, worldView} = stand.current
+        const {scene, displayView} = stand.current
 
-        processor.reset()
-        scene.world.tick = 0
+        setRunning(false)
+        scene.world.reset()
         displayView.reset()
-        displayView.draw(scene.display)
-        worldView.draw({selected: scene.processorBuilding})
-        setBeat(beat + 1)
+        redraw()
     }
 
     // Тумблером щёлкают мышью: sensor должен это увидеть
@@ -212,20 +254,44 @@ export function Sandbox() {
 
             <div class="sandbox__side">
                 <div class="sandbox__bar">
-                    <button class="sandbox__button" onClick={() => setRunning(!running)}>
-                        {running ? '⏸ пауза' : '▶ пуск'}
+                    <button class="sandbox__button" title="Сбросить мир" onClick={reset}>
+                        <Icon name="refresh-1" size={20} />
                     </button>
-                    <button class="sandbox__button" onClick={stepInstruction}>инструкция</button>
-                    <button class="sandbox__button" onClick={stepTick}>тик</button>
-                    <button class="sandbox__button" onClick={reset}>сброс</button>
 
-                    <label class="sandbox__speed">
-                        скорость
-                        <select value={speed} onChange={(event) => setSpeed(Number(event.currentTarget.value))}>
-                            <option value="1">×1</option>
-                            <option value="2">×2</option>
-                            <option value="8">×8</option>
-                        </select>
+                    <button class="sandbox__button" title="Назад на секунду" onClick={() => rewind(SECOND)}>
+                        <Icon name="left" size={20} /><Icon name="left" size={20} />
+                    </button>
+                    <button class="sandbox__button" title="Назад на тик" onClick={() => rewind(1)}>
+                        <Icon name="left" size={20} />
+                    </button>
+
+                    <button
+                        class="sandbox__button"
+                        title={running ? 'Пауза' : 'Пуск'}
+                        onClick={() => setRunning(!running)}
+                    >
+                        <Icon name={running ? 'pause' : 'play'} size={20} />
+                    </button>
+
+                    <button class="sandbox__button" title="Вперёд на тик" onClick={() => forward(1)}>
+                        <Icon name="right" size={20} />
+                    </button>
+                    <button class="sandbox__button" title="Вперёд на секунду" onClick={() => forward(SECOND)}>
+                        <Icon name="right" size={20} /><Icon name="right" size={20} />
+                    </button>
+
+                    <button class="sandbox__button" onClick={stepInstruction}>инструкция</button>
+
+                    <label class="sandbox__speed" title="Скорость времени">
+                        <input
+                            type="range"
+                            min={-8}
+                            max={8}
+                            step={1}
+                            value={power}
+                            onInput={(event) => setPower(Number(event.currentTarget.value))}
+                        />
+                        <span class="sandbox__speed-value">{speedLabel(power)}</span>
                     </label>
                 </div>
 

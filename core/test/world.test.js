@@ -270,3 +270,36 @@ test('блок с нечётной стороной занимает тайлы 
     assert.equal(world.at(6, 6), display)
     assert.equal(world.at(7, 5), undefined)
 })
+
+test('сброс возвращает мир к началу, и прогон повторяется в точности', () => {
+    const {world, processor, links} = setup('op add x x 1\nwrite x cell1 0\nprint x\nprintflush message1')
+    const [cell, message] = links
+
+    world.steps(30)
+    const first = {tick: world.tick, x: processor.num('x'), cell: cell.read(0), message: message.message}
+
+    world.reset()
+    assert.equal(world.tick, 0)
+    assert.equal(cell.read(0), 0)
+    assert.equal(message.message, '')
+    assert.equal(processor.num('x'), 0)
+
+    // Симуляция детерминированная: те же тики дают то же состояние
+    world.steps(30)
+    assert.deepEqual({tick: world.tick, x: processor.num('x'), cell: cell.read(0), message: message.message}, first)
+})
+
+test('сброс чистит дисплей и возвращает дверь в исходное состояние', () => {
+    const world = new World()
+    const display = world.add('logic-display')
+    const door = world.add('door', {open: false})
+
+    display.flush([{type: 'rect', x: 0, y: 0, p1: 4, p2: 4}])
+    door.open = true
+
+    world.reset()
+
+    assert.equal(display.sense('bufferSize'), 0)
+    assert.equal(display.sense('operations'), 0)
+    assert.equal(door.sense('enabled'), 0)
+})
