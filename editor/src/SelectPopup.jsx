@@ -13,7 +13,11 @@ import {propertyTip} from './tooltips.js'
  * Список закрывается нажатием мимо: в игре для этого поверх сцены кладётся невидимый
  * перехватчик касаний.
  */
-export function SelectPopup({values, current, enumName, columns = 4, cellWidth = 60, anchor, onPick, onClose}) {
+export function SelectPopup({
+    values, current, enumName,
+    columns = 4, cellWidth = 60, cellHeight = 38,
+    anchor, onPick, onClose
+}) {
     const symbols = ENUM_SYMBOLS[enumName] ?? {}
     const ref = useRef(null)
     const [position, setPosition] = useState(null)
@@ -46,6 +50,7 @@ export function SelectPopup({values, current, enumName, columns = 4, cellWidth =
                 ref={ref}
                 style={{
                     gridTemplateColumns: `repeat(${columns}, ${cellWidth}px)`,
+                    gridAutoRows: `${cellHeight}px`,
                     left: position === null ? '-9999px' : `${position.left}px`,
                     top: position === null ? '-9999px' : `${position.top}px`
                 }}

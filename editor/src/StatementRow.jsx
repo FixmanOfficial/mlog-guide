@@ -7,6 +7,7 @@ import {instructionTip, propertyTip} from './tooltips.js'
 import {SelectPopup} from './SelectPopup.jsx'
 import {Icon} from './Icon.jsx'
 import {ContentButton} from './ContentButton.jsx'
+import {PencilButton} from './PencilButton.jsx'
 import {JumpNode} from './JumpNode.jsx'
 
 /**
@@ -91,6 +92,17 @@ function renderDescribed(statement, definition, onParam) {
                     key={`content${position}`}
                     value={statement.params[item.content] ?? ''}
                     onPick={(picked) => onParam(item.content, picked)}
+                />
+            )
+        }
+
+        if (item.pencil !== undefined) {
+            return (
+                <PencilButton
+                    key={`pencil${position}`}
+                    kind={item.pencil}
+                    value={statement.params[item.param] ?? ''}
+                    onPick={(picked) => onParam(item.param, picked)}
                 />
             )
         }

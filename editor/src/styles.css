@@ -258,6 +258,27 @@
 }
 
 /*
+ * Карандаш рядом с полем: кнопка 40 на 40 со значком, стиль `Styles.logict` — прозрачный фон
+ * и цвет строки. Отрицательный отступ слева из `fieldAlignSelect` прижимает её к полю.
+ */
+.pencil {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: -10px;
+    background: none;
+    border: none;
+    color: var(--category);
+    cursor: pointer;
+}
+
+.pencil:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+/*
  * Диалог добавления инструкции. Рамки у него нет вовсе: `Styles.defaultDialog` берёт фоном
  * `window-empty.9.png`, а он полностью прозрачный. Видимое — затемнение позади (`black9`),
  * заголовок цветом `Pal.accent` и таблица содержимого с фоном `Tex.button`.

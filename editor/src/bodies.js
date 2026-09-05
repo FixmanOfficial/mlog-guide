@@ -44,6 +44,16 @@ export const DRAW_DEFAULTS = {
     print: {p1: '@bottomLeft'}
 }
 
+/**
+ * Порядок выравниваний из `LStatement.aligns`. Он не алфавитный: это сетка три на три,
+ * от левого верхнего угла, и по три кнопки в ряд её и рисуют.
+ */
+export const ALIGNS = [
+    'topLeft', 'top', 'topRight',
+    'left', 'center', 'right',
+    'bottomLeft', 'bottom', 'bottomRight'
+]
+
 /** Инструкции, у которых раскладка своя. Остальные идут общим путём. */
 export const CUSTOM_BODIES = new Set([
     'op', 'jump', 'draw', 'control', 'select', 'lookup', 'packcolor', 'unpackcolor',
@@ -55,7 +65,8 @@ export const CUSTOM_BODIES = new Set([
  * Возвращается данными, а не готовой разметкой, чтобы это можно было проверить тестом.
  *
  * Элементы: `{label}` — подпись, `{field, label, width}` — поле, `{enum, width, columns,
- * cell}` — кнопка выбора, `{break: true}` — перенос строки.
+ * cell}` — кнопка выбора, `{pencil, param}` — карандаш с табличкой значений,
+ * `{break: true}` — перенос строки.
  */
 export function describeBody(statement) {
     const build = LAYOUTS[statement.opcode]
@@ -110,6 +121,9 @@ const LAYOUTS = {
             if (entry === null) items.push(lineBreak)
             else items.push(...(entry[0] === '' ? [field(entry[1])] : named(entry[0], entry[1])))
         }
+
+        // LStatements.DrawStatement.rebuild: у print рядом с выравниванием стоит карандаш
+        if (type === 'print') items.push({pencil: 'align', param: 'p1'})
 
         return items
     },
@@ -167,8 +181,8 @@ const LAYOUTS = {
         label(' in '), field('from')
     ],
 
-    /** LStatements.PrintCharStatement.build */
-    printchar: () => [label(' char '), field('value', 144)]
+    /** LStatements.PrintCharStatement.build: поле и карандаш с таблицей ASCII */
+    printchar: () => [label(' char '), field('value', 144), {pencil: 'char', param: 'value'}]
 }
 
 /**

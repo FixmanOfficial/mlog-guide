@@ -13,7 +13,7 @@ import {
     createStatement, operations, toText, AVAILABLE, INSTRUCTIONS,
     visibleParams, SENSEABLE, CONTROLS, sanitize, targetIndex
 } from '../src/program.js'
-import {describeBody, referencedParams, CUSTOM_BODIES, DRAW_FIELDS} from '../src/bodies.js'
+import {describeBody, referencedParams, CUSTOM_BODIES, DRAW_FIELDS, ALIGNS} from '../src/bodies.js'
 import {ENUMS} from '../src/program.js'
 
 const withParams = (opcode, params) => {
@@ -262,4 +262,24 @@ test('при условии always поля сравнения пропадаю�
 
     assert.deepEqual(fields('jump'), [])
     assert.deepEqual(fields('select'), ['result', 'a', 'b'])
+})
+
+test('у draw print и printchar есть карандаш выбора', () => {
+    // LStatement.fieldAlignSelect и PrintCharStatement.build: рядом с полем стоит кнопка 40 на 40
+    const draw = {...createStatement('draw'), params: {...createStatement('draw').params, type: 'print'}}
+    const items = describeBody(draw)
+
+    assert.ok(items.some(item => item.pencil === 'align'), 'карандаш выравнивания у draw print')
+
+    const chars = describeBody(createStatement('printchar'))
+    assert.ok(chars.some(item => item.pencil === 'char'), 'карандаш символа у printchar')
+})
+
+test('выравнивания идут сеткой три на три, а не по алфавиту', () => {
+    // LStatement.aligns: порядок задаёт расположение кнопок, по три в ряд
+    assert.deepEqual(ALIGNS, [
+        'topLeft', 'top', 'topRight',
+        'left', 'center', 'right',
+        'bottomLeft', 'bottom', 'bottomRight'
+    ])
 })
