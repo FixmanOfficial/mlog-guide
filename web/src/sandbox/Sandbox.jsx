@@ -51,11 +51,19 @@ export function Sandbox() {
     const [ready, setReady] = useState(false)
     const [beat, setBeat] = useState(0)
     const [selected, setSelected] = useState(0)
+
+    // Блок, у которого открыта настройка: в игре щелчок по блоку показывает под ним ряд кнопок,
+    // а у процессора там карандаш — он и открывает программу (LogicBlock.buildConfiguration)
+    const [configured, setConfigured] = useState(null)
     const [editing, setEditing] = useState(null)
     const [globalsOpen, setGlobalsOpen] = useState(false)
 
-    /** Выбранный процессор: его связи подсвечены в мире, его переменные в таблице. */
+    /** Процессор, чьи переменные показывает таблица. */
     const current = () => stand.current.scene.processors[selected]
+
+    // Цикл отрисовки живёт вне состояния, поэтому настраиваемый блок ему нужен ссылкой
+    const configuredRef = useRef(null)
+    configuredRef.current = configured
 
     // Мир, процессоры и виды живут вне состояния: перерисовка их не касается
     useEffect(() => {
@@ -92,7 +100,7 @@ export function Sandbox() {
 
         const first = () => {
             displayView.draw(scene.display)
-            worldView.draw({selected: scene.processors[0].building})
+            worldView.draw({configured: null})
         }
 
         // decode вместо события load: картинка из кеша успевает загрузиться раньше подписки,
@@ -125,7 +133,7 @@ export function Sandbox() {
                 pending--
             }
 
-            worldView.draw({selected: current().building})
+            worldView.draw({configured: configuredRef.current})
 
             // Значения переменных перечитываются раз в 15 кадров, как в игре
             if (++counter >= VARS_PERIOD) {
@@ -144,7 +152,7 @@ export function Sandbox() {
         const {scene, displayView, worldView} = stand.current
 
         displayView.draw(scene.display)
-        worldView.draw({selected: current().building})
+        worldView.draw({configured: configuredRef.current})
         setBeat(scene.world.tick + Math.random())
     }
 
@@ -203,8 +211,8 @@ export function Sandbox() {
     }
 
     /**
-     * Щелчок по миру. По процессору — открыть его программу, как в игре открывается настройка
-     * блока. По тумблеру — переключить: `sensor` должен это увидеть.
+     * Щелчок по миру. По процессору — показать под ним ряд настройки, как в игре: там появляется
+     * карандаш, и уже он открывает программу. По тумблеру — переключить: `sensor` это увидит.
      */
     const clickWorld = (event) => {
         const {scene, worldView} = stand.current
@@ -212,19 +220,35 @@ export function Sandbox() {
         const spot = worldView.at(event.clientX - box.left, event.clientY - box.top)
         const building = scene.world.at(spot.x, spot.y)
 
-        if (building === undefined) return
+        if (building === undefined) {
+            setConfigured(null)
+            worldView.draw({configured: null})
+            return
+        }
 
         const index = scene.processors.findIndex(entry => entry.building === building)
         if (index !== -1) {
             setSelected(index)
-            setEditing(index)
+            setConfigured(building)
+            worldView.draw({configured: building})
             return
         }
 
-        if (building === scene.toggle) {
-            building.enabled = !building.enabled
-            worldView.draw({selected: current().building})
-        }
+        setConfigured(null)
+
+        if (building === scene.toggle) building.enabled = !building.enabled
+        worldView.draw({configured: null})
+    }
+
+    /** Где на холсте стоит настраиваемый блок: под ним встаёт ряд кнопок, как в игре. */
+    const configuredSpot = () => {
+        if (configured === null || stand.current === null) return null
+
+        const view = stand.current.worldView
+        const [cx, cy] = view.place(configured)
+        const half = configured.size * TILE / 2
+
+        return {left: cx / view.ratio, top: cy / view.ratio + half + 2}
     }
 
     const scene = stand.current?.scene ?? null
@@ -237,33 +261,33 @@ export function Sandbox() {
         <div class="sandbox not-content" data-beat={beat}>
             <div class="sandbox__scene">
                 <div class="sandbox__bar">
-                    <button class="sandbox__button" title="Сбросить мир" onClick={reset}>
+                    <button class="game-button sandbox__button" title="Сбросить мир" onClick={reset}>
                         <Icon name="refresh-1" size={20} />
                     </button>
 
-                    <button class="sandbox__button" title="Назад на секунду" onClick={() => rewind(SECOND)}>
+                    <button class="game-button sandbox__button" title="Назад на секунду" onClick={() => rewind(SECOND)}>
                         <Icon name="left" size={20} /><Icon name="left" size={20} />
                     </button>
-                    <button class="sandbox__button" title="Назад на тик" onClick={() => rewind(1)}>
+                    <button class="game-button sandbox__button" title="Назад на тик" onClick={() => rewind(1)}>
                         <Icon name="left" size={20} />
                     </button>
 
                     <button
-                        class="sandbox__button"
+                        class="game-button sandbox__button"
                         title={running ? 'Пауза' : 'Пуск'}
                         onClick={() => setRunning(!running)}
                     >
                         <Icon name={running ? 'pause' : 'play'} size={20} />
                     </button>
 
-                    <button class="sandbox__button" title="Вперёд на тик" onClick={() => forward(1)}>
+                    <button class="game-button sandbox__button" title="Вперёд на тик" onClick={() => forward(1)}>
                         <Icon name="right" size={20} />
                     </button>
-                    <button class="sandbox__button" title="Вперёд на секунду" onClick={() => forward(SECOND)}>
+                    <button class="game-button sandbox__button" title="Вперёд на секунду" onClick={() => forward(SECOND)}>
                         <Icon name="right" size={20} /><Icon name="right" size={20} />
                     </button>
 
-                    <button class="sandbox__button" onClick={stepInstruction}>инструкция</button>
+                    <button class="game-button sandbox__button" onClick={stepInstruction}>инструкция</button>
 
                     <label class="sandbox__speed" title="Скорость времени">
                         <input
@@ -278,7 +302,25 @@ export function Sandbox() {
                     </label>
                 </div>
 
-                <canvas class="sandbox__world" ref={worldCanvas} onClick={clickWorld} />
+                <div class="sandbox__map">
+                    <canvas class="sandbox__world" ref={worldCanvas} onClick={clickWorld} />
+
+                    {/* Ряд настройки: в игре он появляется под блоком, фон Styles.cleari — чёрный
+                        на 60 процентов, кнопка 40 на 40, значок белый */}
+                    {configured !== null && (
+                        <div class="config-bar" style={configuredSpot()}>
+                            <button
+                                class="config-bar__button"
+                                title="Править программу"
+                                onClick={() => setEditing(scene.processors.findIndex(
+                                    entry => entry.building === configured
+                                ))}
+                            >
+                                <Icon name="pencil_" size={24} />
+                            </button>
+                        </div>
+                    )}
+                </div>
 
                 <div class="sandbox__hint">
                     Щёлкните по процессору, чтобы открыть его программу; по тумблеру — чтобы

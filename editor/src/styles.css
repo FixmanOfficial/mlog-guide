@@ -324,24 +324,54 @@
     justify-content: center;
 }
 
-/* BaseDialog.addCloseButton: кнопка «Назад» со стрелкой, 210 на 64 */
-.dialog__back {
+/*
+ * Кнопка игры. Разбор `button.9.png` показал восьмиугольник: углы срезаны по диагонали
+ * примерно на 9 пикселей, рамка 4 пикселя цветом #454545, внутри сплошной чёрный.
+ * Рамка по срезу — это два слоя: нижний красит фон рамки, верхний вырезает середину.
+ */
+.game-button {
+    position: relative;
+    /* Свой контекст наложения: подложка ложится поверх рамки, но под текст */
+    isolation: isolate;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    width: 210px;
-    height: 64px;
-    background: #000;
-    border: 4px solid #454545;
+    background: #454545;
+    border: none;
     color: var(--text, #e6e6e6);
     font: inherit;
-    font-size: 16px;
     cursor: pointer;
+    clip-path: polygon(
+        9px 0, calc(100% - 9px) 0, 100% 9px, 100% calc(100% - 9px),
+        calc(100% - 9px) 100%, 9px 100%, 0 calc(100% - 9px), 0 9px
+    );
 }
 
-.dialog__back:hover {
+.game-button::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: 4px;
+    background: #000;
+    clip-path: polygon(
+        7px 0, calc(100% - 7px) 0, 100% 7px, 100% calc(100% - 7px),
+        calc(100% - 7px) 100%, 7px 100%, 0 calc(100% - 7px), 0 7px
+    );
+}
+
+.game-button:hover::before {
     background: #14141a;
+}
+
+/* BaseDialog.addCloseButton: кнопка «Назад» со стрелкой, 210 на 64 */
+.dialog__back {
+    width: 210px;
+    height: 64px;
+    font-size: 16px;
+    /* Текст на кнопках игры набран Fonts.outline */
+    -webkit-text-stroke: 4px #3f3f3f;
+    paint-order: stroke fill;
 }
 
 /*

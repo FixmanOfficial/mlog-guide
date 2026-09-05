@@ -93,7 +93,12 @@ export class WorldView {
         ]
     }
 
-    draw({selected = null} = {}) {
+    /**
+     * @param configured здание, у которого открыта настройка. В игре именно для него рисуются
+     *                   круг дальности и рамки связей (`Building.drawConfigure`), а сверху —
+     *                   уголки выделения (`Drawf.selected`).
+     */
+    draw({configured = null} = {}) {
         const context = this.context
 
         context.setTransform(1, 0, 0, 1, 0, 0)
@@ -102,7 +107,38 @@ export class WorldView {
 
         this.drawGrid()
         for (const building of this.world.buildings) this.drawBuilding(building)
-        if (selected !== null) this.drawLinks(selected)
+
+        if (configured !== null) {
+            this.drawLinks(configured)
+            this.drawSelection(configured)
+        }
+    }
+
+    /**
+     * Уголки выделения. `Drawf.selected` рисует один и тот же спрайт `block-select` четыре раза
+     * с поворотами 0, 90, 180 и 270: в спрайте лежит прямоугольный треугольник в углу, поэтому
+     * получаются четыре уголка по краям блока. Катет — 12 пикселей спрайта, то есть 3 мировые
+     * единицы, цвет `Pal.accent`.
+     */
+    drawSelection(building) {
+        const [cx, cy] = this.place(building)
+        const half = building.size * TILE_UNITS / 2 * this.unit
+        const leg = 3 * this.unit
+        const context = this.context
+
+        context.fillStyle = PAL.accent
+
+        for (const [sx, sy] of [[-1, -1], [1, -1], [1, 1], [-1, 1]]) {
+            const x = cx + sx * half
+            const y = cy + sy * half
+
+            context.beginPath()
+            context.moveTo(x, y)
+            context.lineTo(x - sx * leg, y)
+            context.lineTo(x, y - sy * leg)
+            context.closePath()
+            context.fill()
+        }
     }
 
     drawGrid() {

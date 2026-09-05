@@ -41,7 +41,7 @@ export function GlobalsDialog({onClose}) {
                 </div>
 
                 <div class="dialog__buttons">
-                    <button class="dialog__back" onClick={onClose}>Назад</button>
+                    <button class="game-button dialog__back" onClick={onClose}>Назад</button>
                 </div>
             </div>
         </Overlay>

@@ -23,7 +23,7 @@ export function LogicDialog({title, initial, onChange, onClose}) {
                 </div>
 
                 <div class="dialog__buttons">
-                    <button class="dialog__back" onClick={onClose}>
+                    <button class="game-button dialog__back" onClick={onClose}>
                         <Icon name="left" size={22} />
                         <span>Назад</span>
                     </button>
