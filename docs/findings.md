@@ -88,6 +88,27 @@
 | `sensor` от пустого объекта со свойством `@dead` возвращает 1, а не пустое значение | `LExecutor.SenseI` | ✓ `semantics.test.js` |
 | `sensor` от строки со свойством `@size` или `@bufferSize` даёт её длину | `LExecutor.SenseI` | ✓ `semantics.test.js` |
 
+## Дисплей и команды draw
+
+Команда дисплея — не структура, а **упакованный long**: 4 бита на тип и шесть полей по 10 бит
+(`LogicDisplay.DisplayCmdStruct`). Отсюда почти всё, что удивляет в `draw`.
+
+| Деталь | Источник | Тест |
+| --- | --- | --- |
+| **Любой параметр `draw` теряет дробную часть и обрезается до девяти бит с отдельным битом знака**, то есть живёт в диапазоне −511…511. `draw rect 600 0 10 10` рисует на 88 | `LExecutor.DrawI.packSign`, `LogicDisplay.unpackSign` | ✓ `display.test.js` |
+| `draw scale` хранится **числом шагов по 0.05**, а не самим масштабом: `(int)(x / scaleStep)` | `LExecutor.DrawI`, `LogicDisplay.scaleStep` | ✓ `display.test.js` |
+| `draw col` до дисплея не доезжает: `DrawI` распаковывает цвет сам и кладёт в буфер обычный `color` | `LExecutor.DrawI` | ✓ `display.test.js` |
+| `draw image` пакует контент как `(id << 5) | тип`, а тип 30 означает «другой дисплей»: дисплей умеет рисовать дисплей | `LExecutor.DrawI`, `LogicDisplay.displayDrawType` | ✓ `display.test.js` |
+| **Очередь команд вычерпывается при отрисовке**, картинка живёт в `FrameBuffer`. Поэтому `sensor bufferSize` почти всегда ноль, а копится очередь только у дисплея, которого никто не рисует | `LogicDisplay.processCommands` | ✓ `display.test.js` |
+| Начало координат в левом нижнем углу: буфер рисуется проекцией `(0, 0, w, h)`, а на карту кладётся с отрицательной высотой | `LogicDisplay.processCommands`, `draw()` | — |
+| Фон непрорисованного дисплея — `Pal.darkerMetal`, `#565666` | `LogicDisplay.backgroundColor`, `graphics/Pal.java:35` | — |
+| Число сторон у `poly` и `linePoly` ограничено сверху: `maxSides` 25 | `LogicDisplay.maxSides` | — |
+| `lineRect` рисует рамку **внутрь** прямоугольника четырьмя заливками толщиной `stroke`, а не по центру линии | `arc/graphics/g2d/Lines.rect` | — |
+| `line` рисует четырёхугольник с квадратными торцами: концы вылезают за точки на половину толщины | `arc/graphics/g2d/Lines.line` | — |
+| `linePoly` кладёт обводку по обе стороны радиуса с запасом на стык: `stroke / 2 / cos(space / 2)` | `arc/graphics/g2d/Lines.poly` | — |
+| `image` рисуется по центру точки: ширина `p2`, высота `p2 / соотношение сторон`, поворот `p3` | `LogicDisplay.processCommands` | — |
+| `Draw.color` держит цвет во float, а `Color.toFloatBits` маскирует значение по `0xfeffffff` — младший бит альфы теряется, 255 становится 254 | `arc/graphics/Color.java` | — |
+
 ## Текст и цвет
 
 | Деталь | Источник | Тест |
@@ -95,7 +116,10 @@
 | `print` печатает число целым, если оно отличается от целого меньше чем на `1e-5`. Иначе включается форматирование `double` из Java, а оно не совпадает с JS на краях диапазона | `LExecutor.PrintI` | ✓ `world.test.js` |
 | **`format` подставляет значение в место `{N}` с наименьшим номером, а не в первое попавшееся.** Если подходящего места нет, инструкция не делает ничего | `LExecutor.FormatI` | ✓ `world.test.js` |
 | **`packcolor` принимает доли от нуля до единицы**, а литерал `%RRGGBB` — байты 0-255. Две разные шкалы в одном языке | `LExecutor.PackColorI`, `LAssembler.parseColor` | ✓ `world.test.js` |
-| `Color.toFloatBits` маскирует упакованное значение по `0xfeffffff`, поэтому старший бит альфы теряется | `arc/graphics/Color.java` | — |
+| **Упакованный цвет — это RGBA8888 в младших 32 битах `double`**, а не число и не float: `Double.longBitsToDouble`. Печатать его бессмысленно, зато `draw col` достаёт байты обратно тем же приведением | `arc/graphics/Color.toDoubleBits`, `LExecutor.DrawI` | ✓ `display.test.js` |
+| Канал переводится в байт **усечением, а не округлением**: `packcolor c 0.5 …` даёт 127 | `arc/graphics/Color.rgba8888` | ✓ `display.test.js` |
+| Мусор в литерале цвета читается нулём: `%zzzzzz` — это чёрный, а не ошибка разбора | `LAssembler.parseColor`, `arc/util/Strings.parseInt` | ✓ `display.test.js` |
+| Выравнивания лежат в константах: `@center`, `@top`, `@bottomLeft` и ещё шесть | `GlobalVars.java:151`, `LStatement.nameToAlign` | ✓ `display.test.js` |
 
 ## Шрифт логического дисплея
 

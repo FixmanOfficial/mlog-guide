@@ -17,6 +17,7 @@ import {operations, conditions} from './ops.js'
 import {parse} from './parser.js'
 import {PI, E, degRad, radDeg, parseDouble, parseLong, javaDoubleToString} from './arc.js'
 import {NOT_SENSED} from './world.js'
+import {ALIGN_NAMES} from './font.js'
 
 /** Все 53 инструкции из LStatements.java: нужны, чтобы отличать опечатку от неперенесённого. */
 export const KNOWN_INSTRUCTIONS = new Set([
@@ -57,37 +58,55 @@ function baseGlobals() {
     constant('@degToRad', degRad)
     constant('@radToDeg', radDeg)
 
+    // Выравнивание для draw print. GlobalVars.java:151 раскладывает LStatement.nameToAlign
+    for (const [name, value] of Object.entries(ALIGN_NAMES)) constant(`@${name}`, value)
+
     // Свойства sensor: в игре они кладутся в константы обходом LAccess.all
     for (const access of LACCESS) constant(`@${access}`, {access}, true)
 
     return globals
 }
 
-/** Color.toFloatBits: упаковка в ABGR и переинтерпретация битов как float. */
-const colorBuffer = new DataView(new ArrayBuffer(4))
+/**
+ * `Color.toDoubleBits`: RGBA8888 кладётся в **младшие 32 бита double**, а не в float.
+ * Из-за этого упакованный цвет — крошечное денормализованное число, и печатать его
+ * бессмысленно; зато `draw col` достаёт байты обратно тем же приведением.
+ *
+ * Красный в старшем байте: `rgba8888` собирает `(r << 24) | (g << 16) | (b << 8) | a`.
+ */
+const colorBuffer = new DataView(new ArrayBuffer(8))
 
 function packColorBits(r, g, b, a) {
-    const packed = (((a << 24) | (b << 16) | (g << 8) | r) & 0xfeffffff) >>> 0
-    colorBuffer.setUint32(0, packed)
-    return colorBuffer.getFloat32(0)
+    colorBuffer.setUint32(0, 0)
+    colorBuffer.setUint32(4, (((r << 24) | (g << 16) | (b << 8) | a) >>> 0))
+    return colorBuffer.getFloat64(0)
 }
 
-/** Color.fromDouble: обратная распаковка. Красный лежит в младшем байте. */
-function unpackColorBits(value) {
-    colorBuffer.setFloat32(0, value)
-    const packed = colorBuffer.getUint32(0)
+/** Color.fromDouble: `(int)Double.doubleToRawLongBits(value)` — те же младшие 32 бита. */
+export function unpackColorBits(value) {
+    colorBuffer.setFloat64(0, value)
+    const packed = colorBuffer.getUint32(4)
 
     return [
-        (packed & 0xff) / 255,
-        ((packed >>> 8) & 0xff) / 255,
+        (packed >>> 24) / 255,
         ((packed >>> 16) & 0xff) / 255,
-        ((packed >>> 24) & 0xff) / 255
+        ((packed >>> 8) & 0xff) / 255,
+        (packed & 0xff) / 255
     ]
 }
 
+/**
+ * Канал 0..1 в байт. `Color.rgba8888` умножает во float и **усекает**, а не округляет:
+ * половина яркости даёт 127, а не 128.
+ */
+const channelByte = (value) => Math.trunc(Math.fround(Math.fround(clamp01(Math.fround(value))) * 255))
+
 const clamp01 = (value) => Math.min(1, Math.max(0, value))
 
-const hex = (text, from, to) => parseInt(text.slice(from, to), 16)
+const hex = (text, from, to) => {
+    const value = parseInt(text.slice(from, to), 16)
+    return Number.isNaN(value) ? 0 : value
+}
 
 /** Свойства LAccess, читаемые через sensor. Имена совпадают с logic/LAccess.java. */
 export const LACCESS = [
@@ -221,9 +240,7 @@ export class Assembler {
         }
 
         if (symbol.startsWith('%') && (symbol.length === 7 || symbol.length === 9)) {
-            const body = symbol.slice(1)
-            if (!/^[0-9a-fA-F]+$/.test(body)) return NaN
-
+            // Strings.parseInt отдаёт ноль на мусоре, поэтому %zzzzzz — это чёрный, а не ошибка
             return packColorBits(
                 hex(symbol, 1, 3),
                 hex(symbol, 3, 5),
@@ -479,11 +496,8 @@ const builders = {
         return {
             run: () => {
                 // Каналы здесь в долях от нуля до единицы, а не 0-255 как в литерале %RRGGBB
-                const [r, g, b, a] = channels.map(channel => clamp01(channel.num()))
-                result.setnum(packColorBits(
-                    Math.round(r * 255), Math.round(g * 255),
-                    Math.round(b * 255), Math.round(a * 255)
-                ))
+                const [r, g, b, a] = channels.map(channel => channelByte(channel.num()))
+                result.setnum(packColorBits(r, g, b, a))
             }
         }
     },

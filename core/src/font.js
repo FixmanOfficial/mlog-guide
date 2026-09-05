@@ -46,6 +46,19 @@ export const Align = {
     right: 1 << 4
 }
 
+/** Имена выравниваний, которые игра кладёт в константы. LStatement.nameToAlign */
+export const ALIGN_NAMES = {
+    center: Align.center,
+    top: Align.top,
+    bottom: Align.bottom,
+    left: Align.left,
+    right: Align.right,
+    topLeft: Align.top | Align.left,
+    topRight: Align.top | Align.right,
+    bottomLeft: Align.bottom | Align.left,
+    bottomRight: Align.bottom | Align.right
+}
+
 /**
  * Раскладка текста для `draw print`. Возвращает по одной команде на символ, у которого
  * есть глиф; координаты уже посчитаны, рендеру остаётся нарисовать символ в точке.

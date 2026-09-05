@@ -17,6 +17,7 @@ import {testCondition} from './ops.js'
 import {MAX_INSTRUCTIONS} from './parser.js'
 import {LVar} from './lvar.js'
 import {layoutPrint} from './font.js'
+import {unpackColorBits} from './assembler.js'
 
 /** Сколько инструкций процессор успевает за тик. content/Blocks.java */
 export const IPT = {
@@ -28,6 +29,15 @@ export const IPT = {
 /** LExecutor.java:44-46 */
 export const MAX_TEXT_BUFFER = 400
 export const MAX_GRAPHICS_BUFFER = 256
+
+/** LogicDisplay.scaleStep: draw scale хранится шагами по 0.05. */
+export const SCALE_STEP = 0.05
+
+/**
+ * Поля команды дисплея — по 10 бит: девять на модуль, один на знак.
+ * `LExecutor.DrawI.packSign` и `LogicDisplay.unpackSign` вместе дают вот это.
+ */
+export const packSign = (value) => (value < 0 ? -1 : 1) * (Math.abs(value) & 0b111111111)
 
 /** LogicBlock.maxInstructionScale: потолок накопленного долга по инструкциям. */
 export const MAX_INSTRUCTION_SCALE = 5
@@ -148,18 +158,54 @@ export class Processor {
         if (this.textBuffer.length > MAX_TEXT_BUFFER) this.textBuffer = this.textBuffer.slice(0, MAX_TEXT_BUFFER)
     }
 
-    /** DrawI: команда кладётся в буфер как данные, рисованием занимается сайт. */
+    /**
+     * DrawI: команда кладётся в буфер как данные, рисованием занимается сайт.
+     *
+     * Все параметры проходят через `packSign` — в игре команда упакована в long полями по
+     * 10 бит, поэтому от числа остаются девять бит модуля и бит знака. Дробная часть теряется
+     * ещё раньше, на `numi()`. Из-за этого `draw rect 600 0 10 10` рисует на 88, а не за краем.
+     */
     appendDraw(type, args) {
         if (this.graphicsBuffer.length >= MAX_GRAPHICS_BUFFER) return
 
-        const [x, y, p1, p2, p3, p4] = args.map(variable => variable.num())
+        const [x, y, p1, p2, p3, p4] = args
 
         if (type === 'print') {
-            this.appendPrintGlyphs(Math.trunc(x), Math.trunc(y), Math.trunc(p1))
+            this.appendPrintGlyphs(x.numi(), y.numi(), p1.numi())
             return
         }
 
-        this.graphicsBuffer.push({type, x, y, p1, p2, p3, p4})
+        // draw col: цвет распаковывается здесь же и уезжает в буфер обычной командой color
+        if (type === 'col') {
+            const [r, g, b, a] = unpackColorBits(x.num()).map(channel => Math.round(channel * 255))
+            this.graphicsBuffer.push({type: 'color', x: r, y: g, p1: b, p2: a, p3: 0, p4: 0})
+            return
+        }
+
+        const command = {
+            type,
+            x: packSign(x.numi()),
+            y: packSign(y.numi()),
+            p1: packSign(p1.numi()),
+            p2: packSign(p2.numi()),
+            p3: packSign(p3.numi()),
+            p4: packSign(p4.numi())
+        }
+
+        if (type === 'image') {
+            // Картинка задаётся объектом контента: в игре сюда пакуется его тип и номер
+            command.content = p1.obj()
+            command.p1 = 0
+            command.p4 = 0
+        }
+
+        // Масштаб хранится в шагах по 0.05: LogicDisplay.scaleStep
+        if (type === 'scale') {
+            command.x = packSign(Math.trunc(x.num() / SCALE_STEP))
+            command.y = packSign(Math.trunc(y.num() / SCALE_STEP))
+        }
+
+        this.graphicsBuffer.push(command)
     }
 
     /**
@@ -174,7 +220,7 @@ export class Processor {
 
         for (const command of layoutPrint(this.textBuffer, x, y, align)) {
             if (this.graphicsBuffer.length >= MAX_GRAPHICS_BUFFER) break
-            this.graphicsBuffer.push(command)
+            this.graphicsBuffer.push({...command, x: packSign(command.x), y: packSign(command.y)})
         }
 
         this.textBuffer = ''

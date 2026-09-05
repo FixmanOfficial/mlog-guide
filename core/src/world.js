@@ -171,6 +171,20 @@ export class DisplayBuilding extends Building {
         this.operations++
     }
 
+    /**
+     * Рендер забирает накопленные команды и рисует их себе в буфер.
+     *
+     * В игре ровно так же: `processCommands` вычерпывает очередь при каждой отрисовке дисплея,
+     * а картинка живёт в `FrameBuffer`, не в здании. Отсюда и `sensor bufferSize`, который почти
+     * всегда ноль: команды не копятся, пока дисплей виден. Если рендера нет — например, тест
+     * гоняется в ноде, — очередь копится до предела, как у дисплея за краем экрана.
+     */
+    take() {
+        const commands = this.commands
+        this.commands = []
+        return commands
+    }
+
     clear() {
         this.commands.length = 0
     }

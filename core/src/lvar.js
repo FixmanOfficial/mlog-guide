@@ -30,6 +30,14 @@ export class LVar {
         return invalid(this.numval) ? 0 : this.numval
     }
 
+    /** LVar.numi: приведение к int усекает к нулю и упирается в границы 32 бит. */
+    numi() {
+        const value = Math.trunc(this.num())
+        if (value > 2147483647) return 2147483647
+        if (value < -2147483648) return -2147483648
+        return value
+    }
+
     /** То же, но null-объект даёт NaN: часть инструкций различает «нет значения» и ноль. */
     numOrNan() {
         if (this.isobj) return this.objval !== null ? 1 : NaN
