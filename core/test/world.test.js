@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 
-import {World, DOOR_TOGGLE_DELAY} from '../src/world.js'
+import {World, DOOR_TOGGLE_DELAY, BLOCK_SPECS} from '../src/world.js'
 import {Processor} from '../src/vm.js'
 
 /** Собирает мир с набором блоков и процессор, подключённый ко всем сразу. */
@@ -98,7 +98,9 @@ test('sensor читает свойства блока', () => {
 
     assert.equal(processor.num('cap'), 64)
     assert.equal(processor.num('width'), 176)
-    assert.equal(processor.num('alive'), 130)
+
+    // Здоровье в игре не задано числом, а выведено из размера и состава: Block.init
+    assert.equal(processor.num('alive'), 40)
 })
 
 test('неизвестное свойство даёт пустое значение, а не ноль', () => {
@@ -302,4 +304,26 @@ test('сброс чистит дисплей и возвращает дверь 
     assert.equal(display.sense('bufferSize'), 0)
     assert.equal(display.sense('operations'), 0)
     assert.equal(door.sense('enabled'), 0)
+})
+
+test('спеки блоков совпадают с посчитанными по формуле игры', () => {
+    // Block.init: round(size * size * 40 * (1 + сумма healthScaling), 5), если здоровье
+    // не задано числом. Ни у одного логического блока оно не задано
+    assert.equal(BLOCK_SPECS['micro-processor'].health, 40)
+    assert.equal(BLOCK_SPECS['logic-processor'].health, 190, 'торий добавляет 0.2')
+    assert.equal(BLOCK_SPECS['hyper-processor'].health, 520, 'торий и сплав добавляют 0.45')
+    assert.equal(BLOCK_SPECS['large-logic-display'].health, 1800, 'фазовое волокно добавляет 0.25')
+
+    // У двери здоровье задано прямо: 100 * wallHealthMultiplier
+    assert.equal(BLOCK_SPECS.door.health, 400)
+
+    // Скорость и дальность связи процессоров
+    assert.deepEqual(
+        ['micro-processor', 'logic-processor', 'hyper-processor'].map(name => BLOCK_SPECS[name].ipt),
+        [2, 8, 25]
+    )
+    assert.deepEqual(
+        ['micro-processor', 'logic-processor', 'hyper-processor'].map(name => BLOCK_SPECS[name].range),
+        [80, 176, 336]
+    )
 })

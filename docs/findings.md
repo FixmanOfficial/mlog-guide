@@ -83,6 +83,7 @@
 | Буферы ограничены: графика 256 команд, дисплей 1024, текст 400 символов | `LExecutor.java:44-46` | ✓ `world.test.js` |
 | Чтение за границей памяти даёт **NaN, а не ноль** — и потому превращается в объект null. Запись за границей молча игнорируется | `world/blocks/logic/MemoryBlock.java` | ✓ `world.test.js` |
 | Размеры: `memory-cell` 64 ячейки, `memory-bank` 512, `logic-display` 80 точек, `large-logic-display` 176, сообщение 400 символов | `content/Blocks.java:6875-6896`, `MessageBlock.java:29` | ✓ `world.test.js` |
+| **Здоровье блока почти нигде не задано числом**: `Block.init` считает его как `round(size * size * 40 * (1 + сумма healthScaling предметов), 5)`. Поэтому у микропроцессора 40, а у логического 190 — торий добавляет 0.2 | `world/Block.java:1385-1403`, `content/Items.java` | ✓ `world.test.js` |
 | `printflush` и `drawflush` чистят буфер **всегда**, даже если цель не подходит по типу или команде | `LExecutor.PrintFlushI`, `DrawFlushI` | ✓ `world.test.js` |
 | `flushCommands` увеличивает счётчик `operations` при каждом сбросе, даже когда буфер дисплея переполнен и команды не влезли | `world/blocks/logic/LogicDisplay.java` | ✓ `world.test.js` |
 | **Блок с чётной стороной стоит по углу тайла**: `offset = ((size + 1) % 2) * tilesize / 2`, а занимает тайлы начиная со своего (`sizeOffset = -((size - 1) / 2)`). Поэтому `sensor @x` у процессора 2 на 2 отдаёт половинную координату | `world/Block.java:761-762`, `BuildingComp:2101` | ✓ `world.test.js` |

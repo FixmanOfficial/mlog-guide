@@ -10,22 +10,19 @@
  * Проигрывает их canvas на стороне сайта.
  */
 
+import specs from '../data/block-specs.json' with {type: 'json'}
+
 /** Sentinel из Senseable: свойство отдаёт число, а не объект. */
 export const NOT_SENSED = Symbol('notSensed')
 
-/** Размеры из content/Blocks.java. */
-export const BLOCK_SPECS = {
-    'memory-cell': {size: 1, memoryCapacity: 64, health: 130},
-    'memory-bank': {size: 2, memoryCapacity: 512, health: 400},
-    'logic-display': {size: 3, displaySize: 80, health: 300},
-    'large-logic-display': {size: 6, displaySize: 176, health: 1200},
-    'message': {size: 1, health: 20},
-    'switch': {size: 1, health: 20},
-    'door': {size: 1, health: 100},
-    'micro-processor': {size: 1, health: 240, ipt: 2},
-    'logic-processor': {size: 2, health: 640, ipt: 8},
-    'hyper-processor': {size: 3, health: 960, ipt: 25}
-}
+/**
+ * Спеки блоков: размер, здоровье, дальность связи, скорость, объём памяти, сторона дисплея.
+ *
+ * Снимаются генератором `tools/gen-block-specs.mjs` из `content/Blocks.java`. Руками их
+ * писать нельзя: здоровье в игре почти нигде не задано числом, а выводится в `Block.init`
+ * из размера и состава — `round(size * size * 40 * (1 + сумма healthScaling), 5)`.
+ */
+export const BLOCK_SPECS = specs.blocks
 
 /** MessageBlock.maxTextLength */
 export const MAX_MESSAGE_LENGTH = 400

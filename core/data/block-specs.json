@@ -1,0 +1,201 @@
+{
+  "gameVersion": "v159.7",
+  "source": "core/src/mindustry/content/Blocks.java",
+  "note": "Файл сгенерирован, править вручную нельзя. Здоровье посчитано формулой Block.init: round(size * size * 40 * (1 + сумма healthScaling), 5), если оно не задано числом.",
+  "blocks": {
+    "message": {
+      "size": 1,
+      "health": 40,
+      "requirements": [
+        {
+          "item": "graphite",
+          "amount": 5
+        },
+        {
+          "item": "copper",
+          "amount": 5
+        }
+      ]
+    },
+    "switch": {
+      "size": 1,
+      "health": 40,
+      "requirements": [
+        {
+          "item": "graphite",
+          "amount": 5
+        },
+        {
+          "item": "copper",
+          "amount": 5
+        }
+      ]
+    },
+    "door": {
+      "size": 1,
+      "health": 400,
+      "requirements": [
+        {
+          "item": "titanium",
+          "amount": 6
+        },
+        {
+          "item": "silicon",
+          "amount": 4
+        }
+      ]
+    },
+    "micro-processor": {
+      "size": 1,
+      "health": 40,
+      "ipt": 2,
+      "range": 80,
+      "requirements": [
+        {
+          "item": "copper",
+          "amount": 90
+        },
+        {
+          "item": "lead",
+          "amount": 50
+        },
+        {
+          "item": "silicon",
+          "amount": 50
+        }
+      ]
+    },
+    "logic-processor": {
+      "size": 2,
+      "health": 190,
+      "ipt": 8,
+      "range": 176,
+      "requirements": [
+        {
+          "item": "lead",
+          "amount": 320
+        },
+        {
+          "item": "silicon",
+          "amount": 80
+        },
+        {
+          "item": "graphite",
+          "amount": 60
+        },
+        {
+          "item": "thorium",
+          "amount": 50
+        }
+      ]
+    },
+    "hyper-processor": {
+      "size": 3,
+      "health": 520,
+      "ipt": 25,
+      "range": 336,
+      "requirements": [
+        {
+          "item": "lead",
+          "amount": 450
+        },
+        {
+          "item": "silicon",
+          "amount": 150
+        },
+        {
+          "item": "thorium",
+          "amount": 75
+        },
+        {
+          "item": "surgeAlloy",
+          "amount": 50
+        }
+      ]
+    },
+    "memory-cell": {
+      "size": 1,
+      "health": 40,
+      "memoryCapacity": 64,
+      "requirements": [
+        {
+          "item": "graphite",
+          "amount": 30
+        },
+        {
+          "item": "silicon",
+          "amount": 30
+        },
+        {
+          "item": "copper",
+          "amount": 30
+        }
+      ]
+    },
+    "memory-bank": {
+      "size": 2,
+      "health": 200,
+      "memoryCapacity": 512,
+      "requirements": [
+        {
+          "item": "graphite",
+          "amount": 80
+        },
+        {
+          "item": "silicon",
+          "amount": 80
+        },
+        {
+          "item": "phaseFabric",
+          "amount": 30
+        },
+        {
+          "item": "copper",
+          "amount": 30
+        }
+      ]
+    },
+    "logic-display": {
+      "size": 3,
+      "health": 360,
+      "displaySize": 80,
+      "requirements": [
+        {
+          "item": "lead",
+          "amount": 100
+        },
+        {
+          "item": "silicon",
+          "amount": 50
+        },
+        {
+          "item": "metaglass",
+          "amount": 50
+        }
+      ]
+    },
+    "large-logic-display": {
+      "size": 6,
+      "health": 1800,
+      "displaySize": 176,
+      "requirements": [
+        {
+          "item": "lead",
+          "amount": 200
+        },
+        {
+          "item": "silicon",
+          "amount": 150
+        },
+        {
+          "item": "metaglass",
+          "amount": 100
+        },
+        {
+          "item": "phaseFabric",
+          "amount": 75
+        }
+      ]
+    }
+  }
+}

@@ -33,12 +33,8 @@ export const SPRITE_SCALE = 4
 /** LogicDisplay.scaleFactor: во сколько раз картинка крупнее своего буфера. */
 export const SCALE_FACTOR = 1
 
-/** LogicBlock.range: дальность связи в мировых единицах. content/Blocks.java */
-export const LINK_RANGE = {
-    'micro-processor': 8 * 10,
-    'logic-processor': 8 * 22,
-    'hyper-processor': 8 * 42
-}
+/** Дальность связи по умолчанию, если у здания её нет. LogicBlock.range */
+export const DEFAULT_RANGE = 8 * 10
 
 export class WorldView {
     /**
@@ -193,7 +189,8 @@ export class WorldView {
      */
     drawLinks(building) {
         const [px, py] = this.place(building)
-        const range = (LINK_RANGE[building.type] ?? LINK_RANGE['micro-processor']) * this.unit
+        // Дальность приходит из спеки блока: она снята генератором вместе с размером
+        const range = (building.spec.range ?? DEFAULT_RANGE) * this.unit
 
         // Drawf.circles: окружность из отрезков, тёмная подложка толщиной 3 и цвет толщиной 1
         this.circles(px, py, range, PAL.accent)
