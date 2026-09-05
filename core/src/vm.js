@@ -48,13 +48,19 @@ export class Processor {
      * @param options ipt — инструкций за тик; links — подключённые здания; world — модель мира;
      *                content — таблицы для lookup; плюс globals и colors для сборщика
      */
-    constructor(code = '', {ipt = IPT.logic, links = [], world = null, content = null, ...assemblerOptions} = {}) {
+    constructor(code = '', {ipt = IPT.logic, links = [], world = null, content = null,
+        team = 1, building = null, ...assemblerOptions} = {}) {
         this.ipt = ipt
         this.links = links
         this.world = world
         this.content = content
+        this.team = team
+        this.building = building
         this.delta = 1
         this.assemblerOptions = assemblerOptions
+
+        // LExecutor.binds: у каждого процессора свой счётчик обхода по каждому типу юнита
+        this.binds = new Map()
 
         this.load(code)
     }
@@ -84,6 +90,7 @@ export class Processor {
         this.stopped = false
         this.yield = false
         this.accumulator = 0
+        this.binds = new Map()
 
         this.bindEnvironment()
         return this
@@ -101,6 +108,10 @@ export class Processor {
 
         set('@ipt', this.ipt)
         set('@links', this.links.length)
+
+        // @this — само здание процессора; ucontrol записывает его юниту как хозяина команды
+        const thisv = this.vars.get('@this')
+        if (thisv !== undefined) thisv.setconst(this.building)
 
         if (this.world !== null) {
             const {tick, time, second, minute} = this.world.time
@@ -312,6 +323,7 @@ export class Processor {
         this.stopped = false
         this.yield = false
         this.accumulator = 0
+        this.binds = new Map()
 
         this.bindEnvironment()
         return this

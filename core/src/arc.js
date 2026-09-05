@@ -349,3 +349,181 @@ export function parseDouble(value) {
     const parsed = parseLong(value, 10, start, end)
     return parsed === null ? NaN : Number(parsed) * sign
 }
+
+/*
+ * Mathf.sin: не вычисление, а таблица на 16384 значения. Это не оптимизация ради скорости,
+ * а часть семантики: угол квантуется шагом 360/16384 градуса, и любой поворот в игре
+ * ложится на эту сетку. Считать через Math.sin — значит разойтись с игрой в младших разрядах,
+ * а движение юнита складывается из тысяч таких шагов. Mathf.java:25
+ */
+const sinBits = 14
+const sinMask = ~(-1 << sinBits)
+const sinCount = sinMask + 1
+const radFull = f(PI * 2)
+const degToIndex = f(sinCount / 360)
+const radToIndex = f(sinCount / radFull)
+
+const sinTable = new Float32Array(sinCount)
+
+for (let i = 0; i < sinCount; i++) sinTable[i] = Math.sin(f(f((i + 0.5) / sinCount) * radFull))
+
+// Четверти правятся вручную: иначе sin(0) не ноль, а половина шага таблицы
+for (let i = 0; i < 360; i += 90) sinTable[Math.trunc(f(i * degToIndex)) & sinMask] = Math.sin(f(i * degRad))
+
+sinTable[0] = 0
+sinTable[Math.trunc(f(90 * degToIndex)) & sinMask] = 1
+sinTable[Math.trunc(f(180 * degToIndex)) & sinMask] = 0
+sinTable[Math.trunc(f(270 * degToIndex)) & sinMask] = -1
+
+/*
+ * Индекс считается во float, и это не педантизм. В double `PI * radToIndex` даёт
+ * 8191.9997 и после отбрасывания дроби попадает в соседнюю ячейку — cos(90°) выходит
+ * не нулём, а 0.00019. Во float то же произведение округляется ровно до 8192.
+ */
+export const sin = (radians) => sinTable[Math.trunc(f(radians * radToIndex)) & sinMask]
+export const cos = (radians) => sinTable[Math.trunc(f(f(radians + halfPi) * radToIndex)) & sinMask]
+export const sinDeg = (degrees) => sinTable[Math.trunc(f(degrees * degToIndex)) & sinMask]
+export const cosDeg = (degrees) => sinTable[Math.trunc(f(f(degrees + 90) * degToIndex)) & sinMask]
+
+/** Mathf.clamp */
+export const clamp = (value, min = 0, max = 1) => f(Math.max(Math.min(value, max), min))
+
+/** Mathf.approach: шаг к цели, но не дальше неё. */
+export const approach = (from, to, speed) => f(from + clamp(f(to - from), -speed, speed))
+
+/** Angles.within */
+export const within = (a, b, margin) => angleDist(a, b) <= margin
+
+/**
+ * Angles.moveToward: поворот к цели с ограничением скорости. Направление выбирается
+ * сравнением «вперёд или назад ближе», причём обе дистанции считаются как модуль разности,
+ * а не по кратчайшей дуге — в исходнике именно так.
+ */
+export function moveToward(angle, to, speed) {
+    if (Math.abs(angleDist(angle, to)) < speed) return to
+
+    angle = mod(angle, 360)
+    to = mod(to, 360)
+
+    const forward = Math.abs(f(angle - to))
+    const backward = f(360 - forward)
+
+    return f(angle > to === backward > forward ? angle - speed : angle + speed)
+}
+
+/**
+ * arc.math.geom.Vec2 — в объёме, который нужен движению. Каждое присваивание округляется
+ * до float: в Java эти поля объявлены float, и накопленная разница в них видна уже
+ * через сотню тиков.
+ *
+ * Мутабельность оставлена как в исходнике: игра переиспользует временные векторы, и порядок
+ * операций в `moveTo` рассчитан именно на это.
+ */
+export class Vec2 {
+    constructor(x = 0, y = 0) {
+        this.x = f(x)
+        this.y = f(y)
+    }
+
+    set(x, y) {
+        if (typeof x === 'object') return this.set(x.x, x.y)
+        this.x = f(x)
+        this.y = f(y)
+        return this
+    }
+
+    add(x, y) {
+        if (typeof x === 'object') return this.add(x.x, x.y)
+        this.x = f(this.x + x)
+        this.y = f(this.y + y)
+        return this
+    }
+
+    sub(x, y) {
+        if (typeof x === 'object') return this.sub(x.x, x.y)
+        this.x = f(this.x - x)
+        this.y = f(this.y - y)
+        return this
+    }
+
+    scl(scalar) {
+        this.x = f(this.x * scalar)
+        this.y = f(this.y * scalar)
+        return this
+    }
+
+    len() {
+        return f(Math.sqrt(f(f(this.x * this.x) + f(this.y * this.y))))
+    }
+
+    len2() {
+        return f(f(this.x * this.x) + f(this.y * this.y))
+    }
+
+    /** setLength2: длина задаётся через квадраты, поэтому нулевой вектор так и остаётся нулевым. */
+    setLength(length) {
+        const target = f(length * length)
+        const current = this.len2()
+
+        if (current === 0 || current === target) return this
+        return this.scl(f(Math.sqrt(f(target / current))))
+    }
+
+    /** limit2: укорачивает, но не удлиняет. */
+    limit(limit) {
+        const target = f(limit * limit)
+        const current = this.len2()
+
+        if (current > target) return this.scl(f(Math.sqrt(f(target / current))))
+        return this
+    }
+
+    rotate(degrees) {
+        return this.rotateRad(f(degrees * degRad))
+    }
+
+    rotateRad(radians) {
+        const c = cos(radians)
+        const s = sin(radians)
+
+        const x = f(f(this.x * c) - f(this.y * s))
+        const y = f(f(this.x * s) + f(this.y * c))
+
+        this.x = x
+        this.y = y
+        return this
+    }
+
+    /** Vec2.trns: вектор длины amount под углом angle. */
+    trns(degrees, amount) {
+        return this.set(amount, 0).rotate(degrees)
+    }
+
+    setZero() {
+        this.x = 0
+        this.y = 0
+        return this
+    }
+
+    angle() {
+        const value = f(atan2(this.x, this.y) * radDeg)
+        return value < 0 ? f(value + 360) : value
+    }
+
+    isZero(margin) {
+        return margin === undefined ? this.x === 0 && this.y === 0 : this.len2() < margin
+    }
+
+    isNaN() {
+        return Number.isNaN(this.x) || Number.isNaN(this.y)
+    }
+
+    isInfinite() {
+        return !Number.isFinite(this.x) && !Number.isNaN(this.x)
+            || !Number.isFinite(this.y) && !Number.isNaN(this.y)
+    }
+
+    cpy() {
+        return new Vec2(this.x, this.y)
+    }
+}

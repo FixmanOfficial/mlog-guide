@@ -11,9 +11,10 @@
  */
 
 import specs from '../data/block-specs.json' with {type: 'json'}
+import {Unit, unconv} from './unit.js'
+import {NOT_SENSED} from './sense.js'
 
-/** Sentinel из Senseable: свойство отдаёт число, а не объект. */
-export const NOT_SENSED = Symbol('notSensed')
+export {NOT_SENSED}
 
 /**
  * Спеки блоков: размер, здоровье, дальность связи, скорость, объём памяти, сторона дисплея.
@@ -337,13 +338,16 @@ const LINK_PREFIX = {
 }
 
 export class World {
-    constructor({width = 40, height = 40} = {}) {
+    constructor({width = 40, height = 40, content = null} = {}) {
         this.width = width
         this.height = height
+        this.content = content
         this.tick = 0
         this.buildings = []
         this.processors = []
+        this.units = []
         this.linkCounters = new Map()
+        this.nextUnitId = 0
     }
 
     /** Ставит здание и выдаёт ему имя связи по типу и порядку подключения. */
@@ -378,16 +382,43 @@ export class World {
         })
     }
 
+    /**
+     * Выпускает юнита. Координаты здесь тайловые, как везде наружу, а внутри юнит живёт
+     * в мировых единицах: восемь на тайл.
+     */
+    spawn(type, {x = 0, y = 0, ...options} = {}) {
+        const unit = new Unit(this, type, {...options, x: unconv(x), y: unconv(y), id: this.nextUnitId++})
+
+        // Объект контента нужен, чтобы `sensor @unit @type` отдавал @poly, а не строку
+        unit.content = this.content?.types?.unit?.find(item => item.name === type) ?? null
+
+        this.units.push(unit)
+        return unit
+    }
+
+    /**
+     * Юниты команды одного типа, в порядке появления. Это и есть `team.data().unitCache(type)`,
+     * по которому `ubind` ходит по кругу.
+     */
+    unitsOf(team, type) {
+        return this.units.filter(unit => unit.team === team && unit.type === type && !unit.dead)
+    }
+
     addProcessor(processor) {
         this.processors.push(processor)
         processor.world = this
         return processor
     }
 
-    /** Один игровой тик: сначала здания, потом процессоры. */
+    /**
+     * Один игровой тик. Порядок из `Logic.updateEntities`: сначала юниты, потом здания
+     * и процессоры. Из-за него команда `ucontrol`, отданная в этом тике, двигает юнита
+     * только в следующем.
+     */
     step(delta = 1) {
         this.tick += delta
 
+        for (const unit of this.units) unit.update(delta)
         for (const building of this.buildings) building.update()
         for (const processor of this.processors) processor.tick(delta)
 
@@ -404,6 +435,7 @@ export class World {
      */
     reset() {
         this.tick = 0
+        for (const unit of this.units) unit.reset()
         for (const building of this.buildings) building.reset()
         for (const processor of this.processors) processor.reset()
         return this

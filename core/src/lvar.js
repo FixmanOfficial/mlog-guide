@@ -38,6 +38,11 @@ export class LVar {
         return value
     }
 
+    /** LVar.numf: то же число, но округлённое до float — так его берут инструкции юнитов. */
+    numf() {
+        return Math.fround(this.num())
+    }
+
     /** То же, но null-объект даёт NaN: часть инструкций различает «нет значения» и ноль. */
     numOrNan() {
         if (this.isobj) return this.objval !== null ? 1 : NaN
@@ -75,6 +80,16 @@ export class LVar {
 
     setbool(value) {
         this.setnum(value ? 1 : 0)
+    }
+
+    /**
+     * LVar.setconst: запись мимо проверки на константу. Так `ubind` кладёт юнита в `@unit`,
+     * хотя тот объявлен константой: константа здесь означает «программе не писать»,
+     * а не «не меняется».
+     */
+    setconst(value) {
+        this.objval = value
+        this.isobj = true
     }
 
     /** Присвоение значения константе здесь не блокируется — так же, как в LVar.set. */

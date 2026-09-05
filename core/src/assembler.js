@@ -16,7 +16,8 @@ import {Diagnostic, diagnostic} from './errors.js'
 import {operations, conditions} from './ops.js'
 import {parse} from './parser.js'
 import {PI, E, degRad, radDeg, parseDouble, parseLong, javaDoubleToString} from './arc.js'
-import {NOT_SENSED} from './world.js'
+import {NOT_SENSED} from './sense.js'
+import {Unit, LogicAI, UNIT_SPECS, LOGIC_CONTROL_TIMEOUT, conv, unconv} from './unit.js'
 import {ALIGN_NAMES} from './font.js'
 
 /** Все 53 инструкции из LStatements.java: нужны, чтобы отличать опечатку от неперенесённого. */
@@ -124,6 +125,16 @@ export const LACCESS = [
 ]
 
 /** Свойства control, принимающие объект, а не число. LAccess: isObj */
+/**
+ * Команды `ucontrol`, которые песочница исполняет. Остальные — добыча, стройка, снос,
+ * передача предметов и грузов — требуют модели ресурсов и планов постройки; пока их нет,
+ * сборщик честно ставит диагностику, а не притворяется, что команда прошла.
+ */
+const UNIT_CONTROLS = new Set([
+    'idle', 'stop', 'move', 'approach', 'pathfind', 'autoPathfind',
+    'boost', 'target', 'targetp', 'flag', 'getBlock', 'within', 'unbind'
+])
+
 const OBJECT_CONTROLS = new Set(['shootp', 'config'])
 
 /** Достаёт имя свойства из константы вида @enabled. */
@@ -463,6 +474,156 @@ const builders = {
                     : values[0].num()
 
                 object.control(property, first, values[1].num(), values[2].num(), values[3].num())
+            }
+        }
+    },
+
+    /**
+     * UnitBindI: обход юнитов команды по кругу. Счётчик у процессора свой на каждый тип,
+     * поэтому два `ubind @poly` подряд дают разных юнитов, а не одного и того же.
+     * Привязка к `null` в игре когда-то работала и была убрана как слишком сильная.
+     */
+    ubind: (asm, params) => {
+        const type = asm.var(params[0] ?? '@poly')
+        const unit = asm.var('@unit')
+
+        return {
+            run: (vm) => {
+                const object = type.obj()
+
+                if (object !== null && object.contentType === 'unit') {
+                    const spec = UNIT_SPECS[object.name]
+                    if (spec === undefined || !spec.logicControllable) return unit.setconst(null)
+
+                    const seq = vm.world?.unitsOf(vm.team, object.name) ?? []
+                    if (seq.length === 0) return unit.setconst(null)
+
+                    const index = (vm.binds.get(object.name) ?? 0) % seq.length
+                    unit.setconst(seq[index])
+                    vm.binds.set(object.name, index + 1)
+                    return
+                }
+
+                // Привязка к конкретному юниту: только своей команды и только управляемому
+                if (object instanceof Unit && object.team === vm.team && object.spec.logicControllable) {
+                    return unit.setconst(object)
+                }
+
+                unit.setconst(null)
+            }
+        }
+    },
+
+    /**
+     * UnitControlI. Ничего не двигает: вешает на юнита LogicAI и пишет в него поля.
+     * Каждый вызов продлевает контроль на десять секунд — отсюда привычка держать
+     * `ucontrol move` в цикле, а не отдавать команду один раз.
+     */
+    ucontrol: (asm, params, line) => {
+        const type = params[0] ?? 'move'
+        const values = [1, 2, 3, 4, 5].map(i => asm.var(params[i] ?? '0'))
+        const unitVar = asm.var('@unit')
+
+        if (!UNIT_CONTROLS.has(type)) {
+            asm.report(Diagnostic.NOT_IMPLEMENTED, line, {instruction: `ucontrol ${type}`})
+            return null
+        }
+
+        return {
+            run: (vm) => {
+                const unit = unitVar.obj()
+                if (!(unit instanceof Unit) || unit.dead || unit.team !== vm.team) return
+                if (!unit.spec.logicControllable) return
+
+                // checkLogicAI: контроллер создаётся при первой команде и чистит старое занятие
+                let ai = unit.controller
+                if (ai instanceof LogicAI) {
+                    ai.controller = vm.building
+                } else {
+                    ai = new LogicAI(vm.building)
+                    unit.controller = ai
+                    unit.mineTile = null
+                    unit.clearBuilding()
+                }
+
+                ai.controlTimer = LOGIC_CONTROL_TIMEOUT
+
+                const x1 = unconv(values[0].numf())
+                const y1 = unconv(values[1].numf())
+                const d1 = unconv(values[2].numf())
+
+                switch (type) {
+                    case 'idle':
+                    case 'autoPathfind':
+                        ai.control = type
+                        break
+
+                    case 'move':
+                    case 'stop':
+                    case 'approach':
+                    case 'pathfind':
+                        ai.control = type
+                        ai.moveX = x1
+                        ai.moveY = y1
+                        if (type === 'approach') ai.moveRad = d1
+
+                        if (type === 'stop') {
+                            unit.mineTile = null
+                            unit.clearBuilding()
+                        }
+                        break
+
+                    case 'unbind':
+                        unit.resetController()
+                        break
+
+                    case 'within':
+                        values[3].setnum(unit.within(x1, y1, d1) ? 1 : 0)
+                        break
+
+                    case 'target':
+                        ai.posTarget = {x: x1, y: y1}
+                        ai.aimControl = type
+                        ai.mainTarget = null
+                        ai.shoot = values[2].bool()
+                        break
+
+                    case 'targetp':
+                        ai.aimControl = type
+                        ai.mainTarget = values[0].obj()
+                        ai.shoot = values[1].bool()
+                        break
+
+                    case 'boost':
+                        ai.boost = values[0].bool()
+                        break
+
+                    case 'flag':
+                        unit.flag = values[0].num()
+                        break
+
+                    case 'getBlock': {
+                        const range = Math.max(unit.range() ?? 0, unit.spec.buildRange)
+
+                        if (!unit.within(x1, y1, range)) {
+                            values[2].setobj(null)
+                            values[3].setobj(null)
+                            values[4].setobj(null)
+                            break
+                        }
+
+                        // World.tileWorld округляет к ближайшему тайлу, а не отбрасывает дробь
+                        const building = vm.world?.at(Math.round(conv(x1)), Math.round(conv(y1))) ?? null
+                        const block = building === null ? 'air' : building.type
+
+                        values[2].setobj(vm.content?.types?.block?.find(item => item.name === block) ?? null)
+                        values[3].setobj(building)
+
+                        // Пол и руду мы не моделируем, поэтому третий результат всегда пуст
+                        values[4].setobj(null)
+                        break
+                    }
+                }
             }
         }
     },

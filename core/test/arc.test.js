@@ -1,7 +1,7 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 
-import {PI, E, radDeg, parseDouble, Rand, angle, dst} from '../src/arc.js'
+import {PI, E, radDeg, parseDouble, Rand, angle, dst, sinDeg, cosDeg, moveToward, Vec2} from '../src/arc.js'
 import {Processor} from '../src/vm.js'
 
 test('@pi это float из Mathf, а не число пи двойной точности', () => {
@@ -78,4 +78,43 @@ test('Rand повторяет последовательность при рав
 
 test('разные seed дают разные последовательности', () => {
     assert.notEqual(new Rand(1n).nextDouble(), new Rand(2n).nextDouble())
+})
+
+test('синус в arc берётся из таблицы, а не считается', () => {
+    // Mathf.sin: 16384 значения, шаг 360/16384 градуса. Отсюда и ошибка в пятом знаке,
+    // и то, что она одинаковая в игре и у нас
+    const index = Math.trunc(30 * 16384 / 360)
+    const expected = Math.sin((index + 0.5) / 16384 * Math.fround(PI * 2))
+
+    assert.equal(sinDeg(30), Math.fround(expected))
+    assert.notEqual(sinDeg(30), 0.5)
+})
+
+test('четверти в таблице синусов поправлены руками и потому точные', () => {
+    assert.equal(sinDeg(0), 0)
+    assert.equal(sinDeg(90), 1)
+    assert.equal(sinDeg(180), 0)
+    assert.equal(sinDeg(270), -1)
+    assert.equal(cosDeg(0), 1)
+})
+
+test('поворот на прямой угол не оставляет мусора', () => {
+    const vector = new Vec2(1, 0).rotate(90)
+
+    assert.equal(vector.x, 0)
+    assert.equal(vector.y, 1)
+})
+
+test('setLength не удлиняет нулевой вектор, limit не удлиняет короткий', () => {
+    assert.equal(new Vec2(0, 0).setLength(5).len(), 0)
+    assert.equal(new Vec2(3, 4).limit(10).len(), 5)
+    assert.equal(new Vec2(3, 4).limit(2.5).len(), 2.5)
+})
+
+test('moveToward доворачивает через ноль по короткой стороне', () => {
+    assert.equal(moveToward(350, 10, 5), 355)
+    assert.equal(moveToward(10, 350, 5), 5)
+
+    // Ближе шага — сразу цель, без проскока
+    assert.equal(moveToward(10, 12, 5), 12)
 })
