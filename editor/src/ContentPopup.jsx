@@ -61,6 +61,7 @@ export function ContentPopup({current, anchor, onPick, onClose}) {
                     : {left: `${position.left}px`, top: `${position.top}px`}}
                 onClick={(event) => event.stopPropagation()}
             >
+                <div class="content-popup__scroll">
                 <div class="content-popup__tabs">
                     {TABS.map(entry => (
                         <button
@@ -100,6 +101,7 @@ export function ContentPopup({current, anchor, onPick, onClose}) {
                         ))}
                     </div>
                 )}
+                </div>
             </div>
         </div>
     )

@@ -401,6 +401,7 @@
     z-index: 20;
 }
 
+/* Та же таблица, тот же фон: рамка 4 цвета #454545, внутри чёрный. Tex.paneSolid */
 .popup {
     position: fixed;
     display: grid;
@@ -408,8 +409,8 @@
     padding: 4px;
     max-height: 90vh;
     overflow: auto;
-    background: #14141a;
-    border: 2px solid var(--outline, #3f3f3f);
+    background: #000;
+    border: 4px solid #454545;
 }
 
 /*
@@ -486,14 +487,23 @@
     background: rgba(255, 255, 255, 0.12);
 }
 
+/*
+ * Всплывающая таблица создаётся с фоном Tex.paneSolid и отступом 4: разбор спрайта
+ * показал рамку 4 пикселя цвета #454545 и сплошной чёрный внутри. Фон однотонный —
+ * ни вкладки, ни список своего фона не имеют. LStatement.showSelectTable
+ */
 .content-popup {
     position: fixed;
     z-index: 21;
-    max-height: 70vh;
-    overflow: auto;
     padding: 4px;
-    background: #14141a;
-    border: 2px solid var(--outline, #3f3f3f);
+    background: #000;
+    border: 4px solid #454545;
+}
+
+/* Прокрутка охватывает и вкладки: в игре ScrollPane обёрнут вокруг всей таблицы */
+.content-popup__scroll {
+    max-height: 70vh;
+    overflow-y: auto;
 }
 
 .content-popup__tabs {
@@ -514,7 +524,7 @@
     display: grid;
     place-items: center;
     border: 4px solid transparent;
-    background: #000;
+    background: transparent;
     color: #fff;
     cursor: pointer;
 }
@@ -525,7 +535,6 @@
 
 .content-popup__tab--current {
     border-color: #ffd37f;
-    background: #000;
 }
 
 /* Шесть в ряд, ячейка 40 — как в игре */
@@ -533,8 +542,6 @@
     display: grid;
     grid-template-columns: repeat(6, 40px);
     width: 240px;
-    max-height: 60vh;
-    overflow-y: auto;
 }
 
 /* Свойства идут по одному в строке, кнопка 240 на 40. SensorStatement.build */
@@ -542,8 +549,6 @@
     display: flex;
     flex-direction: column;
     width: 240px;
-    max-height: 60vh;
-    overflow-y: auto;
 }
 
 .content-popup__cell {
@@ -597,27 +602,23 @@
  * Полоса прокрутки. Спрайты игры: дорожка scroll.9 — чёрная с прозрачностью 0.6,
  * ползунок scroll-knob-vertical-black — сплошной #454545 шириной 24. Скруглений нет.
  */
-.content-popup__list,
-.content-popup__grid,
+.content-popup__scroll,
 .popup {
     scrollbar-width: auto;
     scrollbar-color: #454545 rgba(0, 0, 0, 0.6);
 }
 
-.content-popup__list::-webkit-scrollbar,
-.content-popup__grid::-webkit-scrollbar,
+.content-popup__scroll::-webkit-scrollbar,
 .popup::-webkit-scrollbar {
     width: 24px;
 }
 
-.content-popup__list::-webkit-scrollbar-track,
-.content-popup__grid::-webkit-scrollbar-track,
+.content-popup__scroll::-webkit-scrollbar-track,
 .popup::-webkit-scrollbar-track {
     background: rgba(0, 0, 0, 0.6);
 }
 
-.content-popup__list::-webkit-scrollbar-thumb,
-.content-popup__grid::-webkit-scrollbar-thumb,
+.content-popup__scroll::-webkit-scrollbar-thumb,
 .popup::-webkit-scrollbar-thumb {
     background: #454545;
     border: none;
