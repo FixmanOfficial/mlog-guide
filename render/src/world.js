@@ -10,7 +10,7 @@
  * Всё остальное — рамка связи, круг дальности, порядок отрисовки — снято из исходников.
  */
 
-import {polyPoints, polyRing} from './geometry.js'
+import {polyPoints, polyRing, rectBorders} from './geometry.js'
 
 /** Vars.tilesize: восемь мировых единиц на тайл. */
 export const TILE_UNITS = 8
@@ -115,29 +115,19 @@ export class WorldView {
     }
 
     /**
-     * Уголки выделения. `Drawf.selected` рисует один и тот же спрайт `block-select` четыре раза
-     * с поворотами 0, 90, 180 и 270: в спрайте лежит прямоугольный треугольник в углу, поэтому
-     * получаются четыре уголка по краям блока. Катет — 12 пикселей спрайта, то есть 3 мировые
-     * единицы, цвет `Pal.accent`.
+     * Рамка настраиваемого блока. `Building.drawConfigure` — это ровно три строки: цвет
+     * `Pal.accent`, толщина 1 и квадрат со стороной `size * 8 / 2 + 1`. Никакой тёмной подложки
+     * под ним нет, а рамка уходит внутрь квадрата, потому что так рисует `Lines.rect`.
      */
     drawSelection(building) {
         const [cx, cy] = this.place(building)
-        const half = building.size * TILE_UNITS / 2 * this.unit
-        const leg = 3 * this.unit
+        const half = (building.size * TILE_UNITS / 2 + 1) * this.unit
         const context = this.context
 
         context.fillStyle = PAL.accent
 
-        for (const [sx, sy] of [[-1, -1], [1, -1], [1, 1], [-1, 1]]) {
-            const x = cx + sx * half
-            const y = cy + sy * half
-
-            context.beginPath()
-            context.moveTo(x, y)
-            context.lineTo(x - sx * leg, y)
-            context.lineTo(x, y - sy * leg)
-            context.closePath()
-            context.fill()
+        for (const [x, y, width, height] of rectBorders(cx - half, cy - half, half * 2, half * 2, this.unit)) {
+            context.fillRect(x, y, width, height)
         }
     }
 
