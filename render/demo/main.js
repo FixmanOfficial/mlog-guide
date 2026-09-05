@@ -1,20 +1,22 @@
 /**
- * Стенд дисплея: программа слева, дисплей справа.
+ * Стенд рендера: мир слева, дисплей справа, программа снизу.
  *
- * Здесь нет ничего от песочницы — только проверка, что команды `draw` доезжают до холста
- * такими же, какими их видит игра.
+ * Это ещё не песочница — здесь нет ни редактора мира, ни таблицы переменных. Задача одна:
+ * убедиться, что мир и дисплей рисуются так же, как в игре.
  */
 
 import {World} from '@mlog/core/src/world.js'
-import {Processor} from '@mlog/core/src/vm.js'
+import {Processor, IPT} from '@mlog/core/src/vm.js'
 import {createContent} from '@mlog/core/src/content.js'
 import logicIds from '@mlog/core/data/logic-ids.json'
 import sprites from '@mlog/core/data/sprites.json'
 
 import atlasUrl from '../../editor/assets/content.png'
 import fontUrl from '../assets/logic.ttf'
+import uiFontUrl from '../../editor/assets/ui.ttf'
 
 import {DisplayView} from '../src/display.js'
+import {WorldView} from '../src/world.js'
 
 const content = createContent(logicIds)
 
@@ -22,82 +24,81 @@ const SAMPLES = {
     'Фигуры': `draw clear 20 20 30
 draw color 255 180 0 255
 draw stroke 3
-draw line 10 10 70 40
+draw line 5 5 70 35
 draw color 0 200 255 255
-draw rect 10 50 30 20
+draw rect 5 45 25 20
 draw color 255 255 255 255
-draw lineRect 50 50 25 25
+draw lineRect 40 45 25 25
 draw color 200 60 255 255
-draw poly 30 110 6 20 0
-draw linePoly 90 110 5 20 15
+draw poly 20 20 6 12 0
 draw color 60 255 120 255
-draw triangle 120 20 170 20 145 60
+draw triangle 45 5 70 5 58 25
 drawflush display1`,
 
     'Текст': `draw clear 0 0 0
 draw color 255 255 255 255
-print "mlog.guide"
-draw print 88 120 @center
-print "left"
-draw print 4 90 @bottomLeft
-print "\\n2 lines"
-draw print 88 40 @center
+print "mlog"
+draw print 40 55 @center
+print "guide"
+draw print 40 40 @center
+op idiv s @time 1000
+op mod s s 60
+print s
+draw print 40 20 @center
+drawflush display1`,
+
+    'Иконки': `draw clear 25 25 30
+draw image 20 60 @copper 24 0
+draw image 60 60 @router 24 0
+draw image 20 20 @titanium 24 0
+draw image 60 20 @dagger 24 45
 drawflush display1`,
 
     'Границы координат': `draw clear 10 10 10
 draw color 255 80 80 255
-draw rect 600 20 20 20
+draw rect 600 50 20 20
 draw color 80 255 80 255
-draw rect 88 60 20 20
-draw color 255 255 255 255
-print "600 = 88"
-draw print 88 130 @center
+draw rect 88 20 20 20
 drawflush display1`,
 
-    'Иконки': `draw clear 25 25 30
-draw image 40 130 @copper 32 0
-draw image 90 130 @router 32 0
-draw image 140 130 @dagger 32 45
-draw image 40 80 @water 32 0
-draw image 90 80 @titanium 32 0
-draw image 140 80 @silicon 32 0
-drawflush display1`,
-
-    'Преобразования': `draw clear 0 0 0
-draw color 255 200 0 255
-draw translate 88 88
-draw rotate 0 0 20
-draw scale 1.5 1.5
-draw lineRect -20 -20 40 40
-draw reset
-draw color 120 200 255 255
-draw lineRect 4 4 40 40
-drawflush display1`,
-
-    'Часы': `set t @time
-op idiv s t 1000
+    'Часы': `op idiv s @time 1000
 op mod s s 60
 draw clear 0 0 0
 draw color 255 255 255 255
-draw linePoly 88 88 40 60 0
+draw linePoly 40 40 40 30 0
 op mul a s 6
 op sub a 90 a
 op cos dx a
 op sin dy a
-op mul dx dx 50
-op mul dy dy 50
-op add dx dx 88
-op add dy dy 88
+op mul dx dx 26
+op mul dy dy 26
+op add dx dx 40
+op add dy dy 40
 draw stroke 2
-draw line 88 88 dx dy
+draw line 40 40 dx dy
+drawflush display1`,
+
+    'Мир': `sensor open switch1 @enabled
+control enabled door1 open
+write @tick cell1 0
+print "тумблер: "
+print open
+printflush message1
+draw clear 0 0 0
+draw color 255 210 120 255
+draw rect 10 10 open 60
 drawflush display1`
 }
 
-// Шрифт дисплея грузится страницей: рендер только называет семейство
+// Шрифты грузит страница: рендер только называет семейство
 const logicFont = new FontFace('MlogLogic', `url(${fontUrl})`)
+const uiFont = new FontFace('MlogUi', `url(${uiFontUrl})`)
 document.fonts.add(logicFont)
+document.fonts.add(uiFont)
 
-const canvas = document.querySelector('#display')
+const atlas = new Image()
+atlas.src = atlasUrl
+
 const codeArea = document.querySelector('#code')
 const sampleBox = document.querySelector('#sample')
 const note = document.querySelector('#note')
@@ -109,55 +110,104 @@ for (const name of Object.keys(SAMPLES)) {
     sampleBox.append(option)
 }
 
-const atlas = new Image()
-atlas.src = atlasUrl
+/** Сцена: процессор, дисплей и всё, на чём проверяются sensor и control. */
+const world = new World({width: 18, height: 10})
+const display = world.add('logic-display', {x: 12, y: 6})
+const cell = world.add('memory-cell', {x: 4, y: 2})
+const message = world.add('message', {x: 6, y: 2})
+const toggle = world.add('switch', {x: 4, y: 7})
+const door = world.add('door', {x: 6, y: 7})
+const cpu = world.add('micro-processor', {x: 8, y: 4})
 
-const view = new DisplayView(canvas, {
-    size: 176,
-    pixelRatio: 3,
+const displayView = new DisplayView(document.querySelector('#display'), {
+    size: display.spec.displaySize,
+    pixelRatio: 4,
     atlas,
     sprites
 })
 
-canvas.style.width = '352px'
-canvas.style.height = '352px'
+const worldView = new WorldView(document.querySelector('#world'), {
+    world,
+    tile: 40,
+    atlas,
+    sprites,
+    displays: new Map([[display, displayView.canvas]])
+})
 
-let world
-let display
-let processor
+const displayCanvas = displayView.canvas
+displayCanvas.style.width = `${display.spec.displaySize * 2}px`
+displayCanvas.style.height = `${display.spec.displaySize * 2}px`
+
+let processor = null
+let running = false
 
 function build(code) {
-    world = new World()
-    display = world.add('large-logic-display')
-    processor = new Processor(code, {links: [display], world, content, globals: content.globals})
-    world.addProcessor(processor)
-}
+    processor = new Processor(code, {
+        links: [display, cell, message, toggle, door],
+        world,
+        content,
+        globals: content.globals,
+        ipt: IPT.micro
+    })
 
-function run() {
-    build(codeArea.value)
-
-    // Рисуем после каждого тика, как игра: иначе очередь дисплея переполнится и
-    // картинка оборвётся на середине — предел в 1024 команды никуда не делся
-    for (let i = 0; i < 60; i++) {
-        world.step()
-        view.draw(display)
-    }
+    // Связи в игре держит процессор; здание о них знает, потому что это одно и то же
+    cpu.processor = processor
+    world.processors = [processor]
+    world.tick = 0
+    displayView.reset()
 
     const errors = processor.diagnostics ?? []
     note.textContent = errors.length === 0
-        ? 'Дисплей 176 на 176, начало координат в левом нижнем углу. Картинка накапливается: стирает её только draw clear.'
-        : errors.map(error => `${error.line}: ${error.code}`).join('\n')
+        ? 'Мир 18 на 10, тайл 40 пикселей. Круг — дальность связи процессора, рамки — подключённые блоки.'
+        : errors.map(error => `строка ${error.line}: ${error.code}`).join('\n')
 }
 
-document.querySelector('#run').addEventListener('click', run)
-document.querySelector('#clear').addEventListener('click', () => view.reset())
+/** Один кадр игры: тик мира, потом отрисовка — дисплей вычерпывает очередь именно здесь. */
+function frame() {
+    world.step()
+    displayView.draw(display)
+    worldView.draw({selected: cpu})
+
+    document.querySelector('#state').textContent =
+        `тик ${world.tick} · ${message.message || 'сообщение пусто'} · cell1[0] = ${cell.read(0)}`
+
+    if (running) requestAnimationFrame(frame)
+}
+
+function restart() {
+    build(codeArea.value)
+    if (!running) {
+        running = true
+        requestAnimationFrame(frame)
+    }
+}
+
+document.querySelector('#run').addEventListener('click', restart)
+document.querySelector('#pause').addEventListener('click', () => {
+    running = !running
+    if (running) requestAnimationFrame(frame)
+})
+document.querySelector('#step').addEventListener('click', () => {
+    running = false
+    world.step()
+    displayView.draw(display)
+    worldView.draw({selected: cpu})
+})
+
+// Тумблером щёлкают мышью: sensor должен это увидеть
+worldView.canvas.addEventListener('click', (event) => {
+    const box = worldView.canvas.getBoundingClientRect()
+    const spot = worldView.at(event.clientX - box.left, event.clientY - box.top)
+    const building = world.at(spot.x, spot.y)
+
+    if (building === toggle) toggle.enabled = !toggle.enabled
+})
 
 sampleBox.addEventListener('change', () => {
     codeArea.value = SAMPLES[sampleBox.value]
-    run()
+    restart()
 })
 
 codeArea.value = SAMPLES['Фигуры']
-atlas.addEventListener('load', run)
-logicFont.load().then(run)
-run()
+Promise.all([logicFont.load(), uiFont.load()]).then(restart)
+restart()
