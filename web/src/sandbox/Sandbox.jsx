@@ -8,7 +8,9 @@
 
 import {useEffect, useRef, useState} from 'preact/hooks'
 
-import {GlobalsDialog, LogicDialog, applyEasings, applyNinePatches, toText} from '@mlog/editor'
+import {
+    GlobalsDialog, LogicDialog, applyEasings, applyMetrics, applyNinePatches, toText
+} from '@mlog/editor'
 import {Icon} from '@mlog/editor/src/Icon.jsx'
 import {DisplayView} from '@mlog/render/src/display.js'
 import {WorldView} from '@mlog/render/src/world.js'
@@ -84,6 +86,7 @@ export function Sandbox() {
     useEffect(() => {
         applyEasings()
         applyNinePatches()
+        applyMetrics()
 
         const scene = createScene()
 

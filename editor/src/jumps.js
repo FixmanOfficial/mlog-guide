@@ -1,3 +1,5 @@
+import {METRICS} from './theme.js'
+
 /**
  * Стрелки переходов.
  *
@@ -10,12 +12,12 @@
  * Без этого схема с несколькими циклами превращается в кашу.
  */
 
-/** Высота первой дорожки и шаг между ними. LCanvas.java:694-695 */
-export const LANE_BASE = {wide: 40, narrow: 20}
-export const LANE_STEP = {wide: 10, narrow: 8}
+/** Высота первой дорожки и шаг между ними. LCanvas.drawCurve */
+export const LANE_BASE = {wide: METRICS.jumpLane, narrow: METRICS.jumpLanePortrait}
+export const LANE_STEP = {wide: METRICS.jumpLaneStep, narrow: METRICS.jumpLaneStepPortrait}
 
 /** Толщина линии. LCanvas.drawCurve */
-export const STROKE = 4
+export const STROKE = METRICS.jumpStroke
 
 /**
  * Приводит переходы к виду, с которым работает раскладка.

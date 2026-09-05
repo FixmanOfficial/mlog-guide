@@ -7,3 +7,4 @@ export {createStatement, operations, toText, fromText, INSTRUCTIONS, AVAILABLE, 
 export {CATEGORY_COLORS, METRICS, categoryColor, displayName} from './theme.js'
 export {EASINGS, applyEasings} from './easing.js'
 export {PATCHES, applyNinePatches} from './nine.js'
+export {applyMetrics} from './metrics.js'

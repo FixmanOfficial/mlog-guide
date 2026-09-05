@@ -20,6 +20,7 @@
     "gen:globals": "node tools/gen-globals.mjs",
     "gen:pal": "node tools/gen-pal.mjs",
     "gen:block-specs": "node tools/gen-block-specs.mjs",
-    "gen:nine": "node tools/gen-nine.mjs"
+    "gen:nine": "node tools/gen-nine.mjs",
+    "gen:metrics": "node tools/gen-metrics.mjs"
   }
 }

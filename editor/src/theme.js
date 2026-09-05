@@ -1,3 +1,5 @@
+import metrics from '@mlog/core/data/metrics.json' with {type: 'json'}
+
 /**
  * Внешний вид редактора, снятый из игры.
  *
@@ -16,24 +18,14 @@ export const CATEGORY_COLORS = {
     unknown: '#4d4d4d'
 }
 
-/** LCanvas: размеры в пикселях при масштабе 1. */
-export const METRICS = {
-    // Шапка строки: высота и внутренний отступ
-    headerHeight: 38,
-    headerPadding: 6,
-    // Кнопки шапки: добавить, копировать, удалить
-    buttonSize: 24,
-    buttonGap: 6,
-    // Тело строки
-    bodyPadding: 4,
-    bodyPaddingTop: 2,
-    bodyMarginLeft: 4,
-    // Расстояние между строками: DragLayout.space
-    statementSpace: 10,
-    // Ширина полотна: широкая раскладка и узкая
-    canvasWidth: 900,
-    canvasWidthNarrow: 400
-}
+/**
+ * Размеры интерфейса при масштабе 1. Снимает `tools/gen-metrics.mjs` прямо из исходников:
+ * в Java это литералы вида `height(38)`, `t.margin(6f)`, `.size(24f).padRight(6)`.
+ *
+ * Раньше числа переносились глазами сразу в три места — сюда, в раскладки и в CSS. Теперь
+ * место одно, а при обновлении версии игры генератор падает, если шаблон перестал совпадать.
+ */
+export const METRICS = metrics.metrics
 
 /**
  * Стрелки переходов белые, а не в цвет категории: JumpButton ставит себе Color.white

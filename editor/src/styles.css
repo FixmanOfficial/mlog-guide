@@ -63,7 +63,7 @@
 .editor__list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: var(--m-statement-space, 10px);
 }
 
 /*
@@ -87,12 +87,12 @@
 .statement {
     border: var(--white-pane-border, 5px) solid var(--category);
     /* StatementElem.draw: под содержимым лежит чёрный на 30 процентов, а не сплошной */
-    background: rgba(0, 0, 0, 0.3);
+    background: rgb(0 0 0 / var(--m-statement-fill-alpha, 0.3));
     user-select: none;
     /* Fill.dropShadow: размер элемента плюс 5, размытие 10, прозрачность 0.9 */
     box-shadow: 0 0 10px 2.5px rgba(0, 0, 0, 0.9);
     /* marginBottom(7) — отступ ВНУТРИ строки: рамка спускается ниже тела */
-    padding-bottom: 7px;
+    padding-bottom: var(--m-statement-margin-bottom, 7px);
 }
 
 .statement--dragging {
@@ -106,8 +106,8 @@
 .statement__header {
     display: flex;
     align-items: center;
-    height: 38px;
-    padding: 0 6px;
+    height: var(--m-header-height, 38px);
+    padding: 0 var(--m-header-padding, 6px);
     background: var(--category);
     color: #14141a;
     font-weight: 600;
@@ -121,11 +121,11 @@
 .statement__name,
 .statement__index {
     color: var(--header-text);
-    margin-right: 8px;
+    margin-right: var(--m-name-padding, 8px);
 }
 
 .statement__button + .statement__button {
-    margin-left: 6px;
+    margin-left: var(--m-button-gap, 6px);
 }
 
 /* Погасшая кнопка: в игре Styles.logici красит значок в Color.gray и не отвечает на нажатие */
@@ -281,8 +281,8 @@
  * и цвет строки. Отрицательный отступ слева из `fieldAlignSelect` прижимает её к полю.
  */
 .pencil {
-    width: 40px;
-    height: 40px;
+    width: var(--m-pencil-size, 40px);
+    height: var(--m-pencil-size, 40px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -418,8 +418,8 @@
 
 /* BaseDialog.addCloseButton: кнопка «Назад» со стрелкой, 210 на 64 */
 .dialog__back {
-    width: 210px;
-    height: 64px;
+    width: var(--m-close-button-width, 210px);
+    height: var(--m-dialog-button-height, 64px);
     font-size: 16px;
     /* Текст на кнопках игры набран Fonts.outline */
     -webkit-text-stroke: 4px #3f3f3f;
@@ -428,8 +428,8 @@
 
 /* LogicDialog: у окна процессора свой ряд, кнопки 160 на 64 */
 .logic-dialog__button {
-    width: 160px;
-    height: 64px;
+    width: var(--m-dialog-button-width, 160px);
+    height: var(--m-dialog-button-height, 64px);
     font-size: 16px;
     -webkit-text-stroke: 4px #3f3f3f;
     paint-order: stroke fill;
@@ -452,8 +452,8 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    width: 280px;
-    height: 60px;
+    width: var(--m-edit-button-width, 280px);
+    height: var(--m-edit-button-height, 60px);
     padding-left: 12px;
     background: none;
     border: none;
@@ -518,7 +518,7 @@
  */
 .globals {
     display: grid;
-    grid-template-columns: 8px auto 8px minmax(0, 600px);
+    grid-template-columns: var(--m-vars-stub, 8px) auto var(--m-vars-stub, 8px) minmax(0, 600px);
     row-gap: 4px;
     align-items: stretch;
 }
@@ -599,7 +599,7 @@
 /* Три кнопки в ряд — LogicDialog.showAddDialog */
 .group__items {
     display: grid;
-    grid-template-columns: repeat(3, 130px);
+    grid-template-columns: repeat(var(--m-add-columns, 3), var(--m-add-button-width, 130px));
     gap: 2px;
 }
 
@@ -609,8 +609,8 @@
  * LogicDialog.showAddDialog:329-336
  */
 .group__item {
-    width: 130px;
-    height: 50px;
+    width: var(--m-add-button-width, 130px);
+    height: var(--m-add-button-height, 50px);
     padding: 4px 8px;
     border: none;
     background: #000;
