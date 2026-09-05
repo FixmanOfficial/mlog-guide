@@ -116,7 +116,10 @@
  */
 .statement__name,
 .statement__index,
-.popup__item {
+.popup__item,
+.content-popup__item,
+.group__item,
+.dialog__header {
     -webkit-text-stroke: 4px var(--outline, #3f3f3f);
     paint-order: stroke fill;
 }
@@ -125,7 +128,10 @@
 @supports not (paint-order: stroke) {
     .statement__name,
     .statement__index,
-    .popup__item {
+    .popup__item,
+    .content-popup__item,
+    .group__item,
+    .dialog__header {
         -webkit-text-stroke: 0;
         text-shadow:
             2px 0 0 var(--outline, #3f3f3f), -2px 0 0 var(--outline, #3f3f3f),
@@ -489,29 +495,43 @@
     margin-bottom: 4px;
 }
 
+/* Вкладки — иконки, кнопка со стилем squareTogglei: выбранная подсвечена рамкой */
 .content-popup__tab {
-    padding: 5px 10px;
-    border: none;
+    width: 60px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border: 2px solid transparent;
     background: transparent;
-    color: #9a9a9a;
-    font: inherit;
+    color: #fff;
     cursor: pointer;
 }
 
+.content-popup__tab:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
 .content-popup__tab--current {
-    background: #ffd37f;
-    color: #14141a;
+    border-color: #ffd37f;
+    background: rgba(255, 211, 127, 0.15);
 }
 
 /* Шесть в ряд, ячейка 40 — как в игре */
 .content-popup__grid {
     display: grid;
     grid-template-columns: repeat(6, 40px);
+    width: 240px;
+    max-height: 60vh;
+    overflow-y: auto;
 }
 
+/* Свойства идут по одному в строке, кнопка 240 на 40. SensorStatement.build */
 .content-popup__list {
-    display: grid;
-    grid-template-columns: repeat(3, 130px);
+    display: flex;
+    flex-direction: column;
+    width: 240px;
+    max-height: 60vh;
+    overflow-y: auto;
 }
 
 .content-popup__cell {
@@ -535,12 +555,11 @@
 }
 
 .content-popup__item {
-    padding: 5px 8px;
+    height: 40px;
     border: none;
     background: transparent;
-    color: #e6e6e6;
+    color: #fff;
     font: inherit;
-    text-align: left;
     cursor: pointer;
 }
 

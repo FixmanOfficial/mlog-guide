@@ -8,7 +8,7 @@
  * Локаль задаётся снаружи: редактор не решает, на каком языке говорит сайт.
  */
 
-import ru from '@mlog/core/data/i18n/ru.json' with {type: 'json'}
+import ru from '@mlog/core/data/i18n/ru.json'
 
 let bundle = ru
 

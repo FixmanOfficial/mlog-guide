@@ -1,27 +1,28 @@
 import {useLayoutEffect, useRef, useState} from 'preact/hooks'
 
-import sprites from '@mlog/core/data/sprites.json' with {type: 'json'}
+import sprites from '@mlog/core/data/sprites.json'
 
 import {ENUMS, ENUM_PARAMS} from './program.js'
 import {propertyTip, contentName} from './tooltips.js'
+import {Icon} from './Icon.jsx'
 
 /**
- * Выбор контента для `sensor` — то самое большое меню с вкладками.
+ * Выбор контента для `sensor` — то самое большое меню.
  *
- * В игре это не сетка значений, а отдельная таблица: предметы, жидкости, блоки и юниты
- * идут иконками по 40 пикселей, по шесть в ряд (`LStatements.SensorStatement.build`).
- * Первой вкладкой добавлены сами свойства: без них меню бесполезно, а в игре они лежат
- * в соседней кнопке.
+ * Строение из LStatements.SensorStatement.build: четыре вкладки с иконками `box`, `liquid`,
+ * `units` и `tree`, под ними стопка шириной 240. Предметы, жидкости, юниты и блоки идут
+ * иконками по 40 пикселей, по шесть в ряд, а свойства — списком кнопок 240 на 40, по одной
+ * в строке.
  *
- * Иконки берутся из атласа, собранного `tools/gen-sprites.mjs`: одна картинка на весь контент.
+ * Юниты и блоки лежат в ОДНОЙ вкладке: в игре третья таблица перечисляет сначала юнитов,
+ * потом блоки.
  */
 
 const TABS = [
-    {id: 'property', title: 'Свойства'},
-    {id: 'item', title: 'Предметы'},
-    {id: 'liquid', title: 'Жидкости'},
-    {id: 'block', title: 'Блоки'},
-    {id: 'unit', title: 'Юниты'}
+    {id: 'item', icon: 'box', types: ['item']},
+    {id: 'liquid', icon: 'liquid', types: ['liquid']},
+    {id: 'unit', icon: 'units', types: ['unit', 'block']},
+    {id: 'property', icon: 'tree', types: []}
 ]
 
 /** Свойства, которые умеет читать sensor: у них не больше одного параметра. LAccess.senseable */
@@ -29,7 +30,7 @@ const PROPERTIES = ENUMS.LAccess.filter(value => (ENUM_PARAMS.LAccess[value] ?? 
 
 export function ContentPopup({current, anchor, onPick, onClose}) {
     const ref = useRef(null)
-    const [tab, setTab] = useState('property')
+    const [tab, setTab] = useState('item')
     const [position, setPosition] = useState(null)
 
     useLayoutEffect(() => {
@@ -45,6 +46,10 @@ export function ContentPopup({current, anchor, onPick, onClose}) {
             top: Math.min(Math.max(4, box.bottom + 4), window.innerHeight - size.height - 4)
         })
     }, [anchor, tab])
+
+    const active = TABS.find(entry => entry.id === tab)
+    const names = active.types.flatMap(type =>
+        Object.keys(sprites.index[type] ?? {}).map(name => ({type, name})))
 
     return (
         <div class="popup-overlay" onClick={onClose}>
@@ -63,14 +68,14 @@ export function ContentPopup({current, anchor, onPick, onClose}) {
                             class={`content-popup__tab${tab === entry.id ? ' content-popup__tab--current' : ''}`}
                             onClick={() => setTab(entry.id)}
                         >
-                            {entry.title}
+                            <Icon name={entry.icon} size={26} />
                         </button>
                     ))}
                 </div>
 
-                <div class={tab === 'property' ? 'content-popup__list' : 'content-popup__grid'}>
-                    {tab === 'property'
-                        ? PROPERTIES.map(name => (
+                {tab === 'property' ? (
+                    <div class="content-popup__list">
+                        {PROPERTIES.map(name => (
                             <button
                                 key={name}
                                 class={`content-popup__item${current === `@${name}` ? ' content-popup__item--current' : ''}`}
@@ -79,18 +84,22 @@ export function ContentPopup({current, anchor, onPick, onClose}) {
                             >
                                 {name}
                             </button>
-                        ))
-                        : Object.keys(sprites.index[tab] ?? {}).map(name => (
+                        ))}
+                    </div>
+                ) : (
+                    <div class="content-popup__grid">
+                        {names.map(({type, name}) => (
                             <button
-                                key={name}
+                                key={`${type}/${name}`}
                                 class={`content-popup__cell${current === `@${name}` ? ' content-popup__cell--current' : ''}`}
-                                title={contentName(tab, name) ?? name}
+                                title={contentName(type, name) ?? name}
                                 onClick={() => onPick(`@${name}`)}
                             >
-                                <ContentIcon type={tab} name={name} />
+                                <ContentIcon type={type} name={name} />
                             </button>
                         ))}
-                </div>
+                    </div>
+                )}
             </div>
         </div>
     )
@@ -103,7 +112,6 @@ export function ContentIcon({type, name, size = 32}) {
 
     const column = cell % sprites.columns
     const row = Math.floor(cell / sprites.columns)
-    const scale = size / sprites.cell
 
     return (
         <span
@@ -112,8 +120,7 @@ export function ContentIcon({type, name, size = 32}) {
                 width: `${size}px`,
                 height: `${size}px`,
                 backgroundSize: `${sprites.columns * size}px auto`,
-                backgroundPosition: `-${column * size}px -${row * size}px`,
-                imageRendering: scale >= 1 ? 'pixelated' : 'auto'
+                backgroundPosition: `-${column * size}px -${row * size}px`
             }}
         />
     )

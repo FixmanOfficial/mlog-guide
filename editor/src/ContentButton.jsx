@@ -1,6 +1,6 @@
 import {useRef, useState} from 'preact/hooks'
 
-import sprites from '@mlog/core/data/sprites.json' with {type: 'json'}
+import sprites from '@mlog/core/data/sprites.json'
 
 import {ContentPopup, ContentIcon} from './ContentPopup.jsx'
 import {Icon} from './Icon.jsx'

@@ -1,4 +1,4 @@
-import table from '@mlog/core/data/icons.json' with {type: 'json'}
+import table from '@mlog/core/data/icons.json'
 
 /**
  * Иконка интерфейса игры.
