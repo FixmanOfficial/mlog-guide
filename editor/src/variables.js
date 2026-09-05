@@ -6,6 +6,7 @@
  */
 
 import {javaDoubleToString} from '@mlog/core/src/arc.js'
+import {MAX_TEXT_BUFFER} from '@mlog/core/src/vm.js'
 import pal from '@mlog/core/data/pal.json' with {type: 'json'}
 
 /**
@@ -56,6 +57,27 @@ export function valueText(variable) {
     return Math.abs(value - Math.round(value)) < 0.00001
         ? String(Math.round(value))
         : javaDoubleToString(value)
+}
+
+/**
+ * Текстовый буфер процессора отдельной строкой таблицы.
+ *
+ * В ванильной игре его не видно: `print` копит текст внутри исполнителя, и пока не сработает
+ * `printflush` или `draw print`, узнать содержимое нельзя. Это неудобно ровно там, где ошибка
+ * чаще всего и сидит, поэтому популярный мод показывает буфер в таблице переменных — а вслед
+ * за ним и мы.
+ *
+ * Строка помечена как добавка: она не переменная, записать в неё нельзя, и в списке `vars`
+ * её нет. Тип у неё строковый, как у всего, что печатается.
+ */
+export function bufferRow(processor) {
+    return {
+        name: 'textBuffer',
+        type: 'string',
+        value: processor.textBuffer,
+        limit: MAX_TEXT_BUFFER,
+        extra: true
+    }
 }
 
 /**

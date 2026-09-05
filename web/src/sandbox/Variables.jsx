@@ -14,7 +14,9 @@
  * и оно закрыто тестами. Здесь только разметка.
  */
 
-import {TYPE_COLORS, NAME_BACKGROUND, dim, typeName, valueText} from '@mlog/editor/src/variables.js'
+import {
+    TYPE_COLORS, NAME_BACKGROUND, bufferRow, dim, typeName, valueText
+} from '@mlog/editor/src/variables.js'
 
 /**
  * @param beat меняется, когда пора перечитать значения. Само значение при этом не передаётся:
@@ -22,10 +24,7 @@ import {TYPE_COLORS, NAME_BACKGROUND, dim, typeName, valueText} from '@mlog/edit
  */
 export function Variables({processor, beat}) {
     const rows = [...processor.vars.values()].filter(variable => !variable.constant)
-
-    if (rows.length === 0) {
-        return <div class="sandbox__empty">Переменных пока нет: программа их ещё не завела.</div>
-    }
+    const buffer = bufferRow(processor)
 
     return (
         <div class="vars">
@@ -48,6 +47,22 @@ export function Variables({processor, beat}) {
                     </div>
                 )
             })}
+
+            {/* Буфер печати: в игре его не видно, строку подсмотрели у мода */}
+            <div class="vars__row vars__row--extra" title="Текст, накопленный print. Ждёт printflush или draw print">
+                <span class="vars__stub" style={{background: dim(NAME_BACKGROUND)}} />
+                <span class="vars__name">{buffer.name}</span>
+
+                <span class="vars__stub" style={{background: dim(NAME_BACKGROUND)}} />
+                <span class="vars__value" key={buffer.value}>
+                    {buffer.value === '' ? '—' : buffer.value}
+                </span>
+
+                <span class="vars__stub" style={{background: dim(TYPE_COLORS[buffer.type])}} />
+                <span class="vars__type" style={{background: TYPE_COLORS[buffer.type]}}>
+                    {buffer.type}
+                </span>
+            </div>
         </div>
     )
 }
