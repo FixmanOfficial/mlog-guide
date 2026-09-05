@@ -30,6 +30,9 @@ const TILE = 40
 /** Двойная стрелка перематывает на секунду — 60 тиков. */
 const SECOND = 60
 
+/** BlockConfigFragment.hideConfig: ряд настройки сжимается за 0.06 секунды. */
+const HIDE_MS = 60
+
 /**
  * Через сколько тиков таблица переменных перечитывает значения. `LogicDialog`: `period = 15f`,
  * а копится в него `Time.delta`.
@@ -63,6 +66,10 @@ export function Sandbox() {
     // Блок, у которого открыта настройка: в игре щелчок по блоку показывает под ним ряд кнопок,
     // а у процессора там карандаш — он и открывает программу (LogicBlock.buildConfiguration)
     const [configured, setConfigured] = useState(null)
+
+    // Ряд не пропадает мгновенно: `hideConfig` сначала сжимает его за 0.06 секунды,
+    // и только потом убирает. Рамка вокруг блока при этом гаснет сразу
+    const [closing, setClosing] = useState(null)
     const [editing, setEditing] = useState(null)
     const [globalsOpen, setGlobalsOpen] = useState(false)
 
@@ -246,7 +253,7 @@ export function Sandbox() {
         const building = scene.world.at(spot.x, spot.y)
 
         if (building === undefined) {
-            setConfigured(null)
+            hideConfig()
             worldView.draw({configured: null})
             return
         }
@@ -259,10 +266,22 @@ export function Sandbox() {
             return
         }
 
-        setConfigured(null)
+        hideConfig()
 
         if (building === scene.toggle) building.enabled = !building.enabled
         worldView.draw({configured: null})
+    }
+
+    /** BlockConfigFragment.hideConfig: ряд сжимается за 0.06 секунды и только затем исчезает. */
+    const hideConfig = () => {
+        if (configured === null) return
+
+        setClosing(configuredSpot())
+        setConfigured(null)
+
+        // Убираем по времени, а не по событию анимации: в скрытой вкладке она не проигрывается,
+        // и узел остался бы висеть
+        setTimeout(() => setClosing(null), HIDE_MS)
     }
 
     /** Где на холсте стоит настраиваемый блок: под ним встаёт ряд кнопок, как в игре. */
@@ -332,6 +351,14 @@ export function Sandbox() {
 
                     {/* Ряд настройки: в игре он появляется под блоком, фон Styles.cleari — чёрный
                         на 60 процентов, кнопка 40 на 40, значок белый */}
+                    {closing !== null && (
+                        <div class="config-bar config-bar--closing" style={closing}>
+                            <button class="config-bar__button">
+                                <Icon name="pencil_" size={24} />
+                            </button>
+                        </div>
+                    )}
+
                     {configured !== null && (
                         <div class="config-bar" style={configuredSpot()}>
                             <button

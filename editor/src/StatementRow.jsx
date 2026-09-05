@@ -20,7 +20,8 @@ import {JumpNode} from './JumpNode.jsx'
  * сами, с ветвлениями. Для остальных берётся подсказка, снятая генератором из игры.
  */
 export function StatementRow({
-    statement, index, statements, onParam, onAdd, onCopy, onRemove,
+    statement,
+    full = false, index, statements, onParam, onAdd, onCopy, onRemove,
     onDragStart, onPickTarget, dragging, selecting
 }) {
     const definition = INSTRUCTIONS.get(statement.opcode)
@@ -45,10 +46,11 @@ export function StatementRow({
                 <span class="statement__spacer" />
                 <span class="statement__index">{index}</span>
 
-                <button class="statement__button" title="Добавить после" onClick={onAdd}>
+                {/* LCanvas: обе кнопки гаснут, когда инструкций стало максимум */}
+                <button class="statement__button" title="Добавить после" disabled={full} onClick={onAdd}>
                     <Icon name="add" size={20} />
                 </button>
-                <button class="statement__button" title="Копировать" onClick={onCopy}>
+                <button class="statement__button" title="Копировать" disabled={full} onClick={onCopy}>
                     <Icon name="copy" size={20} />
                 </button>
                 <button class="statement__button" title="Удалить" onClick={onRemove}>

@@ -28,6 +28,8 @@ export const METRICS = {
     bodyPadding: 4,
     bodyPaddingTop: 2,
     bodyMarginLeft: 4,
+    // Расстояние между строками: DragLayout.space
+    statementSpace: 10,
     // Ширина полотна: широкая раскладка и узкая
     canvasWidth: 900,
     canvasWidthNarrow: 400

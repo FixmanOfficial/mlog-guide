@@ -19,6 +19,9 @@ export const INSTRUCTIONS = new Map(
 
 export const ENUMS = schema.enums
 
+/** LExecutor.maxInstructions: за этим пределом кнопки добавления гаснут. */
+export const MAX_INSTRUCTIONS = 1000
+
 /**
  * Имена полей, которые игра показывает для каждого значения перечисления.
  * Из-за них у `control enabled` видно одно поле, подписанное «to», у `control shoot` — три,

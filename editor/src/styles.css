@@ -67,6 +67,18 @@
 }
 
 /*
+ * Строки расступаются, пока тащишь: смещение ставится стилем, а порядок в списке меняется
+ * только на отпускании. Так же ведёт себя DragLayout — она сдвигает элементы ниже места вставки.
+ */
+.editor__slot {
+    transition: transform 100ms var(--ease-pow3-out, ease-out);
+}
+
+.editor__slot:has(.statement--dragging) {
+    transition: none;
+}
+
+/*
  * Строка инструкции. Рамка — девятипатч white-pane: в спрайте она 5 пикселей и рисуется
  * цветом категории. Никакого контура вокруг неё нет вовсе. StatementElem.draw кладёт под
  * элемент мягкую тень без смещения (dropShadow с размытием 10) и полупрозрачную чёрную
@@ -114,6 +126,13 @@
 
 .statement__button + .statement__button {
     margin-left: 6px;
+}
+
+/* Погасшая кнопка: в игре Styles.logici красит значок в Color.gray и не отвечает на нажатие */
+.statement__button:disabled,
+.editor__add:disabled {
+    color: #808080;
+    cursor: default;
 }
 
 /*

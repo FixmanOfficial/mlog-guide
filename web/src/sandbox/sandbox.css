@@ -110,6 +110,17 @@
     to { transform: translateX(-50%) scaleX(1); }
 }
 
+/* BlockConfigFragment.hideConfig: обратный ход за 0.06 секунды, той же кривой */
+.config-bar--closing {
+    animation: config-bar-out 60ms var(--ease-pow3-out, ease-out) forwards;
+    pointer-events: none;
+}
+
+@keyframes config-bar-out {
+    from { transform: translateX(-50%) scaleX(1); }
+    to { transform: translateX(-50%) scaleX(0); }
+}
+
 .config-bar__button {
     width: 40px;
     height: 40px;
