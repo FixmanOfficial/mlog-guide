@@ -31,10 +31,16 @@ const TILE = 40
 const SECOND = 60
 
 /**
- * Через сколько кадров таблица переменных перечитывает значения. `LogicDialog`: `period = 15f`,
- * а копится в него `Time.delta`, то есть счёт идёт по кадрам, а не по игровым тикам.
+ * Через сколько тиков таблица переменных перечитывает значения. `LogicDialog`: `period = 15f`,
+ * а копится в него `Time.delta`.
  */
 const VARS_PERIOD = 15
+
+/**
+ * Потолок для разового скачка времени. `Vars.maxDeltaClient`: как бы надолго ни застряла
+ * отрисовка, за один кадр мир не проживёт больше четырёх тиков.
+ */
+const MAX_DELTA = 4
 
 /** Подпись скорости: степень двойки от 1/256 до 256. */
 const speedLabel = (power) => power >= 0 ? `×${2 ** power}` : `×1/${2 ** -power}`
@@ -127,14 +133,20 @@ export function Sandbox() {
         let frame = 0
         let counter = 0
         let pending = 0
+        let last = performance.now()
 
         const speed = 2 ** power
 
-        const step = () => {
+        const step = (time) => {
             const {scene, worldView, displayView} = stand.current
 
-            // Дробная скорость копится: при 1/256 тик случается раз в 256 кадров
-            pending += speed
+            // Тик — это 1/60 реальной секунды, а не кадр: `Time.setDeltaProvider` в игре считает
+            // ровно так, иначе на мониторе 144 герца мир побежит в два с лишним раза быстрее
+            const delta = Math.min((time - last) / 1000 * 60, MAX_DELTA)
+            last = time
+
+            // Дробная скорость копится: при 1/256 тик случается раз в четыре с лишним секунды
+            pending += delta * speed
             while (pending >= 1) {
                 scene.world.step()
                 // Дисплей вычерпывает очередь на каждом тике, как при отрисовке кадра в игре
@@ -144,8 +156,9 @@ export function Sandbox() {
 
             worldView.draw({configured: configuredRef.current})
 
-            // Значения переменных перечитываются раз в 15 кадров, как в игре
-            if (++counter >= VARS_PERIOD) {
+            // Значения переменных перечитываются раз в 15 тиков времени, как в игре
+            counter += delta
+            if (counter >= VARS_PERIOD) {
                 counter = 0
                 setBeat(scene.world.tick)
             }
