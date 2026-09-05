@@ -1,0 +1,55 @@
+{
+  "gameVersion": "v159.7",
+  "source": "core/assets-raw/sprites/ui",
+  "note": "Файл сгенерирован, править вручную нельзя. border — толщина рамки в пикселях, cut — насколько срезан угол, fillAlpha — прозрачность заливки.",
+  "patches": {
+    "button": {
+      "size": [
+        38,
+        29
+      ],
+      "border": 4,
+      "cut": 8,
+      "frame": "#454545",
+      "frameAlpha": 1,
+      "fill": "#000000",
+      "fillAlpha": 1
+    },
+    "pane": {
+      "size": [
+        38,
+        29
+      ],
+      "border": 4,
+      "cut": 0,
+      "frame": "#454545",
+      "frameAlpha": 1,
+      "fill": "#000000",
+      "fillAlpha": 0.6
+    },
+    "pane-solid": {
+      "size": [
+        38,
+        29
+      ],
+      "border": 4,
+      "cut": 0,
+      "frame": "#454545",
+      "frameAlpha": 1,
+      "fill": "#000000",
+      "fillAlpha": 1
+    },
+    "white-pane": {
+      "size": [
+        38,
+        29
+      ],
+      "border": 5,
+      "cut": 0,
+      "frame": "#ffffff",
+      "frameAlpha": 1,
+      "fill": "#000000",
+      "fillAlpha": 0
+    }
+  }
+}

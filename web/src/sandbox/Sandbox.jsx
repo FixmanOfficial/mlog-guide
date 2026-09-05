@@ -8,7 +8,7 @@
 
 import {useEffect, useRef, useState} from 'preact/hooks'
 
-import {GlobalsDialog, LogicDialog, applyEasings, toText} from '@mlog/editor'
+import {GlobalsDialog, LogicDialog, applyEasings, applyNinePatches, toText} from '@mlog/editor'
 import {Icon} from '@mlog/editor/src/Icon.jsx'
 import {DisplayView} from '@mlog/render/src/display.js'
 import {WorldView} from '@mlog/render/src/world.js'
@@ -76,6 +76,7 @@ export function Sandbox() {
     // Мир, процессоры и виды живут вне состояния: перерисовка их не касается
     useEffect(() => {
         applyEasings()
+        applyNinePatches()
 
         const scene = createScene()
 
