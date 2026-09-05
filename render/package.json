@@ -1,0 +1,24 @@
+{
+  "name": "@mlog/render",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Отрисовка дисплея и мира в canvas. Зависит от ядра, ничего не знает про редактор.",
+  "license": "GPL-3.0-only",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./assets/*": "./assets/*"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@mlog/core": "*"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0"
+  }
+}
