@@ -91,7 +91,9 @@ const RECIPES = [
     {file: `${LOGIC}/LogicDialog.java`, names: ['varsPeriod'],
         pattern: /float period = (\d+)f;/},
 
-    // --- закрытие диалога: BaseDialog ---
+    // --- заголовок и закрытие диалога: BaseDialog ---
+    {file: `${UI}/dialogs/BaseDialog.java`, names: ['dialogTitleRule', 'dialogTitlePad'],
+        pattern: /titleImage = titleTable\.image\(Tex\.whiteui, Pal\.accent\)\.growX\(\)\.height\((\d+)f\)\.pad\((\d+)f\)/},
     {file: `${UI}/dialogs/BaseDialog.java`, names: ['closeButtonWidth'],
         pattern: /addCloseButton\((\d+)f\);/}
 ]

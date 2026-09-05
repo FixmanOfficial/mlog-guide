@@ -327,11 +327,22 @@
     font-size: 14px;
 }
 
-/* Styles.defaultDialog: titleFontColor = Pal.accent */
+/*
+ * Заголовок диалога и полоса под ним. `BaseDialog`: надпись по центру цветом `Pal.accent`,
+ * под ней полоса `Tex.whiteui` того же цвета высотой 3 с отступом 4 во всю ширину.
+ */
 .dialog__title {
     text-align: center;
     color: #ffd37f;
     font-size: 18px;
+}
+
+.dialog__title::after {
+    content: '';
+    display: block;
+    height: var(--m-dialog-title-rule, 3px);
+    margin: var(--m-dialog-title-pad, 4px) 0;
+    background: #ffd37f;
 }
 
 /* Tex.button: рамка 4 пикселя #454545, внутри сплошной чёрный */

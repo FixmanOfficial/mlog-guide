@@ -50,6 +50,8 @@
     "globalsButtonWidth": 210,
     "globalsButtonHeight": 64,
     "varsPeriod": 15,
+    "dialogTitleRule": 3,
+    "dialogTitlePad": 4,
     "closeButtonWidth": 210
   }
 }
