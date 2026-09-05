@@ -8,7 +8,8 @@
   "workspaces": [
     "core",
     "render",
-    "editor"
+    "editor",
+    "web"
   ],
   "scripts": {
     "test": "npm run test --workspaces --if-present",

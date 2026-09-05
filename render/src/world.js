@@ -125,12 +125,14 @@ export class WorldView {
         const context = this.context
 
         const cell = this.sprites?.index.block?.[building.type]
-        if (cell === undefined || this.atlas === null) {
+        const icon = cell === undefined || this.atlas === null ? null : this.icon(cell)
+
+        if (icon === null) {
             // Блока нет в атласе — рисуем заглушкой, чтобы он всё равно был виден
             context.fillStyle = '#2a2a33'
             context.fillRect(cx - side / 2, cy - side / 2, side, side)
         } else {
-            context.drawImage(this.icon(cell), cx - side / 2, cy - side / 2, side, side)
+            context.drawImage(icon, cx - side / 2, cy - side / 2, side, side)
         }
 
         // Дисплей показывает картинку поверх собственного спрайта. Она меньше блока:
@@ -223,6 +225,10 @@ export class WorldView {
 
     /** Клетка атласа отдельной картинкой — как в дисплее, ради чистых краёв. */
     icon(cell) {
+        // Пока картинка не догрузилась, вырезать нечего — и запоминать пустую клетку нельзя.
+        // Сломанная картинка тоже complete, поэтому проверяется именно ширина
+        if (!(this.atlas.naturalWidth > 0)) return null
+
         const cached = this.icons.get(cell)
         if (cached !== undefined) return cached
 

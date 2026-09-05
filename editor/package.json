@@ -7,7 +7,9 @@
   "license": "GPL-3.0-only",
   "main": "./src/index.js",
   "exports": {
-    ".": "./src/index.js"
+    ".": "./src/index.js",
+    "./src/*": "./src/*",
+    "./assets/*": "./assets/*"
   },
   "scripts": {
     "dev": "vite",

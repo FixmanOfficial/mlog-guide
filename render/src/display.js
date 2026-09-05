@@ -190,6 +190,9 @@ export class DisplayView {
         const cell = this.sprites.index[content.contentType]?.[content.name]
         if (cell === undefined) return
 
+        const icon = this.icon(cell)
+        if (icon === null) return
+
         this.applyTransform()
         const context = this.context
         context.save()
@@ -197,7 +200,7 @@ export class DisplayView {
         context.rotate(p3 * Math.PI / 180)
         // Ось Y дисплея смотрит вверх, а картинка нарисована сверху вниз
         context.scale(1, -1)
-        context.drawImage(this.icon(cell), -p2 / 2, -p2 / 2, p2, p2)
+        context.drawImage(icon, -p2 / 2, -p2 / 2, p2, p2)
         context.restore()
     }
 
@@ -207,6 +210,10 @@ export class DisplayView {
      * Клетка вырезается один раз и дальше рисуется целиком, так что захватывать нечего.
      */
     icon(cell) {
+        // Пока картинка не догрузилась, вырезать нечего — и запоминать пустую клетку нельзя.
+        // Сломанная картинка тоже complete, поэтому проверяется именно ширина
+        if (!(this.atlas.naturalWidth > 0)) return null
+
         const cached = this.icons.get(cell)
         if (cached !== undefined) return cached
 

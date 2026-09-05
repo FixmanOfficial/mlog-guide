@@ -1,0 +1,142 @@
+/*
+ * Вид песочницы. Редактор приносит свои стили — здесь только раскладка вокруг него
+ * и панели, которых в игре нет: таблица переменных, сообщение, кнопки прогона.
+ */
+
+.sandbox {
+    display: grid;
+    grid-template-columns: minmax(0, 420px) minmax(0, 1fr);
+    gap: 16px;
+    align-items: start;
+    font-family: 'Mindustry', system-ui, sans-serif;
+}
+
+.sandbox__editor {
+    max-height: 80vh;
+    overflow: auto;
+}
+
+.sandbox__side {
+    display: grid;
+    gap: 12px;
+    justify-items: start;
+}
+
+.sandbox__bar {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.sandbox__button,
+.sandbox__speed select {
+    background: #24242c;
+    color: #e6e6e6;
+    border: 1px solid #3f3f3f;
+    padding: 6px 10px;
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.sandbox__button:hover {
+    background: #2e2e38;
+}
+
+.sandbox__speed {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    font-size: 13px;
+    color: #8a8a96;
+}
+
+.sandbox__world,
+.sandbox__display {
+    image-rendering: pixelated;
+    display: block;
+}
+
+.sandbox__display {
+    width: 160px;
+    height: 160px;
+}
+
+.sandbox__row {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.sandbox__title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #8a8a96;
+    margin: 0 0 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.sandbox__panel {
+    min-width: 220px;
+}
+
+.sandbox__message {
+    background: #000000;
+    border: 4px solid #454545;
+    padding: 8px;
+    min-height: 40px;
+    white-space: pre-wrap;
+    font-size: 14px;
+}
+
+.sandbox__meta,
+.sandbox__empty {
+    color: #8a8a96;
+    font-size: 13px;
+    margin-top: 6px;
+}
+
+.sandbox__errors {
+    color: #e55454;
+    font-size: 13px;
+}
+
+/* Таблица переменных: имя цветом акцента, значение в рамке, тип своим цветом */
+.vars {
+    display: grid;
+    gap: 4px;
+    width: 100%;
+}
+
+.vars__row {
+    display: grid;
+    grid-template-columns: minmax(120px, 1fr) minmax(140px, 1fr) 110px;
+    gap: 8px;
+    align-items: center;
+}
+
+.vars__name {
+    color: #ffd37f;
+    font-size: 14px;
+    background: #454545;
+    padding: 4px 8px;
+}
+
+.vars__value {
+    background: #000000;
+    border: 2px solid #454545;
+    padding: 4px 8px;
+    font-family: 'Mindustry Mono', ui-monospace, monospace;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
+.vars__type {
+    background: var(--type);
+    color: #000000;
+    padding: 4px 8px;
+    font-size: 13px;
+    text-align: center;
+}

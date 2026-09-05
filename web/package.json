@@ -1,0 +1,24 @@
+{
+  "name": "@mlog/web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Сайт mlog.guide: документация на Astro + Starlight и песочница островом на Preact.",
+  "license": "GPL-3.0-only",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@mlog/core": "*",
+    "@mlog/editor": "*",
+    "@mlog/render": "*",
+    "preact": "^10.24.0"
+  },
+  "devDependencies": {
+    "@astrojs/preact": "^3.5.0",
+    "@astrojs/starlight": "^0.28.0",
+    "astro": "^4.16.0"
+  }
+}
