@@ -1,0 +1,60 @@
+{
+  "gameVersion": "v159.7",
+  "source": "core/assets-raw/sprites/blocks",
+  "note": "Файл сгенерирован, править вручную нельзя. Спрайты лежат в своём разрешении: сторона блока в тайлах, умноженная на 32.",
+  "atlas": "render/assets/blocks.png",
+  "width": 256,
+  "height": 352,
+  "sprites": {
+    "large-logic-display": {
+      "x": 0,
+      "y": 0,
+      "size": 192
+    },
+    "logic-display": {
+      "x": 0,
+      "y": 192,
+      "size": 96
+    },
+    "hyper-processor": {
+      "x": 96,
+      "y": 192,
+      "size": 96
+    },
+    "memory-bank": {
+      "x": 192,
+      "y": 192,
+      "size": 64
+    },
+    "logic-processor": {
+      "x": 0,
+      "y": 288,
+      "size": 64
+    },
+    "memory-cell": {
+      "x": 64,
+      "y": 288,
+      "size": 32
+    },
+    "message": {
+      "x": 96,
+      "y": 288,
+      "size": 32
+    },
+    "switch": {
+      "x": 128,
+      "y": 288,
+      "size": 32
+    },
+    "door": {
+      "x": 160,
+      "y": 288,
+      "size": 32
+    },
+    "micro-processor": {
+      "x": 192,
+      "y": 288,
+      "size": 32
+    }
+  }
+}

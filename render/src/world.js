@@ -43,14 +43,23 @@ export const LINK_RANGE = {
 export class WorldView {
     /**
      * @param canvas  холст
-     * @param options world — модель мира; tile — пикселей на тайл; atlas и sprites — иконки;
+     * @param options world — модель мира; tile — пикселей на тайл;
+     *                blocks и blockSprites — атлас спрайтов блоков и указатель к нему;
+     *                atlas и sprites — атлас иконок контента, запасной вариант;
      *                displays — карта «здание дисплея → холст с его картинкой»;
      *                font — семейство шрифта для подписей связей
      */
-    constructor(canvas, {world, tile = 32, atlas = null, sprites = null, displays = new Map(), font = 'MlogUi'} = {}) {
+    constructor(canvas, {
+        world, tile = 32,
+        blocks = null, blockSprites = null,
+        atlas = null, sprites = null,
+        displays = new Map(), font = 'MlogUi'
+    } = {}) {
         this.canvas = canvas
         this.world = world
         this.tile = tile
+        this.blocks = blocks
+        this.blockSprites = blockSprites
         this.atlas = atlas
         this.sprites = sprites
         this.displays = displays
@@ -157,8 +166,7 @@ export class WorldView {
         const side = building.size * this.tile * this.ratio
         const context = this.context
 
-        const cell = this.sprites?.index.block?.[building.type]
-        const icon = cell === undefined || this.atlas === null ? null : this.icon(cell)
+        const icon = this.sprite(building.type)
 
         if (icon === null) {
             // Блока нет в атласе — рисуем заглушкой, чтобы он всё равно был виден
@@ -256,32 +264,53 @@ export class WorldView {
         context.fillText(text, x, y)
     }
 
-    /** Клетка атласа отдельной картинкой — как в дисплее, ради чистых краёв. */
-    icon(cell) {
-        // Пока картинка не догрузилась, вырезать нечего — и запоминать пустую клетку нельзя.
-        // Проверять только ширину мало: она появляется, едва разобран заголовок, а рисовать
-        // такую картинку браузер молча отказывается — в кеш попадала бы пустая клетка.
-        // Отсюда пара условий: `complete` про загрузку, ширина про то, что картинка не битая.
-        if (!this.atlas.complete || !(this.atlas.naturalWidth > 0)) return null
+    /**
+     * Спрайт блока. Сначала атлас блоков: там они лежат в своём разрешении — сторона в тайлах,
+     * умноженная на 32, — и потому не расплываются. Если блока там нет, берётся иконка контента,
+     * но она уменьшена до 32 пикселей на весь блок и годится только как запасной вариант.
+     */
+    sprite(type) {
+        const native = this.blockSprites?.sprites?.[type]
+        if (native !== undefined && this.blocks !== null) {
+            return this.cut(`block:${type}`, this.blocks, native.x, native.y, native.size)
+        }
 
-        const cached = this.icons.get(cell)
+        const cell = this.sprites?.index.block?.[type]
+        if (cell === undefined || this.atlas === null) return null
+
+        const size = this.sprites.cell
+        return this.cut(
+            `icon:${cell}`, this.atlas,
+            (cell % this.sprites.columns) * size, Math.floor(cell / this.sprites.columns) * size,
+            size
+        )
+    }
+
+    /**
+     * Кусок атласа отдельной картинкой. Повёрнутый или растянутый `drawImage` с вырезкой из
+     * общего атласа прихватывает соседний столбец пикселей по краю; вырезанный один раз кусок
+     * захватывать нечего.
+     *
+     * Пока картинка не догрузилась, вырезать нечего — и запоминать пустой кусок нельзя.
+     * Проверять только ширину мало: она появляется, едва разобран заголовок, а рисовать такую
+     * картинку браузер молча отказывается. Отсюда пара условий: `complete` про загрузку,
+     * ширина про то, что картинка не битая.
+     */
+    cut(key, image, x, y, size) {
+        if (!image.complete || !(image.naturalWidth > 0)) return null
+
+        const cached = this.icons.get(key)
         if (cached !== undefined) return cached
 
-        const source = this.sprites.cell
         const canvas = document.createElement('canvas')
-        canvas.width = source
-        canvas.height = source
+        canvas.width = size
+        canvas.height = size
 
         const context = canvas.getContext('2d')
         context.imageSmoothingEnabled = false
-        context.drawImage(
-            this.atlas,
-            (cell % this.sprites.columns) * source, Math.floor(cell / this.sprites.columns) * source,
-            source, source,
-            0, 0, source, source
-        )
+        context.drawImage(image, x, y, size, size, 0, 0, size, size)
 
-        this.icons.set(cell, canvas)
+        this.icons.set(key, canvas)
         return canvas
     }
 

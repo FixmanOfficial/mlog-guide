@@ -15,8 +15,10 @@ import {WorldView} from '@mlog/render/src/world.js'
 
 // ?url обязателен: без него Astro пропускает картинку через свой конвейер и отдаёт объект
 import atlasUrl from '@mlog/editor/assets/content.png?url'
+import blocksUrl from '@mlog/render/assets/blocks.png?url'
 import logicFontUrl from '@mlog/render/assets/logic.ttf'
 import sprites from '@mlog/core/data/sprites.json'
+import blockSprites from '@mlog/core/data/block-sprites.json'
 
 import {createScene, attachProcessor} from './scene.js'
 import {PAINTER, COUNTER} from './programs.js'
@@ -76,6 +78,10 @@ export function Sandbox() {
         const atlas = new Image()
         atlas.src = atlasUrl
 
+        // Блоки рисуются своим атласом: там они в родном разрешении и не расплываются
+        const blocks = new Image()
+        blocks.src = blocksUrl
+
         const displayView = new DisplayView(displayCanvas.current, {
             size: scene.display.spec.displaySize,
             pixelRatio: 4,
@@ -86,6 +92,8 @@ export function Sandbox() {
         const worldView = new WorldView(worldCanvas.current, {
             world: scene.world,
             tile: TILE,
+            blocks,
+            blockSprites,
             atlas,
             sprites,
             font: 'Mindustry',
@@ -106,6 +114,7 @@ export function Sandbox() {
         // decode вместо события load: картинка из кеша успевает загрузиться раньше подписки,
         // и тогда события не будет вовсе — а мир останется без иконок до первого кадра
         atlas.decode().then(first, () => {})
+        blocks.decode().then(first, () => {})
         font.load().then(first, () => {})
         first()
         setReady(true)
