@@ -15,6 +15,7 @@ const initial = [
     withParams('format', {value: 'level'}),
     withParams('printflush', {target: 'message1'}),
     withParams('draw', {type: 'rect', x: '0', y: '72', p1: 'width', p2: '32'}),
+    withParams('sensor', {to: 'заряд', type: '@copper', from: 'cell1'}),
     withParams('drawflush', {target: 'display1'}),
     withParams('control', {type: 'enabled', target: 'switch1', p1: '1'}),
     withParams('control', {type: 'shoot', target: 'turret1', p1: '10', p2: '20', p3: '1'}),

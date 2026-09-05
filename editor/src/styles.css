@@ -452,3 +452,110 @@
     font: inherit;
     cursor: pointer;
 }
+
+/*
+ * Меню выбора контента у sensor. В игре это отдельная таблица с иконками по 40 пикселей,
+ * по шесть в ряд. LStatements.SensorStatement.build
+ */
+.content-button {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    margin-left: -10px;
+    border: none;
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+}
+
+.content-button:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.content-popup {
+    position: fixed;
+    z-index: 21;
+    max-height: 70vh;
+    overflow: auto;
+    padding: 4px;
+    background: #14141a;
+    border: 2px solid var(--outline, #3f3f3f);
+}
+
+.content-popup__tabs {
+    display: flex;
+    gap: 2px;
+    margin-bottom: 4px;
+}
+
+.content-popup__tab {
+    padding: 5px 10px;
+    border: none;
+    background: transparent;
+    color: #9a9a9a;
+    font: inherit;
+    cursor: pointer;
+}
+
+.content-popup__tab--current {
+    background: #ffd37f;
+    color: #14141a;
+}
+
+/* Шесть в ряд, ячейка 40 — как в игре */
+.content-popup__grid {
+    display: grid;
+    grid-template-columns: repeat(6, 40px);
+}
+
+.content-popup__list {
+    display: grid;
+    grid-template-columns: repeat(3, 130px);
+}
+
+.content-popup__cell {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.content-popup__cell:hover,
+.content-popup__item:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.content-popup__cell--current,
+.content-popup__item--current {
+    background: #ffd37f;
+}
+
+.content-popup__item {
+    padding: 5px 8px;
+    border: none;
+    background: transparent;
+    color: #e6e6e6;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.content-icon {
+    display: inline-block;
+    background-image: url('../assets/content.png');
+    background-repeat: no-repeat;
+}
+
+.content-icon--missing {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    background: rgba(255, 255, 255, 0.08);
+    color: #9a9a9a;
+    font-size: 11px;
+}

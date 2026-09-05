@@ -6,6 +6,7 @@ import {categoryColor, headerTextColor, displayName} from './theme.js'
 import {instructionTip, propertyTip} from './tooltips.js'
 import {SelectPopup} from './SelectPopup.jsx'
 import {Icon} from './Icon.jsx'
+import {ContentButton} from './ContentButton.jsx'
 import {JumpNode} from './JumpNode.jsx'
 
 /**
@@ -82,6 +83,16 @@ function renderDescribed(statement, definition, onParam) {
         if (item.break === true) return <div class="break" key={`break${position}`} />
         if (item.label !== undefined) {
             return <span class="label" key={`label${position}`}>{item.label}</span>
+        }
+
+        if (item.content !== undefined) {
+            return (
+                <ContentButton
+                    key={`content${position}`}
+                    value={statement.params[item.content] ?? ''}
+                    onPick={(picked) => onParam(item.content, picked)}
+                />
+            )
         }
 
         if (item.enum !== undefined) {

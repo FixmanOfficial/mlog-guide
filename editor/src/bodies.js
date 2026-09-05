@@ -46,7 +46,8 @@ export const DRAW_DEFAULTS = {
 
 /** Инструкции, у которых раскладка своя. Остальные идут общим путём. */
 export const CUSTOM_BODIES = new Set([
-    'op', 'jump', 'draw', 'control', 'select', 'lookup', 'packcolor', 'unpackcolor', 'printchar'
+    'op', 'jump', 'draw', 'control', 'select', 'lookup', 'packcolor', 'unpackcolor',
+    'printchar', 'sensor'
 ])
 
 /**
@@ -156,6 +157,16 @@ const LAYOUTS = {
         label(' = unpack '), field('value')
     ],
 
+    /**
+     * LStatements.SensorStatement.build. Рядом с полем свойства стоит кнопка-карандаш,
+     * открывающая большое меню контента: предметы, жидкости, блоки и юниты иконками.
+     */
+    sensor: () => [
+        field('to'), label(' = '), lineBreak,
+        field('type'), {content: 'type'},
+        label(' in '), field('from')
+    ],
+
     /** LStatements.PrintCharStatement.build */
     printchar: () => [label(' char '), field('value', 144)]
 }
@@ -202,6 +213,7 @@ export function referencedParams(opcode) {
 
         for (const item of describeBody(statement) ?? []) {
             if (item.field !== undefined) seen.add(item.field)
+            if (item.content !== undefined) seen.add(item.content)
             if (item.enum !== undefined) seen.add(item.enum)
         }
     }

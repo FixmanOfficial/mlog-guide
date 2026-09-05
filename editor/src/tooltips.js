@@ -42,3 +42,8 @@ export function categoryTip(category) {
 export function categoryName(category) {
     return bundle.logic?.categories?.[category] ?? category
 }
+
+/** Локализованное название контента: «Медь» вместо copper. Из бандлов игры. */
+export function contentName(type, name) {
+    return bundle.content?.[type]?.[name] ?? null
+}
