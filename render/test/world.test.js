@@ -7,7 +7,10 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 
 import {World} from '@mlog/core/src/world.js'
-import {WorldView, TILE_UNITS, SPRITE_SCALE} from '../src/world.js'
+import pal from '@mlog/core/data/pal.json' with {type: 'json'}
+
+import {WorldView, TILE_UNITS, SPRITE_SCALE, PAL} from '../src/world.js'
+import {BACKGROUND} from '../src/display.js'
 
 /** Холст-заглушка: виду от него нужен только контекст и стили. */
 const fakeCanvas = () => ({
@@ -55,4 +58,14 @@ test('блок с чётной стороной рисуется по углу �
     const processor = world.add('logic-processor', {x: 4, y: 4})
 
     assert.deepEqual(view(world).place(processor), [4 * 32 + 32, 320 - (4 * 32 + 32)])
+})
+
+test('цвета вида на мир взяты из палитры игры', () => {
+    // Сверка по именам: `Drawf` рисует подложку Pal.gray, рамку связи Pal.place,
+    // круг дальности Pal.accent, а фон дисплея — Pal.darkerMetal
+    assert.equal(PAL.gray, pal.colors.gray)
+    assert.equal(PAL.place, pal.colors.place)
+    assert.equal(PAL.accent, pal.colors.accent)
+    assert.equal(PAL.remove, pal.colors.remove)
+    assert.equal(BACKGROUND, pal.colors.darkerMetal)
 })
