@@ -11,7 +11,7 @@ import {Processor} from '@mlog/core/src/vm.js'
 
 import {
     createStatement, operations, toText, AVAILABLE, INSTRUCTIONS,
-    visibleParams, SENSEABLE, CONTROLS, sanitize, targetIndex
+    visibleParams, SENSEABLE, CONTROLS, sanitize, targetIndex, fromText
 } from '../src/program.js'
 import {describeBody, referencedParams, CUSTOM_BODIES, DRAW_FIELDS, ALIGNS} from '../src/bodies.js'
 import {ENUMS} from '../src/program.js'
@@ -282,4 +282,29 @@ test('выравнивания идут сеткой три на три, а не
         'left', 'center', 'right',
         'bottomLeft', 'bottom', 'bottomRight'
     ])
+})
+
+test('текст программы читается обратно в строки', () => {
+    // LCanvas.load: программу можно вставить текстом, и она снова становится блоками
+    const source = [
+        withParams('set', {to: 'шаг', from: '0'}),
+        withParams('op', {op: 'add', dest: 'шаг', a: 'шаг', b: '1'}),
+        withParams('print', {value: '"шаг: "'}),
+        withParams('jump', {op: 'lessThan', value: 'шаг', compare: '10'})
+    ]
+    source[3].target = source[1].id
+
+    const text = toText(source)
+    const back = fromText(text)
+
+    assert.equal(toText(back), text, 'разбор и сборка сходятся')
+    assert.equal(back[2].params.value, '"шаг: "', 'строка осталась строкой')
+    assert.equal(back[3].target, back[1].id, 'цель перехода снова ссылка, а не номер')
+})
+
+test('неизвестная инструкция превращается в noop, а не роняет разбор', () => {
+    // В игре из неё получается InvalidStatement; программа при этом остаётся целой
+    const back = fromText('set x 1\nчепуха 1 2\nprint x')
+
+    assert.deepEqual(back.map(statement => statement.opcode), ['set', 'noop', 'print'])
 })

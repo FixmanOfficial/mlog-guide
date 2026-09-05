@@ -5,11 +5,13 @@
  * из него текст mlog. Дальше текст отдаётся ядру. Обратная зависимость запрещена, иначе
  * редактор и ВМ срастутся и по отдельности их писать будет нельзя.
  *
- * Единственное, что редактору нужно от ядра, — схема инструкций: какие у каждой параметры
- * и в каком порядке. Она сгенерирована из исходников игры, см. tools/gen-instructions.mjs.
+ * От ядра редактору нужны две вещи: схема инструкций (какие у каждой параметры и в каком
+ * порядке, сгенерирована из исходников игры — tools/gen-instructions.mjs) и разбор текста
+ * на токены, чтобы читать программу обратно. Про виртуальную машину он по-прежнему не знает.
  */
 
 import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
+import {parse} from '@mlog/core/src/parser.js'
 
 export const INSTRUCTIONS = new Map(
     schema.instructions.map(instruction => [instruction.opcode, instruction])
@@ -129,6 +131,58 @@ export function toText(statements) {
 
         return [statement.opcode, ...values].join(' ')
     }).join('\n')
+}
+
+/**
+ * Разбор текста обратно в строки редактора — `LCanvas.load`, а под ним `LAssembler.read`.
+ *
+ * Неизвестные инструкции игра превращает в `InvalidStatement`; мы поступаем так же, только
+ * помечаем строку `noop`, чтобы программа осталась исполнимой. Лишние параметры отбрасываются,
+ * недостающие остаются со значениями по умолчанию.
+ *
+ * Цель перехода приходит номером строки, а хранится ссылкой: номер разрешается после того,
+ * как собраны все строки, иначе переход вперёд некуда указывать.
+ */
+export function fromText(text) {
+    const {statements} = parse(text ?? '')
+    const result = []
+    const jumps = []
+
+    for (const parsed of statements) {
+        const definition = INSTRUCTIONS.get(parsed.op)
+
+        if (definition === undefined) {
+            result.push(createStatement('noop'))
+            continue
+        }
+
+        const statement = createStatement(parsed.op)
+
+        definition.params.forEach((param, index) => {
+            const value = parsed.params[index]
+            if (value === undefined) return
+
+            // Номер строки перехода разрешается ссылкой, когда собраны все строки
+            if (parsed.op === 'jump' && param.name === 'destIndex') {
+                jumps.push({statement, index: Number(value)})
+                return
+            }
+
+            // Значение кладётся как есть, вместе с кавычками: в поле редактора строка
+            // тоже хранится с ними, иначе она перестанет быть строкой при сборке
+            statement.params[param.name] = value
+        })
+
+        result.push(statement)
+    }
+
+    for (const {statement, index} of jumps) {
+        statement.target = Number.isInteger(index) && index >= 0 && index < result.length
+            ? result[index].id
+            : null
+    }
+
+    return result
 }
 
 /** Номер строки, на которую указывает переход, или -1, если цель не задана. */

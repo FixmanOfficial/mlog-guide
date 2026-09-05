@@ -406,6 +406,10 @@ export function Sandbox() {
                     title={editingEntry.building.name}
                     initial={editingEntry.program}
                     onChange={rebuild(editingEntry)}
+                    onRestart={() => {
+                        editingEntry.building.processor.reset()
+                        redraw()
+                    }}
                     onClose={() => setEditing(null)}
                 />
             )}

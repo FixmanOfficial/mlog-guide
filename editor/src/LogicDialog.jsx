@@ -1,34 +1,73 @@
+import {useState} from 'preact/hooks'
+
 import {Editor} from './Editor.jsx'
+import {EditDialog} from './EditDialog.jsx'
 import {Icon} from './Icon.jsx'
 import {Overlay} from './Overlay.jsx'
+import {fromText, toText} from './program.js'
 
 /**
  * Окно редактора процессора — то, что в игре открывается щелчком по блоку (`LogicDialog`).
  *
  * В игре оно занимает весь экран: `Styles.fullDialog` кладёт позади сплошной чёрный, а рамки
- * у окна нет вовсе — её рисует не диалог, а содержимое. Снизу ряд кнопок, из которых здесь
- * пока только «Назад»: правка текстом и переменные живут на самой странице.
+ * у окна нет вовсе — её рисует не диалог, а содержимое. Снизу ряд кнопок 160 на 64; из четырёх
+ * игровых здесь две: «Назад» и «Правка». Переменные и добавление живут не тут — таблица
+ * переменных всё время на странице, а кнопка добавления в самом полотне.
  *
  * Заголовок — имя связи процессора, как оно подписано в мире: игрок должен понимать,
  * какой из процессоров правит.
  */
-export function LogicDialog({title, initial, onChange, onClose}) {
+export function LogicDialog({title, initial, onChange, onRestart, onClose}) {
+    const [program, setProgram] = useState(initial)
+    const [editing, setEditing] = useState(false)
+
+    // Замена программы целиком: редактор держит свой список, поэтому пересобираем его заново
+    const [version, setVersion] = useState(0)
+
+    const replace = (statements) => {
+        setProgram(statements)
+        setVersion(version + 1)
+        onChange?.(toText(statements), statements)
+    }
+
     return (
         <Overlay full onClose={onClose}>
             <div class="logic-dialog" onClick={(event) => event.stopPropagation()}>
                 <div class="dialog__title">{title}</div>
 
                 <div class="logic-dialog__canvas">
-                    <Editor initial={initial} onChange={onChange} />
+                    <Editor
+                        key={version}
+                        initial={program}
+                        onChange={(text, statements) => {
+                            setProgram(statements)
+                            onChange?.(text, statements)
+                        }}
+                    />
                 </div>
 
                 <div class="dialog__buttons">
-                    <button class="game-button dialog__back" onClick={onClose}>
+                    <button class="game-button logic-dialog__button" onClick={onClose}>
                         <Icon name="left" size={22} />
                         <span>Назад</span>
                     </button>
+
+                    <button class="game-button logic-dialog__button" onClick={() => setEditing(true)}>
+                        <Icon name="pencil_" size={22} />
+                        <span>Правка</span>
+                    </button>
                 </div>
             </div>
+
+            {editing && (
+                <EditDialog
+                    text={toText(program)}
+                    onLoad={(text) => replace(fromText(text))}
+                    onClear={() => replace([])}
+                    onRestart={() => onRestart?.()}
+                    onClose={() => setEditing(false)}
+                />
+            )}
         </Overlay>
     )
 }

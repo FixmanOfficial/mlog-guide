@@ -405,6 +405,65 @@
     paint-order: stroke fill;
 }
 
+/* LogicDialog: у окна процессора свой ряд, кнопки 160 на 64 */
+.logic-dialog__button {
+    width: 160px;
+    height: 64px;
+    font-size: 16px;
+    -webkit-text-stroke: 4px #3f3f3f;
+    paint-order: stroke fill;
+}
+
+.dialog--narrow {
+    width: min(520px, 92vw);
+}
+
+/*
+ * Окно правки: список кнопок 280 на 60, значок слева, отступ 12. LogicDialog, кнопка «@edit»
+ */
+.edit-list {
+    display: grid;
+    gap: 4px;
+    justify-items: start;
+}
+
+.edit-list__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 280px;
+    height: 60px;
+    padding-left: 12px;
+    background: none;
+    border: none;
+    color: var(--text, #e6e6e6);
+    font: inherit;
+    font-size: 15px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.edit-list__item:hover {
+    background: #454545;
+}
+
+.edit-list__question {
+    color: #8a8a96;
+    font-size: 14px;
+    padding: 4px 0 8px;
+}
+
+.edit-list__text {
+    width: 100%;
+    height: 180px;
+    background: rgba(0, 0, 0, 0.6);
+    border: 4px solid #454545;
+    color: var(--text, #e6e6e6);
+    font-family: 'Mindustry Mono', ui-monospace, monospace;
+    font-size: 13px;
+    padding: 6px;
+}
+
 /*
  * Окно редактора процессора. `Styles.fullDialog` кладёт позади сплошной чёрный, а рамки
  * у самого окна нет: `window-empty.9.png` прозрачный целиком. Ширина холста — 900,
