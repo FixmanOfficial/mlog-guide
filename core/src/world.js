@@ -27,6 +27,9 @@ export const BLOCK_SPECS = specs.blocks
 /** MessageBlock.maxTextLength */
 export const MAX_MESSAGE_LENGTH = 400
 
+/** MessageBlock.maxNewlines: столько переносов строки переживёт правка руками. */
+export const MAX_MESSAGE_NEWLINES = 24
+
 /** LExecutor.maxDisplayBuffer */
 export const MAX_DISPLAY_BUFFER = 1024
 
@@ -171,8 +174,32 @@ export class MessageBuilding extends Building {
         this.message = ''
     }
 
+    /** printflush просто копирует буфер: ни обрезки по краям, ни счёта переносов. */
     setMessage(text) {
         this.message = text.slice(0, MAX_MESSAGE_LENGTH)
+    }
+
+    /**
+     * Правка руками идёт другим путём — через конфигурацию блока, а она строже:
+     * пробелы по краям срезаются, а переносов остаётся не больше 24. MessageBlock.config
+     */
+    configureMessage(text) {
+        if (text.length > MAX_MESSAGE_LENGTH) return
+
+        let newlines = 0
+        let result = ''
+
+        for (const character of text.trim()) {
+            if (character !== '\n') {
+                result += character
+                continue
+            }
+
+            // Счётчик увеличивается ДО проверки, поэтому переносов проходит ровно 24
+            if (newlines++ <= MAX_MESSAGE_NEWLINES) result += '\n'
+        }
+
+        this.message = result
     }
 }
 

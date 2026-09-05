@@ -23,6 +23,7 @@ import sprites from '@mlog/core/data/sprites.json'
 import blockSprites from '@mlog/core/data/block-sprites.json'
 
 import {createScene, attachProcessor} from './scene.js'
+import {MessageDialog, MemoryDialog} from './BlockDialogs.jsx'
 import {PAINTER, COUNTER} from './programs.js'
 import {Variables} from './Variables.jsx'
 
@@ -31,6 +32,12 @@ const TILE = 40
 
 /** Двойная стрелка перематывает на секунду — 60 тиков. */
 const SECOND = 60
+
+/**
+ * Блоки, у которых есть что настроить. Сообщение правится и в игре, память — наша добавка:
+ * посмотреть содержимое ячейки в Mindustry нельзя вовсе.
+ */
+const CONFIGURABLE = new Set(['message', 'memory-cell', 'memory-bank'])
 
 /** BlockConfigFragment.hideConfig: ряд настройки сжимается за 0.06 секунды. */
 const HIDE_MS = 60
@@ -85,6 +92,7 @@ export function Sandbox() {
     // и только потом убирает. Рамка вокруг блока при этом гаснет сразу
     const [closing, setClosing] = useState(null)
     const [editing, setEditing] = useState(null)
+    const [blockDialog, setBlockDialog] = useState(null)
     const [globalsOpen, setGlobalsOpen] = useState(false)
 
     /** Процессор, чьи переменные показывает таблица. */
@@ -296,9 +304,22 @@ export function Sandbox() {
             return
         }
 
-        hideConfig()
+        // SwitchBlock.configTapped: щелчок по тумблеру сразу его переключает
+        if (building === scene.toggle) {
+            building.enabled = !building.enabled
+            hideConfig()
+            worldView.draw({configured: null})
+            return
+        }
 
-        if (building === scene.toggle) building.enabled = !building.enabled
+        // У сообщения и памяти есть что настраивать — показываем ряд, как в игре
+        if (CONFIGURABLE.has(building.type)) {
+            setConfigured(building)
+            worldView.draw({configured: building})
+            return
+        }
+
+        hideConfig()
         worldView.draw({configured: null})
     }
 
@@ -391,15 +412,37 @@ export function Sandbox() {
 
                     {configured !== null && (
                         <div class="config-bar" style={configuredSpot()}>
-                            <button
-                                class="config-bar__button"
-                                title="Править программу"
-                                onClick={() => setEditing(scene.processors.findIndex(
-                                    entry => entry.building === configured
-                                ))}
-                            >
-                                <Icon name="pencil_" size={24} />
-                            </button>
+                            {configured.type === 'message' && (
+                                <button
+                                    class="config-bar__button"
+                                    title="Править сообщение"
+                                    onClick={() => setBlockDialog('message')}
+                                >
+                                    <Icon name="pencil_" size={24} />
+                                </button>
+                            )}
+
+                            {configured.memory !== undefined && (
+                                <button
+                                    class="config-bar__button"
+                                    title="Посмотреть память"
+                                    onClick={() => setBlockDialog('memory')}
+                                >
+                                    <Icon name="list" size={24} />
+                                </button>
+                            )}
+
+                            {configured.processor !== undefined && (
+                                <button
+                                    class="config-bar__button"
+                                    title="Править программу"
+                                    onClick={() => setEditing(scene.processors.findIndex(
+                                        entry => entry.building === configured
+                                    ))}
+                                >
+                                    <Icon name="pencil_" size={24} />
+                                </button>
+                            )}
                         </div>
                     )}
                 </div>
@@ -447,6 +490,18 @@ export function Sandbox() {
             </div>
 
             {globalsOpen && <GlobalsDialog onClose={() => setGlobalsOpen(false)} />}
+
+            {blockDialog === 'message' && configured !== null && (
+                <MessageDialog
+                    building={configured}
+                    onApply={(text) => { configured.configureMessage(text); redraw() }}
+                    onClose={() => setBlockDialog(null)}
+                />
+            )}
+
+            {blockDialog === 'memory' && configured !== null && (
+                <MemoryDialog building={configured} onClose={() => setBlockDialog(null)} />
+            )}
 
             {editingEntry !== null && (
                 <LogicDialog

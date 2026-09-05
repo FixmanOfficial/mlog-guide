@@ -327,3 +327,22 @@ test('спеки блоков совпадают с посчитанными п�
         [80, 176, 336]
     )
 })
+
+test('правка сообщения руками строже, чем printflush', () => {
+    // MessageBlock.config: пробелы по краям срезаются, переносов остаётся не больше 24,
+    // а слишком длинный текст не принимается вовсе. printflush ничего этого не делает
+    const world = new World()
+    const message = world.add('message')
+
+    message.configureMessage('  привет  ')
+    assert.equal(message.message, 'привет')
+
+    message.configureMessage('a' + '\n'.repeat(30) + 'b')
+    assert.equal([...message.message].filter(char => char === '\n').length, 25)
+
+    message.configureMessage('x'.repeat(500))
+    assert.notEqual(message.message, 'x'.repeat(500), 'слишком длинный текст отвергнут')
+
+    message.setMessage('  без обрезки  ')
+    assert.equal(message.message, '  без обрезки  ')
+})

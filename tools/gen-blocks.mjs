@@ -57,7 +57,22 @@ function main() {
 
     const found = []
 
+    // Кроме основного спрайта, у некоторых блоков есть вариант состояния: у тумблера
+    // `switch-on` рисуется поверх, когда он включён (`SwitchBlock.draw`)
+    const variants = {switch: ['switch-on']}
+
     for (const [type, spec] of Object.entries(BLOCK_SPECS)) {
+        for (const variant of variants[type] ?? []) {
+            const variantPath = findSprite(root, variant)
+
+            if (variantPath === null) {
+                console.error(`Пропущен ${variant}: спрайт не найден`)
+                continue
+            }
+
+            found.push({type: variant, image: decodePng(readFileSync(variantPath))})
+        }
+
         const path = findSprite(root, type)
 
         if (path === null) {

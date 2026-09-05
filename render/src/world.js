@@ -172,6 +172,12 @@ export class WorldView {
             context.drawImage(icon, cx - side / 2, cy - side / 2, side, side)
         }
 
+        // Включённый тумблер рисуется поверх своим спрайтом. SwitchBlock.draw
+        if (building.type === 'switch' && building.enabled) {
+            const on = this.sprite('switch-on')
+            if (on !== null) context.drawImage(on, cx - side / 2, cy - side / 2, side, side)
+        }
+
         // Дисплей показывает картинку поверх собственного спрайта. Она меньше блока:
         // буфер рисуется размером displaySize * scaleFactor * Draw.scl, а Draw.scl это 1/4,
         // потому что спрайты игры вчетверо крупнее мировых единиц. У дисплея 3 на 3 это
