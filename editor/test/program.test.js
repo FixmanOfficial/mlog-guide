@@ -13,6 +13,8 @@ import {
     createStatement, operations, toText, AVAILABLE, INSTRUCTIONS,
     visibleParams, SENSEABLE, CONTROLS, sanitize, targetIndex
 } from '../src/program.js'
+import {describeBody, referencedParams, CUSTOM_BODIES, DRAW_FIELDS} from '../src/bodies.js'
+import {ENUMS} from '../src/program.js'
 
 const withParams = (opcode, params) => {
     const statement = createStatement(opcode)
@@ -194,4 +196,70 @@ test('цель переключается тем же нажатием', () => {
     // Повторный выбор той же строки снимает цель
     statements = operations.setTarget(statements, jump.id, first.id)
     assert.equal(statements[1].target, null)
+})
+
+test('раскладки с ветвлениями ссылаются только на существующие поля', () => {
+    // Раскладки перенесены вручную, поэтому опечатку в имени ячейки поймать больше нечем
+    for (const opcode of CUSTOM_BODIES) {
+        const definition = INSTRUCTIONS.get(opcode)
+        const names = new Set(definition.params.map(param => param.name))
+
+        for (const name of referencedParams(opcode)) {
+            assert.ok(names.has(name), `${opcode}: нет поля ${name}`)
+        }
+    }
+})
+
+test('draw показывает поля для каждого вида отрисовки', () => {
+    const fields = (type) => describeBody({opcode: 'draw', params: {type}})
+        .filter(item => item.field !== undefined)
+        .map(item => item.field)
+
+    // Прямоугольнику нужны четыре ячейки, повороту — одна, сбросу — ни одной
+    assert.deepEqual(fields('rect'), ['x', 'y', 'p1', 'p2'])
+    assert.deepEqual(fields('triangle'), ['x', 'y', 'p1', 'p2', 'p3', 'p4'])
+    assert.deepEqual(fields('rotate'), ['p1'])
+    assert.deepEqual(fields('reset'), [])
+})
+
+test('у draw есть раскладка для каждого вида отрисовки', () => {
+    for (const type of ENUMS.GraphicsType) {
+        assert.ok(DRAW_FIELDS[type] !== undefined, `нет раскладки для ${type}`)
+    }
+})
+
+test('подписи полей draw совпадают с игрой', () => {
+    const labels = (type) => describeBody({opcode: 'draw', params: {type}})
+        .filter(item => item.label !== undefined)
+        .map(item => item.label)
+
+    assert.deepEqual(labels('rect'), ['x', 'y', 'width', 'height'])
+    assert.deepEqual(labels('poly'), ['x', 'y', 'sides', 'radius', 'rotation'])
+    assert.deepEqual(labels('clear'), ['r', 'g', 'b'])
+})
+
+test('control подписывает ячейки именами из выбранного свойства', () => {
+    const describe = (type) => describeBody({opcode: 'control', params: {type, target: 'block1'}})
+        .filter(item => item.label !== undefined)
+        .map(item => item.label)
+
+    assert.deepEqual(describe('enabled'), [' set ', ' of ', 'to'])
+    assert.deepEqual(describe('shoot'), [' set ', ' of ', 'x', 'y', 'shoot'])
+})
+
+test('select строится в два ряда, как в игре', () => {
+    const items = describeBody({opcode: 'select', params: {op: 'lessThan'}})
+
+    assert.equal(items.filter(item => item.break === true).length, 2)
+    assert.deepEqual(items.filter(item => item.label !== undefined).map(item => item.label),
+        [' = if ', 'then ', ' else '])
+})
+
+test('при условии always поля сравнения пропадают и у jump, и у select', () => {
+    const fields = (opcode) => describeBody({opcode, params: {op: 'always'}})
+        .filter(item => item.field !== undefined)
+        .map(item => item.field)
+
+    assert.deepEqual(fields('jump'), [])
+    assert.deepEqual(fields('select'), ['result', 'a', 'b'])
 })

@@ -1,9 +1,7 @@
 import {useRef, useState} from 'preact/hooks'
 
-import {
-    INSTRUCTIONS, ENUMS, ENUM_SYMBOLS, ENUM_FLAGS,
-    SENSEABLE, CONTROLS, visibleParams, targetIndex
-} from './program.js'
+import {INSTRUCTIONS, ENUMS, ENUM_SYMBOLS, SENSEABLE, visibleParams, targetIndex} from './program.js'
+import {describeBody, CUSTOM_BODIES, DRAW_DEFAULTS} from './bodies.js'
 import {categoryColor, headerTextColor, displayName} from './theme.js'
 import {instructionTip, propertyTip} from './tooltips.js'
 import {SelectPopup} from './SelectPopup.jsx'
@@ -14,8 +12,10 @@ import {JumpNode} from './JumpNode.jsx'
  * Одна строка программы.
  *
  * Повторяет строение из LCanvas.StatementElem: шапка в цвете категории с именем, номером
- * и тремя кнопками, под ней тело с полями. Раскладка тела берётся из подсказки, снятой
- * из игры; у инструкций с ветвлениями — своя, здесь.
+ * и тремя кнопками, под ней тело с полями.
+ *
+ * Тело собирается по описанию из bodies.jsx — там раскладки инструкций, которые строят её
+ * сами, с ветвлениями. Для остальных берётся подсказка, снятая генератором из игры.
  */
 export function StatementRow({
     statement, index, statements, onParam, onAdd, onCopy, onRemove,
@@ -24,10 +24,9 @@ export function StatementRow({
     const definition = INSTRUCTIONS.get(statement.opcode)
     const color = categoryColor(definition.category)
 
-    // У перехода в заголовке видна его цель: «Jump -> 3». LStatements.JumpStatement.build
+    // У перехода в заголовке видна его цель. В игре это буквально строка " -> " из двух
+    // знаков ASCII, а не стрелка Unicode. LStatements.JumpStatement.build
     const destination = statement.opcode === 'jump' ? targetIndex(statements, statement) : -1
-    // В игре это буквально строка " -> " из двух знаков ASCII, а не стрелка Unicode:
-    // name + " -> " + dest.index. Шрифт рисует их своим глифом, и выглядит это иначе
     const title = destination >= 0
         ? `${displayName(statement.opcode)} -> ${destination}`
         : displayName(statement.opcode)
@@ -56,10 +55,9 @@ export function StatementRow({
             </div>
 
             <div class="statement__body">
-                {statement.opcode === 'op' && <OperationBody statement={statement} onParam={onParam} />}
-                {statement.opcode === 'jump' && <JumpBody statement={statement} onParam={onParam} />}
-                {statement.opcode !== 'op' && statement.opcode !== 'jump' &&
-                    renderBody(definition, statement, onParam)}
+                {CUSTOM_BODIES.has(statement.opcode)
+                    ? renderDescribed(statement, definition, onParam)
+                    : renderGeneric(definition, statement, onParam)}
 
                 {statement.opcode === 'jump' && (
                     <>
@@ -78,106 +76,62 @@ export function StatementRow({
     )
 }
 
-/**
- * Операция строится не как остальные инструкции. LStatements.OperationStatement.rebuild:
- *
- *   унарная    dest = <оп> a
- *   функция    dest = <оп> a b
- *   остальные  dest =  /  a <оп> b
- *
- * Символ операции стоит на кнопке, открывающей сетку выбора, а не в выпадающем списке.
- */
-function OperationBody({statement, onParam}) {
-    const definition = INSTRUCTIONS.get('op')
-    const operation = statement.params.op
-    const unary = UNARY_OPS.has(operation)
-    const func = ENUM_FLAGS.LogicOp?.[operation]?.func === true
+/** Собирает тело по описанию раскладки. */
+function renderDescribed(statement, definition, onParam) {
+    return (describeBody(statement) ?? []).map((item, position) => {
+        if (item.break === true) return <div class="break" key={`break${position}`} />
+        if (item.label !== undefined) {
+            return <span class="label" key={`label${position}`}>{item.label}</span>
+        }
 
-    const button = (
-        <EnumButton
-            param={definition.params[0]}
-            statement={statement}
-            onParam={onParam}
-            values={ENUMS.LogicOp}
-            cellWidth={64}
-            wide
-        />
-    )
+        if (item.enum !== undefined) {
+            const param = definition.params.find(candidate => candidate.name === item.enum)
+            if (param === undefined) return null
 
-    const field = (name) => (
-        <Field param={definition.params.find(candidate => candidate.name === name)}
-            statement={statement} onParam={onParam} />
-    )
+            return (
+                <EnumButton
+                    key={param.name}
+                    param={param}
+                    statement={statement}
+                    onParam={onParam}
+                    values={item.values}
+                    width={item.width}
+                    columns={item.columns}
+                    cellWidth={item.cell}
+                />
+            )
+        }
 
-    if (unary) {
-        return <>{field('dest')}<span class="label"> = </span>{button}{field('a')}</>
-    }
+        const param = definition.params.find(candidate => candidate.name === item.field)
+        if (param === undefined) return null
 
-    if (func) {
-        return <>{field('dest')}<span class="label"> = </span>{button}{field('a')}{field('b')}</>
-    }
-
-    return (
-        <>
-            {field('dest')}<span class="label"> = </span>
-            <div class="break" />
-            {field('a')}{button}{field('b')}
-        </>
-    )
+        return (
+            <Field key={param.name} param={param} statement={statement}
+                onParam={onParam} width={item.width} />
+        )
+    })
 }
 
-/**
- * Условный переход. LStatements.JumpStatement.build и addOp:
- *
- *   if <value> <условие> <compare>
- *
- * Подписей у полей нет вовсе — вместо них слово «if» в начале. А при условии `always`
- * оба поля пропадают, потому что сравнивать нечего, и кнопка условия становится шире:
- * 80 вместо 48.
- */
-function JumpBody({statement, onParam}) {
-    const definition = INSTRUCTIONS.get('jump')
-    const always = statement.params.op === 'always'
-
-    const field = (name) => (
-        <Field param={definition.params.find(candidate => candidate.name === name)}
-            statement={statement} onParam={onParam} />
-    )
-
-    return (
-        <>
-            <span class="label">if </span>
-            {!always && field('value')}
-            <EnumButton
-                param={definition.params.find(candidate => candidate.name === 'op')}
-                statement={statement}
-                onParam={onParam}
-                values={ENUMS.ConditionOp}
-                className={always ? 'enum enum--always' : 'enum enum--condition'}
-            />
-            {!always && field('compare')}
-        </>
-    )
-}
-
-/** Унарные операции: у них второй аргумент не используется и поля для него нет. */
-const UNARY_OPS = new Set([
-    'not', 'abs', 'sign', 'log', 'log10', 'floor', 'ceil', 'round', 'sqrt', 'rand',
-    'sin', 'cos', 'tan', 'asin', 'acos', 'atan'
-])
-
-function renderBody(definition, statement, onParam) {
+/** Инструкции без своей раскладки: подсказка из игры, иначе поля подряд с подписями. */
+function renderGeneric(definition, statement, onParam) {
     const hint = definition.layoutHint
 
-    // Полная подсказка повторяет расположение полей из игры
     if (hint !== null && hint.complete) {
-        return hint.items.map((item, position) => renderItem(item, definition, statement, onParam, position))
+        return hint.items.map((item, position) => {
+            if (item.kind === 'row') return <div class="break" key={`row${position}`} />
+            if (item.kind === 'label') {
+                return <span class="label" key={`label${position}`}>{item.text}</span>
+            }
+
+            const param = definition.params.find(candidate => candidate.name === item.param)
+            if (param === undefined) return null
+
+            return <Field key={param.name} param={param} statement={statement} onParam={onParam} />
+        })
     }
 
-    // Иначе выкладываем поля подряд. Скрытые не рисуем вовсе: у control enabled видно
-    // одно поле, у control shoot — три, и подписаны они по-человечески, как в игре
     return visibleParams(definition, statement)
-        .filter(entry => !entry.hidden && !isJumpAddress(statement, entry.param))
+        .filter(entry => !entry.hidden)
         .map(entry => (
             <span class="pair" key={entry.param.name}>
                 <span class="label" title={propertyTip(entry.label) ?? ''}>{entry.label}</span>
@@ -186,39 +140,22 @@ function renderBody(definition, statement, onParam) {
         ))
 }
 
-/** Адрес перехода не редактируется вручную: его задают кнопкой-стрелкой, как в игре. */
-const isJumpAddress = (statement, param) =>
-    statement.opcode === 'jump' && param.name === 'destIndex'
-
-function renderItem(item, definition, statement, onParam, position) {
-    if (item.kind === 'row') return <div class="break" key={`row${position}`} />
-    if (item.kind === 'label') return <span class="label" key={`label${position}`}>{item.text}</span>
-
-    const param = definition.params.find(candidate => candidate.name === item.param)
-    if (param === undefined || isJumpAddress(statement, param)) return null
-
-    return <span key={param.name}>{renderParam(param, statement, onParam)}</span>
-}
-
 function renderParam(param, statement, onParam) {
     if (param.enum !== undefined && ENUMS[param.enum] !== undefined) {
         return (
-            <EnumButton
-                param={param}
-                statement={statement}
-                onParam={onParam}
-                values={optionsFor(param, statement)}
-            />
+            <EnumButton param={param} statement={statement} onParam={onParam}
+                values={param.enum === 'LAccess' ? SENSEABLE : ENUMS[param.enum]} />
         )
     }
 
     return <Field param={param} statement={statement} onParam={onParam} />
 }
 
-function Field({param, statement, onParam}) {
+function Field({param, statement, onParam, width}) {
     return (
         <input
             class="field"
+            style={width === undefined ? undefined : {width: `${width}px`}}
             value={statement.params[param.name] ?? ''}
             spellcheck={false}
             onInput={(event) => onParam(param.name, event.currentTarget.value)}
@@ -227,18 +164,32 @@ function Field({param, statement, onParam}) {
 }
 
 /** Кнопка со значением перечисления: нажатие открывает сетку выбора, как в игре. */
-function EnumButton({param, statement, onParam, values, cellWidth, wide, className}) {
+function EnumButton({param, statement, onParam, values, width, columns, cellWidth}) {
     const anchor = useRef(null)
     const [open, setOpen] = useState(false)
 
     const value = statement.params[param.name] ?? ''
     const symbols = ENUM_SYMBOLS[param.enum] ?? {}
 
+    /** Смена вида отрисовки подставляет свои значения по умолчанию. DrawStatement.rebuild */
+    const pick = (picked) => {
+        onParam(param.name, picked)
+
+        if (statement.opcode === 'draw') {
+            for (const [name, fallback] of Object.entries(DRAW_DEFAULTS[picked] ?? {})) {
+                onParam(name, fallback)
+            }
+        }
+
+        setOpen(false)
+    }
+
     return (
         <>
             <button
-                class={className ?? `enum${wide ? ' enum--wide' : ''}`}
+                class="enum"
                 ref={anchor}
+                style={width === undefined ? undefined : {width: `${width}px`, minWidth: `${width}px`}}
                 title={propertyTip(value) ?? ''}
                 onClick={() => setOpen(!open)}
             >
@@ -250,25 +201,13 @@ function EnumButton({param, statement, onParam, values, cellWidth, wide, classNa
                     values={values}
                     current={value}
                     enumName={param.enum}
+                    columns={columns}
                     cellWidth={cellWidth}
                     anchor={anchor}
-                    onPick={(picked) => {
-                        onParam(param.name, picked)
-                        setOpen(false)
-                    }}
+                    onPick={pick}
                     onClose={() => setOpen(false)}
                 />
             )}
         </>
     )
-}
-
-/**
- * Игра сужает список свойств по инструкции: sensor читает только те, у которых не больше
- * одного параметра, а control управляет только теми, у которых параметры есть.
- * LAccess.senseable и LAccess.controls.
- */
-function optionsFor(param, statement) {
-    if (param.enum !== 'LAccess') return ENUMS[param.enum]
-    return statement.opcode === 'control' ? CONTROLS : SENSEABLE
 }
