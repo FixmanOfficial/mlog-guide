@@ -86,6 +86,8 @@ const RECIPES = [
         pattern: /\.padLeft\(4\)\.padRight\(4\)\.width\((\d+)f\)\.wrap\(\)/},
     {file: `${LOGIC}/LogicDialog.java`, names: ['varsTypeMinWidth'],
         pattern: /\}\}\)\.minWidth\((\d+)f\);/},
+    {file: `${LOGIC}/LogicDialog.java`, names: ['globalsButtonWidth', 'globalsButtonHeight'],
+        pattern: /"@logic\.globals", Icon\.list[^;]*?\.size\((\d+)f, (\d+)f\)/s},
     {file: `${LOGIC}/LogicDialog.java`, names: ['varsPeriod'],
         pattern: /float period = (\d+)f;/},
 

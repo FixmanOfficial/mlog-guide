@@ -47,6 +47,8 @@
     "varsPad": 4,
     "varsValueWidth": 140,
     "varsTypeMinWidth": 120,
+    "globalsButtonWidth": 210,
+    "globalsButtonHeight": 64,
     "varsPeriod": 15,
     "closeButtonWidth": 210
   }

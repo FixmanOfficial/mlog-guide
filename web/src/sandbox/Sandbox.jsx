@@ -410,27 +410,17 @@ export function Sandbox() {
 
                 <div class="sandbox__title sandbox__title--row">
                     <span>Переменные</span>
-
-                    <span class="sandbox__tabs">
-                        {scene?.processors.map((item, index) => (
-                            <button
-                                key={item.building.name}
-                                class={`sandbox__tab${index === selected ? ' sandbox__tab--current' : ''}`}
-                                onClick={() => setSelected(index)}
-                            >
-                                {item.building.name}
-                            </button>
-                        ))}
-                    </span>
-
-                    {/* В игре эта кнопка стоит в самом окне переменных: LogicDialog, "@logic.globals" */}
-                    <button class="sandbox__link" onClick={() => setGlobalsOpen(true)}>
-                        <Icon name="list" size={16} />
-                        встроенные
-                    </button>
+                    {/* Чьи именно: в игре окно принадлежит блоку, который открыли */}
+                    <span class="sandbox__owner">{scene?.processors[selected].building.name}</span>
                 </div>
 
                 {processor !== null && <Variables processor={processor} beat={beat} />}
+
+                {/* LogicDialog: кнопка «@logic.globals» со значком списка, 210 на 64 */}
+                <button class="game-button sandbox__globals" onClick={() => setGlobalsOpen(true)}>
+                    <Icon name="list" size={24} />
+                    <span>Встроенные переменные</span>
+                </button>
 
                 {processor !== null && processor.diagnostics.length > 0 && (
                     <div class="sandbox__errors">

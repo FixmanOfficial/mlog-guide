@@ -39,25 +39,22 @@
     color: #8a8a96;
 }
 
-/* Вкладки процессоров: чью таблицу переменных показывать */
-.sandbox__tabs {
-    display: flex;
-    gap: 4px;
-}
-
-.sandbox__tab {
-    background: #000;
-    border: 2px solid #454545;
-    color: #8a8a96;
-    font: inherit;
-    font-size: 12px;
-    padding: 2px 8px;
-    cursor: pointer;
-}
-
-.sandbox__tab--current {
+/* Чей процессор показан: имя связи, как оно подписано в мире */
+.sandbox__owner {
     color: #ffd37f;
-    border-color: #ffd37f;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+/* LogicDialog: кнопка встроенных переменных, 210 на 64 */
+.sandbox__globals {
+    width: var(--m-globals-button-width, 210px);
+    height: var(--m-globals-button-height, 64px);
+    gap: 10px;
+    font-size: 14px;
+    -webkit-text-stroke: 4px #3f3f3f;
+    paint-order: stroke fill;
+    margin-top: 8px;
 }
 
 .sandbox__side {
@@ -188,21 +185,6 @@
     display: flex;
     align-items: center;
     gap: 10px;
-}
-
-.sandbox__link {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: none;
-    border: none;
-    padding: 0;
-    color: #ffd37f;
-    font: inherit;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    cursor: pointer;
 }
 
 .sandbox__panel {
