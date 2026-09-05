@@ -1,4 +1,4 @@
-import {useState, useCallback, useRef} from 'preact/hooks'
+import {useState, useCallback, useEffect, useRef} from 'preact/hooks'
 
 import {StatementRow} from './StatementRow.jsx'
 import {AddDialog} from './AddDialog.jsx'
@@ -12,6 +12,10 @@ import {METRICS} from './theme.js'
  * Держит список инструкций и отдаёт текст mlog наружу через onChange. Про виртуальную машину
  * не знает ничего: её запускает страница, получив текст.
  *
+ * Кнопки «добавить» у редактора своей нет: в игре она стоит в нижнем ряду окна процессора
+ * (`LogicDialog`, `buttons.button("@add", Icon.add, …)`), а не под списком. Полотно открывает
+ * меню добавления по внешнему сигналу `addOpen` и сообщает о закрытии через `onAddClose`.
+ *
  * `counter` — номер строки, которую процессор выполнит следующей. В игре такого нет: там
  * программа не подсвечивается вовсе. Нам это нужно для пошагового разбора, поэтому подсветка
  * своя и намеренно неяркая, чтобы её не приняли за часть игры.
@@ -20,7 +24,7 @@ import {METRICS} from './theme.js'
  * вставки считается по координате — сколько прочих строк осталось выше, — а остальные
  * расступаются. Перестановка «по наведению» промахивалась при быстром движении мыши.
  */
-export function Editor({initial = [], onChange, counter = null}) {
+export function Editor({initial = [], onChange, counter = null, addOpen = false, onAddClose}) {
     const [statements, setStatements] = useState(initial)
     const [adding, setAdding] = useState(null)
     const [selecting, setSelecting] = useState(null)
@@ -37,8 +41,18 @@ export function Editor({initial = [], onChange, counter = null}) {
 
     const addAt = (index, opcode) => {
         update(operations.insert(statements, index, createStatement(opcode)))
-        setAdding(null)
+        closeAdd()
     }
+
+    const closeAdd = () => {
+        setAdding(null)
+        onAddClose?.()
+    }
+
+    // Кнопка окна просит добавить в конец: LogicDialog.showAddDialog() без позиции
+    useEffect(() => {
+        if (addOpen) setAdding(statements.length)
+    }, [addOpen])
 
     /** LExecutor.maxInstructions: за тысячей инструкций кнопки добавления гаснут. */
     const full = statements.length >= MAX_INSTRUCTIONS
@@ -157,14 +171,10 @@ export function Editor({initial = [], onChange, counter = null}) {
                 <JumpArrows statements={statements} containerRef={listRef} />
             </div>
 
-            <button class="editor__add" disabled={full} onClick={() => setAdding(statements.length)}>
-                Добавить инструкцию
-            </button>
-
             {adding !== null && (
                 <AddDialog
                     onPick={(opcode) => addAt(adding, opcode)}
-                    onClose={() => setAdding(null)}
+                    onClose={closeAdd}
                 />
             )}
         </div>

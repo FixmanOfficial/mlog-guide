@@ -144,8 +144,7 @@
 }
 
 /* Погасшая кнопка: в игре Styles.logici красит значок в Color.gray и не отвечает на нажатие */
-.statement__button:disabled,
-.editor__add:disabled {
+.statement__button:disabled {
     color: #808080;
     cursor: default;
 }
@@ -279,16 +278,6 @@
 .select:focus {
     outline: none;
     background: rgba(255, 255, 255, 0.08);
-}
-
-.editor__add {
-    align-self: flex-start;
-    padding: 6px 12px;
-    border: 1px solid var(--muted);
-    background: var(--panel);
-    color: var(--text);
-    font: inherit;
-    cursor: pointer;
 }
 
 /*

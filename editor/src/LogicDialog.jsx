@@ -4,15 +4,15 @@ import {Editor} from './Editor.jsx'
 import {EditDialog} from './EditDialog.jsx'
 import {Icon} from './Icon.jsx'
 import {Overlay} from './Overlay.jsx'
-import {fromText, toText} from './program.js'
+import {fromText, toText, MAX_INSTRUCTIONS} from './program.js'
 
 /**
  * Окно редактора процессора — то, что в игре открывается щелчком по блоку (`LogicDialog`).
  *
  * В игре оно занимает весь экран: `Styles.fullDialog` кладёт позади сплошной чёрный, а рамки
  * у окна нет вовсе — её рисует не диалог, а содержимое. Снизу ряд кнопок 160 на 64; из четырёх
- * игровых здесь две: «Назад» и «Правка». Переменные и добавление живут не тут — таблица
- * переменных всё время на странице, а кнопка добавления в самом полотне.
+ * игровых здесь три: «Назад», «Правка» и «Добавить». Четвёртой, «Переменные», не нужно —
+ * таблица переменных и так всё время на странице.
  *
  * Заголовок — имя связи процессора, как оно подписано в мире: игрок должен понимать,
  * какой из процессоров правит.
@@ -20,6 +20,7 @@ import {fromText, toText} from './program.js'
 export function LogicDialog({title, initial, onChange, onRestart, onClose, counter = null}) {
     const [program, setProgram] = useState(initial)
     const [editing, setEditing] = useState(false)
+    const [adding, setAdding] = useState(false)
 
     // Замена программы целиком: редактор держит свой список, поэтому пересобираем его заново
     const [version, setVersion] = useState(0)
@@ -39,6 +40,8 @@ export function LogicDialog({title, initial, onChange, onRestart, onClose, count
                     <Editor
                         key={version}
                         counter={counter}
+                        addOpen={adding}
+                        onAddClose={() => setAdding(false)}
                         initial={program}
                         onChange={(text, statements) => {
                             setProgram(statements)
@@ -56,6 +59,16 @@ export function LogicDialog({title, initial, onChange, onRestart, onClose, count
                     <button class="game-button logic-dialog__button" onClick={() => setEditing(true)}>
                         <Icon name="pencil_" size={22} />
                         <span>Правка</span>
+                    </button>
+
+                    {/* LogicDialog: кнопка гаснет на пределе в 1000 инструкций */}
+                    <button
+                        class="game-button logic-dialog__button"
+                        disabled={program.length >= MAX_INSTRUCTIONS}
+                        onClick={() => setAdding(true)}
+                    >
+                        <Icon name="add" size={22} />
+                        <span>Добавить</span>
                     </button>
                 </div>
             </div>

@@ -37,11 +37,23 @@ jumps[1].target = initial[0].id
 function Stand() {
     const [text, setText] = useState(toText(initial))
 
+    // В игре кнопка добавления живёт в нижнем ряду окна процессора, а не в полотне.
+    // Стенд окна не рисует, поэтому кнопка своя
+    const [adding, setAdding] = useState(false)
+
     return (
         <div class="stand">
             <div>
                 <h1>Редактор</h1>
-                <Editor initial={initial} onChange={setText} />
+                <button class="game-button stand__add" onClick={() => setAdding(true)}>
+                    Добавить
+                </button>
+                <Editor
+                    initial={initial}
+                    onChange={setText}
+                    addOpen={adding}
+                    onAddClose={() => setAdding(false)}
+                />
             </div>
             <div>
                 <h1>Текст mlog</h1>
