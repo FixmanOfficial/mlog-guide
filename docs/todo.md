@@ -53,12 +53,11 @@
 
 **`radar` и `uradar`.** Нужны юниты и цели, поэтому идут следом.
 
-**Процессоры мира.** Пятнадцать из двадцати шести: правила, флаги целей, `getblock`,
+**Процессоры мира.** Шестнадцать из двадцати шести: правила, флаги целей, `getblock`,
 `setblock`, `spawn`, `setrate`, `sync`, `fetch`, `setprop`, `localeprint`, `clientdata`,
-`query`, `message`, `explosion`.
+`query`, `message`, `explosion`, `status`.
 
-Осталось одиннадцать, тремя кучками: бой и эффекты (`bullet`, `status`, `effect`) —
-нужны пули и эффекты состояния; погода с волнами (`weatherset`, `weathersense`, `spawnwave`) —
+Осталось десять, тремя кучками: бой (`bullet`, `effect`) — нужны пули и показ эффектов; погода с волнами (`weatherset`, `weathersense`, `spawnwave`) —
 нужны сами волны; показ (`cutscene`, `playsound`, `playmusic`) — это интерфейс игры, а не мир.
 Плюс метки (`setmarker`, `makemarker`), которые делать вместе с целями.
 

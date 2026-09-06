@@ -655,3 +655,65 @@ test('стена прикрывает то, что за ней: взрыв ид�
     assert.ok(world.at(12, 10).health < world.at(12, 10).maxHealth, 'стена цела')
     assert.equal(behind.health, behind.maxHealth, 'за стеной не должно достаться')
 })
+
+test('эффект состояния держится по времени и правит скорость', () => {
+    const world = new World({width: 20, height: 20, content})
+    const building = world.add('world-processor', {x: 1, y: 1})
+
+    // `stop` после наложения: иначе процессор вешал бы эффект заново каждый круг
+    const processor = new Processor([
+        'fetch unit цель @sharded 0 @dagger',
+        'status false freezing цель 2',
+        'stop'
+    ].join('\n'), {world, content, globals: content.globals, building, team: 1, ipt: 8})
+
+    building.processor = processor
+    world.addProcessor(processor)
+
+    const dagger = world.spawn('dagger', {x: 5, y: 5})
+    const normal = dagger.speed()
+
+    processor.run(3)
+    world.step()
+
+    // freezing: скорость 0.6 от обычной
+    assert.ok(Math.abs(dagger.speed() - normal * 0.6) < 1e-6, `скорость ${dagger.speed()}`)
+    assert.equal(dagger.hasEffect('freezing'), true)
+
+    // Две секунды прошли — эффект спал
+    world.steps(2 * 60)
+    assert.equal(dagger.hasEffect('freezing'), false)
+    assert.equal(dagger.speed(), normal)
+})
+
+test('горение отнимает здоровье каждый тик, а overdrive лечит', () => {
+    const world = new World({width: 20, height: 20, content})
+
+    const burning = world.spawn('dagger', {x: 5, y: 5})
+    const healing = world.spawn('dagger', {x: 7, y: 7})
+
+    burning.apply('burning', 60)
+    healing.health = 100
+    healing.apply('overdrive', 60)
+
+    world.steps(60)
+
+    // damage у горения 0.167 в тик; за секунду выходит около десяти
+    assert.ok(burning.health < burning.maxHealth - 9, `здоровье ${burning.health}`)
+    assert.ok(healing.health > 100, 'overdrive не лечит')
+})
+
+test('status clear снимает эффект, а повторное наложение продлевает', () => {
+    const world = new World({width: 20, height: 20, content})
+    const dagger = world.spawn('dagger', {x: 5, y: 5})
+
+    dagger.apply('wet', 100)
+    world.steps(50)
+
+    // Осталось меньше, но новое наложение берёт большее из двух, а не складывает
+    dagger.apply('wet', 80)
+    assert.equal(dagger.statuses.get('wet'), 80)
+
+    dagger.unapply('wet')
+    assert.equal(dagger.hasEffect('wet'), false)
+})

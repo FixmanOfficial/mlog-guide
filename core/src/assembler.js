@@ -861,6 +861,29 @@ const builders = {
     },
 
     /**
+     * ApplyEffectI: вешает эффект состояния на юнита или снимает его. Повторное наложение
+     * не складывается, а продлевает: берётся большее из оставшегося и нового времени.
+     */
+    status: (asm, params) => {
+        const clear = (params[0] ?? 'false') === 'true'
+        const effect = params[1] ?? 'wet'
+        const target = asm.var(params[2] ?? '@unit')
+        const duration = asm.var(params[3] ?? '10')
+
+        return {
+            run: (vm) => {
+                if (!vm.privileged) return
+
+                const unit = target.obj()
+                if (!(unit instanceof Unit)) return
+
+                if (clear) unit.unapply(effect)
+                else unit.apply(effect, duration.num() * 60)
+            }
+        }
+    },
+
+    /**
      * ExplosionI. Радиус ограничен сотней тайлов — это предел самой игры, а не наш.
      *
      * `pierce` меняет не силу, а способ: сплошной урон идёт по кругу и не глядя на преграды,

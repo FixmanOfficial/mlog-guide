@@ -15,6 +15,7 @@ import mindustry.gen.Tankc;
 import mindustry.type.Item;
 import mindustry.type.ItemStack;
 import mindustry.type.Liquid;
+import mindustry.type.StatusEffect;
 import mindustry.type.UnitType;
 import mindustry.content.Blocks;
 import mindustry.world.Block;
@@ -426,8 +427,36 @@ public class ContentDump{
             liquids.raw(liquid.name, entry.object());
         }
 
+        // Эффекты состояния: `status` вешает их на юнита, а они правят его множители
+        Json statuses = new Json();
+        for(StatusEffect effect : Vars.content.<StatusEffect>getBy(ContentType.status)){
+            Json entry = new Json();
+
+            entry.number("damageMultiplier", effect.damageMultiplier);
+            entry.number("healthMultiplier", effect.healthMultiplier);
+            entry.number("speedMultiplier", effect.speedMultiplier);
+            entry.number("reloadMultiplier", effect.reloadMultiplier);
+            entry.number("buildSpeedMultiplier", effect.buildSpeedMultiplier);
+            entry.number("dragMultiplier", effect.dragMultiplier);
+
+            entry.number("damage", effect.damage);
+            entry.number("intervalDamage", effect.intervalDamage);
+            entry.number("intervalDamageTime", effect.intervalDamageTime);
+            entry.bool("intervalDamagePierce", effect.intervalDamagePierce);
+            entry.number("transitionDamage", effect.transitionDamage);
+
+            entry.bool("disarm", effect.disarm);
+            entry.bool("permanent", effect.permanent);
+            entry.bool("reactive", effect.reactive);
+            entry.bool("dynamic", effect.dynamic);
+            entry.string("color", color(effect.color));
+
+            statuses.raw(effect.name, entry.object());
+        }
+
         out.raw("items", items.object());
         out.raw("liquids", liquids.object());
+        out.raw("statuses", statuses.object());
         return out.object();
     }
 

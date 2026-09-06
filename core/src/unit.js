@@ -58,6 +58,11 @@ export const MINE_HARDNESS_TIME = 15
 export const FLYING_ELEVATION = 0.09
 export const GROUNDED_ELEVATION = 0.001
 
+/** StatusComp: без единого эффекта все множители единичны. */
+const NO_STATUS = {
+    speed: 1, health: 1, damage: 1, reload: 1, build: 1, drag: 1, disarmed: false
+}
+
 /** GlobalVars: @ctrlProcessor, @ctrlPlayer, @ctrlCommand. */
 export const CTRL_PROCESSOR = 1
 export const CTRL_PLAYER = 2
@@ -201,6 +206,14 @@ export class Unit {
         this.controller = null
 
         /*
+         * Эффекты состояния: имя и сколько тиков ему осталось. Множители из них пересчитываются
+         * каждый тик заново — так же, как это делает StatusComp.update, — поэтому хранить
+         * достаточно время.
+         */
+        this.statuses = new Map()
+        this.multipliers = {...NO_STATUS}
+
+        /*
          * Мех ходит ногами, и ноги живут своей жизнью: `baseRotation` поворачивается
          * не к цели, а туда, куда юнит на самом деле сдвинулся, а `walkTime` копит
          * пройденное расстояние — по нему считается фаза шага. MechComp
@@ -235,6 +248,8 @@ export class Unit {
         this.mineTimer = 0
         this.plan = null
         this.controller = null
+        this.statuses.clear()
+        this.multipliers = {...NO_STATUS}
 
         this.baseRotation = this.initial.rotation
         this.walkTime = 0
@@ -281,7 +296,7 @@ export class Unit {
             ? 1
             : f(Math.pow(floor.speedMultiplier ?? 1, this.spec.floorMultiplier))
 
-        return f(f(this.spec.speed * boost) * surface)
+        return f(f(f(this.spec.speed * boost) * surface) * this.multipliers.speed)
     }
 
     /**
@@ -426,13 +441,85 @@ export class Unit {
     }
 
     /**
+     * StatusComp.apply: повторное наложение не складывается, а **продлевает** — берётся
+     * большее из оставшегося и нового времени. Реактивные эффекты сами не вешаются:
+     * они появляются только в ответ на другой.
+     */
+    apply(effect, duration = 1) {
+        const spec = materials.statuses[effect]
+        if (spec === undefined || effect === 'none' || spec.reactive) return this
+
+        this.statuses.set(effect, Math.max(this.statuses.get(effect) ?? 0, duration))
+        return this
+    }
+
+    unapply(effect) {
+        this.statuses.delete(effect)
+        return this
+    }
+
+    hasEffect(effect) {
+        return this.statuses.has(effect)
+    }
+
+    /**
+     * StatusComp.update: время идёт вниз, множители собираются заново перемножением,
+     * а `damage` эффекта — это урон **в тик**, не в секунду.
+     */
+    updateStatuses(delta) {
+        const totals = {...NO_STATUS}
+
+        for (const [name, left] of [...this.statuses]) {
+            const spec = materials.statuses[name]
+            const time = Math.max(left - delta, 0)
+
+            if (time <= 0 && !spec.permanent) {
+                this.statuses.delete(name)
+                continue
+            }
+
+            this.statuses.set(name, time)
+
+            totals.speed *= spec.speedMultiplier
+            totals.health *= spec.healthMultiplier
+            totals.damage *= spec.damageMultiplier
+            totals.reload *= spec.reloadMultiplier
+            totals.build *= spec.buildSpeedMultiplier
+            totals.drag *= spec.dragMultiplier
+            totals.disarmed ||= spec.disarm
+
+            // Урон эффекта идёт мимо брони, а отрицательный лечит
+            if (spec.damage > 0) this.damagePierce(spec.damage * delta)
+            else if (spec.damage < 0) this.heal(-spec.damage * delta)
+        }
+
+        this.multipliers = totals
+    }
+
+    heal(amount) {
+        if (this.dead) return this
+        this.health = Math.min(this.health + amount, this.maxHealth)
+        return this
+    }
+
+    /** ShieldComp.damagePierce: тот же урон, но мимо брони. */
+    damagePierce(amount) {
+        if (this.dead) return this
+
+        this.health -= amount / this.multipliers.health
+        if (this.health <= 0) this.kill()
+
+        return this
+    }
+
+    /**
      * ShieldComp.damage: броня вычитается, а множители здоровья делят урон. Щитов у нас нет,
      * поэтому всё уходит в здоровье сразу.
      */
     damage(amount) {
         if (this.dead) return this
 
-        this.health -= applyArmor(amount, this.spec.armor)
+        this.health -= applyArmor(amount, this.spec.armor) / this.multipliers.health
         if (this.health <= 0) this.kill()
 
         return this
@@ -579,12 +666,13 @@ export class Unit {
         this.lastY = this.y
 
         this.updateWalk(delta)
+        this.updateStatuses(delta)
         this.updateMining(delta)
 
         // Трение тоже зависит от пола, и считается оно уже после переноса: в игре
         // UnitComp.update идёт после VelComp.update
         const floor = this.isGrounded() ? this.floorOn() : null
-        this.drag = f(this.spec.drag * (floor?.dragMultiplier ?? 1))
+        this.drag = f(f(this.spec.drag * (floor?.dragMultiplier ?? 1)) * this.multipliers.drag)
 
         if (this.controller !== null) this.controller.update(this, delta)
     }
