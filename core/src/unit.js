@@ -19,6 +19,7 @@
 import {Vec2, clamp, moveToward, approach, angle} from './arc.js'
 import {NOT_SENSED} from './sense.js'
 import {teamColorBits} from './teams.js'
+import {applyArmor} from './damage.js'
 import specs from '../data/unit-specs.json' with {type: 'json'}
 import blockSpecs from '../data/block-specs.json' with {type: 'json'}
 import materials from '../data/materials.json' with {type: 'json'}
@@ -422,6 +423,35 @@ export class Unit {
     clearItem() {
         this.item = null
         this.itemAmount = 0
+    }
+
+    /**
+     * ShieldComp.damage: броня вычитается, а множители здоровья делят урон. Щитов у нас нет,
+     * поэтому всё уходит в здоровье сразу.
+     */
+    damage(amount) {
+        if (this.dead) return this
+
+        this.health -= applyArmor(amount, this.spec.armor)
+        if (this.health <= 0) this.kill()
+
+        return this
+    }
+
+    /**
+     * Смерть. В игре мёртвый юнит ещё падает и только потом исчезает; нам эта пауза не нужна,
+     * поэтому он сразу уходит из мира. Привязанная к нему переменная остаётся, и `sensor @dead`
+     * честно отвечает единицей — так же, как в игре.
+     */
+    kill() {
+        if (this.dead) return this
+
+        this.dead = true
+        this.health = 0
+        this.controller = null
+        this.world?.removeUnit?.(this)
+
+        return this
     }
 
     /**

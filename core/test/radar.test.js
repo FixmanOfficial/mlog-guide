@@ -15,6 +15,7 @@ import {Processor} from '../src/vm.js'
 import {createContent} from '../src/content.js'
 import {UNIT_SPECS, unconv} from '../src/unit.js'
 import {Diagnostic} from '../src/errors.js'
+import {damage as explode} from '../src/damage.js'
 
 const logicIds = JSON.parse(readFileSync(new URL('../data/logic-ids.json', import.meta.url), 'utf8'))
 const content = createContent(logicIds)
@@ -579,4 +580,78 @@ test('message mission пишет задачу в правила и никого 
 
     assert.equal(world.rules.get('mission'), 'добудь меди')
     assert.equal(world.message, null)
+})
+
+test('броня вычитается, но десятая часть урона проходит всегда', () => {
+    const world = new World({width: 10, height: 10, content})
+    const scepter = world.spawn('scepter', {x: 5, y: 5})
+
+    const before = scepter.health
+    scepter.damage(10)
+
+    // У скипетра броня 10: обычным вычитанием вышел бы ноль, но проходит 0.1 от урона
+    assert.equal(before - scepter.health, 1)
+})
+
+test('взрыв убивает юнитов и сносит здания, а мёртвые уходят из мира', () => {
+    const world = new World({width: 30, height: 30, content})
+    const building = world.add('world-processor', {x: 1, y: 1})
+
+    const processor = new Processor(
+        'explosion @crux 10 10 3 1000 true true true false',
+        {world, content, globals: content.globals, building, team: 1, ipt: 8})
+
+    building.processor = processor
+    world.addProcessor(processor)
+
+    const near = world.spawn('dagger', {x: 10, y: 10})
+    const far = world.spawn('dagger', {x: 25, y: 25})
+    const container = world.add('container', {x: 11, y: 10})
+
+    processor.run(1)
+
+    assert.equal(near.dead, true, 'ближний выжил')
+    assert.equal(world.units.includes(near), false, 'мёртвый остался в мире')
+    assert.equal(far.dead, false, 'дальнему досталось')
+
+    assert.equal(container.health <= 0, true)
+    assert.equal(world.buildings.includes(container), false)
+})
+
+test('взрыв щадит свою команду и не трогает воздух, когда его не просили', () => {
+    const world = new World({width: 30, height: 30, content})
+    const building = world.add('world-processor', {x: 1, y: 1})
+
+    const processor = new Processor(
+        'explosion @sharded 10 10 3 1000 false true false false',
+        {world, content, globals: content.globals, building, team: 1, ipt: 8})
+
+    building.processor = processor
+    world.addProcessor(processor)
+
+    const mine = world.spawn('dagger', {x: 10, y: 10})
+    const flying = world.spawn('flare', {x: 10, y: 10, team: 2})
+    const enemy = world.spawn('dagger', {x: 10, y: 10, team: 2})
+
+    processor.run(1)
+
+    assert.equal(mine.dead, false, 'досталось своим')
+    assert.equal(flying.dead, false, 'воздух не просили')
+    assert.equal(enemy.dead, true)
+})
+
+test('стена прикрывает то, что за ней: взрыв идёт лучами', () => {
+    const world = new World({width: 40, height: 40, content})
+
+    // Плотный ряд стен между взрывом и дальним зданием
+    for (let y = 8; y <= 12; y++) world.add('titanium-wall', {x: 12, y})
+
+    const behind = world.add('container', {x: 14, y: 10})
+    const damage = 300
+
+    explode(world, {team: 2, x: 10 * 8, y: 10 * 8, radius: 6 * 8, amount: damage})
+
+    // Стене досталось, а тому, что за ней, — уже нет: луч погас
+    assert.ok(world.at(12, 10).health < world.at(12, 10).maxHealth, 'стена цела')
+    assert.equal(behind.health, behind.maxHealth, 'за стеной не должно достаться')
 })

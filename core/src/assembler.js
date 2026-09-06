@@ -25,6 +25,7 @@ import {
     conv, unconv
 } from './unit.js'
 import {BLOCK_SPECS} from './world.js'
+import {damage as explode} from './damage.js'
 import {ALIGN_NAMES} from './font.js'
 
 // Разбор упакованного цвета нужен и снаружи: дисплей достаёт им байты из `draw col`
@@ -855,6 +856,40 @@ const builders = {
                     outX.setnum(best.x)
                     outY.setnum(best.y)
                 }
+            }
+        }
+    },
+
+    /**
+     * ExplosionI. Радиус ограничен сотней тайлов — это предел самой игры, а не наш.
+     *
+     * `pierce` меняет не силу, а способ: сплошной урон идёт по кругу и не глядя на преграды,
+     * обычный — лучами из центра, которые гаснут о встреченные стены.
+     */
+    explosion: (asm, params) => {
+        const team = asm.var(params[0] ?? '@crux')
+        const x = asm.var(params[1] ?? '0')
+        const y = asm.var(params[2] ?? '0')
+        const radius = asm.var(params[3] ?? '5')
+        const amount = asm.var(params[4] ?? '1')
+        const air = asm.var(params[5] ?? 'true')
+        const ground = asm.var(params[6] ?? 'true')
+        const pierce = asm.var(params[7] ?? 'false')
+
+        return {
+            run: (vm) => {
+                if (!vm.privileged || vm.world === null) return
+
+                explode(vm.world, {
+                    team: teamOf(team),
+                    x: unconv(x.num()),
+                    y: unconv(y.num()),
+                    radius: unconv(Math.min(radius.num(), 100)),
+                    amount: amount.num(),
+                    complete: pierce.bool(),
+                    air: air.bool(),
+                    ground: ground.bool()
+                })
             }
         }
     },

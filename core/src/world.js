@@ -79,6 +79,28 @@ export class Building {
     }
 
     /**
+     * BuildingComp.damage. Броня здесь **не** вычитается: её применяет тот, кто стреляет,
+     * а взрыв бьёт напрямую. Правило `blockHealth` делит урон, а нулевое означает,
+     * что здание рассыпается с одного попадания.
+     */
+    damage(amount) {
+        if (this.health <= 0) return this
+
+        const multiplier = this.world?.rules.get('blockHealth') ?? 1
+        this.health -= multiplier === 0 ? this.health + 1 : amount / multiplier
+
+        if (this.health <= 0) this.destroy()
+        return this
+    }
+
+    /** Разрушенное здание исчезает с карты вместе со своим процессором. */
+    destroy() {
+        this.health = 0
+        this.world?.remove?.(this)
+        return this
+    }
+
+    /**
      * BuildingComp.setProp: правка свойства напрямую. Игра разрешает менять только здоровье,
      * команду и запас энергии — остальное здание считает само.
      */
@@ -534,6 +556,12 @@ export class World {
 
         if (type === 'air' || spec === undefined) return null
         return this.add(type, {x, y, team, rotation})
+    }
+
+    /** Убирает юнита из мира: мёртвый нигде больше не ищется. */
+    removeUnit(unit) {
+        this.units = this.units.filter(item => item !== unit)
+        return this
     }
 
     /** Убирает здание из мира вместе с его процессором. */
