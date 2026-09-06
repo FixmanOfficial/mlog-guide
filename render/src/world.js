@@ -11,7 +11,7 @@
  */
 
 import {polyPoints, polyRing, rectBorders} from './geometry.js'
-import {randomSeed, packPoint} from '@mlog/core/src/arc.js'
+import {randomSeed, packPoint, sin, degRad, PI} from '@mlog/core/src/arc.js'
 import {BLOCK_SPECS} from '@mlog/core/src/world.js'
 
 /**
@@ -19,6 +19,18 @@ import {BLOCK_SPECS} from '@mlog/core/src/world.js'
  * их именно так, и от него зависит, чей край ляжет поверх чьего.
  */
 const D8 = [[1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1], [1, -1]]
+
+/** Mathf.lerp */
+const lerp = (from, to, progress) => from + (to - from) * progress
+
+/** Angles.trns: вектор, повёрнутый на угол. Возвращает пару, чтобы не заводить объект. */
+function rotate(x, y, degrees) {
+    const radians = degrees * degRad
+    const cos = Math.cos(radians)
+    const sinus = Math.sin(radians)
+
+    return [x * cos - y * sinus, x * sinus + y * cos]
+}
 
 /** Vars.tilesize: восемь мировых единиц на тайл. */
 export const TILE_UNITS = 8
@@ -338,42 +350,181 @@ export class WorldView {
     }
 
     /**
-     * Юнит: корпус и поверх него «ячейка» цветом команды.
+     * Юнит целиком, в порядке `UnitType.draw`: ноги, огонь двигателей, корпус, накладка команды.
      *
-     * `UnitType.draw` рисует спрайт под углом `rotation - 90`: в игре угол отсчитывается против
-     * часовой от оси X, а спрайт нарисован смотрящим вверх. Ось Y холста смотрит вниз, поэтому
+     * Спрайт рисуется под углом `rotation - 90`: в игре угол отсчитывается против часовой
+     * от оси X, а картинка нарисована смотрящей вверх. Ось Y холста смотрит вниз, поэтому
      * тот же поворот здесь берётся с обратным знаком.
-     *
-     * Ног, гусениц и огня двигателей нет — они рисуются отдельными спрайтами по фазе шага.
      */
     drawUnit(unit) {
         const sprite = this.unitSprite(unit.type)
         if (sprite === null) return
 
-        const step = this.tile * this.ratio
-        const cx = unit.x / TILE_UNITS * step
-        const cy = (this.world.height - unit.y / TILE_UNITS) * step
+        const offset = unit.spec.mech ? this.drawMech(unit) : [0, 0]
+        this.drawEngines(unit)
 
+        const [cx, cy] = this.unitPlace(unit, offset[0], offset[1])
+
+        this.rotated(cx, cy, unit.rotation - 90, () => {
+            this.blit(sprite)
+
+            const cell = this.unitSprite(`${unit.type}-cell`, this.teamColor(unit.team))
+            if (cell !== null) this.blit(cell)
+        })
+    }
+
+    /** Точка юнита на холсте, со сдвигом в мировых единицах. */
+    unitPlace(unit, dx = 0, dy = 0) {
+        const step = this.tile * this.ratio
+
+        return [
+            (unit.x + dx) / TILE_UNITS * step,
+            (this.world.height - (unit.y + dy) / TILE_UNITS) * step
+        ]
+    }
+
+    /** Поворот вокруг точки: угол задаётся как в игре, против часовой. */
+    rotated(x, y, degrees, body) {
         const context = this.context
 
         context.save()
-        context.translate(cx, cy)
-        context.rotate(-(unit.rotation - 90) * Math.PI / 180)
+        context.translate(x, y)
+        context.rotate(-degrees * Math.PI / 180)
+        body()
+        context.restore()
+    }
 
-        // Каждый спрайт рисуется своим размером: у накладки он не всегда совпадает
-        // с корпусом — обводка добавляет корпусу точку-другую
-        const put = ({image, width, height}) => {
-            const w = width / SPRITE_SCALE * this.unit
-            const h = height / SPRITE_SCALE * this.unit
-            context.drawImage(image, -w / 2, -h / 2, w, h)
+    /**
+     * Спрайт по центру текущего преобразования. Размер свой у каждого: обводка добавляет
+     * корпусу точку-другую, и накладка команды уже с ним не совпадает. Отрицательный
+     * множитель зеркалит — так игра рисует вторую ногу меха.
+     */
+    blit(sprite, scaleX = 1, scaleY = 1) {
+        const w = sprite.width / SPRITE_SCALE * this.unit
+        const h = sprite.height / SPRITE_SCALE * this.unit
+        const context = this.context
+
+        context.save()
+        context.scale(Math.sign(scaleX), Math.sign(scaleY))
+        context.drawImage(sprite.image,
+            -Math.abs(w * scaleX) / 2, -Math.abs(h * scaleY) / 2,
+            Math.abs(w * scaleX), Math.abs(h * scaleY))
+        context.restore()
+    }
+
+    /**
+     * Ноги меха и его основание. `UnitType.drawMech`: две ноги зеркально, вынесенные вперёд
+     * и назад на фазу шага; та, что идёт назад, ещё и приплюснута — отчего шаг выглядит
+     * шагом, а не скольжением.
+     *
+     * Возвращает качание корпуса при ходьбе, вбок и вперёд. В игре оно делается временным
+     * сдвигом самого юнита (`unit.trns`), но трогать модель ради картинки нельзя.
+     */
+    drawMech(unit) {
+        const spec = unit.spec
+        const e = unit.elevation
+
+        const base = unit.walkExtend(true)
+        const swing = lerp(sin(base * PI / 2), 0, e)
+        const extension = lerp(unit.walkExtend(false), 0, e)
+        const boost = e * 2
+
+        const leg = this.unitSprite(`${unit.type}-leg`)
+        const stand = this.unitSprite(`${unit.type}-base`)
+
+        // Mathf.signs идёт от левой ноги к правой, и от порядка зависит, какая окажется сверху
+        if (leg !== null) {
+            for (const side of [-1, 1]) {
+                const shift = rotate(extension * side - boost, -boost * side, unit.baseRotation)
+                const [lx, ly] = this.unitPlace(unit, shift[0], shift[1])
+
+                // Вынесенная вперёд нога подкрашивается: так видно, какая сейчас шагает
+                const mix = Math.max(0, side * extension / spec.mechStride)
+                const image = mix > 0.01 ? this.tinted(leg, spec.mechLegColor, mix) : leg.image
+
+                this.rotated(lx, ly, unit.baseRotation - 90 + 35 * side * e, () => {
+                    this.blit({...leg, image}, side, 1 - Math.max(-swing * side, 0) * 0.5)
+                })
+            }
         }
 
-        put(sprite)
+        if (stand !== null) {
+            const [bx, by] = this.unitPlace(unit)
+            this.rotated(bx, by, unit.baseRotation - 90, () => this.blit(stand))
+        }
 
-        const cell = this.unitSprite(`${unit.type}-cell`, this.teamColor(unit.team))
-        if (cell !== null) put(cell)
+        // Качание корпуса: вбок по полупериоду шага, вперёд по полному
+        const side = rotate(0, lerp(sin(base * PI / 2) * spec.mechSideSway, 0, e), unit.baseRotation)
+        const front = rotate(0, lerp(sin(base * PI) * spec.mechFrontSway, 0, e), unit.baseRotation + 90)
 
-        context.restore()
+        return [side[0] + front[0], side[1] + front[1]]
+    }
+
+    /**
+     * Огонь двигателей. Спрайта у него нет: `UnitEngine.draw` рисует два круга, внешний
+     * цветом команды и внутренний белым, а радиус слегка пульсирует от времени. У наземных
+     * юнитов множитель высоты нулевой, поэтому огня не видно, пока они не взлетят.
+     */
+    drawEngines(unit) {
+        const spec = unit.spec
+        const scale = spec.useEngineElevation ? unit.elevation : 1
+
+        if (scale <= 0.0001 || (spec.engines ?? []).length === 0) return
+
+        const rot = unit.rotation - 90
+        const color = spec.engineColor ?? this.teamColor(unit.team)
+
+        for (const engine of spec.engines) {
+            // Mathf.absin(Time.time, 2, radius / 4): пульсация в четверть радиуса
+            const pulse = engine.radius / 4 * (1 + sin(this.world.tick / 4)) / 2
+            const radius = (engine.radius + pulse) * scale
+
+            const place = rotate(engine.x, engine.y, rot)
+            const [cx, cy] = this.unitPlace(unit, place[0], place[1])
+            this.circle(cx, cy, radius * this.unit, color)
+
+            const inner = rotate(radius / 4, 0, rot + engine.rotation)
+            const [px, py] = this.unitPlace(unit, place[0] - inner[0], place[1] - inner[1])
+            this.circle(px, py, radius / 2 * this.unit, spec.engineColorInner)
+        }
+    }
+
+    circle(x, y, radius, color) {
+        const context = this.context
+
+        context.fillStyle = color
+        context.beginPath()
+        context.arc(x, y, radius, 0, Math.PI * 2)
+        context.fill()
+    }
+
+    /**
+     * Копия спрайта, подмешанная к цвету. `Draw.mixcol` смешивает цвет пикселя с заданным
+     * в указанной доле, сохраняя прозрачность, — на холсте это `source-atop`. Доля округляется
+     * до шестнадцатых, иначе кеш пришлось бы заводить заново каждый кадр.
+     */
+    tinted(sprite, color, amount) {
+        const step = Math.min(1, Math.round(amount * 16) / 16)
+        const key = `tint:${sprite.width}:${sprite.height}:${color}:${step}`
+
+        const cached = this.icons.get(key)
+        if (cached !== undefined) return cached
+
+        const canvas = document.createElement('canvas')
+        canvas.width = sprite.width
+        canvas.height = sprite.height
+
+        const context = canvas.getContext('2d')
+        context.imageSmoothingEnabled = false
+        context.drawImage(sprite.image, 0, 0)
+
+        context.globalCompositeOperation = 'source-atop'
+        context.globalAlpha = step
+        context.fillStyle = color
+        context.fillRect(0, 0, canvas.width, canvas.height)
+
+        this.icons.set(key, canvas)
+        return canvas
     }
 
     /** Цвет команды. Им красится ячейка юнита, и его же отдаёт `sensor @color`. */

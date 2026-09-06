@@ -16,7 +16,7 @@
  * они уходят поделёнными на восемь (`World.conv`), поэтому там дробные значения — норма.
  */
 
-import {Vec2, clamp, moveToward, approach} from './arc.js'
+import {Vec2, clamp, moveToward, approach, angle} from './arc.js'
 import {NOT_SENSED} from './sense.js'
 import specs from '../data/unit-specs.json' with {type: 'json'}
 import blockSpecs from '../data/block-specs.json' with {type: 'json'}
@@ -189,6 +189,21 @@ export class Unit {
         this.drag = spec.drag
         this.controller = null
 
+        /*
+         * Мех ходит ногами, и ноги живут своей жизнью: `baseRotation` поворачивается
+         * не к цели, а туда, куда юнит на самом деле сдвинулся, а `walkTime` копит
+         * пройденное расстояние — по нему считается фаза шага. MechComp
+         */
+        this.baseRotation = rotation
+        this.walkTime = 0
+        this.walked = false
+
+        // Сдвиг за прошлый тик: HitboxComp считает его до того, как контроллер что-то решит
+        this.lastX = x
+        this.lastY = y
+        this.deltaX = 0
+        this.deltaY = 0
+
         this.initial = {x, y, rotation, elevation: this.elevation, health: this.health}
     }
 
@@ -208,6 +223,14 @@ export class Unit {
         this.mineTile = null
         this.plan = null
         this.controller = null
+
+        this.baseRotation = this.initial.rotation
+        this.walkTime = 0
+        this.walked = false
+        this.lastX = this.x
+        this.lastY = this.y
+        this.deltaX = 0
+        this.deltaY = 0
         return this
     }
 
@@ -286,18 +309,65 @@ export class Unit {
      * `accel * длина вектора * delta`, поэтому разгон зависит и от того, как далеко цель.
      */
     moveAt(vector, acceleration = this.spec.accel, delta = 1) {
+        // MechComp.moveAt: осознанное движение включает анимацию шага
+        if (this.spec.mech && !vector.isZero()) this.walked = true
+
         const step = new Vec2(vector.x, vector.y).sub(this.vel)
         step.limit(f(f(acceleration * vector.len()) * delta))
         this.vel.add(step)
     }
 
-    /** UnitComp.rotateMove: наземный юнит едет только вперёд и доворачивает на месте. */
+    /**
+     * UnitComp.rotateMove: наземный юнит едет только вперёд и доворачивает на месте.
+     * У меха эта версия заменена: он поворачивает не корпус, а ноги. MechComp.rotateMove
+     */
     rotateMove(vector, delta = 1) {
-        this.moveAt(new Vec2().trns(this.rotation, vector.len()), this.spec.accel, delta)
+        const mech = this.spec.mech
+        const heading = mech ? this.baseRotation : this.rotation
 
-        if (!vector.isZero()) {
+        this.moveAt(new Vec2().trns(heading, vector.len()), this.spec.accel, delta)
+
+        if (vector.isZero()) return
+
+        if (mech) {
+            this.baseRotation = moveToward(this.baseRotation, vector.angle(),
+                f(this.spec.rotateSpeed * Math.max(delta, 1)))
+        } else {
             this.rotation = moveToward(this.rotation, vector.angle(), f(this.spec.rotateSpeed * delta))
         }
+    }
+
+    /**
+     * MechComp.update: ноги поворачиваются туда, куда юнит сдвинулся, а не куда его послали,
+     * и тем медленнее, чем медленнее он идёт. Фаза шага копится пройденным расстоянием —
+     * поэтому стоящий на месте мех ногами не перебирает.
+     */
+    updateWalk(delta) {
+        if (!this.spec.mech || !this.walked) return
+
+        const length = f(Math.sqrt(f(f(this.deltaX * this.deltaX) + f(this.deltaY * this.deltaY))))
+        const speed = f(f(this.spec.baseRotateSpeed * clamp(f(f(length / this.spec.speed) / delta))) * delta)
+
+        this.baseRotation = moveToward(this.baseRotation, angle(this.deltaX, this.deltaY), speed)
+        this.walkTime = f(this.walkTime + length)
+        this.walked = false
+    }
+
+    /**
+     * MechComp.walkExtend: фаза шага. Без масштаба это вынос ноги вперёд-назад в пределах
+     * шага, с масштабом — та же величина в долях шага, пилой от нуля до четырёх.
+     */
+    walkExtend(scaled) {
+        const stride = this.spec.mechStride
+        let raw = f(this.walkTime % f(stride * 4))
+
+        if (scaled) return f(raw / stride)
+
+        if (raw > stride * 3) raw = f(raw - stride * 4)
+        else if (raw > stride * 2) raw = f(stride * 2 - raw)
+        else if (raw > stride) raw = f(stride * 2 - raw)
+
+        return raw
     }
 
     lookAt(angle, delta = 1) {
@@ -332,6 +402,14 @@ export class Unit {
         this.x = f(this.x + f(this.vel.x * delta))
         this.y = f(this.y + f(this.vel.y * delta))
         this.vel.scl(Math.max(f(1 - f(this.drag * delta)), 0))
+
+        // HitboxComp: сдвиг за этот тик, по нему мех поворачивает ноги
+        this.deltaX = f(this.x - this.lastX)
+        this.deltaY = f(this.y - this.lastY)
+        this.lastX = this.x
+        this.lastY = this.y
+
+        this.updateWalk(delta)
 
         // Трение тоже зависит от пола, и считается оно уже после переноса: в игре
         // UnitComp.update идёт после VelComp.update

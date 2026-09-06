@@ -40,8 +40,11 @@ function main() {
 
         found.push({name, image: body})
 
-        const cell = atlas.cut(`${name}-cell`)
-        if (cell !== null) found.push({name: `${name}-cell`, image: cell})
+        // Накладка команды и, у мехов, ноги с основанием: корпус у них рисуется поверх
+        for (const part of ['cell', 'leg', 'base']) {
+            const image = atlas.cut(`${name}-${part}`)
+            if (image !== null) found.push({name: `${name}-${part}`, image})
+        }
     }
 
     if (found.length === 0) throw new Error('в атласе не нашлось ни одного юнита')
@@ -61,7 +64,8 @@ function main() {
         sprites
     }, null, 2) + '\n')
 
-    const bodies = Object.keys(sprites).filter(name => !name.endsWith('-cell')).length
+    const parts = /-(cell|leg|base)$/
+    const bodies = Object.keys(sprites).filter(name => !parts.test(name)).length
     console.log(`render/assets/units.png: ${width} на ${height}, ${bodies} юнитов`)
 
     // Ракеты лежат в атласе под другими именами, и логике они недоступны

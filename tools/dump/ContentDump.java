@@ -5,6 +5,10 @@ import arc.util.Log;
 import mindustry.Vars;
 import mindustry.core.ContentLoader;
 import mindustry.game.Team;
+import mindustry.gen.Crawlc;
+import mindustry.gen.Legsc;
+import mindustry.gen.Mechc;
+import mindustry.gen.Tankc;
 import mindustry.type.ItemStack;
 import mindustry.type.UnitType;
 import mindustry.content.Blocks;
@@ -122,6 +126,31 @@ public class ContentDump{
             unit.bool("targetable", type.targetable);
             unit.bool("bounded", type.bounded);
             unit.bool("internal", type.internal);
+
+            // Как юнит устроен: от этого зависит и движение, и отрисовка. Мех поворачивается
+            // отдельным углом ног, у танка гусеницы, у паука ноги с обратной кинематикой
+            unit.bool("mech", type.sample instanceof Mechc);
+            unit.bool("tank", type.sample instanceof Tankc);
+            unit.bool("legged", type.sample instanceof Legsc);
+            unit.bool("crawl", type.sample instanceof Crawlc);
+
+            unit.number("baseRotateSpeed", type.baseRotateSpeed);
+            unit.number("mechStride", type.mechStride);
+            unit.number("mechSideSway", type.mechSideSway);
+            unit.number("mechFrontSway", type.mechFrontSway);
+            unit.string("mechLegColor", color(type.mechLegColor));
+
+            // Огонь двигателей рисуется кругами, а не спрайтом: цвет, радиус и место
+            unit.bool("useEngineElevation", type.useEngineElevation);
+            unit.raw("engineColor", type.engineColor == null ? "null" : "\"" + color(type.engineColor) + "\"");
+            unit.string("engineColorInner", color(type.engineColorInner));
+
+            List<String> engines = new ArrayList<>();
+            for(UnitType.UnitEngine engine : type.engines){
+                engines.add("{\"x\": " + engine.x + ", \"y\": " + engine.y
+                    + ", \"radius\": " + engine.radius + ", \"rotation\": " + engine.rotation + "}");
+            }
+            unit.raw("engines", "[" + String.join(", ", engines) + "]");
 
             unit.bool("canMine", type.mineTier >= 0);
             unit.bool("canBuild", type.buildSpeed > 0);
@@ -242,6 +271,11 @@ public class ContentDump{
      * Что это за блок с точки зрения карты. Порядок проверок важен: руда это тоже наложение,
      * а наложение — тоже пол.
      */
+    /** Цвет в вид «#rrggbb»: у arc toString отдаёт восемь знаков с прозрачностью. */
+    static String color(arc.graphics.Color value){
+        return "#" + value.toString().substring(0, 6);
+    }
+
     static String kind(Block block){
         if(block instanceof OreBlock) return "ore";
         if(block instanceof OverlayFloor) return "overlay";
@@ -267,11 +301,11 @@ public class ContentDump{
             Json entry = new Json();
 
             entry.number("id", team.id);
-            entry.string("color", "#" + team.color.toString().substring(0, 6));
+            entry.string("color", color(team.color));
 
             List<String> palette = new ArrayList<>();
             for(int i = 0; i < team.palette.length; i++){
-                palette.add("\"#" + team.palette[i].toString().substring(0, 6) + "\"");
+                palette.add("\"" + color(team.palette[i]) + "\"");
             }
             entry.raw("palette", "[" + String.join(", ", palette) + "]");
 

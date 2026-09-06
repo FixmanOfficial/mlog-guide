@@ -64,9 +64,11 @@ export function createScene() {
     const counter = world.add('micro-processor', {x: 5, y: 5})
     const pilot = world.add('micro-processor', {x: 1, y: 1})
 
-    // Два юнита разных типов: `ubind` выбирает по типу, и один процессор водит обоих
+    // Три юнита разных типов: `ubind` выбирает по типу, и один процессор водит всех.
+    // Кинжал наземный и ходит ногами — на нём видно, что шаг считается по пройденному пути
     world.spawn('poly', {x: 4, y: 1})
     world.spawn('mono', {x: 12, y: 9})
+    world.spawn('dagger', {x: 10, y: 5})
 
     const processors = [
         {building: painter, links: [display, cell]},

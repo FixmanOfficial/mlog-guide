@@ -328,3 +328,77 @@ test('пол под ногами меняет скорость и трение �
     assert.equal(poly.floorOn(), null)
     assert.equal(poly.speed(), Math.fround(UNIT_SPECS.poly.speed))
 })
+
+test('фаза шага копится пройденным путём, а не временем', () => {
+    const world = new World({width: 30, height: 10, floor: 'stone'})
+    const dagger = world.spawn('dagger', {x: 2, y: 2})
+
+    assert.equal(dagger.spec.mech, true)
+    assert.equal(dagger.walkTime, 0)
+
+    // Стоящий мех ногами не перебирает: без движения walked не поднимается
+    world.steps(30)
+    assert.equal(dagger.walkTime, 0)
+
+    dagger.controller = new LogicAI({})
+    dagger.controller.control = 'move'
+    dagger.controller.moveX = unconv(20)
+    dagger.controller.moveY = unconv(2)
+
+    world.steps(60)
+
+    assert.ok(dagger.walkTime > 0, 'шёл и не нашагал')
+    assert.ok(Math.abs(dagger.walkTime - (dagger.x - unconv(2))) < 0.5, 'путь и фаза расходятся')
+})
+
+test('ноги меха поворачиваются туда, куда он сдвинулся', () => {
+    const world = new World({width: 30, height: 30, floor: 'stone'})
+    const dagger = world.spawn('dagger', {x: 15, y: 2, rotation: 90})
+
+    dagger.controller = new LogicAI({})
+    dagger.controller.control = 'move'
+    dagger.controller.moveX = unconv(15)
+    dagger.controller.moveY = unconv(25)
+
+    world.steps(120)
+
+    // Двигался вверх — ноги смотрят вверх, то есть на 90 градусов
+    assert.ok(Math.abs(dagger.baseRotation - 90) < 5, `ноги смотрят на ${dagger.baseRotation}`)
+})
+
+test('walkExtend — пила по четыре шага, симметричная относительно нуля', () => {
+    const world = new World({width: 10, height: 10})
+    const dagger = world.spawn('dagger', {x: 1, y: 1})
+    const stride = dagger.spec.mechStride
+
+    dagger.walkTime = 0
+    assert.equal(dagger.walkExtend(false), 0)
+
+    // Полный цикл — четыре шага: на нём значение повторяется
+    dagger.walkTime = stride * 4
+    assert.equal(dagger.walkExtend(false), 0)
+
+    const values = []
+    for (let i = 0; i <= 40; i++) {
+        dagger.walkTime = stride * 4 * i / 40
+        values.push(dagger.walkExtend(false))
+    }
+
+    assert.ok(Math.max(...values) <= stride + 1e-5)
+    assert.ok(Math.min(...values) >= -stride - 1e-5)
+
+    // Масштабированная версия — та же пила в долях шага, от нуля до четырёх
+    dagger.walkTime = stride * 2
+    assert.equal(dagger.walkExtend(true), 2)
+})
+
+test('огонь двигателей есть у всех, но виден только в воздухе', () => {
+    // engines заводятся из engineSize, поэтому запись есть и у наземных.
+    // Не видно их потому, что множитель считается от высоты, а она у них нулевая
+    assert.equal(UNIT_SPECS.dagger.engines.length, 1)
+    assert.equal(UNIT_SPECS.dagger.useEngineElevation, true)
+
+    const world = new World({width: 10, height: 10})
+    assert.equal(world.spawn('dagger', {x: 1, y: 1}).elevation, 0)
+    assert.equal(world.spawn('poly', {x: 2, y: 2}).elevation, 1)
+})

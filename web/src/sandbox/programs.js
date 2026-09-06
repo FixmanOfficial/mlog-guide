@@ -56,5 +56,8 @@ export const PILOT = [
     // Моно ходит навстречу: 19 минус цель — это те же 3 и 16, только наоборот
     withParams('op', {op: 'sub', dest: 'встречно', a: '19', b: 'цель'}),
     withParams('ubind', {type: '@mono'}),
-    withParams('ucontrol', {type: 'move', p1: 'встречно', p2: '9'})
+    withParams('ucontrol', {type: 'move', p1: 'встречно', p2: '9'}),
+
+    withParams('ubind', {type: '@dagger'}),
+    withParams('ucontrol', {type: 'move', p1: 'цель', p2: '5'})
 ]
