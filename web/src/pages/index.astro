@@ -1,0 +1,51 @@
+---
+/**
+ * Развилка языков. В корне сайта контента нет намеренно — `/ru/` и `/en/` равноправны,
+ * и «языка по умолчанию в корне» у нас не будет (`docs/decisions.md`).
+ *
+ * Раньше здесь стоял `redirects` из конфига Astro, то есть ответ 308. Он ломался о простую
+ * вещь: проверка живости сервера у оболочки предпросмотра ждёт 200, получала редирект и
+ * считала, что сервер так и не поднялся. Страница отвечает 200 и уводит сама — заодно
+ * выбирая язык по браузеру, чего перенаправление в конфиге не умело.
+ */
+const LOCALES = ['ru', 'en']
+---
+
+<html lang="ru">
+    <head>
+        <meta charset="utf-8" />
+        <title>mlog.guide</title>
+
+        <!-- Без JS: уходим на русскую версию через полсекунды -->
+        <meta http-equiv="refresh" content="0.5; url=/ru/" />
+
+        <style>
+            body {
+                background: #141419;
+                color: #ffffff;
+                font-family: system-ui, sans-serif;
+                display: flex;
+                gap: 16px;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                margin: 0;
+            }
+
+            a { color: #ffd37f; }
+        </style>
+    </head>
+
+    <body>
+        {LOCALES.map(locale => <a href={`/${locale}/`}>{locale}</a>)}
+
+        <script is:inline>
+            // Язык браузера, а не наш выбор: сайт двуязычный, и корень ничей
+            const wanted = (navigator.languages ?? [navigator.language ?? 'ru'])
+                .map(tag => tag.slice(0, 2))
+                .find(tag => tag === 'ru' || tag === 'en')
+
+            location.replace(`/${wanted ?? 'ru'}/`)
+        </script>
+    </body>
+</html>
