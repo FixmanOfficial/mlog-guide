@@ -28,6 +28,7 @@ const PER_TILE = 32
 /** Блоки, которые видит сцена. Всё, что кроме логики, добавлено под конкретную сцену. */
 const BLOCKS = [
     'micro-processor', 'logic-processor', 'hyper-processor',
+    'world-processor', 'world-cell', 'world-message', 'world-switch',
     'memory-cell', 'memory-bank',
     'logic-display', 'large-logic-display',
     'message', 'switch', 'door',

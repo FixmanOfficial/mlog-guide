@@ -64,6 +64,10 @@ export function createScene() {
     const counter = world.add('micro-processor', {x: 5, y: 5})
     const pilot = world.add('micro-processor', {x: 1, y: 1})
 
+    // Процессор мира: ставить его в игре нельзя, он появляется только в редакторе карт.
+    // Инструкции мира работают лишь у него — `Block.privileged`
+    const marker = world.add('world-processor', {x: 13, y: 1})
+
     // Контейнер, куда поли носит добытое: без него `ucontrol itemDrop` некуда целить
     const container = world.add('container', {x: 17, y: 4})
 
@@ -76,7 +80,8 @@ export function createScene() {
     const processors = [
         {building: painter, links: [display, cell]},
         {building: counter, links: [cell, message, toggle, door]},
-        {building: pilot, links: [container]}
+        {building: pilot, links: [container]},
+        {building: marker, links: []}
     ]
 
     return {world, display, cell, message, toggle, door, container, processors}

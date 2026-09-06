@@ -10,9 +10,10 @@
  * Всё остальное — рамка связи, круг дальности, порядок отрисовки — снято из исходников.
  */
 
-import {polyPoints, polyRing, rectBorders} from './geometry.js'
+import {polyPoints, polyRing, polyArc, arcSlice, lineQuad, rectBorders} from './geometry.js'
 import {randomSeed, packPoint, sin, degRad, PI} from '@mlog/core/src/arc.js'
 import {BLOCK_SPECS} from '@mlog/core/src/world.js'
+import {LABEL_BACKGROUND, LABEL_OUTLINE, ALIGN} from '@mlog/core/src/markers.js'
 
 /**
  * Geometry.d8 — восемь соседей по кругу, начиная с правого. Порядок важен: игра перебирает
@@ -49,6 +50,9 @@ export const GRID = '#1e1e26'
 
 /** Control.java:330 ставит Draw.scl = 1 / 4: спрайты игры вчетверо крупнее мировых единиц. */
 export const SPRITE_SCALE = 4
+
+/** Fonts.def: основной шрифт игры собран в восемнадцать пикселей. */
+export const FONT_SIZE = 18
 
 /** LogicDisplay.scaleFactor: во сколько раз картинка крупнее своего буфера. */
 export const SCALE_FACTOR = 1
@@ -148,6 +152,9 @@ export class WorldView {
 
         // Юниты идут поверх зданий: в игре у них слой 60 против 30 у блоков
         for (const unit of this.world.units ?? []) this.drawUnit(unit)
+
+        // Метки идут поверх всего: слой по умолчанию у них Layer.overlayUI
+        this.drawMarkers()
 
         if (configured !== null) {
             this.drawLinks(configured)
@@ -685,6 +692,195 @@ export class WorldView {
 
         this.icons.set(key, canvas)
         return canvas
+    }
+
+    /**
+     * Метки процессора мира. У каждого вида в `MapObjectives` свой `draw`, порядок задаёт
+     * `drawLayer`, а метка с `world = false` живёт только на миникарте, которой у нас нет.
+     *
+     * Картинка и четырёхугольник пока не рисуются: им нужен произвольный регион атласа
+     * по имени, а у нас в атласе только контент.
+     */
+    drawMarkers() {
+        const markers = (this.world.markers?.all() ?? []).filter(marker => marker.world)
+
+        for (const marker of markers.sort((a, b) => a.drawLayer - b.drawLayer)) {
+            const props = marker.props
+            const [x, y] = this.markerPlace(props.x ?? 0, props.y ?? 0)
+
+            if (marker.type === 'point') this.drawPoint(props, x, y)
+            if (marker.type === 'shape') this.drawShape(props, x, y)
+            if (marker.type === 'shapetext') this.drawShapeText(props, x, y)
+            if (marker.type === 'text') this.worldLabel(props.text, x, y, props)
+            if (marker.type === 'line') this.drawLineMarker(props)
+        }
+    }
+
+    /** Мировые единицы метки в пиксели холста. */
+    markerPlace(x, y) {
+        return [x * this.unit, (this.world.height * TILE_UNITS - y) * this.unit]
+    }
+
+    /**
+     * PointMarker: круг, который раз в сотню тиков разбегается от центра и утончается.
+     * Время берётся из мира, а не из часов браузера, — иначе отрисовка перестанет быть
+     * повторяемой. Радиус здесь единственный, что задан в тайлах.
+     */
+    drawPoint(props, x, y) {
+        // Interp.pow2Out от доли, набегающей за сто тиков
+        const period = (this.world.tick / 100) % 1
+        const fin = 1 - (1 - period) ** 2
+
+        const radius = props.radius * TILE_UNITS * this.unit * fin
+        const stroke = ((1 - fin) * props.stroke + 0.1) * this.unit
+
+        this.arcRing(x, y, this.circleSides(radius), radius, 0, 360, stroke, props.color)
+    }
+
+    /** ShapeMarker: многоугольник, полый или залитый, целиком или дугой. */
+    drawShape(props, x, y) {
+        // «На случай, если кто-то решит поставить 9999999 сторон и подвесить игру»
+        const sides = Math.min(props.sides, 200)
+        const [from, to] = [props.rotation + props.startAngle, props.rotation + props.endAngle]
+
+        if (!props.fill) {
+            // Радиус обводки на единицу больше заявленного, а у залитой фигуры — нет
+            const radius = (props.radius + 1) * this.unit
+
+            if (props.outline) {
+                this.arcRing(x, y, sides, radius, from, to, (props.stroke + 2) * this.unit, PAL.gray)
+            }
+
+            this.arcRing(x, y, sides, radius, from, to, props.stroke * this.unit, props.color)
+            return
+        }
+
+        // Заливка идёт клином от центра, и меньший из двух углов становится началом
+        const [start, end] = from < to ? [from, to] : [to, from]
+        const slice = arcSlice(x, y, props.radius * this.unit, (end - start) / 360, -end, sides)
+
+        this.fillPath(slice, props.color)
+    }
+
+    /** ShapeTextMarker: фигура с подписью над ней. Обводка тут своя, толщиной три и один. */
+    drawShapeText(props, x, y) {
+        const sides = Math.min(props.sides, 300)
+        const radius = (props.radius + 1) * this.unit
+        const [from, to] = [props.rotation, props.rotation + 360]
+
+        this.arcRing(x, y, sides, radius, from, to, 3 * this.unit, PAL.gray)
+        this.arcRing(x, y, sides, radius, from, to, 1 * this.unit, props.color)
+
+        this.worldLabel(props.text, x, y - (props.radius + props.textHeight) * this.unit, props)
+    }
+
+    /** LineMarker: отрезок с тёмной подложкой и переливом от цвета одного конца к другому. */
+    drawLineMarker(props) {
+        const [x1, y1] = this.markerPlace(props.x, props.y)
+        const [x2, y2] = this.markerPlace(props.endX, props.endY)
+
+        if (props.outline) {
+            this.fillPath(lineQuad(x1, y1, x2, y2, (props.stroke + 2) * this.unit), PAL.gray)
+        }
+
+        const gradient = this.context.createLinearGradient(x1, y1, x2, y2)
+        gradient.addColorStop(0, props.color1)
+        gradient.addColorStop(1, props.color2)
+
+        this.fillPath(lineQuad(x1, y1, x2, y2, props.stroke * this.unit), gradient)
+    }
+
+    /**
+     * Подпись метки. `WorldLabel.drawAt`: масштаб шрифта — четверть заявленного размера,
+     * обводка рисуется отдельным шрифтом с каймой в две единицы, под текстом лежит чёрная
+     * подложка в три десятых прозрачности.
+     *
+     * Строка одна: раскладку многострочной подписи в игре считает `GlyphLayout`.
+     */
+    worldLabel(text, x, y, props = {}) {
+        const {
+            flags = LABEL_BACKGROUND | LABEL_OUTLINE, fontSize = 1,
+            textAlign = ALIGN.center, lineAlign = ALIGN.center
+        } = props
+
+        // Нулевой размер шрифта подпись не рисует вовсе
+        if (!text || Math.abs(fontSize) <= 0.000001) return
+
+        const context = this.context
+        const height = FONT_SIZE * 0.25 * fontSize * this.unit
+
+        context.font = `${height}px "${this.font}", system-ui, sans-serif`
+        context.textBaseline = 'top'
+
+        const width = context.measureText(text).width
+        const background = (flags & LABEL_BACKGROUND) !== 0
+        const border = background ? this.unit : 0
+
+        // Выравнивание в игре считается по оси Y вверх, у холста она вниз — знаки зеркальны
+        let top = y - height / 2
+        if ((textAlign & ALIGN.bottom) !== 0) top = y - height - border * 1.5
+        else if ((textAlign & ALIGN.top) !== 0) top = y + border * 1.5
+
+        let cx = x
+        if ((textAlign & ALIGN.left) !== 0) cx += width / 2 + border
+        else if ((textAlign & ALIGN.right) !== 0) cx -= width / 2 + border
+
+        if (background) {
+            context.fillStyle = 'rgba(0, 0, 0, 0.3)'
+            context.fillRect(
+                cx - (width + 2 * this.unit) / 2, top - 1.5 * this.unit,
+                width + 2 * this.unit, height + 3 * this.unit
+            )
+        }
+
+        const left = (lineAlign & ALIGN.left) !== 0
+        const right = (lineAlign & ALIGN.right) !== 0
+
+        context.textAlign = left ? 'left' : right ? 'right' : 'center'
+        const shift = left ? -width / 2 : right ? width / 2 : 0
+
+        if ((flags & LABEL_OUTLINE) !== 0) {
+            context.lineWidth = 2 * 0.25 * fontSize * this.unit
+            context.strokeStyle = '#000000'
+            context.strokeText(text, cx + shift, top)
+        }
+
+        context.fillStyle = '#ffffff'
+        context.fillText(text, cx + shift, top)
+        context.textBaseline = 'alphabetic'
+    }
+
+    /**
+     * Обвод дуги, он же полное кольцо. `Lines.poly` ведёт полосу по обе стороны от радиуса;
+     * у холста ось Y смотрит вниз, поэтому углы берутся с обратным знаком.
+     */
+    arcRing(x, y, sides, radius, from, to, stroke, color) {
+        const {outer, inner} = polyArc(x, y, sides, radius, -to, -from, stroke)
+
+        // Обход наружу и обратно внутрь оставляет дырку по правилу ненулевого числа оборотов
+        this.fillPath([...outer, ...inner.reverse()], color)
+    }
+
+    /** Lines.circleVertices: одиннадцать отрезков плюс по одному на две с половиной единицы. */
+    circleSides(radius) {
+        return 11 + Math.trunc(radius / this.unit * 0.4)
+    }
+
+    /** Заливка по точкам. Пустой путь означает вырожденную фигуру: в игре она не рисуется. */
+    fillPath(points, style) {
+        if (points === null || points.length === 0) return
+
+        const context = this.context
+        context.fillStyle = style
+        context.beginPath()
+
+        points.forEach(([px, py], index) => {
+            if (index === 0) context.moveTo(px, py)
+            else context.lineTo(px, py)
+        })
+
+        context.closePath()
+        context.fill()
     }
 
     /** Тайл под точкой холста. Нужен для кликов по миру. */

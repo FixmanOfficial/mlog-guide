@@ -16,6 +16,7 @@ import {createContent} from '../src/content.js'
 import {UNIT_SPECS, unconv} from '../src/unit.js'
 import {Diagnostic} from '../src/errors.js'
 import {damage as explode} from '../src/damage.js'
+import {LABEL_OUTLINE} from '../src/markers.js'
 
 const logicIds = JSON.parse(readFileSync(new URL('../data/logic-ids.json', import.meta.url), 'utf8'))
 const content = createContent(logicIds)
@@ -716,4 +717,156 @@ test('status clear снимает эффект, а повторное налож
 
     dagger.unapply('wet')
     assert.equal(dagger.hasEffect('wet'), false)
+})
+
+test('makemarker заводит метку, setmarker её правит, а чужое свойство не трогает', () => {
+    const world = new World({width: 20, height: 20, content})
+    const building = world.add('world-processor', {x: 1, y: 1})
+
+    const processor = new Processor([
+        'makemarker shape 1 10 12 true',
+        'setmarker radius 1 4 0 0',
+        'setmarker color 1 %ff0000 0 0',
+        'makemarker text 2 5 5 true',
+        'setmarker radius 2 9 0 0',
+        'print "подпись"',
+        'setmarker flushText 2 0 0 0'
+    ].join('\n'), {world, content, globals: content.globals, building, team: 1, ipt: 8})
+
+    building.processor = processor
+    world.addProcessor(processor)
+    processor.run(7)
+
+    const shape = world.markers.get(1)
+    assert.equal(shape.type, 'shape')
+
+    // Координаты приходят в тайлах и хранятся в мировых единицах
+    assert.deepEqual([shape.props.x, shape.props.y], [80, 96])
+    assert.equal(shape.props.radius, 4)
+    assert.equal(shape.props.color, '#ff0000')
+
+    // У подписи радиуса нет вовсе: свойство чужое, и `control` его не понимает
+    const text = world.markers.get(2)
+    assert.equal(text.props.radius, undefined)
+    assert.equal(text.props.text, 'подпись')
+    assert.equal(processor.textBuffer, '', 'flushText не вычерпал буфер')
+})
+
+test('пустая переменная в setmarker означает «не трогай»', () => {
+    const world = new World({width: 20, height: 20, content})
+    const building = world.add('world-processor', {x: 1, y: 1})
+
+    const processor = new Processor([
+        'makemarker point 1 10 10 true',
+        'setmarker pos 1 15 пусто 0'
+    ].join('\n'), {world, content, globals: content.globals, building, team: 1, ipt: 8})
+
+    building.processor = processor
+    world.addProcessor(processor)
+    processor.run(2)
+
+    const marker = world.markers.get(1)
+
+    // Задали только x, y осталось прежним
+    assert.equal(marker.props.x, 15 * 8)
+    assert.equal(marker.props.y, 10 * 8)
+})
+
+test('makemarker без replace не перезаписывает занятый номер, setmarker remove убирает', () => {
+    const world = new World({width: 20, height: 20, content})
+    const building = world.add('world-processor', {x: 1, y: 1})
+
+    const processor = new Processor([
+        'makemarker point 1 10 10 true',
+        'makemarker shape 1 3 3 false',
+        'setmarker remove 5 0 0 0'
+    ].join('\n'), {world, content, globals: content.globals, building, team: 1, ipt: 8})
+
+    building.processor = processor
+    world.addProcessor(processor)
+    processor.run(3)
+
+    assert.equal(world.markers.get(1).type, 'point', 'метку перезаписали без спроса')
+    assert.equal(world.markers.size, 1)
+
+    processor.reset()
+    world.markers.remove(1)
+    assert.equal(world.markers.get(1), null)
+})
+
+test('метки линии двигаются по номеру точки', () => {
+    const world = new World({width: 20, height: 20, content})
+    const building = world.add('world-processor', {x: 1, y: 1})
+
+    const processor = new Processor([
+        'makemarker line 1 2 2 true',
+        'setmarker posi 1 1 9 9'
+    ].join('\n'), {world, content, globals: content.globals, building, team: 1, ipt: 8})
+
+    building.processor = processor
+    world.addProcessor(processor)
+    processor.run(2)
+
+    const line = world.markers.get(1)
+    assert.deepEqual([line.props.x, line.props.y], [16, 16])
+    assert.deepEqual([line.props.endX, line.props.endY], [72, 72])
+})
+
+test('у shape заняты все три параметра: стороны, заливка, обводка', () => {
+    const world = new World({width: 20, height: 20, content})
+    const building = world.add('world-processor', {x: 1, y: 1})
+
+    const processor = new Processor([
+        'makemarker shape 1 5 5 true',
+        'setmarker shape 1 6 1 0',
+        'setmarker arc 1 90 270'
+    ].join('\n'), {world, content, globals: content.globals, building, team: 1, ipt: 8})
+
+    building.processor = processor
+    world.addProcessor(processor)
+    processor.run(3)
+
+    const shape = world.markers.get(1)
+
+    assert.equal(shape.props.sides, 6)
+    assert.equal(shape.props.fill, true)
+    assert.equal(shape.props.outline, false, 'третий параметр shape гасит обводку')
+    assert.deepEqual([shape.props.startAngle, shape.props.endAngle], [90, 270])
+})
+
+test('у линии два цвета: color красит оба конца, colori — по одному', () => {
+    const world = new World({width: 20, height: 20, content})
+    const building = world.add('world-processor', {x: 1, y: 1})
+
+    const processor = new Processor([
+        'makemarker line 1 1 1 true',
+        'setmarker color 1 %00ff00 0 0',
+        'setmarker colori 1 1 %0000ff'
+    ].join('\n'), {world, content, globals: content.globals, building, team: 1, ipt: 8})
+
+    building.processor = processor
+    world.addProcessor(processor)
+    processor.run(3)
+
+    const line = world.markers.get(1)
+
+    assert.equal(line.props.color1, '#00ff00')
+    assert.equal(line.props.color2, '#0000ff')
+})
+
+test('подпись собирает флаги подложки и обводки в одно число', () => {
+    const world = new World({width: 20, height: 20, content})
+    const building = world.add('world-processor', {x: 1, y: 1})
+
+    const processor = new Processor([
+        'makemarker text 1 5 5 true',
+        'setmarker labelFlags 1 0 1'
+    ].join('\n'), {world, content, globals: content.globals, building, team: 1, ipt: 8})
+
+    building.processor = processor
+    world.addProcessor(processor)
+    processor.run(2)
+
+    // Подложку сняли первым параметром, обводку оставили вторым
+    assert.equal(world.markers.get(1).props.flags, LABEL_OUTLINE)
 })

@@ -123,3 +123,44 @@ export function polyRing(x, y, sides, radius, rotation, stroke) {
         inner: polyPoints(x, y, sides, radius - half, rotation)
     }
 }
+
+/**
+ * Дуга кольца. `Lines.poly(x, y, sides, radius, from, to)` делит промежуток углов на `sides`
+ * шагов и кладёт на каждый четырёхугольник; расширение на стыке то же, что в `polyRing`.
+ *
+ * Возвращает наружный и внутренний обводы. Полный круг ими тоже описывается: обход наружу
+ * и обратно внутрь даёт кольцо с дыркой по правилу ненулевого числа оборотов.
+ */
+export function polyArc(x, y, sides, radius, from, to, stroke) {
+    const space = (to - from) / sides
+    const half = stroke / 2 / Math.cos(space / 2 * Math.PI / 180)
+
+    const outer = []
+    const inner = []
+
+    for (let i = 0; i <= sides; i++) {
+        const angle = (space * i + from) * Math.PI / 180
+        const [cos, sinus] = [Math.cos(angle), Math.sin(angle)]
+
+        outer.push([x + (radius + half) * cos, y + (radius + half) * sinus])
+        inner.push([x + (radius - half) * cos, y + (radius - half) * sinus])
+    }
+
+    return {outer, inner}
+}
+
+/**
+ * Клин `Fill.arc`: центр и точки по дуге. Число точек берётся от доли круга, а не от полного
+ * многоугольника, — потому у половины круга вдвое меньше сторон.
+ */
+export function arcSlice(x, y, radius, fraction, rotation, sides) {
+    const max = Math.max(1, Math.ceil(sides * fraction))
+    const points = [[x, y]]
+
+    for (let i = 0; i <= max; i++) {
+        const angle = (i / max * fraction * 360 + rotation) * Math.PI / 180
+        points.push([x + radius * Math.cos(angle), y + radius * Math.sin(angle)])
+    }
+
+    return points
+}

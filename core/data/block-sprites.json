@@ -48,38 +48,62 @@
       "width": 32,
       "height": 32
     },
-    "memory-cell": {
+    "world-processor": {
       "x": 96,
       "y": 192,
       "width": 32,
       "height": 32
     },
-    "message": {
+    "world-cell": {
       "x": 128,
       "y": 192,
       "width": 32,
       "height": 32
     },
-    "switch": {
+    "world-message": {
       "x": 160,
       "y": 192,
       "width": 32,
       "height": 32
     },
-    "door": {
+    "world-switch": {
       "x": 192,
       "y": 192,
       "width": 32,
       "height": 32
     },
-    "switch-on": {
+    "memory-cell": {
       "x": 224,
       "y": 192,
       "width": 32,
       "height": 32
     },
-    "door-open": {
+    "message": {
       "x": 256,
+      "y": 192,
+      "width": 32,
+      "height": 32
+    },
+    "switch": {
+      "x": 288,
+      "y": 192,
+      "width": 32,
+      "height": 32
+    },
+    "door": {
+      "x": 320,
+      "y": 192,
+      "width": 32,
+      "height": 32
+    },
+    "switch-on": {
+      "x": 352,
+      "y": 192,
+      "width": 32,
+      "height": 32
+    },
+    "door-open": {
+      "x": 384,
       "y": 192,
       "width": 32,
       "height": 32

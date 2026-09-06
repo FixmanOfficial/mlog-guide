@@ -15,6 +15,7 @@ import {Unit, unconv} from './unit.js'
 import {NOT_SENSED} from './sense.js'
 import {teamColorBits} from './teams.js'
 import {Rules} from './rules.js'
+import {Markers} from './markers.js'
 
 export {NOT_SENSED}
 
@@ -475,6 +476,9 @@ export class World {
 
         // Сообщение на экране: `message` кладёт его сюда, а страница показывает
         this.message = null
+
+        // Метки: их рисует процессор мира, и те же классы носят цели карты
+        this.markers = new Markers()
     }
 
     inside(x, y) {
@@ -662,6 +666,7 @@ export class World {
     reset() {
         this.tick = 0
         this.message = null
+        this.markers.clear()
         this.rules.reset()
         for (const unit of this.units) unit.reset()
         for (const building of this.buildings) building.reset()

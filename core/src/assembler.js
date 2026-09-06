@@ -861,6 +861,67 @@ const builders = {
     },
 
     /**
+     * MakeMarkerI: заводит метку под своим номером. Без `replace` занятый номер не трогается,
+     * поэтому программа может звать это каждый круг и не плодить меток.
+     */
+    makemarker: (asm, params) => {
+        const type = params[0] ?? 'shape'
+        const id = asm.var(params[1] ?? '0')
+        const x = asm.var(params[2] ?? '0')
+        const y = asm.var(params[3] ?? '0')
+        const replace = asm.var(params[4] ?? 'true')
+
+        return {
+            run: (vm) => {
+                if (!vm.privileged || vm.world === null) return
+                vm.world.markers.add(id.numi(), type, x.num(), y.num(), replace.bool())
+            }
+        }
+    },
+
+    /**
+     * SetMarkerI: правит метку. Свойство, которого этот вид не понимает, просто игнорируется —
+     * радиус у подписи не меняется, и это не ошибка, а устройство `control`.
+     *
+     * `flushText` забирает текст из буфера процессора и чистит его, как `printflush`.
+     */
+    setmarker: (asm, params) => {
+        const control = params[0] ?? 'pos'
+        const id = asm.var(params[1] ?? '0')
+        const values = [2, 3, 4].map(index => asm.var(params[index] ?? '0'))
+
+        return {
+            run: (vm) => {
+                if (!vm.privileged || vm.world === null) return
+
+                if (control === 'remove') return void vm.world.markers.remove(id.numi())
+
+                const marker = vm.world.markers.get(id.numi())
+                if (marker === null) return
+
+                if (control === 'flushText') {
+                    marker.setText(vm.textBuffer)
+                    vm.textBuffer = ''
+                    return
+                }
+
+                if (control === 'texture') {
+                    if (values[0].bool()) {
+                        marker.setTexture(vm.textBuffer)
+                        vm.textBuffer = ''
+                    } else {
+                        marker.setTexture(values[1].obj())
+                    }
+                    return
+                }
+
+                // numOrNan: пустая переменная означает «не трогай это свойство»
+                marker.control(control, values[0].numOrNan(), values[1].numOrNan(), values[2].numOrNan())
+            }
+        }
+    },
+
+    /**
      * ApplyEffectI: вешает эффект состояния на юнита или снимает его. Повторное наложение
      * не складывается, а продлевает: берётся большее из оставшегося и нового времени.
      */

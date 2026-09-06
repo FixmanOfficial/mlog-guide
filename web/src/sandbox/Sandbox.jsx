@@ -29,7 +29,7 @@ import teams from '@mlog/core/data/teams.json'
 
 import {createScene, attachProcessor} from './scene.js'
 import {MessageDialog, MemoryDialog} from './BlockDialogs.jsx'
-import {PAINTER, COUNTER, PILOT} from './programs.js'
+import {PAINTER, COUNTER, PILOT, MARKER} from './programs.js'
 import {Variables} from './Variables.jsx'
 
 /** Тайл мира в пикселях. Всё остальное рендер считает от него сам. */
@@ -118,6 +118,7 @@ export function Sandbox() {
         scene.processors[0].program = PAINTER
         scene.processors[1].program = COUNTER
         scene.processors[2].program = PILOT
+        scene.processors[3].program = MARKER
         for (const entry of scene.processors) attachProcessor(scene, entry, toText(entry.program))
 
         const atlas = new Image()
