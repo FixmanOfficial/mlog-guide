@@ -53,10 +53,14 @@
 
 **`radar` и `uradar`.** Нужны юниты и цели, поэтому идут следом.
 
-**Процессоры мира.** Начаты: есть правила, флаги целей, `getblock`, `setblock`, `spawn`,
-`setrate`, `getflag`, `setflag`, `setrule`. Осталось семнадцать — погода, волны, эффекты,
-метки, звуки, катсцены, `fetch`, `status`, `setprop`, `explosion`, `bullet`, `message`,
-`localeprint`, `query`, `clientdata`.
+**Процессоры мира.** Двенадцать из двадцати шести: правила, флаги целей, `getblock`,
+`setblock`, `spawn`, `setrate`, `sync`, `fetch`, `setprop`, `localeprint`, `clientdata`.
+
+Осталось четырнадцать, и они делятся на три кучки: бой и эффекты (`bullet`, `status`,
+`explosion`, `effect`) — нужны урон и эффекты состояния; погода с волнами (`weatherset`,
+`weathersense`, `spawnwave`) — нужны сами волны; интерфейс игры (`message`, `cutscene`,
+`playsound`, `playmusic`) — это не мир, а показ. Плюс `query` и метки (`setmarker`,
+`makemarker`), которые делать вместе с целями.
 
 **Цели карты.** Отдельная система редактора (`MapObjectives`), но связана с логикой напрямую:
 `FlagObjective` читает тот же набор флагов, что поднимает `setflag`, а метки у целей и
