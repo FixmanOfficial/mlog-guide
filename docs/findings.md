@@ -269,6 +269,7 @@ Mindustry закрепляет arc хешем коммита в `gradle.properti
 | Круг `point` не статичный: за сто тиков он разбегается от центра по `Interp.pow2Out` и утончается от `stroke` до нуля | `game/MapObjectives.java:973-981` | — |
 | Число сторон обрезается: у фигуры до 200, у фигуры с подписью до 300 — «на случай, если кто-то решит поставить 9999999 сторон» | `game/MapObjectives.java:864,1020` | — |
 | Меток не больше 20 000, и `makemarker` без `replace` не трогает занятый номер | `logic/LExecutor.java` `MakeMarkerI` | ✓ `radar.test.js` |
+| **У процессора мира круга дальности нет.** Дальность у него `Float.MAX_VALUE`, а `drawConfigure` обводит кругом только непривилегированный: `if(!privileged)`. Число отрезков окружности `Lines.circleVertices` считается от радиуса и ничем не ограничено — нарисовать такой круг значит подвесить страницу | `world/blocks/logic/LogicBlock.java:665-670`, `content/Blocks.java:6956-6959`, `arc.graphics.g2d.Lines.circleVertices` | ✓ `render/test/world.test.js` |
 
 ## Цели карты
 

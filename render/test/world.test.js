@@ -169,3 +169,23 @@ test('пока атлас местности не загрузился, вид �
     loading.naturalWidth = 1024
     assert.equal(view.groundReady(), true)
 })
+
+test('у процессора мира круг дальности не рисуется', () => {
+    const world = new World({width: 20, height: 20})
+    const ordinary = world.add('micro-processor', {x: 2, y: 2})
+    const world_ = world.add('world-processor', {x: 5, y: 5})
+
+    for (const building of [ordinary, world_]) building.processor = {links: []}
+
+    const map = view(world)
+    const drawn = []
+    map.circles = (x, y, radius) => drawn.push(radius)
+
+    map.drawLinks(ordinary)
+    assert.equal(drawn.length, 1)
+
+    // Дальность у привилегированного — Float.MAX_VALUE, и число отрезков окружности
+    // считается от радиуса: игра такой круг не рисует вовсе, и мы тоже
+    map.drawLinks(world_)
+    assert.equal(drawn.length, 1, 'привилегированному кругу дальности взяться неоткуда')
+})

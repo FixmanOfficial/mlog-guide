@@ -570,8 +570,16 @@ export class WorldView {
         // Дальность приходит из спеки блока: она снята генератором вместе с размером
         const range = (building.spec.range ?? DEFAULT_RANGE) * this.unit
 
-        // Drawf.circles: окружность из отрезков, тёмная подложка толщиной 3 и цвет толщиной 1
-        this.circles(px, py, range, PAL.accent)
+        /*
+         * Круг дальности рисуется только у обычного процессора: `drawConfigure` обводит его
+         * под `if(!privileged)`. У процессора мира дальность — `Float.MAX_VALUE`, и круг из
+         * неё вышел бы в 3.4e38 единиц: число отрезков `Lines.circleVertices` считает от
+         * радиуса и ничем не ограничено, так что страница просто вставала.
+         */
+        if (building.spec.privileged !== true) {
+            // Drawf.circles: окружность из отрезков, тёмная подложка толщиной 3 и цвет толщиной 1
+            this.circles(px, py, range, PAL.accent)
+        }
 
         for (const link of building.processor.links) {
             const [lx, ly] = this.place(link)
