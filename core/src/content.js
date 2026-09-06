@@ -11,20 +11,13 @@
 
 import {LVar} from './lvar.js'
 import {NOT_SENSED} from './sense.js'
+import {packColorHex} from './arc.js'
 import blockSpecs from '../data/block-specs.json' with {type: 'json'}
 import unitSpecs from '../data/unit-specs.json' with {type: 'json'}
 import materials from '../data/materials.json' with {type: 'json'}
 
 /** Vars.tilesize */
 const TILE = 8
-
-/** Color.toDoubleBits: RGBA8888 в младших 32 битах double. */
-function packColor(hex) {
-    const value = parseInt(hex.slice(1), 16)
-    const [r, g, b] = [(value >> 16) & 0xff, (value >> 8) & 0xff, value & 0xff]
-
-    return ((r << 24) | (g << 16) | (b << 8) | 255) >>> 0
-}
 
 /** Типы контента, у которых есть таблица идентификаторов. GlobalVars.writableLookableContent */
 export const CONTENT_TYPES = ['block', 'unit', 'item', 'liquid']
@@ -74,7 +67,7 @@ export class Content {
             if (spec === undefined) return NaN
 
             switch (property) {
-                case 'color': return spec.mapColor === undefined ? NaN : packColor(spec.mapColor)
+                case 'color': return spec.mapColor === undefined ? NaN : packColorHex(spec.mapColor)
                 case 'health': case 'maxHealth': return spec.health
                 case 'solid': return spec.solid ? 1 : 0
                 case 'size': return spec.size
@@ -86,7 +79,7 @@ export class Content {
 
         // У предмета и жидкости из свойств только цвет: Item.sense, Liquid.sense
         const material = materials[this.contentType === 'item' ? 'items' : 'liquids']?.[this.name]
-        if (material !== undefined && property === 'color') return packColor(material.color)
+        if (material !== undefined && property === 'color') return packColorHex(material.color)
 
         return NaN
     }

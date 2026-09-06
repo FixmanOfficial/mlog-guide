@@ -15,8 +15,13 @@ import {LVar} from './lvar.js'
 import {Diagnostic, diagnostic} from './errors.js'
 import {operations, conditions} from './ops.js'
 import {parse} from './parser.js'
-import {PI, E, degRad, radDeg, parseDouble, parseLong, javaDoubleToString} from './arc.js'
+import {
+    PI, E, degRad, radDeg, parseDouble, parseLong, javaDoubleToString,
+    packColorBits, unpackColorBits
+} from './arc.js'
 import {NOT_SENSED} from './sense.js'
+
+export {unpackColorBits}
 import {Unit, LogicAI, UNIT_SPECS, LOGIC_CONTROL_TIMEOUT, TRANSFER_DELAY, ITEM_TRANSFER_RANGE, conv, unconv} from './unit.js'
 import {BLOCK_SPECS} from './world.js'
 import {ALIGN_NAMES} from './font.js'
@@ -67,34 +72,6 @@ function baseGlobals() {
     for (const access of LACCESS) constant(`@${access}`, {access}, true)
 
     return globals
-}
-
-/**
- * `Color.toDoubleBits`: RGBA8888 кладётся в **младшие 32 бита double**, а не в float.
- * Из-за этого упакованный цвет — крошечное денормализованное число, и печатать его
- * бессмысленно; зато `draw col` достаёт байты обратно тем же приведением.
- *
- * Красный в старшем байте: `rgba8888` собирает `(r << 24) | (g << 16) | (b << 8) | a`.
- */
-const colorBuffer = new DataView(new ArrayBuffer(8))
-
-function packColorBits(r, g, b, a) {
-    colorBuffer.setUint32(0, 0)
-    colorBuffer.setUint32(4, (((r << 24) | (g << 16) | (b << 8) | a) >>> 0))
-    return colorBuffer.getFloat64(0)
-}
-
-/** Color.fromDouble: `(int)Double.doubleToRawLongBits(value)` — те же младшие 32 бита. */
-export function unpackColorBits(value) {
-    colorBuffer.setFloat64(0, value)
-    const packed = colorBuffer.getUint32(4)
-
-    return [
-        (packed >>> 24) / 255,
-        ((packed >>> 16) & 0xff) / 255,
-        ((packed >>> 8) & 0xff) / 255,
-        (packed & 0xff) / 255
-    ]
 }
 
 /**

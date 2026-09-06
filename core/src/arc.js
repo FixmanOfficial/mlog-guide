@@ -571,3 +571,36 @@ export class Vec2 {
         return new Vec2(this.x, this.y)
     }
 }
+
+/**
+ * `Color.toDoubleBits`: RGBA8888 кладётся в **младшие 32 бита double**, а не в float.
+ * Упакованный цвет из-за этого — крошечное денормализованное число, печатать его бессмысленно;
+ * зато `draw col` и `unpackcolor` достают байты обратно тем же приведением.
+ */
+const colorBuffer = new DataView(new ArrayBuffer(8))
+
+export function packColorBits(r, g, b, a) {
+    colorBuffer.setUint32(0, 0)
+    colorBuffer.setUint32(4, (((r << 24) | (g << 16) | (b << 8) | a) >>> 0))
+    return colorBuffer.getFloat64(0)
+}
+
+/** Color.fromDouble: `(int)Double.doubleToRawLongBits(value)` — те же младшие 32 бита. */
+export function unpackColorBits(value) {
+    colorBuffer.setFloat64(0, value)
+    const packed = colorBuffer.getUint32(4)
+
+    return [
+        (packed >>> 24) / 255,
+        ((packed >>> 16) & 0xff) / 255,
+        ((packed >>> 8) & 0xff) / 255,
+        (packed & 0xff) / 255
+    ]
+}
+
+/** Тот же цвет, но из записи вида `#rrggbb`: непрозрачность добавляется полной. */
+export const packColorHex = (hex) => {
+    const value = parseInt(hex.slice(1), 16)
+    return packColorBits((value >> 16) & 0xff, (value >> 8) & 0xff, value & 0xff, 255)
+}
+

@@ -18,6 +18,7 @@
 
 import {Vec2, clamp, moveToward, approach, angle} from './arc.js'
 import {NOT_SENSED} from './sense.js'
+import {teamColorBits} from './teams.js'
 import specs from '../data/unit-specs.json' with {type: 'json'}
 import blockSpecs from '../data/block-specs.json' with {type: 'json'}
 import materials from '../data/materials.json' with {type: 'json'}
@@ -542,6 +543,7 @@ export class Unit {
             case 'velocityY': return this.vel.y * 60 / TILE_SIZE
             case 'dead': return this.dead ? 1 : 0
             case 'team': return this.team
+            case 'color': return teamColorBits(this.team)
             case 'shooting': return 0
             case 'range': return this.range() / TILE_SIZE
             case 'mining': return this.mineTile !== null ? 1 : 0

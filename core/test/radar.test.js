@@ -263,3 +263,40 @@ test('sensor работает на самом типе, а не только н�
     assert.equal(processor.num('cap'), 300)
     assert.equal(processor.num('id'), content.types.item.findIndex(item => item.name === 'copper'))
 })
+
+test('@color отдаёт упакованный цвет, и unpackcolor разбирает его обратно', () => {
+    const {world, processor} = setup([
+        'ubind @poly',
+        'sensor цвет @unit @color',
+        'unpackcolor r g b a цвет',
+        'sensor медь @copper @color',
+        'unpackcolor mr mg mb ma медь'
+    ].join('\n'))
+
+    world.spawn('poly', {x: 10, y: 10})
+    processor.run(5)
+
+    // Команда sharded это #ffd37f, и прозрачность у цвета команды всегда полная
+    assert.equal(Math.round(processor.num('r') * 255), 0xff)
+    assert.equal(Math.round(processor.num('g') * 255), 0xd3)
+    assert.equal(Math.round(processor.num('b') * 255), 0x7f)
+    assert.equal(processor.num('a'), 1)
+
+    // У предмета цвет свой: медь это #d99d73
+    assert.equal(Math.round(processor.num('mr') * 255), 0xd9)
+    assert.equal(Math.round(processor.num('mg') * 255), 0x9d)
+    assert.equal(Math.round(processor.num('mb') * 255), 0x73)
+})
+
+test('@color здания — цвет его команды, а не блока', () => {
+    const {processor, linked} = setup(['sensor цвет container1 @color', 'unpackcolor r g b a цвет'].join('\n'),
+        {links: [{type: 'container', x: 10, y: 12}]})
+
+    linked[0].team = 2
+
+    processor.run(2)
+
+    // crux это #f25555
+    assert.equal(Math.round(processor.num('r') * 255), 0xf2)
+    assert.equal(Math.round(processor.num('g') * 255), 0x55)
+})

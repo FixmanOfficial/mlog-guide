@@ -13,6 +13,7 @@
 import specs from '../data/block-specs.json' with {type: 'json'}
 import {Unit, unconv} from './unit.js'
 import {NOT_SENSED} from './sense.js'
+import {teamColorBits} from './teams.js'
 
 export {NOT_SENSED}
 
@@ -143,6 +144,9 @@ export class Building {
                 ? 0
                 : [...this.items.values()].reduce((sum, value) => sum + value, 0)
             case 'rotation': return 0
+
+            // Цвет здания — цвет его команды, с полной непрозрачностью. BuildingComp.sense
+            case 'color': return teamColorBits(this.team)
             // Неизвестное свойство — именно NaN, а не ноль. Block.java:1671
             default: return NaN
         }

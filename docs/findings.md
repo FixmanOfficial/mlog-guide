@@ -230,6 +230,7 @@ Mindustry закрепляет arc хешем коммита в `gradle.properti
 | Между передачами предметов проходит `transferDelay` — полторы секунды, и таймер держит **процессор**, а не юнит | `logic/LExecutor.java:98-104`, `ai/types/LogicAI.java:15` | ✓ `radar.test.js` |
 | Передавать можно не дальше `logicItemTransferRange` (45) плюс половина стороны здания | `Vars.java:125`, `LExecutor.UnitControlI` | ✓ `radar.test.js` |
 | `sensor` умеет спрашивать не только воплощение, но и сам тип: `@dagger @health` отдаёт здоровье типа, `@copper @color` — цвет предмета | `logic/LExecutor.java` `SenseI`, `type/UnitType.java:1428` | ✓ `radar.test.js` |
+| **`@color` есть у всего, но отвечает разное.** У здания и юнита это цвет их команды с полной непрозрачностью, у предмета и жидкости — собственный цвет, у типа блока — цвет на карте. Упакован он `Color.toDoubleBits`, поэтому идёт прямо в `draw col` и разбирается `unpackcolor` | `entities/comp/BuildingComp.java:2103`, `UnitComp.java:305`, `type/Item.java:149`, `world/Block.java:1663` | ✓ `radar.test.js` |
 | **Цвет блока лежит картинкой, а не в коде.** `ContentLoader.loadColors` читает пиксель с номером блока из первой строки `sprites/block_colors.png` | `core/ContentLoader.java` | ✓ `gen-dump.mjs` |
 
 ## Местность
