@@ -20,6 +20,7 @@ import {Vec2, clamp, moveToward, approach, angle} from './arc.js'
 import {NOT_SENSED} from './sense.js'
 import specs from '../data/unit-specs.json' with {type: 'json'}
 import blockSpecs from '../data/block-specs.json' with {type: 'json'}
+import materials from '../data/materials.json' with {type: 'json'}
 
 /*
  * Округление до float стоит там же, где в Java происходит присваивание во float. В движении
@@ -43,6 +44,13 @@ export const LOGIC_CONTROL_TIMEOUT = 600
 
 /** LogicAI.transferDelay: полторы секунды между передачами предметов. */
 export const TRANSFER_DELAY = 90
+
+/** Vars.logicItemTransferRange: логика передаёт предметы не дальше этого. */
+export const ITEM_TRANSFER_RANGE = 45
+
+/** MinerComp: столько тиков уходит на одну единицу руды плюс поправка на твёрдость. */
+export const MINE_BASE_TIME = 50
+export const MINE_HARDNESS_TIME = 15
 
 /** UnitComp.isFlying / isGrounded: между ними есть зазор, и он не случайный. */
 export const FLYING_ELEVATION = 0.09
@@ -184,6 +192,7 @@ export class Unit {
         this.item = null
         this.itemAmount = 0
         this.mineTile = null
+        this.mineTimer = 0
         this.plan = null
 
         this.drag = spec.drag
@@ -221,6 +230,7 @@ export class Unit {
         this.item = null
         this.itemAmount = 0
         this.mineTile = null
+        this.mineTimer = 0
         this.plan = null
         this.controller = null
 
@@ -389,6 +399,100 @@ export class Unit {
         this.plan = null
     }
 
+    /** ItemsComp.maxAccepted: чужой предмет не берётся вовсе, свой — до вместимости. */
+    maxAccepted(item) {
+        if (this.item !== null && this.item !== item && this.itemAmount > 0) return 0
+        return this.spec.itemCapacity - this.itemAmount
+    }
+
+    acceptsItem(item) {
+        return this.maxAccepted(item) > 0
+    }
+
+    addItem(item, amount = 1) {
+        const taken = Math.min(this.maxAccepted(item), amount)
+        if (taken <= 0) return 0
+
+        this.item = item
+        this.itemAmount += taken
+        return taken
+    }
+
+    clearItem() {
+        this.item = null
+        this.itemAmount = 0
+    }
+
+    /** UnitComp.sense(Content): у юнита счётчик один, поэтому чужой предмет — ноль. */
+    senseContent(content) {
+        if (content.contentType !== 'item') return NaN
+        return this.item === content.name ? this.itemAmount : 0
+    }
+
+    /** MinerComp.canMine: добывать можно то, что не твёрже, чем позволяет уровень бура. */
+    canMine(item) {
+        if (item === null || this.spec.mineTier < 0) return false
+        return this.spec.mineTier >= (materials.items[item]?.hardness ?? 0)
+    }
+
+    /**
+     * MinerComp.getMineResult: что даёт тайл. Пол отдаёт руду наложения, а если её нет —
+     * то, что роняет сам пол; стену умеют копать не все.
+     */
+    mineResult(tile) {
+        if (tile === null || this.world === null) return null
+
+        const wall = this.world.wallAt(tile.x, tile.y)
+
+        let item = null
+        if (this.spec.mineFloor && wall === null) {
+            const overlay = this.world.overlayAt(tile.x, tile.y)
+            const floor = this.world.floorAt(tile.x, tile.y)
+
+            item = blockSpecs.blocks[overlay]?.itemDrop ?? blockSpecs.blocks[floor]?.itemDrop ?? null
+        } else if (this.spec.mineWalls && wall !== null) {
+            item = blockSpecs.blocks[wall]?.itemDrop ?? null
+        }
+
+        return this.canMine(item) ? item : null
+    }
+
+    /** MinerComp.validMine: и по дальности, и по тому, есть ли что копать. */
+    validMine(tile, checkDistance = true) {
+        if (tile === null) return false
+        if (checkDistance && !this.within(unconv(tile.x), unconv(tile.y), this.spec.mineRange)) return false
+
+        return this.mineResult(tile) !== null
+    }
+
+    /**
+     * MinerComp.update. Одна единица руды за `50 + твёрдость * 15` тиков, поделённые
+     * на скорость добычи. Когда добытое некуда девать, добыча просто прекращается —
+     * ядра, куда игра сбрасывает излишки, в песочнице нет.
+     */
+    updateMining(delta) {
+        if (this.mineTile === null) return
+
+        if (!this.validMine(this.mineTile)) {
+            this.mineTile = null
+            this.mineTimer = 0
+            return
+        }
+
+        const item = this.mineResult(this.mineTile)
+        this.mineTimer = f(this.mineTimer + f(delta * this.spec.mineSpeed))
+
+        const hardness = materials.items[item]?.hardness ?? 0
+        const needed = MINE_BASE_TIME + (this.spec.mineHardnessScaling ? hardness * MINE_HARDNESS_TIME : MINE_HARDNESS_TIME)
+
+        if (this.mineTimer < needed) return
+
+        this.mineTimer = 0
+
+        if (this.acceptsItem(item)) this.addItem(item)
+        else this.mineTile = null
+    }
+
     resetController() {
         this.controller = null
     }
@@ -410,6 +514,7 @@ export class Unit {
         this.lastY = this.y
 
         this.updateWalk(delta)
+        this.updateMining(delta)
 
         // Трение тоже зависит от пола, и считается оно уже после переноса: в игре
         // UnitComp.update идёт после VelComp.update
@@ -457,7 +562,10 @@ export class Unit {
     senseObject(property) {
         switch (property) {
             case 'type': return this.content ?? null
-            case 'firstItem': return this.itemAmount === 0 ? null : this.item
+            // Предмет отдаётся объектом контента, а не именем: с ним потом идут в sensor
+            case 'firstItem': return this.itemAmount === 0
+                ? null
+                : this.world?.content?.find?.(this.item) ?? null
             case 'controller': return this.controller instanceof LogicAI
                 ? this.controller.controller
                 : this

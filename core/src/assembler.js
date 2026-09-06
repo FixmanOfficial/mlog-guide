@@ -17,7 +17,8 @@ import {operations, conditions} from './ops.js'
 import {parse} from './parser.js'
 import {PI, E, degRad, radDeg, parseDouble, parseLong, javaDoubleToString} from './arc.js'
 import {NOT_SENSED} from './sense.js'
-import {Unit, LogicAI, UNIT_SPECS, LOGIC_CONTROL_TIMEOUT, conv, unconv} from './unit.js'
+import {Unit, LogicAI, UNIT_SPECS, LOGIC_CONTROL_TIMEOUT, TRANSFER_DELAY, ITEM_TRANSFER_RANGE, conv, unconv} from './unit.js'
+import {BLOCK_SPECS} from './world.js'
 import {ALIGN_NAMES} from './font.js'
 
 /** Все 53 инструкции из LStatements.java: нужны, чтобы отличать опечатку от неперенесённого. */
@@ -132,10 +133,104 @@ export const LACCESS = [
  */
 const UNIT_CONTROLS = new Set([
     'idle', 'stop', 'move', 'approach', 'pathfind', 'autoPathfind',
-    'boost', 'target', 'targetp', 'flag', 'getBlock', 'within', 'unbind'
+    'boost', 'target', 'targetp', 'flag', 'getBlock', 'within', 'unbind',
+    'mine', 'itemDrop', 'itemTake'
 ])
 
 const OBJECT_CONTROLS = new Set(['shootp', 'config'])
+
+/**
+ * Условия отбора цели. `RadarTarget`: три условия складываются логическим И.
+ *
+ * `player` и `boss` всегда ложны — игроков в песочнице нет, а звание босса раздают волны.
+ * `attacker` в игре это «умеет стрелять»; у нас оружия нет, поэтому спрашиваем, есть ли оно
+ * у типа вообще.
+ */
+const RADAR_TARGETS = {
+    any: () => true,
+    enemy: (team, unit) => team !== unit.team && unit.team !== 0,
+    ally: (team, unit) => team === unit.team,
+    player: () => false,
+    attacker: (team, unit) => unit.spec.weapons > 0,
+    flying: (team, unit) => unit.isFlying(),
+    boss: () => false,
+    ground: (team, unit) => unit.isGrounded()
+}
+
+/** Чем меряется «лучшая» цель. `RadarSort`: расстояние со знаком минус — ближе значит больше. */
+const RADAR_SORTS = {
+    distance: (source, unit) => -unit.dst2(source.x, source.y),
+    health: (source, unit) => unit.health,
+    shield: () => 0,
+    armor: (source, unit) => unit.spec.armor,
+    maxHealth: (source, unit) => unit.maxHealth
+}
+
+/** RadarI: у здания цель пересчитывается раз в 30 тиков, у юнита — по своему циклу в 40. */
+const RADAR_PERIOD = 30
+
+/** Режимы `ulocate`, которые песочница исполняет: остальным нужны ядра, волны и повреждения. */
+const LOCATES = new Set(['ore'])
+
+/**
+ * Общая часть `radar` и `uradar`. Инструкция кеширует найденное: в игре она пересчитывает
+ * цель раз в 30 тиков, чтобы десяток радаров в программе не съедал кадр. Поэтому цель бывает
+ * устаревшей — это поведение игры, а не наша вольность.
+ */
+function radarBuilder(asm, params, fromUnit) {
+    const targets = [0, 1, 2].map(index => params[index] ?? 'any')
+    const sort = params[3] ?? 'distance'
+    const from = asm.var(params[4] ?? 'turret1')
+    const order = asm.var(params[5] ?? '1')
+    const output = asm.var(params[6] ?? 'result')
+
+    const filters = targets.map(name => RADAR_TARGETS[name] ?? RADAR_TARGETS.any)
+    const measure = RADAR_SORTS[sort] ?? RADAR_SORTS.distance
+
+    // Своё состояние на каждую инструкцию: в игре кеш живёт в самом объекте инструкции
+    const state = {found: null, at: -Infinity}
+
+    return {
+        run: (vm) => {
+            const base = fromUnit ? asm.var('@unit').obj() : from.obj()
+
+            if (base === null || base === undefined || base.team !== vm.team || vm.world === null) {
+                return output.setobj(null)
+            }
+
+            // У юнита дальность своя, у здания это дальность связи: LogicBlock.range
+            const range = fromUnit ? base.range() : base.spec?.range
+            if (range === undefined || range === null) return output.setobj(null)
+
+            // Здание живёт в тайлах, юнит в мировых единицах — считаем в мировых
+            const source = fromUnit
+                ? base
+                : {x: unconv(base.x + base.offset), y: unconv(base.y + base.offset)}
+
+            if (vm.world.tick - state.at >= RADAR_PERIOD) {
+                state.at = vm.world.tick
+                state.found = null
+
+                const direction = order.bool() ? 1 : -1
+                let best = 0
+
+                for (const unit of vm.world.units) {
+                    if (unit === base || unit.dead || !unit.spec.targetable) continue
+                    if (!unit.within(source.x, source.y, range)) continue
+                    if (!filters.every(filter => filter(base.team, unit))) continue
+
+                    const value = measure(source, unit) * direction
+                    if (value > best || state.found === null) {
+                        best = value
+                        state.found = unit
+                    }
+                }
+            }
+
+            output.setobj(state.found)
+        }
+    }
+}
 
 /** Достаёт имя свойства из константы вида @enabled. */
 function propertyName(variable) {
@@ -438,6 +533,13 @@ const builders = {
                     return
                 }
 
+                // Спрашивают не свойство, а контент: сколько в здании меди, что у юнита в руках
+                const content = property.obj()
+                if (name === null && content !== null && content.contentType !== undefined) {
+                    output.setnum(object?.senseContent?.(content) ?? 0)
+                    return
+                }
+
                 if (object === null || typeof object.sense !== 'function') {
                     if ((name === 'size' || name === 'bufferSize') && typeof object === 'string') {
                         output.setnum(object.length)
@@ -602,6 +704,67 @@ const builders = {
                         unit.flag = values[0].num()
                         break
 
+                    case 'mine': {
+                        const tile = {x: Math.round(conv(x1)), y: Math.round(conv(y1))}
+
+                        // Копать умеют не все, и цель должна быть по зубам: MinerComp
+                        if (unit.spec.mineTier >= 0 && unit.spec.mineSpeed > 0) {
+                            unit.mineTile = unit.validMine(tile) ? tile : null
+                        }
+                        break
+                    }
+
+                    case 'itemDrop': {
+                        const target = values[0].obj()
+
+                        // Сброс «в воздух» просто выбрасывает груз и таймера не ждёт
+                        if (target?.name === 'air') {
+                            unit.clearItem()
+                            break
+                        }
+
+                        if (!vm.timeoutDone(unit)) break
+                        if (target === null || target.team !== vm.team || target.items === undefined) break
+
+                        const dropped = Math.min(unit.itemAmount, values[1].numi())
+                        const reach = ITEM_TRANSFER_RANGE + (target.size ?? 1) * 8 / 2
+
+                        if (dropped <= 0 || unit.item === null) break
+                        if (!unit.within(unconv(target.x + target.offset), unconv(target.y + target.offset), reach)) break
+
+                        const accepted = target.acceptStack(unit.item, dropped)
+                        if (accepted <= 0) break
+
+                        target.handleStack(unit.item, accepted)
+                        unit.itemAmount -= accepted
+                        if (unit.itemAmount <= 0) unit.clearItem()
+
+                        vm.updateTimeout(unit)
+                        break
+                    }
+
+                    case 'itemTake': {
+                        if (!vm.timeoutDone(unit)) break
+
+                        const target = values[0].obj()
+                        const item = values[1].obj()
+
+                        if (target === null || target.team !== vm.team || target.items === null) break
+                        if (item?.contentType !== 'item') break
+
+                        const reach = ITEM_TRANSFER_RANGE + (target.size ?? 1) * 8 / 2
+                        if (!unit.within(unconv(target.x + target.offset), unconv(target.y + target.offset), reach)) break
+
+                        const wanted = Math.min(values[2].numi(), unit.maxAccepted(item.name))
+                        const taken = target.removeStack(item.name, Math.max(0, wanted))
+
+                        if (taken > 0) {
+                            unit.addItem(item.name, taken)
+                            vm.updateTimeout(unit)
+                        }
+                        break
+                    }
+
                     case 'getBlock': {
                         const range = Math.max(unit.range() ?? 0, unit.spec.buildRange)
 
@@ -632,6 +795,62 @@ const builders = {
                         values[4].setobj(lookup(vm.world.overlayAt(tx, ty) ?? vm.world.floorAt(tx, ty)))
                         break
                     }
+                }
+            }
+        }
+    },
+
+    radar: (asm, params) => radarBuilder(asm, params, false),
+    uradar: (asm, params) => radarBuilder(asm, params, true),
+
+    /**
+     * UnitLocateI: поиск по карте. Перенесён режим `ore` — руду мы моделируем; `building`,
+     * `spawn` и `damaged` требуют флагов зданий, точек появления волн и учёта повреждений,
+     * которых в песочнице нет.
+     */
+    ulocate: (asm, params, line) => {
+        const mode = params[0] ?? 'building'
+        const ore = asm.var(params[3] ?? '@copper')
+        const [outX, outY, found, build] = [4, 5, 6, 7].map(i => asm.var(params[i] ?? 'result'))
+
+        if (!LOCATES.has(mode)) {
+            asm.report(Diagnostic.NOT_IMPLEMENTED, line, {instruction: `ulocate ${mode}`})
+            return null
+        }
+
+        return {
+            run: (vm) => {
+                const unit = asm.var('@unit').obj()
+                const target = ore.obj()
+
+                if (!(unit instanceof Unit) || vm.world === null || target?.contentType !== 'item') {
+                    found.setnum(0)
+                    return
+                }
+
+                // Ближайшая руда: игра держит для этого указатель, у нас мир маленький
+                let best = null
+                let distance = Infinity
+
+                for (let y = 0; y < vm.world.height; y++) {
+                    for (let x = 0; x < vm.world.width; x++) {
+                        const overlay = vm.world.overlayAt(x, y)
+                        if (BLOCK_SPECS[overlay]?.itemDrop !== target.name) continue
+
+                        const away = unit.dst2(unconv(x), unconv(y))
+                        if (away >= distance) continue
+
+                        distance = away
+                        best = {x, y}
+                    }
+                }
+
+                found.setnum(best === null ? 0 : 1)
+                build.setobj(null)
+
+                if (best !== null) {
+                    outX.setnum(best.x)
+                    outY.setnum(best.y)
                 }
             }
         }

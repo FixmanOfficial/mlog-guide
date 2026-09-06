@@ -34,30 +34,51 @@ export const COUNTER = [
 ]
 
 /**
- * Пилот: водит два юнита разных типов навстречу друг другу.
+ * Пилот: добывает медь одним юнитом и водит двух других навстречу друг другу.
  *
- * Показывает главное про управление юнитами. Во-первых, `ubind` выбирает юнита по типу —
- * поли и моно получают разные команды от одного процессора. Во-вторых, команда не «отправить
- * и забыть»: `ucontrol move` повторяется каждый круг, потому что без новых команд юнит через
- * 600 тиков уходит из-под контроля.
+ * Тут собрано всё, что процессор умеет делать с юнитами. `ubind` выбирает по типу — поли,
+ * моно и кинжал получают разные команды от одной программы. `ulocate` ищет ближайшую жилу,
+ * `ucontrol mine` копает, а когда трюм полон, поли несёт добытое в контейнер.
  *
- * Цель считается от `@tick`, а не от «долетел ли»: так она меняется ровно раз в четыре
- * секунды и оба юнита идут ровно, без дёрганья.
+ * И главное: `ucontrol move` повторяется каждый круг. Без новых команд юнит через 600 тиков
+ * уходит из-под контроля.
  */
-export const PILOT = [
-    withParams('op', {op: 'idiv', dest: 'фаза', a: '@tick', b: '240'}),
-    withParams('op', {op: 'mod', dest: 'фаза', a: 'фаза', b: '2'}),
-    withParams('op', {op: 'mul', dest: 'цель', a: 'фаза', b: '13'}),
-    withParams('op', {op: 'add', dest: 'цель', a: 'цель', b: '3'}),
+export const PILOT = (() => {
+    const deliver = withParams('ucontrol', {type: 'move', p1: '17', p2: '5'})
+    const patrol = withParams('op', {op: 'idiv', dest: 'фаза', a: '@tick', b: '240'})
 
-    withParams('ubind', {type: '@poly'}),
-    withParams('ucontrol', {type: 'move', p1: 'цель', p2: '1'}),
+    const full = withParams('jump', {op: 'greaterThanEq', value: 'груз', compare: '30'})
+    const skip = withParams('jump', {op: 'always'})
 
-    // Моно ходит навстречу: 19 минус цель — это те же 3 и 16, только наоборот
-    withParams('op', {op: 'sub', dest: 'встречно', a: '19', b: 'цель'}),
-    withParams('ubind', {type: '@mono'}),
-    withParams('ucontrol', {type: 'move', p1: 'встречно', p2: '9'}),
+    const statements = [
+        // Поли: пока трюм не полон — копает ближайшую медь, иначе несёт её в контейнер
+        withParams('ubind', {type: '@poly'}),
+        withParams('sensor', {to: 'груз', from: '@unit', type: '@totalItems'}),
+        full,
+        withParams('ulocate', {locate: 'ore', ore: '@copper', outX: 'рудаX', outY: 'рудаY', outFound: 'есть'}),
+        withParams('ucontrol', {type: 'move', p1: 'рудаX', p2: 'рудаY'}),
+        withParams('ucontrol', {type: 'mine', p1: 'рудаX', p2: 'рудаY'}),
+        skip,
 
-    withParams('ubind', {type: '@dagger'}),
-    withParams('ucontrol', {type: 'move', p1: 'цель', p2: '5'})
-]
+        deliver,
+        withParams('ucontrol', {type: 'itemDrop', p1: 'container1', p2: '30'}),
+
+        // Моно и кинжал ходят между двумя точками, цель считается от времени
+        patrol,
+        withParams('op', {op: 'mod', dest: 'фаза', a: 'фаза', b: '2'}),
+        withParams('op', {op: 'mul', dest: 'цель', a: 'фаза', b: '13'}),
+        withParams('op', {op: 'add', dest: 'цель', a: 'цель', b: '3'}),
+
+        withParams('ubind', {type: '@mono'}),
+        withParams('ucontrol', {type: 'move', p1: 'цель', p2: '9'}),
+
+        withParams('ubind', {type: '@dagger'}),
+        withParams('ucontrol', {type: 'move', p1: 'цель', p2: '5'})
+    ]
+
+    // Цель перехода — ссылка на инструкцию, а не номер строки: так её держит и редактор игры
+    full.target = deliver.id
+    skip.target = patrol.id
+
+    return statements
+})()

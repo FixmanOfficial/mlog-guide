@@ -23,6 +23,9 @@ import {existsSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSyn
 import {tmpdir} from 'node:os'
 import {join, resolve} from 'node:path'
 
+import {decodePng} from './png.mjs'
+import {readEntries, readFile} from './zip.mjs'
+
 /** Версия, под которую написан дампер. Совпадает с закреплённой в CLAUDE.md. */
 const VERSION = 'v159.7'
 
@@ -70,6 +73,26 @@ function findJdk() {
     return null
 }
 
+/**
+ * Раскрашивает блоки цветами карты. `ContentLoader.loadColors`: пиксель номер `id` в первой
+ * строке `sprites/block_colors.png`. Без этой картинки цвет блока чёрный у всех подряд —
+ * в коде его нет вовсе.
+ */
+function colorize(jar, blocks) {
+    const png = readFile(readEntries(jar), 'sprites/block_colors.png')
+    if (png === null) throw new Error(`${jar}: внутри нет sprites/block_colors.png`)
+
+    const image = decodePng(png)
+    const hex = (value) => value.toString(16).padStart(2, '0')
+
+    for (const spec of Object.values(blocks)) {
+        if (spec.id >= image.width) continue
+
+        const at = spec.id * 4
+        spec.mapColor = `#${hex(image.pixels[at])}${hex(image.pixels[at + 1])}${hex(image.pixels[at + 2])}`
+    }
+}
+
 function main() {
     const jar = process.argv[2]
 
@@ -99,19 +122,26 @@ function main() {
         const units = join(work, 'unit-specs.json')
         const blocks = join(work, 'block-specs.json')
         const teams = join(work, 'teams.json')
+        const materials = join(work, 'materials.json')
 
-        const counts = execFileSync(jdk.java, ['-cp', classpath, 'ContentDump', units, blocks, teams],
+        const counts = execFileSync(jdk.java,
+            ['-cp', classpath, 'ContentDump', units, blocks, teams, materials],
             {encoding: 'utf8', stdio: ['ignore', 'pipe', 'inherit']}).trim().split(' ')
 
         // Игра печатает всё одной строкой; раскладываем тем же способом, что и прочие таблицы
         for (const [from, to] of [
             [units, 'core/data/unit-specs.json'],
             [blocks, 'core/data/block-specs.json'],
-            [teams, 'core/data/teams.json']
+            [teams, 'core/data/teams.json'],
+            [materials, 'core/data/materials.json']
         ]) {
             const data = JSON.parse(readFileSync(from, 'utf8'))
 
             if (data.gameVersion !== VERSION) throw new Error(`jar не той версии: ${data.gameVersion}`)
+
+            // Цвет блока на карте лежит не в коде, а картинкой: ContentLoader.loadColors
+            // читает пиксель с номером блока из первой строки block_colors.png
+            if (to.endsWith('block-specs.json')) colorize(resolve(jar), data.blocks)
 
             writeFileSync(to, JSON.stringify(data, null, 2) + '\n')
         }
@@ -119,6 +149,7 @@ function main() {
         console.log(`core/data/unit-specs.json: ${counts[0]} юнитов`)
         console.log(`core/data/block-specs.json: ${counts[1]} блоков`)
         console.log('core/data/teams.json: шесть базовых команд')
+        console.log('core/data/materials.json: предметы и жидкости')
     } finally {
         rmSync(work, {recursive: true, force: true})
     }

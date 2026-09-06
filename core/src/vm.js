@@ -28,6 +28,9 @@ export const IPT = {
 
 /** LExecutor.java:44-46 */
 export const MAX_TEXT_BUFFER = 400
+
+/** LogicAI.transferDelay: полторы секунды между передачами предметов. */
+export const TRANSFER_DELAY = 90
 export const MAX_GRAPHICS_BUFFER = 256
 
 /** LogicDisplay.scaleStep: draw scale хранится шагами по 0.05. */
@@ -62,6 +65,9 @@ export class Processor {
         // LExecutor.binds: у каждого процессора свой счётчик обхода по каждому типу юнита
         this.binds = new Map()
 
+        // LExecutor.unitTimeouts: когда этот процессор в последний раз что-то передавал юниту
+        this.unitTimeouts = new Map()
+
         this.load(code)
     }
 
@@ -91,6 +97,7 @@ export class Processor {
         this.yield = false
         this.accumulator = 0
         this.binds = new Map()
+        this.unitTimeouts = new Map()
 
         this.bindEnvironment()
         return this
@@ -120,6 +127,16 @@ export class Processor {
             set('@second', second)
             set('@minute', minute)
         }
+    }
+
+    /** LExecutor.timeoutDone: между передачами предметов должно пройти transferDelay. */
+    timeoutDone(unit, delay = TRANSFER_DELAY) {
+        const tick = this.world?.tick ?? 0
+        return tick >= (this.unitTimeouts.get(unit.id) ?? -Infinity) + delay
+    }
+
+    updateTimeout(unit) {
+        this.unitTimeouts.set(unit.id, this.world?.tick ?? 0)
     }
 
     get loaded() {
@@ -324,6 +341,7 @@ export class Processor {
         this.yield = false
         this.accumulator = 0
         this.binds = new Map()
+        this.unitTimeouts = new Map()
 
         this.bindEnvironment()
         return this

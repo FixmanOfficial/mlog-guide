@@ -62,9 +62,45 @@ export class Building {
         this.config = null
         this.spec = spec
 
+        // Хранилище есть не у всех: у процессора и сообщения его нет вовсе
+        this.items = spec.hasItems ? new Map() : null
+
         // Каким здание было при постановке. Нужно перемотке: симуляция детерминированная,
         // поэтому «назад на N тиков» — это сброс и прогон вперёд, а не хранение истории
         this.initial = {health: this.health, enabled: this.enabled, efficiency: this.efficiency}
+    }
+
+    /** Сколько в здании этого предмета. BuildingComp.sense(Content) */
+    senseContent(content) {
+        if (this.items === null || content.contentType !== 'item') return NaN
+        return this.items.get(content.name) ?? 0
+    }
+
+    /** BuildingComp.getMaximumAccepted: у обычного блока это вместимость на каждый предмет. */
+    maximumAccepted() {
+        return this.spec.itemCapacity ?? 0
+    }
+
+    /**
+     * `acceptStack`: сколько из предложенного поместится. Отдаёт число, а не берёт —
+     * забирает потом `handleStack`, и это разные шаги: между ними игра успевает отказать.
+     */
+    acceptStack(item, amount) {
+        if (this.items === null) return 0
+        return Math.max(0, Math.min(this.maximumAccepted() - (this.items.get(item) ?? 0), amount))
+    }
+
+    handleStack(item, amount) {
+        if (this.items === null || amount <= 0) return
+        this.items.set(item, (this.items.get(item) ?? 0) + amount)
+    }
+
+    removeStack(item, amount) {
+        if (this.items === null) return 0
+
+        const taken = Math.min(this.items.get(item) ?? 0, amount)
+        if (taken > 0) this.items.set(item, this.items.get(item) - taken)
+        return taken
     }
 
     /** Возвращает здание в исходное состояние. Переопределяется там, где есть что чистить. */
@@ -102,8 +138,10 @@ export class Building {
             case 'efficiency': return this.efficiency
             case 'dead': return this.health <= 0 ? 1 : 0
             case 'solid': return 0
-            case 'totalItems': return 0
-            case 'itemCapacity': return 0
+            case 'itemCapacity': return this.items === null ? 0 : this.maximumAccepted()
+            case 'totalItems': return this.items === null
+                ? 0
+                : [...this.items.values()].reduce((sum, value) => sum + value, 0)
             case 'rotation': return 0
             // Неизвестное свойство — именно NaN, а не ноль. Block.java:1671
             default: return NaN
@@ -113,6 +151,13 @@ export class Building {
     /** Свойства, отдающие объект. Всё прочее возвращает NOT_SENSED. */
     senseObject(property) {
         if (property === 'config') return this.config
+
+        // Первый предмет — тот, что раньше положили и он ещё не кончился
+        if (property === 'firstItem') {
+            const found = [...(this.items ?? [])].find(([, amount]) => amount > 0)
+            return found === undefined ? null : this.world.content?.find?.(found[0]) ?? null
+        }
+
         return NOT_SENSED
     }
 
@@ -324,18 +369,21 @@ const BUILDERS = {
     door: DoorBuilding
 }
 
-/** Короткие имена связей: cell1, display1 и так далее. */
-const LINK_PREFIX = {
-    'memory-cell': 'cell',
-    'memory-bank': 'bank',
-    'logic-display': 'display',
-    'large-logic-display': 'display',
-    message: 'message',
-    switch: 'switch',
-    door: 'door',
-    'micro-processor': 'processor',
-    'logic-processor': 'processor',
-    'hyper-processor': 'processor'
+/**
+ * Короткое имя связи: `cell1`, `display1`, `container1`. `LogicBlock.getLinkName` берёт
+ * последнюю часть имени блока через дефис, а если последняя это `large` или число —
+ * то предпоследнюю. Так `memory-cell` становится `cell`, `large-logic-display` — `display`,
+ * а `metal-floor-5` — `floor`.
+ */
+export function linkName(type) {
+    if (!type.includes('-')) return type
+
+    const parts = type.split('-')
+    const last = parts[parts.length - 1]
+
+    return parts.length >= 2 && (last === 'large' || Number.isFinite(Number(last)))
+        ? parts[parts.length - 2]
+        : last
 }
 
 export class World {
@@ -423,7 +471,7 @@ export class World {
         const Kind = BUILDERS[type] ?? Building
         const building = new Kind(this, type, options)
 
-        const prefix = LINK_PREFIX[type] ?? 'block'
+        const prefix = linkName(type)
         const index = (this.linkCounters.get(prefix) ?? 0) + 1
         this.linkCounters.set(prefix, index)
         building.name = options.name ?? `${prefix}${index}`

@@ -30,7 +30,8 @@ const BLOCKS = [
     'micro-processor', 'logic-processor', 'hyper-processor',
     'memory-cell', 'memory-bank',
     'logic-display', 'large-logic-display',
-    'message', 'switch', 'door'
+    'message', 'switch', 'door',
+    'container'
 ]
 
 /**

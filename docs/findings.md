@@ -217,6 +217,21 @@ Mindustry закрепляет arc хешем коммита в `gradle.properti
 | Вместимость юнита, если она не задана, считается как `max(round((int)(hitSize * 4), 10), 10)`, причём `Mathf.round(int, int)` — деление нацело, то есть округление **вниз** | `type/UnitType.java:959-961`, `arc/math/Mathf.java:504` | ✓ `unit.test.js` |
 | `sensor @x` у юнита отдаёт `World.conv(x)` — мировые единицы, делённые на 8. Скорость идёт в тайлах за секунду: `speed * 60 / tilesize` | `entities/comp/UnitComp.java:264-310` | ✓ `unit.test.js` |
 
+## Поиск целей и предметы
+
+| Деталь | Источник | Тест |
+| --- | --- | --- |
+| **`radar` не ищет каждый тик.** У здания цель пересчитывается раз в 30 тиков, у юнита — по циклу контроллера в 40. Между пересчётами инструкция отдаёт запомненное, поэтому цель бывает устаревшей | `logic/LExecutor.java` `RadarI` | ✓ `radar.test.js` |
+| Порядок сортировки не «по возрастанию или убыванию», а множитель: `sortOrder` даёт `+1` или `-1`, и побеждает наибольшее произведение. Расстояние при этом считается как `-dst2`, поэтому при порядке 1 ближайший и выигрывает | `logic/RadarSort.java`, `LExecutor.RadarI.find` | ✓ `radar.test.js` |
+| Три условия отбора складываются логическим И, и `uradar` никогда не находит сам себя (`b == u`) | `logic/RadarTarget.java`, `LExecutor.RadarI.find` | ✓ `radar.test.js` |
+| Источником `radar` может быть и процессор: `LogicBuild` это `Ranged`, и дальность у него — дальность связи | `world/blocks/logic/LogicBlock.java:478` | ✓ `radar.test.js` |
+| **Имя связи выводится из имени блока**: последняя часть через дефис, а если последняя `large` или число — предпоследняя. Отсюда `cell1` у `memory-cell` и `display1` у `large-logic-display` | `world/blocks/logic/LogicBlock.java:123-135` | ✓ `world.test.js` |
+| Добыча: одна единица за `50 + твёрдость * 15` тиков, делённые на скорость добычи. Копать можно то, что не твёрже уровня бура (`mineTier >= hardness`) | `entities/comp/MinerComp.java:26-118` | ✓ `radar.test.js` |
+| Между передачами предметов проходит `transferDelay` — полторы секунды, и таймер держит **процессор**, а не юнит | `logic/LExecutor.java:98-104`, `ai/types/LogicAI.java:15` | ✓ `radar.test.js` |
+| Передавать можно не дальше `logicItemTransferRange` (45) плюс половина стороны здания | `Vars.java:125`, `LExecutor.UnitControlI` | ✓ `radar.test.js` |
+| `sensor` умеет спрашивать не только воплощение, но и сам тип: `@dagger @health` отдаёт здоровье типа, `@copper @color` — цвет предмета | `logic/LExecutor.java` `SenseI`, `type/UnitType.java:1428` | ✓ `radar.test.js` |
+| **Цвет блока лежит картинкой, а не в коде.** `ContentLoader.loadColors` читает пиксель с номером блока из первой строки `sprites/block_colors.png` | `core/ContentLoader.java` | ✓ `gen-dump.mjs` |
+
 ## Местность
 
 | Деталь | Источник | Тест |

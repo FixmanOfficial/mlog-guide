@@ -64,6 +64,9 @@ export function createScene() {
     const counter = world.add('micro-processor', {x: 5, y: 5})
     const pilot = world.add('micro-processor', {x: 1, y: 1})
 
+    // Контейнер, куда поли носит добытое: без него `ucontrol itemDrop` некуда целить
+    const container = world.add('container', {x: 17, y: 4})
+
     // Три юнита разных типов: `ubind` выбирает по типу, и один процессор водит всех.
     // Кинжал наземный и ходит ногами — на нём видно, что шаг считается по пройденному пути
     world.spawn('poly', {x: 4, y: 1})
@@ -73,10 +76,10 @@ export function createScene() {
     const processors = [
         {building: painter, links: [display, cell]},
         {building: counter, links: [cell, message, toggle, door]},
-        {building: pilot, links: []}
+        {building: pilot, links: [container]}
     ]
 
-    return {world, display, cell, message, toggle, door, processors}
+    return {world, display, cell, message, toggle, door, container, processors}
 }
 
 /**

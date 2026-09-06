@@ -33,7 +33,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": true,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "spawn": {
       "id": 1,
@@ -64,7 +65,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": true,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#a93527"
     },
     "remove-wall": {
       "id": 2,
@@ -88,7 +90,8 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#ff603c"
     },
     "remove-ore": {
       "id": 3,
@@ -119,7 +122,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": true,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#c4432a"
     },
     "cliff": {
       "id": 4,
@@ -143,7 +147,8 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#7f7f7f"
     },
     "build1": {
       "id": 5,
@@ -167,7 +172,8 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "build2": {
       "id": 6,
@@ -191,7 +197,8 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "build3": {
       "id": 7,
@@ -215,7 +222,8 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "build4": {
       "id": 8,
@@ -239,7 +247,8 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "build5": {
       "id": 9,
@@ -263,7 +272,8 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "build6": {
       "id": 10,
@@ -287,7 +297,8 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "build7": {
       "id": 11,
@@ -311,7 +322,8 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "build8": {
       "id": 12,
@@ -335,7 +347,8 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "build9": {
       "id": 13,
@@ -359,7 +372,8 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "build10": {
       "id": 14,
@@ -383,7 +397,8 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "build11": {
       "id": 15,
@@ -407,7 +422,8 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "build12": {
       "id": 16,
@@ -431,7 +447,8 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "build13": {
       "id": 17,
@@ -455,7 +472,8 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "build14": {
       "id": 18,
@@ -479,7 +497,8 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "build15": {
       "id": 19,
@@ -503,7 +522,8 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "build16": {
       "id": 20,
@@ -527,7 +547,8 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "deep-water": {
       "id": 21,
@@ -559,7 +580,8 @@
       "drawEdgeOut": true,
       "hasSurface": false,
       "wall": "sand-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#3d4980"
     },
     "shallow-water": {
       "id": 22,
@@ -591,7 +613,8 @@
       "drawEdgeOut": true,
       "hasSurface": false,
       "wall": "sand-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#47548f"
     },
     "tainted-water": {
       "id": 23,
@@ -623,7 +646,8 @@
       "drawEdgeOut": true,
       "hasSurface": false,
       "wall": "spore-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#4a3972"
     },
     "deep-tainted-water": {
       "id": 24,
@@ -655,7 +679,8 @@
       "drawEdgeOut": true,
       "hasSurface": false,
       "wall": "spore-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#352953"
     },
     "darksand-tainted-water": {
       "id": 25,
@@ -688,7 +713,8 @@
       "drawEdgeOut": true,
       "hasSurface": false,
       "wall": "dune-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#39324a"
     },
     "sand-water": {
       "id": 26,
@@ -721,7 +747,8 @@
       "drawEdgeOut": true,
       "hasSurface": false,
       "wall": "sand-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#74687a"
     },
     "darksand-water": {
       "id": 27,
@@ -754,7 +781,8 @@
       "drawEdgeOut": true,
       "hasSurface": false,
       "wall": "dune-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#353751"
     },
     "tar": {
       "id": 28,
@@ -785,7 +813,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": true,
       "hasSurface": false,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#161817"
     },
     "pooled-cryofluid": {
       "id": 29,
@@ -816,7 +845,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": true,
       "hasSurface": false,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#549db5"
     },
     "molten-slag": {
       "id": 30,
@@ -848,7 +878,8 @@
       "drawEdgeOut": true,
       "hasSurface": false,
       "wall": "yellow-stone-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#c46332"
     },
     "space": {
       "id": 31,
@@ -879,7 +910,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": false,
       "hasSurface": false,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#050012"
     },
     "empty": {
       "id": 32,
@@ -910,7 +942,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": false,
       "hasSurface": false,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "stone": {
       "id": 33,
@@ -943,7 +976,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "stone-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#424247"
     },
     "crater-stone": {
       "id": 34,
@@ -976,7 +1010,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "blendGroup": "stone",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#434347"
     },
     "char": {
       "id": 35,
@@ -1009,7 +1044,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "blendGroup": "stone",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#3c3c42"
     },
     "basalt": {
       "id": 36,
@@ -1042,7 +1078,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "dune-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#312f2f"
     },
     "hotrock": {
       "id": 37,
@@ -1076,7 +1113,8 @@
       "hasSurface": true,
       "blendGroup": "basalt",
       "wall": "dune-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#433831"
     },
     "magmarock": {
       "id": 38,
@@ -1110,7 +1148,8 @@
       "hasSurface": true,
       "blendGroup": "basalt",
       "wall": "dune-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#684a35"
     },
     "sand-floor": {
       "id": 39,
@@ -1144,7 +1183,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "sand-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#a7896f"
     },
     "darksand": {
       "id": 40,
@@ -1178,7 +1218,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "dune-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#302e2e"
     },
     "dirt": {
       "id": 41,
@@ -1211,7 +1252,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "dirt-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#4f312a"
     },
     "mud": {
       "id": 42,
@@ -1243,7 +1285,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": true,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#291815"
     },
     "dacite": {
       "id": 43,
@@ -1276,7 +1319,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "dacite-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#787986"
     },
     "rhyolite": {
       "id": 44,
@@ -1309,7 +1353,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "rhyolite-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#5b392e"
     },
     "rhyolite-crater": {
       "id": 45,
@@ -1343,7 +1388,8 @@
       "hasSurface": true,
       "blendGroup": "rhyolite",
       "wall": "rhyolite-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#59372c"
     },
     "rough-rhyolite": {
       "id": 46,
@@ -1376,7 +1422,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "rhyolite-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#51322b"
     },
     "regolith": {
       "id": 47,
@@ -1409,7 +1456,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "regolith-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#724b36"
     },
     "yellow-stone": {
       "id": 48,
@@ -1442,7 +1490,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "yellow-stone-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#744d36"
     },
     "carbon-stone": {
       "id": 49,
@@ -1475,7 +1524,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "carbon-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#22262b"
     },
     "ferric-stone": {
       "id": 50,
@@ -1508,7 +1558,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "ferric-stone-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#383231"
     },
     "ferric-craters": {
       "id": 51,
@@ -1541,7 +1592,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "blendGroup": "ferric-stone",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#3c3533"
     },
     "beryllic-stone": {
       "id": 52,
@@ -1574,7 +1626,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "beryllic-stone-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#29302b"
     },
     "crystalline-stone": {
       "id": 53,
@@ -1607,7 +1660,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "crystalline-stone-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#2d272f"
     },
     "crystal-floor": {
       "id": 54,
@@ -1640,7 +1694,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "crystalline-stone-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#3a2f43"
     },
     "yellow-stone-plates": {
       "id": 55,
@@ -1673,7 +1728,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "yellow-stone-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#815d38"
     },
     "red-stone": {
       "id": 56,
@@ -1706,7 +1762,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "red-stone-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#8b3d41"
     },
     "dense-red-stone": {
       "id": 57,
@@ -1739,7 +1796,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "red-stone-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#924744"
     },
     "red-ice": {
       "id": 58,
@@ -1772,7 +1830,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "red-ice-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#c1aea8"
     },
     "arkycite-floor": {
       "id": 59,
@@ -1804,7 +1863,8 @@
       "drawEdgeOut": true,
       "hasSurface": false,
       "wall": "arkyic-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#55703b"
     },
     "arkyic-stone": {
       "id": 60,
@@ -1837,7 +1897,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "arkyic-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#384932"
     },
     "rhyolite-vent": {
       "id": 61,
@@ -1870,7 +1931,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "blendGroup": "rhyolite",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#42231e"
     },
     "carbon-vent": {
       "id": 62,
@@ -1903,7 +1965,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "blendGroup": "carbon-stone",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#17191f"
     },
     "arkyic-vent": {
       "id": 63,
@@ -1936,7 +1999,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "blendGroup": "arkyic-stone",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#283629"
     },
     "yellow-stone-vent": {
       "id": 64,
@@ -1969,7 +2033,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "blendGroup": "yellow-stone",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#5c3826"
     },
     "red-stone-vent": {
       "id": 65,
@@ -2002,7 +2067,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "blendGroup": "dense-red-stone",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#6c2e37"
     },
     "crystalline-vent": {
       "id": 66,
@@ -2035,7 +2101,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "blendGroup": "crystalline-stone",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#1f1c22"
     },
     "stone-vent": {
       "id": 67,
@@ -2068,7 +2135,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "blendGroup": "stone",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#333138"
     },
     "basalt-vent": {
       "id": 68,
@@ -2101,7 +2169,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "blendGroup": "basalt",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#262324"
     },
     "redmat": {
       "id": 69,
@@ -2133,7 +2202,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": true,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#452b2a"
     },
     "bluemat": {
       "id": 70,
@@ -2165,7 +2235,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": true,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#2d2740"
     },
     "grass": {
       "id": 71,
@@ -2197,7 +2268,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": true,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#548449"
     },
     "salt": {
       "id": 72,
@@ -2229,7 +2301,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "salt-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#bcbdbf"
     },
     "snow": {
       "id": 73,
@@ -2262,7 +2335,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "snow-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#b3b7bb"
     },
     "ice": {
       "id": 74,
@@ -2295,7 +2369,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "ice-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#a2a2c2"
     },
     "ice-snow": {
       "id": 75,
@@ -2328,7 +2403,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "ice-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#9c9ebb"
     },
     "shale": {
       "id": 76,
@@ -2361,7 +2437,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "shale-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#4a4665"
     },
     "moss": {
       "id": 77,
@@ -2394,7 +2471,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "spore-pine",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#56365c"
     },
     "core-zone": {
       "id": 78,
@@ -2425,7 +2503,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": true,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#6b5b4b"
     },
     "spore-moss": {
       "id": 79,
@@ -2458,7 +2537,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "spore-wall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#563868"
     },
     "stone-wall": {
       "id": 80,
@@ -2484,7 +2564,8 @@
       "canBeBuilt": false,
       "kind": "staticWall",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#7a7a7f"
     },
     "spore-wall": {
       "id": 81,
@@ -2510,7 +2591,8 @@
       "canBeBuilt": false,
       "kind": "staticWall",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#8b5695"
     },
     "dirt-wall": {
       "id": 82,
@@ -2536,7 +2618,8 @@
       "canBeBuilt": false,
       "kind": "staticWall",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#704640"
     },
     "dacite-wall": {
       "id": 83,
@@ -2562,7 +2645,8 @@
       "canBeBuilt": false,
       "kind": "staticWall",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#a0a1b8"
     },
     "ice-wall": {
       "id": 84,
@@ -2588,7 +2672,8 @@
       "canBeBuilt": false,
       "kind": "staticWall",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#d3d1ff"
     },
     "snow-wall": {
       "id": 85,
@@ -2614,7 +2699,8 @@
       "canBeBuilt": false,
       "kind": "staticWall",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#eff7ff"
     },
     "dune-wall": {
       "id": 86,
@@ -2640,7 +2726,8 @@
       "canBeBuilt": false,
       "kind": "staticWall",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#5a5959"
     },
     "regolith-wall": {
       "id": 87,
@@ -2666,7 +2753,8 @@
       "canBeBuilt": false,
       "kind": "staticWall",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#ca9a5a"
     },
     "yellow-stone-wall": {
       "id": 88,
@@ -2692,7 +2780,8 @@
       "canBeBuilt": false,
       "kind": "staticWall",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#a46f48"
     },
     "rhyolite-wall": {
       "id": 89,
@@ -2718,7 +2807,8 @@
       "canBeBuilt": false,
       "kind": "staticWall",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#754539"
     },
     "carbon-wall": {
       "id": 90,
@@ -2744,7 +2834,8 @@
       "canBeBuilt": false,
       "kind": "staticWall",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#444c51"
     },
     "ferric-stone-wall": {
       "id": 91,
@@ -2770,7 +2861,8 @@
       "canBeBuilt": false,
       "kind": "staticWall",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#6d635c"
     },
     "beryllic-stone-wall": {
       "id": 92,
@@ -2796,7 +2888,8 @@
       "canBeBuilt": false,
       "kind": "staticWall",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#4e5d50"
     },
     "arkyic-wall": {
       "id": 93,
@@ -2822,7 +2915,8 @@
       "canBeBuilt": false,
       "kind": "staticWall",
       "variants": 3,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#678456"
     },
     "crystalline-stone-wall": {
       "id": 94,
@@ -2848,7 +2942,8 @@
       "canBeBuilt": false,
       "kind": "staticWall",
       "variants": 4,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#6a5a69"
     },
     "red-ice-wall": {
       "id": 95,
@@ -2874,7 +2969,8 @@
       "canBeBuilt": false,
       "kind": "staticWall",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#fbdce3"
     },
     "red-stone-wall": {
       "id": 96,
@@ -2900,7 +2996,8 @@
       "canBeBuilt": false,
       "kind": "staticWall",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#bb5359"
     },
     "red-diamond-wall": {
       "id": 97,
@@ -2926,7 +3023,8 @@
       "canBeBuilt": false,
       "kind": "staticWall",
       "variants": 3,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#e38166"
     },
     "sand-wall": {
       "id": 98,
@@ -2952,7 +3050,8 @@
       "canBeBuilt": false,
       "kind": "staticWall",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#ffdfbc"
     },
     "salt-wall": {
       "id": 99,
@@ -2978,7 +3077,8 @@
       "canBeBuilt": false,
       "kind": "staticWall",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#f4f8ff"
     },
     "shrubs": {
       "id": 100,
@@ -3004,7 +3104,8 @@
       "canBeBuilt": false,
       "kind": "staticWall",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#70bb67"
     },
     "shale-wall": {
       "id": 101,
@@ -3030,7 +3131,8 @@
       "canBeBuilt": false,
       "kind": "staticWall",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#7274a0"
     },
     "spore-pine": {
       "id": 102,
@@ -3055,7 +3157,8 @@
       "buildVisibility": "hidden",
       "canBeBuilt": false,
       "kind": "staticWall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#924e94"
     },
     "snow-pine": {
       "id": 103,
@@ -3080,7 +3183,8 @@
       "buildVisibility": "hidden",
       "canBeBuilt": false,
       "kind": "staticWall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#eef7ff"
     },
     "pine": {
       "id": 104,
@@ -3105,7 +3209,8 @@
       "buildVisibility": "hidden",
       "canBeBuilt": false,
       "kind": "staticWall",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#5a9f5c"
     },
     "white-tree-dead": {
       "id": 105,
@@ -3129,7 +3234,8 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#e1eafc"
     },
     "white-tree": {
       "id": 106,
@@ -3153,7 +3259,8 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#d6dbf9"
     },
     "spore-cluster": {
       "id": 107,
@@ -3179,7 +3286,8 @@
       "canBeBuilt": false,
       "kind": "prop",
       "variants": 3,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#c4b2fa"
     },
     "redweed": {
       "id": 108,
@@ -3205,7 +3313,8 @@
       "canBeBuilt": false,
       "kind": "prop",
       "variants": 3,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#dd6f4e"
     },
     "pur-bush": {
       "id": 109,
@@ -3230,7 +3339,8 @@
       "buildVisibility": "hidden",
       "canBeBuilt": false,
       "kind": "prop",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#5c58a4"
     },
     "yellowcoral": {
       "id": 110,
@@ -3255,7 +3365,8 @@
       "buildVisibility": "hidden",
       "canBeBuilt": false,
       "kind": "prop",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#e68248"
     },
     "boulder": {
       "id": 111,
@@ -3281,7 +3392,8 @@
       "canBeBuilt": false,
       "kind": "prop",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#7c7c81"
     },
     "snow-boulder": {
       "id": 112,
@@ -3307,7 +3419,8 @@
       "canBeBuilt": false,
       "kind": "prop",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#eff7ff"
     },
     "shale-boulder": {
       "id": 113,
@@ -3333,7 +3446,8 @@
       "canBeBuilt": false,
       "kind": "prop",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#777aa9"
     },
     "sand-boulder": {
       "id": 114,
@@ -3359,7 +3473,8 @@
       "canBeBuilt": false,
       "kind": "prop",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#ffddb9"
     },
     "dacite-boulder": {
       "id": 115,
@@ -3385,7 +3500,8 @@
       "canBeBuilt": false,
       "kind": "prop",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#a9aabe"
     },
     "basalt-boulder": {
       "id": 116,
@@ -3411,7 +3527,8 @@
       "canBeBuilt": false,
       "kind": "prop",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#5b5a5a"
     },
     "carbon-boulder": {
       "id": 117,
@@ -3437,7 +3554,8 @@
       "canBeBuilt": false,
       "kind": "prop",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#474f54"
     },
     "ferric-boulder": {
       "id": 118,
@@ -3463,7 +3581,8 @@
       "canBeBuilt": false,
       "kind": "prop",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#71665f"
     },
     "beryllic-boulder": {
       "id": 119,
@@ -3489,7 +3608,8 @@
       "canBeBuilt": false,
       "kind": "prop",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#516153"
     },
     "yellow-stone-boulder": {
       "id": 120,
@@ -3515,7 +3635,8 @@
       "canBeBuilt": false,
       "kind": "prop",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#a06c45"
     },
     "arkyic-boulder": {
       "id": 121,
@@ -3541,7 +3662,8 @@
       "canBeBuilt": false,
       "kind": "prop",
       "variants": 3,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#658155"
     },
     "crystal-cluster": {
       "id": 122,
@@ -3567,7 +3689,8 @@
       "canBeBuilt": false,
       "kind": "prop",
       "variants": 3,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#846d82"
     },
     "vibrant-crystal-cluster": {
       "id": 123,
@@ -3593,7 +3716,8 @@
       "canBeBuilt": false,
       "kind": "prop",
       "variants": 3,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#b97eb3"
     },
     "crystal-blocks": {
       "id": 124,
@@ -3619,7 +3743,8 @@
       "canBeBuilt": false,
       "kind": "prop",
       "variants": 3,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#cfa15a"
     },
     "crystal-orbs": {
       "id": 125,
@@ -3645,7 +3770,8 @@
       "canBeBuilt": false,
       "kind": "prop",
       "variants": 3,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#7c9c62"
     },
     "crystalline-boulder": {
       "id": 126,
@@ -3671,7 +3797,8 @@
       "canBeBuilt": false,
       "kind": "prop",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#675666"
     },
     "red-ice-boulder": {
       "id": 127,
@@ -3697,7 +3824,8 @@
       "canBeBuilt": false,
       "kind": "prop",
       "variants": 3,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#fedce1"
     },
     "rhyolite-boulder": {
       "id": 128,
@@ -3723,7 +3851,8 @@
       "canBeBuilt": false,
       "kind": "prop",
       "variants": 3,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#96644b"
     },
     "red-stone-boulder": {
       "id": 129,
@@ -3749,7 +3878,8 @@
       "canBeBuilt": false,
       "kind": "prop",
       "variants": 4,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#bc5559"
     },
     "metal-floor": {
       "id": 130,
@@ -3781,7 +3911,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "dark-metal",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#555760"
     },
     "metal-floor-damaged": {
       "id": 131,
@@ -3814,7 +3945,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "dark-metal",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#53545e"
     },
     "metal-floor-2": {
       "id": 132,
@@ -3846,7 +3978,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "dark-metal",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#50515a"
     },
     "metal-floor-3": {
       "id": 133,
@@ -3878,7 +4011,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "dark-metal",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#5a5b65"
     },
     "metal-floor-4": {
       "id": 134,
@@ -3910,7 +4044,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "dark-metal",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#5d5f6a"
     },
     "metal-floor-5": {
       "id": 135,
@@ -3942,7 +4077,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "dark-metal",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#6c584c"
     },
     "dark-panel-1": {
       "id": 136,
@@ -3974,7 +4110,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "dark-metal",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#3c3e47"
     },
     "dark-panel-2": {
       "id": 137,
@@ -4006,7 +4143,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "dark-metal",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#413e45"
     },
     "dark-panel-3": {
       "id": 138,
@@ -4038,7 +4176,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "dark-metal",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#3b3c45"
     },
     "dark-panel-4": {
       "id": 139,
@@ -4070,7 +4209,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "dark-metal",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#43454f"
     },
     "dark-panel-5": {
       "id": 140,
@@ -4102,7 +4242,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "dark-metal",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#46434b"
     },
     "dark-panel-6": {
       "id": 141,
@@ -4134,7 +4275,8 @@
       "drawEdgeOut": true,
       "hasSurface": true,
       "wall": "dark-metal",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#4e454c"
     },
     "dark-metal": {
       "id": 142,
@@ -4160,7 +4302,8 @@
       "canBeBuilt": false,
       "kind": "staticWall",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#7e808f"
     },
     "metal-tiles-1": {
       "id": 143,
@@ -4192,7 +4335,8 @@
       "drawEdgeIn": false,
       "drawEdgeOut": false,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#3a3a41"
     },
     "metal-tiles-2": {
       "id": 144,
@@ -4224,7 +4368,8 @@
       "drawEdgeIn": false,
       "drawEdgeOut": false,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#2c2c33"
     },
     "metal-tiles-3": {
       "id": 145,
@@ -4256,7 +4401,8 @@
       "drawEdgeIn": false,
       "drawEdgeOut": false,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#5d493c"
     },
     "metal-tiles-4": {
       "id": 146,
@@ -4288,7 +4434,8 @@
       "drawEdgeIn": false,
       "drawEdgeOut": false,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#633a3f"
     },
     "metal-tiles-5": {
       "id": 147,
@@ -4320,7 +4467,8 @@
       "drawEdgeIn": false,
       "drawEdgeOut": false,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#2f2f36"
     },
     "metal-tiles-6": {
       "id": 148,
@@ -4352,7 +4500,8 @@
       "drawEdgeIn": false,
       "drawEdgeOut": false,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#864845"
     },
     "metal-tiles-7": {
       "id": 149,
@@ -4384,7 +4533,8 @@
       "drawEdgeIn": false,
       "drawEdgeOut": false,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#3a3a41"
     },
     "metal-tiles-8": {
       "id": 150,
@@ -4416,7 +4566,8 @@
       "drawEdgeIn": false,
       "drawEdgeOut": false,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#2d2c33"
     },
     "metal-tiles-9": {
       "id": 151,
@@ -4448,7 +4599,8 @@
       "drawEdgeIn": false,
       "drawEdgeOut": false,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#313239"
     },
     "metal-tiles-10": {
       "id": 152,
@@ -4480,7 +4632,8 @@
       "drawEdgeIn": false,
       "drawEdgeOut": false,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#38383f"
     },
     "metal-tiles-11": {
       "id": 153,
@@ -4512,7 +4665,8 @@
       "drawEdgeIn": false,
       "drawEdgeOut": false,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#34343b"
     },
     "metal-tiles-12": {
       "id": 154,
@@ -4544,7 +4698,8 @@
       "drawEdgeIn": false,
       "drawEdgeOut": false,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#783a3d"
     },
     "metal-tiles-13": {
       "id": 155,
@@ -4576,7 +4731,8 @@
       "drawEdgeIn": false,
       "drawEdgeOut": false,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#36373e"
     },
     "metal-wall-1": {
       "id": 156,
@@ -4602,7 +4758,8 @@
       "canBeBuilt": false,
       "kind": "staticWall",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#5c5c67"
     },
     "metal-wall-2": {
       "id": 157,
@@ -4628,7 +4785,8 @@
       "canBeBuilt": false,
       "kind": "staticWall",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#666672"
     },
     "metal-wall-3": {
       "id": 158,
@@ -4654,7 +4812,8 @@
       "canBeBuilt": false,
       "kind": "staticWall",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#53535f"
     },
     "colored-floor": {
       "id": 159,
@@ -4686,7 +4845,8 @@
       "drawEdgeIn": false,
       "drawEdgeOut": false,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#b1acb8"
     },
     "colored-wall": {
       "id": 160,
@@ -4712,7 +4872,8 @@
       "canBeBuilt": false,
       "kind": "staticWall",
       "variants": 2,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#f0ebfd"
     },
     "character-overlay": {
       "id": 161,
@@ -4743,7 +4904,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": true,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#545662"
     },
     "character-overlay-white": {
       "id": 162,
@@ -4774,7 +4936,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": true,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#c4c4c4"
     },
     "rune-overlay": {
       "id": 163,
@@ -4805,7 +4968,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": true,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#545662"
     },
     "rune-overlay-crux": {
       "id": 164,
@@ -4836,7 +5000,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": true,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#c45551"
     },
     "pebbles": {
       "id": 165,
@@ -4868,7 +5033,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": true,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#48474b"
     },
     "tendrils": {
       "id": 166,
@@ -4900,7 +5066,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": true,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#523459"
     },
     "ore-copper": {
       "id": 167,
@@ -4933,7 +5100,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": true,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "ore-lead": {
       "id": 168,
@@ -4966,7 +5134,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": true,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "ore-scrap": {
       "id": 169,
@@ -4999,7 +5168,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": true,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "ore-coal": {
       "id": 170,
@@ -5032,7 +5202,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": true,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "ore-titanium": {
       "id": 171,
@@ -5065,7 +5236,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": true,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "ore-thorium": {
       "id": 172,
@@ -5098,7 +5270,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": true,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "ore-beryllium": {
       "id": 173,
@@ -5131,7 +5304,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": true,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "ore-tungsten": {
       "id": 174,
@@ -5164,7 +5338,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": true,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "ore-crystal-thorium": {
       "id": 175,
@@ -5197,7 +5372,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": true,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "ore-wall-thorium": {
       "id": 176,
@@ -5230,7 +5406,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": true,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "ore-wall-beryllium": {
       "id": 177,
@@ -5263,7 +5440,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": true,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "graphitic-wall": {
       "id": 178,
@@ -5290,7 +5468,8 @@
       "kind": "staticWall",
       "variants": 3,
       "itemDrop": "graphite",
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#505a6b"
     },
     "ore-wall-graphite": {
       "id": 179,
@@ -5323,7 +5502,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": true,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "ore-wall-tungsten": {
       "id": 180,
@@ -5356,7 +5536,8 @@
       "drawEdgeIn": true,
       "drawEdgeOut": true,
       "hasSurface": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "graphite-press": {
       "id": 181,
@@ -5389,7 +5570,8 @@
           "item": "lead",
           "amount": 30
         }
-      ]
+      ],
+      "mapColor": "#9397a1"
     },
     "multi-press": {
       "id": 182,
@@ -5430,7 +5612,8 @@
           "item": "silicon",
           "amount": 25
         }
-      ]
+      ],
+      "mapColor": "#8e929b"
     },
     "silicon-smelter": {
       "id": 183,
@@ -5463,7 +5646,8 @@
           "item": "lead",
           "amount": 25
         }
-      ]
+      ],
+      "mapColor": "#898c94"
     },
     "silicon-crucible": {
       "id": 184,
@@ -5504,7 +5688,8 @@
           "item": "plastanium",
           "amount": 35
         }
-      ]
+      ],
+      "mapColor": "#8a8d95"
     },
     "kiln": {
       "id": 185,
@@ -5541,7 +5726,8 @@
           "item": "graphite",
           "amount": 30
         }
-      ]
+      ],
+      "mapColor": "#a39a9c"
     },
     "plastanium-compressor": {
       "id": 186,
@@ -5582,7 +5768,8 @@
           "item": "silicon",
           "amount": 80
         }
-      ]
+      ],
+      "mapColor": "#aeb6aa"
     },
     "phase-weaver": {
       "id": 187,
@@ -5619,7 +5806,8 @@
           "item": "silicon",
           "amount": 130
         }
-      ]
+      ],
+      "mapColor": "#c6b09d"
     },
     "surge-smelter": {
       "id": 188,
@@ -5656,7 +5844,8 @@
           "item": "silicon",
           "amount": 80
         }
-      ]
+      ],
+      "mapColor": "#b4a698"
     },
     "cryofluid-mixer": {
       "id": 189,
@@ -5693,7 +5882,8 @@
           "item": "silicon",
           "amount": 40
         }
-      ]
+      ],
+      "mapColor": "#9ba1ba"
     },
     "pyratite-mixer": {
       "id": 190,
@@ -5726,7 +5916,8 @@
           "item": "lead",
           "amount": 25
         }
-      ]
+      ],
+      "mapColor": "#baada8"
     },
     "blast-mixer": {
       "id": 191,
@@ -5759,7 +5950,8 @@
           "item": "titanium",
           "amount": 20
         }
-      ]
+      ],
+      "mapColor": "#baa7a7"
     },
     "melter": {
       "id": 192,
@@ -5796,7 +5988,8 @@
           "item": "graphite",
           "amount": 45
         }
-      ]
+      ],
+      "mapColor": "#bb9995"
     },
     "separator": {
       "id": 193,
@@ -5829,7 +6022,8 @@
           "item": "titanium",
           "amount": 25
         }
-      ]
+      ],
+      "mapColor": "#b09c9f"
     },
     "disassembler": {
       "id": 194,
@@ -5870,7 +6064,8 @@
           "item": "plastanium",
           "amount": 40
         }
-      ]
+      ],
+      "mapColor": "#b49a9b"
     },
     "spore-press": {
       "id": 195,
@@ -5903,7 +6098,8 @@
           "item": "silicon",
           "amount": 30
         }
-      ]
+      ],
+      "mapColor": "#9f9fb8"
     },
     "pulverizer": {
       "id": 196,
@@ -5936,7 +6132,8 @@
           "item": "lead",
           "amount": 25
         }
-      ]
+      ],
+      "mapColor": "#828591"
     },
     "coal-centrifuge": {
       "id": 197,
@@ -5973,7 +6170,8 @@
           "item": "titanium",
           "amount": 20
         }
-      ]
+      ],
+      "mapColor": "#b1baa7"
     },
     "incinerator": {
       "id": 198,
@@ -6006,7 +6204,8 @@
           "item": "graphite",
           "amount": 5
         }
-      ]
+      ],
+      "mapColor": "#8d706e"
     },
     "silicon-arc-furnace": {
       "id": 199,
@@ -6039,7 +6238,8 @@
           "item": "beryllium",
           "amount": 70
         }
-      ]
+      ],
+      "mapColor": "#736e73"
     },
     "electrolyzer": {
       "id": 200,
@@ -6080,7 +6280,8 @@
           "item": "tungsten",
           "amount": 80
         }
-      ]
+      ],
+      "mapColor": "#73847e"
     },
     "atmospheric-concentrator": {
       "id": 201,
@@ -6117,7 +6318,8 @@
           "item": "oxide",
           "amount": 60
         }
-      ]
+      ],
+      "mapColor": "#8189a3"
     },
     "oxidation-chamber": {
       "id": 202,
@@ -6158,7 +6360,8 @@
           "item": "tungsten",
           "amount": 120
         }
-      ]
+      ],
+      "mapColor": "#71867e"
     },
     "electric-heater": {
       "id": 203,
@@ -6195,7 +6398,8 @@
           "item": "oxide",
           "amount": 30
         }
-      ]
+      ],
+      "mapColor": "#887f87"
     },
     "slag-heater": {
       "id": 204,
@@ -6232,7 +6436,8 @@
           "item": "oxide",
           "amount": 20
         }
-      ]
+      ],
+      "mapColor": "#947c7e"
     },
     "phase-heater": {
       "id": 205,
@@ -6269,7 +6474,8 @@
           "item": "carbide",
           "amount": 30
         }
-      ]
+      ],
+      "mapColor": "#948988"
     },
     "heat-redirector": {
       "id": 206,
@@ -6302,7 +6508,8 @@
           "item": "tungsten",
           "amount": 10
         }
-      ]
+      ],
+      "mapColor": "#887f87"
     },
     "small-heat-redirector": {
       "id": 207,
@@ -6335,7 +6542,8 @@
           "item": "surge-alloy",
           "amount": 3
         }
-      ]
+      ],
+      "mapColor": "#8a7f86"
     },
     "heat-router": {
       "id": 208,
@@ -6368,7 +6576,8 @@
           "item": "tungsten",
           "amount": 15
         }
-      ]
+      ],
+      "mapColor": "#857e88"
     },
     "slag-incinerator": {
       "id": 209,
@@ -6397,7 +6606,8 @@
           "item": "tungsten",
           "amount": 15
         }
-      ]
+      ],
+      "mapColor": "#a08483"
     },
     "carbide-crucible": {
       "id": 210,
@@ -6434,7 +6644,8 @@
           "item": "oxide",
           "amount": 60
         }
-      ]
+      ],
+      "mapColor": "#a07f7c"
     },
     "slag-centrifuge": {
       "id": 211,
@@ -6475,7 +6686,8 @@
           "item": "carbide",
           "amount": 70
         }
-      ]
+      ],
+      "mapColor": "#967c7c"
     },
     "surge-crucible": {
       "id": 212,
@@ -6516,7 +6728,8 @@
           "item": "oxide",
           "amount": 80
         }
-      ]
+      ],
+      "mapColor": "#8f8580"
     },
     "cyanogen-synthesizer": {
       "id": 213,
@@ -6557,7 +6770,8 @@
           "item": "carbide",
           "amount": 80
         }
-      ]
+      ],
+      "mapColor": "#858ca6"
     },
     "phase-synthesizer": {
       "id": 214,
@@ -6598,7 +6812,8 @@
           "item": "carbide",
           "amount": 90
         }
-      ]
+      ],
+      "mapColor": "#9f8c80"
     },
     "heat-reactor": {
       "id": 215,
@@ -6639,7 +6854,8 @@
           "item": "carbide",
           "amount": 10
         }
-      ]
+      ],
+      "mapColor": "#887b82"
     },
     "copper-wall": {
       "id": 216,
@@ -6668,7 +6884,8 @@
           "item": "copper",
           "amount": 6
         }
-      ]
+      ],
+      "mapColor": "#c69b81"
     },
     "copper-wall-large": {
       "id": 217,
@@ -6697,7 +6914,8 @@
           "item": "copper",
           "amount": 24
         }
-      ]
+      ],
+      "mapColor": "#c79b81"
     },
     "titanium-wall": {
       "id": 218,
@@ -6726,7 +6944,8 @@
           "item": "titanium",
           "amount": 6
         }
-      ]
+      ],
+      "mapColor": "#7f8fed"
     },
     "titanium-wall-large": {
       "id": 219,
@@ -6755,7 +6974,8 @@
           "item": "titanium",
           "amount": 24
         }
-      ]
+      ],
+      "mapColor": "#7e8fec"
     },
     "plastanium-wall": {
       "id": 220,
@@ -6788,7 +7008,8 @@
           "item": "plastanium",
           "amount": 5
         }
-      ]
+      ],
+      "mapColor": "#e2f197"
     },
     "plastanium-wall-large": {
       "id": 221,
@@ -6821,7 +7042,8 @@
           "item": "plastanium",
           "amount": 20
         }
-      ]
+      ],
+      "mapColor": "#dbeb90"
     },
     "thorium-wall": {
       "id": 222,
@@ -6850,7 +7072,8 @@
           "item": "thorium",
           "amount": 6
         }
-      ]
+      ],
+      "mapColor": "#8e81b5"
     },
     "thorium-wall-large": {
       "id": 223,
@@ -6879,7 +7102,8 @@
           "item": "thorium",
           "amount": 24
         }
-      ]
+      ],
+      "mapColor": "#8e81b5"
     },
     "phase-wall": {
       "id": 224,
@@ -6908,7 +7132,8 @@
           "item": "phase-fabric",
           "amount": 6
         }
-      ]
+      ],
+      "mapColor": "#ffe1b6"
     },
     "phase-wall-large": {
       "id": 225,
@@ -6937,7 +7162,8 @@
           "item": "phase-fabric",
           "amount": 24
         }
-      ]
+      ],
+      "mapColor": "#ffdbaf"
     },
     "surge-wall": {
       "id": 226,
@@ -6966,7 +7192,8 @@
           "item": "surge-alloy",
           "amount": 6
         }
-      ]
+      ],
+      "mapColor": "#fddd7e"
     },
     "surge-wall-large": {
       "id": 227,
@@ -6995,7 +7222,8 @@
           "item": "surge-alloy",
           "amount": 24
         }
-      ]
+      ],
+      "mapColor": "#fddc7e"
     },
     "door": {
       "id": 228,
@@ -7028,7 +7256,8 @@
           "item": "silicon",
           "amount": 4
         }
-      ]
+      ],
+      "mapColor": "#9faaba"
     },
     "door-large": {
       "id": 229,
@@ -7061,7 +7290,8 @@
           "item": "silicon",
           "amount": 16
         }
-      ]
+      ],
+      "mapColor": "#9ca4b6"
     },
     "scrap-wall": {
       "id": 230,
@@ -7091,7 +7321,8 @@
           "item": "scrap",
           "amount": 6
         }
-      ]
+      ],
+      "mapColor": "#a5afc3"
     },
     "scrap-wall-large": {
       "id": 231,
@@ -7121,7 +7352,8 @@
           "item": "scrap",
           "amount": 24
         }
-      ]
+      ],
+      "mapColor": "#a9b4c8"
     },
     "scrap-wall-huge": {
       "id": 232,
@@ -7151,7 +7383,8 @@
           "item": "scrap",
           "amount": 54
         }
-      ]
+      ],
+      "mapColor": "#a7b2c5"
     },
     "scrap-wall-gigantic": {
       "id": 233,
@@ -7180,7 +7413,8 @@
           "item": "scrap",
           "amount": 96
         }
-      ]
+      ],
+      "mapColor": "#a7b3c6"
     },
     "thruster": {
       "id": 234,
@@ -7209,7 +7443,8 @@
           "item": "scrap",
           "amount": 96
         }
-      ]
+      ],
+      "mapColor": "#9fa8bc"
     },
     "beryllium-wall": {
       "id": 235,
@@ -7238,7 +7473,8 @@
           "item": "beryllium",
           "amount": 6
         }
-      ]
+      ],
+      "mapColor": "#66a77a"
     },
     "beryllium-wall-large": {
       "id": 236,
@@ -7267,7 +7503,8 @@
           "item": "beryllium",
           "amount": 24
         }
-      ]
+      ],
+      "mapColor": "#5e9a72"
     },
     "tungsten-wall": {
       "id": 237,
@@ -7296,7 +7533,8 @@
           "item": "tungsten",
           "amount": 6
         }
-      ]
+      ],
+      "mapColor": "#828491"
     },
     "tungsten-wall-large": {
       "id": 238,
@@ -7325,7 +7563,8 @@
           "item": "tungsten",
           "amount": 24
         }
-      ]
+      ],
+      "mapColor": "#7d7f8c"
     },
     "blast-door": {
       "id": 239,
@@ -7358,7 +7597,8 @@
           "item": "tungsten",
           "amount": 24
         }
-      ]
+      ],
+      "mapColor": "#798389"
     },
     "reinforced-surge-wall": {
       "id": 240,
@@ -7391,7 +7631,8 @@
           "item": "tungsten",
           "amount": 2
         }
-      ]
+      ],
+      "mapColor": "#ffe885"
     },
     "reinforced-surge-wall-large": {
       "id": 241,
@@ -7424,7 +7665,8 @@
           "item": "tungsten",
           "amount": 8
         }
-      ]
+      ],
+      "mapColor": "#ffe283"
     },
     "carbide-wall": {
       "id": 242,
@@ -7457,7 +7699,8 @@
           "item": "carbide",
           "amount": 6
         }
-      ]
+      ],
+      "mapColor": "#a48ab5"
     },
     "carbide-wall-large": {
       "id": 243,
@@ -7490,7 +7733,8 @@
           "item": "carbide",
           "amount": 24
         }
-      ]
+      ],
+      "mapColor": "#9c84b0"
     },
     "shielded-wall": {
       "id": 244,
@@ -7527,7 +7771,8 @@
           "item": "beryllium",
           "amount": 12
         }
-      ]
+      ],
+      "mapColor": "#ffdbb0"
     },
     "mender": {
       "id": 245,
@@ -7560,7 +7805,8 @@
           "item": "lead",
           "amount": 30
         }
-      ]
+      ],
+      "mapColor": "#95b6a9"
     },
     "mend-projector": {
       "id": 246,
@@ -7601,7 +7847,8 @@
           "item": "silicon",
           "amount": 40
         }
-      ]
+      ],
+      "mapColor": "#96b6a9"
     },
     "overdrive-projector": {
       "id": 247,
@@ -7642,7 +7889,8 @@
           "item": "plastanium",
           "amount": 30
         }
-      ]
+      ],
+      "mapColor": "#b7a1a1"
     },
     "overdrive-dome": {
       "id": 248,
@@ -7687,7 +7935,8 @@
           "item": "surge-alloy",
           "amount": 120
         }
-      ]
+      ],
+      "mapColor": "#ba9f9e"
     },
     "force-projector": {
       "id": 249,
@@ -7724,7 +7973,8 @@
           "item": "silicon",
           "amount": 125
         }
-      ]
+      ],
+      "mapColor": "#b0a9a8"
     },
     "shock-mine": {
       "id": 250,
@@ -7757,7 +8007,8 @@
           "item": "silicon",
           "amount": 12
         }
-      ]
+      ],
+      "mapColor": "#595b65"
     },
     "radar": {
       "id": 251,
@@ -7794,7 +8045,8 @@
           "item": "beryllium",
           "amount": 10
         }
-      ]
+      ],
+      "mapColor": "#91847c"
     },
     "build-tower": {
       "id": 252,
@@ -7818,6 +8070,7 @@
       "group": "turrets",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "range": 200,
       "requirements": [
         {
           "item": "thorium",
@@ -7831,7 +8084,8 @@
           "item": "oxide",
           "amount": 40
         }
-      ]
+      ],
+      "mapColor": "#827674"
     },
     "regen-projector": {
       "id": 253,
@@ -7872,7 +8126,8 @@
           "item": "oxide",
           "amount": 40
         }
-      ]
+      ],
+      "mapColor": "#80879d"
     },
     "shockwave-tower": {
       "id": 254,
@@ -7913,7 +8168,8 @@
           "item": "oxide",
           "amount": 30
         }
-      ]
+      ],
+      "mapColor": "#948185"
     },
     "shield-projector": {
       "id": 255,
@@ -7937,7 +8193,8 @@
       "group": "none",
       "buildVisibility": "editorOnly",
       "canBeBuilt": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#938887"
     },
     "large-shield-projector": {
       "id": 256,
@@ -7961,7 +8218,8 @@
       "group": "none",
       "buildVisibility": "editorOnly",
       "canBeBuilt": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#928887"
     },
     "conveyor": {
       "id": 257,
@@ -7990,7 +8248,8 @@
           "item": "copper",
           "amount": 1
         }
-      ]
+      ],
+      "mapColor": "#6f717c"
     },
     "titanium-conveyor": {
       "id": 258,
@@ -8027,7 +8286,8 @@
           "item": "titanium",
           "amount": 1
         }
-      ]
+      ],
+      "mapColor": "#676e92"
     },
     "plastanium-conveyor": {
       "id": 259,
@@ -8064,7 +8324,8 @@
           "item": "plastanium",
           "amount": 1
         }
-      ]
+      ],
+      "mapColor": "#747a69"
     },
     "armored-conveyor": {
       "id": 260,
@@ -8101,7 +8362,8 @@
           "item": "plastanium",
           "amount": 1
         }
-      ]
+      ],
+      "mapColor": "#686483"
     },
     "junction": {
       "id": 261,
@@ -8130,7 +8392,8 @@
           "item": "copper",
           "amount": 3
         }
-      ]
+      ],
+      "mapColor": "#818391"
     },
     "bridge-conveyor": {
       "id": 262,
@@ -8163,7 +8426,8 @@
           "item": "lead",
           "amount": 6
         }
-      ]
+      ],
+      "mapColor": "#7c7d8a"
     },
     "phase-conveyor": {
       "id": 263,
@@ -8204,7 +8468,8 @@
           "item": "phase-fabric",
           "amount": 5
         }
-      ]
+      ],
+      "mapColor": "#bcaba2"
     },
     "sorter": {
       "id": 264,
@@ -8237,7 +8502,8 @@
           "item": "lead",
           "amount": 2
         }
-      ]
+      ],
+      "mapColor": "#6e707c"
     },
     "inverted-sorter": {
       "id": 265,
@@ -8270,7 +8536,8 @@
           "item": "lead",
           "amount": 2
         }
-      ]
+      ],
+      "mapColor": "#77737a"
     },
     "router": {
       "id": 266,
@@ -8299,7 +8566,8 @@
           "item": "copper",
           "amount": 3
         }
-      ]
+      ],
+      "mapColor": "#787a88"
     },
     "distributor": {
       "id": 267,
@@ -8332,7 +8600,8 @@
           "item": "lead",
           "amount": 4
         }
-      ]
+      ],
+      "mapColor": "#7d7f8c"
     },
     "overflow-gate": {
       "id": 268,
@@ -8365,7 +8634,8 @@
           "item": "lead",
           "amount": 2
         }
-      ]
+      ],
+      "mapColor": "#70727e"
     },
     "underflow-gate": {
       "id": 269,
@@ -8398,7 +8668,8 @@
           "item": "lead",
           "amount": 2
         }
-      ]
+      ],
+      "mapColor": "#79757d"
     },
     "unloader": {
       "id": 270,
@@ -8431,7 +8702,8 @@
           "item": "silicon",
           "amount": 30
         }
-      ]
+      ],
+      "mapColor": "#aaa3a4"
     },
     "mass-driver": {
       "id": 271,
@@ -8472,7 +8744,8 @@
           "item": "silicon",
           "amount": 75
         }
-      ]
+      ],
+      "mapColor": "#9f9da1"
     },
     "duct": {
       "id": 272,
@@ -8501,7 +8774,8 @@
           "item": "beryllium",
           "amount": 1
         }
-      ]
+      ],
+      "mapColor": "#73747f"
     },
     "armored-duct": {
       "id": 273,
@@ -8534,7 +8808,8 @@
           "item": "tungsten",
           "amount": 1
         }
-      ]
+      ],
+      "mapColor": "#848c9d"
     },
     "duct-router": {
       "id": 274,
@@ -8563,7 +8838,8 @@
           "item": "beryllium",
           "amount": 10
         }
-      ]
+      ],
+      "mapColor": "#81838e"
     },
     "overflow-duct": {
       "id": 275,
@@ -8596,7 +8872,8 @@
           "item": "beryllium",
           "amount": 8
         }
-      ]
+      ],
+      "mapColor": "#7d7f8c"
     },
     "underflow-duct": {
       "id": 276,
@@ -8629,7 +8906,8 @@
           "item": "beryllium",
           "amount": 8
         }
-      ]
+      ],
+      "mapColor": "#85848c"
     },
     "duct-bridge": {
       "id": 277,
@@ -8658,7 +8936,8 @@
           "item": "beryllium",
           "amount": 15
         }
-      ]
+      ],
+      "mapColor": "#737481"
     },
     "duct-unloader": {
       "id": 278,
@@ -8695,7 +8974,8 @@
           "item": "tungsten",
           "amount": 10
         }
-      ]
+      ],
+      "mapColor": "#8c8e99"
     },
     "surge-conveyor": {
       "id": 279,
@@ -8728,7 +9008,8 @@
           "item": "tungsten",
           "amount": 1
         }
-      ]
+      ],
+      "mapColor": "#8c776c"
     },
     "surge-router": {
       "id": 280,
@@ -8761,7 +9042,8 @@
           "item": "tungsten",
           "amount": 1
         }
-      ]
+      ],
+      "mapColor": "#baa295"
     },
     "unit-cargo-loader": {
       "id": 281,
@@ -8798,7 +9080,8 @@
           "item": "oxide",
           "amount": 20
         }
-      ]
+      ],
+      "mapColor": "#a28d82"
     },
     "unit-cargo-unload-point": {
       "id": 282,
@@ -8831,7 +9114,8 @@
           "item": "tungsten",
           "amount": 60
         }
-      ]
+      ],
+      "mapColor": "#978b87"
     },
     "mechanical-pump": {
       "id": 283,
@@ -8864,7 +9148,8 @@
           "item": "metaglass",
           "amount": 10
         }
-      ]
+      ],
+      "mapColor": "#a49da1"
     },
     "rotary-pump": {
       "id": 284,
@@ -8905,7 +9190,8 @@
           "item": "silicon",
           "amount": 20
         }
-      ]
+      ],
+      "mapColor": "#949cc6"
     },
     "impulse-pump": {
       "id": 285,
@@ -8950,7 +9236,8 @@
           "item": "silicon",
           "amount": 30
         }
-      ]
+      ],
+      "mapColor": "#8f99cf"
     },
     "conduit": {
       "id": 286,
@@ -8979,7 +9266,8 @@
           "item": "metaglass",
           "amount": 1
         }
-      ]
+      ],
+      "mapColor": "#989da5"
     },
     "pulse-conduit": {
       "id": 287,
@@ -9012,7 +9300,8 @@
           "item": "titanium",
           "amount": 2
         }
-      ]
+      ],
+      "mapColor": "#8b97c1"
     },
     "plated-conduit": {
       "id": 288,
@@ -9049,7 +9338,8 @@
           "item": "plastanium",
           "amount": 1
         }
-      ]
+      ],
+      "mapColor": "#8a85a7"
     },
     "liquid-router": {
       "id": 289,
@@ -9082,7 +9372,8 @@
           "item": "graphite",
           "amount": 4
         }
-      ]
+      ],
+      "mapColor": "#969aa7"
     },
     "liquid-container": {
       "id": 290,
@@ -9115,7 +9406,8 @@
           "item": "titanium",
           "amount": 10
         }
-      ]
+      ],
+      "mapColor": "#99a0c3"
     },
     "liquid-tank": {
       "id": 291,
@@ -9148,7 +9440,8 @@
           "item": "titanium",
           "amount": 30
         }
-      ]
+      ],
+      "mapColor": "#969ec3"
     },
     "liquid-junction": {
       "id": 292,
@@ -9181,7 +9474,8 @@
           "item": "graphite",
           "amount": 4
         }
-      ]
+      ],
+      "mapColor": "#adb4be"
     },
     "bridge-conduit": {
       "id": 293,
@@ -9214,7 +9508,8 @@
           "item": "graphite",
           "amount": 4
         }
-      ]
+      ],
+      "mapColor": "#a5aab5"
     },
     "phase-conduit": {
       "id": 294,
@@ -9255,7 +9550,8 @@
           "item": "phase-fabric",
           "amount": 5
         }
-      ]
+      ],
+      "mapColor": "#939cc5"
     },
     "reinforced-pump": {
       "id": 295,
@@ -9292,7 +9588,8 @@
           "item": "tungsten",
           "amount": 30
         }
-      ]
+      ],
+      "mapColor": "#7d8782"
     },
     "reinforced-conduit": {
       "id": 296,
@@ -9321,7 +9618,8 @@
           "item": "beryllium",
           "amount": 2
         }
-      ]
+      ],
+      "mapColor": "#85ab85"
     },
     "reinforced-liquid-junction": {
       "id": 297,
@@ -9354,7 +9652,8 @@
           "item": "beryllium",
           "amount": 8
         }
-      ]
+      ],
+      "mapColor": "#8da491"
     },
     "reinforced-bridge-conduit": {
       "id": 298,
@@ -9387,7 +9686,8 @@
           "item": "beryllium",
           "amount": 20
         }
-      ]
+      ],
+      "mapColor": "#728d79"
     },
     "reinforced-liquid-router": {
       "id": 299,
@@ -9420,7 +9720,8 @@
           "item": "beryllium",
           "amount": 4
         }
-      ]
+      ],
+      "mapColor": "#73857b"
     },
     "reinforced-liquid-container": {
       "id": 300,
@@ -9453,7 +9754,8 @@
           "item": "tungsten",
           "amount": 10
         }
-      ]
+      ],
+      "mapColor": "#71877e"
     },
     "reinforced-liquid-tank": {
       "id": 301,
@@ -9486,7 +9788,8 @@
           "item": "tungsten",
           "amount": 40
         }
-      ]
+      ],
+      "mapColor": "#748280"
     },
     "power-node": {
       "id": 302,
@@ -9519,7 +9822,8 @@
           "item": "lead",
           "amount": 6
         }
-      ]
+      ],
+      "mapColor": "#c4bba0"
     },
     "power-node-large": {
       "id": 303,
@@ -9556,7 +9860,8 @@
           "item": "silicon",
           "amount": 3
         }
-      ]
+      ],
+      "mapColor": "#c8bfa1"
     },
     "surge-tower": {
       "id": 304,
@@ -9597,7 +9902,8 @@
           "item": "surge-alloy",
           "amount": 15
         }
-      ]
+      ],
+      "mapColor": "#d1b997"
     },
     "diode": {
       "id": 305,
@@ -9634,7 +9940,8 @@
           "item": "plastanium",
           "amount": 5
         }
-      ]
+      ],
+      "mapColor": "#a19f9e"
     },
     "battery": {
       "id": 306,
@@ -9667,7 +9974,8 @@
           "item": "lead",
           "amount": 20
         }
-      ]
+      ],
+      "mapColor": "#c8b79f"
     },
     "battery-large": {
       "id": 307,
@@ -9704,7 +10012,8 @@
           "item": "silicon",
           "amount": 30
         }
-      ]
+      ],
+      "mapColor": "#c5b29d"
     },
     "combustion-generator": {
       "id": 308,
@@ -9737,7 +10046,8 @@
           "item": "lead",
           "amount": 15
         }
-      ]
+      ],
+      "mapColor": "#bda894"
     },
     "thermal-generator": {
       "id": 309,
@@ -9782,7 +10092,8 @@
           "item": "silicon",
           "amount": 35
         }
-      ]
+      ],
+      "mapColor": "#bd9f9e"
     },
     "steam-generator": {
       "id": 310,
@@ -9823,7 +10134,8 @@
           "item": "silicon",
           "amount": 30
         }
-      ]
+      ],
+      "mapColor": "#b7afa4"
     },
     "differential-generator": {
       "id": 311,
@@ -9868,7 +10180,8 @@
           "item": "silicon",
           "amount": 65
         }
-      ]
+      ],
+      "mapColor": "#c1b39f"
     },
     "rtg-generator": {
       "id": 312,
@@ -9913,7 +10226,8 @@
           "item": "phase-fabric",
           "amount": 25
         }
-      ]
+      ],
+      "mapColor": "#857ea1"
     },
     "solar-panel": {
       "id": 313,
@@ -9946,7 +10260,8 @@
           "item": "silicon",
           "amount": 8
         }
-      ]
+      ],
+      "mapColor": "#8c92a1"
     },
     "solar-panel-large": {
       "id": 314,
@@ -9983,7 +10298,8 @@
           "item": "phase-fabric",
           "amount": 15
         }
-      ]
+      ],
+      "mapColor": "#808396"
     },
     "thorium-reactor": {
       "id": 315,
@@ -10028,7 +10344,8 @@
           "item": "silicon",
           "amount": 200
         }
-      ]
+      ],
+      "mapColor": "#827e9a"
     },
     "impact-reactor": {
       "id": 316,
@@ -10077,7 +10394,8 @@
           "item": "surge-alloy",
           "amount": 250
         }
-      ]
+      ],
+      "mapColor": "#b19799"
     },
     "beam-node": {
       "id": 317,
@@ -10106,7 +10424,8 @@
           "item": "beryllium",
           "amount": 8
         }
-      ]
+      ],
+      "mapColor": "#76907e"
     },
     "beam-tower": {
       "id": 318,
@@ -10143,7 +10462,8 @@
           "item": "oxide",
           "amount": 10
         }
-      ]
+      ],
+      "mapColor": "#748683"
     },
     "beam-link": {
       "id": 319,
@@ -10192,7 +10512,8 @@
           "item": "carbide",
           "amount": 75
         }
-      ]
+      ],
+      "mapColor": "#738d80"
     },
     "turbine-condenser": {
       "id": 320,
@@ -10221,7 +10542,8 @@
           "item": "beryllium",
           "amount": 60
         }
-      ]
+      ],
+      "mapColor": "#907d81"
     },
     "chemical-combustion-chamber": {
       "id": 321,
@@ -10262,7 +10584,8 @@
           "item": "oxide",
           "amount": 40
         }
-      ]
+      ],
+      "mapColor": "#758782"
     },
     "pyrolysis-generator": {
       "id": 322,
@@ -10303,7 +10626,8 @@
           "item": "carbide",
           "amount": 60
         }
-      ]
+      ],
+      "mapColor": "#73877f"
     },
     "flux-reactor": {
       "id": 323,
@@ -10348,7 +10672,8 @@
           "item": "carbide",
           "amount": 60
         }
-      ]
+      ],
+      "mapColor": "#8e8581"
     },
     "neoplasia-reactor": {
       "id": 324,
@@ -10397,7 +10722,8 @@
           "item": "carbide",
           "amount": 300
         }
-      ]
+      ],
+      "mapColor": "#947f83"
     },
     "mechanical-drill": {
       "id": 325,
@@ -10426,7 +10752,8 @@
           "item": "copper",
           "amount": 12
         }
-      ]
+      ],
+      "mapColor": "#9f8e88"
     },
     "pneumatic-drill": {
       "id": 326,
@@ -10459,7 +10786,8 @@
           "item": "graphite",
           "amount": 10
         }
-      ]
+      ],
+      "mapColor": "#969ba6"
     },
     "laser-drill": {
       "id": 327,
@@ -10500,7 +10828,8 @@
           "item": "silicon",
           "amount": 30
         }
-      ]
+      ],
+      "mapColor": "#9998b2"
     },
     "blast-drill": {
       "id": 328,
@@ -10541,7 +10870,8 @@
           "item": "silicon",
           "amount": 60
         }
-      ]
+      ],
+      "mapColor": "#aa989c"
     },
     "water-extractor": {
       "id": 329,
@@ -10582,7 +10912,8 @@
           "item": "graphite",
           "amount": 30
         }
-      ]
+      ],
+      "mapColor": "#9198b2"
     },
     "cultivator": {
       "id": 330,
@@ -10619,7 +10950,8 @@
           "item": "silicon",
           "amount": 10
         }
-      ]
+      ],
+      "mapColor": "#9293a6"
     },
     "oil-extractor": {
       "id": 331,
@@ -10664,7 +10996,8 @@
           "item": "silicon",
           "amount": 75
         }
-      ]
+      ],
+      "mapColor": "#a3aaa2"
     },
     "vent-condenser": {
       "id": 332,
@@ -10697,7 +11030,8 @@
           "item": "beryllium",
           "amount": 60
         }
-      ]
+      ],
+      "mapColor": "#6e847a"
     },
     "cliff-crusher": {
       "id": 333,
@@ -10730,7 +11064,8 @@
           "item": "beryllium",
           "amount": 20
         }
-      ]
+      ],
+      "mapColor": "#948584"
     },
     "large-cliff-crusher": {
       "id": 334,
@@ -10771,7 +11106,8 @@
           "item": "tungsten",
           "amount": 50
         }
-      ]
+      ],
+      "mapColor": "#8a7f80"
     },
     "plasma-bore": {
       "id": 335,
@@ -10800,7 +11136,8 @@
           "item": "beryllium",
           "amount": 40
         }
-      ]
+      ],
+      "mapColor": "#ad8e85"
     },
     "large-plasma-bore": {
       "id": 336,
@@ -10841,7 +11178,8 @@
           "item": "oxide",
           "amount": 25
         }
-      ]
+      ],
+      "mapColor": "#9f8782"
     },
     "impact-drill": {
       "id": 337,
@@ -10878,7 +11216,8 @@
           "item": "beryllium",
           "amount": 90
         }
-      ]
+      ],
+      "mapColor": "#937f82"
     },
     "eruption-drill": {
       "id": 338,
@@ -10919,7 +11258,8 @@
           "item": "oxide",
           "amount": 20
         }
-      ]
+      ],
+      "mapColor": "#80869d"
     },
     "core-shard": {
       "id": 339,
@@ -10952,7 +11292,8 @@
           "item": "lead",
           "amount": 800
         }
-      ]
+      ],
+      "mapColor": "#c7b6a7"
     },
     "core-foundation": {
       "id": 340,
@@ -10989,7 +11330,8 @@
           "item": "silicon",
           "amount": 2000
         }
-      ]
+      ],
+      "mapColor": "#cdb5a0"
     },
     "core-nucleus": {
       "id": 341,
@@ -11030,7 +11372,8 @@
           "item": "silicon",
           "amount": 5000
         }
-      ]
+      ],
+      "mapColor": "#d1b59d"
     },
     "core-bastion": {
       "id": 342,
@@ -11067,7 +11410,8 @@
           "item": "beryllium",
           "amount": 800
         }
-      ]
+      ],
+      "mapColor": "#a59287"
     },
     "core-citadel": {
       "id": 343,
@@ -11108,7 +11452,8 @@
           "item": "oxide",
           "amount": 1000
         }
-      ]
+      ],
+      "mapColor": "#b39886"
     },
     "core-acropolis": {
       "id": 344,
@@ -11153,7 +11498,8 @@
           "item": "carbide",
           "amount": 3000
         }
-      ]
+      ],
+      "mapColor": "#ae9686"
     },
     "container": {
       "id": 345,
@@ -11182,7 +11528,8 @@
           "item": "titanium",
           "amount": 100
         }
-      ]
+      ],
+      "mapColor": "#b8afac"
     },
     "vault": {
       "id": 346,
@@ -11215,7 +11562,8 @@
           "item": "thorium",
           "amount": 125
         }
-      ]
+      ],
+      "mapColor": "#bbb1ac"
     },
     "reinforced-container": {
       "id": 347,
@@ -11248,7 +11596,8 @@
           "item": "tungsten",
           "amount": 30
         }
-      ]
+      ],
+      "mapColor": "#9f8f87"
     },
     "reinforced-vault": {
       "id": 348,
@@ -11285,7 +11634,8 @@
           "item": "tungsten",
           "amount": 125
         }
-      ]
+      ],
+      "mapColor": "#9a8d8b"
     },
     "duo": {
       "id": 349,
@@ -11309,12 +11659,14 @@
       "group": "turrets",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "range": 160,
       "requirements": [
         {
           "item": "copper",
           "amount": 35
         }
-      ]
+      ],
+      "mapColor": "#908282"
     },
     "scatter": {
       "id": 350,
@@ -11338,6 +11690,7 @@
       "group": "turrets",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "range": 220,
       "requirements": [
         {
           "item": "copper",
@@ -11347,7 +11700,8 @@
           "item": "lead",
           "amount": 45
         }
-      ]
+      ],
+      "mapColor": "#7f818a"
     },
     "scorch": {
       "id": 351,
@@ -11371,6 +11725,7 @@
       "group": "turrets",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "range": 60,
       "requirements": [
         {
           "item": "copper",
@@ -11380,7 +11735,8 @@
           "item": "graphite",
           "amount": 22
         }
-      ]
+      ],
+      "mapColor": "#948c90"
     },
     "hail": {
       "id": 352,
@@ -11404,6 +11760,7 @@
       "group": "turrets",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "range": 235,
       "requirements": [
         {
           "item": "copper",
@@ -11413,7 +11770,8 @@
           "item": "graphite",
           "amount": 17
         }
-      ]
+      ],
+      "mapColor": "#968c8e"
     },
     "wave": {
       "id": 353,
@@ -11437,6 +11795,7 @@
       "group": "turrets",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "range": 110,
       "requirements": [
         {
           "item": "copper",
@@ -11450,7 +11809,8 @@
           "item": "metaglass",
           "amount": 45
         }
-      ]
+      ],
+      "mapColor": "#9a949d"
     },
     "lancer": {
       "id": 354,
@@ -11474,6 +11834,7 @@
       "group": "turrets",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "range": 165,
       "requirements": [
         {
           "item": "copper",
@@ -11491,7 +11852,8 @@
           "item": "silicon",
           "amount": 60
         }
-      ]
+      ],
+      "mapColor": "#969fc0"
     },
     "arc": {
       "id": 355,
@@ -11515,6 +11877,7 @@
       "group": "turrets",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "range": 90,
       "requirements": [
         {
           "item": "copper",
@@ -11524,7 +11887,8 @@
           "item": "lead",
           "amount": 50
         }
-      ]
+      ],
+      "mapColor": "#9599ad"
     },
     "parallax": {
       "id": 356,
@@ -11548,6 +11912,7 @@
       "group": "turrets",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "range": 300,
       "requirements": [
         {
           "item": "graphite",
@@ -11561,7 +11926,8 @@
           "item": "silicon",
           "amount": 160
         }
-      ]
+      ],
+      "mapColor": "#a7acbc"
     },
     "swarmer": {
       "id": 357,
@@ -11585,6 +11951,7 @@
       "group": "turrets",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "range": 240,
       "requirements": [
         {
           "item": "graphite",
@@ -11602,7 +11969,8 @@
           "item": "plastanium",
           "amount": 45
         }
-      ]
+      ],
+      "mapColor": "#957876"
     },
     "salvo": {
       "id": 358,
@@ -11626,6 +11994,7 @@
       "group": "turrets",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "range": 190,
       "requirements": [
         {
           "item": "copper",
@@ -11639,7 +12008,8 @@
           "item": "titanium",
           "amount": 50
         }
-      ]
+      ],
+      "mapColor": "#9293ad"
     },
     "segment": {
       "id": 359,
@@ -11663,6 +12033,7 @@
       "group": "turrets",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "range": 180,
       "requirements": [
         {
           "item": "titanium",
@@ -11680,7 +12051,8 @@
           "item": "phase-fabric",
           "amount": 40
         }
-      ]
+      ],
+      "mapColor": "#aca9b1"
     },
     "tsunami": {
       "id": 360,
@@ -11704,6 +12076,7 @@
       "group": "turrets",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "range": 190,
       "requirements": [
         {
           "item": "lead",
@@ -11721,7 +12094,8 @@
           "item": "thorium",
           "amount": 100
         }
-      ]
+      ],
+      "mapColor": "#83889c"
     },
     "fuse": {
       "id": 361,
@@ -11745,6 +12119,7 @@
       "group": "turrets",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "range": 90,
       "requirements": [
         {
           "item": "copper",
@@ -11758,7 +12133,8 @@
           "item": "thorium",
           "amount": 100
         }
-      ]
+      ],
+      "mapColor": "#7c829b"
     },
     "ripple": {
       "id": 362,
@@ -11782,6 +12158,7 @@
       "group": "turrets",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "range": 290,
       "requirements": [
         {
           "item": "copper",
@@ -11795,7 +12172,8 @@
           "item": "titanium",
           "amount": 60
         }
-      ]
+      ],
+      "mapColor": "#8b8185"
     },
     "cyclone": {
       "id": 363,
@@ -11819,6 +12197,7 @@
       "group": "turrets",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "range": 200,
       "requirements": [
         {
           "item": "copper",
@@ -11832,7 +12211,8 @@
           "item": "plastanium",
           "amount": 80
         }
-      ]
+      ],
+      "mapColor": "#918e8a"
     },
     "foreshadow": {
       "id": 364,
@@ -11856,6 +12236,7 @@
       "group": "turrets",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "range": 500,
       "requirements": [
         {
           "item": "copper",
@@ -11877,7 +12258,8 @@
           "item": "surge-alloy",
           "amount": 300
         }
-      ]
+      ],
+      "mapColor": "#898682"
     },
     "spectre": {
       "id": 365,
@@ -11901,6 +12283,7 @@
       "group": "turrets",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "range": 260,
       "requirements": [
         {
           "item": "copper",
@@ -11922,7 +12305,8 @@
           "item": "surge-alloy",
           "amount": 250
         }
-      ]
+      ],
+      "mapColor": "#8d8284"
     },
     "meltdown": {
       "id": 366,
@@ -11946,6 +12330,7 @@
       "group": "turrets",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "range": 195,
       "requirements": [
         {
           "item": "copper",
@@ -11967,7 +12352,8 @@
           "item": "surge-alloy",
           "amount": 325
         }
-      ]
+      ],
+      "mapColor": "#877d7f"
     },
     "breach": {
       "id": 367,
@@ -11991,6 +12377,7 @@
       "group": "turrets",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "range": 190,
       "requirements": [
         {
           "item": "graphite",
@@ -12004,7 +12391,8 @@
           "item": "beryllium",
           "amount": 150
         }
-      ]
+      ],
+      "mapColor": "#657273"
     },
     "diffuse": {
       "id": 368,
@@ -12028,6 +12416,7 @@
       "group": "turrets",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "range": 125,
       "requirements": [
         {
           "item": "graphite",
@@ -12045,7 +12434,8 @@
           "item": "tungsten",
           "amount": 50
         }
-      ]
+      ],
+      "mapColor": "#776c72"
     },
     "sublimate": {
       "id": 369,
@@ -12069,6 +12459,7 @@
       "group": "turrets",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "range": 130,
       "requirements": [
         {
           "item": "silicon",
@@ -12086,7 +12477,8 @@
           "item": "oxide",
           "amount": 40
         }
-      ]
+      ],
+      "mapColor": "#766d80"
     },
     "titan": {
       "id": 370,
@@ -12110,6 +12502,7 @@
       "group": "turrets",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "range": 390,
       "requirements": [
         {
           "item": "thorium",
@@ -12123,7 +12516,8 @@
           "item": "tungsten",
           "amount": 250
         }
-      ]
+      ],
+      "mapColor": "#776e74"
     },
     "disperse": {
       "id": 371,
@@ -12147,6 +12541,7 @@
       "group": "turrets",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "range": 310,
       "requirements": [
         {
           "item": "thorium",
@@ -12164,7 +12559,8 @@
           "item": "oxide",
           "amount": 50
         }
-      ]
+      ],
+      "mapColor": "#747784"
     },
     "afflict": {
       "id": 372,
@@ -12188,6 +12584,7 @@
       "group": "turrets",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "range": 368,
       "requirements": [
         {
           "item": "graphite",
@@ -12205,7 +12602,8 @@
           "item": "oxide",
           "amount": 40
         }
-      ]
+      ],
+      "mapColor": "#797676"
     },
     "lustre": {
       "id": 373,
@@ -12229,6 +12627,7 @@
       "group": "turrets",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "range": 250,
       "requirements": [
         {
           "item": "graphite",
@@ -12246,7 +12645,8 @@
           "item": "carbide",
           "amount": 90
         }
-      ]
+      ],
+      "mapColor": "#727582"
     },
     "scathe": {
       "id": 374,
@@ -12270,6 +12670,7 @@
       "group": "turrets",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "range": 1350,
       "requirements": [
         {
           "item": "graphite",
@@ -12291,7 +12692,8 @@
           "item": "carbide",
           "amount": 200
         }
-      ]
+      ],
+      "mapColor": "#7f7074"
     },
     "smite": {
       "id": 375,
@@ -12315,6 +12717,7 @@
       "group": "turrets",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "range": 300,
       "requirements": [
         {
           "item": "silicon",
@@ -12336,7 +12739,8 @@
           "item": "carbide",
           "amount": 500
         }
-      ]
+      ],
+      "mapColor": "#827776"
     },
     "malign": {
       "id": 376,
@@ -12360,6 +12764,7 @@
       "group": "turrets",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "range": 410,
       "requirements": [
         {
           "item": "graphite",
@@ -12381,7 +12786,8 @@
           "item": "carbide",
           "amount": 200
         }
-      ]
+      ],
+      "mapColor": "#807388"
     },
     "ground-factory": {
       "id": 377,
@@ -12418,7 +12824,8 @@
           "item": "silicon",
           "amount": 80
         }
-      ]
+      ],
+      "mapColor": "#918990"
     },
     "air-factory": {
       "id": 378,
@@ -12455,7 +12862,8 @@
           "item": "silicon",
           "amount": 60
         }
-      ]
+      ],
+      "mapColor": "#829393"
     },
     "naval-factory": {
       "id": 379,
@@ -12492,7 +12900,8 @@
           "item": "metaglass",
           "amount": 120
         }
-      ]
+      ],
+      "mapColor": "#81879f"
     },
     "additive-reconstructor": {
       "id": 380,
@@ -12529,7 +12938,8 @@
           "item": "silicon",
           "amount": 90
         }
-      ]
+      ],
+      "mapColor": "#89888e"
     },
     "multiplicative-reconstructor": {
       "id": 381,
@@ -12570,7 +12980,8 @@
           "item": "silicon",
           "amount": 450
         }
-      ]
+      ],
+      "mapColor": "#888890"
     },
     "exponential-reconstructor": {
       "id": 382,
@@ -12619,7 +13030,8 @@
           "item": "phase-fabric",
           "amount": 600
         }
-      ]
+      ],
+      "mapColor": "#89888f"
     },
     "tetrative-reconstructor": {
       "id": 383,
@@ -12668,7 +13080,8 @@
           "item": "surge-alloy",
           "amount": 800
         }
-      ]
+      ],
+      "mapColor": "#8a868a"
     },
     "repair-point": {
       "id": 384,
@@ -12705,7 +13118,8 @@
           "item": "silicon",
           "amount": 20
         }
-      ]
+      ],
+      "mapColor": "#7d8d8d"
     },
     "repair-turret": {
       "id": 385,
@@ -12742,7 +13156,8 @@
           "item": "plastanium",
           "amount": 60
         }
-      ]
+      ],
+      "mapColor": "#869a96"
     },
     "tank-fabricator": {
       "id": 386,
@@ -12775,7 +13190,8 @@
           "item": "beryllium",
           "amount": 150
         }
-      ]
+      ],
+      "mapColor": "#76696e"
     },
     "ship-fabricator": {
       "id": 387,
@@ -12808,7 +13224,8 @@
           "item": "beryllium",
           "amount": 200
         }
-      ]
+      ],
+      "mapColor": "#6a687d"
     },
     "mech-fabricator": {
       "id": 388,
@@ -12845,7 +13262,8 @@
           "item": "tungsten",
           "amount": 10
         }
-      ]
+      ],
+      "mapColor": "#6b6f80"
     },
     "tank-refabricator": {
       "id": 389,
@@ -12882,7 +13300,8 @@
           "item": "tungsten",
           "amount": 80
         }
-      ]
+      ],
+      "mapColor": "#726669"
     },
     "ship-refabricator": {
       "id": 390,
@@ -12923,7 +13342,8 @@
           "item": "oxide",
           "amount": 15
         }
-      ]
+      ],
+      "mapColor": "#676478"
     },
     "mech-refabricator": {
       "id": 391,
@@ -12960,7 +13380,8 @@
           "item": "tungsten",
           "amount": 175
         }
-      ]
+      ],
+      "mapColor": "#686c7c"
     },
     "prime-refabricator": {
       "id": 392,
@@ -13001,7 +13422,8 @@
           "item": "oxide",
           "amount": 200
         }
-      ]
+      ],
+      "mapColor": "#746d6e"
     },
     "tank-assembler": {
       "id": 393,
@@ -13042,7 +13464,8 @@
           "item": "carbide",
           "amount": 80
         }
-      ]
+      ],
+      "mapColor": "#81757b"
     },
     "ship-assembler": {
       "id": 394,
@@ -13087,7 +13510,8 @@
           "item": "carbide",
           "amount": 100
         }
-      ]
+      ],
+      "mapColor": "#767389"
     },
     "mech-assembler": {
       "id": 395,
@@ -13132,7 +13556,8 @@
           "item": "carbide",
           "amount": 200
         }
-      ]
+      ],
+      "mapColor": "#777b8c"
     },
     "basic-assembler-module": {
       "id": 396,
@@ -13173,7 +13598,8 @@
           "item": "carbide",
           "amount": 300
         }
-      ]
+      ],
+      "mapColor": "#786d6a"
     },
     "unit-repair-tower": {
       "id": 397,
@@ -13210,7 +13636,8 @@
           "item": "tungsten",
           "amount": 80
         }
-      ]
+      ],
+      "mapColor": "#728981"
     },
     "payload-conveyor": {
       "id": 398,
@@ -13243,7 +13670,8 @@
           "item": "graphite",
           "amount": 10
         }
-      ]
+      ],
+      "mapColor": "#6d707a"
     },
     "payload-router": {
       "id": 399,
@@ -13276,7 +13704,8 @@
           "item": "graphite",
           "amount": 15
         }
-      ]
+      ],
+      "mapColor": "#767985"
     },
     "reinforced-payload-conveyor": {
       "id": 400,
@@ -13305,7 +13734,8 @@
           "item": "tungsten",
           "amount": 10
         }
-      ]
+      ],
+      "mapColor": "#4d4f57"
     },
     "reinforced-payload-router": {
       "id": 401,
@@ -13334,7 +13764,8 @@
           "item": "tungsten",
           "amount": 15
         }
-      ]
+      ],
+      "mapColor": "#5a5b63"
     },
     "payload-mass-driver": {
       "id": 402,
@@ -13371,7 +13802,8 @@
           "item": "tungsten",
           "amount": 40
         }
-      ]
+      ],
+      "mapColor": "#7a7173"
     },
     "large-payload-mass-driver": {
       "id": 403,
@@ -13416,7 +13848,8 @@
           "item": "oxide",
           "amount": 30
         }
-      ]
+      ],
+      "mapColor": "#82797a"
     },
     "small-deconstructor": {
       "id": 404,
@@ -13457,7 +13890,8 @@
           "item": "oxide",
           "amount": 40
         }
-      ]
+      ],
+      "mapColor": "#7b6f74"
     },
     "deconstructor": {
       "id": 405,
@@ -13498,7 +13932,8 @@
           "item": "carbide",
           "amount": 50
         }
-      ]
+      ],
+      "mapColor": "#816c6d"
     },
     "constructor": {
       "id": 406,
@@ -13535,7 +13970,8 @@
           "item": "tungsten",
           "amount": 40
         }
-      ]
+      ],
+      "mapColor": "#756d6f"
     },
     "large-constructor": {
       "id": 407,
@@ -13576,7 +14012,8 @@
           "item": "oxide",
           "amount": 100
         }
-      ]
+      ],
+      "mapColor": "#746c6f"
     },
     "payload-loader": {
       "id": 408,
@@ -13613,7 +14050,8 @@
           "item": "tungsten",
           "amount": 90
         }
-      ]
+      ],
+      "mapColor": "#585667"
     },
     "payload-unloader": {
       "id": 409,
@@ -13650,7 +14088,8 @@
           "item": "tungsten",
           "amount": 180
         }
-      ]
+      ],
+      "mapColor": "#625c5d"
     },
     "power-source": {
       "id": 410,
@@ -13674,7 +14113,8 @@
       "group": "power",
       "buildVisibility": "sandboxOnly",
       "canBeBuilt": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#c4b2a0"
     },
     "power-void": {
       "id": 411,
@@ -13698,7 +14138,8 @@
       "group": "power",
       "buildVisibility": "sandboxOnly",
       "canBeBuilt": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#ae9b89"
     },
     "item-source": {
       "id": 412,
@@ -13722,7 +14163,8 @@
       "group": "transportation",
       "buildVisibility": "sandboxOnly",
       "canBeBuilt": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#907e71"
     },
     "item-void": {
       "id": 413,
@@ -13746,7 +14188,8 @@
       "group": "transportation",
       "buildVisibility": "sandboxOnly",
       "canBeBuilt": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#917d72"
     },
     "liquid-source": {
       "id": 414,
@@ -13770,7 +14213,8 @@
       "group": "liquids",
       "buildVisibility": "sandboxOnly",
       "canBeBuilt": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#b5a597"
     },
     "liquid-void": {
       "id": 415,
@@ -13794,7 +14238,8 @@
       "group": "liquids",
       "buildVisibility": "sandboxOnly",
       "canBeBuilt": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#bba99c"
     },
     "payload-source": {
       "id": 416,
@@ -13818,7 +14263,8 @@
       "group": "payloads",
       "buildVisibility": "sandboxOnly",
       "canBeBuilt": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#8c827f"
     },
     "payload-void": {
       "id": 417,
@@ -13842,7 +14288,8 @@
       "group": "payloads",
       "buildVisibility": "sandboxOnly",
       "canBeBuilt": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#8f8083"
     },
     "heat-source": {
       "id": 418,
@@ -13866,7 +14313,8 @@
       "group": "none",
       "buildVisibility": "sandboxOnly",
       "canBeBuilt": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#928788"
     },
     "illuminator": {
       "id": 419,
@@ -13903,7 +14351,8 @@
           "item": "silicon",
           "amount": 8
         }
-      ]
+      ],
+      "mapColor": "#adb2bd"
     },
     "legacy-mech-pad": {
       "id": 420,
@@ -13927,7 +14376,8 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "legacy-unit-factory": {
       "id": 421,
@@ -13951,7 +14401,8 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "legacy-unit-factory-air": {
       "id": 422,
@@ -13975,7 +14426,8 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "legacy-unit-factory-ground": {
       "id": 423,
@@ -13999,7 +14451,8 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "command-center": {
       "id": 424,
@@ -14023,7 +14476,8 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#000000"
     },
     "launch-pad": {
       "id": 425,
@@ -14064,7 +14518,8 @@
           "item": "silicon",
           "amount": 140
         }
-      ]
+      ],
+      "mapColor": "#b5a69f"
     },
     "advanced-launch-pad": {
       "id": 426,
@@ -14105,7 +14560,8 @@
           "item": "silicon",
           "amount": 250
         }
-      ]
+      ],
+      "mapColor": "#aba3a3"
     },
     "landing-pad": {
       "id": 427,
@@ -14142,7 +14598,8 @@
           "item": "titanium",
           "amount": 100
         }
-      ]
+      ],
+      "mapColor": "#aba5a6"
     },
     "interplanetary-accelerator": {
       "id": 428,
@@ -14191,7 +14648,8 @@
           "item": "surge-alloy",
           "amount": 6000
         }
-      ]
+      ],
+      "mapColor": "#b0a9a9"
     },
     "message": {
       "id": 429,
@@ -14226,7 +14684,8 @@
           "item": "graphite",
           "amount": 5
         }
-      ]
+      ],
+      "mapColor": "#848396"
     },
     "switch": {
       "id": 430,
@@ -14259,7 +14718,8 @@
           "item": "graphite",
           "amount": 5
         }
-      ]
+      ],
+      "mapColor": "#7b7990"
     },
     "micro-processor": {
       "id": 431,
@@ -14299,7 +14759,8 @@
           "item": "silicon",
           "amount": 50
         }
-      ]
+      ],
+      "mapColor": "#a096c5"
     },
     "logic-processor": {
       "id": 432,
@@ -14343,7 +14804,8 @@
           "item": "silicon",
           "amount": 80
         }
-      ]
+      ],
+      "mapColor": "#a09ac0"
     },
     "hyper-processor": {
       "id": 433,
@@ -14387,7 +14849,8 @@
           "item": "surge-alloy",
           "amount": 50
         }
-      ]
+      ],
+      "mapColor": "#a096c4"
     },
     "memory-cell": {
       "id": 434,
@@ -14425,7 +14888,8 @@
           "item": "silicon",
           "amount": 30
         }
-      ]
+      ],
+      "mapColor": "#847d9d"
     },
     "memory-bank": {
       "id": 435,
@@ -14467,7 +14931,8 @@
           "item": "phase-fabric",
           "amount": 30
         }
-      ]
+      ],
+      "mapColor": "#847a9e"
     },
     "logic-display": {
       "id": 436,
@@ -14505,7 +14970,8 @@
           "item": "silicon",
           "amount": 50
         }
-      ]
+      ],
+      "mapColor": "#717186"
     },
     "large-logic-display": {
       "id": 437,
@@ -14547,7 +15013,8 @@
           "item": "phase-fabric",
           "amount": 75
         }
-      ]
+      ],
+      "mapColor": "#68687b"
     },
     "tile-logic-display": {
       "id": 438,
@@ -14589,7 +15056,8 @@
           "item": "phase-fabric",
           "amount": 3
         }
-      ]
+      ],
+      "mapColor": "#848897"
     },
     "canvas": {
       "id": 439,
@@ -14622,7 +15090,8 @@
           "item": "beryllium",
           "amount": 10
         }
-      ]
+      ],
+      "mapColor": "#5c5255"
     },
     "large-canvas": {
       "id": 440,
@@ -14659,7 +15128,8 @@
           "item": "beryllium",
           "amount": 15
         }
-      ]
+      ],
+      "mapColor": "#53494c"
     },
     "reinforced-message": {
       "id": 441,
@@ -14694,7 +15164,8 @@
           "item": "beryllium",
           "amount": 5
         }
-      ]
+      ],
+      "mapColor": "#837c86"
     },
     "world-processor": {
       "id": 442,
@@ -14721,7 +15192,8 @@
       "ipt": 8,
       "range": 3.4028235e+38,
       "maxInstructionScale": 5,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#c9ae9c"
     },
     "world-cell": {
       "id": 443,
@@ -14746,7 +15218,8 @@
       "buildVisibility": "worldProcessorOnly",
       "canBeBuilt": true,
       "memoryCapacity": 512,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#948982"
     },
     "world-message": {
       "id": 444,
@@ -14772,7 +15245,8 @@
       "canBeBuilt": true,
       "maxTextLength": 400,
       "maxNewlines": 24,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#8a898a"
     },
     "world-switch": {
       "id": 445,
@@ -14796,7 +15270,8 @@
       "group": "logic",
       "buildVisibility": "worldProcessorOnly",
       "canBeBuilt": true,
-      "requirements": []
+      "requirements": [],
+      "mapColor": "#857f81"
     }
   }
 }

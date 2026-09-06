@@ -10,7 +10,21 @@
  */
 
 import {LVar} from './lvar.js'
+import {NOT_SENSED} from './sense.js'
 import blockSpecs from '../data/block-specs.json' with {type: 'json'}
+import unitSpecs from '../data/unit-specs.json' with {type: 'json'}
+import materials from '../data/materials.json' with {type: 'json'}
+
+/** Vars.tilesize */
+const TILE = 8
+
+/** Color.toDoubleBits: RGBA8888 в младших 32 битах double. */
+function packColor(hex) {
+    const value = parseInt(hex.slice(1), 16)
+    const [r, g, b] = [(value >> 16) & 0xff, (value >> 8) & 0xff, value & 0xff]
+
+    return ((r << 24) | (g << 16) | (b << 8) | 255) >>> 0
+}
 
 /** Типы контента, у которых есть таблица идентификаторов. GlobalVars.writableLookableContent */
 export const CONTENT_TYPES = ['block', 'unit', 'item', 'liquid']
@@ -29,6 +43,57 @@ export class Content {
     /** Structs.eq для контента: одинаковыми считаются одинаковые тип и имя. */
     equals(other) {
         return other instanceof Content && other.contentType === this.contentType && other.name === this.name
+    }
+
+    /**
+     * Свойства самого контента, а не его воплощения в мире: `sensor x @dagger @health`
+     * отдаёт здоровье типа. Спрашивают этим и справочники, и программы, которые выбирают
+     * юнита по характеристикам.
+     */
+    sense(property) {
+        if (property === 'id') return this.logicId
+
+        if (this.contentType === 'unit') {
+            const spec = unitSpecs.units[this.name]
+            if (spec === undefined) return NaN
+
+            switch (property) {
+                case 'health': case 'maxHealth': return spec.health
+                case 'armor': return spec.armor
+                case 'range': return spec.maxRange / TILE
+                case 'size': return spec.hitSize / TILE
+                case 'flying': return spec.flying ? 1 : 0
+                case 'itemCapacity': return spec.itemCapacity
+                case 'speed': return spec.speed * 60 / TILE
+                default: return NaN
+            }
+        }
+
+        if (this.contentType === 'block') {
+            const spec = blockSpecs.blocks[this.name]
+            if (spec === undefined) return NaN
+
+            switch (property) {
+                case 'color': return spec.mapColor === undefined ? NaN : packColor(spec.mapColor)
+                case 'health': case 'maxHealth': return spec.health
+                case 'solid': return spec.solid ? 1 : 0
+                case 'size': return spec.size
+                case 'itemCapacity': return spec.itemCapacity
+                case 'liquidCapacity': return spec.liquidCapacity
+                default: return NaN
+            }
+        }
+
+        // У предмета и жидкости из свойств только цвет: Item.sense, Liquid.sense
+        const material = materials[this.contentType === 'item' ? 'items' : 'liquids']?.[this.name]
+        if (material !== undefined && property === 'color') return packColor(material.color)
+
+        return NaN
+    }
+
+    /** Единственное объектное свойство контента — имя. */
+    senseObject(property) {
+        return property === 'name' ? this.name : NOT_SENSED
     }
 }
 

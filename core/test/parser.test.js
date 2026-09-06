@@ -77,7 +77,7 @@ test('в нестроковом токене пробелы становятся
 
 test('неизвестная инструкция и неперенесённая различаются', () => {
     const опечатка = assemble('sett a 1')
-    const отложенная = assemble('radar enemy any any distance turret1 1 result')
+    const отложенная = assemble('spawnwave 0 0 0')
 
     assert.equal(опечатка.diagnostics[0].code, 'assemble.unknown-instruction')
     assert.equal(отложенная.diagnostics[0].code, 'run.not-implemented')

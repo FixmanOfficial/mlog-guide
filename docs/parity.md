@@ -122,7 +122,11 @@
 | `move`, `stop`, `approach`, `pathfind`, `idle`, `autoPathfind`, `boost`, `flag`, `within`, `unbind` | есть |
 | `target` и `targetp` пишут цель и флаг стрельбы | есть: поля пишутся, стрельбы в песочнице нет |
 | `getBlock` | расходится: блок и здание отдаются, третий результат всегда пуст — пола и руды у нас нет |
-| `mine`, `build`, `deconstruct`, `itemDrop`, `itemTake`, `payDrop`, `payTake`, `payEnter` | нет: нужны ресурсы и планы постройки. Сборщик ставит диагностику, а не пропускает молча |
+| `mine`, `itemDrop`, `itemTake` | есть |
+| `build`, `deconstruct`, `payDrop`, `payTake`, `payEnter` | нет: нужны планы постройки и грузы. Сборщик ставит диагностику, а не пропускает молча |
+| `radar` и `uradar` целиком, с кешем на 30 тиков | есть |
+| `ulocate ore` | есть |
+| `ulocate building`, `spawn`, `damaged` | нет: нужны флаги зданий, точки появления волн и учёт повреждений |
 | Правила `logicUnitControl`, `logicUnitBuild`, `logicUnitDeconstruct` | не нужно: правил мира в песочнице нет |
 
 ## ai/types/LogicAI.java

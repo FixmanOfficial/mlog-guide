@@ -9,10 +9,13 @@ import mindustry.gen.Crawlc;
 import mindustry.gen.Legsc;
 import mindustry.gen.Mechc;
 import mindustry.gen.Tankc;
+import mindustry.type.Item;
 import mindustry.type.ItemStack;
+import mindustry.type.Liquid;
 import mindustry.type.UnitType;
 import mindustry.content.Blocks;
 import mindustry.world.Block;
+import mindustry.world.blocks.defense.turrets.BaseTurret;
 import mindustry.world.blocks.logic.LogicBlock;
 import mindustry.world.blocks.logic.LogicDisplay;
 import mindustry.world.blocks.logic.MemoryBlock;
@@ -52,8 +55,9 @@ public class ContentDump{
     static final String VERSION = "v159.7";
 
     public static void main(String[] args) throws Exception{
-        if(args.length < 3){
-            System.err.println("нужны три пути: <unit-specs.json> <block-specs.json> <teams.json>");
+        if(args.length < 4){
+            System.err.println("нужны четыре пути: <unit-specs.json> <block-specs.json> "
+                + "<teams.json> <materials.json>");
             System.exit(1);
         }
 
@@ -73,6 +77,7 @@ public class ContentDump{
         write(Path.of(args[0]), units());
         write(Path.of(args[1]), blocks());
         write(Path.of(args[2]), teams());
+        write(Path.of(args[3]), materials());
 
         System.out.println(Vars.content.units().size + " " + Vars.content.blocks().size);
     }
@@ -114,6 +119,9 @@ public class ContentDump{
             unit.number("payloadCapacity", type.payloadCapacity);
             unit.number("mineTier", type.mineTier);
             unit.number("mineSpeed", type.mineSpeed);
+            unit.bool("mineFloor", type.mineFloor);
+            unit.bool("mineWalls", type.mineWalls);
+            unit.bool("mineHardnessScaling", type.mineHardnessScaling);
             unit.number("buildSpeed", type.buildSpeed);
 
             unit.bool("flying", type.flying);
@@ -208,6 +216,11 @@ public class ContentDump{
                 spec.number("maxInstructionScale", logic.maxInstructionScale);
             }
 
+            // Дальность турели: сама турель не моделируется, но `radar` смотрит именно на неё
+            if(block instanceof BaseTurret turret){
+                spec.number("range", turret.range);
+            }
+
             if(block instanceof MemoryBlock memory){
                 spec.number("memoryCapacity", memory.memoryCapacity);
             }
@@ -271,6 +284,47 @@ public class ContentDump{
      * Что это за блок с точки зрения карты. Порядок проверок важен: руда это тоже наложение,
      * а наложение — тоже пол.
      */
+    /**
+     * Предметы и жидкости: цвет и твёрдость. Твёрдость решает, кто что может добывать
+     * (`mineTier >= hardness`) и сколько это займёт времени.
+     */
+    static String materials(){
+        Json out = new Json();
+        out.string("gameVersion", VERSION);
+        out.string("source", "ContentLoader.init() в самой игре, tools/dump/ContentDump.java");
+        out.string("note", "Файл сгенерирован, править вручную нельзя.");
+
+        Json items = new Json();
+        for(Item item : Vars.content.items()){
+            Json entry = new Json();
+            entry.string("color", color(item.color));
+            entry.number("hardness", item.hardness);
+            entry.number("cost", item.cost);
+            entry.number("explosiveness", item.explosiveness);
+            entry.number("flammability", item.flammability);
+            entry.number("radioactivity", item.radioactivity);
+            entry.number("charge", item.charge);
+            entry.bool("buildable", item.buildable);
+            items.raw(item.name, entry.object());
+        }
+
+        Json liquids = new Json();
+        for(Liquid liquid : Vars.content.liquids()){
+            Json entry = new Json();
+            entry.string("color", color(liquid.color));
+            entry.number("heatCapacity", liquid.heatCapacity);
+            entry.number("temperature", liquid.temperature);
+            entry.number("viscosity", liquid.viscosity);
+            entry.number("explosiveness", liquid.explosiveness);
+            entry.number("flammability", liquid.flammability);
+            liquids.raw(liquid.name, entry.object());
+        }
+
+        out.raw("items", items.object());
+        out.raw("liquids", liquids.object());
+        return out.object();
+    }
+
     /** Цвет в вид «#rrggbb»: у arc toString отдаёт восемь знаков с прозрачностью. */
     static String color(arc.graphics.Color value){
         return "#" + value.toString().substring(0, 6);
