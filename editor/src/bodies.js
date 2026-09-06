@@ -220,7 +220,9 @@ export function referencedParams(opcode) {
 
     // Прогоняем раскладку по всем значениям ведущего перечисления: у каждого свой набор полей
     const driver = definition.params.find(param => param.enum !== undefined)
-    const variants = driver === undefined ? [{}] : ENUMS[driver.enum].map(value => ({[driver.name]: value}))
+    const variants = driver === undefined
+        ? [{}]
+        : (driver.options ?? ENUMS[driver.enum]).map(value => ({[driver.name]: value}))
 
     for (const variant of variants) {
         const statement = {opcode, params: {...defaults(definition), ...variant}}

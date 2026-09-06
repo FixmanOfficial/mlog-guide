@@ -125,3 +125,16 @@ test('функциями записываются шесть операций', 
 
     assert.deepEqual(funcs, ['angle', 'angleDiff', 'len', 'max', 'min', 'noise'])
 })
+
+test('меню выбора у setblock короче перечисления: слой building не ставится', () => {
+    const set = schema.instructions.find(item => item.opcode === 'setblock')
+    const get = schema.instructions.find(item => item.opcode === 'getblock')
+
+    // TileLayer.settable в игре: {floor, ore, block}. Здание появляется вместе с блоком,
+    // отдельно его не поставить
+    assert.deepEqual(set.params[0].options, ['floor', 'ore', 'block'])
+
+    // А читать можно все четыре слоя, поэтому у getblock подмножества нет
+    assert.equal(get.params[0].options, undefined)
+    assert.deepEqual(schema.enums.TileLayer, ['floor', 'ore', 'block', 'building'])
+})

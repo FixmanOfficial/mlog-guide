@@ -1349,6 +1349,12 @@
             "text": " set "
           },
           {
+            "kind": "select",
+            "param": "type",
+            "enum": "LAccess",
+            "subset": "controls"
+          },
+          {
             "kind": "label",
             "text": " of "
           },
@@ -1720,6 +1726,12 @@
             "kind": "row"
           },
           {
+            "kind": "select",
+            "param": "type",
+            "enum": "GlobalVars",
+            "subset": "lookableContent"
+          },
+          {
             "kind": "label",
             "text": " # "
           }
@@ -2084,6 +2096,12 @@
             "text": " group "
           },
           {
+            "kind": "select",
+            "param": "flag",
+            "enum": "BlockFlag",
+            "subset": "allLogic"
+          },
+          {
             "kind": "row"
           },
           {
@@ -2131,7 +2149,11 @@
           "name": "type",
           "type": "QueryType",
           "default": "unit",
-          "enum": "QueryType"
+          "enum": "QueryType",
+          "options": [
+            "unit",
+            "building"
+          ]
         },
         {
           "name": "team",
@@ -2162,6 +2184,12 @@
       "layoutHint": {
         "complete": false,
         "items": [
+          {
+            "kind": "select",
+            "param": "type",
+            "enum": "QueryType",
+            "subset": "queryable"
+          },
           {
             "kind": "label",
             "text": "team"
@@ -2278,7 +2306,12 @@
           "name": "layer",
           "type": "TileLayer",
           "default": "block",
-          "enum": "TileLayer"
+          "enum": "TileLayer",
+          "options": [
+            "floor",
+            "ore",
+            "block"
+          ]
         },
         {
           "name": "block",
@@ -2312,6 +2345,12 @@
           {
             "kind": "label",
             "text": "set"
+          },
+          {
+            "kind": "select",
+            "param": "layer",
+            "enum": "TileLayer",
+            "subset": "settable"
           },
           {
             "kind": "row"

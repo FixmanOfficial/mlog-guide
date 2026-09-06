@@ -167,10 +167,14 @@ function renderGeneric(definition, statement, onParam) {
 
 function renderParam(param, statement, onParam) {
     if (param.enum !== undefined && ENUMS[param.enum] !== undefined) {
-        return (
-            <EnumButton param={param} statement={statement} onParam={onParam}
-                values={param.enum === 'LAccess' ? SENSEABLE : ENUMS[param.enum]} />
-        )
+        /*
+         * Меню открывается не всегда по полному перечислению: у `setblock` игра показывает
+         * `TileLayer.settable`, где нет слоя building — здание нельзя поставить, оно
+         * появляется вместе с блоком. Такие подмножества лежат в `options` параметра.
+         */
+        const values = param.options ?? (param.enum === 'LAccess' ? SENSEABLE : ENUMS[param.enum])
+
+        return <EnumButton param={param} statement={statement} onParam={onParam} values={values} />
     }
 
     return <Field param={param} statement={statement} onParam={onParam} />

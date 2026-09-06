@@ -141,6 +141,7 @@ function parseEnum(root, name) {
 
     const body = block(text, text.indexOf('{', start))
     const clean = stripComments(body)
+    const subsets = parseSubsets(text, name)
     const carriesParams = /String\[\]\s+params/.test(clean)
 
     // Часть перечислений несёт символ для показа: у LogicOp это «+», «//», «%%» и так далее,
@@ -185,7 +186,8 @@ function parseEnum(root, name) {
         values,
         params: carriesParams ? params : null,
         symbols: carriesSymbol ? symbols : null,
-        flags: carriesSymbol && Object.keys(flags).length > 0 ? flags : null
+        flags: carriesSymbol && Object.keys(flags).length > 0 ? flags : null,
+        subsets: Object.keys(subsets).length > 0 ? subsets : null
     }
 }
 
@@ -308,6 +310,28 @@ function methodBody(classBody, signature) {
  * Часть инструкций строит раскладку динамически, через rebuild(Table) с ветвлениями —
  * для них берётся тело rebuild, а порядок сохраняется линейно. Такие помечаются dynamic.
  */
+/**
+ * Именованные подмножества перечисления: `public static final TileLayer[] all = values(),
+ * settable = {floor, ore, block};`. По ним игра строит меню, и полный список туда не всегда
+ * попадает.
+ */
+function parseSubsets(text, name) {
+    const start = text.indexOf(`enum ${name}{`)
+    if (start === -1) return {}
+
+    const subsets = {}
+    const declaration = new RegExp(String.raw`${name}\[\]\s+([^;]+);`, 'g')
+
+    for (const match of text.slice(start).matchAll(declaration)) {
+        for (const part of match[1].split(/,\s*(?=\w+\s*=)/)) {
+            const [, subset, values] = part.match(/(\w+)\s*=\s*\{([^}]*)\}/) ?? []
+            if (subset !== undefined) subsets[subset] = values.split(',').map(item => item.trim())
+        }
+    }
+
+    return subsets
+}
+
 function parseLayout(classBody) {
     let body = methodBody(classBody, 'public void build(Table table)')
     if (body === null) return null
@@ -320,17 +344,24 @@ function parseLayout(classBody) {
     const clean = stripComments(body)
     const layout = []
 
-    const token = /(?:table|t)\.add\(\s*"([^"]*)"\s*\)|(?:^|[^\w.])field\(\s*\w+\s*,\s*(\w+)|fields\(\s*\w+\s*,\s*"([^"]*)"\s*,\s*(\w+)|(?:^|[^\w.])row\(\s*\w+\s*\)|showSelect\(\s*\w+\s*,\s*(\w+)\.all\s*,\s*(\w+)/g
+    const token = /(?:table|t)\.add\(\s*"([^"]*)"\s*\)|(?:^|[^\w.])field\(\s*\w+\s*,\s*(\w+)|fields\(\s*\w+\s*,\s*"([^"]*)"\s*,\s*(\w+)|(?:^|[^\w.])row\(\s*\w+\s*\)|showSelect\(\s*\w+\s*,\s*(\w+)\.(\w+)\s*,\s*(\w+)/g
 
     for (const match of clean.matchAll(token)) {
-        const [, label, fieldName, fieldsLabel, fieldsName, enumType, enumParam] = match
+        const [, label, fieldName, fieldsLabel, fieldsName, enumType, enumSubset, enumParam] = match
 
         if (label !== undefined) layout.push({kind: 'label', text: label})
         else if (fieldName !== undefined) layout.push({kind: 'field', param: fieldName})
         else if (fieldsName !== undefined) {
             layout.push({kind: 'label', text: fieldsLabel})
             layout.push({kind: 'field', param: fieldsName})
-        } else if (enumParam !== undefined) layout.push({kind: 'select', param: enumParam, enum: enumType})
+        } else if (enumParam !== undefined) {
+            // Меню открывается не всегда по полному списку: у `setblock` это TileLayer.settable,
+            // где слоя building нет — здание нельзя поставить, его создаёт блок
+            layout.push({
+                kind: 'select', param: enumParam, enum: enumType,
+                ...(enumSubset === 'all' ? {} : {subset: enumSubset})
+            })
+        }
         else layout.push({kind: 'row'})
     }
 
@@ -386,6 +417,9 @@ function main() {
     const enumFlags = {}
     const instructions = []
 
+    /** Раскладка класса или его родителя: подмножества меню объявлены именно там. */
+    const hintOf = (entry) => (entry.layout ?? classes.get(entry.parent)?.layout)?.items
+
     for (const className of order) {
         const entry = classes.get(className)
         const fields = fieldsOf(className)
@@ -401,11 +435,20 @@ function main() {
                 if (parsed.flags !== null) enumFlags[field.type] = parsed.flags
             }
 
+            /*
+             * Меню в игре открывается не всегда по полному списку: у `setblock` это
+             * `TileLayer.settable`, где нет слоя building. Поэтому если раскладка выбрала
+             * подмножество, параметр несёт свой набор значений, а не весь.
+             */
+            const select = (hintOf(entry) ?? []).find(item => item.param === field.name)
+            const subset = select?.subset === undefined ? null : parsed?.subsets?.[select.subset] ?? null
+
             return {
                 name: field.name,
                 type: values !== null ? field.type : field.type === 'String' ? 'value' : field.type,
                 default: field.default,
-                ...(values !== null ? {enum: field.type} : {})
+                ...(values !== null ? {enum: field.type} : {}),
+                ...(subset !== null ? {options: subset} : {})
             }
         })
 
