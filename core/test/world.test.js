@@ -368,3 +368,41 @@ test('дверь открывается рукой, и порог у щелчк�
     assert.equal(door.tap(), true)
     assert.equal(door.sense('enabled'), 0)
 })
+
+test('у тайла три слоя, как в игре: пол, наложение и статичная стена', () => {
+    const world = new World({width: 4, height: 3, floor: 'darksand'})
+
+    assert.equal(world.floorAt(0, 0), 'darksand')
+    assert.equal(world.overlayAt(0, 0), null)
+    assert.equal(world.wallAt(0, 0), null)
+
+    world.setFloor(1, 1, 'stone')
+    world.setOverlay(1, 1, 'ore-copper')
+    world.setWall(2, 2, 'stone-wall')
+
+    assert.equal(world.floorAt(1, 1), 'stone')
+    assert.equal(world.overlayAt(1, 1), 'ore-copper')
+    assert.equal(world.wallAt(2, 2), 'stone-wall')
+
+    // За краем мира тайла нет вовсе, а не «пол по умолчанию»
+    assert.equal(world.floorAt(-1, 0), null)
+    assert.equal(world.floorAt(4, 0), null)
+})
+
+test('местность помечает себя изменённой, чтобы рендер пересобрал картинку', () => {
+    const world = new World({width: 3, height: 3})
+    const before = world.terrainVersion
+
+    world.setFloor(0, 0, 'sand-floor')
+    assert.notEqual(world.terrainVersion, before)
+})
+
+test('на тайле стоит здание, статичная стена или воздух', () => {
+    const world = new World({width: 6, height: 6})
+    world.add('memory-cell', {x: 1, y: 1})
+    world.setWall(3, 3, 'stone-wall')
+
+    assert.equal(world.blockAt(1, 1), 'memory-cell')
+    assert.equal(world.blockAt(3, 3), 'stone-wall')
+    assert.equal(world.blockAt(5, 5), 'air')
+})

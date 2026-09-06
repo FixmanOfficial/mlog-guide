@@ -7,11 +7,18 @@ import mindustry.core.ContentLoader;
 import mindustry.game.Team;
 import mindustry.type.ItemStack;
 import mindustry.type.UnitType;
+import mindustry.content.Blocks;
 import mindustry.world.Block;
 import mindustry.world.blocks.logic.LogicBlock;
 import mindustry.world.blocks.logic.LogicDisplay;
 import mindustry.world.blocks.logic.MemoryBlock;
 import mindustry.world.blocks.logic.MessageBlock;
+import mindustry.world.blocks.environment.Floor;
+import mindustry.world.blocks.environment.OreBlock;
+import mindustry.world.blocks.environment.OverlayFloor;
+import mindustry.world.blocks.environment.Prop;
+import mindustry.world.blocks.environment.StaticWall;
+import mindustry.world.blocks.environment.TallBlock;
 import mindustry.world.meta.BuildVisibility;
 
 import java.lang.reflect.Field;
@@ -88,6 +95,7 @@ public class ContentDump{
             unit.number("accel", type.accel);
             unit.number("drag", type.drag);
             unit.number("rotateSpeed", type.rotateSpeed);
+            unit.number("floorMultiplier", type.floorMultiplier);
             unit.number("strafePenalty", type.strafePenalty);
             unit.number("boostMultiplier", type.boostMultiplier);
             unit.number("riseSpeed", type.riseSpeed);
@@ -138,6 +146,8 @@ public class ContentDump{
         for(Block block : Vars.content.blocks()){
             Json spec = new Json();
 
+            // Внутренний идентификатор контента: по нему игра решает, чей край рисуется поверх
+            spec.number("id", block.id);
             spec.number("size", block.size);
             spec.number("health", block.health);
             spec.number("armor", block.armor);
@@ -182,6 +192,27 @@ public class ContentDump{
                 spec.number("maxNewlines", message.maxNewlines);
             }
 
+            // Среда: пол, руда, статичная стена. Отличать их обязательно — рисуются они
+            // по-разному, а `ucontrol getBlock` отдаёт пол и руду отдельно от здания
+            String kind = kind(block);
+            if(kind != null) spec.string("kind", kind);
+
+            if(block.variants > 0) spec.number("variants", block.variants);
+            if(block.itemDrop != null) spec.string("itemDrop", block.itemDrop.name);
+
+            if(block instanceof Floor floor){
+                spec.number("speedMultiplier", floor.speedMultiplier);
+                spec.number("dragMultiplier", floor.dragMultiplier);
+                spec.bool("isLiquid", floor.isLiquid);
+                spec.bool("drawEdgeIn", floor.drawEdgeIn);
+                spec.bool("drawEdgeOut", floor.drawEdgeOut);
+                spec.bool("hasSurface", floor.hasSurface());
+
+                // Группа смешивания: край рисует не сам пол, а его группа. Floor.blendGroup
+                if(floor.blendGroup != floor) spec.string("blendGroup", floor.blendGroup.name);
+                if(floor.wall != Blocks.air) spec.string("wall", floor.wall.name);
+            }
+
             List<String> requirements = new ArrayList<>();
             for(ItemStack stack : block.requirements){
                 requirements.add("{\"item\": \"" + stack.item.name + "\", \"amount\": " + stack.amount + "}");
@@ -205,6 +236,19 @@ public class ContentDump{
             if(Modifier.isStatic(field.getModifiers()) && field.get(null) == visibility) return field.getName();
         }
         return "unknown";
+    }
+
+    /**
+     * Что это за блок с точки зрения карты. Порядок проверок важен: руда это тоже наложение,
+     * а наложение — тоже пол.
+     */
+    static String kind(Block block){
+        if(block instanceof OreBlock) return "ore";
+        if(block instanceof OverlayFloor) return "overlay";
+        if(block instanceof StaticWall) return "staticWall";
+        if(block instanceof Prop || block instanceof TallBlock) return "prop";
+        if(block instanceof Floor) return "floor";
+        return null;
     }
 
     /**

@@ -286,3 +286,45 @@ test('сброс мира возвращает юнитов на место и �
     assert.equal(unit.y, after.y)
     assert.equal(unit.vel.x, after.vx)
 })
+
+test('ucontrol getBlock отдаёт стену, здание и руду с полом', () => {
+    const {world, processor} = setup([
+        'ubind @poly',
+        'ucontrol getBlock 3 3 блок здание пол'
+    ].join('\n'))
+
+    world.spawn('poly', {x: 3, y: 3})
+    world.setFloor(3, 3, 'sand-floor')
+    world.setOverlay(3, 3, 'ore-copper')
+
+    processor.run(2)
+
+    // Руда важнее пола: третий результат отдаёт её, а пол только если руды нет
+    assert.equal(processor.get('пол').obj().name, 'ore-copper')
+    assert.equal(processor.get('блок').obj().name, 'air')
+    assert.equal(processor.get('здание').obj(), null)
+
+    world.setOverlay(3, 3, null)
+    world.setWall(3, 3, 'stone-wall')
+    processor.run(2)
+
+    assert.equal(processor.get('пол').obj().name, 'sand-floor')
+    assert.equal(processor.get('блок').obj().name, 'stone-wall')
+})
+
+test('пол под ногами меняет скорость и трение наземного юнита', () => {
+    const world = new World({width: 8, height: 8, floor: 'stone'})
+    const dagger = world.spawn('dagger', {x: 2, y: 2})
+
+    assert.equal(dagger.speed(), UNIT_SPECS.dagger.speed)
+
+    // deep-water: speedMultiplier 0.2. UnitComp.floorSpeedMultiplier возводит его
+    // в степень floorMultiplier юнита, у кинжала она единичная
+    world.setFloor(2, 2, 'deep-water')
+    assert.ok(Math.abs(dagger.speed() - UNIT_SPECS.dagger.speed * 0.2) < 1e-6)
+
+    // А летящий пола не касается вовсе
+    const poly = world.spawn('poly', {x: 2, y: 2})
+    assert.equal(poly.floorOn(), null)
+    assert.equal(poly.speed(), Math.fround(UNIT_SPECS.poly.speed))
+})

@@ -9,6 +9,8 @@ import assert from 'node:assert/strict'
 import {World} from '@mlog/core/src/world.js'
 import {UNIT_SPECS} from '@mlog/core/src/unit.js'
 import unitSprites from '@mlog/core/data/unit-sprites.json' with {type: 'json'}
+import terrainSprites from '@mlog/core/data/terrain-sprites.json' with {type: 'json'}
+import blockSpecs from '@mlog/core/data/block-specs.json' with {type: 'json'}
 import teams from '@mlog/core/data/teams.json' with {type: 'json'}
 import pal from '@mlog/core/data/pal.json' with {type: 'json'}
 
@@ -118,4 +120,52 @@ test('юнит занимает на холсте столько же, скол�
 
     // И размер юнита в игре не равен спрайту: hitSize это коробка попаданий, она меньше
     assert.ok(UNIT_SPECS.poly.hitSize * it.unit < expected)
+})
+
+test('в атласе местности есть все варианты плиток и листы краёв', () => {
+    const {sprites} = terrainSprites
+    let floors = 0
+
+    for (const [name, spec] of Object.entries(blockSpecs.blocks)) {
+        if (!['floor', 'overlay', 'ore', 'staticWall'].includes(spec.kind)) continue
+
+        // Плитка либо одна, либо пронумерованные варианты — как их ищет Floor.load
+        const first = spec.variants > 0 ? `${name}1` : name
+        if (sprites[first] === undefined) continue
+
+        floors++
+
+        for (let i = 1; i < (spec.variants ?? 0); i++) {
+            assert.ok(sprites[`${name}${i + 1}`] !== undefined, `${name}: нет варианта ${i + 1}`)
+        }
+    }
+
+    assert.ok(floors > 100, `плиток нашлось ${floors}`)
+})
+
+test('лист краёв — три плитки на три, как его режет Floor.load', () => {
+    const cell = terrainSprites.tile
+    const sheets = Object.entries(terrainSprites.sprites).filter(([name]) => name.endsWith('-edge'))
+
+    assert.ok(sheets.length > 40, `листов ${sheets.length}`)
+
+    for (const [name, entry] of sheets) {
+        assert.equal(entry.width, cell * 3, name)
+        assert.equal(entry.height, cell * 3, name)
+    }
+})
+
+test('пока атлас местности не загрузился, вид не кеширует пустую картинку', () => {
+    const world = new World({width: 4, height: 4})
+
+    // Картинки нет вовсе — рисуется сетка
+    assert.equal(new WorldView(fakeCanvas(), {world, tile: 32}).groundReady(), false)
+
+    // Картинка есть, но ещё не готова: complete у неё уже true, а размера нет
+    const loading = {complete: true, naturalWidth: 0}
+    const view = new WorldView(fakeCanvas(), {world, tile: 32, terrain: loading, terrainSprites})
+    assert.equal(view.groundReady(), false)
+
+    loading.naturalWidth = 1024
+    assert.equal(view.groundReady(), true)
 })

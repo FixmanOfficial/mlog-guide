@@ -1,7 +1,10 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 
-import {PI, E, radDeg, parseDouble, Rand, angle, dst, sinDeg, cosDeg, moveToward, Vec2} from '../src/arc.js'
+import {
+    PI, E, radDeg, parseDouble, Rand, angle, dst, sinDeg, cosDeg, moveToward, Vec2,
+    randomSeed, packPoint
+} from '../src/arc.js'
 import {Processor} from '../src/vm.js'
 
 test('@pi это float из Mathf, а не число пи двойной точности', () => {
@@ -117,4 +120,24 @@ test('moveToward доворачивает через ноль по коротк�
 
     // Ближе шага — сразу цель, без проскока
     assert.equal(moveToward(10, 12, 5), 12)
+})
+
+test('вариант плитки зависит только от координат, а не от порядка отрисовки', () => {
+    // Mathf.randomSeed от Point2.pack: один и тот же тайл всегда выглядит одинаково,
+    // поэтому карту можно перерисовывать сколько угодно раз
+    const at = (x, y) => randomSeed(packPoint(x, y), 0, 2)
+
+    assert.equal(at(5, 7), at(5, 7))
+    assert.ok(Array.from({length: 40}, (_, i) => at(i, 3)).every(v => v >= 0 && v <= 2))
+
+    // Соседние тайлы получают разные варианты — иначе поле было бы одноцветным
+    const row = Array.from({length: 20}, (_, i) => at(i, 0))
+    assert.ok(new Set(row).size > 1)
+})
+
+test('упаковка координат повторяет Point2.pack', () => {
+    assert.equal(packPoint(0, 0), 0)
+    assert.equal(packPoint(1, 0), 1 << 16)
+    assert.equal(packPoint(0, 1), 1)
+    assert.notEqual(packPoint(1, 2), packPoint(2, 1))
 })

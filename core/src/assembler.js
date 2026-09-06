@@ -613,14 +613,23 @@ const builders = {
                         }
 
                         // World.tileWorld округляет к ближайшему тайлу, а не отбрасывает дробь
-                        const building = vm.world?.at(Math.round(conv(x1)), Math.round(conv(y1))) ?? null
-                        const block = building === null ? 'air' : building.type
+                        const tx = Math.round(conv(x1))
+                        const ty = Math.round(conv(y1))
 
-                        values[2].setobj(vm.content?.types?.block?.find(item => item.name === block) ?? null)
-                        values[3].setobj(building)
+                        if (vm.world === null || !vm.world.inside(tx, ty)) {
+                            values[2].setobj(null)
+                            values[3].setobj(null)
+                            values[4].setobj(null)
+                            break
+                        }
 
-                        // Пол и руду мы не моделируем, поэтому третий результат всегда пуст
-                        values[4].setobj(null)
+                        const lookup = (name) => vm.content?.find?.(name) ?? null
+
+                        values[2].setobj(lookup(vm.world.blockAt(tx, ty)))
+                        values[3].setobj(vm.world.at(tx, ty) ?? null)
+
+                        // Третий результат — руда, если она есть, иначе пол. Так же в игре
+                        values[4].setobj(lookup(vm.world.overlayAt(tx, ty) ?? vm.world.floorAt(tx, ty)))
                         break
                     }
                 }

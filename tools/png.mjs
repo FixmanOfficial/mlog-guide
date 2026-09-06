@@ -2,8 +2,9 @@
  * Чтение и запись PNG без зависимостей.
  *
  * Нужно генераторам: разобрать спрайты игры, уменьшить их и сложить в один атлас.
- * Поддерживается ровно то, что встречается в ассетах Mindustry: восемь бит на канал,
- * без чересстрочности. Всё остальное честно роняет разбор, а не рисует мусор.
+ * Поддерживается то, что встречается в ассетах Mindustry: восемь бит на канал и палитра
+ * с четырьмя, двумя или одним битом на пиксель — плитки местности лежат именно так.
+ * Чересстрочность и шестнадцать бит честно роняют разбор, а не рисуют мусор.
  */
 
 import {inflateSync, deflateSync} from 'node:zlib'
@@ -34,7 +35,7 @@ export function decodePng(buffer) {
             depth = chunk.readUInt8(8)
             colorType = chunk.readUInt8(9)
             if (chunk.readUInt8(12) !== 0) throw new Error('чересстрочные PNG не поддерживаются')
-            if (depth !== 8) throw new Error(`не восемь бит на канал: ${depth}`)
+            if (![1, 2, 4, 8].includes(depth)) throw new Error(`неподдержанная глубина: ${depth}`)
         } else if (type === 'PLTE') palette = chunk
         else if (type === 'tRNS') alphaTable = chunk
         else if (type === 'IDAT') data.push(chunk)
@@ -44,14 +45,43 @@ export function decodePng(buffer) {
     }
 
     const channels = CHANNELS[colorType]
-    const raw = unfilter(inflateSync(Buffer.concat(data)), width, height, channels)
+
+    // Фильтр работает по байтам: шаг влево — байт на пиксель, но не меньше одного.
+    // При четырёх битах на пиксель в байте их два, и шаг становится единичным
+    const bits = depth * channels
+    const step = Math.max(1, Math.ceil(bits / 8))
+    const stride = Math.ceil(width * bits / 8)
+
+    const filtered = unfilter(inflateSync(Buffer.concat(data)), stride, height, step)
+    const raw = depth === 8 ? filtered : expand(filtered, width, height, channels, depth, stride, colorType)
 
     return {width, height, pixels: toRgba(raw, width, height, colorType, channels, palette, alphaTable)}
 }
 
+/**
+ * Разворачивает выборки короче байта в байт на выборку. У палитры байт остаётся номером
+ * цвета, у серого — растягивается на весь диапазон.
+ */
+function expand(raw, width, height, channels, depth, stride, colorType) {
+    const out = Buffer.alloc(width * height * channels)
+    const max = (1 << depth) - 1
+
+    for (let y = 0; y < height; y++) {
+        for (let i = 0; i < width * channels; i++) {
+            const bit = i * depth
+            const byte = raw[y * stride + (bit >> 3)]
+
+            // Выборки идут от старших битов к младшим
+            const value = (byte >> (8 - depth - (bit & 7))) & max
+            out[y * width * channels + i] = colorType === 3 ? value : Math.round(value * 255 / max)
+        }
+    }
+
+    return out
+}
+
 /** Снимает построчные фильтры PNG. */
-function unfilter(raw, width, height, channels) {
-    const stride = width * channels
+function unfilter(raw, stride, height, step) {
     const out = Buffer.alloc(height * stride)
     let offset = 0
 
@@ -60,9 +90,9 @@ function unfilter(raw, width, height, channels) {
 
         for (let x = 0; x < stride; x++) {
             const value = raw[offset + x]
-            const left = x >= channels ? out[y * stride + x - channels] : 0
+            const left = x >= step ? out[y * stride + x - step] : 0
             const up = y > 0 ? out[(y - 1) * stride + x] : 0
-            const corner = x >= channels && y > 0 ? out[(y - 1) * stride + x - channels] : 0
+            const corner = x >= step && y > 0 ? out[(y - 1) * stride + x - step] : 0
 
             let result
             if (filter === 0) result = value

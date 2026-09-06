@@ -19,10 +19,12 @@ import {WorldView} from '@mlog/render/src/world.js'
 import atlasUrl from '@mlog/editor/assets/content.png?url'
 import blocksUrl from '@mlog/render/assets/blocks.png?url'
 import unitsUrl from '@mlog/render/assets/units.png?url'
+import terrainUrl from '@mlog/render/assets/terrain.png?url'
 import logicFontUrl from '@mlog/render/assets/logic.ttf'
 import sprites from '@mlog/core/data/sprites.json'
 import blockSprites from '@mlog/core/data/block-sprites.json'
 import unitSprites from '@mlog/core/data/unit-sprites.json'
+import terrainSprites from '@mlog/core/data/terrain-sprites.json'
 import teams from '@mlog/core/data/teams.json'
 
 import {createScene, attachProcessor} from './scene.js'
@@ -128,6 +130,9 @@ export function Sandbox() {
         const units = new Image()
         units.src = unitsUrl
 
+        const terrain = new Image()
+        terrain.src = terrainUrl
+
         const displayView = new DisplayView(displayCanvas.current, {
             size: scene.display.spec.displaySize,
             pixelRatio: 4,
@@ -143,6 +148,8 @@ export function Sandbox() {
             units,
             unitSprites,
             teams,
+            terrain,
+            terrainSprites,
             atlas,
             sprites,
             font: 'Mindustry',
@@ -165,6 +172,7 @@ export function Sandbox() {
         atlas.decode().then(first, () => {})
         blocks.decode().then(first, () => {})
         units.decode().then(first, () => {})
+        terrain.decode().then(first, () => {})
         font.load().then(first, () => {})
         first()
         setReady(true)

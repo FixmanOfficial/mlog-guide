@@ -10,6 +10,7 @@
  */
 
 import {LVar} from './lvar.js'
+import blockSpecs from '../data/block-specs.json' with {type: 'json'}
 
 /** Типы контента, у которых есть таблица идентификаторов. GlobalVars.writableLookableContent */
 export const CONTENT_TYPES = ['block', 'unit', 'item', 'liquid']
@@ -63,5 +64,32 @@ export function createContent(data) {
         constant(`@${type}Count`, names.length, false)
     }
 
-    return {globals, types}
+    /*
+     * Кроме перечислимых блоков игра кладёт в константы **все** блоки, включая местность:
+     * `@sand-floor`, `@ore-copper`, `@stone-wall` — они приходят из `ucontrol getBlock`,
+     * и сравнивать результат не с чем, если константы нет. В таблицу `lookup` они при этом
+     * не входят, поэтому логического идентификатора у них нет. GlobalVars.java:122-127
+     *
+     * Единственное исключение — блоки, у которых есть одноимённый предмет: песок это `@sand`
+     * предмет, а не пол. Пол называется `sand-floor` именно поэтому.
+     */
+    const items = new Set(data.types.item ?? [])
+    const environment = []
+
+    for (const [name, spec] of Object.entries(blockSpecs.blocks)) {
+        if (items.has(name) || globals.has(`@${name}`)) continue
+
+        const block = new Content('block', name, -1)
+        block.kind = spec.kind ?? 'block'
+
+        environment.push(block)
+        constant(`@${name}`, block, true)
+    }
+
+    types.environment = environment
+
+    /** Объект контента по имени. Ищет среди констант, поэтому видит и местность. */
+    const find = (name) => globals.get(`@${name}`)?.objval ?? null
+
+    return {globals, types, find}
 }

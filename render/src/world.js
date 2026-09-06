@@ -11,6 +11,14 @@
  */
 
 import {polyPoints, polyRing, rectBorders} from './geometry.js'
+import {randomSeed, packPoint} from '@mlog/core/src/arc.js'
+import {BLOCK_SPECS} from '@mlog/core/src/world.js'
+
+/**
+ * Geometry.d8 — восемь соседей по кругу, начиная с правого. Порядок важен: игра перебирает
+ * их именно так, и от него зависит, чей край ляжет поверх чьего.
+ */
+const D8 = [[1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1], [1, -1]]
 
 /** Vars.tilesize: восемь мировых единиц на тайл. */
 export const TILE_UNITS = 8
@@ -49,6 +57,7 @@ export class WorldView {
         world, tile = 32,
         blocks = null, blockSprites = null,
         units = null, unitSprites = null, teams = null,
+        terrain = null, terrainSprites = null,
         atlas = null, sprites = null,
         displays = new Map(), font = 'MlogUi'
     } = {}) {
@@ -60,6 +69,12 @@ export class WorldView {
         this.units = units
         this.unitSprites = unitSprites
         this.teams = teams
+        this.terrain = terrain
+        this.terrainSprites = terrainSprites
+
+        // Местность неподвижна: рисуется один раз в свой холст и дальше просто копируется
+        this.ground = null
+        this.groundVersion = -1
         this.atlas = atlas
         this.sprites = sprites
         this.displays = displays
@@ -114,7 +129,9 @@ export class WorldView {
         context.fillStyle = VOID
         context.fillRect(0, 0, this.canvas.width, this.canvas.height)
 
-        this.drawGrid()
+        if (this.groundReady()) this.drawGround()
+        else this.drawGrid()
+
         for (const building of this.world.buildings) this.drawBuilding(building)
 
         // Юниты идут поверх зданий: в игре у них слой 60 против 30 у блоков
@@ -140,6 +157,128 @@ export class WorldView {
 
         for (const [x, y, width, height] of rectBorders(cx - half, cy - half, half * 2, half * 2, this.unit)) {
             context.fillRect(x, y, width, height)
+        }
+    }
+
+    /**
+     * Готова ли местность к отрисовке. Картинка может ещё грузиться: пока её нет, рисуется
+     * сетка, а собирать местность нельзя — иначе пустой холст закешируется навсегда.
+     */
+    groundReady() {
+        return this.terrainSprites !== null && this.terrain !== null
+            && this.terrain.complete && this.terrain.naturalWidth > 0
+    }
+
+    /** Копирует готовую местность, пересобирая её, только если мир изменился. */
+    drawGround() {
+        if (this.ground === null || this.groundVersion !== this.world.terrainVersion) {
+            this.buildGround()
+            this.groundVersion = this.world.terrainVersion
+        }
+
+        this.context.drawImage(this.ground, 0, 0)
+    }
+
+    /**
+     * Собирает местность целиком: пол, мягкие края переходов, руда, статичные стены.
+     *
+     * Порядок из `Floor.drawBase`: сначала своя плитка, потом края соседей, потом наложение.
+     * Стены рисуются после — они часть местности, но лежат поверх пола.
+     */
+    buildGround() {
+        const step = this.tile * this.ratio
+
+        if (this.ground === null) {
+            this.ground = document.createElement('canvas')
+        }
+
+        this.ground.width = this.canvas.width
+        this.ground.height = this.canvas.height
+
+        const context = this.ground.getContext('2d')
+        context.imageSmoothingEnabled = false
+        context.clearRect(0, 0, this.ground.width, this.ground.height)
+
+        for (let y = 0; y < this.world.height; y++) {
+            for (let x = 0; x < this.world.width; x++) {
+                const left = x * step
+                const top = (this.world.height - 1 - y) * step
+
+                const floor = this.world.floorAt(x, y)
+                this.tileSprite(context, floor, x, y, left, top, step)
+                this.tileEdges(context, x, y, left, top, step)
+
+                const overlay = this.world.overlayAt(x, y)
+                if (overlay !== null) this.tileSprite(context, overlay, x, y, left, top, step)
+
+                const wall = this.world.wallAt(x, y)
+                if (wall !== null) this.tileSprite(context, wall, x, y, left, top, step)
+            }
+        }
+    }
+
+    /**
+     * Плитка нужного варианта. Вариант не случайный: `Mathf.randomSeed` от упакованных
+     * координат — поэтому один и тот же тайл всегда выглядит одинаково.
+     */
+    tileSprite(context, name, x, y, left, top, step) {
+        if (name === null) return
+
+        const variants = BLOCK_SPECS[name]?.variants ?? 0
+        const index = variants > 0 ? randomSeed(packPoint(x, y), 0, variants - 1) : 0
+        const key = variants > 0 ? `${name}${index + 1}` : name
+
+        const entry = this.terrainSprites.sprites[key]
+        if (entry === undefined) return
+
+        const image = this.cut(`terrain:${key}`, this.terrain, entry.x, entry.y, entry.width, entry.height)
+        if (image === null) return
+
+        // Стена шире тайла (у больших спрайтов), поэтому рисуем по центру, а не от угла
+        const width = entry.width / this.terrainSprites.tile * step
+        const height = entry.height / this.terrainSprites.tile * step
+
+        context.drawImage(image, left + (step - width) / 2, top + (step - height) / 2, width, height)
+    }
+
+    /**
+     * Мягкие переходы. `Floor.drawEdges`: сосед рисует свой край на нас, если его
+     * идентификатор больше нашего — так у пары полов всегда один и тот же побеждает,
+     * и граница не мерцает.
+     */
+    tileEdges(context, x, y, left, top, step) {
+        const own = BLOCK_SPECS[this.world.floorAt(x, y)]
+        if (own === undefined) return
+
+        for (const [dx, dy] of D8) {
+            const name = this.world.floorAt(x + dx, y + dy)
+            if (name === null) continue
+
+            const other = BLOCK_SPECS[name]
+            if (other === undefined || other.drawEdgeOut === false) continue
+            if (other.id <= own.id) continue
+
+            // Край рисует группа смешивания, а не сам пол
+            const sheet = this.terrainSprites.sprites[`${other.blendGroup ?? name}-edge`]
+            if (sheet === undefined) continue
+
+            const image = this.cut(`terrain:${name}-edge`, this.terrain,
+                sheet.x, sheet.y, sheet.width, sheet.height)
+            if (image === null) continue
+
+            /*
+             * Ячейка листа: `edges[rx][2 - ry]` при `rx = 1 - dx`, `ry = 1 - dy`. Первый
+             * индекс у `TextureRegion.split` — столбец, второй — строка, так что клетка
+             * оказывается зеркальной направлению соседа. Клякса стенсиля симметрична,
+             * поэтому в игре это незаметно; повторяем как в исходнике.
+             */
+            const column = 1 - dx
+            const row = 1 + dy
+            const cell = this.terrainSprites.tile
+
+            context.drawImage(image,
+                column * cell, row * cell, cell, cell,
+                left, top, step, step)
         }
     }
 

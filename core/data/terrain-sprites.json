@@ -1,0 +1,1895 @@
+{
+  "gameVersion": "v159.7",
+  "source": "core/assets-raw/sprites/blocks/environment",
+  "note": "Файл сгенерирован, править вручную нельзя. Плитки лежат по 32 пикселя, листы краёв — по 96: три на три плитки, как их режет Floor.load.",
+  "atlas": "render/assets/terrain.png",
+  "tile": 32,
+  "width": 1024,
+  "height": 960,
+  "sprites": {
+    "deep-water-edge": {
+      "x": 0,
+      "y": 0,
+      "width": 96,
+      "height": 96
+    },
+    "shallow-water-edge": {
+      "x": 96,
+      "y": 0,
+      "width": 96,
+      "height": 96
+    },
+    "tainted-water-edge": {
+      "x": 192,
+      "y": 0,
+      "width": 96,
+      "height": 96
+    },
+    "deep-tainted-water-edge": {
+      "x": 288,
+      "y": 0,
+      "width": 96,
+      "height": 96
+    },
+    "tar-edge": {
+      "x": 384,
+      "y": 0,
+      "width": 96,
+      "height": 96
+    },
+    "pooled-cryofluid-edge": {
+      "x": 480,
+      "y": 0,
+      "width": 96,
+      "height": 96
+    },
+    "molten-slag-edge": {
+      "x": 576,
+      "y": 0,
+      "width": 96,
+      "height": 96
+    },
+    "space-edge": {
+      "x": 672,
+      "y": 0,
+      "width": 96,
+      "height": 96
+    },
+    "empty-edge": {
+      "x": 768,
+      "y": 0,
+      "width": 96,
+      "height": 96
+    },
+    "stone-edge": {
+      "x": 864,
+      "y": 0,
+      "width": 96,
+      "height": 96
+    },
+    "basalt-edge": {
+      "x": 0,
+      "y": 96,
+      "width": 96,
+      "height": 96
+    },
+    "sand-floor-edge": {
+      "x": 96,
+      "y": 96,
+      "width": 96,
+      "height": 96
+    },
+    "darksand-edge": {
+      "x": 192,
+      "y": 96,
+      "width": 96,
+      "height": 96
+    },
+    "dirt-edge": {
+      "x": 288,
+      "y": 96,
+      "width": 96,
+      "height": 96
+    },
+    "mud-edge": {
+      "x": 384,
+      "y": 96,
+      "width": 96,
+      "height": 96
+    },
+    "dacite-edge": {
+      "x": 480,
+      "y": 96,
+      "width": 96,
+      "height": 96
+    },
+    "rhyolite-edge": {
+      "x": 576,
+      "y": 96,
+      "width": 96,
+      "height": 96
+    },
+    "rough-rhyolite-edge": {
+      "x": 672,
+      "y": 96,
+      "width": 96,
+      "height": 96
+    },
+    "regolith-edge": {
+      "x": 768,
+      "y": 96,
+      "width": 96,
+      "height": 96
+    },
+    "yellow-stone-edge": {
+      "x": 864,
+      "y": 96,
+      "width": 96,
+      "height": 96
+    },
+    "carbon-stone-edge": {
+      "x": 0,
+      "y": 192,
+      "width": 96,
+      "height": 96
+    },
+    "ferric-stone-edge": {
+      "x": 96,
+      "y": 192,
+      "width": 96,
+      "height": 96
+    },
+    "beryllic-stone-edge": {
+      "x": 192,
+      "y": 192,
+      "width": 96,
+      "height": 96
+    },
+    "crystalline-stone-edge": {
+      "x": 288,
+      "y": 192,
+      "width": 96,
+      "height": 96
+    },
+    "crystal-floor-edge": {
+      "x": 384,
+      "y": 192,
+      "width": 96,
+      "height": 96
+    },
+    "yellow-stone-plates-edge": {
+      "x": 480,
+      "y": 192,
+      "width": 96,
+      "height": 96
+    },
+    "red-stone-edge": {
+      "x": 576,
+      "y": 192,
+      "width": 96,
+      "height": 96
+    },
+    "dense-red-stone-edge": {
+      "x": 672,
+      "y": 192,
+      "width": 96,
+      "height": 96
+    },
+    "red-ice-edge": {
+      "x": 768,
+      "y": 192,
+      "width": 96,
+      "height": 96
+    },
+    "arkycite-floor-edge": {
+      "x": 864,
+      "y": 192,
+      "width": 96,
+      "height": 96
+    },
+    "arkyic-stone-edge": {
+      "x": 0,
+      "y": 288,
+      "width": 96,
+      "height": 96
+    },
+    "rhyolite-vent1": {
+      "x": 96,
+      "y": 288,
+      "width": 96,
+      "height": 96
+    },
+    "rhyolite-vent2": {
+      "x": 192,
+      "y": 288,
+      "width": 96,
+      "height": 96
+    },
+    "carbon-vent1": {
+      "x": 288,
+      "y": 288,
+      "width": 96,
+      "height": 96
+    },
+    "carbon-vent2": {
+      "x": 384,
+      "y": 288,
+      "width": 96,
+      "height": 96
+    },
+    "arkyic-vent1": {
+      "x": 480,
+      "y": 288,
+      "width": 96,
+      "height": 96
+    },
+    "arkyic-vent2": {
+      "x": 576,
+      "y": 288,
+      "width": 96,
+      "height": 96
+    },
+    "yellow-stone-vent1": {
+      "x": 672,
+      "y": 288,
+      "width": 96,
+      "height": 96
+    },
+    "yellow-stone-vent2": {
+      "x": 768,
+      "y": 288,
+      "width": 96,
+      "height": 96
+    },
+    "red-stone-vent1": {
+      "x": 864,
+      "y": 288,
+      "width": 96,
+      "height": 96
+    },
+    "red-stone-vent2": {
+      "x": 0,
+      "y": 384,
+      "width": 96,
+      "height": 96
+    },
+    "crystalline-vent1": {
+      "x": 96,
+      "y": 384,
+      "width": 96,
+      "height": 96
+    },
+    "crystalline-vent2": {
+      "x": 192,
+      "y": 384,
+      "width": 96,
+      "height": 96
+    },
+    "stone-vent1": {
+      "x": 288,
+      "y": 384,
+      "width": 96,
+      "height": 96
+    },
+    "stone-vent2": {
+      "x": 384,
+      "y": 384,
+      "width": 96,
+      "height": 96
+    },
+    "basalt-vent1": {
+      "x": 480,
+      "y": 384,
+      "width": 96,
+      "height": 96
+    },
+    "basalt-vent2": {
+      "x": 576,
+      "y": 384,
+      "width": 96,
+      "height": 96
+    },
+    "redmat-edge": {
+      "x": 672,
+      "y": 384,
+      "width": 96,
+      "height": 96
+    },
+    "bluemat-edge": {
+      "x": 768,
+      "y": 384,
+      "width": 96,
+      "height": 96
+    },
+    "grass-edge": {
+      "x": 864,
+      "y": 384,
+      "width": 96,
+      "height": 96
+    },
+    "salt-edge": {
+      "x": 0,
+      "y": 480,
+      "width": 96,
+      "height": 96
+    },
+    "snow-edge": {
+      "x": 96,
+      "y": 480,
+      "width": 96,
+      "height": 96
+    },
+    "ice-edge": {
+      "x": 192,
+      "y": 480,
+      "width": 96,
+      "height": 96
+    },
+    "ice-snow-edge": {
+      "x": 288,
+      "y": 480,
+      "width": 96,
+      "height": 96
+    },
+    "shale-edge": {
+      "x": 384,
+      "y": 480,
+      "width": 96,
+      "height": 96
+    },
+    "moss-edge": {
+      "x": 480,
+      "y": 480,
+      "width": 96,
+      "height": 96
+    },
+    "core-zone-edge": {
+      "x": 576,
+      "y": 480,
+      "width": 96,
+      "height": 96
+    },
+    "spore-moss-edge": {
+      "x": 672,
+      "y": 480,
+      "width": 96,
+      "height": 96
+    },
+    "metal-floor-edge": {
+      "x": 768,
+      "y": 480,
+      "width": 96,
+      "height": 96
+    },
+    "metal-floor-damaged-edge": {
+      "x": 864,
+      "y": 480,
+      "width": 96,
+      "height": 96
+    },
+    "metal-floor-2-edge": {
+      "x": 0,
+      "y": 576,
+      "width": 96,
+      "height": 96
+    },
+    "metal-floor-3-edge": {
+      "x": 96,
+      "y": 576,
+      "width": 96,
+      "height": 96
+    },
+    "metal-floor-4-edge": {
+      "x": 192,
+      "y": 576,
+      "width": 96,
+      "height": 96
+    },
+    "metal-floor-5-edge": {
+      "x": 288,
+      "y": 576,
+      "width": 96,
+      "height": 96
+    },
+    "dark-panel-1-edge": {
+      "x": 384,
+      "y": 576,
+      "width": 96,
+      "height": 96
+    },
+    "dark-panel-2-edge": {
+      "x": 480,
+      "y": 576,
+      "width": 96,
+      "height": 96
+    },
+    "dark-panel-3-edge": {
+      "x": 576,
+      "y": 576,
+      "width": 96,
+      "height": 96
+    },
+    "dark-panel-4-edge": {
+      "x": 672,
+      "y": 576,
+      "width": 96,
+      "height": 96
+    },
+    "dark-panel-5-edge": {
+      "x": 768,
+      "y": 576,
+      "width": 96,
+      "height": 96
+    },
+    "dark-panel-6-edge": {
+      "x": 864,
+      "y": 576,
+      "width": 96,
+      "height": 96
+    },
+    "red-diamond-wall1": {
+      "x": 960,
+      "y": 576,
+      "width": 64,
+      "height": 64
+    },
+    "red-diamond-wall2": {
+      "x": 0,
+      "y": 672,
+      "width": 64,
+      "height": 64
+    },
+    "red-diamond-wall3": {
+      "x": 64,
+      "y": 672,
+      "width": 64,
+      "height": 64
+    },
+    "spore-pine": {
+      "x": 128,
+      "y": 672,
+      "width": 48,
+      "height": 48
+    },
+    "snow-pine": {
+      "x": 176,
+      "y": 672,
+      "width": 48,
+      "height": 48
+    },
+    "pine": {
+      "x": 224,
+      "y": 672,
+      "width": 48,
+      "height": 48
+    },
+    "spawn": {
+      "x": 272,
+      "y": 672,
+      "width": 32,
+      "height": 32
+    },
+    "remove-ore": {
+      "x": 304,
+      "y": 672,
+      "width": 32,
+      "height": 32
+    },
+    "deep-water": {
+      "x": 336,
+      "y": 672,
+      "width": 32,
+      "height": 32
+    },
+    "shallow-water": {
+      "x": 368,
+      "y": 672,
+      "width": 32,
+      "height": 32
+    },
+    "tainted-water": {
+      "x": 400,
+      "y": 672,
+      "width": 32,
+      "height": 32
+    },
+    "deep-tainted-water": {
+      "x": 432,
+      "y": 672,
+      "width": 32,
+      "height": 32
+    },
+    "tar": {
+      "x": 464,
+      "y": 672,
+      "width": 32,
+      "height": 32
+    },
+    "pooled-cryofluid": {
+      "x": 496,
+      "y": 672,
+      "width": 32,
+      "height": 32
+    },
+    "molten-slag": {
+      "x": 528,
+      "y": 672,
+      "width": 32,
+      "height": 32
+    },
+    "space": {
+      "x": 560,
+      "y": 672,
+      "width": 32,
+      "height": 32
+    },
+    "empty": {
+      "x": 592,
+      "y": 672,
+      "width": 32,
+      "height": 32
+    },
+    "stone1": {
+      "x": 624,
+      "y": 672,
+      "width": 32,
+      "height": 32
+    },
+    "stone2": {
+      "x": 656,
+      "y": 672,
+      "width": 32,
+      "height": 32
+    },
+    "stone3": {
+      "x": 688,
+      "y": 672,
+      "width": 32,
+      "height": 32
+    },
+    "crater-stone1": {
+      "x": 720,
+      "y": 672,
+      "width": 32,
+      "height": 32
+    },
+    "crater-stone2": {
+      "x": 752,
+      "y": 672,
+      "width": 32,
+      "height": 32
+    },
+    "crater-stone3": {
+      "x": 784,
+      "y": 672,
+      "width": 32,
+      "height": 32
+    },
+    "char1": {
+      "x": 816,
+      "y": 672,
+      "width": 32,
+      "height": 32
+    },
+    "char2": {
+      "x": 848,
+      "y": 672,
+      "width": 32,
+      "height": 32
+    },
+    "char3": {
+      "x": 880,
+      "y": 672,
+      "width": 32,
+      "height": 32
+    },
+    "basalt1": {
+      "x": 912,
+      "y": 672,
+      "width": 32,
+      "height": 32
+    },
+    "basalt2": {
+      "x": 944,
+      "y": 672,
+      "width": 32,
+      "height": 32
+    },
+    "basalt3": {
+      "x": 976,
+      "y": 672,
+      "width": 32,
+      "height": 32
+    },
+    "hotrock1": {
+      "x": 0,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "hotrock2": {
+      "x": 32,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "hotrock3": {
+      "x": 64,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "magmarock1": {
+      "x": 96,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "magmarock2": {
+      "x": 128,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "magmarock3": {
+      "x": 160,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "sand-floor1": {
+      "x": 192,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "sand-floor2": {
+      "x": 224,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "sand-floor3": {
+      "x": 256,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "darksand1": {
+      "x": 288,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "darksand2": {
+      "x": 320,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "darksand3": {
+      "x": 352,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "dirt1": {
+      "x": 384,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "dirt2": {
+      "x": 416,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "dirt3": {
+      "x": 448,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "mud1": {
+      "x": 480,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "mud2": {
+      "x": 512,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "mud3": {
+      "x": 544,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "dacite1": {
+      "x": 576,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "dacite2": {
+      "x": 608,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "dacite3": {
+      "x": 640,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "rhyolite1": {
+      "x": 672,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "rhyolite2": {
+      "x": 704,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "rhyolite3": {
+      "x": 736,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "rhyolite-crater1": {
+      "x": 768,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "rhyolite-crater2": {
+      "x": 800,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "rhyolite-crater3": {
+      "x": 832,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "rough-rhyolite1": {
+      "x": 864,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "rough-rhyolite2": {
+      "x": 896,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "rough-rhyolite3": {
+      "x": 928,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "regolith1": {
+      "x": 960,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "regolith2": {
+      "x": 992,
+      "y": 736,
+      "width": 32,
+      "height": 32
+    },
+    "regolith3": {
+      "x": 0,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "yellow-stone1": {
+      "x": 32,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "yellow-stone2": {
+      "x": 64,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "yellow-stone3": {
+      "x": 96,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "carbon-stone1": {
+      "x": 128,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "carbon-stone2": {
+      "x": 160,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "carbon-stone3": {
+      "x": 192,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "carbon-stone4": {
+      "x": 224,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "ferric-stone1": {
+      "x": 256,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "ferric-stone2": {
+      "x": 288,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "ferric-stone3": {
+      "x": 320,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "ferric-craters1": {
+      "x": 352,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "ferric-craters2": {
+      "x": 384,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "ferric-craters3": {
+      "x": 416,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "beryllic-stone1": {
+      "x": 448,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "beryllic-stone2": {
+      "x": 480,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "beryllic-stone3": {
+      "x": 512,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "beryllic-stone4": {
+      "x": 544,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "crystalline-stone1": {
+      "x": 576,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "crystalline-stone2": {
+      "x": 608,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "crystalline-stone3": {
+      "x": 640,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "crystalline-stone4": {
+      "x": 672,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "crystalline-stone5": {
+      "x": 704,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "crystal-floor1": {
+      "x": 736,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "crystal-floor2": {
+      "x": 768,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "crystal-floor3": {
+      "x": 800,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "crystal-floor4": {
+      "x": 832,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "yellow-stone-plates1": {
+      "x": 864,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "yellow-stone-plates2": {
+      "x": 896,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "yellow-stone-plates3": {
+      "x": 928,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "red-stone1": {
+      "x": 960,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "red-stone2": {
+      "x": 992,
+      "y": 768,
+      "width": 32,
+      "height": 32
+    },
+    "red-stone3": {
+      "x": 0,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "red-stone4": {
+      "x": 32,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "dense-red-stone1": {
+      "x": 64,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "dense-red-stone2": {
+      "x": 96,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "dense-red-stone3": {
+      "x": 128,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "dense-red-stone4": {
+      "x": 160,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "red-ice1": {
+      "x": 192,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "red-ice2": {
+      "x": 224,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "red-ice3": {
+      "x": 256,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "arkycite-floor": {
+      "x": 288,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "arkyic-stone1": {
+      "x": 320,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "arkyic-stone2": {
+      "x": 352,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "arkyic-stone3": {
+      "x": 384,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "redmat1": {
+      "x": 416,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "redmat2": {
+      "x": 448,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "redmat3": {
+      "x": 480,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "bluemat1": {
+      "x": 512,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "bluemat2": {
+      "x": 544,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "bluemat3": {
+      "x": 576,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "grass1": {
+      "x": 608,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "grass2": {
+      "x": 640,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "grass3": {
+      "x": 672,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "salt": {
+      "x": 704,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "snow1": {
+      "x": 736,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "snow2": {
+      "x": 768,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "snow3": {
+      "x": 800,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "ice1": {
+      "x": 832,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "ice2": {
+      "x": 864,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "ice3": {
+      "x": 896,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "ice-snow1": {
+      "x": 928,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "ice-snow2": {
+      "x": 960,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "ice-snow3": {
+      "x": 992,
+      "y": 800,
+      "width": 32,
+      "height": 32
+    },
+    "shale1": {
+      "x": 0,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "shale2": {
+      "x": 32,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "shale3": {
+      "x": 64,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "moss1": {
+      "x": 96,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "moss2": {
+      "x": 128,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "moss3": {
+      "x": 160,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "core-zone": {
+      "x": 192,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "spore-moss1": {
+      "x": 224,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "spore-moss2": {
+      "x": 256,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "spore-moss3": {
+      "x": 288,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "stone-wall1": {
+      "x": 320,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "stone-wall2": {
+      "x": 352,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "spore-wall1": {
+      "x": 384,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "spore-wall2": {
+      "x": 416,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "dirt-wall1": {
+      "x": 448,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "dirt-wall2": {
+      "x": 480,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "dacite-wall1": {
+      "x": 512,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "dacite-wall2": {
+      "x": 544,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "ice-wall1": {
+      "x": 576,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "ice-wall2": {
+      "x": 608,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "snow-wall1": {
+      "x": 640,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "snow-wall2": {
+      "x": 672,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "dune-wall1": {
+      "x": 704,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "dune-wall2": {
+      "x": 736,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "regolith-wall1": {
+      "x": 768,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "regolith-wall2": {
+      "x": 800,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "yellow-stone-wall1": {
+      "x": 832,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "yellow-stone-wall2": {
+      "x": 864,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "rhyolite-wall1": {
+      "x": 896,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "rhyolite-wall2": {
+      "x": 928,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "carbon-wall1": {
+      "x": 960,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "carbon-wall2": {
+      "x": 992,
+      "y": 832,
+      "width": 32,
+      "height": 32
+    },
+    "ferric-stone-wall1": {
+      "x": 0,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "ferric-stone-wall2": {
+      "x": 32,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "beryllic-stone-wall1": {
+      "x": 64,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "beryllic-stone-wall2": {
+      "x": 96,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "arkyic-wall1": {
+      "x": 128,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "arkyic-wall2": {
+      "x": 160,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "arkyic-wall3": {
+      "x": 192,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "crystalline-stone-wall1": {
+      "x": 224,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "crystalline-stone-wall2": {
+      "x": 256,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "crystalline-stone-wall3": {
+      "x": 288,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "crystalline-stone-wall4": {
+      "x": 320,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "red-ice-wall1": {
+      "x": 352,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "red-ice-wall2": {
+      "x": 384,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "red-stone-wall1": {
+      "x": 416,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "red-stone-wall2": {
+      "x": 448,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "sand-wall1": {
+      "x": 480,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "sand-wall2": {
+      "x": 512,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "salt-wall1": {
+      "x": 544,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "salt-wall2": {
+      "x": 576,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "shrubs1": {
+      "x": 608,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "shrubs2": {
+      "x": 640,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "shale-wall1": {
+      "x": 672,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "shale-wall2": {
+      "x": 704,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "metal-floor": {
+      "x": 736,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "metal-floor-damaged1": {
+      "x": 768,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "metal-floor-damaged2": {
+      "x": 800,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "metal-floor-damaged3": {
+      "x": 832,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "metal-floor-2": {
+      "x": 864,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "metal-floor-3": {
+      "x": 896,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "metal-floor-4": {
+      "x": 928,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "metal-floor-5": {
+      "x": 960,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "dark-panel-1": {
+      "x": 992,
+      "y": 864,
+      "width": 32,
+      "height": 32
+    },
+    "dark-panel-2": {
+      "x": 0,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "dark-panel-3": {
+      "x": 32,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "dark-panel-4": {
+      "x": 64,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "dark-panel-5": {
+      "x": 96,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "dark-panel-6": {
+      "x": 128,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "dark-metal1": {
+      "x": 160,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "dark-metal2": {
+      "x": 192,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "pebbles1": {
+      "x": 224,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "pebbles2": {
+      "x": 256,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "pebbles3": {
+      "x": 288,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "tendrils1": {
+      "x": 320,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "tendrils2": {
+      "x": 352,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "tendrils3": {
+      "x": 384,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "ore-copper1": {
+      "x": 416,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "ore-copper2": {
+      "x": 448,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "ore-copper3": {
+      "x": 480,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "ore-lead1": {
+      "x": 512,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "ore-lead2": {
+      "x": 544,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "ore-lead3": {
+      "x": 576,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "ore-scrap1": {
+      "x": 608,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "ore-scrap2": {
+      "x": 640,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "ore-scrap3": {
+      "x": 672,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "ore-coal1": {
+      "x": 704,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "ore-coal2": {
+      "x": 736,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "ore-coal3": {
+      "x": 768,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "ore-titanium1": {
+      "x": 800,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "ore-titanium2": {
+      "x": 832,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "ore-titanium3": {
+      "x": 864,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "ore-thorium1": {
+      "x": 896,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "ore-thorium2": {
+      "x": 928,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "ore-thorium3": {
+      "x": 960,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "ore-beryllium1": {
+      "x": 992,
+      "y": 896,
+      "width": 32,
+      "height": 32
+    },
+    "ore-beryllium2": {
+      "x": 0,
+      "y": 928,
+      "width": 32,
+      "height": 32
+    },
+    "ore-beryllium3": {
+      "x": 32,
+      "y": 928,
+      "width": 32,
+      "height": 32
+    },
+    "ore-tungsten1": {
+      "x": 64,
+      "y": 928,
+      "width": 32,
+      "height": 32
+    },
+    "ore-tungsten2": {
+      "x": 96,
+      "y": 928,
+      "width": 32,
+      "height": 32
+    },
+    "ore-tungsten3": {
+      "x": 128,
+      "y": 928,
+      "width": 32,
+      "height": 32
+    },
+    "ore-crystal-thorium1": {
+      "x": 160,
+      "y": 928,
+      "width": 32,
+      "height": 32
+    },
+    "ore-crystal-thorium2": {
+      "x": 192,
+      "y": 928,
+      "width": 32,
+      "height": 32
+    },
+    "ore-crystal-thorium3": {
+      "x": 224,
+      "y": 928,
+      "width": 32,
+      "height": 32
+    },
+    "ore-wall-thorium1": {
+      "x": 256,
+      "y": 928,
+      "width": 32,
+      "height": 32
+    },
+    "ore-wall-thorium2": {
+      "x": 288,
+      "y": 928,
+      "width": 32,
+      "height": 32
+    },
+    "ore-wall-thorium3": {
+      "x": 320,
+      "y": 928,
+      "width": 32,
+      "height": 32
+    },
+    "ore-wall-beryllium1": {
+      "x": 352,
+      "y": 928,
+      "width": 32,
+      "height": 32
+    },
+    "ore-wall-beryllium2": {
+      "x": 384,
+      "y": 928,
+      "width": 32,
+      "height": 32
+    },
+    "ore-wall-beryllium3": {
+      "x": 416,
+      "y": 928,
+      "width": 32,
+      "height": 32
+    },
+    "graphitic-wall1": {
+      "x": 448,
+      "y": 928,
+      "width": 32,
+      "height": 32
+    },
+    "graphitic-wall2": {
+      "x": 480,
+      "y": 928,
+      "width": 32,
+      "height": 32
+    },
+    "graphitic-wall3": {
+      "x": 512,
+      "y": 928,
+      "width": 32,
+      "height": 32
+    },
+    "ore-wall-graphite1": {
+      "x": 544,
+      "y": 928,
+      "width": 32,
+      "height": 32
+    },
+    "ore-wall-graphite2": {
+      "x": 576,
+      "y": 928,
+      "width": 32,
+      "height": 32
+    },
+    "ore-wall-graphite3": {
+      "x": 608,
+      "y": 928,
+      "width": 32,
+      "height": 32
+    },
+    "ore-wall-tungsten1": {
+      "x": 640,
+      "y": 928,
+      "width": 32,
+      "height": 32
+    },
+    "ore-wall-tungsten2": {
+      "x": 672,
+      "y": 928,
+      "width": 32,
+      "height": 32
+    },
+    "ore-wall-tungsten3": {
+      "x": 704,
+      "y": 928,
+      "width": 32,
+      "height": 32
+    }
+  }
+}

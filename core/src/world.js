@@ -339,7 +339,11 @@ const LINK_PREFIX = {
 }
 
 export class World {
-    constructor({width = 40, height = 40, content = null} = {}) {
+    /**
+     * @param floor чем застелен мир изначально. Слоёв у тайла три, как в игре: пол,
+     *              наложение (руда) и статичная стена — `Tile.floor`, `overlay`, `block`
+     */
+    constructor({width = 40, height = 40, content = null, floor = 'stone'} = {}) {
         this.width = width
         this.height = height
         this.content = content
@@ -349,6 +353,69 @@ export class World {
         this.units = []
         this.linkCounters = new Map()
         this.nextUnitId = 0
+
+        const size = width * height
+        this.floors = new Array(size).fill(floor)
+        this.overlays = new Array(size).fill(null)
+        this.walls = new Array(size).fill(null)
+
+        // Местность неподвижна, поэтому рендер её кеширует. Номер меняется — кеш протухает
+        this.terrainVersion = 0
+    }
+
+    inside(x, y) {
+        return x >= 0 && y >= 0 && x < this.width && y < this.height
+    }
+
+    index(x, y) {
+        return y * this.width + x
+    }
+
+    /** Пол тайла. За краем мира пола нет — там `null`, как `world.tile()` отдаёт null. */
+    floorAt(x, y) {
+        return this.inside(x, y) ? this.floors[this.index(x, y)] : null
+    }
+
+    /** Наложение: руда или декоративный слой поверх пола. */
+    overlayAt(x, y) {
+        return this.inside(x, y) ? this.overlays[this.index(x, y)] : null
+    }
+
+    /** Статичная стена — часть местности, а не постройка: её нельзя разрушить и настроить. */
+    wallAt(x, y) {
+        return this.inside(x, y) ? this.walls[this.index(x, y)] : null
+    }
+
+    setFloor(x, y, name) {
+        if (!this.inside(x, y)) return this
+        this.floors[this.index(x, y)] = name
+        this.terrainVersion++
+        return this
+    }
+
+    setOverlay(x, y, name) {
+        if (!this.inside(x, y)) return this
+        this.overlays[this.index(x, y)] = name
+        this.terrainVersion++
+        return this
+    }
+
+    setWall(x, y, name) {
+        if (!this.inside(x, y)) return this
+        this.walls[this.index(x, y)] = name
+        this.terrainVersion++
+        return this
+    }
+
+    /**
+     * Что стоит на тайле с точки зрения `ucontrol getBlock`: постройка, статичная стена
+     * или воздух. Пол сюда не входит — он спрашивается отдельно.
+     */
+    blockAt(x, y) {
+        const building = this.at(x, y)
+        if (building !== undefined) return building.type
+
+        return this.wallAt(x, y) ?? 'air'
     }
 
     /** Ставит здание и выдаёт ему имя связи по типу и порядку подключения. */

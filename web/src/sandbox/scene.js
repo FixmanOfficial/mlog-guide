@@ -11,14 +11,46 @@
 import {World} from '@mlog/core/src/world.js'
 import {Processor} from '@mlog/core/src/vm.js'
 import {createContent} from '@mlog/core/src/content.js'
+import {simplexRaw2d} from '@mlog/core/src/arc.js'
 
 import logicIds from '@mlog/core/data/logic-ids.json'
 
 export const content = createContent(logicIds)
 
+/**
+ * Раскладывает местность: пол, руду и статичные стены.
+ *
+ * Шум тот же, что у генератора карт игры, — `Simplex` из arc, — но карта здесь маленькая
+ * и рукотворная: задача не повторить генерацию Серпуло, а дать сцене узнаваемую землю
+ * вместо пустоты. Раскладка детерминированная: одинаковый вход, одинаковая карта.
+ */
+function paintTerrain(world) {
+    for (let y = 0; y < world.height; y++) {
+        for (let x = 0; x < world.width; x++) {
+            const ground = simplexRaw2d(1, x / 9, y / 9)
+
+            // Три пола с разными идентификаторами: у камня он больше, поэтому его край
+            // ложится поверх песка, и переход выходит мягким
+            world.setFloor(x, y, ground > 0.3 ? 'stone' : ground < -0.25 ? 'sand-floor' : 'darksand')
+
+            // Руда лежит жилами, а не сыпью: частота ниже, порог выше
+            const ore = simplexRaw2d(7, x / 5, y / 5)
+            if (ore > 0.78) world.setOverlay(x, y, 'ore-copper')
+        }
+    }
+
+    // Пара скальных выходов по краям: место под ними всё равно ничем не занято
+    for (const [x, y] of [[0, 4], [0, 5], [1, 5], [19, 3], [19, 4], [18, 3]]) {
+        world.setWall(x, y, 'stone-wall')
+        world.setOverlay(x, y, null)
+    }
+}
+
 export function createScene() {
     // Контент миру нужен, чтобы `sensor @unit @type` отдавал @poly, а не строку
-    const world = new World({width: 20, height: 11, content})
+    const world = new World({width: 20, height: 11, content, floor: 'darksand'})
+
+    paintTerrain(world)
 
     const display = world.add('logic-display', {x: 15, y: 7})
     const cell = world.add('memory-cell', {x: 4, y: 3})

@@ -144,7 +144,51 @@ export class Rand {
     nextSignedLong() {
         return S64(this.nextLong())
     }
+
+    /** Rand.nextInt(): младшие 32 бита следующего long, со знаком. */
+    nextInt() {
+        return Number(BigInt.asIntN(32, this.nextLong()))
+    }
+
+    /**
+     * Rand.nextLong(n): отбрасывает знак и берёт остаток, повторяя, если остаток попал
+     * в неполный хвост диапазона. Проверка на переполнение сделана знаковым сложением,
+     * поэтому её видно только на очень больших n — но повторяем как есть.
+     */
+    nextBounded(n) {
+        const bound = BigInt(n)
+        if (bound <= 0n) throw new Error('граница должна быть положительной')
+
+        for (;;) {
+            const bits = this.nextLong() >> 1n
+            const value = bits % bound
+
+            if (S64(bits - value + (bound - 1n)) >= 0n) return Number(value)
+        }
+    }
 }
+
+/** Mathf.isPowerOfTwo */
+export const isPowerOfTwo = (value) => value !== 0 && (value & (value - 1)) === 0
+
+/**
+ * Mathf.randomSeed: «случайное» число, зависящее только от посева. Так игра выбирает вариант
+ * плитки по координатам тайла — один и тот же тайл всегда выглядит одинаково, и карта
+ * не мельтешит при перерисовке.
+ *
+ * Лишний вызов nextInt при степени двойки — не описка: без него на таких границах
+ * распределение заметно перекашивается. Mathf.java:297-303
+ */
+export function randomSeed(seed, min, max) {
+    const rand = new Rand(BigInt(seed))
+
+    if (isPowerOfTwo(max)) rand.nextInt()
+
+    return rand.nextBounded(max - min + 1) + min
+}
+
+/** Point2.pack: две короткие координаты в одно число. */
+export const packPoint = (x, y) => ((x << 16) | (y & 0xffff)) | 0
 
 /** Simplex.grad3: только первые две координаты участвуют в двумерном шуме. */
 const grad3 = [

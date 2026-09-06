@@ -17,6 +17,9 @@
  */
 
 import {Vec2, clamp, moveToward, approach} from './arc.js'
+import {NOT_SENSED} from './sense.js'
+import specs from '../data/unit-specs.json' with {type: 'json'}
+import blockSpecs from '../data/block-specs.json' with {type: 'json'}
 
 /*
  * Округление до float стоит там же, где в Java происходит присваивание во float. В движении
@@ -24,8 +27,6 @@ import {Vec2, clamp, moveToward, approach} from './arc.js'
  * за минуту разъезжается в заметный сдвиг.
  */
 const f = Math.fround
-import {NOT_SENSED} from './sense.js'
-import specs from '../data/unit-specs.json' with {type: 'json'}
 
 /** Vars.tilesize */
 export const TILE_SIZE = 8
@@ -219,15 +220,33 @@ export class Unit {
     }
 
     /**
-     * UnitComp.speed. Штраф за движение боком получает только игрок, множители пола и щита
-     * у нас единичны, поэтому остаётся скорость типа и надбавка за подъём.
+     * Пол под юнитом. Летящий и парящий его не касаются — для них это воздух, у которого
+     * множители единичны. UnitComp.floorSpeedMultiplier
+     */
+    floorOn() {
+        if (this.world === null || this.isFlying() || this.spec.hovering) return null
+
+        const name = this.world.floorAt(Math.round(conv(this.x)), Math.round(conv(this.y)))
+        return name === null ? null : blockSpecs.blocks[name] ?? null
+    }
+
+    /**
+     * UnitComp.speed. Штраф за движение боком получает только игрок, поэтому остаются
+     * скорость типа, надбавка за подъём и пол: по мелкой воде юнит ползёт вдвое медленнее,
+     * а по глубокой впятеро.
      */
     speed() {
         // Mathf.lerp(1, boostMultiplier, elevation)
         const boost = this.spec.canBoost
             ? f(1 + f(f(this.spec.boostMultiplier - 1) * this.elevation))
             : 1
-        return f(this.spec.speed * boost)
+
+        const floor = this.floorOn()
+        const surface = floor === null
+            ? 1
+            : f(Math.pow(floor.speedMultiplier ?? 1, this.spec.floorMultiplier))
+
+        return f(f(this.spec.speed * boost) * surface)
     }
 
     /**
@@ -314,7 +333,10 @@ export class Unit {
         this.y = f(this.y + f(this.vel.y * delta))
         this.vel.scl(Math.max(f(1 - f(this.drag * delta)), 0))
 
-        this.drag = this.spec.drag
+        // Трение тоже зависит от пола, и считается оно уже после переноса: в игре
+        // UnitComp.update идёт после VelComp.update
+        const floor = this.isGrounded() ? this.floorOn() : null
+        this.drag = f(this.spec.drag * (floor?.dragMultiplier ?? 1))
 
         if (this.controller !== null) this.controller.update(this, delta)
     }
