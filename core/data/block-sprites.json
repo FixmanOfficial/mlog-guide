@@ -1,70 +1,82 @@
 {
   "gameVersion": "v159.7",
-  "source": "core/assets-raw/sprites/blocks",
+  "source": "sprites/sprites.aatls из Mindustry.jar",
   "note": "Файл сгенерирован, править вручную нельзя. Спрайты лежат в своём разрешении: сторона блока в тайлах, умноженная на 32.",
   "atlas": "render/assets/blocks.png",
-  "width": 256,
-  "height": 384,
+  "width": 512,
+  "height": 224,
   "sprites": {
     "large-logic-display": {
       "x": 0,
       "y": 0,
-      "size": 192
+      "width": 192,
+      "height": 192
     },
     "hyper-processor": {
-      "x": 0,
-      "y": 192,
-      "size": 96
+      "x": 192,
+      "y": 0,
+      "width": 96,
+      "height": 96
     },
     "logic-display": {
-      "x": 96,
-      "y": 192,
-      "size": 96
+      "x": 288,
+      "y": 0,
+      "width": 96,
+      "height": 96
     },
     "logic-processor": {
-      "x": 192,
-      "y": 192,
-      "size": 64
+      "x": 384,
+      "y": 0,
+      "width": 64,
+      "height": 64
     },
     "memory-bank": {
+      "x": 448,
+      "y": 0,
+      "width": 64,
+      "height": 64
+    },
+    "micro-processor": {
       "x": 0,
-      "y": 288,
-      "size": 64
+      "y": 192,
+      "width": 32,
+      "height": 32
+    },
+    "memory-cell": {
+      "x": 32,
+      "y": 192,
+      "width": 32,
+      "height": 32
     },
     "message": {
       "x": 64,
-      "y": 288,
-      "size": 32
-    },
-    "switch-on": {
-      "x": 96,
-      "y": 288,
-      "size": 32
+      "y": 192,
+      "width": 32,
+      "height": 32
     },
     "switch": {
-      "x": 128,
-      "y": 288,
-      "size": 32
-    },
-    "door-open": {
-      "x": 160,
-      "y": 288,
-      "size": 32
+      "x": 96,
+      "y": 192,
+      "width": 32,
+      "height": 32
     },
     "door": {
+      "x": 128,
+      "y": 192,
+      "width": 32,
+      "height": 32
+    },
+    "switch-on": {
+      "x": 160,
+      "y": 192,
+      "width": 32,
+      "height": 32
+    },
+    "door-open": {
       "x": 192,
-      "y": 288,
-      "size": 32
-    },
-    "micro-processor": {
-      "x": 224,
-      "y": 288,
-      "size": 32
-    },
-    "memory-cell": {
-      "x": 0,
-      "y": 352,
-      "size": 32
+      "y": 192,
+      "width": 32,
+      "height": 32
     }
   }
 }

@@ -354,18 +354,24 @@ export class WorldView {
         const cx = unit.x / TILE_UNITS * step
         const cy = (this.world.height - unit.y / TILE_UNITS) * step
 
-        const width = sprite.width / SPRITE_SCALE * this.unit
-        const height = sprite.height / SPRITE_SCALE * this.unit
-
         const context = this.context
 
         context.save()
         context.translate(cx, cy)
         context.rotate(-(unit.rotation - 90) * Math.PI / 180)
-        context.drawImage(sprite.image, -width / 2, -height / 2, width, height)
+
+        // Каждый спрайт рисуется своим размером: у накладки он не всегда совпадает
+        // с корпусом — обводка добавляет корпусу точку-другую
+        const put = ({image, width, height}) => {
+            const w = width / SPRITE_SCALE * this.unit
+            const h = height / SPRITE_SCALE * this.unit
+            context.drawImage(image, -w / 2, -h / 2, w, h)
+        }
+
+        put(sprite)
 
         const cell = this.unitSprite(`${unit.type}-cell`, this.teamColor(unit.team))
-        if (cell !== null) context.drawImage(cell.image, -width / 2, -height / 2, width, height)
+        if (cell !== null) put(cell)
 
         context.restore()
     }
@@ -482,7 +488,7 @@ export class WorldView {
     sprite(type) {
         const native = this.blockSprites?.sprites?.[type]
         if (native !== undefined && this.blocks !== null) {
-            return this.cut(`block:${type}`, this.blocks, native.x, native.y, native.size)
+            return this.cut(`block:${type}`, this.blocks, native.x, native.y, native.width, native.height)
         }
 
         const cell = this.sprites?.index.block?.[type]
@@ -508,6 +514,10 @@ export class WorldView {
      */
     cut(key, image, x, y, width, height = width, color = null) {
         if (!image.complete || !(image.naturalWidth > 0)) return null
+
+        // Пустой размер означает, что указатель разошёлся с рендером: молчать тут нельзя,
+        // иначе холст нулевого размера уронит отрисовку на каждом кадре
+        if (!(width > 0) || !(height > 0)) throw new Error(`${key}: размер ${width} на ${height}`)
 
         const cached = this.icons.get(key)
         if (cached !== undefined) return cached

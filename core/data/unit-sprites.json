@@ -1,10 +1,10 @@
 {
   "gameVersion": "v159.7",
-  "source": "core/assets-raw/sprites/units",
-  "note": "Файл сгенерирован, править вручную нельзя. Спрайты лежат в своём разрешении: вчетверо крупнее мировых единиц, как Draw.scl в игре. Записи вида «имя-cell» — накладка, которую игра красит цветом команды.",
+  "source": "sprites/sprites.aatls из Mindustry.jar",
+  "note": "Файл сгенерирован, править вручную нельзя. Спрайты сняты из упакованного атласа игры, то есть уже с запечённой обводкой. Записи вида «имя-cell» — накладка, которую игра красит цветом команды.",
   "atlas": "render/assets/units.png",
   "width": 1024,
-  "height": 3102,
+  "height": 3220,
   "sprites": {
     "oct": {
       "x": 0,
@@ -54,641 +54,725 @@
       "width": 320,
       "height": 320
     },
-    "conquer": {
+    "latum": {
       "x": 0,
+      "y": 1151,
+      "width": 292,
+      "height": 278
+    },
+    "conquer": {
+      "x": 292,
       "y": 1151,
       "width": 213,
       "height": 276
     },
     "disrupt": {
-      "x": 213,
+      "x": 505,
       "y": 1151,
       "width": 243,
       "height": 243
     },
     "disrupt-cell": {
-      "x": 456,
+      "x": 748,
       "y": 1151,
       "width": 243,
       "height": 243
     },
     "aegires": {
-      "x": 699,
-      "y": 1151,
+      "x": 0,
+      "y": 1429,
       "width": 218,
       "height": 241
     },
     "antumbra": {
-      "x": 0,
-      "y": 1427,
+      "x": 218,
+      "y": 1429,
       "width": 216,
       "height": 240
     },
     "antumbra-cell": {
-      "x": 216,
-      "y": 1427,
+      "x": 434,
+      "y": 1429,
       "width": 216,
       "height": 240
     },
     "sei-cell": {
-      "x": 432,
-      "y": 1427,
+      "x": 650,
+      "y": 1429,
       "width": 240,
       "height": 240
     },
     "aegires-cell": {
-      "x": 672,
-      "y": 1427,
+      "x": 0,
+      "y": 1670,
       "width": 240,
       "height": 240
     },
     "conquer-cell": {
-      "x": 0,
-      "y": 1667,
+      "x": 240,
+      "y": 1670,
       "width": 231,
       "height": 231
     },
     "sei": {
-      "x": 231,
-      "y": 1667,
+      "x": 471,
+      "y": 1670,
       "width": 198,
       "height": 228
     },
     "collaris-cell": {
-      "x": 429,
-      "y": 1667,
+      "x": 669,
+      "y": 1670,
       "width": 221,
       "height": 223
     },
     "quad": {
-      "x": 650,
-      "y": 1667,
+      "x": 0,
+      "y": 1910,
       "width": 220,
       "height": 220
     },
     "quad-cell": {
-      "x": 0,
-      "y": 1898,
+      "x": 220,
+      "y": 1910,
       "width": 220,
       "height": 220
     },
     "collaris": {
-      "x": 220,
-      "y": 1898,
+      "x": 440,
+      "y": 1910,
       "width": 195,
       "height": 212
     },
     "toxopid": {
-      "x": 415,
-      "y": 1898,
+      "x": 635,
+      "y": 1910,
       "width": 160,
       "height": 190
     },
     "tecta": {
-      "x": 575,
-      "y": 1898,
+      "x": 795,
+      "y": 1910,
       "width": 190,
       "height": 162
     },
     "tecta-cell": {
-      "x": 765,
-      "y": 1898,
+      "x": 0,
+      "y": 2130,
       "width": 162,
       "height": 162
     },
     "quell": {
-      "x": 0,
-      "y": 2118,
+      "x": 162,
+      "y": 2130,
       "width": 162,
       "height": 162
     },
     "quell-cell": {
-      "x": 162,
-      "y": 2118,
+      "x": 324,
+      "y": 2130,
       "width": 162,
       "height": 162
     },
     "vanquish": {
-      "x": 324,
-      "y": 2118,
+      "x": 486,
+      "y": 2130,
       "width": 154,
       "height": 154
     },
     "vanquish-cell": {
-      "x": 478,
-      "y": 2118,
+      "x": 640,
+      "y": 2130,
       "width": 154,
       "height": 154
     },
     "scepter": {
-      "x": 632,
-      "y": 2118,
+      "x": 794,
+      "y": 2130,
       "width": 170,
       "height": 140
     },
     "reign": {
-      "x": 802,
-      "y": 2118,
+      "x": 0,
+      "y": 2292,
       "width": 214,
       "height": 140
     },
     "reign-cell": {
-      "x": 0,
-      "y": 2280,
+      "x": 214,
+      "y": 2292,
       "width": 214,
       "height": 140
     },
     "vela": {
-      "x": 214,
-      "y": 2280,
+      "x": 428,
+      "y": 2292,
       "width": 170,
       "height": 140
     },
     "vela-cell": {
-      "x": 384,
-      "y": 2280,
+      "x": 598,
+      "y": 2292,
       "width": 170,
       "height": 140
     },
     "corvus": {
-      "x": 554,
-      "y": 2280,
+      "x": 768,
+      "y": 2292,
       "width": 214,
       "height": 140
     },
     "corvus-cell": {
-      "x": 768,
-      "y": 2280,
+      "x": 0,
+      "y": 2432,
       "width": 214,
       "height": 140
     },
     "bryde": {
-      "x": 0,
-      "y": 2420,
+      "x": 214,
+      "y": 2432,
       "width": 140,
       "height": 140
     },
     "bryde-cell": {
-      "x": 140,
-      "y": 2420,
+      "x": 354,
+      "y": 2432,
       "width": 140,
       "height": 140
     },
     "cyerce": {
-      "x": 280,
-      "y": 2420,
+      "x": 494,
+      "y": 2432,
       "width": 140,
       "height": 140
     },
     "cyerce-cell": {
-      "x": 420,
-      "y": 2420,
+      "x": 634,
+      "y": 2432,
       "width": 140,
       "height": 140
     },
     "precept": {
-      "x": 560,
-      "y": 2420,
+      "x": 774,
+      "y": 2432,
       "width": 120,
       "height": 140
     },
     "obviate": {
-      "x": 680,
-      "y": 2420,
+      "x": 0,
+      "y": 2572,
       "width": 140,
       "height": 130
     },
     "obviate-cell": {
-      "x": 820,
-      "y": 2420,
+      "x": 140,
+      "y": 2572,
       "width": 140,
       "height": 130
     },
     "scepter-cell": {
-      "x": 0,
-      "y": 2560,
+      "x": 280,
+      "y": 2572,
       "width": 128,
       "height": 128
     },
     "arkyid": {
-      "x": 128,
-      "y": 2560,
+      "x": 408,
+      "y": 2572,
       "width": 128,
       "height": 128
     },
     "arkyid-cell": {
-      "x": 256,
-      "y": 2560,
+      "x": 536,
+      "y": 2572,
       "width": 128,
       "height": 128
     },
     "minke-cell": {
-      "x": 384,
-      "y": 2560,
+      "x": 664,
+      "y": 2572,
       "width": 128,
       "height": 128
     },
     "anthicus": {
-      "x": 512,
-      "y": 2560,
+      "x": 792,
+      "y": 2572,
       "width": 126,
       "height": 127
     },
     "anthicus-cell": {
-      "x": 638,
-      "y": 2560,
+      "x": 0,
+      "y": 2702,
       "width": 126,
       "height": 127
     },
     "toxopid-cell": {
-      "x": 764,
-      "y": 2560,
+      "x": 126,
+      "y": 2702,
       "width": 152,
       "height": 124
     },
     "precept-cell": {
-      "x": 0,
-      "y": 2688,
+      "x": 278,
+      "y": 2702,
       "width": 120,
       "height": 120
     },
     "zenith": {
-      "x": 120,
-      "y": 2688,
+      "x": 398,
+      "y": 2702,
       "width": 112,
       "height": 112
     },
     "zenith-cell": {
-      "x": 232,
-      "y": 2688,
+      "x": 510,
+      "y": 2702,
       "width": 112,
       "height": 112
     },
     "minke": {
-      "x": 344,
-      "y": 2688,
+      "x": 622,
+      "y": 2702,
       "width": 88,
       "height": 101
     },
     "oxynoe": {
-      "x": 432,
-      "y": 2688,
+      "x": 710,
+      "y": 2702,
       "width": 88,
       "height": 101
     },
     "oxynoe-cell": {
-      "x": 520,
-      "y": 2688,
+      "x": 798,
+      "y": 2702,
       "width": 88,
       "height": 101
     },
     "mega": {
-      "x": 608,
-      "y": 2688,
+      "x": 886,
+      "y": 2702,
       "width": 100,
       "height": 100
     },
     "mega-cell": {
-      "x": 708,
-      "y": 2688,
+      "x": 0,
+      "y": 2829,
       "width": 100,
       "height": 100
     },
     "risso-cell": {
-      "x": 808,
-      "y": 2688,
+      "x": 100,
+      "y": 2829,
       "width": 96,
       "height": 96
     },
     "locus": {
-      "x": 904,
-      "y": 2688,
+      "x": 196,
+      "y": 2829,
       "width": 96,
       "height": 96
     },
     "locus-cell": {
-      "x": 0,
-      "y": 2808,
+      "x": 292,
+      "y": 2829,
       "width": 96,
       "height": 96
     },
     "avert": {
-      "x": 96,
-      "y": 2808,
+      "x": 388,
+      "y": 2829,
       "width": 96,
       "height": 96
     },
     "manifold": {
-      "x": 192,
-      "y": 2808,
+      "x": 484,
+      "y": 2829,
       "width": 96,
       "height": 96
     },
     "manifold-cell": {
-      "x": 288,
-      "y": 2808,
+      "x": 580,
+      "y": 2829,
       "width": 96,
       "height": 96
     },
+    "scathe-missile": {
+      "x": 676,
+      "y": 2829,
+      "width": 58,
+      "height": 95
+    },
+    "scathe-missile-cell": {
+      "x": 734,
+      "y": 2829,
+      "width": 58,
+      "height": 95
+    },
+    "scathe-missile-phase": {
+      "x": 792,
+      "y": 2829,
+      "width": 58,
+      "height": 95
+    },
+    "scathe-missile-phase-cell": {
+      "x": 850,
+      "y": 2829,
+      "width": 58,
+      "height": 95
+    },
+    "scathe-missile-surge": {
+      "x": 908,
+      "y": 2829,
+      "width": 62,
+      "height": 95
+    },
+    "scathe-missile-surge-cell": {
+      "x": 0,
+      "y": 2929,
+      "width": 58,
+      "height": 95
+    },
+    "scathe-missile-surge-split": {
+      "x": 58,
+      "y": 2929,
+      "width": 58,
+      "height": 95
+    },
+    "scathe-missile-surge-split-cell": {
+      "x": 116,
+      "y": 2929,
+      "width": 58,
+      "height": 95
+    },
     "avert-cell": {
-      "x": 384,
-      "y": 2808,
+      "x": 174,
+      "y": 2929,
       "width": 90,
       "height": 94
     },
     "cleroi": {
-      "x": 474,
-      "y": 2808,
+      "x": 264,
+      "y": 2929,
       "width": 84,
       "height": 85
     },
     "emanate": {
-      "x": 558,
-      "y": 2808,
+      "x": 348,
+      "y": 2929,
       "width": 82,
       "height": 84
     },
     "emanate-cell": {
-      "x": 640,
-      "y": 2808,
+      "x": 430,
+      "y": 2929,
       "width": 82,
       "height": 84
     },
     "fortress": {
-      "x": 722,
-      "y": 2808,
+      "x": 512,
+      "y": 2929,
       "width": 100,
       "height": 80
     },
     "fortress-cell": {
-      "x": 822,
-      "y": 2808,
+      "x": 612,
+      "y": 2929,
       "width": 100,
       "height": 80
     },
     "quasar": {
-      "x": 922,
-      "y": 2808,
+      "x": 712,
+      "y": 2929,
       "width": 80,
       "height": 80
     },
     "quasar-cell": {
-      "x": 0,
-      "y": 2904,
+      "x": 792,
+      "y": 2929,
       "width": 80,
       "height": 80
     },
     "risso": {
-      "x": 80,
-      "y": 2904,
+      "x": 872,
+      "y": 2929,
       "width": 70,
       "height": 78
     },
     "retusa": {
-      "x": 150,
-      "y": 2904,
+      "x": 942,
+      "y": 2929,
       "width": 70,
       "height": 78
     },
     "retusa-cell": {
-      "x": 220,
-      "y": 2904,
+      "x": 0,
+      "y": 3024,
       "width": 70,
       "height": 78
     },
     "cleroi-cell": {
-      "x": 290,
-      "y": 2904,
+      "x": 70,
+      "y": 3024,
       "width": 76,
       "height": 76
     },
     "spiroct": {
-      "x": 366,
-      "y": 2904,
+      "x": 146,
+      "y": 3024,
       "width": 94,
       "height": 75
     },
     "spiroct-cell": {
-      "x": 460,
-      "y": 2904,
+      "x": 240,
+      "y": 3024,
       "width": 94,
       "height": 75
     },
     "horizon": {
-      "x": 554,
-      "y": 2904,
+      "x": 334,
+      "y": 3024,
       "width": 72,
       "height": 72
     },
     "horizon-cell": {
-      "x": 626,
-      "y": 2904,
+      "x": 406,
+      "y": 3024,
       "width": 72,
       "height": 72
     },
     "incite": {
-      "x": 698,
-      "y": 2904,
+      "x": 478,
+      "y": 3024,
       "width": 66,
       "height": 72
     },
     "incite-cell": {
-      "x": 764,
-      "y": 2904,
+      "x": 544,
+      "y": 3024,
       "width": 66,
       "height": 72
     },
     "gamma": {
-      "x": 830,
-      "y": 2904,
+      "x": 610,
+      "y": 3024,
       "width": 68,
       "height": 68
     },
     "mace": {
-      "x": 898,
-      "y": 2904,
+      "x": 678,
+      "y": 3024,
       "width": 64,
       "height": 64
     },
     "mace-cell": {
-      "x": 0,
-      "y": 2984,
+      "x": 742,
+      "y": 3024,
       "width": 64,
       "height": 64
     },
     "atrax": {
-      "x": 64,
-      "y": 2984,
+      "x": 806,
+      "y": 3024,
       "width": 88,
       "height": 64
     },
     "atrax-cell": {
-      "x": 152,
-      "y": 2984,
+      "x": 894,
+      "y": 3024,
       "width": 88,
       "height": 64
     },
     "stell": {
-      "x": 240,
-      "y": 2984,
+      "x": 0,
+      "y": 3102,
       "width": 64,
       "height": 64
     },
     "stell-cell": {
-      "x": 304,
-      "y": 2984,
+      "x": 64,
+      "y": 3102,
       "width": 64,
       "height": 64
     },
     "elude": {
-      "x": 368,
-      "y": 2984,
+      "x": 128,
+      "y": 3102,
       "width": 64,
       "height": 64
     },
     "elude-cell": {
-      "x": 432,
-      "y": 2984,
+      "x": 192,
+      "y": 3102,
       "width": 64,
       "height": 64
     },
+    "renale": {
+      "x": 256,
+      "y": 3102,
+      "width": 68,
+      "height": 62
+    },
+    "disrupt-missile": {
+      "x": 324,
+      "y": 3102,
+      "width": 39,
+      "height": 60
+    },
     "pulsar": {
-      "x": 496,
-      "y": 2984,
+      "x": 363,
+      "y": 3102,
       "width": 68,
       "height": 58
     },
     "poly": {
-      "x": 564,
-      "y": 2984,
+      "x": 431,
+      "y": 3102,
       "width": 56,
       "height": 57
     },
     "nova": {
-      "x": 620,
-      "y": 2984,
+      "x": 487,
+      "y": 3102,
       "width": 56,
       "height": 56
     },
     "nova-cell": {
-      "x": 676,
-      "y": 2984,
+      "x": 543,
+      "y": 3102,
       "width": 56,
       "height": 56
     },
     "poly-cell": {
-      "x": 732,
-      "y": 2984,
+      "x": 599,
+      "y": 3102,
       "width": 56,
       "height": 56
     },
     "gamma-cell": {
-      "x": 788,
-      "y": 2984,
+      "x": 655,
+      "y": 3102,
       "width": 56,
       "height": 56
     },
     "assembly-drone": {
-      "x": 844,
-      "y": 2984,
+      "x": 711,
+      "y": 3102,
       "width": 52,
       "height": 55
     },
     "assembly-drone-cell": {
-      "x": 896,
-      "y": 2984,
+      "x": 763,
+      "y": 3102,
       "width": 52,
       "height": 55
     },
     "beta": {
-      "x": 948,
-      "y": 2984,
+      "x": 815,
+      "y": 3102,
       "width": 56,
       "height": 54
     },
     "merui": {
-      "x": 0,
-      "y": 3048,
+      "x": 871,
+      "y": 3102,
       "width": 56,
       "height": 54
     },
     "merui-cell": {
-      "x": 56,
-      "y": 3048,
+      "x": 927,
+      "y": 3102,
       "width": 56,
       "height": 54
     },
     "evoke": {
-      "x": 112,
-      "y": 3048,
+      "x": 0,
+      "y": 3166,
       "width": 56,
       "height": 54
     },
     "evoke-cell": {
-      "x": 168,
-      "y": 3048,
+      "x": 56,
+      "y": 3166,
       "width": 56,
       "height": 54
     },
     "dagger": {
-      "x": 224,
-      "y": 3048,
+      "x": 112,
+      "y": 3166,
       "width": 48,
       "height": 48
     },
     "pulsar-cell": {
-      "x": 272,
-      "y": 3048,
+      "x": 160,
+      "y": 3166,
       "width": 58,
       "height": 48
     },
     "crawler": {
-      "x": 330,
-      "y": 3048,
+      "x": 218,
+      "y": 3166,
       "width": 48,
       "height": 48
     },
     "crawler-cell": {
-      "x": 378,
-      "y": 3048,
+      "x": 266,
+      "y": 3166,
       "width": 48,
       "height": 48
     },
     "flare": {
-      "x": 426,
-      "y": 3048,
+      "x": 314,
+      "y": 3166,
       "width": 48,
       "height": 48
     },
     "mono": {
-      "x": 474,
-      "y": 3048,
+      "x": 362,
+      "y": 3166,
       "width": 48,
       "height": 48
     },
     "mono-cell": {
-      "x": 522,
-      "y": 3048,
+      "x": 410,
+      "y": 3166,
       "width": 48,
       "height": 48
     },
     "alpha": {
-      "x": 570,
-      "y": 3048,
+      "x": 458,
+      "y": 3166,
       "width": 48,
       "height": 48
     },
     "alpha-cell": {
-      "x": 618,
-      "y": 3048,
+      "x": 506,
+      "y": 3166,
       "width": 48,
       "height": 48
     },
     "beta-cell": {
-      "x": 666,
-      "y": 3048,
+      "x": 554,
+      "y": 3166,
       "width": 48,
       "height": 48
+    },
+    "quell-missile": {
+      "x": 602,
+      "y": 3166,
+      "width": 49,
+      "height": 47
+    },
+    "anthicus-missile": {
+      "x": 651,
+      "y": 3166,
+      "width": 28,
+      "height": 28
+    },
+    "anthicus-missile-cell": {
+      "x": 679,
+      "y": 3166,
+      "width": 28,
+      "height": 28
     }
   }
 }
