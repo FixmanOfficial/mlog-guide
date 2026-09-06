@@ -1,4 +1,6 @@
 import metrics from '@mlog/core/data/metrics.json' with {type: 'json'}
+import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
+import pal from '@mlog/core/data/pal.json' with {type: 'json'}
 
 /**
  * Внешний вид редактора, снятый из игры.
@@ -7,16 +9,13 @@ import metrics from '@mlog/core/data/metrics.json' with {type: 'json'}
  * Менять эти числа «на глаз» нельзя: редактор должен быть узнаваем игроком с первого взгляда.
  */
 
-/** LCategory: цвет категории задаёт цвет всей строки инструкции. */
-export const CATEGORY_COLORS = {
-    io: '#a08a8a',
-    block: '#d4816b',
-    operation: '#877bad',
-    control: '#6bb2b2',
-    unit: '#c7b59d',
-    world: '#6b84d4',
-    unknown: '#4d4d4d'
-}
+/**
+ * LCategory: цвет категории задаёт цвет всей строки инструкции. Пары «категория — имя
+ * цвета в `Pal`» снимает `gen-instructions.mjs`, сами цвета — `gen-pal.mjs`: держать
+ * значение в двух местах значит однажды их разойтись.
+ */
+export const CATEGORY_COLORS = Object.fromEntries(Object.entries(schema.categories)
+    .map(([name, category]) => [name, pal.colors[category.color]]))
 
 /**
  * Размеры интерфейса при масштабе 1. Снимает `tools/gen-metrics.mjs` прямо из исходников:
@@ -41,8 +40,15 @@ export const JUMP_HOVER_COLOR = '#6335f8'
 export const OUTLINE_COLOR = '#3f3f3f'
 export const OUTLINE_WIDTH = 2
 
-/** Порядок категорий в меню добавления — как в LCategory.all. */
-export const CATEGORY_ORDER = ['unknown', 'io', 'block', 'operation', 'control', 'unit', 'world']
+/** Порядок категорий в меню добавления — порядок объявления в `LCategory.all`. */
+export const CATEGORY_ORDER = Object.keys(schema.categories)
+
+/**
+ * Значок категории. В игре это `Icon.logicSmall` и подобные — тот же глиф шрифта иконок,
+ * что и `logic`, только меньшего размера, поэтому суффикс отбрасывается.
+ */
+export const CATEGORY_ICONS = Object.fromEntries(Object.entries(schema.categories)
+    .map(([name, category]) => [name, category.icon?.replace(/Small$/, '') ?? null]))
 
 export const categoryColor = (category) => CATEGORY_COLORS[category] ?? CATEGORY_COLORS.unknown
 

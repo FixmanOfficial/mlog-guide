@@ -10,7 +10,7 @@ import {assemble} from '@mlog/core'
 import {Processor} from '@mlog/core/src/vm.js'
 
 import {
-    createStatement, operations, toText, AVAILABLE, INSTRUCTIONS,
+    createStatement, operations, toText, available, INSTRUCTIONS,
     visibleParams, SENSEABLE, CONTROLS, sanitize, targetIndex, fromText
 } from '../src/program.js'
 import {describeBody, referencedParams, CUSTOM_BODIES, DRAW_FIELDS, ALIGNS} from '../src/bodies.js'
@@ -35,7 +35,8 @@ test('текст собирается в порядке параметров и�
 })
 
 test('каждая доступная инструкция собирается в текст, который ядро понимает', () => {
-    for (const instruction of AVAILABLE) {
+    // Процессору мира доступны все, включая мировые: их текст тоже должен собираться
+    for (const instruction of available({privileged: true})) {
         const text = toText([createStatement(instruction.opcode)])
         const {diagnostics} = assemble(text)
 
@@ -98,9 +99,37 @@ test('пустое значение параметра не ломает пор�
     assert.equal(text, 'op add r 0 2')
 })
 
-test('инструкции процессора мира в редактор не попадают', () => {
-    assert.equal(AVAILABLE.some(instruction => instruction.opcode === 'setblock'), false)
+test('мировые инструкции есть у процессора мира и только у него', () => {
+    const ordinary = available()
+    const world = available({privileged: true})
+
+    const has = (list, opcode) => list.some(instruction => instruction.opcode === opcode)
+
+    assert.equal(has(ordinary, 'setblock'), false)
+    assert.equal(has(world, 'setblock'), true)
     assert.equal(INSTRUCTIONS.has('setblock'), true)
+
+    // Своего набора у процессора мира нет: обычные инструкции ему тоже доступны
+    assert.equal(has(world, 'print'), true)
+    assert.equal(world.length > ordinary.length, true)
+})
+
+test('скрытые инструкции не показываются никому', () => {
+    for (const list of [available(), available({privileged: true})]) {
+        const opcodes = list.map(instruction => instruction.opcode)
+
+        // `clientdata` объявлена hidden, `noop` — это заглушка неразобранной строки
+        assert.equal(opcodes.includes('clientdata'), false)
+        assert.equal(opcodes.includes('noop'), false)
+    }
+})
+
+test('выключенное logicUnitControl убирает категорию unit только у обычного', () => {
+    const ordinary = available({unitControl: false})
+    const world = available({privileged: true, unitControl: false})
+
+    assert.equal(ordinary.some(instruction => instruction.category === 'unit'), false)
+    assert.equal(world.some(instruction => instruction.category === 'unit'), true)
 })
 
 test('control показывает столько полей, сколько у выбранного свойства', () => {

@@ -72,8 +72,26 @@ export const SENSEABLE = ENUMS.LAccess.filter(value =>
 export const CONTROLS = ENUMS.LAccess.filter(value =>
     (ENUM_PARAMS.LAccess[value] ?? []).length > 0)
 
-/** Инструкции, доступные обычному процессору: у процессора мира отдельный набор. */
-export const AVAILABLE = schema.instructions.filter(instruction => !instruction.privileged)
+/**
+ * Инструкции, которые показывает меню добавления. `LogicDialog.showAddDialog:302-304`:
+ *
+ *  - заглушка неразобранной строки (`noop`) и скрытые (`clientdata`) не показываются никогда;
+ *  - привилегированные — только у процессора мира, а `nonPrivileged` — только у обычного;
+ *  - у обычного при выключенном правиле `logicUnitControl` пропадает вся категория `unit`.
+ *
+ * То есть процессору мира доступны **и** мировые инструкции, **и** обычные: своего
+ * отдельного набора у него нет.
+ */
+export function available({privileged = false, unitControl = true} = {}) {
+    return schema.instructions.filter(instruction => {
+        if (instruction.invalid || instruction.hidden) return false
+        if (instruction.privileged && !privileged) return false
+        if (instruction.nonPrivileged && privileged) return false
+        if (!privileged && !unitControl && instruction.category === 'unit') return false
+
+        return true
+    })
+}
 
 let nextId = 1
 

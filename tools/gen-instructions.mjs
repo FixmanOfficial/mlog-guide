@@ -368,6 +368,30 @@ function parseLayout(classBody) {
     return {dynamic: /\bif\s*\(/.test(clean), items: layout}
 }
 
+/**
+ * Категории инструкций: имя, цвет из палитры и значок. Объявлены полями `LCategory`
+ * одной строкой на категорию — `io = new LCategory("io", Pal.logicIo, Icon.logicSmall)`.
+ *
+ * Цвет здесь именем константы `Pal`, а не числом: сама палитра снимается `gen-pal.mjs`,
+ * и держать её значение в двух местах значит однажды их разойтись.
+ */
+function parseCategories(root) {
+    const source = join(root, 'core/src/mindustry/logic/LCategory.java')
+    const text = stripComments(readFileSync(source, 'utf8'))
+
+    const pattern = /(\w+)\s*=\s*new LCategory\(\s*"(\w+)"\s*,\s*Pal\.(\w+)\s*(?:,\s*Icon\.(\w+)\s*)?\)/g
+    const categories = {}
+
+    for (const [, field, name, color, icon] of text.matchAll(pattern)) {
+        if (field !== name) throw new Error(`LCategory: поле ${field} названо ${name}`)
+        categories[name] = {color, icon: icon ?? null}
+    }
+
+    if (Object.keys(categories).length === 0) throw new Error('LCategory: не разобралась ни одна категория')
+
+    return categories
+}
+
 function main() {
     const gameRoot = resolve(process.argv[2] ?? '../Mindustry')
     const source = join(gameRoot, 'core/src/mindustry/logic/LStatements.java')
@@ -395,8 +419,21 @@ function main() {
         const category = full.match(/return LCategory\.(\w+)/)
         const privileged = /boolean privileged\(\)\s*\{\s*return true/.test(full)
 
+        /*
+         * Чем меню добавления решает, показывать ли инструкцию (`LogicDialog`, строка 302):
+         * скрытая не показывается никогда, привилегированная — только у процессора мира,
+         * `nonPrivileged` — наоборот, только у обычного. В v159.7 последнего нет ни у кого,
+         * но снимается оно всё равно: появится в новой версии — приедет само.
+         */
+        const hidden = /boolean hidden\(\)\s*\{\s*return true/.test(full)
+        const nonPrivileged = /boolean nonPrivileged\(\)\s*\{\s*return true/.test(full)
+
+        // `noop` зарегистрирован классом InvalidStatement: это заглушка неразобранной
+        // строки, и в меню её тоже нет
+        const invalid = className === 'InvalidStatement'
+
         classes.set(className, {
-            opcode, parent, category, privileged,
+            opcode, parent, category, privileged, hidden, nonPrivileged, invalid,
             fields: parseFields(body),
             layout: parseLayout(full)
         })
@@ -460,10 +497,15 @@ function main() {
                 ? (classes.get(entry.parent)?.category?.[1] ?? 'unknown')
                 : entry.category[1],
             privileged: entry.privileged,
+            hidden: entry.hidden,
+            nonPrivileged: entry.nonPrivileged,
+            invalid: entry.invalid,
             params,
             layoutHint: hint === null ? null : buildHint(hint, params)
         })
     }
+
+    const categories = parseCategories(gameRoot)
 
     const output = {
         gameVersion: GAME_VERSION,
@@ -475,8 +517,11 @@ function main() {
             instructions: instructions.length,
             processor: instructions.filter(instruction => !instruction.privileged).length,
             world: instructions.filter(instruction => instruction.privileged).length,
-            completeLayoutHints: instructions.filter(instruction => instruction.layoutHint?.complete).length
+            completeLayoutHints: instructions.filter(instruction => instruction.layoutHint?.complete).length,
+            hidden: instructions.filter(instruction => instruction.hidden || instruction.invalid).length
         },
+        // Категории: порядок объявления, он же порядок в окне игры
+        categories,
         enums,
         // Имена полей, которые игра показывает для каждого значения перечисления.
         // Значение без параметров не показывает полей вовсе — так работает control idle.
@@ -496,6 +541,7 @@ function main() {
         `процессорных ${output.counts.processor}, мира ${output.counts.world}`)
     console.log(`  полных раскладок из игры: ${output.counts.completeLayoutHints}`)
     console.log(`  перечислений ${Object.keys(enums).length}: ${Object.keys(enums).join(', ')}`)
+    console.log(`  категорий ${Object.keys(categories).length}: ${Object.keys(categories).join(', ')}`)
 }
 
 main()

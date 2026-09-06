@@ -41,7 +41,11 @@ export const DEFAULT_RULES = {
     rtsMinSquad: 1,
 
     // Множитель, которым карта замедляет все свои таймеры целей разом
-    objectiveTimerMultiplier: 1
+    objectiveTimerMultiplier: 1,
+
+    // Разрешено ли обычному процессору управлять юнитами. Выключенное правило убирает
+    // всю категорию `unit` из меню добавления — но только у обычного процессора
+    logicUnitControl: true
 }
 
 /**

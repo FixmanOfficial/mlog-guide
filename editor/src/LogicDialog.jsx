@@ -17,7 +17,8 @@ import {fromText, toText, MAX_INSTRUCTIONS} from './program.js'
  * Заголовок — имя связи процессора, как оно подписано в мире: игрок должен понимать,
  * какой из процессоров правит.
  */
-export function LogicDialog({title, initial, onChange, onRestart, onClose, counter = null}) {
+export function LogicDialog({title, initial, onChange, onRestart, onClose, counter = null,
+    privileged = false, unitControl = true}) {
     const [program, setProgram] = useState(initial)
     const [editing, setEditing] = useState(false)
     const [adding, setAdding] = useState(false)
@@ -40,6 +41,8 @@ export function LogicDialog({title, initial, onChange, onRestart, onClose, count
                     <Editor
                         key={version}
                         counter={counter}
+                        privileged={privileged}
+                        unitControl={unitControl}
                         addOpen={adding}
                         onAddClose={() => setAdding(false)}
                         initial={program}

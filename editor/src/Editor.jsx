@@ -24,7 +24,8 @@ import {METRICS} from './theme.js'
  * вставки считается по координате — сколько прочих строк осталось выше, — а остальные
  * расступаются. Перестановка «по наведению» промахивалась при быстром движении мыши.
  */
-export function Editor({initial = [], onChange, counter = null, addOpen = false, onAddClose}) {
+export function Editor({initial = [], onChange, counter = null, addOpen = false, onAddClose,
+    privileged = false, unitControl = true}) {
     const [statements, setStatements] = useState(initial)
     const [adding, setAdding] = useState(null)
     const [selecting, setSelecting] = useState(null)
@@ -216,6 +217,8 @@ export function Editor({initial = [], onChange, counter = null, addOpen = false,
 
             {adding !== null && (
                 <AddDialog
+                    privileged={privileged}
+                    unitControl={unitControl}
                     onPick={(opcode) => addAt(adding, opcode)}
                     onClose={closeAdd}
                 />

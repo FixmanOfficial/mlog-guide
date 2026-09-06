@@ -558,6 +558,8 @@ export function Sandbox() {
                 <LogicDialog
                     key={editingEntry.building.name}
                     title={editingEntry.building.name}
+                    privileged={editingEntry.building.spec.privileged === true}
+                    unitControl={scene.world.rules.get('logicUnitControl')}
                     initial={editingEntry.program}
                     onChange={rebuild(editingEntry)}
                     counter={nextIndex(editingEntry.building.processor)}

@@ -1,7 +1,7 @@
 import {useMemo, useRef, useState} from 'preact/hooks'
 
-import {AVAILABLE} from './program.js'
-import {CATEGORY_ORDER, categoryColor, displayName} from './theme.js'
+import {available} from './program.js'
+import {CATEGORY_ORDER, CATEGORY_ICONS, categoryColor, displayName} from './theme.js'
 import {categoryName, categoryTip, instructionTip} from './tooltips.js'
 import {Icon} from './Icon.jsx'
 import {Overlay} from './Overlay.jsx'
@@ -14,22 +14,14 @@ import {Overlay} from './Overlay.jsx'
  *  - категории набраны `Pal.darkishGray`: иконка, название и линия во всю оставшуюся ширину;
  *  - кнопки 130 на 50, по три в ряд, текст цветом категории шрифтом с обводкой.
  *
- * Инструкции процессора мира сюда не попадают — обычному процессору они недоступны.
+ * Набор зависит от процессора: у процессора мира к обычным инструкциям добавляются
+ * мировые, а у обычного их нет вовсе.
  */
-
-/** LCategory: иконка категории. Имена глифов те же, что в игре. */
-const CATEGORY_ICONS = {
-    io: 'logic',
-    block: 'effect',
-    operation: 'settings',
-    control: 'rotate',
-    unit: 'units',
-    world: 'terrain'
-}
-
-export function AddDialog({onPick, onClose}) {
+export function AddDialog({onPick, onClose, privileged = false, unitControl = true}) {
     const [search, setSearch] = useState('')
     const field = useRef(null)
+
+    const instructions = useMemo(() => available({privileged, unitControl}), [privileged, unitControl])
 
     const groups = useMemo(() => {
         const text = search.trim().toLowerCase()
@@ -38,9 +30,9 @@ export function AddDialog({onPick, onClose}) {
             || displayName(instruction.opcode).toLowerCase().includes(text)
 
         return CATEGORY_ORDER
-            .map(category => [category, AVAILABLE.filter(item => item.category === category && fits(item))])
+            .map(category => [category, instructions.filter(item => item.category === category && fits(item))])
             .filter(([, list]) => list.length > 0)
-    }, [search])
+    }, [search, instructions])
 
     // Первое совпадение: его добавляет Enter, как в игре
     const first = groups[0]?.[1][0] ?? null
