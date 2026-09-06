@@ -107,13 +107,16 @@ export function ContentPopup({current, anchor, onPick, onClose}) {
     )
 }
 
-/** Одна иконка из атласа: сдвигаем фон на нужную клетку. */
+/**
+ * Одна иконка из атласа: сдвигаем фон на её место и масштабируем весь атлас так, чтобы
+ * иконка вписалась в квадрат стороной `size`. Иконки в атласе разного размера и не все
+ * квадратные — в игре тоже, поэтому пропорции сохраняем, а не растягиваем.
+ */
 export function ContentIcon({type, name, size = 32}) {
-    const cell = sprites.index[type]?.[name]
-    if (cell === undefined) return <span class="content-icon content-icon--missing">{name.slice(0, 2)}</span>
+    const entry = sprites.index[type]?.[name]
+    if (entry === undefined) return <span class="content-icon content-icon--missing">{name.slice(0, 2)}</span>
 
-    const column = cell % sprites.columns
-    const row = Math.floor(cell / sprites.columns)
+    const scale = size / Math.max(entry.width, entry.height)
 
     return (
         <span
@@ -121,8 +124,9 @@ export function ContentIcon({type, name, size = 32}) {
             style={{
                 width: `${size}px`,
                 height: `${size}px`,
-                backgroundSize: `${sprites.columns * size}px auto`,
-                backgroundPosition: `-${column * size}px -${row * size}px`
+                backgroundSize: `${sprites.width * scale}px ${sprites.height * scale}px`,
+                backgroundPosition: `${(size - entry.width * scale) / 2 - entry.x * scale}px `
+                    + `${(size - entry.height * scale) / 2 - entry.y * scale}px`
             }}
         />
     )

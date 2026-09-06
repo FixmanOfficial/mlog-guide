@@ -187,11 +187,15 @@ export class DisplayView {
     drawImage({x, y, p2, p3, content}) {
         if (this.atlas === null || this.sprites === null || content == null) return
 
-        const cell = this.sprites.index[content.contentType]?.[content.name]
-        if (cell === undefined) return
+        const entry = this.sprites.index[content.contentType]?.[content.name]
+        if (entry === undefined) return
 
-        const icon = this.icon(cell)
+        const icon = this.icon(entry)
         if (icon === null) return
+
+        // Draw.rect(icon, x, y, p2, p2 / icon.ratio()): ширина задана, высота идёт
+        // из пропорций картинки. Неквадратных иконок в игре три десятка
+        const height = p2 * entry.height / entry.width
 
         this.applyTransform()
         const context = this.context
@@ -200,7 +204,7 @@ export class DisplayView {
         context.rotate(p3 * Math.PI / 180)
         // Ось Y дисплея смотрит вверх, а картинка нарисована сверху вниз
         context.scale(1, -1)
-        context.drawImage(icon, -p2 / 2, -p2 / 2, p2, p2)
+        context.drawImage(icon, -p2 / 2, -height / 2, p2, height)
         context.restore()
     }
 
@@ -209,31 +213,30 @@ export class DisplayView {
      * прихватывает соседний столбец пикселей по краю — на иконке под углом это видно полосой.
      * Клетка вырезается один раз и дальше рисуется целиком, так что захватывать нечего.
      */
-    icon(cell) {
+    icon(entry) {
         // Пока картинка не догрузилась, вырезать нечего — и запоминать пустую клетку нельзя.
         // Проверять только ширину мало: она появляется, едва разобран заголовок, а рисовать
         // такую картинку браузер молча отказывается — в кеш попадала бы пустая клетка.
         // Отсюда пара условий: `complete` про загрузку, ширина про то, что картинка не битая.
         if (!this.atlas.complete || !(this.atlas.naturalWidth > 0)) return null
 
-        const cached = this.icons.get(cell)
+        const key = `${entry.x}:${entry.y}`
+        const cached = this.icons.get(key)
         if (cached !== undefined) return cached
 
-        const source = this.sprites.cell
         const canvas = document.createElement('canvas')
-        canvas.width = source
-        canvas.height = source
+        canvas.width = entry.width
+        canvas.height = entry.height
 
         const context = canvas.getContext('2d')
         context.imageSmoothingEnabled = false
         context.drawImage(
             this.atlas,
-            (cell % this.sprites.columns) * source, Math.floor(cell / this.sprites.columns) * source,
-            source, source,
-            0, 0, source, source
+            entry.x, entry.y, entry.width, entry.height,
+            0, 0, entry.width, entry.height
         )
 
-        this.icons.set(cell, canvas)
+        this.icons.set(key, canvas)
         return canvas
     }
 

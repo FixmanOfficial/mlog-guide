@@ -1,110 +1,58 @@
-#!/usr/bin/env node
 /**
- * Генератор атласа иконок контента.
+ * Атлас иконок контента: то, чем игра рисует предметы, жидкости, блоки и юнитов в меню
+ * и в `draw image`.
  *
- * Меню выбора у `sensor` и `lookup` в игре показывает предметы, жидкости, блоки и юнитов
- * картинками по 40 пикселей, по шесть в ряд (`LStatements.SensorStatement.build`). Значит нужны
- * сами картинки — а их в игре сотни отдельных файлов, и по одному их на страницу не отдашь.
+ * Источник — упакованный атлас игры, а не исходные картинки, и разница здесь особенно
+ * заметна. Иконка в игре это `UnlockableContent.fullIcon`, а он ищется по цепочке имён,
+ * первое из которых `<тип>-<имя>-full` — картинка, собранная упаковщиком из слоёв.
+ * У дуо это ствол поверх корпуса, у жидкостей вообще нет исходного файла: `liquid-water`
+ * рисует сам упаковщик. Мы раньше подставляли вместо них цветные кружки.
  *
- * Здесь они уменьшаются до 32 пикселей и складываются в один атлас: одна картинка и один JSON
- * с номерами клеток. У жидкостей своего спрайта нет — игра рисует их цветом, и мы так же.
+ * Сторона иконки ограничена 48 точками. Полное разрешение (у иных блоков это 400) утроило бы
+ * атлас ради случая, которого не бывает: на большом дисплее вся сторона — 176 точек, а меню
+ * показывает иконки по 40. Пропорции при этом сохраняются: игра рисует иконку как `p2`
+ * в ширину и `p2 / ratio` в высоту, и неквадратных среди них три десятка.
  *
- * Использование:
- *   node tools/gen-sprites.mjs <путь-к-Mindustry>
+ *   node tools/gen-sprites.mjs <путь-к-Mindustry.jar>
  */
 
-import {readFileSync, writeFileSync, readdirSync, statSync, mkdirSync} from 'node:fs'
-import {join, resolve} from 'node:path'
+import {mkdirSync, readFileSync, writeFileSync} from 'node:fs'
 
-import {decodePng, resize, encodePng} from './png.mjs'
+import {openAtlas} from './atlas.mjs'
+import {pack} from './pack.mjs'
+import {resize} from './png.mjs'
 
 const GAME_VERSION = 'v159.7'
-const CELL = 32
-const COLUMNS = 20
 
-/** Собирает список всех png в дереве: имя без расширения к полному пути. */
-function collect(root) {
-    const found = new Map()
+/** Ширина атласа. */
+const WIDTH = 1024
 
-    const walk = (directory) => {
-        for (const entry of readdirSync(directory)) {
-            const path = join(directory, entry)
-
-            if (statSync(path).isDirectory()) walk(path)
-            else if (entry.endsWith('.png') && !found.has(entry.slice(0, -4))) {
-                found.set(entry.slice(0, -4), path)
-            }
-        }
-    }
-
-    try {
-        walk(root)
-    } catch {
-        return found
-    }
-
-    return found
-}
-
-/** Цвета жидкостей из объявления: new Liquid("имя", Color.valueOf("hex")). */
-function liquidColors(gameRoot) {
-    const path = join(gameRoot, 'core/src/mindustry/content/Liquids.java')
-    const colors = new Map()
-
-    try {
-        const text = readFileSync(path, 'utf8')
-        // Часть жидкостей объявлена подклассами: neoplasm это CellLiquid
-        for (const match of text.matchAll(/new \w*Liquid\("([^"]+)",\s*Color\.valueOf\("([0-9a-fA-F]{6,8})"\)/g)) {
-            colors.set(match[1], match[2])
-        }
-    } catch { /* без файла просто не будет цветов */ }
-
-    return colors
-}
-
-/** Плоская клетка цвета жидкости: в игре её иконка тоже генерируется, а не рисуется художником. */
-function swatch(hex) {
-    const pixels = Buffer.alloc(CELL * CELL * 4)
-    const r = parseInt(hex.slice(0, 2), 16)
-    const g = parseInt(hex.slice(2, 4), 16)
-    const b = parseInt(hex.slice(4, 6), 16)
-
-    const middle = (CELL - 1) / 2
-    const radius = CELL / 2 - 1
-
-    for (let y = 0; y < CELL; y++) {
-        for (let x = 0; x < CELL; x++) {
-            const at = (y * CELL + x) * 4
-            const inside = Math.hypot(x - middle, y - middle) <= radius
-
-            pixels[at] = r
-            pixels[at + 1] = g
-            pixels[at + 2] = b
-            pixels[at + 3] = inside ? 255 : 0
-        }
-    }
-
-    return {width: CELL, height: CELL, pixels}
-}
+/** Предел стороны иконки. */
+const LIMIT = 48
 
 /**
- * Ищет картинку для контента. У предметов имя с приставкой item-, у блоков и юнитов — как есть,
- * но у многих блоков спрайт разбит на варианты: у конвейеров это <имя>-0-0, у стен <имя>1.
- * Игра склеивает их при упаковке атласа; нам для иконки хватит первого.
+ * `UnlockableContent.loadIcon`: имя иконки ищется по цепочке, и первое найденное побеждает.
+ * `fullOverride` пропускаем — он задаётся кодом отдельных блоков, а не именем.
  */
-function findSprite(sources, type, name) {
-    if (type === 'item') return sources.get(`item-${name}`)
+const chain = (type, name) => [
+    `${type}-${name}-full`,
+    `${name}-full`,
+    name,
+    `${type}-${name}`,
+    `${name}1`
+]
 
-    return sources.get(name)
-        ?? sources.get(`${name}1`)
-        ?? sources.get(`${name}-0`)
-        ?? sources.get(`${name}-0-0`)
-        ?? sources.get(`${name}-full`)
-        ?? sources.get(`${name}-icon`)
+/** Уменьшает картинку до предела, сохраняя пропорции. */
+function fit(image, limit) {
+    const side = Math.max(image.width, image.height)
+    if (side <= limit) return image
+
+    const scale = limit / side
+    return resize(image, Math.round(image.width * scale), Math.round(image.height * scale))
 }
 
 function main() {
-    const gameRoot = resolve(process.argv[2] ?? '../Mindustry')
+    const atlas = openAtlas(process.argv[2])
 
     let ids
     try {
@@ -114,93 +62,57 @@ function main() {
         process.exit(1)
     }
 
-    const sprites = join(gameRoot, 'core/assets-raw/sprites')
-    const sources = {
-        item: collect(join(sprites, 'items')),
-        block: collect(join(sprites, 'blocks')),
-        unit: collect(join(sprites, 'units'))
-    }
-
-    const colors = liquidColors(gameRoot)
-
-    // Собираем клетки: сначала кто нашёлся, потом считаем размер атласа
-    const cells = []
-    const index = {}
+    const entries = []
+    const found = {}
     const missing = []
 
     for (const type of ['item', 'liquid', 'block', 'unit']) {
-        index[type] = {}
+        found[type] = []
 
         for (const name of ids.types[type] ?? []) {
-            let image = null
+            const region = chain(type, name).find(item => atlas.has(item))
 
-            if (type === 'liquid') {
-                const hex = colors.get(name)
-                if (hex !== undefined) image = swatch(hex)
-            } else {
-                // У предметов имя файла с приставкой, у блоков и юнитов — как есть
-                const path = findSprite(sources[type], type, name)
-                if (path !== undefined) {
-                    try {
-                        image = resize(decodePng(readFileSync(path)), CELL)
-                    } catch { /* битый или незнакомый png пропускаем */ }
-                }
-            }
-
-            if (image === null) {
-                missing.push(`${type}/${name}`)
+            if (region === undefined) {
+                missing.push(`${type}:${name}`)
                 continue
             }
 
-            index[type][name] = cells.length
-            cells.push(image)
+            // Имя ключа своё: у предмета и блока имена совпадают чаще, чем кажется
+            const key = `${type}:${name}`
+            entries.push({name: key, image: fit(atlas.cut(region), LIMIT)})
+            found[type].push(name)
         }
     }
 
-    const rows = Math.ceil(cells.length / COLUMNS)
-    const width = COLUMNS * CELL
-    const height = rows * CELL
-    const atlas = Buffer.alloc(width * height * 4)
+    if (entries.length === 0) throw new Error('в атласе не нашлось иконок контента')
 
-    cells.forEach((image, position) => {
-        const originX = (position % COLUMNS) * CELL
-        const originY = Math.floor(position / COLUMNS) * CELL
-
-        for (let y = 0; y < CELL; y++) {
-            const from = y * CELL * 4
-            const to = ((originY + y) * width + originX) * 4
-            image.pixels.copy(atlas, to, from, from + CELL * 4)
-        }
-    })
+    const {png, width, height, sprites} = pack(entries, WIDTH)
 
     mkdirSync('editor/assets', {recursive: true})
-    const png = encodePng(width, height, atlas)
     writeFileSync('editor/assets/content.png', png)
+
+    // Указатель раскладывается по типам: так его спрашивают и меню, и дисплей
+    const index = {}
+    for (const type of Object.keys(found)) {
+        index[type] = {}
+        for (const name of found[type]) index[type][name] = sprites[`${type}:${name}`]
+    }
 
     writeFileSync('core/data/sprites.json', JSON.stringify({
         gameVersion: GAME_VERSION,
-        source: 'core/assets-raw/sprites',
-        note: 'Файл сгенерирован. Номер клетки в атласе editor/assets/content.png; ' +
-            `клетка ${CELL} на ${CELL}, в ряду ${COLUMNS}. Иконки жидкостей нарисованы по цвету, ` +
-            'как это делает и сама игра.',
-        cell: CELL,
-        columns: COLUMNS,
-        count: cells.length,
+        source: 'sprites/sprites.aatls из Mindustry.jar, UnlockableContent.loadIcon',
+        note: 'Файл сгенерирован, править вручную нельзя. Иконки сняты готовыми из атласа игры '
+            + `и уменьшены до ${LIMIT} точек по большей стороне с сохранением пропорций.`,
+        atlas: 'editor/assets/content.png',
+        limit: LIMIT,
+        width,
+        height,
+        count: entries.length,
         index
     }, null, 2) + '\n')
 
-    console.log(`editor/assets/content.png — ${width}x${height}, ${(png.length / 1024).toFixed(0)} КБ`)
-    console.log(`core/data/sprites.json — ${cells.length} иконок`)
-
-    for (const type of Object.keys(index)) {
-        const total = (ids.types[type] ?? []).length
-        console.log(`  ${type.padEnd(6)} ${Object.keys(index[type]).length}/${total}`)
-    }
-
-    if (missing.length > 0) {
-        console.log(`  без картинки: ${missing.length}`)
-        console.log(`  ${missing.slice(0, 10).join(', ')}${missing.length > 10 ? ' …' : ''}`)
-    }
+    console.log(`editor/assets/content.png: ${width} на ${height}, ${entries.length} иконок`)
+    if (missing.length > 0) console.log(`без иконки: ${missing.join(', ')}`)
 }
 
 main()

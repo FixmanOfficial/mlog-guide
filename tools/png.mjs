@@ -152,13 +152,13 @@ function toRgba(raw, width, height, colorType, channels, palette, alphaTable) {
  * Уменьшает изображение усреднением по прямоугольнику.
  * Цвет усредняется с весом альфы, иначе прозрачные пиксели затемняют края.
  */
-export function resize(image, size) {
-    const out = Buffer.alloc(size * size * 4)
-    const scaleX = image.width / size
-    const scaleY = image.height / size
+export function resize(image, width, height = width) {
+    const out = Buffer.alloc(width * height * 4)
+    const scaleX = image.width / width
+    const scaleY = image.height / height
 
-    for (let y = 0; y < size; y++) {
-        for (let x = 0; x < size; x++) {
+    for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
             const fromX = Math.floor(x * scaleX)
             const toX = Math.max(fromX + 1, Math.floor((x + 1) * scaleX))
             const fromY = Math.floor(y * scaleY)
@@ -179,7 +179,7 @@ export function resize(image, size) {
                 }
             }
 
-            const at = (y * size + x) * 4
+            const at = (y * width + x) * 4
             out[at] = a === 0 ? 0 : Math.round(r / a)
             out[at + 1] = a === 0 ? 0 : Math.round(g / a)
             out[at + 2] = a === 0 ? 0 : Math.round(b / a)
@@ -187,7 +187,7 @@ export function resize(image, size) {
         }
     }
 
-    return {width: size, height: size, pixels: out}
+    return {width, height, pixels: out}
 }
 
 /** Собирает PNG из полосы RGBA. */

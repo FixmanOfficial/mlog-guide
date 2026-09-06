@@ -1,343 +1,2102 @@
 {
   "gameVersion": "v159.7",
-  "source": "core/assets-raw/sprites",
-  "note": "Файл сгенерирован. Номер клетки в атласе editor/assets/content.png; клетка 32 на 32, в ряду 20. Иконки жидкостей нарисованы по цвету, как это делает и сама игра.",
-  "cell": 32,
-  "columns": 20,
-  "count": 325,
+  "source": "sprites/sprites.aatls из Mindustry.jar, UnlockableContent.loadIcon",
+  "note": "Файл сгенерирован, править вручную нельзя. Иконки сняты готовыми из атласа игры и уменьшены до 48 точек по большей стороне с сохранением пропорций.",
+  "atlas": "editor/assets/content.png",
+  "limit": 48,
+  "width": 1024,
+  "height": 656,
+  "count": 347,
   "index": {
     "item": {
-      "copper": 0,
-      "lead": 1,
-      "metaglass": 2,
-      "graphite": 3,
-      "sand": 4,
-      "coal": 5,
-      "titanium": 6,
-      "thorium": 7,
-      "scrap": 8,
-      "silicon": 9,
-      "plastanium": 10,
-      "phase-fabric": 11,
-      "surge-alloy": 12,
-      "spore-pod": 13,
-      "blast-compound": 14,
-      "pyratite": 15,
-      "beryllium": 16,
-      "tungsten": 17,
-      "oxide": 18,
-      "carbide": 19
+      "copper": {
+        "x": 987,
+        "y": 480,
+        "width": 32,
+        "height": 32
+      },
+      "lead": {
+        "x": 0,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      },
+      "metaglass": {
+        "x": 32,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      },
+      "graphite": {
+        "x": 64,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      },
+      "sand": {
+        "x": 96,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      },
+      "coal": {
+        "x": 128,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      },
+      "titanium": {
+        "x": 160,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      },
+      "thorium": {
+        "x": 192,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      },
+      "scrap": {
+        "x": 224,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      },
+      "silicon": {
+        "x": 256,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      },
+      "plastanium": {
+        "x": 288,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      },
+      "phase-fabric": {
+        "x": 320,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      },
+      "surge-alloy": {
+        "x": 352,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      },
+      "spore-pod": {
+        "x": 384,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      },
+      "blast-compound": {
+        "x": 416,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      },
+      "pyratite": {
+        "x": 448,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      },
+      "beryllium": {
+        "x": 480,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      },
+      "tungsten": {
+        "x": 512,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      },
+      "oxide": {
+        "x": 544,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      },
+      "carbide": {
+        "x": 576,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      }
     },
     "liquid": {
-      "water": 20,
-      "slag": 21,
-      "oil": 22,
-      "cryofluid": 23,
-      "neoplasm": 24,
-      "hydrogen": 25,
-      "ozone": 26,
-      "cyanogen": 27,
-      "gallium": 28,
-      "nitrogen": 29,
-      "arkycite": 30
+      "water": {
+        "x": 608,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      },
+      "slag": {
+        "x": 640,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      },
+      "oil": {
+        "x": 672,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      },
+      "cryofluid": {
+        "x": 704,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      },
+      "neoplasm": {
+        "x": 736,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      },
+      "hydrogen": {
+        "x": 768,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      },
+      "ozone": {
+        "x": 800,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      },
+      "cyanogen": {
+        "x": 832,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      },
+      "gallium": {
+        "x": 864,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      },
+      "nitrogen": {
+        "x": 896,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      },
+      "arkycite": {
+        "x": 928,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      }
     },
     "block": {
-      "graphite-press": 31,
-      "multi-press": 32,
-      "silicon-smelter": 33,
-      "silicon-crucible": 34,
-      "kiln": 35,
-      "plastanium-compressor": 36,
-      "phase-weaver": 37,
-      "cryofluid-mixer": 38,
-      "pyratite-mixer": 39,
-      "melter": 40,
-      "separator": 41,
-      "disassembler": 42,
-      "spore-press": 43,
-      "pulverizer": 44,
-      "coal-centrifuge": 45,
-      "incinerator": 46,
-      "copper-wall": 47,
-      "copper-wall-large": 48,
-      "titanium-wall": 49,
-      "titanium-wall-large": 50,
-      "plastanium-wall": 51,
-      "plastanium-wall-large": 52,
-      "thorium-wall": 53,
-      "thorium-wall-large": 54,
-      "phase-wall": 55,
-      "phase-wall-large": 56,
-      "surge-wall": 57,
-      "surge-wall-large": 58,
-      "door": 59,
-      "door-large": 60,
-      "scrap-wall": 61,
-      "scrap-wall-large": 62,
-      "mender": 63,
-      "mend-projector": 64,
-      "overdrive-projector": 65,
-      "overdrive-dome": 66,
-      "force-projector": 67,
-      "shock-mine": 68,
-      "conveyor": 69,
-      "titanium-conveyor": 70,
-      "junction": 71,
-      "bridge-conveyor": 72,
-      "sorter": 73,
-      "inverted-sorter": 74,
-      "router": 75,
-      "distributor": 76,
-      "overflow-gate": 77,
-      "mass-driver": 78,
-      "duct-router": 79,
-      "duct-bridge": 80,
-      "mechanical-pump": 81,
-      "rotary-pump": 82,
-      "liquid-router": 83,
-      "liquid-tank": 84,
-      "liquid-junction": 85,
-      "bridge-conduit": 86,
-      "phase-conduit": 87,
-      "power-node": 88,
-      "power-node-large": 89,
-      "surge-tower": 90,
-      "diode": 91,
-      "battery": 92,
-      "battery-large": 93,
-      "combustion-generator": 94,
-      "thermal-generator": 95,
-      "steam-generator": 96,
-      "differential-generator": 97,
-      "rtg-generator": 98,
-      "solar-panel": 99,
-      "solar-panel-large": 100,
-      "thorium-reactor": 101,
-      "mechanical-drill": 102,
-      "pneumatic-drill": 103,
-      "laser-drill": 104,
-      "blast-drill": 105,
-      "water-extractor": 106,
-      "cultivator": 107,
-      "oil-extractor": 108,
-      "core-shard": 109,
-      "core-foundation": 110,
-      "core-nucleus": 111,
-      "vault": 112,
-      "container": 113,
-      "unloader": 114,
-      "duo": 115,
-      "scatter": 116,
-      "scorch": 117,
-      "hail": 118,
-      "wave": 119,
-      "lancer": 120,
-      "arc": 121,
-      "parallax": 122,
-      "swarmer": 123,
-      "segment": 124,
-      "tsunami": 125,
-      "fuse": 126,
-      "ripple": 127,
-      "cyclone": 128,
-      "foreshadow": 129,
-      "spectre": 130,
-      "meltdown": 131,
-      "ground-factory": 132,
-      "air-factory": 133,
-      "naval-factory": 134,
-      "additive-reconstructor": 135,
-      "multiplicative-reconstructor": 136,
-      "exponential-reconstructor": 137,
-      "repair-point": 138,
-      "repair-turret": 139,
-      "payload-conveyor": 140,
-      "payload-router": 141,
-      "power-source": 142,
-      "power-void": 143,
-      "item-source": 144,
-      "item-void": 145,
-      "liquid-source": 146,
-      "liquid-void": 147,
-      "payload-void": 148,
-      "payload-source": 149,
-      "illuminator": 150,
-      "launch-pad": 151,
-      "interplanetary-accelerator": 152,
-      "message": 153,
-      "switch": 154,
-      "micro-processor": 155,
-      "logic-processor": 156,
-      "hyper-processor": 157,
-      "memory-cell": 158,
-      "memory-bank": 159,
-      "logic-display": 160,
-      "large-logic-display": 161,
-      "liquid-container": 162,
-      "deconstructor": 163,
-      "constructor": 164,
-      "large-constructor": 165,
-      "payload-loader": 166,
-      "payload-unloader": 167,
-      "silicon-arc-furnace": 168,
-      "cliff-crusher": 169,
-      "plasma-bore": 170,
-      "reinforced-liquid-junction": 171,
-      "breach": 172,
-      "core-bastion": 173,
-      "turbine-condenser": 174,
-      "beam-node": 175,
-      "beam-tower": 176,
-      "build-tower": 177,
-      "impact-drill": 178,
-      "carbide-crucible": 179,
-      "surge-conveyor": 180,
-      "duct-unloader": 181,
-      "surge-router": 182,
-      "reinforced-liquid-router": 183,
-      "reinforced-liquid-container": 184,
-      "reinforced-liquid-tank": 185,
-      "reinforced-bridge-conduit": 186,
-      "core-citadel": 187,
-      "core-acropolis": 188,
-      "heat-reactor": 189,
-      "impulse-pump": 190,
-      "reinforced-pump": 191,
-      "electrolyzer": 192,
-      "oxidation-chamber": 193,
-      "surge-smelter": 194,
-      "surge-crucible": 195,
-      "overflow-duct": 196,
-      "large-plasma-bore": 197,
-      "cyanogen-synthesizer": 198,
-      "slag-centrifuge": 199,
-      "electric-heater": 200,
-      "slag-incinerator": 201,
-      "phase-synthesizer": 202,
-      "sublimate": 203,
-      "reinforced-container": 204,
-      "reinforced-vault": 205,
-      "atmospheric-concentrator": 206,
-      "unit-cargo-loader": 207,
-      "unit-cargo-unload-point": 208,
-      "chemical-combustion-chamber": 209,
-      "pyrolysis-generator": 210,
-      "regen-projector": 211,
-      "titan": 212,
-      "small-deconstructor": 213,
-      "vent-condenser": 214,
-      "phase-heater": 215,
-      "heat-redirector": 216,
-      "tungsten-wall": 217,
-      "tungsten-wall-large": 218,
-      "tank-assembler": 219,
-      "beryllium-wall": 220,
-      "beryllium-wall-large": 221,
-      "eruption-drill": 222,
-      "ship-assembler": 223,
-      "mech-assembler": 224,
-      "shield-projector": 225,
-      "beam-link": 226,
-      "world-processor": 227,
-      "reinforced-payload-conveyor": 228,
-      "reinforced-payload-router": 229,
-      "large-shield-projector": 230,
-      "payload-mass-driver": 231,
-      "world-cell": 232,
-      "carbide-wall": 233,
-      "carbide-wall-large": 234,
-      "tank-fabricator": 235,
-      "mech-fabricator": 236,
-      "ship-fabricator": 237,
-      "reinforced-surge-wall": 238,
-      "radar": 239,
-      "blast-door": 240,
-      "canvas": 241,
-      "unit-repair-tower": 242,
-      "diffuse": 243,
-      "prime-refabricator": 244,
-      "basic-assembler-module": 245,
-      "reinforced-surge-wall-large": 246,
-      "tank-refabricator": 247,
-      "mech-refabricator": 248,
-      "ship-refabricator": 249,
-      "slag-heater": 250,
-      "afflict": 251,
-      "shielded-wall": 252,
-      "underflow-duct": 253,
-      "shockwave-tower": 254,
-      "heat-source": 255,
-      "flux-reactor": 256,
-      "neoplasia-reactor": 257,
-      "heat-router": 258,
-      "large-payload-mass-driver": 259,
-      "reinforced-message": 260,
-      "world-message": 261,
-      "world-switch": 262,
-      "small-heat-redirector": 263,
-      "large-cliff-crusher": 264,
-      "advanced-launch-pad": 265,
-      "landing-pad": 266,
-      "tile-logic-display": 267,
-      "large-canvas": 268
+      "graphite-press": {
+        "x": 0,
+        "y": 0,
+        "width": 48,
+        "height": 48
+      },
+      "multi-press": {
+        "x": 48,
+        "y": 0,
+        "width": 48,
+        "height": 48
+      },
+      "silicon-smelter": {
+        "x": 96,
+        "y": 0,
+        "width": 48,
+        "height": 48
+      },
+      "silicon-crucible": {
+        "x": 144,
+        "y": 0,
+        "width": 48,
+        "height": 48
+      },
+      "kiln": {
+        "x": 192,
+        "y": 0,
+        "width": 48,
+        "height": 48
+      },
+      "plastanium-compressor": {
+        "x": 240,
+        "y": 0,
+        "width": 48,
+        "height": 48
+      },
+      "phase-weaver": {
+        "x": 288,
+        "y": 0,
+        "width": 48,
+        "height": 48
+      },
+      "cryofluid-mixer": {
+        "x": 336,
+        "y": 0,
+        "width": 48,
+        "height": 48
+      },
+      "pyratite-mixer": {
+        "x": 384,
+        "y": 0,
+        "width": 48,
+        "height": 48
+      },
+      "blast-mixer": {
+        "x": 432,
+        "y": 0,
+        "width": 48,
+        "height": 48
+      },
+      "melter": {
+        "x": 960,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      },
+      "separator": {
+        "x": 480,
+        "y": 0,
+        "width": 48,
+        "height": 48
+      },
+      "disassembler": {
+        "x": 528,
+        "y": 0,
+        "width": 48,
+        "height": 48
+      },
+      "spore-press": {
+        "x": 576,
+        "y": 0,
+        "width": 48,
+        "height": 48
+      },
+      "pulverizer": {
+        "x": 992,
+        "y": 528,
+        "width": 32,
+        "height": 32
+      },
+      "coal-centrifuge": {
+        "x": 624,
+        "y": 0,
+        "width": 48,
+        "height": 48
+      },
+      "incinerator": {
+        "x": 0,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "copper-wall": {
+        "x": 32,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "copper-wall-large": {
+        "x": 672,
+        "y": 0,
+        "width": 48,
+        "height": 48
+      },
+      "titanium-wall": {
+        "x": 64,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "titanium-wall-large": {
+        "x": 720,
+        "y": 0,
+        "width": 48,
+        "height": 48
+      },
+      "plastanium-wall": {
+        "x": 96,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "plastanium-wall-large": {
+        "x": 768,
+        "y": 0,
+        "width": 48,
+        "height": 48
+      },
+      "thorium-wall": {
+        "x": 128,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "thorium-wall-large": {
+        "x": 816,
+        "y": 0,
+        "width": 48,
+        "height": 48
+      },
+      "phase-wall": {
+        "x": 160,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "phase-wall-large": {
+        "x": 864,
+        "y": 0,
+        "width": 48,
+        "height": 48
+      },
+      "surge-wall": {
+        "x": 192,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "surge-wall-large": {
+        "x": 912,
+        "y": 0,
+        "width": 48,
+        "height": 48
+      },
+      "door": {
+        "x": 224,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "door-large": {
+        "x": 960,
+        "y": 0,
+        "width": 48,
+        "height": 48
+      },
+      "scrap-wall": {
+        "x": 256,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "scrap-wall-large": {
+        "x": 0,
+        "y": 48,
+        "width": 48,
+        "height": 48
+      },
+      "scrap-wall-huge": {
+        "x": 48,
+        "y": 48,
+        "width": 48,
+        "height": 48
+      },
+      "scrap-wall-gigantic": {
+        "x": 96,
+        "y": 48,
+        "width": 48,
+        "height": 48
+      },
+      "mender": {
+        "x": 288,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "mend-projector": {
+        "x": 144,
+        "y": 48,
+        "width": 48,
+        "height": 48
+      },
+      "overdrive-projector": {
+        "x": 192,
+        "y": 48,
+        "width": 48,
+        "height": 48
+      },
+      "overdrive-dome": {
+        "x": 240,
+        "y": 48,
+        "width": 48,
+        "height": 48
+      },
+      "force-projector": {
+        "x": 288,
+        "y": 48,
+        "width": 48,
+        "height": 48
+      },
+      "shock-mine": {
+        "x": 320,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "conveyor": {
+        "x": 352,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "titanium-conveyor": {
+        "x": 384,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "plastanium-conveyor": {
+        "x": 416,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "armored-conveyor": {
+        "x": 448,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "junction": {
+        "x": 480,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "bridge-conveyor": {
+        "x": 512,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "phase-conveyor": {
+        "x": 544,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "sorter": {
+        "x": 576,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "inverted-sorter": {
+        "x": 608,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "router": {
+        "x": 640,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "distributor": {
+        "x": 336,
+        "y": 48,
+        "width": 48,
+        "height": 48
+      },
+      "overflow-gate": {
+        "x": 672,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "underflow-gate": {
+        "x": 704,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "mass-driver": {
+        "x": 384,
+        "y": 48,
+        "width": 48,
+        "height": 48
+      },
+      "duct": {
+        "x": 736,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "duct-router": {
+        "x": 768,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "duct-bridge": {
+        "x": 800,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "mechanical-pump": {
+        "x": 832,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "rotary-pump": {
+        "x": 432,
+        "y": 48,
+        "width": 48,
+        "height": 48
+      },
+      "conduit": {
+        "x": 864,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "pulse-conduit": {
+        "x": 896,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "plated-conduit": {
+        "x": 928,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "liquid-router": {
+        "x": 960,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "liquid-tank": {
+        "x": 480,
+        "y": 48,
+        "width": 48,
+        "height": 48
+      },
+      "liquid-junction": {
+        "x": 992,
+        "y": 560,
+        "width": 32,
+        "height": 32
+      },
+      "bridge-conduit": {
+        "x": 0,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "phase-conduit": {
+        "x": 32,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "power-node": {
+        "x": 64,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "power-node-large": {
+        "x": 528,
+        "y": 48,
+        "width": 48,
+        "height": 48
+      },
+      "surge-tower": {
+        "x": 576,
+        "y": 48,
+        "width": 48,
+        "height": 48
+      },
+      "diode": {
+        "x": 96,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "battery": {
+        "x": 128,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "battery-large": {
+        "x": 624,
+        "y": 48,
+        "width": 48,
+        "height": 48
+      },
+      "combustion-generator": {
+        "x": 160,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "thermal-generator": {
+        "x": 672,
+        "y": 48,
+        "width": 48,
+        "height": 48
+      },
+      "steam-generator": {
+        "x": 720,
+        "y": 48,
+        "width": 48,
+        "height": 48
+      },
+      "differential-generator": {
+        "x": 768,
+        "y": 48,
+        "width": 48,
+        "height": 48
+      },
+      "rtg-generator": {
+        "x": 816,
+        "y": 48,
+        "width": 48,
+        "height": 48
+      },
+      "solar-panel": {
+        "x": 192,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "solar-panel-large": {
+        "x": 864,
+        "y": 48,
+        "width": 48,
+        "height": 48
+      },
+      "thorium-reactor": {
+        "x": 912,
+        "y": 48,
+        "width": 48,
+        "height": 48
+      },
+      "impact-reactor": {
+        "x": 960,
+        "y": 48,
+        "width": 48,
+        "height": 48
+      },
+      "mechanical-drill": {
+        "x": 0,
+        "y": 96,
+        "width": 48,
+        "height": 48
+      },
+      "pneumatic-drill": {
+        "x": 48,
+        "y": 96,
+        "width": 48,
+        "height": 48
+      },
+      "laser-drill": {
+        "x": 96,
+        "y": 96,
+        "width": 48,
+        "height": 48
+      },
+      "blast-drill": {
+        "x": 144,
+        "y": 96,
+        "width": 48,
+        "height": 48
+      },
+      "water-extractor": {
+        "x": 192,
+        "y": 96,
+        "width": 48,
+        "height": 48
+      },
+      "cultivator": {
+        "x": 240,
+        "y": 96,
+        "width": 48,
+        "height": 48
+      },
+      "oil-extractor": {
+        "x": 288,
+        "y": 96,
+        "width": 48,
+        "height": 48
+      },
+      "core-shard": {
+        "x": 336,
+        "y": 96,
+        "width": 48,
+        "height": 48
+      },
+      "core-foundation": {
+        "x": 384,
+        "y": 96,
+        "width": 48,
+        "height": 48
+      },
+      "core-nucleus": {
+        "x": 432,
+        "y": 96,
+        "width": 48,
+        "height": 48
+      },
+      "vault": {
+        "x": 480,
+        "y": 96,
+        "width": 48,
+        "height": 48
+      },
+      "container": {
+        "x": 528,
+        "y": 96,
+        "width": 48,
+        "height": 48
+      },
+      "unloader": {
+        "x": 224,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "duo": {
+        "x": 256,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "scatter": {
+        "x": 576,
+        "y": 96,
+        "width": 48,
+        "height": 48
+      },
+      "scorch": {
+        "x": 288,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "hail": {
+        "x": 320,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "wave": {
+        "x": 624,
+        "y": 96,
+        "width": 48,
+        "height": 48
+      },
+      "lancer": {
+        "x": 672,
+        "y": 96,
+        "width": 48,
+        "height": 48
+      },
+      "arc": {
+        "x": 352,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "parallax": {
+        "x": 720,
+        "y": 96,
+        "width": 48,
+        "height": 48
+      },
+      "swarmer": {
+        "x": 768,
+        "y": 96,
+        "width": 48,
+        "height": 48
+      },
+      "salvo": {
+        "x": 816,
+        "y": 96,
+        "width": 48,
+        "height": 48
+      },
+      "segment": {
+        "x": 864,
+        "y": 96,
+        "width": 48,
+        "height": 48
+      },
+      "tsunami": {
+        "x": 912,
+        "y": 96,
+        "width": 48,
+        "height": 48
+      },
+      "fuse": {
+        "x": 960,
+        "y": 96,
+        "width": 48,
+        "height": 48
+      },
+      "ripple": {
+        "x": 0,
+        "y": 144,
+        "width": 48,
+        "height": 48
+      },
+      "cyclone": {
+        "x": 48,
+        "y": 144,
+        "width": 48,
+        "height": 48
+      },
+      "foreshadow": {
+        "x": 96,
+        "y": 144,
+        "width": 48,
+        "height": 48
+      },
+      "spectre": {
+        "x": 144,
+        "y": 144,
+        "width": 48,
+        "height": 48
+      },
+      "meltdown": {
+        "x": 192,
+        "y": 144,
+        "width": 48,
+        "height": 48
+      },
+      "ground-factory": {
+        "x": 240,
+        "y": 144,
+        "width": 48,
+        "height": 48
+      },
+      "air-factory": {
+        "x": 288,
+        "y": 144,
+        "width": 48,
+        "height": 48
+      },
+      "naval-factory": {
+        "x": 336,
+        "y": 144,
+        "width": 48,
+        "height": 48
+      },
+      "additive-reconstructor": {
+        "x": 384,
+        "y": 144,
+        "width": 48,
+        "height": 48
+      },
+      "multiplicative-reconstructor": {
+        "x": 432,
+        "y": 144,
+        "width": 48,
+        "height": 48
+      },
+      "exponential-reconstructor": {
+        "x": 480,
+        "y": 144,
+        "width": 48,
+        "height": 48
+      },
+      "tetrative-reconstructor": {
+        "x": 528,
+        "y": 144,
+        "width": 48,
+        "height": 48
+      },
+      "repair-point": {
+        "x": 384,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "repair-turret": {
+        "x": 576,
+        "y": 144,
+        "width": 48,
+        "height": 48
+      },
+      "payload-conveyor": {
+        "x": 624,
+        "y": 144,
+        "width": 48,
+        "height": 48
+      },
+      "payload-router": {
+        "x": 672,
+        "y": 144,
+        "width": 48,
+        "height": 48
+      },
+      "power-source": {
+        "x": 416,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "power-void": {
+        "x": 448,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "item-source": {
+        "x": 480,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "item-void": {
+        "x": 512,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "liquid-source": {
+        "x": 544,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "liquid-void": {
+        "x": 576,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "payload-void": {
+        "x": 720,
+        "y": 144,
+        "width": 48,
+        "height": 48
+      },
+      "payload-source": {
+        "x": 768,
+        "y": 144,
+        "width": 48,
+        "height": 48
+      },
+      "illuminator": {
+        "x": 608,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "launch-pad": {
+        "x": 816,
+        "y": 144,
+        "width": 48,
+        "height": 48
+      },
+      "interplanetary-accelerator": {
+        "x": 864,
+        "y": 144,
+        "width": 48,
+        "height": 48
+      },
+      "message": {
+        "x": 640,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "switch": {
+        "x": 672,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "micro-processor": {
+        "x": 704,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "logic-processor": {
+        "x": 912,
+        "y": 144,
+        "width": 48,
+        "height": 48
+      },
+      "hyper-processor": {
+        "x": 960,
+        "y": 144,
+        "width": 48,
+        "height": 48
+      },
+      "memory-cell": {
+        "x": 736,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "memory-bank": {
+        "x": 0,
+        "y": 192,
+        "width": 48,
+        "height": 48
+      },
+      "logic-display": {
+        "x": 48,
+        "y": 192,
+        "width": 48,
+        "height": 48
+      },
+      "large-logic-display": {
+        "x": 96,
+        "y": 192,
+        "width": 48,
+        "height": 48
+      },
+      "liquid-container": {
+        "x": 144,
+        "y": 192,
+        "width": 48,
+        "height": 48
+      },
+      "deconstructor": {
+        "x": 192,
+        "y": 192,
+        "width": 48,
+        "height": 48
+      },
+      "constructor": {
+        "x": 240,
+        "y": 192,
+        "width": 48,
+        "height": 48
+      },
+      "thruster": {
+        "x": 288,
+        "y": 192,
+        "width": 48,
+        "height": 48
+      },
+      "large-constructor": {
+        "x": 336,
+        "y": 192,
+        "width": 48,
+        "height": 48
+      },
+      "payload-loader": {
+        "x": 384,
+        "y": 192,
+        "width": 48,
+        "height": 48
+      },
+      "payload-unloader": {
+        "x": 432,
+        "y": 192,
+        "width": 48,
+        "height": 48
+      },
+      "silicon-arc-furnace": {
+        "x": 480,
+        "y": 192,
+        "width": 48,
+        "height": 48
+      },
+      "cliff-crusher": {
+        "x": 528,
+        "y": 192,
+        "width": 48,
+        "height": 48
+      },
+      "plasma-bore": {
+        "x": 576,
+        "y": 192,
+        "width": 48,
+        "height": 48
+      },
+      "reinforced-liquid-junction": {
+        "x": 768,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "breach": {
+        "x": 624,
+        "y": 192,
+        "width": 48,
+        "height": 48
+      },
+      "core-bastion": {
+        "x": 672,
+        "y": 192,
+        "width": 48,
+        "height": 48
+      },
+      "turbine-condenser": {
+        "x": 720,
+        "y": 192,
+        "width": 48,
+        "height": 48
+      },
+      "beam-node": {
+        "x": 800,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "beam-tower": {
+        "x": 768,
+        "y": 192,
+        "width": 48,
+        "height": 48
+      },
+      "build-tower": {
+        "x": 816,
+        "y": 192,
+        "width": 48,
+        "height": 48
+      },
+      "impact-drill": {
+        "x": 864,
+        "y": 192,
+        "width": 48,
+        "height": 48
+      },
+      "carbide-crucible": {
+        "x": 912,
+        "y": 192,
+        "width": 48,
+        "height": 48
+      },
+      "surge-conveyor": {
+        "x": 832,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "duct-unloader": {
+        "x": 864,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "surge-router": {
+        "x": 896,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "reinforced-conduit": {
+        "x": 928,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "reinforced-liquid-router": {
+        "x": 960,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "reinforced-liquid-container": {
+        "x": 960,
+        "y": 192,
+        "width": 48,
+        "height": 48
+      },
+      "reinforced-liquid-tank": {
+        "x": 0,
+        "y": 240,
+        "width": 48,
+        "height": 48
+      },
+      "reinforced-bridge-conduit": {
+        "x": 992,
+        "y": 592,
+        "width": 32,
+        "height": 32
+      },
+      "core-citadel": {
+        "x": 48,
+        "y": 240,
+        "width": 48,
+        "height": 48
+      },
+      "core-acropolis": {
+        "x": 96,
+        "y": 240,
+        "width": 48,
+        "height": 48
+      },
+      "heat-reactor": {
+        "x": 144,
+        "y": 240,
+        "width": 48,
+        "height": 48
+      },
+      "impulse-pump": {
+        "x": 192,
+        "y": 240,
+        "width": 48,
+        "height": 48
+      },
+      "reinforced-pump": {
+        "x": 240,
+        "y": 240,
+        "width": 48,
+        "height": 48
+      },
+      "electrolyzer": {
+        "x": 288,
+        "y": 240,
+        "width": 48,
+        "height": 48
+      },
+      "oxidation-chamber": {
+        "x": 336,
+        "y": 240,
+        "width": 48,
+        "height": 48
+      },
+      "surge-smelter": {
+        "x": 384,
+        "y": 240,
+        "width": 48,
+        "height": 48
+      },
+      "surge-crucible": {
+        "x": 432,
+        "y": 240,
+        "width": 48,
+        "height": 48
+      },
+      "overflow-duct": {
+        "x": 0,
+        "y": 624,
+        "width": 32,
+        "height": 32
+      },
+      "large-plasma-bore": {
+        "x": 480,
+        "y": 240,
+        "width": 48,
+        "height": 48
+      },
+      "cyanogen-synthesizer": {
+        "x": 528,
+        "y": 240,
+        "width": 48,
+        "height": 48
+      },
+      "slag-centrifuge": {
+        "x": 576,
+        "y": 240,
+        "width": 48,
+        "height": 48
+      },
+      "electric-heater": {
+        "x": 624,
+        "y": 240,
+        "width": 48,
+        "height": 48
+      },
+      "slag-incinerator": {
+        "x": 32,
+        "y": 624,
+        "width": 32,
+        "height": 32
+      },
+      "phase-synthesizer": {
+        "x": 672,
+        "y": 240,
+        "width": 48,
+        "height": 48
+      },
+      "sublimate": {
+        "x": 720,
+        "y": 240,
+        "width": 48,
+        "height": 48
+      },
+      "reinforced-container": {
+        "x": 768,
+        "y": 240,
+        "width": 48,
+        "height": 48
+      },
+      "reinforced-vault": {
+        "x": 816,
+        "y": 240,
+        "width": 48,
+        "height": 48
+      },
+      "atmospheric-concentrator": {
+        "x": 864,
+        "y": 240,
+        "width": 48,
+        "height": 48
+      },
+      "unit-cargo-loader": {
+        "x": 912,
+        "y": 240,
+        "width": 48,
+        "height": 48
+      },
+      "unit-cargo-unload-point": {
+        "x": 960,
+        "y": 240,
+        "width": 48,
+        "height": 48
+      },
+      "chemical-combustion-chamber": {
+        "x": 0,
+        "y": 288,
+        "width": 48,
+        "height": 48
+      },
+      "pyrolysis-generator": {
+        "x": 48,
+        "y": 288,
+        "width": 48,
+        "height": 48
+      },
+      "regen-projector": {
+        "x": 96,
+        "y": 288,
+        "width": 48,
+        "height": 48
+      },
+      "titan": {
+        "x": 144,
+        "y": 288,
+        "width": 48,
+        "height": 48
+      },
+      "small-deconstructor": {
+        "x": 192,
+        "y": 288,
+        "width": 48,
+        "height": 48
+      },
+      "vent-condenser": {
+        "x": 240,
+        "y": 288,
+        "width": 48,
+        "height": 48
+      },
+      "phase-heater": {
+        "x": 288,
+        "y": 288,
+        "width": 48,
+        "height": 48
+      },
+      "heat-redirector": {
+        "x": 336,
+        "y": 288,
+        "width": 48,
+        "height": 48
+      },
+      "tungsten-wall": {
+        "x": 64,
+        "y": 624,
+        "width": 32,
+        "height": 32
+      },
+      "tungsten-wall-large": {
+        "x": 384,
+        "y": 288,
+        "width": 48,
+        "height": 48
+      },
+      "tank-assembler": {
+        "x": 432,
+        "y": 288,
+        "width": 48,
+        "height": 48
+      },
+      "beryllium-wall": {
+        "x": 96,
+        "y": 624,
+        "width": 32,
+        "height": 32
+      },
+      "beryllium-wall-large": {
+        "x": 480,
+        "y": 288,
+        "width": 48,
+        "height": 48
+      },
+      "eruption-drill": {
+        "x": 528,
+        "y": 288,
+        "width": 48,
+        "height": 48
+      },
+      "ship-assembler": {
+        "x": 576,
+        "y": 288,
+        "width": 48,
+        "height": 48
+      },
+      "mech-assembler": {
+        "x": 624,
+        "y": 288,
+        "width": 48,
+        "height": 48
+      },
+      "shield-projector": {
+        "x": 672,
+        "y": 288,
+        "width": 48,
+        "height": 48
+      },
+      "beam-link": {
+        "x": 720,
+        "y": 288,
+        "width": 48,
+        "height": 48
+      },
+      "world-processor": {
+        "x": 128,
+        "y": 624,
+        "width": 32,
+        "height": 32
+      },
+      "reinforced-payload-conveyor": {
+        "x": 768,
+        "y": 288,
+        "width": 48,
+        "height": 48
+      },
+      "reinforced-payload-router": {
+        "x": 816,
+        "y": 288,
+        "width": 48,
+        "height": 48
+      },
+      "disperse": {
+        "x": 864,
+        "y": 288,
+        "width": 48,
+        "height": 48
+      },
+      "large-shield-projector": {
+        "x": 912,
+        "y": 288,
+        "width": 48,
+        "height": 48
+      },
+      "payload-mass-driver": {
+        "x": 960,
+        "y": 288,
+        "width": 48,
+        "height": 48
+      },
+      "world-cell": {
+        "x": 160,
+        "y": 624,
+        "width": 32,
+        "height": 32
+      },
+      "carbide-wall": {
+        "x": 192,
+        "y": 624,
+        "width": 32,
+        "height": 32
+      },
+      "carbide-wall-large": {
+        "x": 0,
+        "y": 336,
+        "width": 48,
+        "height": 48
+      },
+      "tank-fabricator": {
+        "x": 48,
+        "y": 336,
+        "width": 48,
+        "height": 48
+      },
+      "mech-fabricator": {
+        "x": 96,
+        "y": 336,
+        "width": 48,
+        "height": 48
+      },
+      "ship-fabricator": {
+        "x": 144,
+        "y": 336,
+        "width": 48,
+        "height": 48
+      },
+      "reinforced-surge-wall": {
+        "x": 224,
+        "y": 624,
+        "width": 32,
+        "height": 32
+      },
+      "radar": {
+        "x": 256,
+        "y": 624,
+        "width": 32,
+        "height": 32
+      },
+      "blast-door": {
+        "x": 192,
+        "y": 336,
+        "width": 48,
+        "height": 48
+      },
+      "canvas": {
+        "x": 240,
+        "y": 336,
+        "width": 48,
+        "height": 48
+      },
+      "armored-duct": {
+        "x": 288,
+        "y": 624,
+        "width": 32,
+        "height": 32
+      },
+      "unit-repair-tower": {
+        "x": 288,
+        "y": 336,
+        "width": 48,
+        "height": 48
+      },
+      "diffuse": {
+        "x": 336,
+        "y": 336,
+        "width": 48,
+        "height": 48
+      },
+      "prime-refabricator": {
+        "x": 384,
+        "y": 336,
+        "width": 48,
+        "height": 48
+      },
+      "basic-assembler-module": {
+        "x": 432,
+        "y": 336,
+        "width": 48,
+        "height": 48
+      },
+      "reinforced-surge-wall-large": {
+        "x": 480,
+        "y": 336,
+        "width": 48,
+        "height": 48
+      },
+      "tank-refabricator": {
+        "x": 528,
+        "y": 336,
+        "width": 48,
+        "height": 48
+      },
+      "mech-refabricator": {
+        "x": 576,
+        "y": 336,
+        "width": 48,
+        "height": 48
+      },
+      "ship-refabricator": {
+        "x": 624,
+        "y": 336,
+        "width": 48,
+        "height": 48
+      },
+      "slag-heater": {
+        "x": 672,
+        "y": 336,
+        "width": 48,
+        "height": 48
+      },
+      "afflict": {
+        "x": 720,
+        "y": 336,
+        "width": 48,
+        "height": 48
+      },
+      "shielded-wall": {
+        "x": 768,
+        "y": 336,
+        "width": 48,
+        "height": 48
+      },
+      "lustre": {
+        "x": 816,
+        "y": 336,
+        "width": 48,
+        "height": 48
+      },
+      "scathe": {
+        "x": 864,
+        "y": 336,
+        "width": 48,
+        "height": 48
+      },
+      "smite": {
+        "x": 912,
+        "y": 336,
+        "width": 48,
+        "height": 48
+      },
+      "underflow-duct": {
+        "x": 320,
+        "y": 624,
+        "width": 32,
+        "height": 32
+      },
+      "malign": {
+        "x": 960,
+        "y": 336,
+        "width": 48,
+        "height": 48
+      },
+      "shockwave-tower": {
+        "x": 0,
+        "y": 384,
+        "width": 48,
+        "height": 48
+      },
+      "heat-source": {
+        "x": 352,
+        "y": 624,
+        "width": 32,
+        "height": 32
+      },
+      "flux-reactor": {
+        "x": 48,
+        "y": 384,
+        "width": 48,
+        "height": 48
+      },
+      "neoplasia-reactor": {
+        "x": 96,
+        "y": 384,
+        "width": 48,
+        "height": 48
+      },
+      "heat-router": {
+        "x": 144,
+        "y": 384,
+        "width": 48,
+        "height": 48
+      },
+      "large-payload-mass-driver": {
+        "x": 192,
+        "y": 384,
+        "width": 48,
+        "height": 48
+      },
+      "reinforced-message": {
+        "x": 384,
+        "y": 624,
+        "width": 32,
+        "height": 32
+      },
+      "world-message": {
+        "x": 416,
+        "y": 624,
+        "width": 32,
+        "height": 32
+      },
+      "world-switch": {
+        "x": 448,
+        "y": 624,
+        "width": 32,
+        "height": 32
+      },
+      "small-heat-redirector": {
+        "x": 240,
+        "y": 384,
+        "width": 48,
+        "height": 48
+      },
+      "large-cliff-crusher": {
+        "x": 288,
+        "y": 384,
+        "width": 48,
+        "height": 48
+      },
+      "advanced-launch-pad": {
+        "x": 336,
+        "y": 384,
+        "width": 48,
+        "height": 48
+      },
+      "landing-pad": {
+        "x": 384,
+        "y": 384,
+        "width": 48,
+        "height": 48
+      },
+      "tile-logic-display": {
+        "x": 480,
+        "y": 624,
+        "width": 32,
+        "height": 32
+      },
+      "large-canvas": {
+        "x": 432,
+        "y": 384,
+        "width": 48,
+        "height": 48
+      }
     },
     "unit": {
-      "dagger": 269,
-      "mace": 270,
-      "fortress": 271,
-      "scepter": 272,
-      "reign": 273,
-      "nova": 274,
-      "pulsar": 275,
-      "quasar": 276,
-      "vela": 277,
-      "corvus": 278,
-      "crawler": 279,
-      "atrax": 280,
-      "spiroct": 281,
-      "arkyid": 282,
-      "toxopid": 283,
-      "flare": 284,
-      "horizon": 285,
-      "zenith": 286,
-      "antumbra": 287,
-      "eclipse": 288,
-      "mono": 289,
-      "poly": 290,
-      "mega": 291,
-      "quad": 292,
-      "oct": 293,
-      "risso": 294,
-      "minke": 295,
-      "bryde": 296,
-      "sei": 297,
-      "omura": 298,
-      "retusa": 299,
-      "oxynoe": 300,
-      "cyerce": 301,
-      "aegires": 302,
-      "navanax": 303,
-      "alpha": 304,
-      "beta": 305,
-      "gamma": 306,
-      "stell": 307,
-      "locus": 308,
-      "precept": 309,
-      "vanquish": 310,
-      "conquer": 311,
-      "merui": 312,
-      "cleroi": 313,
-      "anthicus": 314,
-      "tecta": 315,
-      "collaris": 316,
-      "elude": 317,
-      "avert": 318,
-      "obviate": 319,
-      "quell": 320,
-      "disrupt": 321,
-      "evoke": 322,
-      "incite": 323,
-      "emanate": 324
+      "dagger": {
+        "x": 480,
+        "y": 384,
+        "width": 48,
+        "height": 48
+      },
+      "mace": {
+        "x": 528,
+        "y": 384,
+        "width": 48,
+        "height": 48
+      },
+      "fortress": {
+        "x": 843,
+        "y": 480,
+        "width": 48,
+        "height": 38
+      },
+      "scepter": {
+        "x": 747,
+        "y": 480,
+        "width": 48,
+        "height": 40
+      },
+      "reign": {
+        "x": 512,
+        "y": 624,
+        "width": 48,
+        "height": 31
+      },
+      "nova": {
+        "x": 576,
+        "y": 384,
+        "width": 48,
+        "height": 48
+      },
+      "pulsar": {
+        "x": 651,
+        "y": 480,
+        "width": 48,
+        "height": 41
+      },
+      "quasar": {
+        "x": 624,
+        "y": 384,
+        "width": 48,
+        "height": 48
+      },
+      "vela": {
+        "x": 795,
+        "y": 480,
+        "width": 48,
+        "height": 40
+      },
+      "corvus": {
+        "x": 560,
+        "y": 624,
+        "width": 48,
+        "height": 31
+      },
+      "crawler": {
+        "x": 672,
+        "y": 384,
+        "width": 48,
+        "height": 48
+      },
+      "atrax": {
+        "x": 939,
+        "y": 480,
+        "width": 48,
+        "height": 35
+      },
+      "spiroct": {
+        "x": 891,
+        "y": 480,
+        "width": 48,
+        "height": 38
+      },
+      "arkyid": {
+        "x": 720,
+        "y": 384,
+        "width": 48,
+        "height": 48
+      },
+      "toxopid": {
+        "x": 768,
+        "y": 384,
+        "width": 40,
+        "height": 48
+      },
+      "flare": {
+        "x": 808,
+        "y": 384,
+        "width": 48,
+        "height": 48
+      },
+      "horizon": {
+        "x": 856,
+        "y": 384,
+        "width": 48,
+        "height": 48
+      },
+      "zenith": {
+        "x": 904,
+        "y": 384,
+        "width": 48,
+        "height": 48
+      },
+      "antumbra": {
+        "x": 952,
+        "y": 384,
+        "width": 43,
+        "height": 48
+      },
+      "eclipse": {
+        "x": 0,
+        "y": 432,
+        "width": 48,
+        "height": 48
+      },
+      "mono": {
+        "x": 48,
+        "y": 432,
+        "width": 48,
+        "height": 48
+      },
+      "poly": {
+        "x": 96,
+        "y": 432,
+        "width": 47,
+        "height": 48
+      },
+      "mega": {
+        "x": 143,
+        "y": 432,
+        "width": 48,
+        "height": 48
+      },
+      "quad": {
+        "x": 191,
+        "y": 432,
+        "width": 48,
+        "height": 48
+      },
+      "oct": {
+        "x": 239,
+        "y": 432,
+        "width": 48,
+        "height": 48
+      },
+      "risso": {
+        "x": 287,
+        "y": 432,
+        "width": 43,
+        "height": 48
+      },
+      "minke": {
+        "x": 330,
+        "y": 432,
+        "width": 42,
+        "height": 48
+      },
+      "bryde": {
+        "x": 372,
+        "y": 432,
+        "width": 48,
+        "height": 48
+      },
+      "sei": {
+        "x": 420,
+        "y": 432,
+        "width": 42,
+        "height": 48
+      },
+      "omura": {
+        "x": 462,
+        "y": 432,
+        "width": 36,
+        "height": 48
+      },
+      "retusa": {
+        "x": 498,
+        "y": 432,
+        "width": 43,
+        "height": 48
+      },
+      "oxynoe": {
+        "x": 541,
+        "y": 432,
+        "width": 42,
+        "height": 48
+      },
+      "cyerce": {
+        "x": 583,
+        "y": 432,
+        "width": 48,
+        "height": 48
+      },
+      "aegires": {
+        "x": 631,
+        "y": 432,
+        "width": 43,
+        "height": 48
+      },
+      "navanax": {
+        "x": 674,
+        "y": 432,
+        "width": 34,
+        "height": 48
+      },
+      "alpha": {
+        "x": 708,
+        "y": 432,
+        "width": 48,
+        "height": 48
+      },
+      "beta": {
+        "x": 459,
+        "y": 480,
+        "width": 48,
+        "height": 46
+      },
+      "gamma": {
+        "x": 756,
+        "y": 432,
+        "width": 48,
+        "height": 48
+      },
+      "stell": {
+        "x": 804,
+        "y": 432,
+        "width": 48,
+        "height": 48
+      },
+      "locus": {
+        "x": 852,
+        "y": 432,
+        "width": 48,
+        "height": 48
+      },
+      "precept": {
+        "x": 900,
+        "y": 432,
+        "width": 41,
+        "height": 48
+      },
+      "vanquish": {
+        "x": 941,
+        "y": 432,
+        "width": 48,
+        "height": 48
+      },
+      "conquer": {
+        "x": 0,
+        "y": 480,
+        "width": 37,
+        "height": 48
+      },
+      "merui": {
+        "x": 507,
+        "y": 480,
+        "width": 48,
+        "height": 46
+      },
+      "cleroi": {
+        "x": 37,
+        "y": 480,
+        "width": 47,
+        "height": 48
+      },
+      "anthicus": {
+        "x": 84,
+        "y": 480,
+        "width": 48,
+        "height": 48
+      },
+      "tecta": {
+        "x": 699,
+        "y": 480,
+        "width": 48,
+        "height": 41
+      },
+      "collaris": {
+        "x": 132,
+        "y": 480,
+        "width": 44,
+        "height": 48
+      },
+      "elude": {
+        "x": 176,
+        "y": 480,
+        "width": 48,
+        "height": 48
+      },
+      "avert": {
+        "x": 224,
+        "y": 480,
+        "width": 48,
+        "height": 48
+      },
+      "obviate": {
+        "x": 603,
+        "y": 480,
+        "width": 48,
+        "height": 45
+      },
+      "quell": {
+        "x": 272,
+        "y": 480,
+        "width": 48,
+        "height": 48
+      },
+      "disrupt": {
+        "x": 320,
+        "y": 480,
+        "width": 48,
+        "height": 48
+      },
+      "evoke": {
+        "x": 555,
+        "y": 480,
+        "width": 48,
+        "height": 46
+      },
+      "incite": {
+        "x": 368,
+        "y": 480,
+        "width": 44,
+        "height": 48
+      },
+      "emanate": {
+        "x": 412,
+        "y": 480,
+        "width": 47,
+        "height": 48
+      }
     }
   }
 }

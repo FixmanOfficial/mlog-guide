@@ -491,15 +491,10 @@ export class WorldView {
             return this.cut(`block:${type}`, this.blocks, native.x, native.y, native.width, native.height)
         }
 
-        const cell = this.sprites?.index.block?.[type]
-        if (cell === undefined || this.atlas === null) return null
+        const entry = this.sprites?.index.block?.[type]
+        if (entry === undefined || this.atlas === null) return null
 
-        const size = this.sprites.cell
-        return this.cut(
-            `icon:${cell}`, this.atlas,
-            (cell % this.sprites.columns) * size, Math.floor(cell / this.sprites.columns) * size,
-            size
-        )
+        return this.cut(`icon:${type}`, this.atlas, entry.x, entry.y, entry.width, entry.height)
     }
 
     /**
