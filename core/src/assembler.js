@@ -20,11 +20,15 @@ import {
     packColorBits, unpackColorBits
 } from './arc.js'
 import {NOT_SENSED} from './sense.js'
-
-export {unpackColorBits}
-import {Unit, LogicAI, UNIT_SPECS, LOGIC_CONTROL_TIMEOUT, TRANSFER_DELAY, ITEM_TRANSFER_RANGE, conv, unconv} from './unit.js'
+import {
+    Unit, LogicAI, UNIT_SPECS, LOGIC_CONTROL_TIMEOUT, TRANSFER_DELAY, ITEM_TRANSFER_RANGE,
+    conv, unconv
+} from './unit.js'
 import {BLOCK_SPECS} from './world.js'
 import {ALIGN_NAMES} from './font.js'
+
+// Разбор упакованного цвета нужен и снаружи: дисплей достаёт им байты из `draw col`
+export {unpackColorBits}
 
 /** Все 53 инструкции из LStatements.java: нужны, чтобы отличать опечатку от неперенесённого. */
 export const KNOWN_INSTRUCTIONS = new Set([
@@ -207,6 +211,20 @@ function radarBuilder(asm, params, fromUnit) {
             output.setobj(state.found)
         }
     }
+}
+
+/**
+ * `LVar.team()`: объект-команда отдаёт свой номер, число — само себя, а всё остальное
+ * не команда вовсе и даёт null. Инструкции мира на такой ответ просто ничего не делают.
+ */
+function teamOf(variable) {
+    if (variable.isobj) {
+        const object = variable.obj()
+        return object !== null && object.teamId !== undefined ? object.teamId : null
+    }
+
+    const id = variable.numi()
+    return id >= 0 && id < 256 ? id : null
 }
 
 /** Достаёт имя свойства из константы вида @enabled. */
@@ -833,6 +851,109 @@ const builders = {
         }
     },
 
+    /**
+     * FetchI: перебор того, что есть у команды. Порядок — порядок появления, как в `TeamData`,
+     * поэтому программа, которая ходит по индексу, видит устойчивый список.
+     *
+     * Игроков в песочнице нет вовсе, поэтому `player` и `playerCount` отвечают пусто и ноль —
+     * так же, как в игре на карте без игроков.
+     */
+    fetch: (asm, params) => {
+        const type = params[0] ?? 'unit'
+        const output = asm.var(params[1] ?? 'result')
+        const team = asm.var(params[2] ?? '@sharded')
+        const index = asm.var(params[3] ?? '0')
+        const extra = asm.var(params[4] ?? '@conveyor')
+
+        return {
+            run: (vm) => {
+                const world = vm.world
+                if (world === null) return
+
+                const side = teamOf(team)
+                if (side === null) return
+
+                const at = index.numi()
+                const filter = extra.obj()
+
+                const units = () => world.units.filter(unit => unit.team === side && !unit.dead
+                    && (filter?.contentType !== 'unit' || unit.type === filter.name))
+
+                const builds = () => world.buildings.filter(building => building.team === side
+                    && (filter?.contentType !== 'block' || building.type === filter.name))
+
+                const cores = () => world.buildings.filter(building => building.team === side
+                    && BLOCK_SPECS[building.type]?.core === true)
+
+                const pick = (list) => output.setobj(at < 0 || at >= list.length ? null : list[at])
+
+                switch (type) {
+                    case 'unit': return pick(units())
+                    case 'unitCount': return output.setnum(units().length)
+                    case 'build': return pick(builds())
+                    case 'buildCount': return output.setnum(builds().length)
+                    case 'core': return pick(cores())
+                    case 'coreCount': return output.setnum(cores().length)
+                    case 'player': return output.setobj(null)
+                    case 'playerCount': return output.setnum(0)
+                }
+            }
+        }
+    },
+
+    /**
+     * SetPropI: запись свойства напрямую, мимо всякой физики. Свойств меньше, чем читает
+     * `sensor`: игра позволяет менять только то, что имеет смысл менять извне.
+     */
+    setprop: (asm, params) => {
+        const property = asm.var(params[0] ?? '@copper')
+        const target = asm.var(params[1] ?? 'block1')
+        const value = asm.var(params[2] ?? '0')
+
+        return {
+            run: (vm) => {
+                if (!vm.privileged) return
+
+                const object = target.obj()
+                if (object === null) return
+
+                // Свойством может быть и контент: тогда это количество предмета в здании
+                const content = property.obj()
+                if (content !== null && content.contentType !== undefined) {
+                    return void object.setContent?.(content, value.num())
+                }
+
+                const name = propertyName(property)
+                if (name !== null) object.setProp?.(name, value)
+            }
+        }
+    },
+
+    /**
+     * LocalePrintI: строка из словаря карты. Своего текста у ядра нет и быть не должно,
+     * поэтому словарь приходит с миром: пустой — и печатать нечего, ровно как в игре
+     * на карте без переводов.
+     */
+    localeprint: (asm, params) => {
+        const key = asm.var(params[0] ?? '"name"')
+
+        return {
+            run: (vm) => {
+                const name = key.obj()
+                if (typeof name !== 'string') return
+
+                const text = vm.world?.locales?.get(name)
+                if (typeof text === 'string') vm.appendText(text)
+            }
+        }
+    },
+
+    /**
+     * ClientDataI и SyncI шлют данные по сети. В одиночной игре слать некому — инструкции
+     * не делают ничего, и это не заглушка, а поведение игры.
+     */
+    clientdata: () => ({run: () => { /* сети нет */ }}),
+
     /** GetFlagI: флаг это строка, и не-строка даёт пустой ответ, а не ложь. */
     getflag: (asm, params) => {
         const output = asm.var(params[0] ?? 'result')
@@ -982,7 +1103,7 @@ const builders = {
                 }
 
                 if (layer === 'block') vm.world.setBlock(tx, ty, content.name, {
-                    team: team.num() | 0,
+                    team: teamOf(team) ?? 0,
                     rotation: Math.min(3, Math.max(0, rotation.numi()))
                 })
             }
@@ -1009,8 +1130,11 @@ const builders = {
                     return output.setobj(null)
                 }
 
+                const side = teamOf(team)
+                if (side === null) return output.setobj(null)
+
                 output.setobj(vm.world.spawn(content.name, {
-                    x: x.num(), y: y.num(), rotation: rotation.num(), team: team.num() | 0
+                    x: x.num(), y: y.num(), rotation: rotation.num(), team: side
                 }))
             }
         }

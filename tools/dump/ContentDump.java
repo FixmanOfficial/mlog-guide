@@ -23,6 +23,7 @@ import mindustry.world.blocks.logic.LogicBlock;
 import mindustry.world.blocks.logic.LogicDisplay;
 import mindustry.world.blocks.logic.MemoryBlock;
 import mindustry.world.blocks.logic.MessageBlock;
+import mindustry.world.blocks.storage.CoreBlock;
 import mindustry.world.blocks.environment.Floor;
 import mindustry.world.blocks.environment.OreBlock;
 import mindustry.world.blocks.environment.OverlayFloor;
@@ -208,6 +209,9 @@ public class ContentDump{
             // Привилегированный блок ставится только в редакторе карт, и его логике
             // доступны инструкции мира. Block.privileged
             spec.bool("privileged", block.privileged);
+
+            // Ядро: по нему считает `fetch core` и ищет `ulocate building core`
+            spec.bool("core", block instanceof CoreBlock);
 
             spec.number("itemCapacity", block.itemCapacity);
             spec.number("liquidCapacity", block.liquidCapacity);

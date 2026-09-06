@@ -404,3 +404,81 @@ test('spawn создаёт юнита, а setrate меняет скорость 
     assert.equal(processor.get('новый').obj()?.type, 'dagger')
     assert.equal(processor.ipt, 25)
 })
+
+test('fetch перебирает юнитов и здания команды по порядку появления', () => {
+    const world = new World({width: 20, height: 20, content})
+    const building = world.add('world-processor', {x: 1, y: 1})
+
+    const processor = new Processor([
+        'fetch unitCount сколько @sharded 0 @poly',
+        'fetch unit первый @sharded 0 @poly',
+        'fetch unit второй @sharded 1 @poly',
+        'fetch unit мимо @sharded 5 @poly',
+        'fetch buildCount зданий @sharded 0 @container',
+        'fetch coreCount ядер @sharded 0 @container'
+    ].join('\n'), {world, content, globals: content.globals, building, team: 1, ipt: 8})
+
+    building.processor = processor
+    world.addProcessor(processor)
+
+    const first = world.spawn('poly', {x: 3, y: 3})
+    const second = world.spawn('poly', {x: 5, y: 5})
+    world.spawn('mono', {x: 7, y: 7})
+    world.add('container', {x: 9, y: 9})
+
+    processor.run(6)
+
+    // Считается только запрошенный тип: моно в счёт поли не идёт
+    assert.equal(processor.num('сколько'), 2)
+    assert.equal(processor.get('первый').obj()?.id, first.id)
+    assert.equal(processor.get('второй').obj()?.id, second.id)
+    assert.equal(processor.get('мимо').obj(), null)
+
+    assert.equal(processor.num('зданий'), 1)
+    assert.equal(processor.num('ядер'), 0)
+})
+
+test('setprop правит свойства напрямую, мимо всякой физики', () => {
+    const world = new World({width: 20, height: 20, content})
+    const building = world.add('world-processor', {x: 1, y: 1})
+    const container = world.add('container', {x: 9, y: 9})
+
+    const processor = new Processor([
+        'fetch unit цель @sharded 0 @poly',
+        'setprop @x цель 12',
+        'setprop @health цель 50',
+        'setprop @flag цель 7',
+        'setprop @copper container1 25'
+    ].join('\n'), {
+        world, content, globals: content.globals, building, team: 1, ipt: 8, links: [container]
+    })
+
+    building.processor = processor
+    world.addProcessor(processor)
+
+    const poly = world.spawn('poly', {x: 3, y: 3})
+    processor.run(5)
+
+    assert.equal(poly.x, 12 * 8, 'координата приходит в тайлах')
+    assert.equal(poly.health, 50)
+    assert.equal(poly.flag, 7)
+    assert.equal(container.items.get('copper'), 25)
+})
+
+test('localeprint берёт строку из словаря карты, а без словаря молчит', () => {
+    const world = new World({width: 10, height: 10, content})
+    const building = world.add('world-processor', {x: 1, y: 1})
+
+    const processor = new Processor([
+        'localeprint "привет"',
+        'localeprint "нет-такого"'
+    ].join('\n'), {world, content, globals: content.globals, building, team: 1, ipt: 8})
+
+    building.processor = processor
+    world.addProcessor(processor)
+
+    world.locales.set('привет', 'Здравствуйте')
+    processor.run(2)
+
+    assert.equal(processor.textBuffer, 'Здравствуйте')
+})

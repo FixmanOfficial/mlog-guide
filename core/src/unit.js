@@ -424,6 +424,40 @@ export class Unit {
         this.itemAmount = 0
     }
 
+    /**
+     * UnitComp.setProp: правка свойства напрямую. Координаты приходят в тайлах, скорость —
+     * в тайлах за секунду, как их и отдаёт `sensor`.
+     */
+    setProp(property, value) {
+        switch (property) {
+            case 'health': this.health = Math.min(Math.max(value.num(), 0), this.maxHealth); break
+            case 'x': this.x = unconv(value.num()); break
+            case 'y': this.y = unconv(value.num()); break
+            case 'velocityX': this.vel.x = value.num() * TILE_SIZE / 60; break
+            case 'velocityY': this.vel.y = value.num() * TILE_SIZE / 60; break
+            case 'rotation': this.rotation = value.num(); break
+            case 'flag': this.flag = value.num(); break
+            case 'team': this.team = value.isobj ? value.obj()?.teamId ?? this.team : value.num() | 0; break
+        }
+
+        return this
+    }
+
+    /** У юнита в руках один предмет, поэтому `setprop` с контентом задаёт его количество. */
+    setContent(content, amount) {
+        if (content.contentType !== 'item') return this
+
+        const target = Math.max(0, Math.trunc(amount))
+
+        if (target === 0) this.clearItem()
+        else {
+            this.item = content.name
+            this.itemAmount = Math.min(target, this.spec.itemCapacity)
+        }
+
+        return this
+    }
+
     /** UnitComp.sense(Content): у юнита счётчик один, поэтому чужой предмет — ноль. */
     senseContent(content) {
         if (content.contentType !== 'item') return NaN

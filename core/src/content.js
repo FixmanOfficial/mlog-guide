@@ -12,6 +12,7 @@
 import {LVar} from './lvar.js'
 import {NOT_SENSED} from './sense.js'
 import {packColorHex} from './arc.js'
+import {TEAMS} from './teams.js'
 import blockSpecs from '../data/block-specs.json' with {type: 'json'}
 import unitSpecs from '../data/unit-specs.json' with {type: 'json'}
 import materials from '../data/materials.json' with {type: 'json'}
@@ -145,6 +146,15 @@ export function createContent(data) {
     }
 
     types.environment = environment
+
+    /*
+     * Команды тоже лежат в константах: `@sharded`, `@crux` и остальные четыре.
+     * Это не контент — у них нет ни типа, ни логического номера, — но `fetch`, `spawn`
+     * и `setblock` принимают именно их. GlobalVars.java:131
+     */
+    for (const [name, team] of Object.entries(TEAMS)) {
+        constant(`@${name}`, {teamId: team.id, name}, true)
+    }
 
     /** Объект контента по имени. Ищет среди констант, поэтому видит и местность. */
     const find = (name) => globals.get(`@${name}`)?.objval ?? null

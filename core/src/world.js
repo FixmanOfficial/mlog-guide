@@ -78,6 +78,36 @@ export class Building {
         return this.items.get(content.name) ?? 0
     }
 
+    /**
+     * BuildingComp.setProp: правка свойства напрямую. Игра разрешает менять только здоровье,
+     * команду и запас энергии — остальное здание считает само.
+     */
+    setProp(property, value) {
+        if (property === 'health') {
+            this.health = Math.min(Math.max(value.num(), 0), this.maxHealth)
+            return this
+        }
+
+        if (property === 'team') {
+            this.team = value.isobj ? value.obj()?.teamId ?? this.team : value.num() | 0
+        }
+
+        return this
+    }
+
+    /** `setprop` с контентом вместо свойства: столько-то предмета в здании. */
+    setContent(content, amount) {
+        if (this.items === null || content.contentType !== 'item') return this
+
+        const target = Math.max(0, Math.trunc(amount))
+        const now = this.items.get(content.name) ?? 0
+
+        if (target > now) this.handleStack(content.name, this.acceptStack(content.name, target - now))
+        else this.removeStack(content.name, now - target)
+
+        return this
+    }
+
     /** BuildingComp.getMaximumAccepted: у обычного блока это вместимость на каждый предмет. */
     maximumAccepted() {
         return this.spec.itemCapacity ?? 0
@@ -417,6 +447,9 @@ export class World {
 
         // Правила и флаги целей: их читает и пишет процессор мира
         this.rules = new Rules()
+
+        // Словарь карты: из него берёт строки `localeprint`. Пустой, пока карту не загрузили
+        this.locales = new Map()
     }
 
     inside(x, y) {
