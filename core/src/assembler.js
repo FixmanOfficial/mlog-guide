@@ -833,6 +833,210 @@ const builders = {
         }
     },
 
+    /** GetFlagI: флаг это строка, и не-строка даёт пустой ответ, а не ложь. */
+    getflag: (asm, params) => {
+        const output = asm.var(params[0] ?? 'result')
+        const flag = asm.var(params[1] ?? '"flag"')
+
+        return {
+            run: (vm) => {
+                const name = flag.obj()
+
+                if (typeof name !== 'string') return output.setobj(null)
+                output.setbool(vm.world?.rules.flag(name) ?? false)
+            }
+        }
+    },
+
+    /**
+     * SetFlagI. Флаги — общий язык процессора мира и **целей карты**: условие `FlagObjective`
+     * проверяет ровно этот набор. Поэтому они живут в правилах мира, а не в процессоре.
+     */
+    setflag: (asm, params) => {
+        const flag = asm.var(params[0] ?? '"flag"')
+        const value = asm.var(params[1] ?? 'true')
+
+        return {
+            run: (vm) => {
+                const name = flag.obj()
+                if (typeof name !== 'string' || vm.world === null) return
+
+                vm.world.rules.setFlag(name, value.bool())
+            }
+        }
+    },
+
+    /**
+     * SetRuleI. Правила пишутся как есть: моделируем мы не все — волн и освещения у нас нет, —
+     * но сохранить число честнее, чем потерять его. Секунды и тайлы переводятся в тики
+     * и мировые единицы там же, где это делает игра.
+     */
+    setrule: (asm, params, line) => {
+        const rule = params[0] ?? 'waveSpacing'
+        const value = asm.var(params[1] ?? '0')
+        const corners = [2, 3, 4, 5].map(index => asm.var(params[index] ?? '0'))
+
+        if (rule === 'ban' || rule === 'unban') {
+            return {
+                run: (vm) => {
+                    const content = value.obj()
+                    if (content === null || vm.world === null) return
+
+                    const key = `${content.contentType}:${content.name}`
+                    if (rule === 'ban') vm.world.rules.banned.add(key)
+                    else vm.world.rules.banned.delete(key)
+                }
+            }
+        }
+
+        if (rule === 'mapArea') {
+            return {
+                run: (vm) => {
+                    if (vm.world === null) return
+                    vm.world.rules.mapArea = corners.map(corner => corner.numi())
+                }
+            }
+        }
+
+        // Правила, у которых своя мера: секунды в тики, тайлы в мировые единицы
+        const scales = {
+            currentWaveTime: 60, waveSpacing: 60,
+            enemyCoreBuildRadius: 8, dropZoneRadius: 8
+        }
+
+        const flags = new Set([
+            'waveTimer', 'waves', 'waveSending', 'attackMode', 'lighting',
+            'canGameOver', 'pauseDisabled'
+        ])
+
+        return {
+            run: (vm) => {
+                if (vm.world === null) return
+
+                if (flags.has(rule)) return void vm.world.rules.set(rule, value.bool())
+                if (rule === 'wave') return void vm.world.rules.set(rule, Math.max(value.numi(), 1))
+
+                vm.world.rules.set(rule, value.num() * (scales[rule] ?? 1))
+            }
+        }
+    },
+
+    /** GetBlockI: слой тайла — пол, руда, блок или здание. */
+    getblock: (asm, params) => {
+        const layer = params[0] ?? 'block'
+        const output = asm.var(params[1] ?? 'result')
+        const x = asm.var(params[2] ?? '0')
+        const y = asm.var(params[3] ?? '0')
+
+        return {
+            run: (vm) => {
+                const world = vm.world
+                const [tx, ty] = [Math.round(x.num()), Math.round(y.num())]
+
+                if (world === null || !world.inside(tx, ty)) return output.setobj(null)
+
+                const lookup = (name) => name === null ? null : vm.content?.find?.(name) ?? null
+
+                switch (layer) {
+                    case 'floor': return output.setobj(lookup(world.floorAt(tx, ty)))
+                    case 'ore': return output.setobj(lookup(world.overlayAt(tx, ty) ?? 'air'))
+                    case 'building': return output.setobj(world.at(tx, ty) ?? null)
+                    default: return output.setobj(lookup(world.blockAt(tx, ty)))
+                }
+            }
+        }
+    },
+
+    /**
+     * SetBlockI. Слой `building` игра запрещает сама — здание так не поставить.
+     * Пол ставится только полом, руда только наложением: иначе тайл превратился бы в кашу.
+     */
+    setblock: (asm, params) => {
+        const layer = params[0] ?? 'block'
+        const block = asm.var(params[1] ?? '@air')
+        const x = asm.var(params[2] ?? '0')
+        const y = asm.var(params[3] ?? '0')
+        const team = asm.var(params[4] ?? '@sharded')
+        const rotation = asm.var(params[5] ?? '0')
+
+        return {
+            run: (vm) => {
+                if (!vm.privileged || vm.world === null) return
+
+                const [tx, ty] = [Math.round(x.num()), Math.round(y.num())]
+                const content = block.obj()
+
+                if (!vm.world.inside(tx, ty) || content?.contentType !== 'block') return
+
+                const kind = BLOCK_SPECS[content.name]?.kind
+
+                if (layer === 'floor') {
+                    if (kind === 'floor') vm.world.setFloor(tx, ty, content.name)
+                    return
+                }
+
+                if (layer === 'ore') {
+                    if (content.name === 'air') return void vm.world.setOverlay(tx, ty, null)
+                    if (kind === 'ore' || kind === 'overlay') vm.world.setOverlay(tx, ty, content.name)
+                    return
+                }
+
+                if (layer === 'block') vm.world.setBlock(tx, ty, content.name, {
+                    team: team.num() | 0,
+                    rotation: Math.min(3, Math.max(0, rotation.numi()))
+                })
+            }
+        }
+    },
+
+    /** SpawnUnitI: юнит появляется сразу и целиком, без завода и очереди. */
+    spawn: (asm, params) => {
+        const type = asm.var(params[0] ?? '@dagger')
+        const x = asm.var(params[1] ?? '0')
+        const y = asm.var(params[2] ?? '0')
+        const rotation = asm.var(params[3] ?? '90')
+        const team = asm.var(params[4] ?? '@sharded')
+        const output = asm.var(params[5] ?? 'result')
+
+        return {
+            run: (vm) => {
+                if (!vm.privileged || vm.world === null) return output.setobj(null)
+
+                const content = type.obj()
+                const spec = content === null ? undefined : UNIT_SPECS[content.name]
+
+                if (content?.contentType !== 'unit' || spec === undefined || spec.internal) {
+                    return output.setobj(null)
+                }
+
+                output.setobj(vm.world.spawn(content.name, {
+                    x: x.num(), y: y.num(), rotation: rotation.num(), team: team.num() | 0
+                }))
+            }
+        }
+    },
+
+    /** SetRateI: скорость процессора, но не выше предела его блока. */
+    setrate: (asm, params) => {
+        const amount = asm.var(params[0] ?? '10')
+
+        return {
+            run: (vm) => {
+                if (!vm.privileged) return
+
+                const limit = vm.building?.spec?.maxInstructionsPerTick ?? vm.ipt
+                vm.ipt = Math.min(Math.max(amount.numi(), 1), limit)
+                vm.bindEnvironment()
+            }
+        }
+    },
+
+    /**
+     * SyncI: рассылает переменную клиентам. В одиночной игре рассылать некому, поэтому
+     * инструкция ничего не делает — и в игре тоже.
+     */
+    sync: () => ({run: () => { /* сети нет */ }}),
+
     getlink: (asm, params) => {
         const output = asm.var(params[0] ?? 'result')
         const index = asm.var(params[1] ?? '0')

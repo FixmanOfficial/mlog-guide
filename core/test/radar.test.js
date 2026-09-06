@@ -300,3 +300,107 @@ test('@color здания — цвет его команды, а не блока
     assert.equal(Math.round(processor.num('r') * 255), 0xf2)
     assert.equal(Math.round(processor.num('g') * 255), 0x55)
 })
+
+test('процессор мира ставит блоки, красит пол и сыплет руду', () => {
+    const world = new World({width: 20, height: 20, content, floor: 'stone'})
+    const building = world.add('world-processor', {x: 1, y: 1})
+
+    const processor = new Processor([
+        'setblock floor @sand-floor 5 5 @sharded 0',
+        'setblock ore @ore-copper 5 5 @sharded 0',
+        'setblock block @router 8 8 @sharded 0',
+        'getblock floor пол 5 5',
+        'getblock ore руда 5 5',
+        'getblock block блок 8 8'
+    ].join('\n'), {world, content, globals: content.globals, building, team: 1, ipt: 8})
+
+    building.processor = processor
+    world.addProcessor(processor)
+    processor.run(6)
+
+    assert.equal(world.floorAt(5, 5), 'sand-floor')
+    assert.equal(world.overlayAt(5, 5), 'ore-copper')
+    assert.equal(world.at(8, 8)?.type, 'router')
+
+    assert.equal(processor.get('пол').obj().name, 'sand-floor')
+    assert.equal(processor.get('руда').obj().name, 'ore-copper')
+    assert.equal(processor.get('блок').obj().name, 'router')
+})
+
+test('обычному процессору инструкции мира не подчиняются', () => {
+    const world = new World({width: 20, height: 20, content, floor: 'stone'})
+    const building = world.add('micro-processor', {x: 1, y: 1})
+
+    const processor = new Processor('setblock block @router 8 8 @sharded 0', {
+        world, content, globals: content.globals, building, team: 1, ipt: 2
+    })
+
+    building.processor = processor
+    world.addProcessor(processor)
+    processor.run(2)
+
+    // В игре каждая инструкция мира начинается с проверки privileged
+    assert.equal(world.at(8, 8), undefined)
+})
+
+test('флаги целей поднимаются и читаются', () => {
+    const world = new World({width: 10, height: 10, content})
+    const building = world.add('world-processor', {x: 1, y: 1})
+
+    const processor = new Processor([
+        'setflag "готово" 1',
+        'getflag есть "готово"',
+        'getflag нету "другое"'
+    ].join('\n'), {world, content, globals: content.globals, building, team: 1, ipt: 8})
+
+    building.processor = processor
+    world.addProcessor(processor)
+    processor.run(3)
+
+    assert.equal(processor.num('есть'), 1)
+    assert.equal(processor.num('нету'), 0)
+
+    // Флаг лежит в правилах мира: оттуда его берут цели карты
+    assert.equal(world.rules.flag('готово'), true)
+})
+
+test('setrule переводит секунды в тики, а тайлы в мировые единицы', () => {
+    const world = new World({width: 10, height: 10, content})
+    const building = world.add('world-processor', {x: 1, y: 1})
+
+    const processor = new Processor([
+        'setrule waveSpacing 30 0 0 0 0',
+        'setrule dropZoneRadius 10 0 0 0 0',
+        'setrule waves true 0 0 0 0',
+        'setrule unitCap 40 0 0 0 0',
+        'setrule mapArea 0 1 2 3 4'
+    ].join('\n'), {world, content, globals: content.globals, building, team: 1, ipt: 8})
+
+    building.processor = processor
+    world.addProcessor(processor)
+    processor.run(5)
+
+    assert.equal(world.rules.get('waveSpacing'), 30 * 60)
+    assert.equal(world.rules.get('dropZoneRadius'), 10 * 8)
+    assert.equal(world.rules.get('waves'), true)
+    assert.equal(world.rules.get('unitCap'), 40)
+    assert.deepEqual(world.rules.mapArea, [1, 2, 3, 4])
+})
+
+test('spawn создаёт юнита, а setrate меняет скорость процессора', () => {
+    const world = new World({width: 20, height: 20, content})
+    const building = world.add('world-processor', {x: 1, y: 1})
+
+    const processor = new Processor([
+        'spawn @dagger 5 5 90 @sharded новый 0',
+        'setrate 25'
+    ].join('\n'), {world, content, globals: content.globals, building, team: 1, ipt: 8})
+
+    building.processor = processor
+    world.addProcessor(processor)
+    processor.run(2)
+
+    assert.equal(world.units.length, 1)
+    assert.equal(processor.get('новый').obj()?.type, 'dagger')
+    assert.equal(processor.ipt, 25)
+})

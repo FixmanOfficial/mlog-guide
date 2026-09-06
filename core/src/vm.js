@@ -59,6 +59,13 @@ export class Processor {
         this.content = content
         this.team = team
         this.building = building
+
+        /*
+         * Привилегия — свойство блока, а не настройка: инструкции мира работают только
+         * в процессоре мира, который ставится в редакторе карт. В игре каждая такая
+         * инструкция начинается с проверки `exec.privileged`.
+         */
+        this.privileged = building?.spec?.privileged ?? false
         this.delta = 1
         this.assemblerOptions = assemblerOptions
 

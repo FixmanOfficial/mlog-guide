@@ -205,6 +205,10 @@ public class ContentDump{
             spec.bool("placeableOn", block.placeableOn);
             spec.bool("synthetic", block.synthetic());
 
+            // Привилегированный блок ставится только в редакторе карт, и его логике
+            // доступны инструкции мира. Block.privileged
+            spec.bool("privileged", block.privileged);
+
             spec.number("itemCapacity", block.itemCapacity);
             spec.number("liquidCapacity", block.liquidCapacity);
 
@@ -218,6 +222,7 @@ public class ContentDump{
                 spec.number("ipt", logic.instructionsPerTick);
                 spec.number("range", logic.range);
                 spec.number("maxInstructionScale", logic.maxInstructionScale);
+                spec.number("maxInstructionsPerTick", logic.maxInstructionsPerTick);
             }
 
             // Дальность турели: сама турель не моделируется, но `radar` смотрит именно на неё

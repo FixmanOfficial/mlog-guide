@@ -233,6 +233,17 @@ Mindustry закрепляет arc хешем коммита в `gradle.properti
 | **`@color` есть у всего, но отвечает разное.** У здания и юнита это цвет их команды с полной непрозрачностью, у предмета и жидкости — собственный цвет, у типа блока — цвет на карте. Упакован он `Color.toDoubleBits`, поэтому идёт прямо в `draw col` и разбирается `unpackcolor` | `entities/comp/BuildingComp.java:2103`, `UnitComp.java:305`, `type/Item.java:149`, `world/Block.java:1663` | ✓ `radar.test.js` |
 | **Цвет блока лежит картинкой, а не в коде.** `ContentLoader.loadColors` читает пиксель с номером блока из первой строки `sprites/block_colors.png` | `core/ContentLoader.java` | ✓ `gen-dump.mjs` |
 
+## Процессор мира
+
+| Деталь | Источник | Тест |
+| --- | --- | --- |
+| **Привилегия — свойство блока, а не настройка.** `Block.privileged` есть у четырёх блоков: процессора мира, ячейки, сообщения и тумблера. Каждая инструкция мира начинается с проверки `exec.privileged`, поэтому в обычном процессоре она просто ничего не делает | `world/Block.java`, `logic/LExecutor.java` | ✓ `radar.test.js` |
+| **Флаги — общий язык с целями карты.** `setflag` пишет в `state.rules.objectiveFlags`, а условие `FlagObjective` из `MapObjectives` проверяет тот же набор. Метки у целей и у `setmarker` — одни и те же классы | `logic/LExecutor.java:2102-2150`, `game/MapObjectives.java:687-722` | ✓ `radar.test.js` |
+| `setrule` переводит меры: секунды в тики (`waveSpacing`, `currentWaveTime`), тайлы в мировые единицы (`dropZoneRadius`, `enemyCoreBuildRadius`) | `logic/LExecutor.java` `SetRuleI` | ✓ `radar.test.js` |
+| `setblock` разбирает слои: пол ставится только полом, руда только наложением, а слой `building` запрещён вовсе — здание так не поставить | `logic/LExecutor.java:1557-1584` | ✓ `radar.test.js` |
+| `spawn` сдвигает юнита на случайные ±0.01, чтобы одинаковые не слипались в стопку | `logic/LExecutor.java:1611` | расходится: у нас сдвига нет, симуляция детерминированная |
+| `setrate` ограничен не общим пределом, а полем блока `maxInstructionsPerTick` — у процессора мира это тысяча | `logic/LExecutor.java:2029-2034` | ✓ `radar.test.js` |
+
 ## Местность
 
 | Деталь | Источник | Тест |

@@ -14,6 +14,7 @@ import specs from '../data/block-specs.json' with {type: 'json'}
 import {Unit, unconv} from './unit.js'
 import {NOT_SENSED} from './sense.js'
 import {teamColorBits} from './teams.js'
+import {Rules} from './rules.js'
 
 export {NOT_SENSED}
 
@@ -413,6 +414,9 @@ export class World {
 
         // Местность неподвижна, поэтому рендер её кеширует. Номер меняется — кеш протухает
         this.terrainVersion = 0
+
+        // Правила и флаги целей: их читает и пишет процессор мира
+        this.rules = new Rules()
     }
 
     inside(x, y) {
@@ -468,6 +472,44 @@ export class World {
         if (building !== undefined) return building.type
 
         return this.wallAt(x, y) ?? 'air'
+    }
+
+    /**
+     * Ставит блок на тайл, как это делает `setblock`: всё, что попало под след, сносится,
+     * а `@air` просто расчищает место. Имя связи новое здание получает обычным порядком.
+     */
+    setBlock(x, y, type, {team = 1, rotation = 0} = {}) {
+        if (!this.inside(x, y)) return null
+
+        const spec = BLOCK_SPECS[type]
+        const size = spec?.size ?? 1
+
+        // След блока: у нечётных он вокруг тайла, у чётных — от него вправо и вверх
+        const offset = size % 2 === 0 ? 0 : -Math.floor(size / 2)
+
+        for (let dy = 0; dy < size; dy++) {
+            for (let dx = 0; dx < size; dx++) {
+                const found = this.at(x + offset + dx, y + offset + dy)
+                if (found !== undefined) this.remove(found)
+            }
+        }
+
+        this.terrainVersion++
+
+        if (type === 'air' || spec === undefined) return null
+        return this.add(type, {x, y, team, rotation})
+    }
+
+    /** Убирает здание из мира вместе с его процессором. */
+    remove(building) {
+        this.buildings = this.buildings.filter(item => item !== building)
+
+        if (building.processor !== undefined) {
+            this.processors = this.processors.filter(item => item !== building.processor)
+        }
+
+        this.terrainVersion++
+        return this
     }
 
     /** Ставит здание и выдаёт ему имя связи по типу и порядку подключения. */
@@ -555,6 +597,7 @@ export class World {
      */
     reset() {
         this.tick = 0
+        this.rules.reset()
         for (const unit of this.units) unit.reset()
         for (const building of this.buildings) building.reset()
         for (const processor of this.processors) processor.reset()
