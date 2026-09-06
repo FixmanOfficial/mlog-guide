@@ -482,3 +482,101 @@ test('localeprint берёт строку из словаря карты, а б�
 
     assert.equal(processor.textBuffer, 'Здравствуйте')
 })
+
+test('query складывает найденное в @queries, а read достаёт по номеру', () => {
+    const world = new World({width: 30, height: 30, content})
+    const building = world.add('world-processor', {x: 1, y: 1})
+
+    const processor = new Processor([
+        'query circle unit @sharded 10 10 5 0',
+        'read первый @queries 0',
+        'read второй @queries 1',
+        'read мимо @queries 9'
+    ].join('\n'), {world, content, globals: content.globals, building, team: 1, ipt: 8})
+
+    building.processor = processor
+    world.addProcessor(processor)
+
+    const near = world.spawn('poly', {x: 10, y: 10})
+    const alsoNear = world.spawn('poly', {x: 12, y: 10})
+    world.spawn('poly', {x: 25, y: 25})
+    world.spawn('poly', {x: 11, y: 11, team: 2})
+
+    processor.run(4)
+
+    // Радиус в тайлах, чужая команда не в счёт
+    assert.equal(processor.get('первый').obj()?.id, near.id)
+    assert.equal(processor.get('второй').obj()?.id, alsoNear.id)
+    assert.equal(processor.get('мимо').obj(), null)
+})
+
+test('query прямоугольником берёт здания любой команды, когда команда не задана', () => {
+    const world = new World({width: 30, height: 30, content})
+    const building = world.add('world-processor', {x: 1, y: 1})
+
+    const processor = new Processor([
+        'query rect building null 10 10 6 6',
+        'read первый @queries 0',
+        'read второй @queries 1'
+    ].join('\n'), {world, content, globals: content.globals, building, team: 1, ipt: 8})
+
+    building.processor = processor
+    world.addProcessor(processor)
+
+    const mine = world.add('container', {x: 10, y: 10})
+    const enemy = world.add('container', {x: 12, y: 11, team: 2})
+    world.add('container', {x: 25, y: 25})
+
+    processor.run(3)
+
+    assert.equal(processor.get('первый').obj(), mine)
+    assert.equal(processor.get('второй').obj(), enemy)
+})
+
+test('message отдаёт текст миру, а занятому экрану отвечает отказом', () => {
+    const world = new World({width: 10, height: 10, content})
+    const building = world.add('world-processor', {x: 1, y: 1})
+
+    const processor = new Processor([
+        'print "готово"',
+        'message announce 3 успех'
+    ].join('\n'), {world, content, globals: content.globals, building, team: 1, ipt: 8})
+
+    building.processor = processor
+    world.addProcessor(processor)
+    processor.run(2)
+
+    assert.equal(world.message.text, 'готово')
+    assert.equal(world.message.type, 'announce')
+    assert.equal(processor.num('успех'), 1)
+    assert.equal(processor.textBuffer, '')
+
+    // Пока прежнее объявление висит, новое не проходит, и буфер остаётся при программе
+    processor.reset()
+    processor.run(2)
+
+    assert.equal(processor.num('успех'), 0)
+    assert.equal(processor.textBuffer, 'готово')
+
+    // Через три секунды место освобождается
+    world.tick += 3 * 60
+    processor.run(2)
+    assert.equal(processor.num('успех'), 1)
+})
+
+test('message mission пишет задачу в правила и никого не ждёт', () => {
+    const world = new World({width: 10, height: 10, content})
+    const building = world.add('world-processor', {x: 1, y: 1})
+
+    const processor = new Processor([
+        'print "добудь меди"',
+        'message mission 1 успех'
+    ].join('\n'), {world, content, globals: content.globals, building, team: 1, ipt: 8})
+
+    building.processor = processor
+    world.addProcessor(processor)
+    processor.run(2)
+
+    assert.equal(world.rules.get('mission'), 'добудь меди')
+    assert.equal(world.message, null)
+})

@@ -450,6 +450,9 @@ export class World {
 
         // Словарь карты: из него берёт строки `localeprint`. Пустой, пока карту не загрузили
         this.locales = new Map()
+
+        // Сообщение на экране: `message` кладёт его сюда, а страница показывает
+        this.message = null
     }
 
     inside(x, y) {
@@ -630,6 +633,7 @@ export class World {
      */
     reset() {
         this.tick = 0
+        this.message = null
         this.rules.reset()
         for (const unit of this.units) unit.reset()
         for (const building of this.buildings) building.reset()
@@ -640,6 +644,25 @@ export class World {
     steps(count, delta = 1) {
         for (let i = 0; i < count; i++) this.step(delta)
         return this.tick
+    }
+
+    /**
+     * Занят ли экран предыдущим сообщением. В игре объявление и всплывающая подсказка делят
+     * одно место (`ui.hasAnnouncement`), а уведомление — своё, поэтому `notify` не мешает
+     * `announce`. Пока место занято, `message` отказывает и буфер не чистит.
+     */
+    messageBusy(type) {
+        if (this.message === null) return false
+        if (this.tick - this.message.at >= this.message.duration * 60) return false
+
+        const slot = (kind) => kind === 'notify' ? 'toast' : 'announcement'
+        return slot(type) === slot(this.message.type)
+    }
+
+    /** Показывает сообщение: тип, текст и сколько секунд ему висеть. */
+    showMessage(type, text, duration) {
+        this.message = {type, text, duration, at: this.tick}
+        return this
     }
 
     /** Значения времени, которые процессор отдаёт в @time и соседние константы. */

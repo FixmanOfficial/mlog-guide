@@ -273,6 +273,10 @@ export class Assembler {
 
         this.putConst('@unit', null)
         this.putConst('@this', null)
+
+        // @queries появляется только у процессора мира: LExecutor.load кладёт его
+        // при `builder.privileged`. У обычного процессора это просто имя переменной
+        this.putConst('@queries', null)
     }
 
     putVar(name) {
@@ -427,6 +431,10 @@ const builders = {
 
                 if (object !== null && typeof object.read === 'function') {
                     output.setnum(object.read(position.num() | 0))
+                } else if (Array.isArray(object)) {
+                    // Список: так читается @queries, который наполняет `query`
+                    const index = position.num() | 0
+                    output.setobj(index < 0 || index >= object.length ? null : object[index])
                 } else if (typeof object === 'string') {
                     // Чтение из строки отдаёт код символа, а за границами — NaN
                     const index = position.num() | 0
@@ -847,6 +855,96 @@ const builders = {
                     outX.setnum(best.x)
                     outY.setnum(best.y)
                 }
+            }
+        }
+    },
+
+    /**
+     * QueryI: всё, что попало в круг или прямоугольник, складывается в `@queries` — обычный
+     * список, из которого потом читают по номеру инструкцией `read`. Пустая команда означает
+     * «любая», а пули мы не моделируем.
+     *
+     * Координаты и размеры приходят в тайлах: `numfWorld` переводит их в мировые единицы.
+     */
+    query: (asm, params) => {
+        const shape = params[0] ?? 'circle'
+        const type = params[1] ?? 'unit'
+        const team = asm.var(params[2] ?? 'null')
+        const x = asm.var(params[3] ?? '0')
+        const y = asm.var(params[4] ?? '0')
+        const width = asm.var(params[5] ?? '10')
+        const height = asm.var(params[6] ?? '10')
+
+        const queries = asm.var('@queries')
+
+        return {
+            run: (vm) => {
+                if (!vm.privileged || vm.world === null) return
+
+                const results = Array.isArray(queries.obj()) ? queries.obj() : []
+                results.length = 0
+                queries.setconst(results)
+
+                if (type === 'bullet') return
+
+                const side = team.isobj && team.obj() === null ? null : teamOf(team)
+
+                // Круг задаётся радиусом, прямоугольник — сторонами; и то и другое в тайлах
+                const cx = unconv(x.num())
+                const cy = unconv(y.num())
+                const half = shape === 'circle'
+                    ? [unconv(width.num()), unconv(width.num())]
+                    : [unconv(width.num()) / 2, unconv(height.num()) / 2]
+
+                const inside = (px, py) => shape === 'circle'
+                    ? (px - cx) ** 2 + (py - cy) ** 2 <= half[0] ** 2
+                    : Math.abs(px - cx) <= half[0] && Math.abs(py - cy) <= half[1]
+
+                if (type === 'unit') {
+                    for (const unit of vm.world.units) {
+                        if (unit.dead || (side !== null && unit.team !== side)) continue
+                        if (inside(unit.x, unit.y)) results.push(unit)
+                    }
+                    return
+                }
+
+                for (const building of vm.world.buildings) {
+                    if (side !== null && building.team !== side) continue
+                    if (inside(unconv(building.x + building.offset), unconv(building.y + building.offset))) {
+                        results.push(building)
+                    }
+                }
+            }
+        }
+    },
+
+    /**
+     * FlushMessageI: отдаёт накопленный текст миру. Тонкость, которую легко пропустить:
+     * когда предыдущее сообщение ещё висит, буфер **не чистится** — программе дают
+     * повторить попытку, а в переменную успеха кладётся ноль.
+     */
+    message: (asm, params) => {
+        const type = params[0] ?? 'notify'
+        const duration = asm.var(params[1] ?? '1')
+        const success = asm.var(params[2] ?? 'result')
+
+        return {
+            run: (vm) => {
+                if (!vm.privileged || vm.world === null) return
+
+                success.setnum(1)
+
+                // Миссия пишется в правила и никого не ждёт, остальные занимают экран
+                if (type === 'mission') {
+                    vm.world.rules.set('mission', vm.textBuffer)
+                    vm.textBuffer = ''
+                    return
+                }
+
+                if (vm.world.messageBusy(type)) return void success.setnum(0)
+
+                vm.world.showMessage(type, vm.textBuffer, duration.num())
+                vm.textBuffer = ''
             }
         }
     },
