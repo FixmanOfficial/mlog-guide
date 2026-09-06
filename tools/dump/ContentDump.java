@@ -4,6 +4,9 @@ import arc.util.Log;
 
 import mindustry.Vars;
 import mindustry.core.ContentLoader;
+import mindustry.ctype.Content;
+import mindustry.ctype.ContentType;
+import mindustry.ctype.UnlockableContent;
 import mindustry.game.Team;
 import mindustry.gen.Crawlc;
 import mindustry.gen.Legsc;
@@ -55,9 +58,9 @@ public class ContentDump{
     static final String VERSION = "v159.7";
 
     public static void main(String[] args) throws Exception{
-        if(args.length < 4){
-            System.err.println("нужны четыре пути: <unit-specs.json> <block-specs.json> "
-                + "<teams.json> <materials.json>");
+        if(args.length < 5){
+            System.err.println("нужны пять путей: <unit-specs.json> <block-specs.json> "
+                + "<teams.json> <materials.json> <stats.json>");
             System.exit(1);
         }
 
@@ -78,6 +81,7 @@ public class ContentDump{
         write(Path.of(args[1]), blocks());
         write(Path.of(args[2]), teams());
         write(Path.of(args[3]), materials());
+        write(Path.of(args[4]), stats());
 
         System.out.println(Vars.content.units().size + " " + Vars.content.blocks().size);
     }
@@ -284,6 +288,99 @@ public class ContentDump{
      * Что это за блок с точки зрения карты. Порядок проверок важен: руда это тоже наложение,
      * а наложение — тоже пол.
      */
+    /**
+     * Поля, которые в опись не идут. Это не отбор характеристик — характеристики берутся все, —
+     * а служебные поля упаковки, локализации и базы знаний: имя и номер лежат ключом, переводы
+     * снимает `gen-bundles.mjs`, а до того, как рисуются иконки, справочнику дела нет.
+     */
+    static final java.util.Set<String> SKIP = java.util.Set.of(
+        "name", "id", "localizedName", "description", "details", "fullOverride",
+        "generateIcons", "selectionSize", "hideDetails", "hideDatabase", "databaseCategory",
+        "databaseTag", "allDatabaseTabs", "inlineDescription", "removed", "iconId",
+        "minfo", "unlocked", "alwaysUnlocked"
+    );
+
+    /**
+     * Полная опись характеристик: всё, что игра держит открытым числом, флагом, перечислением,
+     * цветом или ссылкой на контент.
+     *
+     * Собирается отражением, а не списком полей, и это осознанно: списки устаревают молча.
+     * Смоделировано у нас далеко не всё — дальность турели, время перезарядки, потребление
+     * энергии, — но в справочнике это те самые числа, за которыми туда и приходят. Пусть
+     * лежат снятыми из игры, а не переписанными с вики.
+     *
+     * В модель мира этот файл не идёт: он большой, а `world.js` попадает в сборку сайта.
+     * Отсюда и разделение — `block-specs.json` для движка, `stats.json` для справочника.
+     */
+    static String stats() throws Exception{
+        Json out = new Json();
+        out.string("gameVersion", VERSION);
+        out.string("source", "публичные поля контента, отражение по ContentDump.java");
+        out.string("note", "Файл сгенерирован, править вручную нельзя. Здесь всё, что игра "
+            + "держит числом или флагом, включая то, что мы не моделируем.");
+
+        Json sections = new Json();
+
+        for(ContentType type : new ContentType[]{ContentType.unit, ContentType.block,
+            ContentType.item, ContentType.liquid}){
+
+            Json section = new Json();
+            for(Content content : Vars.content.getBy(type)){
+                if(content instanceof UnlockableContent named){
+                    section.raw(named.name, fields(named));
+                }
+            }
+            sections.raw(type.name(), section.object());
+        }
+
+        out.raw("stats", sections.object());
+        return out.object();
+    }
+
+    /**
+     * Публичные поля объекта, годные для таблицы. Берутся числа, флаги, строки, перечисления,
+     * цвета и ссылки на другой контент; всё остальное — спрайты, звуки, эффекты, списки —
+     * пропускается: в справочнике от них толку нет, а размер они утроят.
+     */
+    static String fields(UnlockableContent content) throws Exception{
+        Json json = new Json();
+
+        for(Field field : content.getClass().getFields()){
+            if(Modifier.isStatic(field.getModifiers())) continue;
+            if(SKIP.contains(field.getName())) continue;
+
+            Object value;
+            try{
+                value = field.get(content);
+            }catch(Exception ignored){
+                continue;
+            }
+
+            if(value == null) continue;
+
+            String name = field.getName();
+            Class<?> kind = field.getType();
+
+            if(kind == int.class || kind == short.class || kind == byte.class || kind == long.class){
+                json.number(name, ((Number)value).intValue());
+            }else if(kind == float.class || kind == double.class){
+                json.number(name, ((Number)value).floatValue());
+            }else if(kind == boolean.class){
+                json.bool(name, (Boolean)value);
+            }else if(value instanceof arc.graphics.Color color){
+                json.string(name, color(color));
+            }else if(value instanceof Enum<?> item){
+                json.string(name, item.name());
+            }else if(value instanceof UnlockableContent other){
+                json.string(name, other.name);
+            }else if(value instanceof String text && text.length() < 200){
+                json.string(name, text);
+            }
+        }
+
+        return json.object();
+    }
+
     /**
      * Предметы и жидкости: цвет и твёрдость. Твёрдость решает, кто что может добывать
      * (`mineTier >= hardness`) и сколько это займёт времени.

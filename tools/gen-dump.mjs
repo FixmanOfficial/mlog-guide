@@ -93,6 +93,9 @@ function colorize(jar, blocks) {
     }
 }
 
+/** Размер получившейся описи: файл большой, и следить за ним стоит. */
+const statSize = () => readFileSync('core/data/stats.json').length / 1024
+
 function main() {
     const jar = process.argv[2]
 
@@ -123,9 +126,10 @@ function main() {
         const blocks = join(work, 'block-specs.json')
         const teams = join(work, 'teams.json')
         const materials = join(work, 'materials.json')
+        const stats = join(work, 'stats.json')
 
         const counts = execFileSync(jdk.java,
-            ['-cp', classpath, 'ContentDump', units, blocks, teams, materials],
+            ['-cp', classpath, 'ContentDump', units, blocks, teams, materials, stats],
             {encoding: 'utf8', stdio: ['ignore', 'pipe', 'inherit']}).trim().split(' ')
 
         // Игра печатает всё одной строкой; раскладываем тем же способом, что и прочие таблицы
@@ -133,7 +137,8 @@ function main() {
             [units, 'core/data/unit-specs.json'],
             [blocks, 'core/data/block-specs.json'],
             [teams, 'core/data/teams.json'],
-            [materials, 'core/data/materials.json']
+            [materials, 'core/data/materials.json'],
+            [stats, 'core/data/stats.json']
         ]) {
             const data = JSON.parse(readFileSync(from, 'utf8'))
 
@@ -150,6 +155,7 @@ function main() {
         console.log(`core/data/block-specs.json: ${counts[1]} блоков`)
         console.log('core/data/teams.json: шесть базовых команд')
         console.log('core/data/materials.json: предметы и жидкости')
+        console.log(`core/data/stats.json: полная опись характеристик, ${Math.round(statSize())} КБ`)
     } finally {
         rmSync(work, {recursive: true, force: true})
     }

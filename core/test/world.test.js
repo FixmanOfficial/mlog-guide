@@ -1,5 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
+import {readFileSync} from 'node:fs'
 
 import {World, DOOR_TOGGLE_DELAY, DOOR_TAP_DELAY, BLOCK_SPECS} from '../src/world.js'
 import {Processor} from '../src/vm.js'
@@ -405,4 +406,25 @@ test('на тайле стоит здание, статичная стена и�
     assert.equal(world.blockAt(1, 1), 'memory-cell')
     assert.equal(world.blockAt(3, 3), 'stone-wall')
     assert.equal(world.blockAt(5, 5), 'air')
+})
+
+test('опись характеристик покрывает весь контент и держит то, что мы не моделируем', () => {
+    const stats = JSON.parse(readFileSync(new URL('../data/stats.json', import.meta.url), 'utf8')).stats
+
+    // Каждый блок и юнит из модели должен найтись в описи
+    for (const name of Object.keys(BLOCK_SPECS)) {
+        assert.ok(stats.block[name] !== undefined, `нет описи для блока ${name}`)
+    }
+
+    // Числа, которых в модели нет вовсе: turret стреляет, а мы это не считаем
+    assert.equal(stats.block.duo.range, 160)
+    assert.equal(stats.block.duo.reload, 20)
+    assert.equal(stats.block['thorium-reactor'].explosionRadius, 19)
+
+    assert.equal(stats.item.thorium.hardness, 4)
+    assert.equal(stats.unit.dagger.mechStride, 4)
+
+    // Служебные поля упаковки в опись не идут: имя лежит ключом, переводы снимает gen-bundles
+    assert.equal(stats.item.copper.localizedName, undefined)
+    assert.equal(stats.block.duo.name, undefined)
 })
