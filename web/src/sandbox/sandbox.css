@@ -351,3 +351,29 @@
 .memory__value {
     font-family: 'Mindustry Mono', ui-monospace, monospace;
 }
+
+/* Цели карты: список условий сбоку, как в углу экрана игры */
+.sandbox__objectives {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 12px;
+}
+
+.sandbox__objective {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-size: 14px;
+    color: #ffd37f;
+}
+
+.sandbox__objective--done {
+    color: #8a8a96;
+    text-decoration: line-through;
+}
+
+.sandbox__objective-mark {
+    width: 12px;
+    text-align: center;
+}

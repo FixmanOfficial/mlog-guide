@@ -26,6 +26,7 @@ import blockSprites from '@mlog/core/data/block-sprites.json'
 import unitSprites from '@mlog/core/data/unit-sprites.json'
 import terrainSprites from '@mlog/core/data/terrain-sprites.json'
 import teams from '@mlog/core/data/teams.json'
+import bundle from '@mlog/core/data/i18n/ru.json'
 
 import {createScene, attachProcessor} from './scene.js'
 import {MessageDialog, MemoryDialog} from './BlockDialogs.jsx'
@@ -73,6 +74,14 @@ function nextIndex(processor) {
 
 /** Подпись скорости: степень двойки от 1/256 до 256. */
 const speedLabel = (power) => power >= 0 ? `×${2 ** power}` : `×1/${2 ** -power}`
+
+/**
+ * Название вида цели. Ключ собирается так же, как в игре: `objective.<вид>.name`,
+ * где вид — имя класса без «Objective» строчными. Строки сняты генератором бандлов.
+ */
+function objectiveName(objective) {
+    return bundle.objectives.objectives[`${objective.kind}.name`] ?? objective.kind
+}
 
 export function Sandbox() {
     const worldCanvas = useRef(null)
@@ -492,6 +501,20 @@ export function Sandbox() {
                         <div class="sandbox__message">{scene?.message.message || '—'}</div>
                         <div class="sandbox__meta">тик {Math.floor(scene?.world.tick ?? 0)}</div>
                     </div>
+                </div>
+
+                <div class="sandbox__title">Цели карты</div>
+                <div class="sandbox__objectives">
+                    {(scene?.world.objectives.all ?? []).filter(objective => !objective.hidden)
+                        .map((objective, index) => (
+                            <div
+                                key={index}
+                                class={`sandbox__objective${objective.completed ? ' sandbox__objective--done' : ''}`}
+                            >
+                                <span class="sandbox__objective-mark">{objective.completed ? '✓' : '·'}</span>
+                                <span>{objectiveName(objective)}</span>
+                            </div>
+                        ))}
                 </div>
 
                 <div class="sandbox__title sandbox__title--row">

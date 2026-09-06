@@ -11,7 +11,9 @@
 import {World} from '@mlog/core/src/world.js'
 import {Processor} from '@mlog/core/src/vm.js'
 import {createContent} from '@mlog/core/src/content.js'
-import {simplexRaw2d} from '@mlog/core/src/arc.js'
+import {FlagObjective, TimerObjective, UnitCountObjective} from '@mlog/core/src/objectives.js'
+import {Marker} from '@mlog/core/src/markers.js'
+import {simplexRaw2d, packColorHex} from '@mlog/core/src/arc.js'
 
 import logicIds from '@mlog/core/data/logic-ids.json'
 
@@ -44,6 +46,31 @@ function paintTerrain(world) {
         world.setWall(x, y, 'stone-wall')
         world.setOverlay(x, y, null)
     }
+}
+
+/**
+ * Цели карты. Условия те же тринадцать, что в редакторе карт игры; здесь взяты три,
+ * и каждая закрывается по-своему.
+ *
+ * Первая выполнена с самого начала — поли на карте есть. Вторая ждёт времени. Третья
+ * ждёт **флага**, который поднимает процессор мира, когда поли натаскает на склад меди:
+ * это и есть вся связь логики с целями. У неё же своя метка — цель носит метки тех же
+ * классов, что `makemarker`, и рисуются они, пока цель работает.
+ */
+function addObjectives(world) {
+    const store = new Marker('shape')
+    store.control('pos', 17, 4)
+    store.control('radius', 14)
+    store.control('shape', 6)
+    store.control('color', packColorHex('84f491'))
+
+    world.objectives.add(
+        new UnitCountObjective('poly', 1),
+        new TimerObjective(60 * 20),
+        new FlagObjective('склад', {markers: [store]})
+    )
+
+    return world
 }
 
 export function createScene() {
@@ -81,8 +108,10 @@ export function createScene() {
         {building: painter, links: [display, cell]},
         {building: counter, links: [cell, message, toggle, door]},
         {building: pilot, links: [container]},
-        {building: marker, links: []}
+        {building: marker, links: [container]}
     ]
+
+    addObjectives(world)
 
     return {world, display, cell, message, toggle, door, container, processors}
 }

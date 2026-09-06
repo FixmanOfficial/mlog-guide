@@ -587,5 +587,49 @@
       "@clientMusicPlaying": "True if any music is currently playing",
       "@clientCurrentMusic": "Name of the current track being played, or null"
     }
+  },
+  "objectives": {
+    "objectives": {
+      "research.name": "Research",
+      "produce.name": "Obtain",
+      "item.name": "Obtain Item",
+      "coreitem.name": "Core Item",
+      "buildcount.name": "Build Count",
+      "unitcount.name": "Unit Count",
+      "destroyunits.name": "Destroy Units",
+      "timer.name": "Timer",
+      "destroyblock.name": "Destroy Block",
+      "destroyblocks.name": "Destroy Blocks",
+      "destroycore.name": "Destroy Core",
+      "commandmode.name": "Command Mode",
+      "flag.name": "Flag",
+      "research": "[accent]Research:\n[]{0}[lightgray]{1}",
+      "produce": "[accent]Obtain:\n[]{0}[lightgray]{1}",
+      "destroyblock": "[accent]Destroy:\n[]{0}[lightgray]{1}",
+      "destroyblocks": "[accent]Destroy: [lightgray]{0}[white]/{1}\n{2}[lightgray]{3}",
+      "item": "[accent]Obtain: [][lightgray]{0}[]/{1}\n{2}[lightgray]{3}",
+      "coreitem": "[accent]Move into Core:\n[][lightgray]{0}[]/{1}\n{2}[lightgray]{3}",
+      "build": "[accent]Build: [][lightgray]{0}[]x\n{1}[lightgray]{2}",
+      "buildunit": "[accent]Build Unit: [][lightgray]{0}[]x\n{1}[lightgray]{2}",
+      "destroyunits": "[accent]Destroy: [][lightgray]{0}[]x Units",
+      "enemiesapproaching": "[accent]Enemies approaching in [lightgray]{0}[]",
+      "enemyescelating": "[accent]Enemy production escalating in [lightgray]{0}[]",
+      "enemyairunits": "[accent]Enemy air unit production begins in [lightgray]{0}[]",
+      "enemyunitproduction": "[accent]Enemy unit production begins in [lightgray]{0}[]",
+      "destroycore": "[accent]Destroy Enemy Core",
+      "command": "[accent]Command Units",
+      "nuclearlaunch": "[accent]u26A0 Missile launch detected: [lightgray]{0}"
+    },
+    "markers": {
+      "shapetext.name": "Shape Text",
+      "point.name": "Point",
+      "shape.name": "Shape",
+      "text.name": "Text",
+      "line.name": "Line",
+      "quad.name": "Quad",
+      "texture.name": "Texture",
+      "background": "Background",
+      "outline": "Outline"
+    }
   }
 }

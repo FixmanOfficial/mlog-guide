@@ -17,6 +17,7 @@ import {testCondition} from './ops.js'
 import {MAX_INSTRUCTIONS} from './parser.js'
 import {LVar} from './lvar.js'
 import {layoutPrint} from './font.js'
+import {setScriptRunner, MAX_SCRIPT_INSTRUCTIONS} from './script.js'
 import {unpackColorBits} from './assembler.js'
 
 /** Сколько инструкций процессор успевает за тик. content/Blocks.java */
@@ -354,3 +355,35 @@ export class Processor {
         return this
     }
 }
+
+
+/**
+ * Разовый запуск программы: `LExecutor.runLogicScript`.
+ *
+ * Так цель карты выполняет свой `completionLogicCode`. Машина заводится отдельная и всегда
+ * привилегированная — своего блока у цели нет, а инструкции мира ей нужны. Крутится код
+ * до конца программы, но не дольше ста тысяч инструкций: цель не должна подвесить партию.
+ *
+ * Проверка стоит **до** шага, а не после: `runOnce` сбрасывает счётчик в ноль, выйдя
+ * за конец программы, и цикл иначе не кончился бы никогда.
+ */
+export function runScript(code, options = {}) {
+    const processor = new Processor(code, {...options, ipt: MAX_SCRIPT_INSTRUCTIONS})
+
+    // Привилегия здесь не от блока: скрипт цели запускает сама игра
+    processor.privileged = true
+
+    for (let i = 1; i < MAX_SCRIPT_INSTRUCTIONS; i++) {
+        const at = processor.counter.numval
+
+        if (at >= processor.instructions.length || at < 0) break
+        if (processor.yield) break
+
+        processor.step()
+    }
+
+    return processor
+}
+
+// Цели зовут запуск через `script.js`, чтобы не зависеть от машины напрямую
+setScriptRunner(runScript)

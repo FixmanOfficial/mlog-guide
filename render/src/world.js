@@ -702,7 +702,9 @@ export class WorldView {
      * по имени, а у нас в атласе только контент.
      */
     drawMarkers() {
-        const markers = (this.world.markers?.all() ?? []).filter(marker => marker.world)
+        // Метки целей идут раньше общих — так их кладёт `Renderer.draw`
+        const all = [...(this.world.objectives?.markers() ?? []), ...(this.world.markers?.all() ?? [])]
+        const markers = all.filter(marker => marker.world)
 
         for (const marker of markers.sort((a, b) => a.drawLayer - b.drawLayer)) {
             const props = marker.props

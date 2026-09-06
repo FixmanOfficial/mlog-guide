@@ -536,6 +536,13 @@ export class Unit {
         this.dead = true
         this.health = 0
         this.controller = null
+
+        // UnitDestroyEvent: игра считает только чужих — это условие цели «уничтожить единицы»
+        const stats = this.world?.stats
+        if (stats !== undefined && this.team !== this.world.rules.defaultTeam) {
+            stats.enemyUnitsDestroyed++
+        }
+
         this.world?.removeUnit?.(this)
 
         return this

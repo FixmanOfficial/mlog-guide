@@ -1099,8 +1099,7 @@ const builders = {
                 const builds = () => world.buildings.filter(building => building.team === side
                     && (filter?.contentType !== 'block' || building.type === filter.name))
 
-                const cores = () => world.buildings.filter(building => building.team === side
-                    && BLOCK_SPECS[building.type]?.core === true)
+                const cores = () => world.cores(side)
 
                 const pick = (list) => output.setobj(at < 0 || at >= list.length ? null : list[at])
 

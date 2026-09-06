@@ -38,7 +38,10 @@ export const DEFAULT_RULES = {
     blockHealth: 1,
     blockDamage: 1,
     rtsMinWeight: 1,
-    rtsMinSquad: 1
+    rtsMinSquad: 1,
+
+    // Множитель, которым карта замедляет все свои таймеры целей разом
+    objectiveTimerMultiplier: 1
 }
 
 /**
@@ -52,6 +55,14 @@ export class Rules {
 
         /** Rules.objectiveFlags: набор строк, общий с целями карты. */
         this.objectiveFlags = new Set()
+
+        /*
+         * Чья это партия и кто идёт волнами. В игре это `Team.sharded` и `Team.crux`,
+         * и цели карты считают «своим» именно `defaultTeam`: его предметы, его юниты,
+         * его постройки. Уничтожить нужно ядра `waveTeam`.
+         */
+        this.defaultTeam = overrides.defaultTeam ?? 1
+        this.waveTeam = overrides.waveTeam ?? 2
 
         /** Правила, ограничивающие область карты. `setrule mapArea` пишет сюда. */
         this.mapArea = null

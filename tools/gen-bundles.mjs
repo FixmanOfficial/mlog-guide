@@ -134,13 +134,21 @@ function main() {
             globals: collectByPrefix(props, 'lglobal.')
         }
 
+        // Цели карты и метки: названия видов и строки, которыми игра пишет условие
+        // в углу экрана. Ядро текста не знает, поэтому строку собирает страница
+        const objectives = {
+            objectives: collectByPrefix(props, 'objective.'),
+            markers: collectByPrefix(props, 'marker.')
+        }
+
         const output = {
             locale,
             gameVersion: ids.gameVersion,
             source: `core/assets/bundles/${bundleFile(locale)}`,
             note: 'Файл сгенерирован из бандлов игры, править вручную нельзя. Разметка вида [accent]...[] оставлена как есть.',
             content,
-            logic
+            logic,
+            objectives
         }
 
         const target = `core/data/i18n/${locale}.json`
@@ -152,7 +160,8 @@ function main() {
             `категорий ${Object.keys(logic.categories).length}, ` +
             `инструкций ${Object.keys(logic.instructions).length}, ` +
             `свойств ${Object.keys(logic.properties).length}, ` +
-            `встроенных переменных ${Object.keys(logic.globals).length}`
+            `встроенных переменных ${Object.keys(logic.globals).length}, ` +
+            `целей ${Object.keys(objectives.objectives).length}`
         )
     }
 }

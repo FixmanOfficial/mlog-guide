@@ -16,6 +16,8 @@ import {NOT_SENSED} from './sense.js'
 import {teamColorBits} from './teams.js'
 import {Rules} from './rules.js'
 import {Markers} from './markers.js'
+import {Stats} from './stats.js'
+import {Objectives} from './objectives.js'
 
 export {NOT_SENSED}
 
@@ -97,6 +99,14 @@ export class Building {
     /** Разрушенное здание исчезает с карты вместе со своим процессором. */
     destroy() {
         this.health = 0
+
+        // BlockDestroyEvent: своё здание считается штукой, чужое — по видам блока
+        const stats = this.world?.stats
+        if (stats !== undefined) {
+            if (this.team === this.world.rules.defaultTeam) stats.buildingsDestroyed++
+            else stats.destroyedBlockCount.increment(this.type)
+        }
+
         this.world?.remove?.(this)
         return this
     }
@@ -479,6 +489,15 @@ export class World {
 
         // Метки: их рисует процессор мира, и те же классы носят цели карты
         this.markers = new Markers()
+
+        // Счётчики партии: из них читает половина условий у целей
+        this.stats = new Stats()
+
+        // Цели карты. Пустой список ничего не стоит: `update` по нему не ходит
+        this.objectives = new Objectives()
+
+        // Открытый контент. Дерева технологий у нас нет, а `ResearchObjective` его читает
+        this.unlocked = new Set()
     }
 
     inside(x, y) {
@@ -623,6 +642,10 @@ export class World {
         unit.content = this.content?.types?.unit?.find(item => item.name === type) ?? null
 
         this.units.push(unit)
+
+        // UnitCreateEvent: считаются только свои — это читает цель «количество единиц»
+        if (unit.team === this.rules.defaultTeam) this.stats.unitsCreated++
+
         return unit
     }
 
@@ -632,6 +655,20 @@ export class World {
      */
     unitsOf(team, type) {
         return this.units.filter(unit => unit.team === team && unit.type === type && !unit.dead)
+    }
+
+    /** Ядра команды в порядке появления. `TeamData.cores` */
+    cores(team) {
+        return this.buildings.filter(building => building.team === team
+            && BLOCK_SPECS[building.type]?.core === true)
+    }
+
+    /**
+     * Первое ядро команды. Его склад в игре и есть «предметы команды»: `TeamData.items()`
+     * отдаёт склад первого ядра, а не сумму по всем.
+     */
+    core(team) {
+        return this.cores(team)[0] ?? null
     }
 
     addProcessor(processor) {
@@ -647,6 +684,10 @@ export class World {
      */
     step(delta = 1) {
         this.tick += delta
+
+        // Цели проверяются раньше всего остального: так они стоят в `Logic.update`.
+        // Флаг, поднятый программой в этом тике, цель увидит только в следующем
+        this.objectives.update(this, delta)
 
         for (const unit of this.units) unit.update(delta)
         for (const building of this.buildings) building.update()
@@ -668,6 +709,8 @@ export class World {
         this.message = null
         this.markers.clear()
         this.rules.reset()
+        this.stats.reset()
+        this.objectives.reset()
         for (const unit of this.units) unit.reset()
         for (const building of this.buildings) building.reset()
         for (const processor of this.processors) processor.reset()

@@ -84,35 +84,49 @@ export const PILOT = (() => {
 })()
 
 /**
- * Разметчик: процессор мира, который рисует метки поверх карты.
+ * Разметчик: процессор мира, который рисует метки поверх карты и поднимает флаг цели.
  *
- * Метки — единственное, что видно от инструкций мира, и заводятся они один раз: `replace`
- * здесь `false`, поэтому повторный круг программы ничего не пересоздаёт, а только правит.
+ * Метки заводятся один раз: `replace` здесь `false`, поэтому повторный круг программы
+ * ничего не пересоздаёт, а только правит. Подпись, круг и линия выбраны не случайно —
+ * у каждого вида свои свойства, и `setmarker` с чужим свойством не делает ничего.
  *
- * Подпись, круг и линия выбраны не случайно: у подписи свои свойства, у круга свои, и
- * `setmarker` с чужим свойством не делает ничего. Круг ходит за поли — метку можно двигать
- * каждый тик, чем в игре и пользуются.
+ * Последние три строки — единственный мостик от логики к **целям карты**: программа
+ * поднимает флаг, а цель его видит. Больше их ничто не связывает.
  */
-export const MARKER = [
-    // Подпись над складом: текст приходит из буфера печати, как у `printflush`
-    withParams('makemarker', {type: 'shapetext', id: '1', x: '17', y: '6', replace: 'false'}),
-    withParams('print', {value: '"склад"'}),
-    withParams('setmarker', {type: 'flushText', id: '1', p1: '0', p2: '0', p3: '0'}),
+export const MARKER = (() => {
+    const мало = withParams('jump', {op: 'lessThan', value: 'медь', compare: '10'})
 
-    // Линия от процессора к складу, с переливом от одного конца к другому
-    withParams('makemarker', {type: 'line', id: '2', x: '13', y: '1', replace: 'false'}),
-    withParams('setmarker', {type: 'endPos', id: '2', p1: '17', p2: '4', p3: '0'}),
-    withParams('setmarker', {type: 'colori', id: '2', p1: '0', p2: '%ffd37f', p3: '0'}),
-    withParams('setmarker', {type: 'colori', id: '2', p1: '1', p2: '%84f491', p3: '0'}),
+    const statements = [
+        // Подпись над складом: текст приходит из буфера печати, как у `printflush`
+        withParams('makemarker', {type: 'shapetext', id: '1', x: '17', y: '6', replace: 'false'}),
+        withParams('print', {value: '"склад"'}),
+        withParams('setmarker', {type: 'flushText', id: '1', p1: '0', p2: '0', p3: '0'}),
 
-    // Круг, который каждый круг программы переезжает на поли
-    withParams('makemarker', {type: 'point', id: '3', x: '4', y: '1', replace: 'false'}),
-    withParams('ubind', {type: '@poly'}),
-    withParams('sensor', {to: 'юнитX', from: '@unit', type: '@x'}),
-    withParams('sensor', {to: 'юнитY', from: '@unit', type: '@y'}),
+        // Линия от процессора к складу, с переливом от одного конца к другому
+        withParams('makemarker', {type: 'line', id: '2', x: '13', y: '1', replace: 'false'}),
+        withParams('setmarker', {type: 'endPos', id: '2', p1: '17', p2: '4', p3: '0'}),
+        withParams('setmarker', {type: 'colori', id: '2', p1: '0', p2: '%ffd37f', p3: '0'}),
+        withParams('setmarker', {type: 'colori', id: '2', p1: '1', p2: '%84f491', p3: '0'}),
 
-    // Метки считают в тайлах, а `@x` у юнита в мировых единицах — отсюда деление на восемь
-    withParams('op', {op: 'div', dest: 'юнитX', a: 'юнитX', b: '8'}),
-    withParams('op', {op: 'div', dest: 'юнитY', a: 'юнитY', b: '8'}),
-    withParams('setmarker', {type: 'pos', id: '3', p1: 'юнитX', p2: 'юнитY', p3: '0'})
-]
+        // Круг, который каждый круг программы переезжает на поли
+        withParams('makemarker', {type: 'point', id: '3', x: '4', y: '1', replace: 'false'}),
+        withParams('ubind', {type: '@poly'}),
+        withParams('sensor', {to: 'юнитX', from: '@unit', type: '@x'}),
+        withParams('sensor', {to: 'юнитY', from: '@unit', type: '@y'}),
+
+        // Метки считают в тайлах, а `@x` у юнита в мировых единицах — отсюда деление на восемь
+        withParams('op', {op: 'div', dest: 'юнитX', a: 'юнитX', b: '8'}),
+        withParams('op', {op: 'div', dest: 'юнитY', a: 'юнитY', b: '8'}),
+        withParams('setmarker', {type: 'pos', id: '3', p1: 'юнитX', p2: 'юнитY', p3: '0'}),
+
+        // Флаг для цели карты: поднимается, когда поли натаскал на склад десять меди
+        withParams('sensor', {to: 'медь', from: 'container1', type: '@copper'}),
+        мало,
+        withParams('setflag', {flag: '"склад"', value: 'true'})
+    ]
+
+    // Не набралось — прыжок на начало круга, то есть на всё то же рисование меток
+    мало.target = statements[0].id
+
+    return statements
+})()

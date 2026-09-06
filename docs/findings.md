@@ -270,6 +270,22 @@ Mindustry закрепляет arc хешем коммита в `gradle.properti
 | Число сторон обрезается: у фигуры до 200, у фигуры с подписью до 300 — «на случай, если кто-то решит поставить 9999999 сторон» | `game/MapObjectives.java:864,1020` | — |
 | Меток не больше 20 000, и `makemarker` без `replace` не трогает занятый номер | `logic/LExecutor.java` `MakeMarkerI` | ✓ `radar.test.js` |
 
+## Цели карты
+
+| Деталь | Источник | Тест |
+| --- | --- | --- |
+| **Цели проверяются раньше всего остального.** `state.rules.objectives.update()` стоит в `Logic.update` до `updateEntities`, то есть до юнитов, зданий и процессоров. Флаг, поднятый программой в этом тике, цель увидит только в следующем | `core/Logic.java:581-583` | ✓ `objectives.test.js` |
+| `done` срабатывает один раз и в определённом порядке: сначала снимаются `flagsRemoved`, потом ставятся `flagsAdded`. Одна цель может убрать флаг и тут же вернуть его | `game/MapObjectives.java:212-219` | ✓ `objectives.test.js` |
+| **Готовность родителей запоминается навсегда**: `depFinished` ставится в true и обратно не отыгрывает, даже если родителя как-то сбросить | `game/MapObjectives.java:222-230` | ✓ `objectives.test.js` |
+| `add` разворачивает дерево в плоский список, и **потомок попадает в него раньше родителя** — `flatten` рекурсивно спускается до дна | `game/MapObjectives.java:128-134` | ✓ `objectives.test.js` |
+| **«Уничтожить блок» проверяет несовпадение, а не разрушение**: цель выполнена, если в клетке пусто, стоит другой блок или блок сменил команду | `game/MapObjectives.java:598-601` | ✓ `objectives.test.js` |
+| «Переместить в ядро» считает **только доставленное транспортом**: счётчик растёт в `CoreBuild.handleItem`, а выдача пачкой (`handleStack`) его не трогает. Именно через `handleStack` идёт и `ucontrol itemDrop`, и `setprop` — то есть юнитом эту цель не закрыть | `world/blocks/storage/CoreBlock.java:838-842`, `input/InputHandler.java:247-258` | ✓ `objectives.test.js` |
+| «Предметы команды» — это склад **первого** ядра, а не сумма по всем: `TeamData.items()` отдаёт `cores.first().items` | `game/Teams.java`, `game/MapObjectives.java:369` | ✓ `objectives.test.js` |
+| «Отдать команду юниту» на сервере выполняется сразу: `return headless || ...` — условие смотрит на выделение игрока, которого без интерфейса нет | `game/MapObjectives.java:663-666` | ✓ `objectives.test.js` |
+| Таймер множится на правило `objectiveTimerMultiplier`: карта замедляет все свои таймеры разом, не трогая сами цели | `game/MapObjectives.java:527`, `game/Rules.java:121` | ✓ `objectives.test.js` |
+| `completionLogicCode` запускается **привилегированным**, своей отдельной машиной и не дольше ста тысяч инструкций. Ошибка сборки проглатывается молча: цель не должна ронять партию | `logic/LExecutor.java:74-96` | ✓ `objectives.test.js` |
+| Метки цели рисуются, **пока цель работает**, и раньше общих меток мира | `core/Renderer.java:386-398` | ✓ `objectives.test.js` |
+
 ## Урон и взрывы
 
 | Деталь | Источник | Тест |
