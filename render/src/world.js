@@ -379,6 +379,15 @@ export class WorldView {
         const side = building.size * this.tile * this.ratio
         const context = this.context
 
+        /*
+         * Размер рисунка — размер самого спрайта, делённый на `Draw.scl`: игра рисует
+         * регион как есть, а не подгоняет под клетку. У ремонтной точки спрайт 34 при
+         * блоке в 32, и подгонка съела бы этот выступ.
+         */
+        const entry = this.blockSprites?.sprites?.[building.type]
+        const drawn = entry === undefined ? side : entry.width / SPRITE_SCALE * this.unit
+        const drawnHeight = entry === undefined ? side : entry.height / SPRITE_SCALE * this.unit
+
         // Открытая дверь рисуется своим спрайтом целиком, а не поверх закрытой. Door.draw
         const open = building.type === 'door' && building.open
         const icon = this.sprite(open ? 'door-open' : building.type)
@@ -388,7 +397,9 @@ export class WorldView {
             context.fillStyle = '#2a2a33'
             context.fillRect(cx - side / 2, cy - side / 2, side, side)
         } else {
-            context.drawImage(icon, cx - side / 2, cy - side / 2, side, side)
+            this.rotated(cx, cy, this.blockAngle(building), () => {
+                context.drawImage(icon, -drawn / 2, -drawnHeight / 2, drawn, drawnHeight)
+            })
         }
 
         // Включённый тумблер рисуется поверх своим спрайтом. SwitchBlock.draw
@@ -696,6 +707,14 @@ export class WorldView {
         context.strokeText(text, x, y)
         context.fillStyle = PAL.accent
         context.fillText(text, x, y)
+    }
+
+    /**
+     * Поворот блока: `Draw.rect(region, x, y, block.rotate ? rotdeg() : 0)`, где `rotdeg`
+     * это `rotation * 90`. У холста ось Y смотрит вниз, поэтому знак обратный.
+     */
+    blockAngle(building) {
+        return building.spec.rotate === true ? -building.rotation * 90 : 0
     }
 
     /**

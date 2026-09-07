@@ -203,7 +203,14 @@ public class ContentDump{
             spec.bool("hasLiquids", block.hasLiquids);
             spec.bool("hasPower", block.hasPower);
             spec.bool("unloadable", block.unloadable);
+            /*
+             * Разбирается ли блок — три поля, а не одно: `Tile.breakable()` это
+             * `destructible || breakable || update`. У обычной постройки поднят
+             * `destructible`, а `breakable` есть у декораций вроде кустов.
+             */
             spec.bool("breakable", block.breakable);
+            spec.bool("destructible", block.destructible);
+            spec.bool("update", block.update);
             spec.bool("placeableOn", block.placeableOn);
             spec.bool("synthetic", block.synthetic());
 

@@ -19,21 +19,28 @@ import {openAtlas} from './atlas.mjs'
 import {pack} from './pack.mjs'
 import {BLOCK_SPECS} from '../core/src/world.js'
 
-/** Ширина атласа. Самый большой спрайт — большой дисплей, 192. */
-const WIDTH = 512
+/**
+ * Ширина атласа. Спрайты идут в родном разрешении, и самый крупный — ядро-цитадель,
+ * девять тайлов, то есть 288 пикселей. Всё вместе укладывается примерно в квадрат
+ * со стороной 1500, поэтому берём 2048: степень двойки, и запас на новые блоки.
+ */
+const WIDTH = 2048
 
 /** Пиксель на тайл: спрайты игры вчетверо крупнее мировых единиц, а тайл это 8 единиц. */
 const PER_TILE = 32
 
-/** Блоки, которые видит сцена. Всё, что кроме логики, добавлено под конкретную сцену. */
-const BLOCKS = [
-    'micro-processor', 'logic-processor', 'hyper-processor',
-    'world-processor', 'world-cell', 'world-message', 'world-switch',
-    'memory-cell', 'memory-bank',
-    'logic-display', 'large-logic-display',
-    'message', 'switch', 'door',
-    'container'
-]
+/**
+ * Блоки для карты: всё, что игра разрешает строить, плюс привилегированные — их в игре
+ * не поставить, они есть только в редакторе карт, но процессор мира на карте нужен.
+ *
+ * Раньше здесь стоял список под одну сцену. Он и держался ровно до строительного
+ * интерфейса: поставить теперь можно любой из 258 блоков, и рисовать их иконкой
+ * из атласа контента нельзя — она приведена к 48 точкам и на карте расплывается.
+ */
+const BLOCKS = Object.entries(BLOCK_SPECS)
+    .filter(([, spec]) => (spec.canBeBuilt === true && spec.buildVisibility !== 'hidden'
+        && spec.buildVisibility !== 'debugOnly') || spec.privileged === true)
+    .map(([name]) => name)
 
 /**
  * Состояния, которые рисуются поверх или вместо основного спрайта: включённый тумблер
@@ -53,22 +60,30 @@ function main() {
     const found = []
 
     for (const name of [...BLOCKS, ...STATES, ...MARKS]) {
-        const image = atlas.cut(name)
+        /*
+         * Цельного спрайта есть не у всех, и игра для каждого случая держит своё имя:
+         *
+         *  - у сборных турелей это `<имя>-preview`, им же рисуется иконка;
+         *  - у конвейера и протока спрайт разбит на соединения и кадры, а иконкой
+         *    служит `<имя>-0-0` — прямой участок в первом кадре (`Conveyor.icons`);
+         *  - у трубы то же самое с `<имя>-top-0`, а у стен с вариантами — `<имя>1`.
+         *
+         * Соединения мы не выбираем: конвейер на карте всегда прямой.
+         */
+        const image = [name, `${name}-preview`, `${name}-0-0`, `${name}-top-0`, `${name}1`]
+            .reduce((found, candidate) => found ?? atlas.cut(candidate), null)
 
         if (image === null) {
-            console.error(`Пропущен ${name}: в атласе нет такого спрайта`)
+            console.error(`Пропущен ${name}: в атласе нет ни спрайта, ни предпросмотра`)
             continue
         }
 
-        const spec = BLOCK_SPECS[name]
-        const expected = (spec?.size ?? 1) * PER_TILE
-
-        // Спрайт блока — сторона в тайлах, умноженная на 32. Состояния сверяются с основным
-        if (spec !== undefined && (image.width !== expected || image.height !== expected)) {
-            console.error(`Пропущен ${name}: ${image.width}x${image.height}, а блок ${spec.size} на ${spec.size}`)
-            continue
-        }
-
+        /*
+         * Размер спрайта не обязан совпадать со стороной блока: у ремонтной точки он
+         * 34 при блоке в 32, у массдрайвера с грузом — 98 при 96. Игра рисует регион
+         * как есть, деля на `Draw.scl`, поэтому размеры пишутся в указатель, а рендер
+         * считает по ним, а не по стороне блока.
+         */
         found.push({name, image})
     }
 

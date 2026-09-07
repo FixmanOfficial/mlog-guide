@@ -343,3 +343,15 @@ test('поворот хранится у вращаемого блока и ви
     // У невращаемого блока поворот всё равно есть — и всё равно ноль
     assert.equal(router.sense('rotation'), 0)
 })
+
+test('разбирается то, что игра считает разбираемым', () => {
+    const map = world()
+
+    // У построек само поле breakable снято, а разбираются они по destructible и update
+    assert.equal(map.canBreak(map.place('router', 3, 3)), true)
+    assert.equal(map.canBreak(map.add('core-shard', {x: 8, y: 8})), true)
+
+    // Статичная стена — часть местности, её не разбирают
+    map.setWall(6, 6, 'stone-wall')
+    assert.equal(map.canBreak(map.at(6, 6)), false, 'стены нет среди зданий, разбирать нечего')
+})

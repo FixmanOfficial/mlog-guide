@@ -130,6 +130,81 @@ export function Sandbox({allow = {}} = {}) {
     const [breaking, setBreaking] = useState(false)
     const [rotation, setRotation] = useState(0)
 
+    /*
+     * Те же три значения ссылками. Обработчики холста живут дольше одного кадра, а
+     * перерисовка идёт по `requestAnimationFrame` — в скрытой вкладке она не идёт вовсе,
+     * и обработчик остался бы с тем, что было при последнем кадре.
+     */
+    const blockRef = useRef(null)
+    const breakingRef = useRef(false)
+    const rotationRef = useRef(0)
+
+    const chooseBlock = (next) => {
+        blockRef.current = next
+        breakingRef.current = false
+
+        setBlock(next)
+        setBreaking(false)
+    }
+
+    const toggleBreaking = () => {
+        breakingRef.current = !breakingRef.current
+        blockRef.current = null
+
+        setBreaking(breakingRef.current)
+        setBlock(null)
+    }
+
+    const turn = () => {
+        rotationRef.current = mod(rotationRef.current + 1, 4)
+        setRotation(rotationRef.current)
+    }
+
+    /** Снос: `world.remove` плюс уборка за процессором, если сносят его. */
+    const breakBuilding = (building) => {
+        const scene = stand.current.scene
+        if (!scene.world.canBreak(building)) return false
+
+        const index = scene.processors.findIndex(entry => entry.building === building)
+        if (index !== -1) {
+            scene.processors.splice(index, 1)
+            setSelected(current => Math.max(0, Math.min(current, scene.processors.length - 1)))
+            setEditing(null)
+        }
+
+        hideConfig()
+        scene.world.remove(building)
+
+        if (hoveredRef.current === building) hoveredRef.current = null
+        setHoveredBuilding(null)
+
+        return true
+    }
+
+    /**
+     * Постановка блока. Процессор при этом заводится по-настоящему: пустая программа,
+     * своя скорость из спеки и место в списке — иначе поставленный процессор оставался бы
+     * картинкой, которую нельзя открыть.
+     */
+    const placeBlock = (type, spot) => {
+        const scene = stand.current.scene
+
+        const building = scene.world.place(type, spot.x, spot.y, {
+            team: scene.world.rules.defaultTeam, rotation: rotationRef.current
+        })
+
+        if (building === null) return null
+
+        // `LogicBlock.instructionsPerTick` есть только у процессоров — по нему их и видно
+        if (building.spec.ipt !== undefined) {
+            const entry = {building, links: [], program: []}
+            scene.processors.push(entry)
+            attachProcessor(scene, entry, '')
+        }
+
+        return building
+    }
+
     // Скорость степенями двойки от 1/256 до 256, как в моде time control:
     // в игре такого нет, но без этого пошаговый разбор превращается в пытку
     const [power, setPower] = useState(0)
@@ -172,7 +247,7 @@ export function Sandbox({allow = {}} = {}) {
 
             if (typing || document.querySelector('.overlay') !== null) return
 
-            setRotation(current => mod(current + 1, 4))
+            turn()
         }
 
         window.addEventListener('keydown', onKey)
@@ -411,21 +486,15 @@ export function Sandbox({allow = {}} = {}) {
         const building = scene.world.at(spot.x, spot.y)
 
         // Режим сноса: щелчок разбирает то, что под курсором. MobileInput.mode == breaking
-        if (breaking && rights.build) {
-            if (building !== undefined && building.spec.breakable !== false) {
-                hideConfig()
-                scene.world.remove(building)
-            }
-
+        if (breakingRef.current && rights.build) {
+            breakBuilding(building)
             worldView.draw({configured: null, hovered: hoveredRef.current})
             return
         }
 
         // Выбран блок — щелчок ставит его, как в игре: разбирать настройку уже не нужно
-        if (block !== null && rights.build) {
-            scene.world.place(block, spot.x, spot.y, {
-                team: scene.world.rules.defaultTeam, rotation
-            })
+        if (blockRef.current !== null && rights.build) {
+            placeBlock(blockRef.current, spot)
             worldView.draw({configured: configuredRef.current, hovered: hoveredRef.current})
             return
         }
@@ -614,16 +683,12 @@ export function Sandbox({allow = {}} = {}) {
 
                             // `Binding.deselect` и `Binding.breakBlock` — обе на правой
                             // кнопке: сперва она снимает выбранный блок, и лишь потом сносит
-                            if (block !== null || breaking) {
-                                setBlock(null)
-                                setBreaking(false)
+                            if (blockRef.current !== null || breakingRef.current) {
+                                chooseBlock(null)
                                 return
                             }
 
-                            if (building === undefined || building.spec.breakable === false) return
-
-                            hideConfig()
-                            scene.world.remove(building)
+                            breakBuilding(building)
                             worldView.draw({configured: null, hovered: hoveredRef.current})
                         }}
                     />
@@ -637,19 +702,12 @@ export function Sandbox({allow = {}} = {}) {
                             beat={beat}
                             hover={hover}
                             block={rights.build ? block : null}
-                            onBlock={rights.build ? (next) => {
-                                setBlock(next)
-                                setBreaking(false)
-                            } : () => {}}
+                            onBlock={rights.build ? chooseBlock : () => {}}
                             showBuild={rights.build}
                             rotation={rotation}
                             breaking={breaking}
-                            onBreak={() => {
-                                // MobileInput: молот включает снос и снимает выбранный блок
-                                setBreaking(!breaking)
-                                setBlock(null)
-                            }}
-                            onRotate={() => setRotation(mod(rotation + 1, 4))}
+                            onBreak={toggleBreaking}
+                            onRotate={turn}
                             building={hoveredBuilding}
                         />
                     )}

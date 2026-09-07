@@ -663,6 +663,18 @@ export class World {
     }
 
     /**
+     * Разбирается ли здание. `Build.validBreak` спрашивает у тайла, а `Tile.breakable`
+     * складывает три поля: `destructible || breakable || update`. Само поле `breakable`
+     * у построек снято — оно про кусты и валуны, — поэтому проверять только его нельзя.
+     */
+    canBreak(building) {
+        if (building === undefined || building === null) return false
+
+        const spec = building.spec
+        return spec.destructible === true || spec.breakable === true || spec.update === true
+    }
+
+    /**
      * Ставит блок, если место годится. Отдаёт здание или `null`.
      *
      * Счётчик построек ведётся здесь: в игре его увеличивает `BlockBuildEndEvent`, и
