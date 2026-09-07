@@ -1,21 +1,19 @@
 import {useRef, useState} from 'preact/hooks'
 
-import sprites from '@mlog/core/data/sprites.json'
-
-import {ContentPopup, ContentIcon} from './ContentPopup.jsx'
+import {ContentPopup} from './ContentPopup.jsx'
 import {Icon} from './Icon.jsx'
 
 /**
- * Кнопка рядом с полем свойства у `sensor`. В игре это карандаш (`Icon.pencilSmall`),
- * открывающий большое меню контента. Если выбран контент, у которого есть картинка,
- * показываем её вместо карандаша — так видно, что именно выбрано.
+ * Кнопка рядом с полем свойства у `sensor`: карандаш, открывающий большое меню контента.
+ *
+ * Значок не меняется от выбранного значения — `b.image(Icon.pencilSmall)` в игре стоит
+ * один раз, снаружи обработчика. Мы одно время показывали здесь иконку выбранного
+ * контента; выглядело понятнее, но кнопка переставала быть кнопкой игры.
+ * LStatements.SensorStatement.build:573-574
  */
 export function ContentButton({value, onPick}) {
     const anchor = useRef(null)
     const [open, setOpen] = useState(false)
-
-    const name = value.startsWith('@') ? value.slice(1) : null
-    const type = name === null ? null : typeOf(name)
 
     return (
         <>
@@ -25,9 +23,7 @@ export function ContentButton({value, onPick}) {
                 title="Выбрать свойство или контент"
                 onClick={() => setOpen(!open)}
             >
-                {type === null
-                    ? <Icon name="pencil_" size={20} />
-                    : <ContentIcon type={type} name={name} size={24} />}
+                <Icon name="pencil_" size={20} />
             </button>
 
             {open && (
@@ -43,12 +39,4 @@ export function ContentButton({value, onPick}) {
             )}
         </>
     )
-}
-
-/** К какому виду контента относится имя, если это вообще контент. */
-function typeOf(name) {
-    for (const type of ['item', 'liquid', 'block', 'unit']) {
-        if (sprites.index[type]?.[name] !== undefined) return type
-    }
-    return null
 }

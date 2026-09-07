@@ -110,7 +110,14 @@ export class WorldView {
         this.canvas.style.height = `${this.world.height * this.tile}px`
 
         this.ratio = ratio
-        this.context.imageSmoothingEnabled = false
+
+        /*
+         * Сглаживание включено намеренно. На десктопе игра держит атлас с линейной
+         * фильтрацией — `checkPref("linear", !mobile)` и тут же ставит её всем текстурам.
+         * Без неё каждая плитка пола показывает свой тёмный край, и карта расчерчивается
+         * еле заметной сеткой, которой в игре нет.
+         */
+        this.context.imageSmoothingEnabled = true
     }
 
     /** Пикселей на одну мировую единицу. В игре это масштаб камеры. */
@@ -215,7 +222,7 @@ export class WorldView {
         this.ground.height = this.canvas.height
 
         const context = this.ground.getContext('2d')
-        context.imageSmoothingEnabled = false
+        context.imageSmoothingEnabled = true
         context.clearRect(0, 0, this.ground.width, this.ground.height)
 
         for (let y = 0; y < this.world.height; y++) {

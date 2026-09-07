@@ -72,6 +72,23 @@ function nextIndex(processor) {
     return value >= 0 && value < processor.instructions.length ? value : 0
 }
 
+/**
+ * Ключ, под которым запоминается подсветка следующей строки. В игре подсветки нет вовсе,
+ * и по умолчанию её нет и здесь: при идущем мире рамка перескакивает каждый тик, а это
+ * мельтешение, от которого людям с светочувствительностью плохо в буквальном смысле.
+ * Для пошагового разбора она включается кнопкой и запоминается.
+ */
+const HIGHLIGHT_KEY = 'mlog.sandbox.highlight'
+
+function storedHighlight() {
+    try {
+        return globalThis.localStorage?.getItem(HIGHLIGHT_KEY) === 'on'
+    } catch {
+        // Приватное окно и запрет на хранилище — не повод падать
+        return false
+    }
+}
+
 /** Подпись скорости: степень двойки от 1/256 до 256. */
 const speedLabel = (power) => power >= 0 ? `×${2 ** power}` : `×1/${2 ** -power}`
 
@@ -89,6 +106,9 @@ export function Sandbox() {
     const stand = useRef(null)
 
     const [running, setRunning] = useState(true)
+
+    // Подсветка следующей строки: наша добавка к окну игры, поэтому выключаемая
+    const [highlight, setHighlight] = useState(storedHighlight)
 
     // Скорость степенями двойки от 1/256 до 256, как в моде time control:
     // в игре такого нет, но без этого пошаговый разбор превращается в пытку
@@ -421,6 +441,23 @@ export function Sandbox() {
 
                     <button class="game-button sandbox__button" onClick={stepInstruction}>инструкция</button>
 
+                    <label class="sandbox__toggle" title="Подсвечивать строку, которую процессор выполнит следующей">
+                        <input
+                            type="checkbox"
+                            checked={highlight}
+                            onChange={(event) => {
+                                const on = event.currentTarget.checked
+                                setHighlight(on)
+                                try {
+                                    globalThis.localStorage?.setItem(HIGHLIGHT_KEY, on ? 'on' : 'off')
+                                } catch {
+                                    // Хранилища может не быть — подсветка всё равно переключилась
+                                }
+                            }}
+                        />
+                        <span>подсветка</span>
+                    </label>
+
                     <label class="sandbox__speed" title="Скорость времени">
                         <input
                             type="range"
@@ -562,7 +599,7 @@ export function Sandbox() {
                     unitControl={scene.world.rules.get('logicUnitControl')}
                     initial={editingEntry.program}
                     onChange={rebuild(editingEntry)}
-                    counter={nextIndex(editingEntry.building.processor)}
+                    counter={highlight ? nextIndex(editingEntry.building.processor) : null}
                     onRestart={() => {
                         editingEntry.building.processor.reset()
                         redraw()

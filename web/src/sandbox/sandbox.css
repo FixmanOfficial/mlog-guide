@@ -155,10 +155,17 @@
     color: #ffd37f;
 }
 
+/*
+ * Дисплей рисуется по пикселям — у него своё разрешение и свой шрифт, растягивать его
+ * сглаживанием нельзя. Карта наоборот: в игре текстуры фильтруются линейно.
+ */
 .sandbox__world,
 .sandbox__display {
-    image-rendering: pixelated;
     display: block;
+}
+
+.sandbox__display {
+    image-rendering: pixelated;
 }
 
 .sandbox__display {
@@ -376,4 +383,20 @@
 .sandbox__objective-mark {
     width: 12px;
     text-align: center;
+}
+
+/* Тумблер подсветки: наша добавка, поэтому и выглядит скромнее кнопок игры */
+.sandbox__toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #8a8a96;
+    cursor: pointer;
+    user-select: none;
+}
+
+.sandbox__toggle input {
+    accent-color: #ffd37f;
+    cursor: pointer;
 }
