@@ -26,7 +26,7 @@ import blockSprites from '@mlog/core/data/block-sprites.json'
 import unitSprites from '@mlog/core/data/unit-sprites.json'
 import terrainSprites from '@mlog/core/data/terrain-sprites.json'
 import teams from '@mlog/core/data/teams.json'
-import {Hud} from './Hud.jsx'
+import {Hud, HideHint} from './Hud.jsx'
 
 import {createScene, attachProcessor} from './scene.js'
 import {MessageDialog, MemoryDialog} from './BlockDialogs.jsx'
@@ -105,6 +105,15 @@ export function Sandbox() {
     // Клетка под курсором: её показывает HUD под миникартой, как настройка «mouseposition»
     const [hover, setHover] = useState(null)
 
+    // Показан ли HUD. В игре это `HudFragment.shown`, и переключает его клавиша C
+    const [hudShown, setHudShown] = useState(true)
+
+    // Подсказка про клавишу: игра показывает её один раз, когда интерфейс скрыли впервые
+    const [hintShown, setHintShown] = useState(false)
+
+    // Выбранный в панели блок: `control.input.block` в игре
+    const [block, setBlock] = useState(null)
+
     // Скорость степенями двойки от 1/256 до 256, как в моде time control:
     // в игре такого нет, но без этого пошаговый разбор превращается в пытку
     const [power, setPower] = useState(0)
@@ -130,6 +139,32 @@ export function Sandbox() {
     // Цикл отрисовки живёт вне состояния, поэтому настраиваемый блок ему нужен ссылкой
     const configuredRef = useRef(null)
     configuredRef.current = configured
+
+    /*
+     * Клавиша, скрывающая интерфейс. В игре это `Binding.toggleMenus`, по умолчанию C,
+     * и срабатывает она только когда нет открытого окна и курсор не стоит в поле ввода:
+     * `!Core.scene.hasDialog() && !Core.scene.hasField()`.
+     */
+    useEffect(() => {
+        const onKey = (event) => {
+            if (event.key !== 'c' && event.key !== 'C' && event.key !== 'с' && event.key !== 'С') return
+            if (event.ctrlKey || event.metaKey || event.altKey) return
+
+            const active = document.activeElement
+            const typing = active !== null
+                && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' || active.isContentEditable)
+
+            if (typing || document.querySelector('.overlay') !== null) return
+
+            setHudShown(shown => {
+                if (shown) setHintShown(true)
+                return !shown
+            })
+        }
+
+        window.addEventListener('keydown', onKey)
+        return () => window.removeEventListener('keydown', onKey)
+    }, [])
 
     // Мир, процессоры и виды живут вне состояния: перерисовка их не касается
     useEffect(() => {
@@ -334,6 +369,13 @@ export function Sandbox() {
         const spot = worldView.at(event.clientX - box.left, event.clientY - box.top)
         const building = scene.world.at(spot.x, spot.y)
 
+        // Выбран блок — щелчок ставит его, как в игре: разбирать настройку уже не нужно
+        if (block !== null) {
+            scene.world.place(block, spot.x, spot.y, {team: scene.world.rules.defaultTeam})
+            worldView.draw({configured: configuredRef.current})
+            return
+        }
+
         if (building === undefined) {
             hideConfig()
             worldView.draw({configured: null})
@@ -436,6 +478,14 @@ export function Sandbox() {
 
                     <button class="game-button sandbox__button" onClick={stepInstruction}>инструкция</button>
 
+                    <button
+                        class="game-button sandbox__button"
+                        title={`${hudShown ? 'Скрыть' : 'Показать'} интерфейс (C)`}
+                        onClick={() => setHudShown(!hudShown)}
+                    >
+                        <Icon name={hudShown ? 'eye-off' : 'eye'} size={20} />
+                    </button>
+
                     <label class="sandbox__toggle" title="Подсвечивать строку, которую процессор выполнит следующей">
                         <input
                             type="checkbox"
@@ -479,10 +529,35 @@ export function Sandbox() {
                             setHover(view.at(event.clientX - box.left, event.clientY - box.top))
                         }}
                         onMouseLeave={() => setHover(null)}
+                        onContextMenu={(event) => {
+                            // Правая кнопка сносит: в игре это тот же жест разбора
+                            event.preventDefault()
+
+                            const {scene, worldView} = stand.current
+                            const box = worldView.canvas.getBoundingClientRect()
+                            const spot = worldView.at(event.clientX - box.left, event.clientY - box.top)
+
+                            const building = scene.world.at(spot.x, spot.y)
+                            if (building === undefined || building.spec.breakable === false) return
+
+                            hideConfig()
+                            scene.world.remove(building)
+                            worldView.draw({configured: null})
+                        }}
                     />
 
                     {/* Полоса состояния и сообщения: в игре это верх экрана */}
-                    {scene !== null && <Hud world={scene.world} beat={beat} hover={hover} />}
+                    {!hudShown && hintShown && <HideHint onDone={() => setHintShown(false)} />}
+
+                    {scene !== null && hudShown && (
+                        <Hud
+                            world={scene.world}
+                            beat={beat}
+                            hover={hover}
+                            block={block}
+                            onBlock={setBlock}
+                        />
+                    )}
 
                     {/* Ряд настройки: в игре он появляется под блоком, фон Styles.cleari — чёрный
                         на 60 процентов, кнопка 40 на 40, значок белый */}

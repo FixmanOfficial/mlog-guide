@@ -5,6 +5,8 @@
   "counts": [
     "selectColumns",
     "alignColumns",
+    "blockRowWidth",
+    "categoryColumns",
     "coreItemsColumns",
     "addColumns"
   ],
@@ -40,6 +42,12 @@
     "alignCellHeight": 40,
     "alignColumns": 3,
     "pencilSize": 40,
+    "blockRowWidth": 4,
+    "blockTableMargin": 5,
+    "blockButtonSize": 46,
+    "categoryButtonSize": 50,
+    "categoryColumns": 2,
+    "iconMedFactor": 4,
     "minimapSize": 140,
     "minimapMargin": 5,
     "coreItemsMargin": 4,

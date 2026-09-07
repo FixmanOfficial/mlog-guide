@@ -618,6 +618,59 @@ export class World {
     }
 
     /**
+     * Можно ли поставить блок так, чтобы его центр пришёлся на этот тайл.
+     *
+     * `Build.validPlace` в игре куда длиннее: там туман войны, радиусы чужих ядер,
+     * глубокая вода, замена одного блока другим и пределы на количество. Здесь
+     * проверяется то, что у нас смоделировано, — и это перечислено явно:
+     *
+     *  - блок целиком внутри карты;
+     *  - под каждым его тайлом пол, на который вообще можно ставить (`placeableOn`);
+     *  - там нет статичной стены и нет другого здания;
+     *  - `checkNoUnitOverlap`: сплошной блок нельзя поставить поверх юнита.
+     */
+    canPlace(type, x, y) {
+        const spec = BLOCK_SPECS[type]
+        if (spec === undefined) return false
+
+        const offset = -Math.trunc((spec.size - 1) / 2)
+
+        for (let dy = 0; dy < spec.size; dy++) {
+            for (let dx = 0; dx < spec.size; dx++) {
+                const [tx, ty] = [x + offset + dx, y + offset + dy]
+
+                if (!this.inside(tx, ty)) return false
+                if (BLOCK_SPECS[this.floorAt(tx, ty)]?.placeableOn === false) return false
+                if (this.wallAt(tx, ty) !== null) return false
+                if (this.at(tx, ty) !== undefined) return false
+            }
+        }
+
+        if (spec.solid !== true) return true
+
+        // Юнит под сплошным блоком мешает: Build.checkNoUnitOverlap
+        const half = spec.size / 2
+        return !this.units.some(unit => !unit.dead
+            && Math.abs(unit.x / 8 - (x + (spec.offset ?? 0) / 8 + 0.5)) < half
+            && Math.abs(unit.y / 8 - (y + (spec.offset ?? 0) / 8 + 0.5)) < half)
+    }
+
+    /**
+     * Ставит блок, если место годится. Отдаёт здание или `null`.
+     *
+     * Счётчик построек ведётся здесь: в игре его увеличивает `BlockBuildEndEvent`, и
+     * только для своей команды — по нему считает цель «построить столько-то».
+     */
+    place(type, x, y, options = {}) {
+        if (!this.canPlace(type, x, y)) return null
+
+        const building = this.add(type, {...options, x, y})
+        if (building.team === this.rules.defaultTeam) this.stats.placedBlockCount.increment(type)
+
+        return building
+    }
+
+    /**
      * Здание, занимающее тайл. Блок начинается не со своего тайла, а со сдвига `sizeOffset`:
      * у размера 2 это сам тайл и следующий, у размера 3 — по одному в каждую сторону.
      */

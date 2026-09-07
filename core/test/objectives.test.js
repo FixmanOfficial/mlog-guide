@@ -310,3 +310,24 @@ test('метки отдаются только у работающих целе�
 
     assert.deepEqual(map.objectives.markers(), [], 'метки выполненной цели остались на карте')
 })
+
+test('постройка проверяет место и считается для цели', () => {
+    const map = world()
+    const objective = new BuildCountObjective('router', 2)
+    map.objectives.add(objective)
+
+    assert.equal(map.place('router', 3, 3)?.type, 'router')
+
+    // Занятый тайл, стена и край карты — три причины отказа
+    assert.equal(map.place('router', 3, 3), null, 'блок встал поверх другого')
+
+    map.setWall(6, 6, 'stone-wall')
+    assert.equal(map.place('router', 6, 6), null, 'блок встал на статичную стену')
+    assert.equal(map.place('core-shard', 0, 0), null, 'блок в три клетки вылез бы за край карты')
+
+    assert.equal(map.place('router', 5, 3)?.type, 'router')
+
+    map.step()
+    assert.equal(map.stats.getPlaced('router'), 2)
+    assert.equal(objective.completed, true)
+})

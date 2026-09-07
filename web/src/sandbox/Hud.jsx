@@ -1,7 +1,11 @@
+import {useEffect} from 'preact/hooks'
+
 import {ContentIcon, parseMarkup} from '@mlog/editor'
+import bundle from '@mlog/core/data/i18n/ru.json'
 
 import {objectiveNodes} from './objectives.js'
 import {Minimap, CoreItems, Position} from './HudPanels.jsx'
+import {BuildPanel} from './BuildPanel.jsx'
 
 /**
  * Полоса состояния поверх карты — то, что в игре занимает верх экрана (`HudFragment`).
@@ -42,7 +46,7 @@ function currentMessage(world) {
     return world.tick - message.at < message.duration * 60 ? message : null
 }
 
-export function Hud({world, beat, hover = null}) {
+export function Hud({world, beat, hover = null, block = null, onBlock = () => {}}) {
     const lines = statusLines(world)
     const message = currentMessage(world)
 
@@ -55,6 +59,10 @@ export function Hud({world, beat, hover = null}) {
 
             <div class="hud__corner hud__corner--top">
                 <CoreItems world={world} beat={beat} />
+            </div>
+
+            <div class="hud__corner hud__corner--bottom">
+                <BuildPanel selected={block} onSelect={onBlock} />
             </div>
             {lines.length > 0 && (
                 <div class="hud__status">
@@ -71,6 +79,28 @@ export function Hud({world, beat, hover = null}) {
                     <Nodes nodes={parseMarkup(message.text)} />
                 </div>
             )}
+        </div>
+    )
+}
+
+/**
+ * Подсказка про клавишу — `showui` из бандла игры: «Интерфейс скрыт. Нажмите [C]...».
+ *
+ * В игре она показывается объявлением, а объявления живут внутри HUD и вместе с ним
+ * пропадают — то есть подсказку, которую только что показали, тут же и прячут. У нас она
+ * лежит отдельно и висит несколько секунд: иначе вернуть интерфейс было бы нечем.
+ */
+export function HideHint({onDone, seconds = 6}) {
+    useEffect(() => {
+        const timer = setTimeout(onDone, seconds * 1000)
+        return () => clearTimeout(timer)
+    }, [onDone, seconds])
+
+    const text = (bundle.ui.showui ?? '').replace('{0}', 'C')
+
+    return (
+        <div class="hud__message hud__message--announce hud__hint">
+            <Nodes nodes={parseMarkup(text)} />
         </div>
     )
 }

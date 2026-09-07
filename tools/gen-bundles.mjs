@@ -146,7 +146,11 @@ function main() {
         const ui = {
             thousands: props.get('unit.thousands') ?? 'k',
             millions: props.get('unit.millions') ?? 'mil',
-            billions: props.get('unit.billions') ?? 'b'
+            billions: props.get('unit.billions') ?? 'b',
+
+            // Подсказка при первом скрытии интерфейса: `HudFragment` показывает её
+            // объявлением и подставляет в неё клавишу
+            showui: props.get('showui') ?? ''
         }
 
         const output = {

@@ -69,6 +69,20 @@ const RECIPES = [
     {file: `${LOGIC}/LStatement.java`, names: ['pencilSize'],
         pattern: /\}, Styles\.logict, \(\) -> \{\}\)\.size\((\d+)f\)\.color\(t\.color\)/},
 
+    // --- панель строительства: PlacementFragment ---
+    {file: `${UI}/fragments/PlacementFragment.java`, names: ['blockRowWidth'], count: true,
+        pattern: /final int rowWidth = (\d+);/},
+    {file: `${UI}/fragments/PlacementFragment.java`, names: ['blockTableMargin'],
+        pattern: /blockTable\.top\(\)\.margin\((\d+)\);/},
+    {file: `${UI}/fragments/PlacementFragment.java`, names: ['blockButtonSize'],
+        pattern: /\}\)\.size\((\d+)f\)\.group\(group\)\.name\("block-"/},
+    {file: `${UI}/fragments/PlacementFragment.java`, names: ['categoryButtonSize'],
+        pattern: /categories\.defaults\(\)\.size\((\d+)f\);/},
+    {file: `${UI}/fragments/PlacementFragment.java`, names: ['categoryColumns'], count: true,
+        pattern: /if\(f\+\+ % (\d+) == 0\) categories\.row\(\);/},
+    {file: 'core/src/mindustry/Vars.java', names: ['iconMedFactor'],
+        pattern: /iconMed = 8\*(\d+)f/},
+
     // --- HUD: миникарта, ресурсы ядра ---
     {file: 'core/src/mindustry/ui/Minimap.java', names: ['minimapSize'],
         pattern: /setSize\(Scl\.scl\((\d+)f\)\)/},

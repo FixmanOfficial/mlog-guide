@@ -635,6 +635,7 @@
   "ui": {
     "thousands": "k",
     "millions": "mil",
-    "billions": "b"
+    "billions": "b",
+    "showui": "UI hidden.\nPress [accent][[{0}][] to show UI."
   }
 }
