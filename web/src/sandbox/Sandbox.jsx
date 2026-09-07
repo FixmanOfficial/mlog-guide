@@ -114,6 +114,9 @@ export function Sandbox() {
     // Выбранный в панели блок: `control.input.block` в игре
     const [block, setBlock] = useState(null)
 
+    // Здание под курсором: панель показывает его состояние, а мир — уголки выделения
+    const [hoveredBuilding, setHoveredBuilding] = useState(null)
+
     // Скорость степенями двойки от 1/256 до 256, как в моде time control:
     // в игре такого нет, но без этого пошаговый разбор превращается в пытку
     const [power, setPower] = useState(0)
@@ -136,7 +139,8 @@ export function Sandbox() {
     /** Процессор, чьи переменные показывает таблица. */
     const current = () => stand.current.scene.processors[selected]
 
-    // Цикл отрисовки живёт вне состояния, поэтому настраиваемый блок ему нужен ссылкой
+    // Цикл отрисовки живёт вне состояния, поэтому наведённое и настраиваемое нужны ссылкой
+    const hoveredRef = useRef(null)
     const configuredRef = useRef(null)
     configuredRef.current = configured
 
@@ -224,7 +228,7 @@ export function Sandbox() {
 
         const first = () => {
             displayView.draw(scene.display)
-            worldView.draw({configured: null})
+            worldView.draw({configured: null, hovered: hoveredRef.current})
         }
 
         // decode вместо события load: картинка из кеша успевает загрузиться раньше подписки,
@@ -276,7 +280,7 @@ export function Sandbox() {
                 }
             }
 
-            worldView.draw({configured: configuredRef.current})
+            worldView.draw({configured: configuredRef.current, hovered: hoveredRef.current})
 
             // Значения переменных перечитываются раз в 15 тиков времени, как в игре
             /*
@@ -300,7 +304,7 @@ export function Sandbox() {
         const {scene, displayView, worldView} = stand.current
 
         displayView.draw(scene.display)
-        worldView.draw({configured: configuredRef.current})
+        worldView.draw({configured: configuredRef.current, hovered: hoveredRef.current})
         setBeat(scene.world.tick + Math.random())
     }
 
@@ -372,13 +376,13 @@ export function Sandbox() {
         // Выбран блок — щелчок ставит его, как в игре: разбирать настройку уже не нужно
         if (block !== null) {
             scene.world.place(block, spot.x, spot.y, {team: scene.world.rules.defaultTeam})
-            worldView.draw({configured: configuredRef.current})
+            worldView.draw({configured: configuredRef.current, hovered: hoveredRef.current})
             return
         }
 
         if (building === undefined) {
             hideConfig()
-            worldView.draw({configured: null})
+            worldView.draw({configured: null, hovered: hoveredRef.current})
             return
         }
 
@@ -395,14 +399,14 @@ export function Sandbox() {
         if (building === scene.toggle) {
             building.enabled = !building.enabled
             hideConfig()
-            worldView.draw({configured: null})
+            worldView.draw({configured: null, hovered: hoveredRef.current})
             return
         }
 
         if (building === scene.door) {
             building.tap()
             hideConfig()
-            worldView.draw({configured: null})
+            worldView.draw({configured: null, hovered: hoveredRef.current})
             return
         }
 
@@ -414,7 +418,7 @@ export function Sandbox() {
         }
 
         hideConfig()
-        worldView.draw({configured: null})
+        worldView.draw({configured: null, hovered: hoveredRef.current})
     }
 
     /** BlockConfigFragment.hideConfig: ряд сжимается за 0.06 секунды и только затем исчезает. */
@@ -526,9 +530,17 @@ export function Sandbox() {
                             if (view === undefined) return
 
                             const box = view.canvas.getBoundingClientRect()
-                            setHover(view.at(event.clientX - box.left, event.clientY - box.top))
+                            const spot = view.at(event.clientX - box.left, event.clientY - box.top)
+
+                            setHover(spot)
+                            hoveredRef.current = stand.current.scene.world.at(spot.x, spot.y) ?? null
+                            setHoveredBuilding(hoveredRef.current)
                         }}
-                        onMouseLeave={() => setHover(null)}
+                        onMouseLeave={() => {
+                            setHover(null)
+                            hoveredRef.current = null
+                            setHoveredBuilding(null)
+                        }}
                         onContextMenu={(event) => {
                             // Правая кнопка сносит: в игре это тот же жест разбора
                             event.preventDefault()
@@ -542,7 +554,7 @@ export function Sandbox() {
 
                             hideConfig()
                             scene.world.remove(building)
-                            worldView.draw({configured: null})
+                            worldView.draw({configured: null, hovered: hoveredRef.current})
                         }}
                     />
 
@@ -556,6 +568,7 @@ export function Sandbox() {
                             hover={hover}
                             block={block}
                             onBlock={setBlock}
+                            building={hoveredBuilding}
                         />
                     )}
 

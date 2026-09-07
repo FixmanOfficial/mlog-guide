@@ -41,12 +41,18 @@ const BLOCKS = [
  */
 const STATES = ['switch-on', 'door-open']
 
+/**
+ * Пометки поверх мира, а не блоки: уголки выделения `Drawf.selected` рисует спрайтом
+ * `block-select` — по одному на угол, с поворотом на девяносто градусов каждый.
+ */
+const MARKS = ['block-select']
+
 function main() {
     const atlas = openAtlas(process.argv[2])
 
     const found = []
 
-    for (const name of [...BLOCKS, ...STATES]) {
+    for (const name of [...BLOCKS, ...STATES, ...MARKS]) {
         const image = atlas.cut(name)
 
         if (image === null) {

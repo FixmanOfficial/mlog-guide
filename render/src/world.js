@@ -21,6 +21,9 @@ import {LABEL_BACKGROUND, LABEL_OUTLINE, ALIGN} from '@mlog/core/src/markers.js'
  */
 const D8 = [[1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1], [1, -1]]
 
+/** Geometry.d8edge — только диагонали, в порядке обхода углов. */
+const D8EDGE = [[1, 1], [-1, 1], [-1, -1], [1, -1]]
+
 /** Mathf.lerp */
 const lerp = (from, to, progress) => from + (to - from) * progress
 
@@ -155,7 +158,7 @@ export class WorldView {
      *                   круг дальности и рамки связей (`Building.drawConfigure`), а сверху —
      *                   уголки выделения (`Drawf.selected`).
      */
-    draw({configured = null} = {}) {
+    draw({configured = null, hovered = null} = {}) {
         const context = this.context
 
         context.setTransform(1, 0, 0, 1, 0, 0)
@@ -177,6 +180,9 @@ export class WorldView {
             this.drawLinks(configured)
             this.drawSelection(configured)
         }
+
+        // Уголки под курсором рисуются и без открытой настройки: `Drawf.selected`
+        if (hovered !== null && hovered !== configured) this.drawSelected(hovered)
     }
 
     /**
@@ -193,6 +199,35 @@ export class WorldView {
 
         for (const [x, y, width, height] of rectBorders(cx - half, cy - half, half * 2, half * 2, this.unit)) {
             context.fillRect(x, y, width, height)
+        }
+    }
+
+/**
+     * Уголки выделения. `Drawf.selected` рисует один и тот же спрайт `block-select` четырежды,
+     * по разу на угол: точка берётся из `Geometry.d8edge`, а поворот — номер угла на девяносто
+     * градусов. У блока больше одного тайла углы разъезжаются на `(size - 1) / 2` тайла.
+     *
+     * У холста ось Y смотрит вниз, поэтому и смещение, и поворот берутся с обратным знаком.
+     */
+    drawSelected(building, color = PAL.accent) {
+        const entry = this.blockSprites?.sprites?.['block-select']
+        if (entry === undefined || this.blocks === null) return
+
+        // Спрайт белый, цвет ему даёт `Draw.color` — у нас это перекраска при вырезании
+        const sprite = this.cut(`mark:select:${color}`, this.blocks,
+            entry.x, entry.y, entry.width, entry.height, color)
+
+        if (sprite === null) return
+
+        const [cx, cy] = this.place(building)
+        const offset = -Math.max(building.size - 1, 0) / 2 * TILE_UNITS * this.unit
+        const side = TILE_UNITS * this.unit
+        const context = this.context
+
+        for (const [index, [dx, dy]] of D8EDGE.entries()) {
+            this.rotated(cx + offset * dx, cy - offset * dy, -index * 90, () => {
+                context.drawImage(sprite, -side / 2, -side / 2, side, side)
+            })
         }
     }
 

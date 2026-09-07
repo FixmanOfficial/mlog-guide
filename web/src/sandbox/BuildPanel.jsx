@@ -38,11 +38,14 @@ const blocksOf = (category) => Object.entries(specs.blocks)
     .sort(([, a], [, b]) => a.id - b.id)
     .map(([name]) => name)
 
-export function BuildPanel({selected, onSelect}) {
+export function BuildPanel({selected, onSelect, building = null}) {
     const [category, setCategory] = useState('distribution')
     const [hovered, setHovered] = useState(null)
 
     const blocks = useMemo(() => blocksOf(category), [category])
+
+    // Показывается блок из меню, если на него смотрят или он выбран; иначе — здание
+    // под курсором. `PlacementFragment`: displayBlock важнее hovered
     const shown = hovered ?? selected
 
     const size = METRICS.blockButtonSize ?? 46
@@ -50,19 +53,8 @@ export function BuildPanel({selected, onSelect}) {
 
     return (
         <div class="build">
-            {shown !== null && (
-                <div class="build__top">
-                    <div class="build__name">{named('block', shown)}</div>
-                    <div class="build__cost">
-                        {(specs.blocks[shown]?.requirements ?? []).map(({item, amount}) => (
-                            <span class="build__stack" key={item}>
-                                <ContentIcon type="item" name={item} size={8 * (METRICS.iconSmallFactor ?? 3)} />
-                                {amount}
-                            </span>
-                        ))}
-                    </div>
-                </div>
-            )}
+            {shown !== null && <BlockInfo block={shown} />}
+            {shown === null && building !== null && <BuildingInfo building={building} />}
 
             <div class="build__body">
                 <div
@@ -107,6 +99,69 @@ export function BuildPanel({selected, onSelect}) {
                     ))}
                 </div>
             </div>
+        </div>
+    )
+}
+
+/**
+ * Заголовок с блоком: иконка 32 и название шириной 190 с отступом 5, под ними требования —
+ * иконка 16, имя предмета серым и количество. В песочнице вместо запаса стоит звёздочка —
+ * при `infiniteResources` игра пишет её на месте того, сколько у тебя есть.
+ */
+function BlockInfo({block}) {
+    return (
+        <div class="build__top">
+            <div class="build__header">
+                <ContentIcon type="block" name={block} size={8 * (METRICS.iconMedFactor ?? 4)} />
+                <span class="build__name">{named('block', block)}</span>
+            </div>
+
+            <div class="build__requirements">
+                {(specs.blocks[block]?.requirements ?? []).map(({item, amount}) => (
+                    <div class="build__stack" key={item}>
+                        <ContentIcon type="item" name={item} size={16} />
+                        <span class="build__item">{named('item', item)}</span>
+                        <span class="build__amount">*/{amount}</span>
+                    </div>
+                ))}
+            </div>
+        </div>
+    )
+}
+
+/**
+ * Здание под курсором. `Building.display`: тот же заголовок с иконкой и именем, под ним
+ * полоски состояния — у всех есть здоровье (`Pal.health`), а у складов ещё и содержимое.
+ */
+function BuildingInfo({building}) {
+    const items = building.items === null ? [] : [...building.items].filter(([, amount]) => amount > 0)
+
+    return (
+        <div class="build__top">
+            <div class="build__header">
+                <ContentIcon type="block" name={building.type} size={8 * (METRICS.iconMedFactor ?? 4)} />
+                <span class="build__name">{named('block', building.type)}</span>
+            </div>
+
+            <div class="build__bar">
+                <div
+                    class="build__bar-fill"
+                    style={{width: `${Math.max(0, Math.min(1, building.health / building.maxHealth)) * 100}%`}}
+                />
+                <span class="build__bar-text">{Math.round(building.health)} / {building.maxHealth}</span>
+            </div>
+
+            {items.length > 0 && (
+                <div class="build__requirements">
+                    {items.map(([item, amount]) => (
+                        <div class="build__stack" key={item}>
+                            <ContentIcon type="item" name={item} size={16} />
+                            <span class="build__item">{named('item', item)}</span>
+                            <span class="build__amount">{amount}</span>
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     )
 }
