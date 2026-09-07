@@ -27,6 +27,7 @@ import unitSprites from '@mlog/core/data/unit-sprites.json'
 import terrainSprites from '@mlog/core/data/terrain-sprites.json'
 import teams from '@mlog/core/data/teams.json'
 import {Hud, HideHint} from './Hud.jsx'
+import {permissions, canEdit} from './permissions.js'
 
 import {createScene, attachProcessor} from './scene.js'
 import {MessageDialog, MemoryDialog} from './BlockDialogs.jsx'
@@ -92,7 +93,14 @@ function storedHighlight() {
 /** Подпись скорости: степень двойки от 1/256 до 256. */
 const speedLabel = (power) => power >= 0 ? `×${2 ** power}` : `×1/${2 ** -power}`
 
-export function Sandbox() {
+/**
+ * @param allow что разрешено в этой песочнице. По умолчанию всё: страница песочницы
+ *              ничего не передаёт, а урок сужает — правку одного процессора, набор
+ *              инструкций, строительство, время. См. `permissions.js`
+ */
+export function Sandbox({allow = {}} = {}) {
+    const rights = permissions(allow)
+
     const worldCanvas = useRef(null)
     const displayCanvas = useRef(null)
     const stand = useRef(null)
@@ -368,13 +376,15 @@ export function Sandbox() {
      * карандаш, и уже он открывает программу. По тумблеру — переключить: `sensor` это увидит.
      */
     const clickWorld = (event) => {
+        if (!rights.interact && !rights.build) return
+
         const {scene, worldView} = stand.current
         const box = worldView.canvas.getBoundingClientRect()
         const spot = worldView.at(event.clientX - box.left, event.clientY - box.top)
         const building = scene.world.at(spot.x, spot.y)
 
         // Выбран блок — щелчок ставит его, как в игре: разбирать настройку уже не нужно
-        if (block !== null) {
+        if (block !== null && rights.build) {
             scene.world.place(block, spot.x, spot.y, {team: scene.world.rules.defaultTeam})
             worldView.draw({configured: configuredRef.current, hovered: hoveredRef.current})
             return
@@ -454,16 +464,20 @@ export function Sandbox() {
         <div class="sandbox not-content" data-beat={beat}>
             <div class="sandbox__scene">
                 <div class="sandbox__bar">
-                    <button class="game-button sandbox__button" title="Сбросить мир" onClick={reset}>
-                        <Icon name="refresh-1" size={20} />
-                    </button>
+                    {rights.reset && (
+                        <button class="game-button sandbox__button" title="Сбросить мир" onClick={reset}>
+                            <Icon name="refresh-1" size={20} />
+                        </button>
+                    )}
 
-                    <button class="game-button sandbox__button" title="Назад на секунду" onClick={() => rewind(SECOND)}>
-                        <Icon name="left" size={20} /><Icon name="left" size={20} />
-                    </button>
-                    <button class="game-button sandbox__button" title="Назад на тик" onClick={() => rewind(1)}>
-                        <Icon name="left" size={20} />
-                    </button>
+                    {rights.time && (<>
+                        <button class="game-button sandbox__button" title="Назад на секунду" onClick={() => rewind(SECOND)}>
+                            <Icon name="left" size={20} /><Icon name="left" size={20} />
+                        </button>
+                        <button class="game-button sandbox__button" title="Назад на тик" onClick={() => rewind(1)}>
+                            <Icon name="left" size={20} />
+                        </button>
+                    </>)}
 
                     <button
                         class="game-button sandbox__button"
@@ -473,22 +487,26 @@ export function Sandbox() {
                         <Icon name={running ? 'pause' : 'play'} size={20} />
                     </button>
 
-                    <button class="game-button sandbox__button" title="Вперёд на тик" onClick={() => forward(1)}>
-                        <Icon name="right" size={20} />
-                    </button>
-                    <button class="game-button sandbox__button" title="Вперёд на секунду" onClick={() => forward(SECOND)}>
-                        <Icon name="right" size={20} /><Icon name="right" size={20} />
-                    </button>
+                    {rights.time && (<>
+                        <button class="game-button sandbox__button" title="Вперёд на тик" onClick={() => forward(1)}>
+                            <Icon name="right" size={20} />
+                        </button>
+                        <button class="game-button sandbox__button" title="Вперёд на секунду" onClick={() => forward(SECOND)}>
+                            <Icon name="right" size={20} /><Icon name="right" size={20} />
+                        </button>
 
-                    <button class="game-button sandbox__button" onClick={stepInstruction}>инструкция</button>
+                        <button class="game-button sandbox__button" onClick={stepInstruction}>инструкция</button>
+                    </>)}
 
-                    <button
-                        class="game-button sandbox__button"
-                        title={`${hudShown ? 'Скрыть' : 'Показать'} интерфейс (C)`}
-                        onClick={() => setHudShown(!hudShown)}
-                    >
-                        <Icon name={hudShown ? 'eye-off' : 'eye'} size={20} />
-                    </button>
+                    {rights.hud && (
+                        <button
+                            class="game-button sandbox__button"
+                            title={`${hudShown ? 'Скрыть' : 'Показать'} интерфейс (C)`}
+                            onClick={() => setHudShown(!hudShown)}
+                        >
+                            <Icon name={hudShown ? 'eye-off' : 'eye'} size={20} />
+                        </button>
+                    )}
 
                     <label class="sandbox__toggle" title="Подсвечивать строку, которую процессор выполнит следующей">
                         <input
@@ -507,6 +525,7 @@ export function Sandbox() {
                         <span>подсветка</span>
                     </label>
 
+                    {rights.time && (
                     <label class="sandbox__speed" title="Скорость времени">
                         <input
                             type="range"
@@ -518,6 +537,7 @@ export function Sandbox() {
                         />
                         <span class="sandbox__speed-value">{speedLabel(power)}</span>
                     </label>
+                    )}
                 </div>
 
                 <div class="sandbox__map">
@@ -550,6 +570,7 @@ export function Sandbox() {
                             const spot = worldView.at(event.clientX - box.left, event.clientY - box.top)
 
                             const building = scene.world.at(spot.x, spot.y)
+                            if (!rights.build) return
                             if (building === undefined || building.spec.breakable === false) return
 
                             hideConfig()
@@ -561,13 +582,14 @@ export function Sandbox() {
                     {/* Полоса состояния и сообщения: в игре это верх экрана */}
                     {!hudShown && hintShown && <HideHint onDone={() => setHintShown(false)} />}
 
-                    {scene !== null && hudShown && (
+                    {scene !== null && hudShown && rights.hud && (
                         <Hud
                             world={scene.world}
                             beat={beat}
                             hover={hover}
-                            block={block}
-                            onBlock={setBlock}
+                            block={rights.build ? block : null}
+                            onBlock={rights.build ? setBlock : () => {}}
+                            showBuild={rights.build}
                             building={hoveredBuilding}
                         />
                     )}
@@ -604,7 +626,7 @@ export function Sandbox() {
                                 </button>
                             )}
 
-                            {configured.processor !== undefined && (
+                            {configured.processor !== undefined && canEdit(rights, configured) && (
                                 <button
                                     class="config-bar__button"
                                     title="Править программу"
@@ -681,6 +703,7 @@ export function Sandbox() {
                     title={editingEntry.building.name}
                     privileged={editingEntry.building.spec.privileged === true}
                     unitControl={scene.world.rules.get('logicUnitControl')}
+                    allow={rights.instructions}
                     initial={editingEntry.program}
                     onChange={rebuild(editingEntry)}
                     counter={highlight ? nextIndex(editingEntry.building.processor) : null}

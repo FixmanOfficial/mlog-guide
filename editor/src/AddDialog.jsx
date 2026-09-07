@@ -17,11 +17,12 @@ import {Overlay} from './Overlay.jsx'
  * Набор зависит от процессора: у процессора мира к обычным инструкциям добавляются
  * мировые, а у обычного их нет вовсе.
  */
-export function AddDialog({onPick, onClose, privileged = false, unitControl = true}) {
+export function AddDialog({onPick, onClose, privileged = false, unitControl = true, allow = true}) {
     const [search, setSearch] = useState('')
     const field = useRef(null)
 
-    const instructions = useMemo(() => available({privileged, unitControl}), [privileged, unitControl])
+    const instructions = useMemo(() => available({privileged, unitControl, allow}),
+        [privileged, unitControl, allow])
 
     const groups = useMemo(() => {
         const text = search.trim().toLowerCase()

@@ -81,10 +81,13 @@ export const CONTROLS = ENUMS.LAccess.filter(value =>
  *
  * То есть процессору мира доступны **и** мировые инструкции, **и** обычные: своего
  * отдельного набора у него нет.
+ *
+ * `allow` — не игровое: им урок сужает набор до тех инструкций, о которых уже рассказал.
  */
-export function available({privileged = false, unitControl = true} = {}) {
+export function available({privileged = false, unitControl = true, allow = true} = {}) {
     return schema.instructions.filter(instruction => {
         if (instruction.invalid || instruction.hidden) return false
+        if (Array.isArray(allow) && !allow.includes(instruction.opcode)) return false
         if (instruction.privileged && !privileged) return false
         if (instruction.nonPrivileged && privileged) return false
         if (!privileged && !unitControl && instruction.category === 'unit') return false

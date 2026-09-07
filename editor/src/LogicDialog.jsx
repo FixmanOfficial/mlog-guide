@@ -18,7 +18,7 @@ import {fromText, toText, MAX_INSTRUCTIONS} from './program.js'
  * какой из процессоров правит.
  */
 export function LogicDialog({title, initial, onChange, onRestart, onClose, counter = null,
-    privileged = false, unitControl = true}) {
+    privileged = false, unitControl = true, allow = true}) {
     const [program, setProgram] = useState(initial)
     const [editing, setEditing] = useState(false)
     const [adding, setAdding] = useState(false)
@@ -43,6 +43,7 @@ export function LogicDialog({title, initial, onChange, onRestart, onClose, count
                         counter={counter}
                         privileged={privileged}
                         unitControl={unitControl}
+                        allow={allow}
                         addOpen={adding}
                         onAddClose={() => setAdding(false)}
                         initial={program}

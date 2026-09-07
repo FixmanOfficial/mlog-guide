@@ -25,7 +25,7 @@ import {METRICS} from './theme.js'
  * расступаются. Перестановка «по наведению» промахивалась при быстром движении мыши.
  */
 export function Editor({initial = [], onChange, counter = null, addOpen = false, onAddClose,
-    privileged = false, unitControl = true}) {
+    privileged = false, unitControl = true, allow = true}) {
     const [statements, setStatements] = useState(initial)
     const [adding, setAdding] = useState(null)
     const [selecting, setSelecting] = useState(null)
@@ -219,6 +219,7 @@ export function Editor({initial = [], onChange, counter = null, addOpen = false,
                 <AddDialog
                     privileged={privileged}
                     unitControl={unitControl}
+                    allow={allow}
                     onPick={(opcode) => addAt(adding, opcode)}
                     onClose={closeAdd}
                 />

@@ -348,3 +348,12 @@ test('имя инструкции берётся от класса игры, а 
     assert.equal(name('printflush'), 'Print Flush')
     assert.equal(name('set'), 'Set')
 })
+
+test('урок может сузить меню до нескольких инструкций', () => {
+    const list = available({allow: ['set', 'op', 'print']})
+
+    assert.deepEqual(list.map(instruction => instruction.opcode).sort(), ['op', 'print', 'set'])
+
+    // Ограничение не отменяет остальных правил: мировые всё так же прячутся у обычного
+    assert.deepEqual(available({allow: ['setblock', 'set']}).map(item => item.opcode), ['set'])
+})

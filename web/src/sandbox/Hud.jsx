@@ -46,7 +46,8 @@ function currentMessage(world) {
     return world.tick - message.at < message.duration * 60 ? message : null
 }
 
-export function Hud({world, beat, hover = null, block = null, onBlock = () => {}, building = null}) {
+export function Hud({world, beat, hover = null, block = null, onBlock = () => {},
+    building = null, showBuild = true}) {
     const lines = statusLines(world)
     const message = currentMessage(world)
 
@@ -61,9 +62,11 @@ export function Hud({world, beat, hover = null, block = null, onBlock = () => {}
                 <CoreItems world={world} beat={beat} />
             </div>
 
-            <div class="hud__corner hud__corner--bottom">
-                <BuildPanel selected={block} onSelect={onBlock} building={building} />
-            </div>
+            {showBuild && (
+                <div class="hud__corner hud__corner--bottom">
+                    <BuildPanel selected={block} onSelect={onBlock} building={building} />
+                </div>
+            )}
             {lines.length > 0 && (
                 <div class="hud__status">
                     {lines.map((nodes, index) => (

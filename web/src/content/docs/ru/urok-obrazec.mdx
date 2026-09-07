@@ -1,0 +1,36 @@
+---
+title: Урок — образец
+description: Как урок встраивает песочницу и что в ней ограничивает
+template: splash
+---
+
+import {Sandbox} from '../../../sandbox/Sandbox.jsx'
+import '@mlog/editor/src/styles.css'
+
+Страница-образец: так урок будет вставлять песочницу. Она здесь строже, чем на своей странице —
+править можно программу одного процессора, набор инструкций сужен до тех, о которых уже
+рассказано, строить и перематывать время нельзя.
+
+Набор задаётся при вставке и по умолчанию пуст, то есть разрешено всё:
+
+```jsx
+<Sandbox
+    client:only="preact"
+    allow={{
+        edit: ['processor1'],
+        instructions: ['set', 'op', 'print', 'printflush', 'jump', 'end'],
+        build: false,
+        time: false
+    }}
+/>
+```
+
+<Sandbox
+    client:only="preact"
+    allow={{
+        edit: ['processor1'],
+        instructions: ['set', 'op', 'print', 'printflush', 'jump', 'end'],
+        build: false,
+        time: false
+    }}
+/>
