@@ -631,5 +631,10 @@
       "background": "Фон",
       "outline": "Контур"
     }
+  },
+  "ui": {
+    "thousands": "к",
+    "millions": "М",
+    "billions": "В"
   }
 }

@@ -89,7 +89,17 @@ function colorize(jar, blocks) {
         if (spec.id >= image.width) continue
 
         const at = spec.id * 4
-        spec.mapColor = `#${hex(image.pixels[at])}${hex(image.pixels[at + 1])}${hex(image.pixels[at + 2])}`
+        const [r, g, b, a] = image.pixels.slice(at, at + 4)
+
+        /*
+         * `ContentLoader.loadColors` пропускает пустой пиксель и чёрный: `color == 0`
+         * и `color == 255` в записи RGBA8888. Для руды в картинке как раз ноль, а цвет
+         * ей ставит конструктор из предмета — затирать его чёрным нельзя.
+         */
+        const rgba = ((r << 24) | (g << 16) | (b << 8) | a) >>> 0
+        if (rgba === 0 || rgba === 255) continue
+
+        spec.mapColor = `#${hex(r)}${hex(g)}${hex(b)}`
     }
 }
 

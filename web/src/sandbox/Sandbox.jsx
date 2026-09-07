@@ -26,7 +26,7 @@ import blockSprites from '@mlog/core/data/block-sprites.json'
 import unitSprites from '@mlog/core/data/unit-sprites.json'
 import terrainSprites from '@mlog/core/data/terrain-sprites.json'
 import teams from '@mlog/core/data/teams.json'
-import bundle from '@mlog/core/data/i18n/ru.json'
+import {Hud} from './Hud.jsx'
 
 import {createScene, attachProcessor} from './scene.js'
 import {MessageDialog, MemoryDialog} from './BlockDialogs.jsx'
@@ -92,14 +92,6 @@ function storedHighlight() {
 /** Подпись скорости: степень двойки от 1/256 до 256. */
 const speedLabel = (power) => power >= 0 ? `×${2 ** power}` : `×1/${2 ** -power}`
 
-/**
- * Название вида цели. Ключ собирается так же, как в игре: `objective.<вид>.name`,
- * где вид — имя класса без «Objective» строчными. Строки сняты генератором бандлов.
- */
-function objectiveName(objective) {
-    return bundle.objectives.objectives[`${objective.kind}.name`] ?? objective.kind
-}
-
 export function Sandbox() {
     const worldCanvas = useRef(null)
     const displayCanvas = useRef(null)
@@ -109,6 +101,9 @@ export function Sandbox() {
 
     // Подсветка следующей строки: наша добавка к окну игры, поэтому выключаемая
     const [highlight, setHighlight] = useState(storedHighlight)
+
+    // Клетка под курсором: её показывает HUD под миникартой, как настройка «mouseposition»
+    const [hover, setHover] = useState(null)
 
     // Скорость степенями двойки от 1/256 до 256, как в моде time control:
     // в игре такого нет, но без этого пошаговый разбор превращается в пытку
@@ -472,7 +467,22 @@ export function Sandbox() {
                 </div>
 
                 <div class="sandbox__map">
-                    <canvas class="sandbox__world" ref={worldCanvas} onClick={clickWorld} />
+                    <canvas
+                        class="sandbox__world"
+                        ref={worldCanvas}
+                        onClick={clickWorld}
+                        onMouseMove={(event) => {
+                            const view = stand.current?.worldView
+                            if (view === undefined) return
+
+                            const box = view.canvas.getBoundingClientRect()
+                            setHover(view.at(event.clientX - box.left, event.clientY - box.top))
+                        }}
+                        onMouseLeave={() => setHover(null)}
+                    />
+
+                    {/* Полоса состояния и сообщения: в игре это верх экрана */}
+                    {scene !== null && <Hud world={scene.world} beat={beat} hover={hover} />}
 
                     {/* Ряд настройки: в игре он появляется под блоком, фон Styles.cleari — чёрный
                         на 60 процентов, кнопка 40 на 40, значок белый */}
@@ -538,20 +548,6 @@ export function Sandbox() {
                         <div class="sandbox__message">{scene?.message.message || '—'}</div>
                         <div class="sandbox__meta">тик {Math.floor(scene?.world.tick ?? 0)}</div>
                     </div>
-                </div>
-
-                <div class="sandbox__title">Цели карты</div>
-                <div class="sandbox__objectives">
-                    {(scene?.world.objectives.all ?? []).filter(objective => !objective.hidden)
-                        .map((objective, index) => (
-                            <div
-                                key={index}
-                                class={`sandbox__objective${objective.completed ? ' sandbox__objective--done' : ''}`}
-                            >
-                                <span class="sandbox__objective-mark">{objective.completed ? '✓' : '·'}</span>
-                                <span>{objectiveName(objective)}</span>
-                            </div>
-                        ))}
                 </div>
 
                 <div class="sandbox__title sandbox__title--row">

@@ -5,6 +5,7 @@
   "counts": [
     "selectColumns",
     "alignColumns",
+    "coreItemsColumns",
     "addColumns"
   ],
   "metrics": {
@@ -39,6 +40,13 @@
     "alignCellHeight": 40,
     "alignColumns": 3,
     "pencilSize": 40,
+    "minimapSize": 140,
+    "minimapMargin": 5,
+    "coreItemsMargin": 4,
+    "coreItemPad": 3,
+    "coreAmountWidth": 52,
+    "coreItemsColumns": 4,
+    "iconSmallFactor": 3,
     "addButtonWidth": 130,
     "addButtonHeight": 50,
     "addColumns": 3,

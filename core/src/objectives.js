@@ -267,6 +267,9 @@ export class TimerObjective extends MapObjective {
         super(options)
         this.duration = duration
         this.countup = 0
+
+        // Строку таймеру и флагу даёт карта, а не бандл: ключа под них в игре нет
+        this.text = options.text ?? null
     }
 
     update(world, delta = 1) {
@@ -282,7 +285,10 @@ export class TimerObjective extends MapObjective {
         const total = this.duration * world.rules.get('objectiveTimerMultiplier')
 
         // В игре здесь считаются секунды и собирается строка «м:сс» — это дело страницы
-        return {key: 'objective.timer', left: Math.max(0, total - this.countup), duration: total}
+        return {
+            key: null, text: this.text,
+            left: Math.max(0, total - this.countup), duration: total
+        }
     }
 }
 
@@ -385,6 +391,7 @@ export class FlagObjective extends MapObjective {
     constructor(flag = 'flag', options = {}) {
         super(options)
         this.flag = flag
+        this.text = options.text ?? null
     }
 
     update(world) {
@@ -392,7 +399,7 @@ export class FlagObjective extends MapObjective {
     }
 
     describe() {
-        return {key: 'objective.flag', flag: this.flag}
+        return {key: null, text: this.text, flag: this.flag}
     }
 }
 

@@ -64,10 +64,17 @@ function addObjectives(world) {
     store.control('shape', 6)
     store.control('color', packColorHex('84f491'))
 
+    /*
+     * Текст у флага и таймера свой: строки под них в игре нет, её задаёт карта.
+     * У таймера в текст подставляется остаток времени — `{0}`, как в `TimerObjective`.
+     */
     world.objectives.add(
         new UnitCountObjective('poly', 1),
-        new TimerObjective(60 * 20),
-        new FlagObjective('склад', {markers: [store]})
+        new TimerObjective(60 * 20, {text: '[accent]Продержаться: []{0}'}),
+        new FlagObjective('склад', {
+            text: '[accent]Натаскать на склад: []10 меди',
+            markers: [store]
+        })
     )
 
     return world
@@ -98,6 +105,13 @@ export function createScene() {
     // Контейнер, куда поли носит добытое: без него `ucontrol itemDrop` некуда целить
     const container = world.add('container', {x: 17, y: 4})
 
+    // Ядро: по нему HUD показывает запасы команды, а цели читают предметы.
+    // Запас начальный — в игре его кладёт карта, а не логика
+    const core = world.add('core-shard', {x: 2, y: 8})
+    core.handleStack('copper', 1250)
+    core.handleStack('lead', 480)
+    core.handleStack('graphite', 95)
+
     // Три юнита разных типов: `ubind` выбирает по типу, и один процессор водит всех.
     // Кинжал наземный и ходит ногами — на нём видно, что шаг считается по пройденному пути
     world.spawn('poly', {x: 4, y: 1})
@@ -113,7 +127,7 @@ export function createScene() {
 
     addObjectives(world)
 
-    return {world, display, cell, message, toggle, door, container, processors}
+    return {world, display, cell, message, toggle, door, container, core, processors}
 }
 
 /**

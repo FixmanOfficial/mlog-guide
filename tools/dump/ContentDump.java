@@ -217,6 +217,14 @@ public class ContentDump{
             spec.number("itemCapacity", block.itemCapacity);
             spec.number("liquidCapacity", block.liquidCapacity);
 
+            /*
+             * Цвет на карте. Часть блоков получает его в конструкторе — у руды это цвет
+             * её предмета, — а остальным его ставит `ContentLoader.loadColors` из картинки.
+             * Здесь берётся то, что уже посчитала игра; картинку накладывает генератор.
+             */
+            spec.string("mapColor", color(block.mapColor));
+            spec.bool("useColor", block.useColor);
+
             spec.string("category", block.category.name());
             spec.string("group", block.group.name());
             spec.string("buildVisibility", visibilityName(block.buildVisibility));

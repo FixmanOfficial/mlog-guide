@@ -141,6 +141,14 @@ function main() {
             markers: collectByPrefix(props, 'marker.')
         }
 
+        // Мелочь интерфейса: суффиксы больших чисел, которыми `UI.formatAmount`
+        // сокращает запасы ядра — «39к» вместо 39000
+        const ui = {
+            thousands: props.get('unit.thousands') ?? 'k',
+            millions: props.get('unit.millions') ?? 'mil',
+            billions: props.get('unit.billions') ?? 'b'
+        }
+
         const output = {
             locale,
             gameVersion: ids.gameVersion,
@@ -148,7 +156,8 @@ function main() {
             note: 'Файл сгенерирован из бандлов игры, править вручную нельзя. Разметка вида [accent]...[] оставлена как есть.',
             content,
             logic,
-            objectives
+            objectives,
+            ui
         }
 
         const target = `core/data/i18n/${locale}.json`

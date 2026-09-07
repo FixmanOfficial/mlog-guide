@@ -400,3 +400,135 @@
     accent-color: #ffd37f;
     cursor: pointer;
 }
+
+/*
+ * Полоса состояния и сообщения — верх экрана в игре (`HudFragment`). У нас карта живёт
+ * в своём окне, поэтому HUD лежит поверх неё и кликов не перехватывает.
+ */
+.hud {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+/* labelWrap(...).growX().pad(8f) в верхней панели HUD */
+.hud__status {
+    position: absolute;
+    top: 0;
+    left: 0;
+    max-width: 60%;
+    padding: 8px;
+    background: rgb(0 0 0 / 0.6);
+    font-size: 14px;
+    line-height: 1.3;
+    white-space: pre-wrap;
+}
+
+.hud__line {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2px;
+}
+
+.hud__line + .hud__line {
+    margin-top: 4px;
+}
+
+/* Styles.black3: белая заливка, тонированная чёрным на три десятых */
+.hud__message {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgb(0 0 0 / 0.3);
+    text-align: center;
+    white-space: pre-wrap;
+}
+
+/* UI.announce: середина экрана, отступ 8 */
+.hud__message--announce {
+    top: 50%;
+    padding: 8px;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+}
+
+/* UI.showInfoToast: сверху, отступ внутри 4, сверху 10 */
+.hud__message--toast {
+    top: 10px;
+    padding: 4px;
+}
+
+/*
+ * HudFragment.showToast: панель кнопки, отступ 12, текст шириной 280 по центру.
+ * Значка у нас нет — в игре это `Icon.info`, и он рисуется слева от текста.
+ */
+.hud__message--notify {
+    top: 10px;
+    padding: 12px;
+    max-width: 280px;
+    background: var(--button-fill, #000);
+    border: var(--button-border, 4px) solid var(--button-frame, #454545);
+}
+
+/* mission живёт в правилах и показывается полосой состояния, отдельного места ей не надо */
+.hud__message--mission {
+    display: none;
+}
+
+/* Углы HUD: миникарта справа сверху, запасы ядра по центру — HudFragment.build */
+.hud__corner {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hud__corner--right {
+    top: 0;
+    right: 0;
+}
+
+.hud__corner--top {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Tex.pane: рамка 4 пикселя #454545 поверх чёрного, отступ 5 */
+.hud-minimap {
+    background: var(--pane-fill, rgb(0 0 0 / 0.6));
+    border: var(--pane-border, 4px) solid var(--pane-frame, #454545);
+}
+
+.hud-minimap canvas {
+    display: block;
+    image-rendering: pixelated;
+}
+
+/* Координаты под миникартой набраны шрифтом с обводкой и прижаты вправо */
+.hud-position {
+    align-self: flex-end;
+    padding: 2px 4px;
+    font-size: 13px;
+    text-shadow: 0 0 3px #000, 0 0 3px #000;
+}
+
+/* CoreItemsDisplay: сетка по четыре, фон Styles.black6, отступ 4 */
+.hud-core {
+    display: grid;
+    gap: 2px 0;
+    background: rgb(0 0 0 / 0.6);
+    font-size: 14px;
+}
+
+.hud-core__item {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.hud-core__amount {
+    text-align: left;
+}

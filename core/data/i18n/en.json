@@ -631,5 +631,10 @@
       "background": "Background",
       "outline": "Outline"
     }
+  },
+  "ui": {
+    "thousands": "k",
+    "millions": "mil",
+    "billions": "b"
   }
 }

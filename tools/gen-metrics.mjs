@@ -69,6 +69,22 @@ const RECIPES = [
     {file: `${LOGIC}/LStatement.java`, names: ['pencilSize'],
         pattern: /\}, Styles\.logict, \(\) -> \{\}\)\.size\((\d+)f\)\.color\(t\.color\)/},
 
+    // --- HUD: миникарта, ресурсы ядра ---
+    {file: 'core/src/mindustry/ui/Minimap.java', names: ['minimapSize'],
+        pattern: /setSize\(Scl\.scl\((\d+)f\)\)/},
+    {file: 'core/src/mindustry/ui/Minimap.java', names: ['minimapMargin'],
+        pattern: /float margin = (\d+)f;/},
+    {file: 'core/src/mindustry/ui/CoreItemsDisplay.java', names: ['coreItemsMargin'],
+        pattern: /background\(Styles\.black6\);\s*\n\s*margin\((\d+)\);/},
+    {file: 'core/src/mindustry/ui/CoreItemsDisplay.java', names: ['coreItemPad'],
+        pattern: /image\(item\.uiIcon\)\.size\(iconSmall\)\.padRight\((\d+)\)/},
+    {file: 'core/src/mindustry/ui/CoreItemsDisplay.java', names: ['coreAmountWidth'],
+        pattern: /\.minWidth\((\d+)f\)\.left\(\)/},
+    {file: 'core/src/mindustry/ui/CoreItemsDisplay.java', names: ['coreItemsColumns'], count: true,
+        pattern: /if\(\+\+i % (\d+) == 0\)\{/},
+    {file: 'core/src/mindustry/Vars.java', names: ['iconSmallFactor'],
+        pattern: /iconSmall = 8\*(\d+)f/},
+
     // --- меню добавления и таблица переменных: LogicDialog ---
     {file: `${LOGIC}/LogicDialog.java`, names: ['addButtonWidth', 'addButtonHeight'],
         pattern: /\.size\((\d+)f, (\d+)f\)\.self\(c -> tooltip\(c, "lst\./},
