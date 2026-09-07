@@ -17,6 +17,7 @@ import {UNIT_SPECS, unconv} from '../src/unit.js'
 import {Diagnostic} from '../src/errors.js'
 import {damage as explode} from '../src/damage.js'
 import {LABEL_OUTLINE} from '../src/markers.js'
+import {packColorHex, unpackColorBits} from '../src/arc.js'
 
 const logicIds = JSON.parse(readFileSync(new URL('../data/logic-ids.json', import.meta.url), 'utf8'))
 const content = createContent(logicIds)
@@ -869,4 +870,10 @@ test('подпись собирает флаги подложки и обвод�
 
     // Подложку сняли первым параметром, обводку оставили вторым
     assert.equal(world.markers.get(1).props.flags, LABEL_OUTLINE)
+})
+
+test('цвет разбирается и с решёткой, и без неё', () => {
+    // Раньше `packColorHex` резал первый символ, и без решётки терялась первая цифра
+    assert.equal(unpackColorBits(packColorHex('#84f491'))[0], unpackColorBits(packColorHex('84f491'))[0])
+    assert.equal(Math.round(unpackColorBits(packColorHex('84f491'))[0] * 255), 0x84)
 })

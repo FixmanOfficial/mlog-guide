@@ -9,7 +9,7 @@
 import {useEffect, useRef, useState} from 'preact/hooks'
 
 import {
-    GlobalsDialog, LogicDialog, applyEasings, applyMetrics, applyNinePatches, toText
+    GlobalsDialog, LogicDialog, applyEasings, applyMetrics, applyNinePatches, fromText
 } from '@mlog/editor'
 import {Icon} from '@mlog/editor/src/Icon.jsx'
 import {mod} from '@mlog/core/src/arc.js'
@@ -29,10 +29,10 @@ import terrainSprites from '@mlog/core/data/terrain-sprites.json'
 import teams from '@mlog/core/data/teams.json'
 import {Hud, HideHint} from './Hud.jsx'
 import {permissions, canEdit} from './permissions.js'
+import {loadProgram, saveProgram, forgetPrograms} from './storage.js'
 
 import {createScene, attachProcessor} from './scene.js'
 import {MessageDialog, MemoryDialog} from './BlockDialogs.jsx'
-import {PAINTER, COUNTER, PILOT, MARKER} from './programs.js'
 import {Variables} from './Variables.jsx'
 
 /** Тайл мира в пикселях. Всё остальное рендер считает от него сам. */
@@ -95,11 +95,19 @@ function storedHighlight() {
 const speedLabel = (power) => power >= 0 ? `×${2 ** power}` : `×1/${2 ** -power}`
 
 /**
- * @param allow что разрешено в этой песочнице. По умолчанию всё: страница песочницы
- *              ничего не передаёт, а урок сужает — правку одного процессора, набор
- *              инструкций, строительство, время. См. `permissions.js`
+ * @param allow    что разрешено в этой песочнице. По умолчанию всё: страница песочницы
+ *                 ничего не передаёт, а урок сужает — правку одного процессора, набор
+ *                 инструкций, строительство, время. См. `permissions.js`
+ * @param scene    описание сцены; по умолчанию та, что стоит на странице песочницы
+ * @param storage  ключ, под которым в браузере запоминаются программы. Без него они
+ *                 не запоминаются вовсе — у страницы песочницы так и есть
+ * @param onDone   вызывается один раз, когда выполнены все цели карты. Вместе с ним
+ *                 песочница шлёт в окно событие `mlog:done`: остров на странице Astro
+ *                 получает пропсы разобранными из JSON, и функцию туда не передать —
+ *                 урок слушает событие, а проп остаётся для программного вызова
  */
-export function Sandbox({allow = {}} = {}) {
+export function Sandbox({allow = {}, scene: description = undefined,
+    storage = null, onDone = null} = {}) {
     const rights = permissions(allow)
 
     const worldCanvas = useRef(null)
@@ -205,7 +213,7 @@ export function Sandbox({allow = {}} = {}) {
 
         // `LogicBlock.instructionsPerTick` есть только у процессоров — по нему их и видно
         if (building.spec.ipt !== undefined) {
-            const entry = {building, links: [], program: []}
+            const entry = {building, links: [], program: ''}
             scene.processors.push(entry)
             attachProcessor(scene, entry, '')
         }
@@ -241,6 +249,9 @@ export function Sandbox({allow = {}} = {}) {
 
     // Что показывать под курсором: клетка, выбранный блок и режим сноса
     const cursorRef = useRef(null)
+
+    // Сообщали ли уже, что цели выполнены
+    const doneRef = useRef(false)
     configuredRef.current = configured
 
     /*
@@ -297,13 +308,16 @@ export function Sandbox({allow = {}} = {}) {
         applyNinePatches()
         applyMetrics()
 
-        const scene = createScene()
+        const scene = createScene(description)
 
-        scene.processors[0].program = PAINTER
-        scene.processors[1].program = COUNTER
-        scene.processors[2].program = PILOT
-        scene.processors[3].program = MARKER
-        for (const entry of scene.processors) attachProcessor(scene, entry, toText(entry.program))
+        // Программа, сохранённая с прошлого раза, важнее той, что записана в сцене
+        for (const entry of scene.processors) {
+            const saved = loadProgram(storage, entry.building.name)
+            if (saved !== null) entry.program = saved
+        }
+
+        // Программы приходят из описания сцены текстом mlog — тем же, что в игре
+        for (const entry of scene.processors) attachProcessor(scene, entry, entry.program)
 
         const atlas = new Image()
         atlas.src = atlasUrl
@@ -319,7 +333,7 @@ export function Sandbox({allow = {}} = {}) {
         terrain.src = terrainUrl
 
         const displayView = new DisplayView(displayCanvas.current, {
-            size: scene.display.spec.displaySize,
+            size: scene.display?.spec.displaySize ?? 80,
             pixelRatio: 4,
             atlas,
             sprites
@@ -338,7 +352,7 @@ export function Sandbox({allow = {}} = {}) {
             atlas,
             sprites,
             font: 'Mindustry',
-            displays: new Map([[scene.display, displayView.canvas]])
+            displays: scene.display === null ? new Map() : new Map([[scene.display, displayView.canvas]])
         })
 
         stand.current = {scene, worldView, displayView}
@@ -348,7 +362,7 @@ export function Sandbox({allow = {}} = {}) {
         document.fonts.add(font)
 
         const first = () => {
-            displayView.draw(scene.display)
+            if (scene.display !== null) displayView.draw(scene.display)
             worldView.draw({configured: null, cursor: cursorRef.current})
         }
 
@@ -390,18 +404,19 @@ export function Sandbox({allow = {}} = {}) {
                  * счётчик прыгал бы через восемь строк разом, и разглядеть ход было бы нельзя.
                  */
                 scene.world.step(delta * speed)
-                displayView.draw(scene.display)
+                if (scene.display !== null) displayView.draw(scene.display)
             } else {
                 pending += delta * speed
                 while (pending >= 1) {
                     scene.world.step()
                     // Дисплей вычерпывает очередь на каждом тике, как при отрисовке кадра
-                    displayView.draw(scene.display)
+                    if (scene.display !== null) displayView.draw(scene.display)
                     pending--
                 }
             }
 
             worldView.draw({configured: configuredRef.current, cursor: cursorRef.current})
+            checkObjectives(scene)
 
             // Значения переменных перечитываются раз в 15 тиков времени, как в игре
             /*
@@ -421,17 +436,37 @@ export function Sandbox({allow = {}} = {}) {
         return () => cancelAnimationFrame(frame)
     }, [running, power, ready, selected])
 
+    /*
+     * Цели выполнены — сообщаем один раз. Урок по этому сигналу отмечает шаг сделанным,
+     * а песочница на своей странице проп не передаёт и ничего не замечает.
+     */
+    const checkObjectives = (scene) => {
+        if (doneRef.current) return
+
+        const all = scene.world.objectives.all
+        if (all.length === 0 || !all.every(objective => objective.completed)) return
+
+        doneRef.current = true
+        onDone?.()
+
+        globalThis.dispatchEvent?.(new CustomEvent('mlog:done', {
+            detail: {storage, tick: scene.world.tick}
+        }))
+    }
+
     const redraw = () => {
         const {scene, displayView, worldView} = stand.current
 
-        displayView.draw(scene.display)
+        if (scene.display !== null) displayView.draw(scene.display)
         worldView.draw({configured: configuredRef.current, cursor: cursorRef.current})
+        checkObjectives(scene)
         setBeat(scene.world.tick + Math.random())
     }
 
     /** Программа поменялась: пересобираем именно этот процессор, остальные не трогаем. */
-    const rebuild = (entry) => (text, statements) => {
-        entry.program = statements
+    const rebuild = (entry) => (text) => {
+        entry.program = text
+        saveProgram(storage, entry.building.name, text)
         attachProcessor(stand.current.scene, entry, text)
         redraw()
     }
@@ -450,7 +485,7 @@ export function Sandbox({allow = {}} = {}) {
         setRunning(false)
         for (let i = 0; i < ticks; i++) {
             scene.world.step()
-            displayView.draw(scene.display)
+            if (scene.display !== null) displayView.draw(scene.display)
         }
         redraw()
     }
@@ -470,12 +505,14 @@ export function Sandbox({allow = {}} = {}) {
 
         for (let i = 0; i < target; i++) {
             scene.world.step()
-            displayView.draw(scene.display)
+            if (scene.display !== null) displayView.draw(scene.display)
         }
         redraw()
     }
 
     const reset = () => {
+        doneRef.current = false
+
         const {scene, displayView} = stand.current
 
         setRunning(false)
@@ -587,6 +624,19 @@ export function Sandbox({allow = {}} = {}) {
                     {rights.reset && (
                         <button class="game-button sandbox__button" title="Сбросить мир" onClick={reset}>
                             <Icon name="refresh-1" size={20} />
+                        </button>
+                    )}
+
+                    {rights.reset && storage !== null && (
+                        <button
+                            class="game-button sandbox__button"
+                            title="Вернуть исходные программы"
+                            onClick={() => {
+                                forgetPrograms(storage)
+                                globalThis.location?.reload()
+                            }}
+                        >
+                            <Icon name="trash" size={20} />
                         </button>
                     )}
 
@@ -785,13 +835,15 @@ export function Sandbox({allow = {}} = {}) {
 
             <div class="sandbox__side">
                 <div class="sandbox__row">
-                    <div>
+                    {/* Холст дисплея нужен ссылкой с первого кадра, поэтому он всегда
+                        в разметке: в сцене урока дисплея может не быть, и тогда он спрятан */}
+                    <div hidden={scene !== null && scene.display === null}>
                         <div class="sandbox__title">Дисплей</div>
                         <canvas class="sandbox__display" ref={displayCanvas} />
                     </div>
                     <div class="sandbox__panel">
                         <div class="sandbox__title">Блок сообщений</div>
-                        <div class="sandbox__message">{scene?.message.message || '—'}</div>
+                        <div class="sandbox__message">{scene?.message?.message || '—'}</div>
                         <div class="sandbox__meta">тик {Math.floor(scene?.world.tick ?? 0)}</div>
                     </div>
                 </div>
@@ -840,7 +892,7 @@ export function Sandbox({allow = {}} = {}) {
                     privileged={editingEntry.building.spec.privileged === true}
                     unitControl={scene.world.rules.get('logicUnitControl')}
                     allow={rights.instructions}
-                    initial={editingEntry.program}
+                    initial={fromText(editingEntry.program)}
                     onChange={rebuild(editingEntry)}
                     counter={highlight ? nextIndex(editingEntry.building.processor) : null}
                     onRestart={() => {

@@ -598,9 +598,13 @@ export function unpackColorBits(value) {
     ]
 }
 
-/** Тот же цвет, но из записи вида `#rrggbb`: непрозрачность добавляется полной. */
+/**
+ * Тот же цвет, но из записи вида `#rrggbb`: непрозрачность добавляется полной.
+ * Решётка необязательна — без неё раньше терялась первая цифра, и `84f491` становился
+ * `04f491`, что глазом не заметишь.
+ */
 export const packColorHex = (hex) => {
-    const value = parseInt(hex.slice(1), 16)
+    const value = parseInt(hex.replace('#', ''), 16)
     return packColorBits((value >> 16) & 0xff, (value >> 8) & 0xff, value & 0xff, 255)
 }
 
