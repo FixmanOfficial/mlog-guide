@@ -84,6 +84,14 @@ export function createScene() {
     // Контент миру нужен, чтобы `sensor @unit @type` отдавал @poly, а не строку
     const world = new World({width: 20, height: 11, content, floor: 'darksand'})
 
+    /*
+     * Песочница и есть песочница: `Gamemode.sandbox` ставит `infiniteResources`, а вместе
+     * с `instantBuild` это значит, что блок встаёт сразу и ничего не стоит. Оба правила
+     * игровые — считать стоимость постройки здесь было бы отсебятиной.
+     */
+    world.rules.set('infiniteResources', true)
+    world.rules.set('instantBuild', true)
+
     paintTerrain(world)
 
     const display = world.add('logic-display', {x: 15, y: 7})

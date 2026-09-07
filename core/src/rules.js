@@ -45,7 +45,15 @@ export const DEFAULT_RULES = {
 
     // Разрешено ли обычному процессору управлять юнитами. Выключенное правило убирает
     // всю категорию `unit` из меню добавления — но только у обычного процессора
-    logicUnitControl: true
+    logicUnitControl: true,
+
+    /*
+     * Режим песочницы. `Gamemode.sandbox` — это ровно `infiniteResources = true`:
+     * постройка не списывает ресурсы и ставится с любого расстояния. Вместе с
+     * `instantBuild` она ещё и мгновенна — `BuilderComp` проверяет оба правила сразу.
+     */
+    infiniteResources: false,
+    instantBuild: false
 }
 
 /**
