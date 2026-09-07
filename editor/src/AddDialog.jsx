@@ -39,7 +39,7 @@ export function AddDialog({onPick, onClose, privileged = false, unitControl = tr
 
     return (
         <Overlay onClose={onClose}>
-            <div class="dialog" onClick={(event) => event.stopPropagation()}>
+            <div class="dialog dialog--add" onClick={(event) => event.stopPropagation()}>
                 <div class="dialog__title">Добавить</div>
 
                 <div class="dialog__body">

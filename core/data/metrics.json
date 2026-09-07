@@ -2,6 +2,11 @@
   "gameVersion": "v159.7",
   "source": "core/src/mindustry/logic, core/src/mindustry/ui",
   "note": "Файл сгенерирован, править вручную нельзя. Все значения — литералы из исходников, снятые шаблонами с якорем по соседнему коду.",
+  "counts": [
+    "selectColumns",
+    "alignColumns",
+    "addColumns"
+  ],
   "metrics": {
     "canvasWidthNarrow": 400,
     "canvasWidth": 900,
@@ -37,6 +42,7 @@
     "addButtonWidth": 130,
     "addButtonHeight": 50,
     "addColumns": 3,
+    "addMaxHeight": 0.8,
     "dialogButtonWidth": 160,
     "dialogButtonHeight": 64,
     "editButtonWidth": 280,

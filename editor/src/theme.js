@@ -27,6 +27,12 @@ export const CATEGORY_COLORS = Object.fromEntries(Object.entries(schema.categori
 export const METRICS = metrics.metrics
 
 /**
+ * Метрики, которые считают штуки, а не пиксели: столбцы в сетках кнопок. Список приходит
+ * из генератора — он знает, что снял `% 3 == 0`, а не `size(3f)`.
+ */
+export const METRIC_COUNTS = new Set(metrics.counts ?? [])
+
+/**
  * Стрелки переходов белые, а не в цвет категории: JumpButton ставит себе Color.white
  * и переключается на Pal.place при наведении. LCanvas.java:598, Pal.java:85
  */
@@ -68,38 +74,13 @@ export const headerTextColor = (category) => categoryColor(category)
 export const BUTTON_COLOR = '#000000'
 
 /**
- * Имя инструкции в шапке. Игра берёт имя класса и разделяет слова пробелами
- * (`Strings.insertSpaces` в LStatement.name), поэтому PrintFlush становится «Print Flush».
+ * Имя инструкции в шапке. `LStatement.name`: имя класса без «Statement», пробел перед
+ * каждой заглавной — оттого `PrintFlush` показывается как «Print Flush», а `op` вовсе
+ * не «Op», а «Operation»: класс называется `OperationStatement`.
+ *
+ * Имена снимает генератор вместе со схемой. Держали список руками — он и разошёлся.
  */
 export function displayName(opcode) {
-    const special = {
-        printflush: 'Print Flush',
-        drawflush: 'Draw Flush',
-        printchar: 'Print Char',
-        getlink: 'Get Link',
-        packcolor: 'Pack Color',
-        unpackcolor: 'Unpack Color',
-        getblock: 'Get Block',
-        setblock: 'Set Block',
-        spawnwave: 'Spawn Wave',
-        setrule: 'Set Rule',
-        setrate: 'Set Rate',
-        getflag: 'Get Flag',
-        setflag: 'Set Flag',
-        setprop: 'Set Prop',
-        playsound: 'Play Sound',
-        playmusic: 'Play Music',
-        setmarker: 'Set Marker',
-        makemarker: 'Make Marker',
-        localeprint: 'Locale Print',
-        weathersense: 'Weather Sense',
-        weatherset: 'Weather Set',
-        clientdata: 'Client Data',
-        ubind: 'Unit Bind',
-        ucontrol: 'Unit Control',
-        uradar: 'Unit Radar',
-        ulocate: 'Unit Locate'
-    }
-
-    return special[opcode] ?? opcode.charAt(0).toUpperCase() + opcode.slice(1)
+    const found = schema.instructions.find(instruction => instruction.opcode === opcode)
+    return found?.name ?? opcode
 }

@@ -392,6 +392,13 @@ function parseCategories(root) {
     return categories
 }
 
+/** arc.util.Strings.insertSpaces: пробел ставится перед каждой заглавной, кроме первой. */
+function insertSpaces(text) {
+    return [...text].map((letter, index) =>
+        index > 0 && letter === letter.toUpperCase() && letter !== letter.toLowerCase()
+            ? ` ${letter}` : letter).join('')
+}
+
 function main() {
     const gameRoot = resolve(process.argv[2] ?? '../Mindustry')
     const source = join(gameRoot, 'core/src/mindustry/logic/LStatements.java')
@@ -493,6 +500,8 @@ function main() {
 
         instructions.push({
             opcode: entry.opcode,
+            // `LStatement.name`: имя класса без «Statement», пробел перед каждой заглавной
+            name: insertSpaces(className.replace('Statement', '')),
             category: entry.category === null
                 ? (classes.get(entry.parent)?.category?.[1] ?? 'unknown')
                 : entry.category[1],

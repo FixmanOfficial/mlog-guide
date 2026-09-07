@@ -8,12 +8,18 @@
  * Имена переводятся из `headerHeight` в `--m-header-height`.
  */
 
-import {METRICS} from './theme.js'
+import {METRICS, METRIC_COUNTS} from './theme.js'
 
 const dashed = (name) => name.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`)
 
-/** Доли — это доли, всё остальное пиксели. */
-const value = (number) => Number.isInteger(number) ? `${number}px` : String(number)
+/**
+ * Доли — это доли, счётчики — счётчики, всё остальное пиксели.
+ *
+ * Разница не косметическая: `repeat(3px, 130px)` — недопустимая запись, и вся сетка
+ * кнопок в меню добавления схлопывалась в один столбец.
+ */
+const value = (name, number) =>
+    METRIC_COUNTS.has(name) || !Number.isInteger(number) ? String(number) : `${number}px`
 
 let applied = false
 
@@ -21,7 +27,7 @@ export function applyMetrics(root = document.documentElement) {
     if (applied) return
 
     for (const [name, number] of Object.entries(METRICS)) {
-        root.style.setProperty(`--m-${dashed(name)}`, value(number))
+        root.style.setProperty(`--m-${dashed(name)}`, value(name, number))
     }
 
     applied = true

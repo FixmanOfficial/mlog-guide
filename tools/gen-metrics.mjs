@@ -60,11 +60,11 @@ const RECIPES = [
     // --- поля и меню выбора: LStatement ---
     {file: `${LOGIC}/LStatement.java`, names: ['selectCellWidth', 'selectCellHeight'],
         pattern: /t\.defaults\(\)\.size\((\d+)f,\s*(\d+)f\);\s*\n\s*\n?\s*for\(T p : values\)/},
-    {file: `${LOGIC}/LStatement.java`, names: ['selectColumns'],
+    {file: `${LOGIC}/LStatement.java`, names: ['selectColumns'], count: true,
         pattern: /showSelect\(b, values, current, getter, (\d+), c -> \{\}\)/},
     {file: `${LOGIC}/LStatement.java`, names: ['alignCellWidth', 'alignCellHeight'],
         pattern: /t\.defaults\(\)\.size\((\d+)f,\s*(\d+)f\);\s*\n\s*\n?\s*int i = 0;\s*\n\s*for\(String align/},
-    {file: `${LOGIC}/LStatement.java`, names: ['alignColumns'],
+    {file: `${LOGIC}/LStatement.java`, names: ['alignColumns'], count: true,
         pattern: /if \(\+\+i % (\d+) == 0\) t\.row\(\);/},
     {file: `${LOGIC}/LStatement.java`, names: ['pencilSize'],
         pattern: /\}, Styles\.logict, \(\) -> \{\}\)\.size\((\d+)f\)\.color\(t\.color\)/},
@@ -72,8 +72,10 @@ const RECIPES = [
     // --- меню добавления и таблица переменных: LogicDialog ---
     {file: `${LOGIC}/LogicDialog.java`, names: ['addButtonWidth', 'addButtonHeight'],
         pattern: /\.size\((\d+)f, (\d+)f\)\.self\(c -> tooltip\(c, "lst\./},
-    {file: `${LOGIC}/LogicDialog.java`, names: ['addColumns'],
+    {file: `${LOGIC}/LogicDialog.java`, names: ['addColumns'], count: true,
         pattern: /if\(cat\.getChildren\(\)\.size % (\d+) == 0\) cat\.row\(\);/},
+    {file: `${LOGIC}/LogicDialog.java`, names: ['addMaxHeight'],
+        pattern: /\}\)\.fill\(\)\.maxHeight\(Core\.graphics\.getHeight\(\) \* ([\d.]+)f\)/},
     {file: `${LOGIC}/LogicDialog.java`, names: ['dialogButtonWidth', 'dialogButtonHeight'],
         pattern: /buttons\.defaults\(\)\.size\((\d+)f, (\d+)f\);/},
     {file: `${LOGIC}/LogicDialog.java`, names: ['editButtonWidth', 'editButtonHeight'],
@@ -108,9 +110,10 @@ function main() {
     }
 
     const metrics = {}
+    const counts = []
     const failed = []
 
-    for (const {file, names, pattern} of RECIPES) {
+    for (const {file, names, pattern, count} of RECIPES) {
         let source
         try {
             source = read(file)
@@ -128,6 +131,9 @@ function main() {
 
         names.forEach((name, index) => {
             metrics[name] = Number(match[index + 1])
+
+            // Счётчик — это штуки, а не пиксели: столбцы в сетке кнопок, например
+            if (count === true) counts.push(name)
         })
     }
 
@@ -142,6 +148,8 @@ function main() {
         source: 'core/src/mindustry/logic, core/src/mindustry/ui',
         note: 'Файл сгенерирован, править вручную нельзя. Все значения — литералы из исходников, '
             + 'снятые шаблонами с якорем по соседнему коду.',
+        // Метрики-счётчики: у них нет единиц, и в CSS они идут без «px»
+        counts,
         metrics
     }, null, 2) + '\n')
 

@@ -611,11 +611,21 @@
     background: #4d4d4d;
 }
 
+/*
+ * Меню добавления шириной по содержимому: в игре это `table(...).fill()`, то есть три
+ * кнопки по 130 плюс отступы, а не окно во всю ширину экрана. Высота ограничена долей
+ * экрана — `maxHeight(Core.graphics.getHeight() * 0.8f)`.
+ */
+.dialog--add {
+    width: fit-content;
+    max-width: 92vw;
+    max-height: calc(var(--m-add-max-height, 0.8) * 100vh);
+}
+
 /* Три кнопки в ряд — LogicDialog.showAddDialog */
 .group__items {
     display: grid;
     grid-template-columns: repeat(var(--m-add-columns, 3), var(--m-add-button-width, 130px));
-    gap: 2px;
 }
 
 /*
@@ -631,7 +641,7 @@
     background: #000;
     color: var(--category);
     font: inherit;
-    text-align: left;
+    text-align: center;
     cursor: pointer;
 }
 

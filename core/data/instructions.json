@@ -678,6 +678,7 @@
   "instructions": [
     {
       "opcode": "noop",
+      "name": "Invalid",
       "category": "unknown",
       "privileged": false,
       "hidden": false,
@@ -691,6 +692,7 @@
     },
     {
       "opcode": "read",
+      "name": "Read",
       "category": "io",
       "privileged": false,
       "hidden": false,
@@ -748,6 +750,7 @@
     },
     {
       "opcode": "write",
+      "name": "Write",
       "category": "io",
       "privileged": false,
       "hidden": false,
@@ -805,6 +808,7 @@
     },
     {
       "opcode": "draw",
+      "name": "Draw",
       "category": "io",
       "privileged": false,
       "hidden": false,
@@ -1198,6 +1202,7 @@
     },
     {
       "opcode": "print",
+      "name": "Print",
       "category": "io",
       "privileged": false,
       "hidden": false,
@@ -1222,6 +1227,7 @@
     },
     {
       "opcode": "printchar",
+      "name": "Print Char",
       "category": "io",
       "privileged": false,
       "hidden": false,
@@ -1250,6 +1256,7 @@
     },
     {
       "opcode": "format",
+      "name": "Format",
       "category": "io",
       "privileged": false,
       "hidden": false,
@@ -1274,6 +1281,7 @@
     },
     {
       "opcode": "drawflush",
+      "name": "Draw Flush",
       "category": "block",
       "privileged": false,
       "hidden": false,
@@ -1302,6 +1310,7 @@
     },
     {
       "opcode": "printflush",
+      "name": "Print Flush",
       "category": "block",
       "privileged": false,
       "hidden": false,
@@ -1330,6 +1339,7 @@
     },
     {
       "opcode": "getlink",
+      "name": "Get Link",
       "category": "block",
       "privileged": false,
       "hidden": false,
@@ -1367,6 +1377,7 @@
     },
     {
       "opcode": "control",
+      "name": "Control",
       "category": "block",
       "privileged": false,
       "hidden": false,
@@ -1437,6 +1448,7 @@
     },
     {
       "opcode": "radar",
+      "name": "Radar",
       "category": "block",
       "privileged": false,
       "hidden": false,
@@ -1518,6 +1530,7 @@
     },
     {
       "opcode": "sensor",
+      "name": "Sensor",
       "category": "block",
       "privileged": false,
       "hidden": false,
@@ -1571,6 +1584,7 @@
     },
     {
       "opcode": "set",
+      "name": "Set",
       "category": "operation",
       "privileged": false,
       "hidden": false,
@@ -1608,6 +1622,7 @@
     },
     {
       "opcode": "op",
+      "name": "Operation",
       "category": "operation",
       "privileged": false,
       "hidden": false,
@@ -1667,6 +1682,7 @@
     },
     {
       "opcode": "select",
+      "name": "Select",
       "category": "operation",
       "privileged": false,
       "hidden": false,
@@ -1740,6 +1756,7 @@
     },
     {
       "opcode": "wait",
+      "name": "Wait",
       "category": "control",
       "privileged": false,
       "hidden": false,
@@ -1768,6 +1785,7 @@
     },
     {
       "opcode": "stop",
+      "name": "Stop",
       "category": "control",
       "privileged": false,
       "hidden": false,
@@ -1781,6 +1799,7 @@
     },
     {
       "opcode": "lookup",
+      "name": "Lookup",
       "category": "operation",
       "privileged": false,
       "hidden": false,
@@ -1828,6 +1847,7 @@
     },
     {
       "opcode": "packcolor",
+      "name": "Pack Color",
       "category": "operation",
       "privileged": false,
       "hidden": false,
@@ -1875,6 +1895,7 @@
     },
     {
       "opcode": "unpackcolor",
+      "name": "Unpack Color",
       "category": "operation",
       "privileged": false,
       "hidden": false,
@@ -1922,6 +1943,7 @@
     },
     {
       "opcode": "end",
+      "name": "End",
       "category": "control",
       "privileged": false,
       "hidden": false,
@@ -1935,6 +1957,7 @@
     },
     {
       "opcode": "jump",
+      "name": "Jump",
       "category": "control",
       "privileged": false,
       "hidden": false,
@@ -1975,6 +1998,7 @@
     },
     {
       "opcode": "ubind",
+      "name": "Unit Bind",
       "category": "unit",
       "privileged": false,
       "hidden": false,
@@ -2003,6 +2027,7 @@
     },
     {
       "opcode": "ucontrol",
+      "name": "Unit Control",
       "category": "unit",
       "privileged": false,
       "hidden": false,
@@ -2059,6 +2084,7 @@
     },
     {
       "opcode": "uradar",
+      "name": "Unit Radar",
       "category": "unit",
       "privileged": false,
       "hidden": false,
@@ -2140,6 +2166,7 @@
     },
     {
       "opcode": "ulocate",
+      "name": "Unit Locate",
       "category": "unit",
       "privileged": false,
       "hidden": false,
@@ -2248,6 +2275,7 @@
     },
     {
       "opcode": "query",
+      "name": "Query",
       "category": "world",
       "privileged": true,
       "hidden": false,
@@ -2361,6 +2389,7 @@
     },
     {
       "opcode": "getblock",
+      "name": "Get Block",
       "category": "world",
       "privileged": true,
       "hidden": false,
@@ -2417,6 +2446,7 @@
     },
     {
       "opcode": "setblock",
+      "name": "Set Block",
       "category": "world",
       "privileged": true,
       "hidden": false,
@@ -2507,6 +2537,7 @@
     },
     {
       "opcode": "spawn",
+      "name": "Spawn Unit",
       "category": "world",
       "privileged": true,
       "hidden": false,
@@ -2595,6 +2626,7 @@
     },
     {
       "opcode": "bullet",
+      "name": "Spawn Bullet",
       "category": "world",
       "privileged": true,
       "hidden": false,
@@ -2787,6 +2819,7 @@
     },
     {
       "opcode": "status",
+      "name": "Apply Status",
       "category": "world",
       "privileged": true,
       "hidden": false,
@@ -2833,6 +2866,7 @@
     },
     {
       "opcode": "weathersense",
+      "name": "Weather Sense",
       "category": "world",
       "privileged": true,
       "hidden": false,
@@ -2873,6 +2907,7 @@
     },
     {
       "opcode": "weatherset",
+      "name": "Weather Set",
       "category": "world",
       "privileged": true,
       "hidden": false,
@@ -2910,6 +2945,7 @@
     },
     {
       "opcode": "spawnwave",
+      "name": "Spawn Wave",
       "category": "world",
       "privileged": true,
       "hidden": false,
@@ -2952,6 +2988,7 @@
     },
     {
       "opcode": "setrule",
+      "name": "Set Rule",
       "category": "world",
       "privileged": true,
       "hidden": false,
@@ -3076,6 +3113,7 @@
     },
     {
       "opcode": "message",
+      "name": "Flush Message",
       "category": "world",
       "privileged": true,
       "hidden": false,
@@ -3127,6 +3165,7 @@
     },
     {
       "opcode": "cutscene",
+      "name": "Cutscene",
       "category": "world",
       "privileged": true,
       "hidden": false,
@@ -3192,6 +3231,7 @@
     },
     {
       "opcode": "effect",
+      "name": "Effect",
       "category": "world",
       "privileged": true,
       "hidden": false,
@@ -3278,6 +3318,7 @@
     },
     {
       "opcode": "explosion",
+      "name": "Explosion",
       "category": "world",
       "privileged": true,
       "hidden": false,
@@ -3416,6 +3457,7 @@
     },
     {
       "opcode": "setrate",
+      "name": "Set Rate",
       "category": "world",
       "privileged": true,
       "hidden": false,
@@ -3444,6 +3486,7 @@
     },
     {
       "opcode": "fetch",
+      "name": "Fetch",
       "category": "world",
       "privileged": true,
       "hidden": false,
@@ -3534,6 +3577,7 @@
     },
     {
       "opcode": "sync",
+      "name": "Sync",
       "category": "world",
       "privileged": true,
       "hidden": false,
@@ -3553,6 +3597,7 @@
     },
     {
       "opcode": "clientdata",
+      "name": "Client Data",
       "category": "world",
       "privileged": true,
       "hidden": true,
@@ -3595,6 +3640,7 @@
     },
     {
       "opcode": "getflag",
+      "name": "Get Flag",
       "category": "world",
       "privileged": true,
       "hidden": false,
@@ -3624,6 +3670,7 @@
     },
     {
       "opcode": "setflag",
+      "name": "Set Flag",
       "category": "world",
       "privileged": true,
       "hidden": false,
@@ -3653,6 +3700,7 @@
     },
     {
       "opcode": "setprop",
+      "name": "Set Prop",
       "category": "world",
       "privileged": true,
       "hidden": false,
@@ -3713,6 +3761,7 @@
     },
     {
       "opcode": "playsound",
+      "name": "Play Sound",
       "category": "world",
       "privileged": true,
       "hidden": false,
@@ -3778,6 +3827,7 @@
     },
     {
       "opcode": "playmusic",
+      "name": "Play Music",
       "category": "world",
       "privileged": true,
       "hidden": false,
@@ -3819,6 +3869,7 @@
     },
     {
       "opcode": "setmarker",
+      "name": "Set Marker",
       "category": "world",
       "privileged": true,
       "hidden": false,
@@ -3875,6 +3926,7 @@
     },
     {
       "opcode": "makemarker",
+      "name": "Make Marker",
       "category": "world",
       "privileged": true,
       "hidden": false,
@@ -3921,6 +3973,7 @@
     },
     {
       "opcode": "localeprint",
+      "name": "Locale Print",
       "category": "world",
       "privileged": true,
       "hidden": false,

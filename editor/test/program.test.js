@@ -13,6 +13,7 @@ import {
     createStatement, operations, toText, available, INSTRUCTIONS,
     visibleParams, SENSEABLE, CONTROLS, sanitize, targetIndex, fromText
 } from '../src/program.js'
+import {displayName} from '../src/theme.js'
 import {describeBody, referencedParams, CUSTOM_BODIES, DRAW_FIELDS, ALIGNS} from '../src/bodies.js'
 import {ENUMS} from '../src/program.js'
 
@@ -336,4 +337,14 @@ test('неизвестная инструкция превращается в no
     const back = fromText('set x 1\nчепуха 1 2\nprint x')
 
     assert.deepEqual(back.map(statement => statement.opcode), ['set', 'noop', 'print'])
+})
+
+test('имя инструкции берётся от класса игры, а не от опкода', () => {
+    const name = (opcode) => displayName(opcode)
+
+    // `op` — это `OperationStatement`, и в меню игры кнопка подписана «Operation»
+    assert.equal(name('op'), 'Operation')
+    assert.equal(name('ubind'), 'Unit Bind')
+    assert.equal(name('printflush'), 'Print Flush')
+    assert.equal(name('set'), 'Set')
 })
