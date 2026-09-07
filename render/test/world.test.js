@@ -189,3 +189,22 @@ test('у процессора мира круг дальности не рису
     map.drawLinks(world_)
     assert.equal(drawn.length, 1, 'привилегированному кругу дальности взяться неоткуда')
 })
+
+test('шаг тайла целый при любом увеличении экрана', () => {
+    const world = new World({width: 20, height: 11})
+    const saved = globalThis.devicePixelRatio
+
+    // Дробный шаг оставляет границы тайлов между физическими пикселями — это и была «сетка»
+    for (const ratio of [1, 1.25, 1.3333333730697632, 1.5, 2, 2.75]) {
+        globalThis.devicePixelRatio = ratio
+
+        const map = view(world, 40)
+        const step = map.tile * map.ratio
+
+        assert.equal(step, Math.round(step), `шаг ${step} при увеличении ${ratio}`)
+        assert.equal(map.canvas.width % world.width, 0)
+        assert.equal(map.canvas.height % world.height, 0)
+    }
+
+    globalThis.devicePixelRatio = saved
+})

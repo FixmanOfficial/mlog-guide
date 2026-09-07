@@ -104,12 +104,22 @@ export class WorldView {
     resize() {
         const ratio = globalThis.devicePixelRatio ?? 1
 
-        this.canvas.width = this.world.width * this.tile * ratio
-        this.canvas.height = this.world.height * this.tile * ratio
+        /*
+         * Шаг тайла округляется до целого, и масштаб подгоняется под него, а не наоборот.
+         *
+         * При системном увеличении экрана (1.25, 1.3333) шаг выходил дробным, границы тайлов
+         * попадали между физическими пикселями, и каждая превращалась в еле заметный шов.
+         * Из этих швов и складывалась «сетка» поверх местности — та самая, что осталась
+         * в памяти от времён, когда пола не было вовсе.
+         */
+        const step = Math.max(1, Math.round(this.tile * ratio))
+
+        this.ratio = step / this.tile
+
+        this.canvas.width = this.world.width * step
+        this.canvas.height = this.world.height * step
         this.canvas.style.width = `${this.world.width * this.tile}px`
         this.canvas.style.height = `${this.world.height * this.tile}px`
-
-        this.ratio = ratio
 
         /*
          * Сглаживание включено намеренно. На десктопе игра держит атлас с линейной
