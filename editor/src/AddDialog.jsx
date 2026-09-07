@@ -52,9 +52,9 @@ export function AddDialog({onPick, onClose, privileged = false, unitControl = tr
                             placeholder="Поиск"
                             autoFocus
                             onInput={(event) => setSearch(event.currentTarget.value)}
+                            /* Escape закрывает окно сам, через Overlay: закрывается верхнее */
                             onKeyDown={(event) => {
                                 if (event.key === 'Enter' && first !== null) onPick(first.opcode)
-                                if (event.key === 'Escape') onClose()
                             }}
                         />
                     </div>
