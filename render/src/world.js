@@ -44,7 +44,8 @@ export const PAL = {
     gray: '#454545',
     place: '#6335f8',
     accent: '#ffd37f',
-    remove: '#e55454'
+    remove: '#e55454',
+    breakInvalid: '#d44b3d'
 }
 
 /** Фон и сетка — наши: в игре тут местность, а её мы не моделируем. */
@@ -158,7 +159,7 @@ export class WorldView {
      *                   круг дальности и рамки связей (`Building.drawConfigure`), а сверху —
      *                   уголки выделения (`Drawf.selected`).
      */
-    draw({configured = null, hovered = null} = {}) {
+    draw({configured = null, cursor = null} = {}) {
         const context = this.context
 
         context.setTransform(1, 0, 0, 1, 0, 0)
@@ -181,8 +182,8 @@ export class WorldView {
             this.drawSelection(configured)
         }
 
-        // Уголки под курсором рисуются и без открытой настройки: `Drawf.selected`
-        if (hovered !== null && hovered !== configured) this.drawSelected(hovered)
+        // Курсор: призрак будущего блока или уголки на том, что сейчас снесут
+        if (cursor !== null) this.drawCursor(cursor)
     }
 
     /**
@@ -229,6 +230,58 @@ export class WorldView {
                 context.drawImage(sprite, -side / 2, -side / 2, side, side)
             })
         }
+    }
+
+/**
+     * Что рисуется под курсором. В игре это делает ввод, и делает ровно две вещи:
+     *
+     *  - с выбранным блоком показывает его **призрак** в клетке под курсором: спрайт,
+     *    подмешанный к белому на 0.24 с пульсацией, а на негодном месте — к `Pal.breakInvalid`
+     *    на 0.4 (`Block.drawPlan`);
+     *  - в режиме сноса обводит уголками `Pal.remove` то, что разберут (`drawBreakSelection`).
+     *
+     * Просто наведение курсора на здание не рисует ничего — уголки на нём были нашей выдумкой.
+     */
+    drawCursor({x, y, block = null, breaking = false}) {
+        if (breaking) {
+            const building = this.world.at(x, y)
+            if (this.world.canBreak?.(building)) this.drawSelected(building, PAL.remove)
+            return
+        }
+
+        if (block === null) return
+
+        const spec = BLOCK_SPECS[block]
+        if (spec === undefined) return
+
+        const sprite = this.sprite(block)
+        if (sprite === null) return
+
+        const valid = this.world.canPlace?.(block, x, y) ?? true
+
+        /*
+         * Mathf.absin(Time.globalTime, 6, 0.28): пульсация от времени мира, а не от часов
+         * браузера — иначе картинка перестала бы быть повторяемой.
+         */
+        const pulse = (Math.sin(this.world.tick / 6) * 0.28 + 0.28) / 2
+        const amount = (valid ? 0.24 : 0.4) + pulse
+
+        const tinted = this.tinted(
+            {image: sprite, width: sprite.width, height: sprite.height},
+            valid ? '#ffffff' : PAL.breakInvalid, amount)
+
+        // Центр блока считается от его сдвига: у чётного размера он приходится на угол тайла
+        const step = this.tile * this.ratio
+        const offset = ((spec.size + 1) % 2) * 0.5
+
+        const cx = (x + offset + 0.5) * step
+        const cy = (this.world.height - y - offset - 0.5) * step
+
+        const entry = this.blockSprites?.sprites?.[block]
+        const width = (entry === undefined ? spec.size * TILE_UNITS : entry.width / SPRITE_SCALE) * this.unit
+        const height = (entry === undefined ? spec.size * TILE_UNITS : entry.height / SPRITE_SCALE) * this.unit
+
+        this.context.drawImage(tinted ?? sprite, cx - width / 2, cy - height / 2, width, height)
     }
 
     /**

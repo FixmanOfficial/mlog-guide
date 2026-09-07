@@ -143,6 +143,10 @@ export function Sandbox({allow = {}} = {}) {
         blockRef.current = next
         breakingRef.current = false
 
+        if (cursorRef.current !== null) {
+            cursorRef.current = {...cursorRef.current, block: next, breaking: false}
+        }
+
         setBlock(next)
         setBreaking(false)
     }
@@ -150,6 +154,10 @@ export function Sandbox({allow = {}} = {}) {
     const toggleBreaking = () => {
         breakingRef.current = !breakingRef.current
         blockRef.current = null
+
+        if (cursorRef.current !== null) {
+            cursorRef.current = {...cursorRef.current, block: null, breaking: breakingRef.current}
+        }
 
         setBreaking(breakingRef.current)
         setBlock(null)
@@ -230,6 +238,9 @@ export function Sandbox({allow = {}} = {}) {
     // Цикл отрисовки живёт вне состояния, поэтому наведённое и настраиваемое нужны ссылкой
     const hoveredRef = useRef(null)
     const configuredRef = useRef(null)
+
+    // Что показывать под курсором: клетка, выбранный блок и режим сноса
+    const cursorRef = useRef(null)
     configuredRef.current = configured
 
     /*
@@ -338,7 +349,7 @@ export function Sandbox({allow = {}} = {}) {
 
         const first = () => {
             displayView.draw(scene.display)
-            worldView.draw({configured: null, hovered: hoveredRef.current})
+            worldView.draw({configured: null, cursor: cursorRef.current})
         }
 
         // decode вместо события load: картинка из кеша успевает загрузиться раньше подписки,
@@ -390,7 +401,7 @@ export function Sandbox({allow = {}} = {}) {
                 }
             }
 
-            worldView.draw({configured: configuredRef.current, hovered: hoveredRef.current})
+            worldView.draw({configured: configuredRef.current, cursor: cursorRef.current})
 
             // Значения переменных перечитываются раз в 15 тиков времени, как в игре
             /*
@@ -414,7 +425,7 @@ export function Sandbox({allow = {}} = {}) {
         const {scene, displayView, worldView} = stand.current
 
         displayView.draw(scene.display)
-        worldView.draw({configured: configuredRef.current, hovered: hoveredRef.current})
+        worldView.draw({configured: configuredRef.current, cursor: cursorRef.current})
         setBeat(scene.world.tick + Math.random())
     }
 
@@ -488,20 +499,20 @@ export function Sandbox({allow = {}} = {}) {
         // Режим сноса: щелчок разбирает то, что под курсором. MobileInput.mode == breaking
         if (breakingRef.current && rights.build) {
             breakBuilding(building)
-            worldView.draw({configured: null, hovered: hoveredRef.current})
+            worldView.draw({configured: null, cursor: cursorRef.current})
             return
         }
 
         // Выбран блок — щелчок ставит его, как в игре: разбирать настройку уже не нужно
         if (blockRef.current !== null && rights.build) {
             placeBlock(blockRef.current, spot)
-            worldView.draw({configured: configuredRef.current, hovered: hoveredRef.current})
+            worldView.draw({configured: configuredRef.current, cursor: cursorRef.current})
             return
         }
 
         if (building === undefined) {
             hideConfig()
-            worldView.draw({configured: null, hovered: hoveredRef.current})
+            worldView.draw({configured: null, cursor: cursorRef.current})
             return
         }
 
@@ -509,7 +520,7 @@ export function Sandbox({allow = {}} = {}) {
         if (index !== -1) {
             setSelected(index)
             setConfigured(building)
-            worldView.draw({configured: building})
+            worldView.draw({configured: building, cursor: cursorRef.current})
             return
         }
 
@@ -518,26 +529,26 @@ export function Sandbox({allow = {}} = {}) {
         if (building === scene.toggle) {
             building.enabled = !building.enabled
             hideConfig()
-            worldView.draw({configured: null, hovered: hoveredRef.current})
+            worldView.draw({configured: null, cursor: cursorRef.current})
             return
         }
 
         if (building === scene.door) {
             building.tap()
             hideConfig()
-            worldView.draw({configured: null, hovered: hoveredRef.current})
+            worldView.draw({configured: null, cursor: cursorRef.current})
             return
         }
 
         // У сообщения и памяти есть что настраивать — показываем ряд, как в игре
         if (CONFIGURABLE.has(building.type)) {
             setConfigured(building)
-            worldView.draw({configured: building})
+            worldView.draw({configured: building, cursor: cursorRef.current})
             return
         }
 
         hideConfig()
-        worldView.draw({configured: null, hovered: hoveredRef.current})
+        worldView.draw({configured: null, cursor: cursorRef.current})
     }
 
     /** BlockConfigFragment.hideConfig: ряд сжимается за 0.06 секунды и только затем исчезает. */
@@ -664,10 +675,17 @@ export function Sandbox({allow = {}} = {}) {
                             setHover(spot)
                             hoveredRef.current = stand.current.scene.world.at(spot.x, spot.y) ?? null
                             setHoveredBuilding(hoveredRef.current)
+
+                            cursorRef.current = rights.build
+                                ? {...spot, block: blockRef.current, breaking: breakingRef.current}
+                                : null
+
+                            view.draw({configured: configuredRef.current, cursor: cursorRef.current})
                         }}
                         onMouseLeave={() => {
                             setHover(null)
                             hoveredRef.current = null
+                            cursorRef.current = null
                             setHoveredBuilding(null)
                         }}
                         onContextMenu={(event) => {
@@ -689,7 +707,7 @@ export function Sandbox({allow = {}} = {}) {
                             }
 
                             breakBuilding(building)
-                            worldView.draw({configured: null, hovered: hoveredRef.current})
+                            worldView.draw({configured: null, cursor: cursorRef.current})
                         }}
                     />
 
