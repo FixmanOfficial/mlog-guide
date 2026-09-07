@@ -331,3 +331,15 @@ test('постройка проверяет место и считается д�
     assert.equal(map.stats.getPlaced('router'), 2)
     assert.equal(objective.completed, true)
 })
+
+test('поворот хранится у вращаемого блока и виден sensor', () => {
+    const map = world()
+
+    const conveyor = map.place('conveyor', 4, 4, {rotation: 2})
+    const router = map.place('router', 6, 4, {rotation: 2})
+
+    assert.equal(conveyor.sense('rotation'), 2)
+
+    // У невращаемого блока поворот всё равно есть — и всё равно ноль
+    assert.equal(router.sense('rotation'), 0)
+})

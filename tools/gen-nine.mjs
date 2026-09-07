@@ -17,7 +17,14 @@ import {join, resolve} from 'node:path'
 import {decodePng} from './png.mjs'
 
 /** Спрайты, по которым сверстан интерфейс. */
-const WANTED = ['button', 'pane', 'pane-solid', 'white-pane']
+const WANTED = [
+    'button', 'pane', 'pane-solid', 'white-pane',
+
+    // Панель строительства: `Tex.pane2` под сеткой блоков, `Tex.buttonEdge2` под
+    // заголовком, `buttonSelect` — рамка выбранного блока (`Styles.selecti`),
+    // `flat-down-base` — фон нажатой и выбранной кнопки (`Styles.flatDown`)
+    'pane-2', 'button-edge-2', 'button-select', 'flat-down-base'
+]
 
 const hex = (channel) => channel.toString(16).padStart(2, '0')
 

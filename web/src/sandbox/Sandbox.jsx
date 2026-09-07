@@ -12,6 +12,7 @@ import {
     GlobalsDialog, LogicDialog, applyEasings, applyMetrics, applyNinePatches, toText
 } from '@mlog/editor'
 import {Icon} from '@mlog/editor/src/Icon.jsx'
+import {mod} from '@mlog/core/src/arc.js'
 import {DisplayView} from '@mlog/render/src/display.js'
 import {WorldView} from '@mlog/render/src/world.js'
 
@@ -125,6 +126,10 @@ export function Sandbox({allow = {}} = {}) {
     // Здание под курсором: панель показывает его состояние, а мир — уголки выделения
     const [hoveredBuilding, setHoveredBuilding] = useState(null)
 
+    // Режим сноса и поворот будущего блока: `MobileInput.mode` и `rotation`
+    const [breaking, setBreaking] = useState(false)
+    const [rotation, setRotation] = useState(0)
+
     // Скорость степенями двойки от 1/256 до 256, как в моде time control:
     // в игре такого нет, но без этого пошаговый разбор превращается в пытку
     const [power, setPower] = useState(0)
@@ -151,6 +156,28 @@ export function Sandbox({allow = {}} = {}) {
     const hoveredRef = useRef(null)
     const configuredRef = useRef(null)
     configuredRef.current = configured
+
+    /*
+     * Поворот будущего блока — `Binding.rotatePlaced`, по умолчанию R. В игре крутится
+     * ещё и колесом (`Binding.rotate` — ось), но колесо на странице листает статью.
+     */
+    useEffect(() => {
+        const onKey = (event) => {
+            if (event.key !== 'r' && event.key !== 'R' && event.key !== 'к' && event.key !== 'К') return
+            if (event.ctrlKey || event.metaKey || event.altKey) return
+
+            const active = document.activeElement
+            const typing = active !== null && (active.tagName === 'INPUT'
+                || active.tagName === 'TEXTAREA' || active.isContentEditable)
+
+            if (typing || document.querySelector('.overlay') !== null) return
+
+            setRotation(current => mod(current + 1, 4))
+        }
+
+        window.addEventListener('keydown', onKey)
+        return () => window.removeEventListener('keydown', onKey)
+    }, [])
 
     /*
      * Клавиша, скрывающая интерфейс. В игре это `Binding.toggleMenus`, по умолчанию C,
@@ -383,9 +410,22 @@ export function Sandbox({allow = {}} = {}) {
         const spot = worldView.at(event.clientX - box.left, event.clientY - box.top)
         const building = scene.world.at(spot.x, spot.y)
 
+        // Режим сноса: щелчок разбирает то, что под курсором. MobileInput.mode == breaking
+        if (breaking && rights.build) {
+            if (building !== undefined && building.spec.breakable !== false) {
+                hideConfig()
+                scene.world.remove(building)
+            }
+
+            worldView.draw({configured: null, hovered: hoveredRef.current})
+            return
+        }
+
         // Выбран блок — щелчок ставит его, как в игре: разбирать настройку уже не нужно
         if (block !== null && rights.build) {
-            scene.world.place(block, spot.x, spot.y, {team: scene.world.rules.defaultTeam})
+            scene.world.place(block, spot.x, spot.y, {
+                team: scene.world.rules.defaultTeam, rotation
+            })
             worldView.draw({configured: configuredRef.current, hovered: hoveredRef.current})
             return
         }
@@ -571,6 +611,15 @@ export function Sandbox({allow = {}} = {}) {
 
                             const building = scene.world.at(spot.x, spot.y)
                             if (!rights.build) return
+
+                            // `Binding.deselect` и `Binding.breakBlock` — обе на правой
+                            // кнопке: сперва она снимает выбранный блок, и лишь потом сносит
+                            if (block !== null || breaking) {
+                                setBlock(null)
+                                setBreaking(false)
+                                return
+                            }
+
                             if (building === undefined || building.spec.breakable === false) return
 
                             hideConfig()
@@ -588,8 +637,19 @@ export function Sandbox({allow = {}} = {}) {
                             beat={beat}
                             hover={hover}
                             block={rights.build ? block : null}
-                            onBlock={rights.build ? setBlock : () => {}}
+                            onBlock={rights.build ? (next) => {
+                                setBlock(next)
+                                setBreaking(false)
+                            } : () => {}}
                             showBuild={rights.build}
+                            rotation={rotation}
+                            breaking={breaking}
+                            onBreak={() => {
+                                // MobileInput: молот включает снос и снимает выбранный блок
+                                setBreaking(!breaking)
+                                setBlock(null)
+                            }}
+                            onRotate={() => setRotation(mod(rotation + 1, 4))}
                             building={hoveredBuilding}
                         />
                     )}

@@ -534,8 +534,9 @@
 }
 
 /*
- * Панель строительства: правый нижний угол. `PlacementFragment` кладёт сетку блоков слева,
- * колонку категорий справа, а над ними — название блока под курсором и его стоимость.
+ * Панель строительства. Все рамки и заливки — девятипатчи игры: заголовок в `Tex.buttonEdge2`,
+ * сетка в `Tex.pane2`, рамка выбранного блока — `button-select` (`Styles.selecti`),
+ * выбранная категория — `flat-down-base` (`Styles.flatDown`), обычная — чёрный на 0.6.
  */
 .hud__corner--bottom {
     right: 0;
@@ -546,87 +547,46 @@
 .build {
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
+    align-items: stretch;
     pointer-events: auto;
-}
-
-.build__top {
-    width: 100%;
-    padding: 4px 6px;
-    background: rgb(0 0 0 / 0.6);
     font-size: 13px;
 }
 
-.build__name {
-    color: #ffd37f;
+.build__top {
+    padding: 5px;
+    background: var(--button-edge-2-fill, rgb(0 0 0 / 0.6));
+    border: var(--button-edge-2-border, 4px) solid var(--button-edge-2-frame, #454545);
+    border-bottom: none;
 }
 
-.build__cost {
-    display: flex;
-    gap: 8px;
-    margin-top: 2px;
-    color: #bfbfbf;
-}
-
-.build__stack {
-    display: flex;
-    align-items: center;
-    gap: 3px;
-}
-
-.build__body {
-    display: flex;
-    align-items: flex-end;
-    background: rgb(0 0 0 / 0.6);
-}
-
-.build__blocks {
-    display: grid;
-    max-height: 220px;
-    overflow-y: auto;
-}
-
-.build__block,
-.build__category {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    background: transparent;
-    color: #e6e6e6;
-    cursor: pointer;
-}
-
-/* Styles.selecti: выбранная кнопка подсвечивается Pal.accent */
-.build__block:hover,
-.build__category:hover {
-    background: rgb(255 255 255 / 0.12);
-}
-
-.build__block--on,
-.build__category--on {
-    background: rgb(255 211 127 / 0.3);
-}
-
-.build__categories {
-    display: grid;
-    background: rgb(0 0 0 / 0.4);
-}
-
-/* Подсказка про клавишу живёт вне HUD: её видно как раз тогда, когда HUD скрыт */
-.hud__hint {
-    position: absolute;
-    z-index: 2;
-    padding: 8px;
-    background: rgb(0 0 0 / 0.6);
-    pointer-events: none;
-}
-
-/* Верхняя таблица панели: заголовок с иконкой и строки требований — PlacementFragment */
 .build__header {
     display: flex;
-    align-items: center;
-    gap: 5px;
+    align-items: flex-start;
+}
+
+.build__title {
+    display: flex;
+    flex-direction: column;
+}
+
+.build__name {
+    color: #ffffff;
+}
+
+/* placement.blockselectkeys — подсказка набирается серым */
+.build__keys {
+    color: #bfbfbf;
+    font-size: 12px;
+}
+
+/* Styles.flatBordert: фон `Tex.pane`, текст белый */
+.build__info {
+    margin: -5px -5px 0 auto;
+    background: var(--pane-fill, rgb(0 0 0 / 0.6));
+    border: var(--pane-border, 4px) solid var(--pane-frame, #454545);
+    color: #ffffff;
+    font: inherit;
+    cursor: default;
 }
 
 .build__requirements {
@@ -643,8 +603,11 @@
 }
 
 .build__item {
+    overflow: hidden;
     color: #bfbfbf;
     margin-right: 5px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .build__amount {
@@ -672,4 +635,85 @@
     justify-content: center;
     font-size: 12px;
     text-shadow: 0 0 3px #000;
+}
+
+.build__body {
+    display: flex;
+    align-items: flex-end;
+}
+
+/* Tex.pane2 вокруг сетки и ряда кнопок */
+.build__select {
+    display: flex;
+    flex-direction: column;
+    background: var(--pane-2-fill, rgb(0 0 0 / 0.6));
+    border: var(--pane-2-border, 4px) solid var(--pane-2-frame, #454545);
+}
+
+.build__blocks {
+    display: grid;
+    overflow-y: auto;
+}
+
+/* Линия под сеткой — Pal.gray во всю ширину */
+.build__line {
+    background: #454545;
+}
+
+.build__row {
+    display: flex;
+}
+
+.build__block,
+.build__category,
+.build__tool {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    color: #e6e6e6;
+    cursor: pointer;
+}
+
+/* Styles.flatOver: наведение красит фон в #454545 */
+.build__block:hover,
+.build__tool:hover:not(:disabled),
+.build__category:hover {
+    background: #454545;
+}
+
+/* Styles.selecti: у выбранного блока фон не меняется, вокруг встаёт рамка button-select */
+.build__block--on {
+    box-shadow: inset 0 0 0 var(--button-select-border, 4px) var(--button-select-frame, #ffd37f);
+}
+
+/* Styles.clearTogglei: обычная категория на чёрном 0.6, выбранная — flatDown */
+.build__category {
+    background: rgb(0 0 0 / 0.6);
+}
+
+.build__category--on,
+.build__tool--on {
+    background: var(--flat-down-base-fill, #000000);
+    box-shadow: inset 0 0 0 var(--flat-down-base-border, 4px) var(--flat-down-base-frame, #ffd37f);
+}
+
+/* Styles.clearNoneTogglei: у ряда под сеткой фона нет вовсе */
+.build__tool {
+    background: transparent;
+}
+
+.build__tool:disabled {
+    color: #7f7f7f;
+    cursor: default;
+}
+
+.build__arrow {
+    display: flex;
+}
+
+.build__categories {
+    display: grid;
+    align-content: end;
 }

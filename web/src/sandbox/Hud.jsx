@@ -47,7 +47,8 @@ function currentMessage(world) {
 }
 
 export function Hud({world, beat, hover = null, block = null, onBlock = () => {},
-    building = null, showBuild = true}) {
+    building = null, showBuild = true, rotation = 0, breaking = false,
+    onBreak = () => {}, onRotate = () => {}}) {
     const lines = statusLines(world)
     const message = currentMessage(world)
 
@@ -64,7 +65,15 @@ export function Hud({world, beat, hover = null, block = null, onBlock = () => {}
 
             {showBuild && (
                 <div class="hud__corner hud__corner--bottom">
-                    <BuildPanel selected={block} onSelect={onBlock} building={building} />
+                    <BuildPanel
+                        selected={block}
+                        onSelect={onBlock}
+                        building={building}
+                        rotation={rotation}
+                        breaking={breaking}
+                        onBreak={onBreak}
+                        onRotate={onRotate}
+                    />
                 </div>
             )}
             {lines.length > 0 && (

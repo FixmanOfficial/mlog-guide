@@ -1,0 +1,426 @@
+{
+  "gameVersion": "v159.7",
+  "source": "core/src/mindustry/input/Binding.java",
+  "note": "Файл сгенерирован, править вручную нельзя. Имя привязки — ключ строки в бандлах (`keybind.<имя>.name`), а без клавиши идут те, что игра оставила непривязанными.",
+  "bindings": {
+    "move_x": {
+      "field": "moveX",
+      "category": "general",
+      "axis": [
+        "a",
+        "d"
+      ]
+    },
+    "move_y": {
+      "field": "moveY",
+      "category": "general",
+      "axis": [
+        "s",
+        "w"
+      ]
+    },
+    "mouse_move": {
+      "field": "mouseMove",
+      "category": "general",
+      "key": "mouseBack"
+    },
+    "pan": {
+      "field": "pan",
+      "category": "general",
+      "key": "mouseForward"
+    },
+    "boost": {
+      "field": "boost",
+      "category": "general",
+      "key": "shiftLeft"
+    },
+    "respawn": {
+      "field": "respawn",
+      "category": "general",
+      "key": "v"
+    },
+    "control": {
+      "field": "control",
+      "category": "general",
+      "key": "controlLeft"
+    },
+    "select": {
+      "field": "select",
+      "category": "general",
+      "key": "mouseLeft"
+    },
+    "deselect": {
+      "field": "deselect",
+      "category": "general",
+      "key": "mouseRight"
+    },
+    "break_block": {
+      "field": "breakBlock",
+      "category": "general",
+      "key": "mouseRight"
+    },
+    "pickupCargo": {
+      "field": "pickupCargo",
+      "category": "general",
+      "key": "leftBracket"
+    },
+    "dropCargo": {
+      "field": "dropCargo",
+      "category": "general",
+      "key": "rightBracket"
+    },
+    "clear_building": {
+      "field": "clearBuilding",
+      "category": "general",
+      "key": "q"
+    },
+    "pause_building": {
+      "field": "pauseBuilding",
+      "category": "general",
+      "key": "e"
+    },
+    "rotate": {
+      "field": "rotate",
+      "category": "general"
+    },
+    "rotateplaced": {
+      "field": "rotatePlaced",
+      "category": "general",
+      "key": "r"
+    },
+    "diagonal_placement": {
+      "field": "diagonalPlacement",
+      "category": "general",
+      "key": "controlLeft"
+    },
+    "pick": {
+      "field": "pick",
+      "category": "general",
+      "key": "mouseMiddle"
+    },
+    "ping": {
+      "field": "ping",
+      "category": "general",
+      "key": "p"
+    },
+    "rebuild_select": {
+      "field": "rebuildSelect",
+      "category": "general",
+      "key": "b"
+    },
+    "schematic_select": {
+      "field": "schematicSelect",
+      "category": "general",
+      "key": "f"
+    },
+    "schematic_flip_x": {
+      "field": "schematicFlipX",
+      "category": "general",
+      "key": "z"
+    },
+    "schematic_flip_y": {
+      "field": "schematicFlipY",
+      "category": "general",
+      "key": "x"
+    },
+    "schematic_menu": {
+      "field": "schematicMenu",
+      "category": "general",
+      "key": "t"
+    },
+    "command_mode": {
+      "field": "commandMode",
+      "category": "command",
+      "key": "shiftLeft"
+    },
+    "command_queue": {
+      "field": "commandQueue",
+      "category": "command",
+      "key": "mouseMiddle"
+    },
+    "create_control_group": {
+      "field": "createControlGroup",
+      "category": "command",
+      "key": "controlLeft"
+    },
+    "select_all_units": {
+      "field": "selectAllUnits",
+      "category": "command",
+      "key": "g"
+    },
+    "select_all_unit_factories": {
+      "field": "selectAllUnitFactories",
+      "category": "command",
+      "key": "h"
+    },
+    "select_all_unit_transport": {
+      "field": "selectAllUnitTransport",
+      "category": "command"
+    },
+    "select_across_screen": {
+      "field": "selectAcrossScreen",
+      "category": "command",
+      "key": "altLeft"
+    },
+    "cancel_orders": {
+      "field": "cancelOrders",
+      "category": "command"
+    },
+    "unit_stance_hold_fire": {
+      "field": "unitStanceHoldFire",
+      "category": "command"
+    },
+    "unit_stance_pursue_target": {
+      "field": "unitStancePursueTarget",
+      "category": "command"
+    },
+    "unit_stance_patrol": {
+      "field": "unitStancePatrol",
+      "category": "command"
+    },
+    "unit_stance_ram": {
+      "field": "unitStanceRam",
+      "category": "command"
+    },
+    "unit_stance_boost": {
+      "field": "unitStanceBoost",
+      "category": "command"
+    },
+    "unit_stance_hold_position": {
+      "field": "unitStanceHoldPosition",
+      "category": "command"
+    },
+    "unit_command_move": {
+      "field": "unitCommandMove",
+      "category": "command"
+    },
+    "unit_command_repair": {
+      "field": "unitCommandRepair",
+      "category": "command"
+    },
+    "unit_command_rebuild": {
+      "field": "unitCommandRebuild",
+      "category": "command"
+    },
+    "unit_command_assist": {
+      "field": "unitCommandAssist",
+      "category": "command"
+    },
+    "unit_command_mine": {
+      "field": "unitCommandMine",
+      "category": "command"
+    },
+    "unit_command_enter_payload": {
+      "field": "unitCommandEnterPayload",
+      "category": "command"
+    },
+    "unit_command_load_units": {
+      "field": "unitCommandLoadUnits",
+      "category": "command"
+    },
+    "unit_command_load_blocks": {
+      "field": "unitCommandLoadBlocks",
+      "category": "command"
+    },
+    "unit_command_unload_payload": {
+      "field": "unitCommandUnloadPayload",
+      "category": "command"
+    },
+    "unit_command_loop_payload": {
+      "field": "unitCommandLoopPayload",
+      "category": "command"
+    },
+    "category_prev": {
+      "field": "categoryPrev",
+      "category": "blocks",
+      "key": "comma"
+    },
+    "category_next": {
+      "field": "categoryNext",
+      "category": "blocks",
+      "key": "period"
+    },
+    "block_select_left": {
+      "field": "blockSelectLeft",
+      "category": "blocks",
+      "key": "left"
+    },
+    "block_select_right": {
+      "field": "blockSelectRight",
+      "category": "blocks",
+      "key": "right"
+    },
+    "block_select_up": {
+      "field": "blockSelectUp",
+      "category": "blocks",
+      "key": "up"
+    },
+    "block_select_down": {
+      "field": "blockSelectDown",
+      "category": "blocks",
+      "key": "down"
+    },
+    "block_select_01": {
+      "field": "blockSelect01",
+      "category": "blocks",
+      "key": "num1"
+    },
+    "block_select_02": {
+      "field": "blockSelect02",
+      "category": "blocks",
+      "key": "num2"
+    },
+    "block_select_03": {
+      "field": "blockSelect03",
+      "category": "blocks",
+      "key": "num3"
+    },
+    "block_select_04": {
+      "field": "blockSelect04",
+      "category": "blocks",
+      "key": "num4"
+    },
+    "block_select_05": {
+      "field": "blockSelect05",
+      "category": "blocks",
+      "key": "num5"
+    },
+    "block_select_06": {
+      "field": "blockSelect06",
+      "category": "blocks",
+      "key": "num6"
+    },
+    "block_select_07": {
+      "field": "blockSelect07",
+      "category": "blocks",
+      "key": "num7"
+    },
+    "block_select_08": {
+      "field": "blockSelect08",
+      "category": "blocks",
+      "key": "num8"
+    },
+    "block_select_09": {
+      "field": "blockSelect09",
+      "category": "blocks",
+      "key": "num9"
+    },
+    "block_select_10": {
+      "field": "blockSelect10",
+      "category": "blocks",
+      "key": "num0"
+    },
+    "zoom": {
+      "field": "zoom",
+      "category": "blocks"
+    },
+    "detach_camera": {
+      "field": "detachCamera",
+      "category": "blocks"
+    },
+    "teleport_cursor": {
+      "field": "teleportCursor",
+      "category": "blocks"
+    },
+    "menu": {
+      "field": "menu",
+      "category": "blocks"
+    },
+    "fullscreen": {
+      "field": "fullscreen",
+      "category": "blocks",
+      "key": "f11"
+    },
+    "pause": {
+      "field": "pause",
+      "category": "blocks",
+      "key": "space"
+    },
+    "skip_wave": {
+      "field": "skipWave",
+      "category": "blocks"
+    },
+    "minimap": {
+      "field": "minimap",
+      "category": "blocks",
+      "key": "m"
+    },
+    "research": {
+      "field": "research",
+      "category": "blocks",
+      "key": "j"
+    },
+    "planet_map": {
+      "field": "planetMap",
+      "category": "blocks",
+      "key": "n"
+    },
+    "block_info": {
+      "field": "blockInfo",
+      "category": "blocks",
+      "key": "f1"
+    },
+    "toggle_menus": {
+      "field": "toggleMenus",
+      "category": "blocks",
+      "key": "c"
+    },
+    "screenshot": {
+      "field": "screenshot",
+      "category": "blocks",
+      "key": "f12"
+    },
+    "toggle_power_lines": {
+      "field": "togglePowerLines",
+      "category": "blocks",
+      "key": "f5"
+    },
+    "toggle_block_status": {
+      "field": "toggleBlockStatus",
+      "category": "blocks",
+      "key": "f6"
+    },
+    "player_list": {
+      "field": "playerList",
+      "category": "multiplayer",
+      "key": "tab"
+    },
+    "chat": {
+      "field": "chat",
+      "category": "multiplayer",
+      "key": "enter"
+    },
+    "chat_history_prev": {
+      "field": "chatHistoryPrev",
+      "category": "multiplayer",
+      "key": "up"
+    },
+    "chat_history_next": {
+      "field": "chatHistoryNext",
+      "category": "multiplayer",
+      "key": "down"
+    },
+    "chat_scroll": {
+      "field": "chatScroll",
+      "category": "multiplayer"
+    },
+    "chat_mode": {
+      "field": "chatMode",
+      "category": "multiplayer",
+      "key": "tab"
+    },
+    "console": {
+      "field": "console",
+      "category": "multiplayer",
+      "key": "f8"
+    },
+    "debug_hitboxes": {
+      "field": "debugHitboxes",
+      "category": "multiplayer"
+    },
+    "performance_metrics": {
+      "field": "performanceMetrics",
+      "category": "multiplayer"
+    }
+  }
+}

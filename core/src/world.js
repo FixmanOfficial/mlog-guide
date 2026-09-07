@@ -64,6 +64,9 @@ export class Building {
         this.health = options.health ?? this.maxHealth
         this.enabled = options.enabled ?? true
         this.efficiency = options.efficiency ?? 1
+
+        // Поворот: у невращаемого блока он всё равно есть и всё равно ноль. BuildingComp
+        this.rotation = spec.rotate === true ? (options.rotation ?? 0) : 0
         this.config = null
         this.spec = spec
 
@@ -72,7 +75,10 @@ export class Building {
 
         // Каким здание было при постановке. Нужно перемотке: симуляция детерминированная,
         // поэтому «назад на N тиков» — это сброс и прогон вперёд, а не хранение истории
-        this.initial = {health: this.health, enabled: this.enabled, efficiency: this.efficiency}
+        this.initial = {
+            health: this.health, enabled: this.enabled,
+            efficiency: this.efficiency, rotation: this.rotation
+        }
     }
 
     /** Сколько в здании этого предмета. BuildingComp.sense(Content) */
@@ -173,6 +179,7 @@ export class Building {
         this.health = this.initial.health
         this.enabled = this.initial.enabled
         this.efficiency = this.initial.efficiency
+        this.rotation = this.initial.rotation
         this.config = null
     }
 
@@ -207,7 +214,7 @@ export class Building {
             case 'totalItems': return this.items === null
                 ? 0
                 : [...this.items.values()].reduce((sum, value) => sum + value, 0)
-            case 'rotation': return 0
+            case 'rotation': return this.rotation
 
             // Цвет здания — цвет его команды, с полной непрозрачностью. BuildingComp.sense
             case 'color': return teamColorBits(this.team)

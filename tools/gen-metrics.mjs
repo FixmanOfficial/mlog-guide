@@ -83,6 +83,24 @@ const RECIPES = [
     {file: 'core/src/mindustry/Vars.java', names: ['iconMedFactor'],
         pattern: /iconMed = 8\*(\d+)f/},
 
+    // --- панель строительства: раскладка целиком ---
+    {file: `${UI}/fragments/PlacementFragment.java`, names: ['blockPaneHeight'],
+        pattern: /blocksSelect\.pane\(blocks -> blockTable = blocks\)\.height\((\d+)f\)/},
+    {file: `${UI}/fragments/PlacementFragment.java`, names: ['blocksMargin', 'blocksMarginTop'],
+        pattern: /blocksSelect\.margin\((\d+)\)\.marginTop\((\d+)\);/},
+    {file: `${UI}/fragments/PlacementFragment.java`, names: ['categoryLineHeight'],
+        pattern: /t\.image\(\)\.color\(Pal\.gray\)\.height\((\d+)f\)\.colspan\(4\)\.growX\(\);/},
+    {file: `${UI}/fragments/PlacementFragment.java`, names: ['blockNameWidth', 'blockNamePad'],
+        pattern: /\.left\(\)\.width\((\d+)f\)\.padLeft\((\d+)\);/},
+    {file: `${UI}/fragments/PlacementFragment.java`, names: ['blockInfoFactor'],
+        pattern: /\}\)\.size\(8 \* (\d+)\)\.padTop\(-5\)\.padRight\(-5\)/},
+    {file: `${UI}/fragments/PlacementFragment.java`, names: ['requirementIconFactor'],
+        pattern: /line\.image\(stack\.item\.uiIcon\)\.size\(8 \* (\d+)\);/},
+    {file: `${UI}/fragments/PlacementFragment.java`, names: ['requirementNameWidth'],
+        pattern: /\.maxWidth\((\d+)f\)\.fillX\(\)\.color\(Color\.lightGray\)/},
+    {file: 'core/src/mindustry/input/DesktopInput.java', names: ['placementRowSize'],
+        pattern: /table\.left\(\)\.margin\(0f\)\.defaults\(\)\.size\((\d+)f\)\.left\(\);/},
+
     // --- HUD: миникарта, ресурсы ядра ---
     {file: 'core/src/mindustry/ui/Minimap.java', names: ['minimapSize'],
         pattern: /setSize\(Scl\.scl\((\d+)f\)\)/},

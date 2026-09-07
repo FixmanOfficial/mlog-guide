@@ -50,6 +50,54 @@
       "frameAlpha": 1,
       "fill": "#000000",
       "fillAlpha": 0
+    },
+    "pane-2": {
+      "size": [
+        38,
+        29
+      ],
+      "border": 4,
+      "cut": 0,
+      "frame": "#454545",
+      "frameAlpha": 1,
+      "fill": "#000000",
+      "fillAlpha": 0.6
+    },
+    "button-edge-2": {
+      "size": [
+        38,
+        29
+      ],
+      "border": 4,
+      "cut": 9,
+      "frame": "#454545",
+      "frameAlpha": 1,
+      "fill": "#000000",
+      "fillAlpha": 0.6
+    },
+    "button-select": {
+      "size": [
+        26,
+        26
+      ],
+      "border": 4,
+      "cut": 0,
+      "frame": "#ffd37f",
+      "frameAlpha": 1,
+      "fill": "#000000",
+      "fillAlpha": 0
+    },
+    "flat-down-base": {
+      "size": [
+        38,
+        29
+      ],
+      "border": 4,
+      "cut": 0,
+      "frame": "#ffd37f",
+      "frameAlpha": 1,
+      "fill": "#000000",
+      "fillAlpha": 1
     }
   }
 }
