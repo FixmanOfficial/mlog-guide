@@ -3,6 +3,13 @@
  * подписи. Всё, что игра переводит сама, берётся из её бандлов и сюда не попадает.
  */
 
+/**
+ * «У 1 блока», но «у 9 блоков». В косвенном падеже с числительным существительное идёт
+ * в родительном: единственного числа при единице и множественного при всём остальном.
+ * Одиннадцать — исключение из правила про единицу, как и сто одиннадцать.
+ */
+const blocks = (count) => count % 10 === 1 && count % 100 !== 11 ? 'блока' : 'блоков'
+
 export const STRINGS = {
     ru: {
         instructions: 'Инструкции',
@@ -46,8 +53,8 @@ export const STRINGS = {
         processorVars: 'Переменные процессора',
         processorVarsNote: 'В окне игры их нет: они заводятся не в общем списке, '
             + 'а в самом процессоре.',
-        blocksCount: (count) => `только у блоков: ${count}`,
-        blocksOwn: (count) => `свой ответ у ${count} блоков`,
+        blocksCount: (count) => `только у ${count} ${blocks(count)}`,
+        blocksOwn: (count) => `свой ответ у ${count} ${blocks(count)}`,
         seeProperties: 'Какие бывают свойства и у кого читаются — в таблице свойств sensor.',
         noValue: 'null',
         holders: {
@@ -103,8 +110,8 @@ export const STRINGS = {
         processorVars: 'Processor variables',
         processorVarsNote: 'The in-game window does not list them: they live in the processor, '
             + 'not in the global list.',
-        blocksCount: (count) => `blocks only: ${count}`,
-        blocksOwn: (count) => `answered differently by ${count} blocks`,
+        blocksCount: (count) => `only on ${count} block${count === 1 ? '' : 's'}`,
+        blocksOwn: (count) => `answered differently by ${count} block${count === 1 ? '' : 's'}`,
         seeProperties: 'Which properties exist and what answers them — in the sensor property table.',
         noValue: 'null',
         holders: {
