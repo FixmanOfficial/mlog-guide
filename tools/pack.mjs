@@ -9,6 +9,16 @@
 import {encodePng} from './png.mjs'
 
 /**
+ * Прозрачная полоса вокруг каждого спрайта.
+ *
+ * Нужна тем, кто рисует атлас не попиксельно: иконка в меню масштабируется дробно, и при
+ * дробном масштабе выборка задевает соседний столбец пикселей — на краю иконки появлялась
+ * полоска чужого спрайта. Указатель при этом показывает на сам спрайт, а не на полосу,
+ * поэтому для рендера ничего не меняется.
+ */
+const GUTTER = 1
+
+/**
  * @param entries спрайты в виде `{name, image}`
  * @param width   ширина атласа
  * @returns буфер PNG и указатель `{имя: {x, y, width, height}}`
@@ -23,17 +33,20 @@ export function pack(entries, width) {
     let shelf = 0
 
     for (const entry of sorted) {
-        if (entry.image.width > width) throw new Error(`${entry.name} шире атласа`)
+        const boxWidth = entry.image.width + GUTTER * 2
+        const boxHeight = entry.image.height + GUTTER * 2
 
-        if (x + entry.image.width > width) {
+        if (boxWidth > width) throw new Error(`${entry.name} шире атласа`)
+
+        if (x + boxWidth > width) {
             x = 0
             y += shelf
             shelf = 0
         }
 
-        placed.push({...entry, x, y})
-        x += entry.image.width
-        shelf = Math.max(shelf, entry.image.height)
+        placed.push({...entry, x: x + GUTTER, y: y + GUTTER})
+        x += boxWidth
+        shelf = Math.max(shelf, boxHeight)
     }
 
     const height = y + shelf

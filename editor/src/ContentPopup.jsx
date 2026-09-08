@@ -1,10 +1,11 @@
-import {useLayoutEffect, useRef, useState} from 'preact/hooks'
+import {useState} from 'preact/hooks'
 
 import sprites from '@mlog/core/data/sprites.json'
 
 import {ENUMS, ENUM_PARAMS} from './program.js'
 import {propertyTip, contentName} from './tooltips.js'
 import {Icon} from './Icon.jsx'
+import {useAnchored, anchoredStyle} from './anchor.js'
 
 /**
  * Выбор контента для `sensor` — то самое большое меню.
@@ -29,23 +30,13 @@ const TABS = [
 const PROPERTIES = ENUMS.LAccess.filter(value => (ENUM_PARAMS.LAccess[value] ?? []).length <= 1)
 
 export function ContentPopup({current, anchor, onPick, onClose}) {
-    const ref = useRef(null)
     const [tab, setTab] = useState('item')
-    const [position, setPosition] = useState(null)
 
-    useLayoutEffect(() => {
-        const button = anchor?.current
-        const popup = ref.current
-        if (button === null || button === undefined || popup === null) return
-
-        const box = button.getBoundingClientRect()
-        const size = popup.getBoundingClientRect()
-
-        setPosition({
-            left: Math.min(Math.max(4, box.left - size.width / 2), window.innerWidth - size.width - 4),
-            top: Math.min(Math.max(4, box.bottom + 4), window.innerHeight - size.height - 4)
-        })
-    }, [anchor, tab])
+    // Меню держится за свою кнопку и переезжает вместе с ней, когда страницу прокручивают
+    const {ref, position} = useAnchored(anchor, (box, size) => ({
+        left: Math.min(Math.max(4, box.left - size.width / 2), window.innerWidth - size.width - 4),
+        top: Math.min(Math.max(4, box.bottom + 4), window.innerHeight - size.height - 4)
+    }), [tab])
 
     const active = TABS.find(entry => entry.id === tab)
     const names = active.types.flatMap(type =>
@@ -56,9 +47,7 @@ export function ContentPopup({current, anchor, onPick, onClose}) {
             <div
                 class="content-popup"
                 ref={ref}
-                style={position === null
-                    ? {left: '-9999px', top: '-9999px'}
-                    : {left: `${position.left}px`, top: `${position.top}px`}}
+                style={anchoredStyle(position)}
                 onClick={(event) => event.stopPropagation()}
             >
                 <div class="content-popup__scroll">
@@ -111,22 +100,28 @@ export function ContentPopup({current, anchor, onPick, onClose}) {
  * Одна иконка из атласа: сдвигаем фон на её место и масштабируем весь атлас так, чтобы
  * иконка вписалась в квадрат стороной `size`. Иконки в атласе разного размера и не все
  * квадратные — в игре тоже, поэтому пропорции сохраняем, а не растягиваем.
+ *
+ * Размер самого узла — размер иконки, а не квадрата: у юнита спрайт вытянут, и в квадрате
+ * оставалось место, где виден атлас, то есть соседние спрайты. До квадрата узел добирают
+ * поля, чтобы сетка меню не поехала.
  */
 export function ContentIcon({type, name, size = 32}) {
     const entry = sprites.index[type]?.[name]
     if (entry === undefined) return <span class="content-icon content-icon--missing">{name.slice(0, 2)}</span>
 
     const scale = size / Math.max(entry.width, entry.height)
+    const width = entry.width * scale
+    const height = entry.height * scale
 
     return (
         <span
             class="content-icon"
             style={{
-                width: `${size}px`,
-                height: `${size}px`,
+                width: `${width}px`,
+                height: `${height}px`,
+                margin: `${(size - height) / 2}px ${(size - width) / 2}px`,
                 backgroundSize: `${sprites.width * scale}px ${sprites.height * scale}px`,
-                backgroundPosition: `${(size - entry.width * scale) / 2 - entry.x * scale}px `
-                    + `${(size - entry.height * scale) / 2 - entry.y * scale}px`
+                backgroundPosition: `${-entry.x * scale}px ${-entry.y * scale}px`
             }}
         />
     )

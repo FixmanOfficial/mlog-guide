@@ -1,7 +1,6 @@
-import {useLayoutEffect, useRef, useState} from 'preact/hooks'
-
 import {ENUM_SYMBOLS} from './program.js'
 import {propertyTip} from './tooltips.js'
+import {useAnchored, anchoredStyle} from './anchor.js'
 
 /**
  * Всплывающий выбор значения — сеткой, а не выпадающим списком.
@@ -19,29 +18,18 @@ export function SelectPopup({
     anchor, onPick, onClose
 }) {
     const symbols = ENUM_SYMBOLS[enumName] ?? {}
-    const ref = useRef(null)
-    const [position, setPosition] = useState(null)
 
-    useLayoutEffect(() => {
-        const button = anchor?.current
-        const popup = ref.current
-        if (button === null || button === undefined || popup === null) return
-
-        const box = button.getBoundingClientRect()
-        const size = popup.getBoundingClientRect()
-
-        // Игра ставит список по центру кнопки и удерживает его в пределах экрана
-        const left = Math.min(
+    // Игра ставит список по центру кнопки и удерживает его в пределах экрана
+    const {ref, position} = useAnchored(anchor, (box, size) => ({
+        left: Math.min(
             Math.max(4, box.left + box.width / 2 - size.width / 2),
             window.innerWidth - size.width - 4
-        )
-        const top = Math.min(
+        ),
+        top: Math.min(
             Math.max(4, box.top + box.height / 2 - size.height / 2),
             window.innerHeight - size.height - 4
         )
-
-        setPosition({left, top})
-    }, [anchor, values])
+    }), [values])
 
     return (
         <div class="popup-overlay" onClick={onClose}>
@@ -51,8 +39,7 @@ export function SelectPopup({
                 style={{
                     gridTemplateColumns: `repeat(${columns}, ${cellWidth}px)`,
                     gridAutoRows: `${cellHeight}px`,
-                    left: position === null ? '-9999px' : `${position.left}px`,
-                    top: position === null ? '-9999px' : `${position.top}px`
+                    ...anchoredStyle(position)
                 }}
                 onClick={(event) => event.stopPropagation()}
             >
