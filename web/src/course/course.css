@@ -26,27 +26,38 @@
     font-size: var(--sl-text-xs);
 }
 
-/* Легенда сложности: таблица, а не пары — иначе подписи расползаются по узкой колонке */
+/*
+ * Легенда сложности. Две колонки сеткой: подписи держат общий левый край, а рамок и полос
+ * таблицы здесь не нужно — это не данные, а пояснение к трём кружкам.
+ */
 .legend {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: 0.35rem 0.9rem;
+    align-items: baseline;
     margin: 1rem 0 2rem;
+    padding-left: 0.2rem;
     font-size: var(--sl-text-sm);
+    line-height: 1.4;
 }
 
-.legend td {
-    padding: 0.3rem 0.6rem;
-    vertical-align: top;
-}
-
-.legend td + td {
-    color: var(--sl-color-gray-3);
-}
-
+/*
+ * Кружок здесь строчный, а не флексовый: у флексовой ячейки своя базовая линия, и подпись
+ * справа съезжала относительно слова слева.
+ */
 .legend__level {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
     white-space: nowrap;
     font-weight: 600;
+}
+
+.legend__level .level__dot {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 0.4rem;
+}
+
+.legend__hint {
+    color: var(--sl-color-gray-3);
 }
 
 .group {
@@ -95,12 +106,6 @@
     color: var(--sl-color-gray-3);
     font-size: var(--sl-text-sm);
     line-height: 1.35;
-}
-
-.planned {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.3rem;
 }
 
 /* Шапка урока: сложность словом плюс то, что нужно знать заранее */

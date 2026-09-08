@@ -12,8 +12,9 @@
 import {getCollection} from 'astro:content'
 
 /**
- * Порядок групп. Это же и план курса: чего ещё нет, видно по тому, что группа пуста.
- * Порядок — от того, без чего не собрать ни одной программы, к тому, что нужно не всем.
+ * Порядок групп: от того, без чего не собрать ни одной программы, к тому, что нужно
+ * не всем. Групп в списке больше, чем написано, — ненаписанные просто не показываются:
+ * недоделанный курс не нужно показывать читателю, план живёт в `docs/todo.md`.
  */
 export const GROUPS = [
     'basics',
@@ -64,10 +65,4 @@ export async function courseGroups(locale) {
     }
 
     return groups
-}
-
-/** Группы, которых ещё нет: список, чтобы был виден размер курса, а не только сделанное. */
-export async function plannedGroups(locale) {
-    const ready = new Set((await courseGroups(locale)).map(group => group.name))
-    return GROUPS.filter(group => !ready.has(group))
 }

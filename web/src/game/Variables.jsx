@@ -12,6 +12,9 @@
  *
  * Разбор переменной — цвет, тип, печать значения — живёт в редакторе: это знание об игре,
  * и оно закрыто тестами. Здесь только разметка.
+ *
+ * Строка текстового буфера — наша добавка, в игре её нет. Поэтому она выключаемая: в уроке,
+ * который не про печать, лишняя строка с непонятным именем только сбивает.
  */
 
 import {
@@ -24,7 +27,7 @@ import './variables.css'
  * @param beat меняется, когда пора перечитать значения. Само значение при этом не передаётся:
  *             таблица берёт его прямо из переменных процессора.
  */
-export function Variables({processor, beat}) {
+export function Variables({processor, beat, buffer: showBuffer = true}) {
     const rows = [...processor.vars.values()].filter(variable => !variable.constant)
     const buffer = bufferRow(processor)
 
@@ -51,6 +54,7 @@ export function Variables({processor, beat}) {
             })}
 
             {/* Буфер печати: в игре его не видно, строку подсмотрели у мода */}
+            {!showBuffer ? null : (
             <div class="vars__row vars__row--extra" title="Текст, накопленный print. Ждёт printflush или draw print">
                 <span class="vars__stub" style={{background: dim(NAME_BACKGROUND)}} />
                 <span class="vars__name">{buffer.name}</span>
@@ -65,6 +69,7 @@ export function Variables({processor, beat}) {
                     {buffer.type}
                 </span>
             </div>
+            )}
         </div>
     )
 }

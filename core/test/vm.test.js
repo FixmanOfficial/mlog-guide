@@ -2,6 +2,12 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 
 import {Processor, IPT, MAX_INSTRUCTION_SCALE} from '../src/vm.js'
+import {createContent} from '../src/content.js'
+import {readFileSync} from 'node:fs'
+
+const content = createContent(JSON.parse(
+    readFileSync(new URL('../data/logic-ids.json', import.meta.url), 'utf8')
+))
 
 test('счётчик указывает на следующую инструкцию уже во время исполнения текущей', () => {
     const processor = new Processor('set a @counter')
@@ -109,4 +115,22 @@ test('дробный тик исполняет инструкции по одн�
 
     processor.tick(1 / 8)
     assert.equal(processor.num('n'), 2)
+})
+
+test('у пустоты любой вопрос отдаёт пустоту, а не ноль', () => {
+    // SenseI:691-716 — ветка «не Senseable» ставит null и для свойства, и для предмета
+    const processor = new Processor([
+        'sensor медь null @copper',
+        'sensor здоровье null @health',
+        'sensor мёртв null @dead'
+    ].join('\n'), {globals: content.globals, content})
+
+    processor.run(3)
+
+    assert.equal(processor.get('медь').isobj, true)
+    assert.equal(processor.get('медь').objval, null)
+    assert.equal(processor.get('здоровье').objval, null)
+
+    // Единственное исключение: отсутствующий объект считается мёртвым
+    assert.equal(processor.num('мёртв'), 1)
 })

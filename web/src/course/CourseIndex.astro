@@ -7,7 +7,7 @@
  * пишет у себя вверху.
  */
 
-import {courseGroups, plannedGroups} from './data.js'
+import {courseGroups} from './data.js'
 import {LEVELS, LEVEL_ORDER} from './levels.js'
 import LessonList from './LessonList.astro'
 import './course.css'
@@ -15,25 +15,19 @@ import './course.css'
 const {locale = 'ru'} = Astro.props
 
 const groups = await courseGroups(locale)
-const planned = await plannedGroups(locale)
 
 const TEXT = {
     ru: {
         intro: 'Курс разбирает язык по инструкциям: группа — инструкция, урок — одна её грань. '
             + 'Группы независимы: за юнитами можно идти сразу в них, а что нужно знать заранее, '
             + 'написано в начале каждой.',
-        legend: 'Сложность',
-        planned: 'Ещё не написано',
-        plannedNote: 'Группы, которых пока нет. Список полный: так виден размер курса.'
+        legend: 'Сложность'
     },
     en: {
         intro: 'The course goes instruction by instruction: a group is an instruction, a lesson '
             + 'is one facet of it. Groups are independent — go straight to the unit ones; each '
             + 'says up front what you need to know first.',
-        legend: 'Difficulty',
-        planned: 'Not written yet',
-        plannedNote: 'Groups that do not exist yet. The list is complete, so the size of the '
-            + 'course is visible.'
+        legend: 'Difficulty'
     }
 }
 
@@ -42,19 +36,17 @@ const text = TEXT[locale] ?? TEXT.en
 
 <p class="ref-lead">{text.intro}</p>
 
-<table class="legend">
-    <tbody>
-        {LEVEL_ORDER.map(name => (
-            <tr>
-                <td class="legend__level">
-                    <span class="level__dot" style={`--level: ${LEVELS[name].color}`}></span>
-                    {LEVELS[name].title[locale]}
-                </td>
-                <td>{LEVELS[name].hint[locale]}</td>
-            </tr>
-        ))}
-    </tbody>
-</table>
+<div class="legend">
+    {LEVEL_ORDER.map(name => (
+        <>
+            <div class="legend__level">
+                <span class="level__dot" style={`--level: ${LEVELS[name].color}`}></span>
+                {LEVELS[name].title[locale]}
+            </div>
+            <div class="legend__hint">{LEVELS[name].hint[locale]}</div>
+        </>
+    ))}
+</div>
 
 {groups.map(group => (
     <section class="group">
@@ -65,11 +57,3 @@ const text = TEXT[locale] ?? TEXT.en
         <LessonList locale={locale} group={group.name} />
     </section>
 ))}
-
-<h2 id="planned">{text.planned}</h2>
-
-<p class="ref-note">{text.plannedNote}</p>
-
-<p class="planned">
-    {planned.map(name => <code>{name}</code>)}
-</p>

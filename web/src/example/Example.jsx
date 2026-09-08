@@ -62,8 +62,11 @@ function nextIndex(processor) {
  * @param tick  сколько тиков прокрутить до первого кадра: пример иногда должен начинаться
  *              с уже наполненного мира, а не с нулевого тика
  * @param allow какие инструкции доступны в меню добавления; по умолчанию все
+ * @param buffer показывать ли строку текстового буфера в переменных. Её в игре нет,
+ *              это наша добавка, и в уроке не про печать она только сбивает
  */
-export function Example({scene: description, world = true, tick = 0, allow = true}) {
+export function Example({scene: description, world = true, tick = 0, allow = true,
+    buffer = false}) {
     const canvas = useRef(null)
     const stand = useRef(null)
 
@@ -240,7 +243,7 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
 
                 {processor === null ? null : (
                     <div class="example__vars">
-                        <Variables processor={processor} beat={beat} />
+                        <Variables processor={processor} beat={beat} buffer={buffer} />
                     </div>
                 )}
             </div>

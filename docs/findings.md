@@ -239,6 +239,7 @@ Mindustry закрепляет arc хешем коммита в `gradle.properti
 
 | Деталь | Источник | Тест |
 | --- | --- | --- |
+| **У несуществующего объекта `sensor` отвечает пустотой, а не нулём** — и на свойство, и на предмет: ветка «не Senseable» в `SenseI` просто ставит `null`. Исключений два: `@dead` у пустоты это 1, а `@size` и `@bufferSize` у строки и у списка отдают длину | `logic/LExecutor.java:685-716` | ✓ `vm.test.js` |
 | **У типа блока предметом спрашивают цену.** `sensor медь @duo @copper` отдаёт 35 — стоимость постройки, умноженную на `buildCostMultiplier` и округлённую. При `infiniteResources` ответ ноль, у жидкости — пустота, у остальных видов контента `Senseable.sense(Content)` отдаёт по умолчанию ноль | `world/Block.java:1677-1690`, `logic/Senseable.java:10` | ✓ `content.test.js` |
 | `sensor @type` у здания отдаёт **объект блока**, тот же, что константа `@container`: сравнивать надо с ней, а не со строкой. У типа блока при этом свои ответы: `@health` это полное здоровье чертежа, а `@id` и `@name` есть только у типа | `entities/comp/BuildingComp.java:2137`, `world/Block.java:1694` | ✓ `world.test.js`, `web/test/course.test.js` |
 | **Пустота считается нулём в обычном сравнении.** `equal null 0` даёт 1, `null + 1` даёт 1, и только `strictEqual` отличает пустоту от нуля. Отсюда классическая ошибка: проверка «предметов ноль» срабатывает и когда блока нет вовсе | `logic/LVar.java` `num`, `logic/LExecutor.java` `OpI` | ✓ `web/test/course.test.js` |

@@ -546,30 +546,43 @@ const builders = {
                     return
                 }
 
-                // Спрашивают не свойство, а контент: сколько в здании меди, что у юнита в руках
-                const content = property.obj()
-                if (name === null && content !== null && content.contentType !== undefined) {
-                    // Правила нужны цене блока: в песочнице она ноль. Block.sense(Content)
-                    output.setnum(object?.senseContent?.(content, vm?.world?.rules) ?? 0)
+                /*
+                 * Порядок проверок тот же, что в `SenseI`, и он важен: сначала «а есть ли
+                 * кого спрашивать». У несуществующего объекта любой вопрос — и про свойство,
+                 * и про предмет — отвечает пустотой, а не нулём. LExecutor.java:691-716
+                 */
+                if (object !== null && typeof object.sense === 'function') {
+                    // Спрашивают не свойство, а контент: сколько в здании меди, что у юнита в руках
+                    const content = property.obj()
+                    if (name === null && content !== null && content.contentType !== undefined) {
+                        // Правила нужны цене блока: в песочнице она ноль. Block.sense(Content)
+                        output.setnum(object.senseContent?.(content, vm?.world?.rules) ?? 0)
+                        return
+                    }
+
+                    const asObject = object.senseObject(name)
+                    if (asObject !== NOT_SENSED) {
+                        output.setobj(asObject)
+                        return
+                    }
+
+                    output.setnum(object.sense(name))
                     return
                 }
 
-                if (object === null || typeof object.sense !== 'function') {
-                    if ((name === 'size' || name === 'bufferSize') && typeof object === 'string') {
+                // Длину спрашивают и у того, что не Senseable: у строки и у списка запросов
+                if (name === 'size' || name === 'bufferSize') {
+                    if (typeof object === 'string') {
                         output.setnum(object.length)
                         return
                     }
-                    output.setobj(null)
-                    return
+                    if (Array.isArray(object)) {
+                        output.setnum(object.length)
+                        return
+                    }
                 }
 
-                const asObject = object.senseObject(name)
-                if (asObject !== NOT_SENSED) {
-                    output.setobj(asObject)
-                    return
-                }
-
-                output.setnum(object.sense(name))
+                output.setobj(null)
             }
         }
     },
