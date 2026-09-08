@@ -49,7 +49,24 @@ import './example.css'
 const MIN_TILE = 14
 const MAX_TILE = 32
 
-const fitTile = (width, tiles) => Math.max(MIN_TILE, Math.min(MAX_TILE, Math.floor(width / tiles)))
+/** Зазор между картой и таблицей переменных, тот же, что в раскладке. */
+const GAP = 8
+
+const clampTile = (tile) => Math.max(MIN_TILE, Math.min(MAX_TILE, tile))
+
+/**
+ * Размер тайла так, чтобы карта встала слева от таблицы переменных и заняла ровно то место,
+ * которое осталось: по высоте вровень с таблицей, по ширине — сколько дала колонка.
+ * Что меньше, то и берётся, иначе карта вылезет за край.
+ */
+function fitTile({stage, varsWidth, varsHeight}, world) {
+    const byHeight = Math.floor(varsHeight / world.height)
+    const byWidth = Math.floor((stage - varsWidth - GAP) / world.width)
+    const beside = Math.min(byHeight, byWidth)
+
+    // Рядом не помещается — карта уйдёт под таблицу и займёт всю ширину
+    return clampTile(beside < MIN_TILE ? Math.floor(stage / world.width) : beside)
+}
 
 /** Потолок разового скачка времени, как в игре: `Vars.maxDeltaClient`. */
 const MAX_DELTA = 4
@@ -115,7 +132,8 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
 
         if (world) {
             // Первый размер на глазок: переменные ещё не нарисованы, мерить нечего
-            const tile = fitTile(canvas.current.parentElement?.clientWidth ?? 0, scene.world.width)
+            const tile = clampTile(Math.floor((canvas.current.parentElement?.clientWidth ?? 0) / 2
+                / scene.world.width))
 
             const images = [atlasUrl, blocksUrl, unitsUrl, terrainUrl].map(url => {
                 const image = new Image()
@@ -149,19 +167,27 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
     }, [generation])
 
     /*
-     * Карта подгоняется под колонку с переменными: они шире, они и задают ширину.
-     * Мерить приходится после отрисовки — на момент сборки сцены таблицы ещё нет, — и заново
-     * при изменении размера окна.
+     * Карта подгоняется под соседей: таблица переменных задаёт высоту, колонка — остаток
+     * ширины. Мерить приходится после отрисовки — на момент сборки сцены таблицы ещё нет, —
+     * и заново при изменении размера окна.
      */
     useEffect(() => {
         if (!ready || !world) return
+
+        const stage = canvas.current?.parentElement
+        if (stage === null || stage === undefined) return
 
         const fit = () => {
             const {view, scene} = stand.current
             if (view === null || view === undefined) return
 
-            const width = vars.current?.clientWidth ?? canvas.current?.parentElement?.clientWidth
-            const tile = fitTile(width ?? 0, scene.world.width)
+            const tile = fitTile({
+                stage: stage.clientWidth,
+                // Своя ширина таблицы, а не выданная раскладкой: та зависит от самой карты
+                varsWidth: vars.current?.scrollWidth ?? 0,
+                varsHeight: vars.current?.scrollHeight ?? 0
+            }, scene.world)
+
             if (tile === view.tile) return
 
             view.tile = tile
@@ -171,8 +197,12 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
 
         fit()
 
-        // Ширину задают переменные, а не сама карта: иначе подгонка гоняла бы себя по кругу
+        /*
+         * Наблюдаем за таблицей и за самой колонкой, но не за картой: её размер зависит
+         * от них, и подгонка гоняла бы себя по кругу.
+         */
         const observer = new ResizeObserver(fit)
+        observer.observe(stage)
         if (vars.current !== null) observer.observe(vars.current)
 
         return () => observer.disconnect()
@@ -284,15 +314,15 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
                     />
                 </div>
 
-                {/* Переменные и карта — одна колонка: два окна игры с общим левым краем */}
-                <div class="example__side">
+                {/* Карта слева, переменные справа: сначала смотрят на мир, потом на числа */}
+                <div class="example__stage">
+                    {world ? <canvas class="example__world" ref={canvas} /> : null}
+
                     {processor === null ? null : (
                         <div class="example__vars" ref={vars}>
                             <Variables processor={processor} beat={beat} buffer={buffer} />
                         </div>
                     )}
-
-                    {world ? <canvas class="example__world" ref={canvas} /> : null}
                 </div>
             </div>
         </div>
