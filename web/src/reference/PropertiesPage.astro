@@ -31,6 +31,18 @@ const holderTitle = (holder) => text.holders[holder] ?? holder
 const blocksLabel = (row) => Object.keys(row.sense).length === 0
     ? text.blocksCount(row.blocks.length)
     : text.blocksOwn(row.blocks.length)
+
+/**
+ * Нужна ли в колонке отдельная метка «здание».
+ *
+ * Блок — это здание, и если свойство читается только у нескольких блоков, колонка «читается у»
+ * не должна оставаться пустой или показывать одного юнита: читатель решит, что у зданий
+ * свойства нет вовсе. Метка ставится пунктиром и с числом — отвечают не все.
+ *
+ * Когда общий носитель «здание» уже есть, второй метки не нужно: там блоки не добавляют
+ * ответ, а меняют его, и об этом говорит строка ниже.
+ */
+const partialBuildings = (row) => row.blocks.length > 0 && row.sense.building === undefined
 const kindTitle = (kind) => kind === 'object' ? text.object : text.number
 ---
 
@@ -57,6 +69,12 @@ const kindTitle = (kind) => kind === 'object' ? text.object : text.number
                                 title={kindTitle(row.sense[holder])}
                             >{holderTitle(holder)}</span>
                         ))}
+
+                        {partialBuildings(row) ? (
+                            <span class="ref-holder ref-holder--partial" title={blocksLabel(row)}>
+                                {holderTitle('building')} · {row.blocks.length}
+                            </span>
+                        ) : null}
                     </div>
                     {row.blocks.length === 0 ? null : (
                         <details class="ref-blocks">

@@ -154,6 +154,12 @@
     border-style: dashed;
 }
 
+/* Отвечают не все здания, а перечисленные ниже блоки: точки вместо сплошной рамки */
+.ref-holder--partial {
+    border-style: dotted;
+    color: var(--sl-color-gray-3);
+}
+
 .ref-blocks {
     margin-top: 0.2rem;
     color: var(--sl-color-gray-3);
