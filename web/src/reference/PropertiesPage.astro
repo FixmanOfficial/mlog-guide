@@ -1,0 +1,86 @@
+---
+/**
+ * Таблица свойств `sensor`.
+ *
+ * Игра переводит имена свойств, но нигде не пишет, у кого свойство работает: это `switch`
+ * в коде, полсотни штук. Отсюда главные колонки — «читается у» и «только у блоков»:
+ * `@health` есть почти у всего, `@ammo` только у турели, `@memoryCapacity` только у ячейки
+ * памяти. Снимает `tools/gen-access.mjs`.
+ */
+
+import {properties, blockTitle, HOLDERS, GAME_VERSION} from './data.js'
+import {strings} from './strings.js'
+import Text from './Text.astro'
+import './reference.css'
+
+import access from '@mlog/core/data/access.json' with {type: 'json'}
+
+const {locale} = Astro.props
+
+const text = strings(locale)
+const rows = properties(locale)
+
+const holderTitle = (holder) => text.holders[holder] ?? holder
+const kindTitle = (kind) => kind === 'object' ? text.object : text.number
+---
+
+<p class="ref-lead">{text.propertiesIntro} ({GAME_VERSION}).</p>
+
+<table class="ref-table ref-table--properties">
+    <thead>
+        <tr>
+            <th>{text.property}</th>
+            <th>{text.reads}</th>
+            <th>{text.writes}</th>
+            <th>{text.description}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {rows.map(row => (
+            <tr id={row.name}>
+                <td><code>@{row.name}</code></td>
+                <td>
+                    <div class="ref-holders">
+                        {HOLDERS.filter(holder => row.sense[holder] !== undefined).map(holder => (
+                            <span
+                                class:list={['ref-holder', {'ref-holder--object': row.sense[holder] === 'object'}]}
+                                title={kindTitle(row.sense[holder])}
+                            >{holderTitle(holder)}</span>
+                        ))}
+                    </div>
+                    {row.blocks.length === 0 ? null : (
+                        <details class="ref-blocks">
+                            <summary>{text.blocksCount(row.blocks.length)}</summary>
+                            {row.blocks.map(name => blockTitle(locale, name)).join(', ')}
+                        </details>
+                    )}
+                </td>
+                <td>
+                    <div class="ref-holders">
+                        {row.set.map(holder => <span class="ref-holder">{holderTitle(holder)}</span>)}
+                    </div>
+                    {row.setBlocks.length === 0 ? null : (
+                        <div class="ref-note">
+                            {row.setBlocks.map(name => blockTitle(locale, name)).join(', ')}
+                        </div>
+                    )}
+                </td>
+                <td>
+                    {row.description === null
+                        ? <span class="ref-note">{text.noDescription}</span>
+                        : <Text text={row.description} />}
+                </td>
+            </tr>
+        ))}
+    </tbody>
+</table>
+
+<h2 id="controlled">{text.controlled}</h2>
+
+<ul>
+    {Object.entries(access.controlled).map(([name, code]) => (
+        <li><code>{code}</code> — <code>@{name}</code></li>
+    ))}
+</ul>
+
+<p class="ref-note">{text.sourceNote(GAME_VERSION)}</p>

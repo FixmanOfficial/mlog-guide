@@ -1489,6 +1489,13 @@ function strictEqualValue(a, b) {
  * Нераспознанное имя и неперенесённая инструкция дают диагностику и место в коде остаётся пустым:
  * молча пропускать нельзя, иначе ученик решит, что ошибся сам.
  */
+/**
+ * Инструкции, у которых есть перенос. Остальные из `KNOWN_INSTRUCTIONS` разбираются,
+ * но ничего не делают — справочник помечает их, чтобы читатель не гадал, почему
+ * в песочнице ничего не произошло.
+ */
+export const IMPLEMENTED_INSTRUCTIONS = new Set(Object.keys(builders))
+
 export function assemble(text, options = {}) {
     const {statements, diagnostics} = parse(text)
     const asm = new Assembler(options)

@@ -1,0 +1,27 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
+import InstructionPage from '../../../../reference/InstructionPage.astro'
+import {opcodes, instruction} from '../../../../reference/data.js'
+import {strings} from '../../../../reference/strings.js'
+import {stripMarkup} from '@mlog/editor/src/markup.js'
+
+export function getStaticPaths() {
+    return opcodes().map(opcode => ({params: {opcode}}))
+}
+
+const {opcode} = Astro.params
+const entry = instruction('en', opcode)
+const text = strings('en')
+
+// Оглавление справа custom-страница не собирает сама: заголовки перечисляются здесь
+const headings = [
+    {depth: 2, slug: 'syntax', text: text.syntax},
+    ...(entry.params.length === 0 ? [] : [{depth: 2, slug: 'params', text: text.params}])
+]
+---
+<StarlightPage frontmatter={{
+    title: opcode,
+    description: entry.description === null ? entry.title : stripMarkup(entry.description)
+}} headings={headings}>
+    <InstructionPage locale="en" opcode={opcode} />
+</StarlightPage>

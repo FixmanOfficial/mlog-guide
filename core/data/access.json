@@ -2,16 +2,16 @@
   "gameVersion": "v159.7",
   "source": "logic/LAccess.java плюс тела sense/senseObject/setProp у восьми носителей",
   "note": "Файл сгенерирован, править вручную нельзя. sense — у кого свойство читается и что отдаёт (число или объект); set — кому его пишет setprop; blocks — блоки, у класса которых своё чтение сверх общего для зданий; settable — список из самой игры, controlled — коды того, кем управляется юнит.",
-  "holders": {
-    "block": "тип блока",
-    "building": "здание",
-    "unitType": "тип юнита",
-    "unit": "юнит",
-    "item": "предмет",
-    "liquid": "жидкость",
-    "team": "команда",
-    "bullet": "пуля"
-  },
+  "holders": [
+    "block",
+    "building",
+    "unitType",
+    "unit",
+    "item",
+    "liquid",
+    "team",
+    "bullet"
+  ],
   "settable": [
     "x",
     "y",

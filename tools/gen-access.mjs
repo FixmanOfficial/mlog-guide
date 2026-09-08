@@ -27,15 +27,20 @@ const GAME_VERSION = 'v159.7'
  * а `sensor block1 @size` — поставленное здание, и отвечают на них разные `switch`.
  */
 const HOLDERS = {
-    block: {file: 'core/src/mindustry/world/Block.java', title: 'тип блока'},
-    building: {file: 'core/src/mindustry/entities/comp/BuildingComp.java', title: 'здание'},
-    unitType: {file: 'core/src/mindustry/type/UnitType.java', title: 'тип юнита'},
-    unit: {file: 'core/src/mindustry/entities/comp/UnitComp.java', title: 'юнит'},
-    item: {file: 'core/src/mindustry/type/Item.java', title: 'предмет'},
-    liquid: {file: 'core/src/mindustry/type/Liquid.java', title: 'жидкость'},
-    team: {file: 'core/src/mindustry/game/Team.java', title: 'команда'},
-    bullet: {file: 'core/src/mindustry/entities/comp/BulletComp.java', title: 'пуля'}
+    block: 'core/src/mindustry/world/Block.java',
+    building: 'core/src/mindustry/entities/comp/BuildingComp.java',
+    unitType: 'core/src/mindustry/type/UnitType.java',
+    unit: 'core/src/mindustry/entities/comp/UnitComp.java',
+    item: 'core/src/mindustry/type/Item.java',
+    liquid: 'core/src/mindustry/type/Liquid.java',
+    team: 'core/src/mindustry/game/Team.java',
+    bullet: 'core/src/mindustry/entities/comp/BulletComp.java'
 }
+
+/*
+ * Имён носителей на человеческом языке здесь нет и быть не может: в ядре нет текста
+ * для пользователя (CLAUDE.md, «Мультиязычность»). Подписи живут на стороне сайта.
+ */
 
 /** Тело метода по сигнатуре: от первой `{` до парной ей. */
 function methodBody(text, signature) {
@@ -156,7 +161,7 @@ function main() {
 
     for (const [, name, value] of globals.matchAll(/(ctrl\w+)\s*=\s*(\d+)/g)) codes[name] = Number(value)
 
-    for (const [holder, {file}] of Object.entries(HOLDERS)) {
+    for (const [holder, file] of Object.entries(HOLDERS)) {
         const source = readFileSync(join(gameRoot, file), 'utf8')
 
         const {numbers, objects, setters} = classAccess(source)
@@ -233,7 +238,7 @@ function main() {
             + 'и что отдаёт (число или объект); set — кому его пишет setprop; blocks — '
             + 'блоки, у класса которых своё чтение сверх общего для зданий; settable — '
             + 'список из самой игры, controlled — коды того, кем управляется юнит.',
-        holders: Object.fromEntries(Object.entries(HOLDERS).map(([key, {title}]) => [key, title])),
+        holders: Object.keys(HOLDERS),
         settable,
         controlled: codes,
         properties

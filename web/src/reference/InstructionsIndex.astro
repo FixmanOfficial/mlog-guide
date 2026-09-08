@@ -1,0 +1,52 @@
+---
+/**
+ * Список инструкций: категории в том же порядке и тех же цветах, что в меню игры.
+ *
+ * Порядок не алфавитный намеренно — человек, который видел меню добавления, ищет
+ * инструкцию там же, где привык.
+ */
+
+import {byCategory, GAME_VERSION} from './data.js'
+import {strings, root} from './strings.js'
+import Text from './Text.astro'
+import './reference.css'
+
+const {locale} = Astro.props
+
+const text = strings(locale)
+const groups = byCategory(locale)
+const base = `${root(locale)}/instructions`
+---
+
+<p class="ref-lead">{text.instructionsIntro} ({GAME_VERSION}).</p>
+
+<div class="ref-groups">
+    {groups.map(group => (
+        <section style={`--category: ${group.color}`}>
+            <h2 class="ref-group__title" id={group.category}>
+                {group.icon === null ? null : <span class="ref-group__icon">{group.icon}</span>}
+                {group.title}
+            </h2>
+            <div class="ref-group__rule"></div>
+
+            {group.description === null ? null : (
+                <p class="ref-note"><Text text={group.description} /></p>
+            )}
+
+            <ul class="ref-list">
+                {group.items.map(item => (
+                    <li>
+                        <a class="ref-item" href={`${base}/${item.opcode}/`}>
+                            <span class="ref-item__name">{item.opcode}</span>
+                            {' '}
+                            <span class="ref-item__title">{item.title}</span>
+                            {item.description === null ? null : (
+                                <span class="ref-item__text"><Text text={item.description} /></span>
+                            )}
+                        </a>
+                    </li>
+                ))}
+            </ul>
+        </section>
+    ))}
+</div>

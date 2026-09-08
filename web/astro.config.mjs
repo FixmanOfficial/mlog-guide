@@ -22,7 +22,23 @@ export default defineConfig({
             },
             customCss: ['./src/sandbox/sandbox.css'],
             sidebar: [
-                {label: 'Песочница', translations: {en: 'Sandbox'}, link: 'sandbox'}
+                {label: 'Песочница', translations: {en: 'Sandbox'}, link: 'sandbox'},
+                {
+                    label: 'Справочник',
+                    translations: {en: 'Reference'},
+                    items: [
+                        {
+                            label: 'Инструкции',
+                            translations: {en: 'Instructions'},
+                            link: 'reference/instructions'
+                        },
+                        {
+                            label: 'Свойства sensor',
+                            translations: {en: 'Sensor properties'},
+                            link: 'reference/properties'
+                        }
+                    ]
+                }
             ]
         }),
         preact()

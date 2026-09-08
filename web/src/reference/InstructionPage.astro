@@ -1,0 +1,95 @@
+---
+/**
+ * Карточка инструкции.
+ *
+ * Всё, кроме подписей колонок, снято генераторами: имя, категория, параметры, их порядок
+ * и значения по умолчанию — из `LStatements.java`, описание — из бандла игры. Отсюда
+ * и странности вроде «Operation» у `op`: так эта инструкция называется в игре.
+ */
+
+import {instruction, syntax, categoryTitle, GAME_VERSION} from './data.js'
+import {strings, root} from './strings.js'
+import Text from './Text.astro'
+import './reference.css'
+
+const {locale, opcode} = Astro.props
+
+const text = strings(locale)
+const entry = instruction(locale, opcode)
+const base = root(locale)
+const properties = `${base}/properties/`
+
+/** Тип параметра: обычное значение или перечисление с закрытым списком. */
+const typeName = (param) => param.type === 'value' ? text.value : param.type
+
+/** Длинные перечисления в колонку не влезают — вместо списка ссылка на страницу свойств. */
+const LONG_ENUM = 12
+const isLong = (param) => param.enum === 'LAccess' && param.values.length > LONG_ENUM
+
+/** Инструкции, которые работают со свойствами: им нужна ссылка на таблицу. */
+const ABOUT_PROPERTIES = ['sensor', 'control', 'setprop']
+---
+
+<div class="ref-badges" style={`--category: ${entry.color}`}>
+    <span class="ref-badge ref-badge--category">{categoryTitle(locale, entry.category)}</span>
+    {entry.privileged ? <span class="ref-badge">{text.worldOnly}</span> : null}
+    {entry.nonPrivileged ? <span class="ref-badge">{text.processorOnly}</span> : null}
+    {entry.hidden ? <span class="ref-badge">{text.hidden}</span> : null}
+    {entry.implemented ? null : <span class="ref-badge ref-badge--warn">{text.notImplemented}</span>}
+</div>
+
+<p class="ref-lead">
+    {entry.description === null
+        ? <span class="ref-note">{text.noDescription}</span>
+        : <Text text={entry.description} />}
+</p>
+
+<h2 id="syntax">{text.syntax}</h2>
+
+<pre><code>{syntax(entry)}</code></pre>
+
+{entry.params.length === 0 ? null : (
+    <>
+        <h2 id="params">{text.params}</h2>
+
+        <table class="ref-table">
+            <thead>
+                <tr>
+                    <th>{text.param}</th>
+                    <th>{text.type}</th>
+                    <th>{text.byDefault}</th>
+                    <th>{text.values}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {entry.params.map(param => (
+                    <tr>
+                        <td><code>{param.name}</code></td>
+                        <td>{typeName(param)}</td>
+                        <td>{param.default === '' ? '—' : <code>{param.default}</code>}</td>
+                        <td>
+                            {param.values === null ? '—' : isLong(param) ? (
+                                <a href={properties}>{text.properties} ({param.values.length})</a>
+                            ) : (
+                                <ul class="ref-values">
+                                    {param.values.map(value => (
+                                        <li>
+                                            <code>{value.name}</code>
+                                            {value.symbol === null ? null : <span class="ref-note"> {value.func ? `${value.symbol}()` : value.symbol}</span>}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    </>
+)}
+
+{ABOUT_PROPERTIES.includes(entry.opcode) ? (
+    <p class="ref-note"><a href={properties}>{text.seeProperties}</a></p>
+) : null}
+
+<p class="ref-note">{text.sourceNote(GAME_VERSION)}</p>

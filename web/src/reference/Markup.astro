@@ -1,0 +1,18 @@
+---
+/**
+ * Текст игры с её же цветной разметкой: `[accent]Print Flush[]` — это не скобки в тексте,
+ * а тег цвета. Разбор общий с редактором (`editor/src/markup.js`), перенесённый
+ * из `GlyphLayout.parseColorMarkup`.
+ *
+ * Цвета игры рассчитаны на тёмный фон, а страница бывает светлой, поэтому берётся только
+ * тон: `[accent]` показывается акцентом темы, а не жёлтым по белому.
+ */
+
+import {parseMarkup} from '@mlog/editor/src/markup.js'
+
+const {text} = Astro.props
+const parts = parseMarkup(text ?? '')
+---
+{parts.map(part => part.color === null
+    ? part.text
+    : <span class="ref-mark" style={`--mark: ${part.color}`}>{part.text}</span>)}

@@ -1,0 +1,16 @@
+---
+/**
+ * Текст справочника: игровая цветная разметка плюс наши обратные кавычки.
+ *
+ * У игры свои теги (`[accent]…[]`), у нас — обычный код в кавычках, и в одном абзаце
+ * встречается и то, и другое: описание может прийти из бандла игры, а может быть написано
+ * здесь. Разбирается сначала кавычка, потом уже цвет.
+ */
+
+import Markup from './Markup.astro'
+
+const {text} = Astro.props
+
+const parts = (text ?? '').split('`').map((piece, index) => ({text: piece, code: index % 2 === 1}))
+---
+{parts.map(part => part.code ? <code>{part.text}</code> : <Markup text={part.text} />)}

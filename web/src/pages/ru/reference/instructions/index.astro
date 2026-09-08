@@ -1,0 +1,14 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
+import InstructionsIndex from '../../../../reference/InstructionsIndex.astro'
+import {byCategory} from '../../../../reference/data.js'
+
+// Оглавление справа: у custom-страницы его надо собрать самому
+const headings = byCategory('ru').map(group => ({depth: 2, slug: group.category, text: group.title}))
+---
+<StarlightPage frontmatter={{
+    title: 'Инструкции',
+    description: 'Все инструкции mlog: имена из игры, категории, параметры'
+}} headings={headings}>
+    <InstructionsIndex locale="ru" />
+</StarlightPage>

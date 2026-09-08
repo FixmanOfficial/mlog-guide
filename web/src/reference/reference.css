@@ -1,0 +1,201 @@
+/*
+ * Справочник — обычная страница документации, а не окно игры: он читается с телефона,
+ * с поиска и в светлой теме. Из игры берутся только цвета категорий: по ним человек
+ * узнаёт инструкцию, не читая имени.
+ */
+
+/*
+ * Значки категорий — глифы шрифта иконок игры, как и в самой игре: картинок для них
+ * не существует. Шрифт тот же, что подключает редактор, а не копия.
+ */
+@font-face {
+    font-family: 'Mindustry Icons';
+    src: url('../../../editor/assets/icon.ttf') format('truetype');
+    font-display: block;
+}
+
+.ref-mark {
+    color: color-mix(in srgb, var(--mark) 70%, var(--sl-color-text));
+}
+
+.ref-groups {
+    display: grid;
+    gap: 2rem;
+}
+
+.ref-group__title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 0.25rem;
+    font-size: var(--sl-text-xl);
+    color: var(--sl-color-white);
+}
+
+.ref-group__icon {
+    font-family: 'Mindustry Icons', sans-serif;
+    font-size: 1.4em;
+    line-height: 1;
+    color: var(--category);
+}
+
+.ref-group__rule {
+    height: 3px;
+    margin-bottom: 0.75rem;
+    background: var(--category);
+    opacity: 0.6;
+}
+
+.ref-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 0.5rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.ref-item {
+    display: block;
+    padding: 0.5rem 0.7rem;
+    border-left: 4px solid var(--category);
+    background: var(--sl-color-gray-6);
+    color: var(--sl-color-text);
+    text-decoration: none;
+}
+
+.ref-item:hover {
+    background: var(--sl-color-gray-5);
+}
+
+.ref-item__name {
+    font-family: var(--__sl-font-mono, monospace);
+    color: var(--sl-color-white);
+}
+
+.ref-item__title {
+    color: var(--sl-color-gray-3);
+    font-size: var(--sl-text-xs);
+}
+
+.ref-item__text {
+    display: block;
+    margin-top: 0.15rem;
+    font-size: var(--sl-text-sm);
+    line-height: 1.35;
+}
+
+.ref-badges {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+}
+
+.ref-badge {
+    padding: 0.1rem 0.5rem;
+    border: 1px solid var(--sl-color-gray-4);
+    border-radius: 999px;
+    font-size: var(--sl-text-xs);
+    white-space: nowrap;
+}
+
+.ref-badge--category {
+    border-color: var(--category);
+    color: var(--category);
+}
+
+.ref-badge--warn {
+    border-color: var(--sl-color-orange);
+    color: var(--sl-color-orange-high);
+}
+
+.ref-lead {
+    font-size: var(--sl-text-lg);
+    line-height: 1.5;
+}
+
+.ref-table {
+    font-size: var(--sl-text-sm);
+}
+
+.ref-table code {
+    white-space: nowrap;
+}
+
+.ref-values {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.ref-values code {
+    font-size: var(--sl-text-xs);
+}
+
+.ref-holders {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+}
+
+.ref-holder {
+    padding: 0.05rem 0.4rem;
+    border: 1px solid var(--sl-color-gray-4);
+    font-size: var(--sl-text-xs);
+    white-space: nowrap;
+}
+
+.ref-holder--object {
+    border-style: dashed;
+}
+
+.ref-blocks {
+    margin-top: 0.2rem;
+    color: var(--sl-color-gray-3);
+    font-size: var(--sl-text-xs);
+    line-height: 1.35;
+}
+
+.ref-blocks summary {
+    cursor: pointer;
+}
+
+/* Таблица свойств длинная — 77 строк, — и дышать ей незачем */
+.ref-table td,
+.ref-table th {
+    padding: 0.35rem 0.5rem;
+    vertical-align: top;
+}
+
+/* Описание — главная колонка, и ей нужна половина ширины, а не остаток */
+.ref-table--properties {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.ref-table--properties td:first-child {
+    width: 9rem;
+}
+
+.ref-table--properties td:nth-child(2) {
+    width: 11rem;
+}
+
+.ref-table--properties td:nth-child(3) {
+    width: 7rem;
+}
+
+.ref-table--properties code {
+    word-break: break-word;
+    white-space: normal;
+}
+
+.ref-note {
+    color: var(--sl-color-gray-3);
+    font-size: var(--sl-text-sm);
+}
