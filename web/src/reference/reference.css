@@ -195,6 +195,15 @@
     white-space: normal;
 }
 
+.ref-table--variables {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.ref-table--variables td:first-child {
+    width: 12rem;
+}
+
 .ref-note {
     color: var(--sl-color-gray-3);
     font-size: var(--sl-text-sm);

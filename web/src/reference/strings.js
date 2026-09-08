@@ -40,6 +40,12 @@ export const STRINGS = {
             + 'на свойство не всегда: у типа блока, здания, юнита и предмета отвечают разные '
             + 'части кода, и таблица показывает, какие именно',
         description: 'Описание',
+        variables: 'Переменные',
+        variablesIntro: 'Всё, что процессор знает без спроса: константы, время, размеры карты. '
+            + 'Список и описания — из самой игры, из окна «Переменные»',
+        processorVars: 'Переменные процессора',
+        processorVarsNote: 'В окне игры их нет: они заводятся не в общем списке, '
+            + 'а в самом процессоре.',
         blocksCount: (count) => `только у блоков: ${count}`,
         seeProperties: 'Какие бывают свойства и у кого читаются — в таблице свойств sensor.',
         noValue: 'null',
@@ -90,6 +96,12 @@ export const STRINGS = {
             + 'does not always answer: a block type, a building, a unit and an item are handled '
             + 'by different code, and the table shows which',
         description: 'Description',
+        variables: 'Variables',
+        variablesIntro: 'Everything a processor knows without asking: constants, time, map size. '
+            + 'The list and the descriptions come from the game itself',
+        processorVars: 'Processor variables',
+        processorVarsNote: 'The in-game window does not list them: they live in the processor, '
+            + 'not in the global list.',
         blocksCount: (count) => `blocks only: ${count}`,
         seeProperties: 'Which properties exist and what answers them — in the sensor property table.',
         noValue: 'null',

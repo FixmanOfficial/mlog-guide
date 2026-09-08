@@ -33,6 +33,11 @@ export default defineConfig({
                             link: 'reference/instructions'
                         },
                         {
+                            label: 'Переменные',
+                            translations: {en: 'Variables'},
+                            link: 'reference/variables'
+                        },
+                        {
                             label: 'Свойства sensor',
                             translations: {en: 'Sensor properties'},
                             link: 'reference/properties'

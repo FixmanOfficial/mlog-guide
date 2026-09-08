@@ -1,0 +1,19 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
+import VariablesPage from '../../../../reference/VariablesPage.astro'
+import {globals} from '../../../../reference/data.js'
+import {strings} from '../../../../reference/strings.js'
+
+const text = strings('ru')
+
+const headings = [
+    {depth: 2, slug: 'processor', text: text.processorVars},
+    ...globals('ru').map(section => ({depth: 2, slug: section.slug, text: section.title}))
+]
+---
+<StarlightPage frontmatter={{
+    title: 'Переменные',
+    description: 'Встроенные переменные mlog: что процессор знает без спроса'
+}} headings={headings}>
+    <VariablesPage locale="ru" />
+</StarlightPage>

@@ -13,6 +13,7 @@ import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
 import access from '@mlog/core/data/access.json' with {type: 'json'}
 import blockSpecs from '@mlog/core/data/block-specs.json' with {type: 'json'}
 import icons from '@mlog/core/data/icons.json' with {type: 'json'}
+import globalVars from '@mlog/core/data/globals.json' with {type: 'json'}
 import ru from '@mlog/core/data/i18n/ru.json' with {type: 'json'}
 import en from '@mlog/core/data/i18n/en.json' with {type: 'json'}
 
@@ -20,6 +21,7 @@ import {IMPLEMENTED_INSTRUCTIONS} from '@mlog/core/src/assembler.js'
 
 import {INSTRUCTIONS_RU} from './instructions.ru.js'
 import {PROPERTIES_RU} from './properties.ru.js'
+import {PROCESSOR_RU, PROCESSOR_VARS} from './variables.ru.js'
 import {CATEGORY_COLORS, CATEGORY_ICONS, CATEGORY_ORDER, displayName} from '@mlog/editor/src/theme.js'
 
 const BUNDLES = {ru, en}
@@ -171,3 +173,43 @@ export function blockTitle(locale, name) {
 }
 
 export const blockExists = (name) => blockSpecs.blocks[name] !== undefined
+
+/**
+ * Встроенные переменные — разделами и в том же порядке, в каком их показывает окно игры.
+ * Строки `sectionX` в описи это заголовки разделов, а не переменные.
+ */
+export function globals(locale) {
+    const descriptions = bundle(locale).logic.globals
+    const sections = []
+
+    for (const entry of globalVars.entries) {
+        if (entry.name.startsWith('section')) {
+            // Якорь — имя раздела из игры: заголовок бывает с косой чертой и скобками
+            sections.push({
+                slug: entry.name.replace(/^section/, '').toLowerCase(),
+                title: descriptions[entry.name] ?? entry.name,
+                items: []
+            })
+            continue
+        }
+
+        sections.at(-1)?.items.push({
+            name: entry.name,
+            privileged: entry.privileged,
+            description: descriptions[entry.name] ?? null
+        })
+    }
+
+    return sections
+}
+
+/**
+ * Переменные самого процессора. В окне игры их нет — они заводятся исполнителем, — а знать
+ * про них нужно: `@counter` это переход, `@unit` это цель всех команд юнитам.
+ */
+export function processorVars(locale) {
+    return PROCESSOR_VARS.map(entry => ({
+        ...entry,
+        description: locale === 'ru' ? PROCESSOR_RU[entry.name] ?? null : null
+    }))
+}

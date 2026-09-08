@@ -1,0 +1,65 @@
+---
+/**
+ * Встроенные переменные.
+ *
+ * Список и порядок разделов — из `GlobalVars.init()`, описания — из бандлов игры: это
+ * ровно то, что показывает окно «Переменные». Отдельным разделом идут переменные самого
+ * процессора: в окне их нет, а спрашивают про них чаще, чем про остальные.
+ */
+
+import {globals, processorVars, GAME_VERSION} from './data.js'
+import {strings} from './strings.js'
+import Text from './Text.astro'
+import './reference.css'
+
+const {locale} = Astro.props
+
+const text = strings(locale)
+const sections = globals(locale)
+const own = processorVars(locale)
+---
+
+<p class="ref-lead">{text.variablesIntro} ({GAME_VERSION}).</p>
+
+<h2 id="processor">{text.processorVars}</h2>
+
+<p class="ref-note">{text.processorVarsNote}</p>
+
+<table class="ref-table ref-table--variables">
+    <tbody>
+        {own.map(item => (
+            <tr id={item.name.slice(1)}>
+                <td><code>{item.name}</code></td>
+                <td>
+                    {item.description === null
+                        ? <span class="ref-note">{text.noDescription}</span>
+                        : <Text text={item.description} />}
+                    {item.privileged ? <span class="ref-badge">{text.worldOnly}</span> : null}
+                </td>
+            </tr>
+        ))}
+    </tbody>
+</table>
+
+{sections.map(section => (
+    <>
+        <h2 id={section.slug}>{section.title}</h2>
+
+        <table class="ref-table ref-table--variables">
+            <tbody>
+                {section.items.map(item => (
+                    <tr id={item.name.slice(1)}>
+                        <td><code>{item.name}</code></td>
+                        <td>
+                            {item.description === null
+                                ? <span class="ref-note">{text.noDescription}</span>
+                                : <Text text={item.description} />}
+                        </td>
+                    </tr>
+                ))}
+            </tbody>
+        </table>
+    </>
+))}
+
+<p class="ref-note">{text.sourceNote(GAME_VERSION)}</p>
