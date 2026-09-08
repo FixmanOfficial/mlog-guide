@@ -18,6 +18,7 @@ import {writeFileSync} from 'node:fs'
 import {openAtlas} from './atlas.mjs'
 import {pack} from './pack.mjs'
 import {BLOCK_SPECS} from '../core/src/world.js'
+import teams from '../core/data/teams.json' with {type: 'json'}
 
 /**
  * Ширина атласа. Спрайты идут в родном разрешении, и самый крупный — ядро-цитадель,
@@ -54,6 +55,15 @@ const STATES = ['switch-on', 'door-open']
  */
 const MARKS = ['block-select']
 
+/**
+ * Команды со своей палитрой: у них накладка нарисована отдельным спрайтом и в цвет
+ * не красится. У остальных берётся общая накладка и перекрашивается цветом команды.
+ * `Block.init`: `teamRegions[team.id] = ... team.hasPalette ? find(name + "-team-" + team.name, teamRegion) : teamRegion`
+ */
+const PALETTE_TEAMS = Object.entries(teams.teams)
+    .filter(([, team]) => Array.isArray(team.palette) && team.palette.length > 0)
+    .map(([name]) => name)
+
 function main() {
     const atlas = openAtlas(process.argv[2])
 
@@ -85,6 +95,17 @@ function main() {
          * считает по ним, а не по стороне блока.
          */
         found.push({name, image})
+
+        /*
+         * Накладка команды: `<имя>-team`, а у команд с палитрой ещё и своя,
+         * `<имя>-team-<команда>`. Без неё хранилище и ядро выходят белыми, и игрок
+         * не узнаёт собственный блок: жёлтые уголки — это как раз она.
+         * BuildingComp.drawTeamTop
+         */
+        for (const suffix of ['team', ...PALETTE_TEAMS.map(team => `team-${team}`)]) {
+            const overlay = atlas.cut(`${name}-${suffix}`)
+            if (overlay !== null) found.push({name: `${name}-${suffix}`, image: overlay})
+        }
     }
 
     if (found.length === 0) throw new Error('не нашлось ни одного спрайта блока')

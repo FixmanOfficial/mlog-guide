@@ -455,6 +455,8 @@ export class WorldView {
             })
         }
 
+        this.drawTeamTop(building, cx, cy)
+
         // Включённый тумблер рисуется поверх своим спрайтом. SwitchBlock.draw
         if (building.type === 'switch' && building.enabled) {
             const on = this.sprite('switch-on')
@@ -470,6 +472,36 @@ export class WorldView {
             const screen = building.spec.displaySize * SCALE_FACTOR / SPRITE_SCALE * this.unit
             context.drawImage(picture, cx - screen / 2, cy - screen / 2, screen, screen)
         }
+    }
+
+    /**
+     * Накладка команды поверх блока: те самые цветные уголки, по которым игрок узнаёт свой
+     * склад. У команды с палитрой она нарисована своим спрайтом и рисуется как есть,
+     * у остальных берётся общая и красится цветом команды.
+     *
+     * BuildingComp.drawTeamTop, Block.init:1519-1522
+     */
+    drawTeamTop(building, cx, cy) {
+        const name = this.teamName(building.team)
+        const own = name === null ? null : this.sprite(`${building.type}-team-${name}`)
+        const overlay = own ?? this.sprite(`${building.type}-team`, this.teamColor(building.team))
+        if (overlay === null) return
+
+        const entry = this.blockSprites?.sprites?.[own === null
+            ? `${building.type}-team`
+            : `${building.type}-team-${name}`]
+
+        const width = entry === undefined
+            ? building.size * this.tile * this.ratio
+            : entry.width / SPRITE_SCALE * this.unit
+        const height = entry === undefined
+            ? width
+            : entry.height / SPRITE_SCALE * this.unit
+
+        // Поворот тот же, что у самого блока: накладка нарисована в его системе координат
+        this.rotated(cx, cy, this.blockAngle(building), () => {
+            this.context.drawImage(overlay, -width / 2, -height / 2, width, height)
+        })
     }
 
     /**
@@ -650,6 +682,12 @@ export class WorldView {
         return canvas
     }
 
+    /** Имя команды по номеру: под ним лежит её накладка в атласе. */
+    teamName(id) {
+        const found = Object.entries(this.teams?.teams ?? {}).find(([, team]) => team.id === id)
+        return found === undefined ? null : found[0]
+    }
+
     /** Цвет команды. Им красится ячейка юнита, и его же отдаёт `sensor @color`. */
     teamColor(id) {
         const found = Object.values(this.teams?.teams ?? {}).find(team => team.id === id)
@@ -775,10 +813,11 @@ export class WorldView {
      * умноженная на 32, — и потому не расплываются. Если блока там нет, берётся иконка контента,
      * но она уменьшена до 32 пикселей на весь блок и годится только как запасной вариант.
      */
-    sprite(type) {
+    sprite(type, color = null) {
         const native = this.blockSprites?.sprites?.[type]
         if (native !== undefined && this.blocks !== null) {
-            return this.cut(`block:${type}`, this.blocks, native.x, native.y, native.width, native.height)
+            const key = color === null ? `block:${type}` : `block:${type}:${color}`
+            return this.cut(key, this.blocks, native.x, native.y, native.width, native.height, color)
         }
 
         const entry = this.sprites?.index.block?.[type]

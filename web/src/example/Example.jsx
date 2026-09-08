@@ -39,8 +39,17 @@ import {Variables} from '../game/Variables.jsx'
 import '@mlog/editor/src/styles.css'
 import './example.css'
 
-/** Пикселей на тайл. Меньше, чем в песочнице: пример стоит в тексте, а не занимает экран. */
-const TILE = 28
+/**
+ * Сколько пикселей отдать тайлу, чтобы карта встала в колонку рядом с переменными.
+ *
+ * Размер подбирается целым числом, а не растягиванием готовой картинки: холст рисуется
+ * попиксельно, и дробный масштаб сделал бы из спрайтов кашу. Пределы — чтобы на узкой
+ * колонке карта не превратилась в марку, а на широкой не заняла пол-экрана.
+ */
+const MIN_TILE = 14
+const MAX_TILE = 32
+
+const fitTile = (width, tiles) => Math.max(MIN_TILE, Math.min(MAX_TILE, Math.floor(width / tiles)))
 
 /** Потолок разового скачка времени, как в игре: `Vars.maxDeltaClient`. */
 const MAX_DELTA = 4
@@ -68,6 +77,7 @@ function nextIndex(processor) {
 export function Example({scene: description, world = true, tick = 0, allow = true,
     buffer = false}) {
     const canvas = useRef(null)
+    const vars = useRef(null)
     const stand = useRef(null)
 
     // Пересборка: «сначала» — это заново собранная сцена и заново собранный редактор
@@ -104,6 +114,9 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
         stand.current = {scene, view: null}
 
         if (world) {
+            // Первый размер на глазок: переменные ещё не нарисованы, мерить нечего
+            const tile = fitTile(canvas.current.parentElement?.clientWidth ?? 0, scene.world.width)
+
             const images = [atlasUrl, blocksUrl, unitsUrl, terrainUrl].map(url => {
                 const image = new Image()
                 image.src = url
@@ -114,7 +127,7 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
 
             const view = new WorldView(canvas.current, {
                 world: scene.world,
-                tile: TILE,
+                tile,
                 blocks, blockSprites, units, unitSprites, terrain, terrainSprites,
                 teams, atlas, sprites,
                 font: 'Mindustry',
@@ -134,6 +147,36 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
 
         return () => setReady(false)
     }, [generation])
+
+    /*
+     * Карта подгоняется под колонку с переменными: они шире, они и задают ширину.
+     * Мерить приходится после отрисовки — на момент сборки сцены таблицы ещё нет, — и заново
+     * при изменении размера окна.
+     */
+    useEffect(() => {
+        if (!ready || !world) return
+
+        const fit = () => {
+            const {view, scene} = stand.current
+            if (view === null || view === undefined) return
+
+            const width = vars.current?.clientWidth ?? canvas.current?.parentElement?.clientWidth
+            const tile = fitTile(width ?? 0, scene.world.width)
+            if (tile === view.tile) return
+
+            view.tile = tile
+            view.resize()
+            view.draw({configured: null, cursor: null})
+        }
+
+        fit()
+
+        // Ширину задают переменные, а не сама карта: иначе подгонка гоняла бы себя по кругу
+        const observer = new ResizeObserver(fit)
+        if (vars.current !== null) observer.observe(vars.current)
+
+        return () => observer.disconnect()
+    }, [ready, world])
 
     /*
      * Правка программы. Сцена при этом не пересобирается: мир, картинки и холст остаются
@@ -241,14 +284,17 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
                     />
                 </div>
 
-                {processor === null ? null : (
-                    <div class="example__vars">
-                        <Variables processor={processor} beat={beat} buffer={buffer} />
-                    </div>
-                )}
-            </div>
+                {/* Переменные и карта — одна колонка: два окна игры с общим левым краем */}
+                <div class="example__side">
+                    {processor === null ? null : (
+                        <div class="example__vars" ref={vars}>
+                            <Variables processor={processor} beat={beat} buffer={buffer} />
+                        </div>
+                    )}
 
-            {world ? <canvas class="example__world" ref={canvas} /> : null}
+                    {world ? <canvas class="example__world" ref={canvas} /> : null}
+                </div>
+            </div>
         </div>
     )
 }

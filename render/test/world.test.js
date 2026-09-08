@@ -16,6 +16,7 @@ import pal from '@mlog/core/data/pal.json' with {type: 'json'}
 
 import {WorldView, TILE_UNITS, SPRITE_SCALE, PAL} from '../src/world.js'
 import {BACKGROUND} from '../src/display.js'
+import blockSprites from '@mlog/core/data/block-sprites.json' with {type: 'json'}
 
 /** Холст-заглушка: виду от него нужен только контекст и стили. */
 const fakeCanvas = () => ({
@@ -207,4 +208,16 @@ test('шаг тайла целый при любом увеличении экр
     }
 
     globalThis.devicePixelRatio = saved
+})
+
+test('накладка команды берётся своя у команд с палитрой и общая у остальных', () => {
+    // Block.init:1519-1522 — своя накладка есть у sharded, crux и malis, у green её нет
+    const sprites = blockSprites.sprites
+
+    assert.ok(sprites['vault-team'] !== undefined, 'общая накладка хранилища')
+    assert.ok(sprites['vault-team-sharded'] !== undefined, 'накладка сердцевой команды')
+    assert.equal(sprites['vault-team-green'], undefined)
+
+    // У блока без накладки её нет ни в каком виде: маршрутизатор рисуется одним спрайтом
+    assert.equal(sprites['router-team'], undefined)
 })
