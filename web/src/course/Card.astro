@@ -1,0 +1,29 @@
+---
+/**
+ * Карточка урока: подпись роли и текст под ней.
+ *
+ * Ролей всего три — грабли, «запомнить» и задание, — и в каждом уроке они на своих местах.
+ * Смысл в узнавании: читатель видит форму раньше, чем читает слова, и знает, что красная
+ * рамка это подводный камень, а жёлтая — то, что нужно сделать руками. Заворачивать
+ * в карточку обычный абзац нельзя: если выделено всё, не выделено ничего.
+ *
+ * Цвета — из палитры игры, те же три, что у сложности урока.
+ */
+
+import pal from '@mlog/core/data/pal.json' with {type: 'json'}
+import './course.css'
+
+const KINDS = {
+    trap: {color: pal.colors.remove, title: {ru: 'Грабли', en: 'Trap'}},
+    recap: {color: pal.colors.heal, title: {ru: 'Запомнить', en: 'Remember'}},
+    task: {color: pal.colors.accent, title: {ru: 'Задание', en: 'Task'}}
+}
+
+const {kind = 'trap', title, locale = 'ru'} = Astro.props
+
+const role = KINDS[kind] ?? KINDS.trap
+---
+<aside class={`card card--${kind}`} style={`--card: ${role.color}`}>
+    <p class="card__title">{title ?? role.title[locale] ?? role.title.en}</p>
+    <div class="card__body"><slot /></div>
+</aside>

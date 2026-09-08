@@ -1,0 +1,19 @@
+---
+/**
+ * Одна строка разбора: имя части и её объяснение.
+ *
+ * `label` — чем эта часть является для языка: свойство, связь, ваше имя. Он стоит рядом
+ * с именем, а не в тексте, чтобы разбор читался таблицей и на бегу.
+ */
+
+import './course.css'
+
+const {name, label} = Astro.props
+---
+<div class="parts__row">
+    <dt class="parts__name">
+        <code>{name}</code>
+        {label === undefined ? null : <span class="parts__label">{label}</span>}
+    </dt>
+    <dd class="parts__text"><slot /></dd>
+</div>

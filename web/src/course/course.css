@@ -108,16 +108,119 @@
     line-height: 1.35;
 }
 
-/* Шапка урока: сложность словом плюс то, что нужно знать заранее */
+/* Шапка урока: что даёт, сложность и что нужно знать заранее */
 .lesson-head {
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--sl-color-gray-5);
+}
+
+.lesson-head__lead {
+    margin: 0 0 0.5rem;
+    color: var(--sl-color-white);
+    font-size: var(--sl-text-lg);
+    line-height: 1.45;
+}
+
+.lesson-head__marks {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 0.6rem;
-    margin-bottom: 1rem;
-    padding-bottom: 0.6rem;
-    border-bottom: 1px solid var(--sl-color-gray-5);
     font-size: var(--sl-text-sm);
+}
+
+/*
+ * Карточки ролей: грабли, «запомнить», задание. Полоса слева цветом роли, подпись сверху.
+ * Рамки со всех сторон нет намеренно — на странице их несколько, и в рамках она стала бы
+ * похожа на анкету.
+ */
+.card {
+    margin: 1.5rem 0;
+    padding: 0.7rem 0.9rem;
+    border-left: 3px solid var(--card);
+    background: var(--sl-color-gray-6);
+}
+
+.card__title {
+    margin: 0 0 0.4rem;
+    color: var(--card);
+    font-size: var(--sl-text-sm);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+.card__body > :first-child {
+    margin-top: 0;
+}
+
+.card__body > :last-child {
+    margin-bottom: 0;
+}
+
+/* Разбор строки: слева часть инструкции, справа что это */
+.parts {
+    margin: 1.5rem 0;
+}
+
+.parts__title {
+    margin: 0 0 0.5rem;
+    color: var(--sl-color-white);
+    font-size: var(--sl-text-lg);
+    font-weight: 600;
+}
+
+.parts__list {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: 0.6rem 1rem;
+    margin: 0;
+}
+
+.parts__row {
+    display: contents;
+}
+
+.parts__name {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    margin: 0;
+}
+
+.parts__label {
+    color: var(--sl-color-gray-3);
+    font-size: var(--sl-text-xs);
+}
+
+.parts__text {
+    margin: 0;
+}
+
+.parts__text > :first-child {
+    margin-top: 0;
+}
+
+.parts__text > :last-child {
+    margin-bottom: 0;
+}
+
+@media (max-width: 560px) {
+    /* На телефоне две колонки не помещаются: имя встаёт над объяснением */
+    .parts__list {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0.15rem;
+    }
+
+    .parts__row + .parts__row {
+        margin-top: 0.8rem;
+    }
+
+    .parts__name {
+        flex-direction: row;
+        align-items: baseline;
+        gap: 0.4rem;
+    }
 }
 
 .lesson-head__needs {
