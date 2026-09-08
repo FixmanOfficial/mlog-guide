@@ -2,6 +2,43 @@ import {defineConfig} from 'astro/config'
 import starlight from '@astrojs/starlight'
 import preact from '@astrojs/preact'
 
+import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
+import ru from '@mlog/core/data/i18n/ru.json' with {type: 'json'}
+import en from '@mlog/core/data/i18n/en.json' with {type: 'json'}
+
+/**
+ * Инструкции в боковом меню — категориями и в свёрнутом виде.
+ *
+ * Пятьдесят три ссылки списком меню бы утопили, а без них страница инструкции открывалась
+ * в пустоте: слева не подсвечивалось ничего, и было непонятно, где ты находишься. Категории
+ * решают и то, и другое: свёрнуто их шесть, а нужная разворачивается сама — Starlight
+ * раскрывает группу, в которой лежит открытая страница.
+ *
+ * Список строится из описи, а не пишется руками: инструкции добавляет игра, а не мы.
+ */
+function instructionGroups() {
+    const names = Object.keys(schema.categories)
+
+    // «Неизвестно» уходит вниз: в меню игры этой категории нет, в ней одна `noop`
+    const order = [...names.filter(name => name !== 'unknown'), 'unknown']
+
+    return order
+        .map(category => ({
+            category,
+            opcodes: schema.instructions.filter(entry => entry.category === category)
+        }))
+        .filter(group => group.opcodes.length > 0)
+        .map(({category, opcodes}) => ({
+            label: ru.logic.categories[category] ?? category,
+            translations: {en: en.logic.categories[category] ?? category},
+            collapsed: true,
+            items: opcodes.map(entry => ({
+                label: entry.opcode,
+                link: `reference/instructions/${entry.opcode}`
+            }))
+        }))
+}
+
 /**
  * Сайт mlog.guide.
  *
@@ -36,7 +73,14 @@ export default defineConfig({
                         {
                             label: 'Инструкции',
                             translations: {en: 'Instructions'},
-                            link: 'reference/instructions'
+                            items: [
+                                {
+                                    label: 'Все инструкции',
+                                    translations: {en: 'All instructions'},
+                                    link: 'reference/instructions'
+                                },
+                                ...instructionGroups()
+                            ]
                         },
                         {
                             label: 'Переменные',
