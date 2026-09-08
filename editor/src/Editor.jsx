@@ -6,6 +6,9 @@ import {JumpArrows} from './JumpArrows.jsx'
 import {createStatement, operations, toText, MAX_INSTRUCTIONS} from './program.js'
 import {METRICS} from './theme.js'
 
+/** Кадр при шестидесяти в секунду: к нему привязана скорость прокрутки, как в игре. */
+const FRAME_MS = 1000 / 60
+
 /**
  * Редактор блоков.
  *
@@ -35,6 +38,7 @@ export function Editor({initial = [], onChange, counter = null, addOpen = false,
     const [drag, setDrag] = useState(null)
     const listRef = useRef(null)
     const dragState = useRef(null)
+    const scrollFrame = useRef(0)
 
     const update = useCallback((next) => {
         setStatements(next)
@@ -66,17 +70,98 @@ export function Editor({initial = [], onChange, counter = null, addOpen = false,
         const rows = [...listRef.current.querySelectorAll('.statement')]
         const box = rows[index].getBoundingClientRect()
 
+        const scroller = scrollerFor(listRef.current)
+
         dragState.current = {
             index,
             insert: index,
             startY: event.clientY,
+            pointerY: event.clientY,
             height: box.height,
+
+            /*
+             * Кто поедет, когда потянут к краю, и на сколько он уже уехал. В окне игры это
+             * само полотно, на странице урока — страница: строку тащат мимо текста, а его
+             * может быть на десять экранов.
+             */
+            scroller,
+            startScroll: scrollOf(scroller),
+            lastScroll: 0,
+
             // Верх каждой строки на момент захвата: по ним ищется место вставки
             tops: rows.map(row => row.getBoundingClientRect().top)
         }
 
         setDrag({index, insert: index, offset: 0, height: box.height})
         capture(event)
+        startScrolling()
+    }
+
+    /**
+     * Пока строку держат у края, страница едет сама, а строка остаётся под пальцем.
+     *
+     * Прокрутка не рождает событий указателя, поэтому положение пересчитывается кадром:
+     * иначе палец стоит на месте, текст уезжает, а строка остаётся висеть где была.
+     */
+    const startScrolling = () => {
+        if (scrollFrame.current !== 0) return
+
+        const tick = () => {
+            const state = dragState.current
+
+            if (state === null) {
+                scrollFrame.current = 0
+                return
+            }
+
+            maybeScroll(state)
+            applyDrag(state)
+
+            scrollFrame.current = requestAnimationFrame(tick)
+        }
+
+        scrollFrame.current = requestAnimationFrame(tick)
+    }
+
+    const stopScrolling = () => {
+        cancelAnimationFrame(scrollFrame.current)
+        scrollFrame.current = 0
+    }
+
+    /**
+     * Прокрутка у края — не чаще раза в кадр, откуда бы её ни попросили.
+     *
+     * Просят двое: кадр, пока палец стоит на месте, и само движение пальца. Без счёта времени
+     * они складывались бы, и у края страница ехала бы вдвое быстрее, чем в игре.
+     */
+    const maybeScroll = (state) => {
+        const now = performance.now()
+        if (now - state.lastScroll < FRAME_MS) return
+
+        state.lastScroll = now
+        scrollNearEdge(state.scroller, state.pointerY)
+    }
+
+    /**
+     * Считает сдвиг строки и место вставки по последнему положению пальца.
+     *
+     * Сдвиг берётся вместе с прокруткой: строка стоит на месте документа, а место это едет
+     * вместе с текстом — без поправки строка отставала бы от пальца ровно на прокрученное.
+     * Место вставки от прокрутки не зависит: и строки, и тащимая уезжают одинаково.
+     */
+    const applyDrag = (state) => {
+        const scrolled = scrollOf(state.scroller) - state.startScroll
+        const offset = state.pointerY - state.startY + scrolled
+
+        let insert = 0
+        state.tops.forEach((rowTop, index) => {
+            if (index !== state.index && rowTop + state.height / 2 < state.tops[state.index] + offset + state.height / 2) {
+                insert++
+            }
+        })
+
+        state.insert = insert
+        setDrag({index: state.index, insert, offset, height: state.height})
     }
 
     const onPointerMove = (event) => {
@@ -88,23 +173,14 @@ export function Editor({initial = [], onChange, counter = null, addOpen = false,
         const state = dragState.current
         if (state === null) return
 
-        const offset = event.clientY - state.startY
-        const middle = state.tops[state.index] + offset + state.height / 2
-
         /*
          * Место вставки считается по прочим строкам, без тащимой: столько из них осталось выше.
          * `DragLayout.layout` ищет то же самое, только через координаты arc, где ось Y смотрит
          * вверх. Строки при этом остаются на своих местах — сдвиг рисуется стилем.
          */
-        let insert = 0
-        state.tops.forEach((rowTop, index) => {
-            if (index !== state.index && rowTop + state.height / 2 < middle) insert++
-        })
-
-        state.insert = insert
-        setDrag({index: state.index, insert, offset, height: state.height})
-
-        scrollNearEdge(listRef.current, event.clientY)
+        state.pointerY = event.clientY
+        maybeScroll(state)
+        applyDrag(state)
     }
 
     const onPointerUp = (event) => {
@@ -117,6 +193,7 @@ export function Editor({initial = [], onChange, counter = null, addOpen = false,
         if (state === null) return
 
         dragState.current = null
+        stopScrolling()
         setDrag(null)
 
         if (state.insert !== state.index) {
@@ -132,6 +209,7 @@ export function Editor({initial = [], onChange, counter = null, addOpen = false,
         if (dragState.current === null) return
 
         dragState.current = null
+        stopScrolling()
         setDrag(null)
     }
 
@@ -257,16 +335,46 @@ function capture(event) {
 }
 
 /**
- * Прокрутка, пока тащишь строку у края. `LCanvas.act`: если указатель ближе 100 пикселей
- * к краю, полотно едет на 15 пикселей за тик.
+ * Кто прокручивается, когда строку тянут к краю.
+ *
+ * В окне игры это полотно с программой, на странице урока полотно не прокручивается вовсе —
+ * едет сама страница. Поэтому ищется ближайший предок, которому есть куда ехать, а если
+ * такого нет, берётся окно.
  */
-function scrollNearEdge(list, pointerY) {
-    const pane = list?.closest('.logic-dialog__canvas, .editor, .sandbox__editor')
-    if (pane === null || pane === undefined) return
+function scrollerFor(list) {
+    for (let node = list; node !== null && node !== undefined; node = node.parentElement) {
+        const style = getComputedStyle(node)
+        const scrolls = /auto|scroll|overlay/.test(style.overflowY)
 
-    const box = pane.getBoundingClientRect()
-    const margin = 100
+        if (scrolls && node.scrollHeight > node.clientHeight) return node
+    }
 
-    if (pointerY - box.top < margin) pane.scrollTop -= 15
-    else if (box.bottom - pointerY < margin) pane.scrollTop += 15
+    return globalThis
+}
+
+const scrollOf = (scroller) => scroller === globalThis
+    ? globalThis.scrollY ?? 0
+    : scroller.scrollTop
+
+function scrollBy(scroller, delta) {
+    if (scroller === globalThis) globalThis.scrollBy(0, delta)
+    else scroller.scrollTop += delta
+}
+
+/**
+ * Прокрутка, пока тащишь строку у края. `LCanvas.act`: если указатель ближе 100 пикселей
+ * к краю, полотно едет на 15 пикселей за тик. Те же числа сняты в `metrics.json`.
+ */
+function scrollNearEdge(scroller, pointerY) {
+    if (scroller === null || scroller === undefined) return
+
+    const box = scroller === globalThis
+        ? {top: 0, bottom: globalThis.innerHeight ?? 0}
+        : scroller.getBoundingClientRect()
+
+    const margin = METRICS.scrollMargin
+    const speed = METRICS.scrollSpeed
+
+    if (pointerY - box.top < margin) scrollBy(scroller, -speed)
+    else if (box.bottom - pointerY < margin) scrollBy(scroller, speed)
 }
