@@ -83,16 +83,16 @@ test('урок «Как работает процессор»: счётчик о
     assert.deepEqual(counters, [1, 2, 1, 2])
 })
 
-test('урок «Число, объект и пустота»: у значения есть вид, и он приходит со значением', () => {
+test('урок «Число, объект и null»: у значения есть вид, и он приходит со значением', () => {
     const processor = run(VALUES)
 
     assert.equal(processor.get('число').isobj, false)
     assert.equal(processor.get('текст').objval, 'медь')
     assert.equal(processor.get('предмет').objval, content.find('copper'))
-    assert.equal(processor.get('пусто').objval, null)
+    assert.equal(processor.get('безЗначения').objval, null)
 })
 
-test('урок «Число, объект и пустота»: пустота считается нулём, объект — единицей', () => {
+test('урок «Число, объект и null»: null считается нулём, объект — единицей', () => {
     const processor = run(EMPTINESS)
 
     assert.equal(num(processor, 'равно'), 1)
@@ -103,7 +103,7 @@ test('урок «Число, объект и пустота»: пустота с
     assert.equal(num(processor, 'объектПлюсОдин'), 2)
 })
 
-test('урок «Предметы и пустота»: у типа блока предметом спрашивают цену', () => {
+test('урок «Предметы и null»: у типа блока предметом запрашивают цену', () => {
     const processor = run({
         ...ITEMS,
         processors: [{
@@ -141,23 +141,23 @@ test('урок «Свойства зданий»: у блока два на дв
     assert.equal(num(processor, 'размер'), 2)
 })
 
-test('урок «Предметы и пустота»: ноль, пустота и объект предмета — три разных ответа', () => {
+test('урок «Предметы и null»: ноль, null и объект предмета — три разных ответа', () => {
     const processor = run(ITEMS)
 
     assert.equal(num(processor, 'медь'), 220)
 
-    // Кремния нет, но предмет такой бывает — ответ ноль, а не пустота
+    // Кремния нет, но предмет такой бывает — ответ ноль, а не null
     assert.equal(num(processor, 'кремний'), 0)
     assert.equal(processor.get('кремний').isobj, false)
 
-    // Жидкости хранилище не держит вовсе — вот это уже пустота
+    // Жидкости хранилище не держит вовсе — вот это уже null
     assert.equal(processor.get('вода').isobj, true)
     assert.equal(obj(processor, 'вода'), null)
 
     assert.equal(obj(processor, 'первый'), content.find('copper'))
 })
 
-test('урок «Предметы и пустота»: пустота равна нулю, пока не спросить строго', () => {
+test('урок «Предметы и null»: null равен нулю, пока не сравнить строго', () => {
     const processor = run({
         ...ITEMS,
         processors: [{
@@ -205,6 +205,6 @@ test('урок «Свойство есть не у каждого»: тип от
     assert.equal(num(processor, 'текущее'), 120)
     assert.equal(num(processor, 'памятьЯчейки'), 64)
 
-    // У маршрутизатора памяти нет вовсе: не ноль, а пустота
+    // У маршрутизатора памяти нет вовсе: не ноль, а null
     assert.equal(obj(processor, 'памятьМаршрута'), null)
 })
