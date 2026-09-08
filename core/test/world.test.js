@@ -4,6 +4,9 @@ import {readFileSync} from 'node:fs'
 
 import {World, DOOR_TOGGLE_DELAY, DOOR_TAP_DELAY, BLOCK_SPECS} from '../src/world.js'
 import {Processor} from '../src/vm.js'
+import {createContent} from '../src/content.js'
+
+const logicIds = JSON.parse(readFileSync(new URL('../data/logic-ids.json', import.meta.url), 'utf8'))
 
 /** Собирает мир с набором блоков и процессор, подключённый ко всем сразу. */
 function setup(code, types = ['memory-cell', 'message', 'large-logic-display', 'switch']) {
@@ -427,4 +430,30 @@ test('опись характеристик покрывает весь конт
     // Служебные поля упаковки в опись не идут: имя лежит ключом, переводы снимает gen-bundles
     assert.equal(stats.item.copper.localizedName, undefined)
     assert.equal(stats.block.duo.name, undefined)
+})
+
+test('@type у здания — объект блока, а не строка', () => {
+    // BuildingComp.senseObject:2137 отдаёт block; сравнивать надо с константой @router
+    const content = createContent(logicIds)
+    const world = new World({content})
+    const router = world.add('router')
+    const processor = new Processor('sensor тип router1 @type\nop equal он тип @router', {
+        links: [router], world, content, globals: content.globals
+    })
+
+    world.addProcessor(processor)
+    processor.run(2)
+
+    assert.equal(processor.get('тип').objval, content.find('router'))
+    assert.equal(processor.num('он'), 1)
+})
+
+test('@solid берётся у блока, а не отвечает нулём всем подряд', () => {
+    // BuildingComp: block.solid || checkSolid(). У стены единица, у маршрутизатора ноль
+    const world = new World()
+    const wall = world.add('copper-wall', {x: 2, y: 2})
+    const router = world.add('router', {x: 4, y: 4})
+
+    assert.equal(wall.sense('solid'), 1)
+    assert.equal(router.sense('solid'), 0)
 })

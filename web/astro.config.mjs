@@ -23,6 +23,12 @@ export default defineConfig({
             customCss: ['./src/sandbox/sandbox.css'],
             sidebar: [
                 {label: 'Песочница', translations: {en: 'Sandbox'}, link: 'sandbox'},
+                /*
+                 * Курс собирается сам из папок: группа — папка с именем инструкции, урок —
+                 * страница в ней. Имена инструкций не переводятся, поэтому подписи групп
+                 * в меню одинаковы на всех языках, и это правильно.
+                 */
+                {label: 'Курс', translations: {en: 'Course'}, autogenerate: {directory: 'course'}},
                 {
                     label: 'Справочник',
                     translations: {en: 'Reference'},

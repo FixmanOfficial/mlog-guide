@@ -1,0 +1,36 @@
+---
+/**
+ * Шапка урока: сложность словом и цветом плюс то, что нужно знать заранее.
+ *
+ * «Нужно знать» — ссылками, а не порядком в меню: группы курса независимы, и человек,
+ * пришедший сразу за юнитами, должен видеть, чего ему не хватает, а не проходить всё
+ * подряд.
+ */
+
+import Level from './Level.astro'
+import './course.css'
+
+const {difficulty = 'easy', locale = 'ru', needs = []} = Astro.props
+
+const TEXT = {
+    ru: {needs: 'Нужно знать:'},
+    en: {needs: 'You need:'}
+}
+
+const text = TEXT[locale] ?? TEXT.en
+---
+<div class="lesson-head">
+    <Level difficulty={difficulty} locale={locale} label />
+
+    {needs.length === 0 ? null : (
+        <span class="lesson-head__needs">
+            {text.needs}{' '}
+            {needs.map((item, index) => (
+                <>
+                    {index === 0 ? '' : ', '}
+                    <a href={item.href}>{item.title}</a>
+                </>
+            ))}
+        </span>
+    )}
+</div>

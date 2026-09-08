@@ -7,6 +7,8 @@
 
 import {javaDoubleToString} from '@mlog/core/src/arc.js'
 import {MAX_TEXT_BUFFER} from '@mlog/core/src/vm.js'
+import {Building} from '@mlog/core/src/world.js'
+import {Unit} from '@mlog/core/src/unit.js'
 import pal from '@mlog/core/data/pal.json' with {type: 'json'}
 
 /**
@@ -35,7 +37,17 @@ export function typeName(variable) {
     if (variable.objval === null) return 'null'
     if (typeof variable.objval === 'string') return 'string'
     if (variable.objval.contentType !== undefined) return 'content'
-    if (variable.objval.world !== undefined) return 'building'
+
+    /*
+     * Юнит проверяется раньше здания, и не по полям, а по классу: у юнита тоже есть ссылка
+     * на мир, и по ней он раньше показывался зданием. В игре это `instanceof` в том же
+     * порядке — сначала Building, потом Unit, — но там классы не путаются.
+     */
+    if (variable.objval instanceof Unit) return 'unit'
+    if (variable.objval instanceof Building) return 'building'
+
+    // Команда в константах это не контент, а пара «номер, имя»: у неё нет contentType
+    if (variable.objval.teamId !== undefined) return 'team'
     if (variable.objval.access !== undefined) return 'enum'
     return 'unknown'
 }

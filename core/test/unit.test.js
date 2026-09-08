@@ -402,3 +402,25 @@ test('огонь двигателей есть у всех, но виден то
     assert.equal(world.spawn('dagger', {x: 1, y: 1}).elevation, 0)
     assert.equal(world.spawn('poly', {x: 2, y: 2}).elevation, 1)
 })
+
+test('коды @controlled лежат в константах, как в игре', () => {
+    // GlobalVars.java:94-96 кладёт их простым put, без записи в окно «Переменные»
+    const {world, processor} = setup([
+        'ubind @poly',
+        'sensor кем @unit @controlled',
+        'op equal никто кем 0',
+        'ucontrol move 5 5',
+        'sensor кемПосле @unit @controlled',
+        'op equal процессор кемПосле @ctrlProcessor',
+        'set игрок @ctrlPlayer',
+        'set команда @ctrlCommand'
+    ].join('\n'))
+
+    world.spawn('poly', {x: 5, y: 5})
+    processor.run(8)
+
+    assert.equal(processor.num('никто'), 1)
+    assert.equal(processor.num('процессор'), 1)
+    assert.equal(processor.num('игрок'), 2)
+    assert.equal(processor.num('команда'), 3)
+})

@@ -1,0 +1,16 @@
+---
+/**
+ * Кружок сложности. Цвет — из палитры игры, подпись — рядом или в подсказке.
+ */
+
+import {level} from './levels.js'
+import './course.css'
+
+const {difficulty, locale = 'ru', label = false} = Astro.props
+
+const entry = level(difficulty)
+---
+<span class="level" title={`${entry.title[locale]}: ${entry.hint[locale]}`}>
+    <span class="level__dot" style={`--level: ${entry.color}`}></span>
+    {label ? <span class="level__title">{entry.title[locale]}</span> : null}
+</span>

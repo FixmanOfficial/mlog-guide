@@ -239,6 +239,9 @@ Mindustry закрепляет arc хешем коммита в `gradle.properti
 
 | Деталь | Источник | Тест |
 | --- | --- | --- |
+| `sensor @type` у здания отдаёт **объект блока**, тот же, что константа `@container`: сравнивать надо с ней, а не со строкой. У типа блока при этом свои ответы: `@health` это полное здоровье чертежа, а `@id` и `@name` есть только у типа | `entities/comp/BuildingComp.java:2137`, `world/Block.java:1694` | ✓ `world.test.js`, `web/test/course.test.js` |
+| **Пустота считается нулём в обычном сравнении.** `equal null 0` даёт 1, `null + 1` даёт 1, и только `strictEqual` отличает пустоту от нуля. Отсюда классическая ошибка: проверка «предметов ноль» срабатывает и когда блока нет вовсе | `logic/LVar.java` `num`, `logic/LExecutor.java` `OpI` | ✓ `web/test/course.test.js` |
+| **Коды `@controlled` — настоящие константы.** `@ctrlProcessor`, `@ctrlPlayer`, `@ctrlCommand` кладутся простым `put`, без записи в окно «Переменные», поэтому в списке игры их не видно, а в программах они работают | `logic/GlobalVars.java:24,94-96` | ✓ `unit.test.js` |
 | **Привилегия — свойство блока, а не настройка.** `Block.privileged` есть у четырёх блоков: процессора мира, ячейки, сообщения и тумблера. Каждая инструкция мира начинается с проверки `exec.privileged`, поэтому в обычном процессоре она просто ничего не делает | `world/Block.java`, `logic/LExecutor.java` | ✓ `radar.test.js` |
 | **Флаги — общий язык с целями карты.** `setflag` пишет в `state.rules.objectiveFlags`, а условие `FlagObjective` из `MapObjectives` проверяет тот же набор. Метки у целей и у `setmarker` — одни и те же классы | `logic/LExecutor.java:2102-2150`, `game/MapObjectives.java:687-722` | ✓ `radar.test.js` |
 | `setrule` переводит меры: секунды в тики (`waveSpacing`, `currentWaveTime`), тайлы в мировые единицы (`dropZoneRadius`, `enemyCoreBuildRadius`) | `logic/LExecutor.java` `SetRuleI` | ✓ `radar.test.js` |

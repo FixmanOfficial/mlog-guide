@@ -1,0 +1,27 @@
+---
+/**
+ * Список уроков группы: кружок сложности, название, одна фраза о том, что урок даёт.
+ *
+ * Стоит и на странице группы, и в общем списке курса — это одна и та же вещь, и выглядеть
+ * она должна одинаково.
+ */
+
+import {groupLessons} from './data.js'
+import Level from './Level.astro'
+import './course.css'
+
+const {locale = 'ru', group} = Astro.props
+
+const lessons = await groupLessons(locale, group)
+---
+<ol class="lessons">
+    {lessons.map(lesson => (
+        <li class="lessons__item">
+            <a class="lessons__link" href={lesson.href}>
+                <Level difficulty={lesson.difficulty} locale={locale} />
+                <span class="lessons__title">{lesson.title}</span>
+            </a>
+            {lesson.lead === null ? null : <span class="lessons__lead">{lesson.lead}</span>}
+        </li>
+    ))}
+</ol>

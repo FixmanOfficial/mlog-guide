@@ -1,0 +1,126 @@
+/*
+ * Список курса и кружки сложности.
+ *
+ * Кружок должен читаться на бегу, поэтому он цветной, но не единственный признак: у него
+ * есть подпись в подсказке, а в шапке урока — словом. Цвет как единственный носитель смысла
+ * не работает у восьми процентов мужчин.
+ */
+
+.level {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    white-space: nowrap;
+}
+
+.level__dot {
+    width: 0.7rem;
+    height: 0.7rem;
+    flex: none;
+    border-radius: 50%;
+    background: var(--level);
+}
+
+.level__title {
+    color: var(--sl-color-gray-3);
+    font-size: var(--sl-text-xs);
+}
+
+.legend {
+    display: grid;
+    gap: 0.2rem;
+    margin: 1rem 0 2rem;
+    padding: 0.6rem 0.8rem;
+    border-left: 3px solid var(--sl-color-gray-5);
+    font-size: var(--sl-text-sm);
+}
+
+.legend__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+.legend dt {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-width: 6rem;
+    font-weight: 600;
+}
+
+.legend dd {
+    margin: 0;
+    color: var(--sl-color-gray-3);
+}
+
+.group {
+    margin-bottom: 1.5rem;
+}
+
+.group__name {
+    font-family: var(--__sl-font-mono, monospace);
+}
+
+.group__lead {
+    margin-top: -0.5rem;
+    color: var(--sl-color-gray-3);
+}
+
+.lessons {
+    display: grid;
+    gap: 0.4rem;
+    padding: 0;
+    margin: 0.5rem 0;
+    list-style: none;
+    counter-reset: none;
+}
+
+.lessons__item {
+    padding: 0.35rem 0.6rem;
+    border-left: 3px solid var(--sl-color-gray-5);
+    background: var(--sl-color-gray-6);
+}
+
+.lessons__link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--sl-color-white);
+    text-decoration: none;
+}
+
+.lessons__link:hover .lessons__title {
+    text-decoration: underline;
+}
+
+.lessons__lead {
+    display: block;
+    padding-left: 1.2rem;
+    color: var(--sl-color-gray-3);
+    font-size: var(--sl-text-sm);
+    line-height: 1.35;
+}
+
+.planned {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+}
+
+/* Шапка урока: сложность словом плюс то, что нужно знать заранее */
+.lesson-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--sl-color-gray-5);
+    font-size: var(--sl-text-sm);
+}
+
+.lesson-head__needs {
+    color: var(--sl-color-gray-3);
+}

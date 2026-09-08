@@ -22,7 +22,7 @@ import {
 import {NOT_SENSED} from './sense.js'
 import {
     Unit, LogicAI, UNIT_SPECS, LOGIC_CONTROL_TIMEOUT, TRANSFER_DELAY, ITEM_TRANSFER_RANGE,
-    conv, unconv
+    CTRL_PROCESSOR, CTRL_PLAYER, CTRL_COMMAND, conv, unconv
 } from './unit.js'
 import {BLOCK_SPECS} from './world.js'
 import {damage as explode} from './damage.js'
@@ -75,6 +75,15 @@ function baseGlobals() {
 
     // Свойства sensor: в игре они кладутся в константы обходом LAccess.all
     for (const access of LACCESS) constant(`@${access}`, {access}, true)
+
+    /*
+     * Коды `@controlled`. В окне «Переменные» их нет — игра кладёт их простым `put`, без
+     * записи в список, — но константы настоящие, и сравнивать с ними правильнее, чем
+     * с числами. GlobalVars.java:24,94-96
+     */
+    constant('@ctrlProcessor', CTRL_PROCESSOR)
+    constant('@ctrlPlayer', CTRL_PLAYER)
+    constant('@ctrlCommand', CTRL_COMMAND)
 
     return globals
 }

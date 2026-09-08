@@ -12,6 +12,9 @@ import pal from '@mlog/core/data/pal.json' with {type: 'json'}
 
 import {CATEGORY_COLORS, JUMP_COLOR, JUMP_HOVER_COLOR} from '../src/theme.js'
 import {TYPE_COLORS, dim, typeName, valueText} from '../src/variables.js'
+import {World} from '@mlog/core/src/world.js'
+import {createContent} from '@mlog/core/src/content.js'
+import logicIds from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 
 const colour = (name) => pal.colors[name]
 
@@ -69,4 +72,22 @@ test('значение печатается целым, пока отличае�
     assert.equal(valueText({isobj: true, objval: null}), 'null')
     assert.equal(typeName({isobj: true, objval: null}), 'null')
     assert.equal(typeName({isobj: false, numval: 1}), 'number')
+})
+
+test('юнит в таблице — юнит, а не здание', () => {
+    // У юнита тоже есть ссылка на мир, поэтому проверка по полям путала его со зданием
+    const world = new World({content: null})
+    const unit = world.spawn('poly', {x: 3, y: 3})
+    const building = world.add('router', {x: 5, y: 5})
+
+    assert.equal(typeName({isobj: true, objval: unit}), 'unit')
+    assert.equal(typeName({isobj: true, objval: building}), 'building')
+})
+
+test('команда в таблице — команда', () => {
+    const content = createContent(logicIds)
+    const sharded = content.globals.get('@sharded')
+
+    assert.equal(typeName(sharded), 'team')
+    assert.equal(valueText(sharded), 'sharded')
 })

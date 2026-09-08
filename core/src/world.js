@@ -209,7 +209,8 @@ export class Building {
             case 'enabled': return this.enabled ? 1 : 0
             case 'efficiency': return this.efficiency
             case 'dead': return this.health <= 0 ? 1 : 0
-            case 'solid': return 0
+            // BuildingComp: block.solid || checkSolid(). Дверь считает по-своему, см. ниже
+            case 'solid': return this.spec.solid === true ? 1 : 0
             case 'itemCapacity': return this.items === null ? 0 : this.maximumAccepted()
             case 'totalItems': return this.items === null
                 ? 0
@@ -225,6 +226,8 @@ export class Building {
 
     /** Свойства, отдающие объект. Всё прочее возвращает NOT_SENSED. */
     senseObject(property) {
+        // Тип здания — объект контента, тот же, что константа `@container`. BuildingComp:2137
+        if (property === 'type') return this.world?.content?.find?.(this.type) ?? null
         if (property === 'config') return this.config
 
         // Первый предмет — тот, что раньше положили и он ещё не кончился
