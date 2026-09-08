@@ -79,21 +79,42 @@
     background: none;
 }
 
+/*
+ * Таблица переменных занимает то, что осталось от ряда, и вбок не прокручивается: в окне
+ * игры у неё ширины заданы жёстко (значение 140, тип не уже 120), а на странице урока —
+ * и тем более на телефоне — столько места нет, и таблица уезжала за край.
+ *
+ * Поэтому здесь колонки текучие: имя и тип по содержимому, значение забирает остаток.
+ * Строки заодно ниже, чем в игре: их обычно много, а места мало.
+ */
 .example__vars {
+    /*
+     * Основа в 240 — это порог переноса: если после карты осталось меньше, таблица уходит
+     * на следующую строку целиком, а не сжимается в ниточку.
+     */
+    flex: 1 1 240px;
     min-width: 0;
-    overflow-x: auto;
     font-family: 'Mindustry', system-ui, sans-serif;
     font-size: 14px;
     color: #e6e6e6;
 }
 
-/* Строки переменных в примере ниже, чем в окне игры: их тут обычно много, а места мало */
 .example__vars .vars {
+    width: 100%;
+    grid-template-columns:
+        var(--m-vars-stub, 8px) max-content
+        var(--m-vars-stub, 8px) minmax(0, 1fr)
+        var(--m-vars-stub, 8px) max-content;
     grid-auto-rows: 32px;
 }
 
+/* Значение теперь резиновое, и длинному тексту нужен предел, а не вылет за край */
 .example__vars .vars__value {
-    width: 110px;
+    width: auto;
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .example__world {

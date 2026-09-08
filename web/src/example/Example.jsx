@@ -49,8 +49,21 @@ import './example.css'
 const MIN_TILE = 14
 const MAX_TILE = 32
 
+/**
+ * Ниже этого размера карту рядом с таблицей ставить незачем: на телефоне она превращается
+ * в марку, на которой ничего не разобрать. Тогда она встаёт над таблицей во всю ширину.
+ */
+const MIN_BESIDE = 20
+
 /** Зазор между картой и таблицей переменных, тот же, что в раскладке. */
 const GAP = 8
+
+/**
+ * Какую долю ряда отдать карте. Таблица переменных теперь резиновая и занимает остаток,
+ * поэтому долю приходится назначить: считать «сколько осталось от таблицы» больше нельзя —
+ * её ширина сама зависит от карты.
+ */
+const MAP_SHARE = 0.45
 
 const clampTile = (tile) => Math.max(MIN_TILE, Math.min(MAX_TILE, tile))
 
@@ -59,13 +72,13 @@ const clampTile = (tile) => Math.max(MIN_TILE, Math.min(MAX_TILE, tile))
  * которое осталось: по высоте вровень с таблицей, по ширине — сколько дала колонка.
  * Что меньше, то и берётся, иначе карта вылезет за край.
  */
-function fitTile({stage, varsWidth, varsHeight}, world) {
+function fitTile({stage, varsHeight}, world) {
     const byHeight = Math.floor(varsHeight / world.height)
-    const byWidth = Math.floor((stage - varsWidth - GAP) / world.width)
+    const byWidth = Math.floor((stage - GAP) * MAP_SHARE / world.width)
     const beside = Math.min(byHeight, byWidth)
 
-    // Рядом не помещается — карта уйдёт под таблицу и займёт всю ширину
-    return clampTile(beside < MIN_TILE ? Math.floor(stage / world.width) : beside)
+    // Рядом выходит слишком мелко — карта встанет над таблицей и займёт всю ширину
+    return clampTile(beside < MIN_BESIDE ? Math.floor(stage / world.width) : beside)
 }
 
 /** Потолок разового скачка времени, как в игре: `Vars.maxDeltaClient`. */
@@ -183,8 +196,6 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
 
             const tile = fitTile({
                 stage: stage.clientWidth,
-                // Своя ширина таблицы, а не выданная раскладкой: та зависит от самой карты
-                varsWidth: vars.current?.scrollWidth ?? 0,
                 varsHeight: vars.current?.scrollHeight ?? 0
             }, scene.world)
 
