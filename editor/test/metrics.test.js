@@ -6,6 +6,7 @@
 
 import test from 'node:test'
 import assert from 'node:assert/strict'
+import {readFileSync} from 'node:fs'
 
 import data from '@mlog/core/data/metrics.json' with {type: 'json'}
 
@@ -49,4 +50,17 @@ test('числа те же, что были сняты глазами: гене�
     assert.equal(METRICS.canvasWidth, 900)
     assert.equal(METRICS.varsRowHeight, 45)
     assert.equal(METRICS.varsPeriod, 15)
+})
+
+test('переносы внутри строки включаются на той же ширине, что в игре', () => {
+    /*
+     * LCanvas.useRows: `Core.graphics.getWidth() < Scl.scl(900f) * 1.2f`. Медиазапрос
+     * в CSS не умеет читать переменные, поэтому число там записано литералом — и вот
+     * проверка, что литерал тот же, что снял генератор.
+     */
+    const styles = readFileSync(new URL('../src/styles.css', import.meta.url), 'utf8')
+    const query = styles.match(/@media \(min-width: (\d+)px\)/)
+
+    assert.notEqual(query, null, 'в стилях есть медиазапрос ширины')
+    assert.equal(Number(query[1]), data.metrics.canvasWidth * data.metrics.rowsFactor)
 })
