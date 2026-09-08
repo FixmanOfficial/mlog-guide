@@ -9,7 +9,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "test": "node --test"
+    "test": "node --test",
+    "dev:lan": "astro dev --host"
   },
   "dependencies": {
     "@mlog/core": "*",
