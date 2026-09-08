@@ -33,7 +33,7 @@ import {loadProgram, saveProgram, forgetPrograms} from './storage.js'
 
 import {createScene, attachProcessor} from './scene.js'
 import {MessageDialog, MemoryDialog} from './BlockDialogs.jsx'
-import {Variables} from './Variables.jsx'
+import {Variables} from '../game/Variables.jsx'
 
 /** Тайл мира в пикселях. Всё остальное рендер считает от него сам. */
 const TILE = 40

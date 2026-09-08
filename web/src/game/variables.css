@@ -1,0 +1,91 @@
+/*
+ * Окно переменных игры.
+ *
+ * Живёт отдельно от песочницы: тем же окном пользуются живые примеры уроков, а песочницу
+ * они не подключают — им не нужны ни HUD, ни панель строительства.
+ */
+
+/*
+ * Таблица переменных, снятая с `LogicDialog`. Шесть ячеек в строке: перед каждой видимой стоит
+ * полоска в 8 пикселей вдвое темнее её самой. Высота строки 45, зазор между строками 4,
+ * поле значения — 140 плюс отступы, колонка типа не уже 120.
+ *
+ * Текст везде набран `Styles.outlineLabel`, то есть шрифтом с тёмной обводкой.
+ */
+.vars {
+    display: grid;
+    grid-template-columns:
+        var(--m-vars-stub, 8px) auto
+        var(--m-vars-stub, 8px) auto
+        var(--m-vars-stub, 8px) minmax(var(--m-vars-type-min-width, 120px), auto);
+    grid-auto-rows: var(--m-vars-row-height, 45px);
+    row-gap: var(--m-vars-pad, 4px);
+    justify-content: start;
+    font-size: 15px;
+}
+
+/* Сетка общая на всю таблицу, поэтому колонки у всех строк одной ширины, как в Table */
+.vars__row {
+    display: contents;
+}
+
+/*
+ * Строка буфера печати — не переменная, а добавка: в игре её нет, идея подсмотрена у мода.
+ * Имя набрано не акцентом, чтобы это было видно с первого взгляда.
+ */
+.vars__row--extra .vars__name {
+    color: #8a8a96;
+}
+
+.vars__name,
+.vars__value,
+.vars__type {
+    display: flex;
+    align-items: center;
+    -webkit-text-stroke: 4px #3f3f3f;
+    paint-order: stroke fill;
+}
+
+.vars__name {
+    background: #454545;
+    color: #ffd37f;
+    padding: 0 6px;
+    margin-right: 4px;
+}
+
+/* Tex.pane: рамка 4 пикселя #454545, внутри чёрный на 60 процентов */
+.vars__value {
+    background: rgba(0, 0, 0, 0.6);
+    border: 4px solid #454545;
+    padding: 0 4px;
+    width: var(--m-vars-value-width, 140px);
+    margin-right: var(--m-vars-pad, 4px);
+    color: #ffffff;
+    overflow-wrap: anywhere;
+    line-height: 1.1;
+    animation: vars-flash 0.2s linear;
+}
+
+/* Actions.color(Pal.accent), затем к белому за 0.2 секунды */
+@keyframes vars-flash {
+    from { color: #ffd37f; }
+    to { color: #ffffff; }
+}
+
+.vars__type {
+    color: #ffffff;
+    padding: 0 6px;
+    justify-content: center;
+}
+
+/* Там, где обводка шрифта не поддержана, собираем её тенями */
+@supports not (paint-order: stroke) {
+    .vars__name,
+    .vars__value,
+    .vars__type {
+        -webkit-text-stroke: 0;
+        text-shadow:
+            2px 0 0 #3f3f3f, -2px 0 0 #3f3f3f, 0 2px 0 #3f3f3f, 0 -2px 0 #3f3f3f,
+            1px 1px 0 #3f3f3f, -1px 1px 0 #3f3f3f, 1px -1px 0 #3f3f3f, -1px -1px 0 #3f3f3f;
+    }
+}

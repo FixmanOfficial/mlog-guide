@@ -1,22 +1,25 @@
 /**
  * Живой пример для урока.
  *
- * Не песочница: ни миникарты, ни панели строительства, ни перемотки. Программа, кнопка
- * «шаг», таблица переменных и, если он нужен, кусочек мира — то, чем объясняют инструкцию,
- * и ничего сверх.
+ * Программа показана так, как её видит игрок: блоками из окна процессора, а не текстом.
+ * Курс учит писать в игровом редакторе — значит и примеры должны быть им же. Текстовая
+ * запись появится позже, отдельным разговором о том, чего редактор не умеет.
  *
- * Шаг — одна инструкция, а не тик. Тик у микропроцессора это две инструкции, у гипера
- * двадцать пять, и разглядеть по ним ход нельзя. Мир при шаге стоит: пример объясняет
- * программу, а не время. Кому нужно время, тот нажимает «пуск».
+ * Отсюда состав: полотно редактора (`editor`), окно переменных (`game`) и, если он нужен,
+ * кусочек карты (`render`). Ни HUD, ни панели строительства, ни перемотки — они бы отвлекали
+ * от одной инструкции, ради которой пример стоит на странице.
  *
- * Программу можно править: задания уроков в том и состоят, чтобы поменять строку и посмотреть,
- * что изменилось. В режиме правки подсветки следующей строки нет — она живёт на разметке,
- * а поле ввода разметку не держит; поэтому режима два, и переключаются они кнопкой.
+ * Шаг — одна инструкция, а не тик: по тику ход программы не разглядеть. Мир при шаге стоит;
+ * кому нужно время, тот нажимает «пуск».
+ *
+ * Править можно прямо в блоках, как в игре: поля, выпадающие списки, выбор содержимого,
+ * кнопка «добавить». Задание урока в том и состоит, чтобы что-то в них поменять.
  */
 
 import {useEffect, useRef, useState} from 'preact/hooks'
 
-import {valueText, typeName, TYPE_COLORS} from '@mlog/editor/src/variables.js'
+import {Editor, fromText, applyEasings, applyMetrics, applyNinePatches} from '@mlog/editor'
+import {Icon} from '@mlog/editor/src/Icon.jsx'
 import {WorldView} from '@mlog/render/src/world.js'
 
 // ?url обязателен: иначе Astro пропускает картинку через свой конвейер и отдаёт объект
@@ -31,7 +34,9 @@ import terrainSprites from '@mlog/core/data/terrain-sprites.json'
 import teams from '@mlog/core/data/teams.json'
 
 import {createScene, attachProcessor} from '../sandbox/scene.js'
+import {Variables} from '../game/Variables.jsx'
 
+import '@mlog/editor/src/styles.css'
 import './example.css'
 
 /** Пикселей на тайл. Меньше, чем в песочнице: пример стоит в тексте, а не занимает экран. */
@@ -41,33 +46,28 @@ const TILE = 28
 const MAX_DELTA = 4
 
 /**
- * Строка, которую процессор выполнит следующей, считая с нуля — как их нумерует сборщик.
+ * Номер строки, которую процессор выполнит следующей.
  *
  * Счётчик увеличивается до запуска инструкции, поэтому на паузе он показывает именно
  * следующую, а не только что отработавшую. Выход за границы программы значит «сначала».
  */
-function nextLine(processor) {
+function nextIndex(processor) {
     const value = Math.trunc(processor.counter.numval)
-    const index = value >= 0 && value < processor.instructions.length ? value : 0
-
-    return processor.instructions[index]?.line ?? 0
+    return value >= 0 && value < processor.instructions.length ? value : 0
 }
 
 /**
  * @param scene описание сцены — те же данные, что у песочницы и у урока
  * @param world показывать ли карту: у примера про арифметику мира нет вовсе
- * @param watch какие переменные показывать и в каком порядке; по умолчанию все
  * @param tick  сколько тиков прокрутить до первого кадра: пример иногда должен начинаться
  *              с уже наполненного мира, а не с нулевого тика
- * @param editable можно ли править программу. По умолчанию можно: без этого задание урока
- *              выполнять негде
+ * @param allow какие инструкции доступны в меню добавления; по умолчанию все
  */
-export function Example({scene: description, world = true, watch = null, tick = 0,
-    editable = true}) {
+export function Example({scene: description, world = true, tick = 0, allow = true}) {
     const canvas = useRef(null)
     const stand = useRef(null)
 
-    // Пересборка: «сброс» — это заново собранная сцена, а не откат состояния
+    // Пересборка: «сначала» — это заново собранная сцена и заново собранный редактор
     const [generation, setGeneration] = useState(0)
     const [running, setRunning] = useState(false)
     const [ready, setReady] = useState(false)
@@ -75,14 +75,23 @@ export function Example({scene: description, world = true, watch = null, tick = 
     // Меняется, когда пора перечитать значения переменных
     const [beat, setBeat] = useState(0)
 
-    // Текст программы и режим правки: в правке вместо разметки поле ввода
+    // Текст программы: редактор отдаёт его при каждой правке блока
     const [program, setProgram] = useState(description.processors?.[0]?.program ?? '')
-    const [editing, setEditing] = useState(false)
+
+    // Меню добавления живёт в редакторе, а кнопка к нему в игре стоит в нижнем ряду окна
+    const [addOpen, setAddOpen] = useState(false)
+
+    // Размеры, девятипатчи и кривые интерфейса игры: без них редактор рисуется на глазок
+    useEffect(() => {
+        applyEasings()
+        applyNinePatches()
+        applyMetrics()
+    }, [])
 
     useEffect(() => {
         const scene = createScene(description)
 
-        // Первый процессор берёт текст из поля: правка переживает и «пуск», и «шаг»
+        // Первый процессор берёт текст из редактора: правка переживает и «пуск», и «шаг»
         scene.processors.forEach((entry, index) => {
             attachProcessor(scene, entry, index === 0 ? program : entry.program)
         })
@@ -164,8 +173,6 @@ export function Example({scene: description, world = true, watch = null, tick = 
     }, [running, ready])
 
     const processor = ready ? stand.current.scene.processors[0]?.building.processor ?? null : null
-    const lines = program.split('\n')
-    const current = processor === null ? 0 : nextLine(processor)
 
     const single = () => {
         processor?.step()
@@ -179,71 +186,63 @@ export function Example({scene: description, world = true, watch = null, tick = 
         setGeneration(generation => generation + 1)
     }
 
-    const rows = processor === null ? [] : [...processor.vars.values()]
-        .filter(variable => !variable.constant)
-        .filter(variable => watch === null || watch.includes(variable.name))
-
-    // Порядок: сначала те, что просил урок, и в его порядке — так читается сверху вниз
-    if (watch !== null) rows.sort((a, b) => watch.indexOf(a.name) - watch.indexOf(b.name))
-
     return (
-        <div class="example" data-beat={beat}>
+        // not-content — метка Starlight: внутри неё статья не навязывает свои стили,
+        // а интерфейсу редактора они ломают раскладку
+        <div class="example not-content" data-beat={beat}>
             <div class="example__toolbar">
-                <button class="example__button" onClick={single} disabled={running}>Шаг</button>
-                <button class="example__button" onClick={() => setRunning(!running)}>
-                    {running ? 'Пауза' : 'Пуск'}
+                <button
+                    class="game-button example__button"
+                    title={running ? 'Пауза' : 'Пуск'}
+                    onClick={() => setRunning(!running)}
+                >
+                    <Icon name={running ? 'pause' : 'play'} size={20} />
                 </button>
-                <button class="example__button" onClick={reset}>Сброс</button>
-                {editable ? (
-                    <button class="example__button" onClick={() => setEditing(!editing)}>
-                        {editing ? 'Готово' : 'Править'}
-                    </button>
-                ) : null}
+
+                <button
+                    class="game-button example__button"
+                    title="Одна инструкция"
+                    disabled={running}
+                    onClick={single}
+                >
+                    шаг
+                </button>
+
+                <button class="game-button example__button" title="Сначала" onClick={reset}>
+                    <Icon name="refresh-1" size={20} />
+                </button>
+
+                <button
+                    class="game-button example__button"
+                    title="Добавить инструкцию"
+                    onClick={() => setAddOpen(true)}
+                >
+                    <Icon name="add" size={20} />
+                </button>
+
                 <span class="example__tick">
                     тик {ready ? Math.trunc(stand.current.scene.world.tick) : 0}
                 </span>
             </div>
 
             <div class="example__panes">
-                {editing ? (
-                    <textarea
-                        class="example__editor"
-                        spellcheck={false}
-                        rows={Math.max(lines.length + 1, 4)}
-                        value={program}
-                        onInput={event => {
-                            setRunning(false)
-                            setProgram(event.currentTarget.value)
-                        }}
+                <div class="example__editor">
+                    <Editor
+                        key={generation}
+                        initial={fromText(program)}
+                        onChange={setProgram}
+                        counter={processor === null ? null : nextIndex(processor)}
+                        addOpen={addOpen}
+                        onAddClose={() => setAddOpen(false)}
+                        allow={allow}
                     />
-                ) : (
-                    <ol class="example__code">
-                        {lines.map((line, index) => (
-                            <li class={index === current
-                                ? 'example__line example__line--next'
-                                : 'example__line'}>
-                                <code>{line === '' ? ' ' : line}</code>
-                            </li>
-                        ))}
-                    </ol>
-                )}
+                </div>
 
-                <table class="example__vars">
-                    <tbody>
-                        {rows.map(variable => (
-                            <tr key={variable.name}>
-                                <td class="example__name">{variable.name}</td>
-                                <td class="example__value">{valueText(variable)}</td>
-                                <td class="example__type" style={{color: TYPE_COLORS[typeName(variable)]}}>
-                                    {typeName(variable)}
-                                </td>
-                            </tr>
-                        ))}
-                        {rows.length === 0 ? (
-                            <tr><td class="example__empty" colspan="3">переменных пока нет</td></tr>
-                        ) : null}
-                    </tbody>
-                </table>
+                {processor === null ? null : (
+                    <div class="example__vars">
+                        <Variables processor={processor} beat={beat} />
+                    </div>
+                )}
             </div>
 
             {world ? <canvas class="example__world" ref={canvas} /> : null}

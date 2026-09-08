@@ -1,172 +1,95 @@
 /*
  * Живой пример в тексте урока.
  *
- * Вид не игровой, а документационный: пример стоит между абзацами, и рамка в стиле
- * Mindustry рядом с обычным текстом читалась бы как чужая вставка. Из игры взято одно —
- * моноширинный шрифт программы и цвета типов в таблице переменных: по ним видно, что
- * `@copper` не строка.
+ * Внутри — интерфейс игры: полотно редактора и окно переменных со своими размерами,
+ * снятыми из исходников. Снаружи — рамка страницы документации, потому что пример стоит
+ * между абзацами. Поэтому здесь только обвязка: рамка, ряд кнопок и раскладка на две
+ * колонки; всё, что внутри, рисует себя само.
  */
-
-/* Тот же моноширинный, которым набран код в редакторе. См. editor/assets/README.md */
-@font-face {
-    font-family: 'Mindustry Mono';
-    src: url('../../../editor/assets/mono.woff') format('woff');
-    font-weight: 500;
-    font-display: swap;
-}
 
 .example {
     margin: 1.5rem 0;
     border: 1px solid var(--sl-color-gray-5);
-    background: var(--sl-color-black);
+    background: #1f1f22;
 }
 
 .example__toolbar {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
-    padding: 0.4rem 0.5rem;
+    gap: 4px;
+    padding: 6px;
     border-bottom: 1px solid var(--sl-color-gray-5);
-    background: var(--sl-color-gray-6);
+    background: #16161a;
 }
 
+/* Кнопки те же, что в песочнице: `game-button` — это девятипатч игры, а не рамка браузера */
 .example__button {
-    padding: 0.2rem 0.8rem;
-    border: 1px solid var(--sl-color-gray-4);
-    background: var(--sl-color-gray-6);
-    color: var(--sl-color-white);
-    font: inherit;
-    font-size: var(--sl-text-sm);
-    cursor: pointer;
-}
-
-.example__button:hover:not(:disabled) {
-    background: var(--sl-color-gray-5);
+    min-width: 44px;
+    height: 40px;
+    padding: 0 12px;
+    font-family: 'Mindustry', system-ui, sans-serif;
+    font-size: 14px;
 }
 
 .example__button:disabled {
-    color: var(--sl-color-gray-3);
+    color: #6f6f6f;
     cursor: default;
 }
 
 .example__tick {
     margin-left: auto;
-    color: var(--sl-color-gray-3);
-    font-size: var(--sl-text-xs);
+    padding-right: 4px;
+    color: #9a9a9a;
+    font-family: 'Mindustry', system-ui, sans-serif;
+    font-size: 13px;
     font-variant-numeric: tabular-nums;
 }
 
 .example__panes {
-    display: grid;
-    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-    gap: 0.5rem;
-    align-items: start;
-    padding: 0.5rem;
-}
-
-@media (max-width: 640px) {
-    .example__panes {
-        grid-template-columns: minmax(0, 1fr);
-    }
-}
-
-.example__code {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    counter-reset: line;
-    overflow-x: auto;
-    font-family: 'Mindustry Mono', var(--__sl-font-mono, monospace);
-    font-size: var(--sl-text-sm);
-    line-height: 1.5;
-}
-
-/* Код внутри строки — просто текст: подложка и рамка от разметки документации тут мешают */
-.example__line code,
-.example__name code {
-    padding: 0;
-    border: 0;
-    background: none;
-    font-size: inherit;
-    color: inherit;
-}
-
-.example__line {
     display: flex;
-    gap: 0.6rem;
-    padding: 0 0.3rem;
-    white-space: pre;
-}
-
-/* Номер строки — счётчиком, чтобы его нельзя было выделить вместе с кодом */
-.example__line::before {
-    counter-increment: line;
-    content: counter(line);
-    min-width: 1.5rem;
-    color: var(--sl-color-gray-4);
-    text-align: right;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 8px;
 }
 
 /*
- * Следующая строка. В песочнице подсветка выключаемая — там она перескакивает каждый тик,
- * и это мельтешение. Здесь шаг делает человек, поэтому она всегда видна.
+ * Полотно редактора шире колонки статьи, и сжимать его нельзя: размеры блоков сняты
+ * из игры. Поэтому оно прокручивается вбок, а не подгоняется.
  */
-.example__line--next {
-    background: color-mix(in srgb, #ffd37f 18%, transparent);
-    box-shadow: inset 2px 0 0 #ffd37f;
+.example__editor {
+    flex: 1 1 420px;
+    min-width: 0;
+    overflow-x: auto;
 }
 
-.example__editor {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 0.3rem 0.4rem;
-    border: 1px solid var(--sl-color-gray-5);
-    background: var(--sl-color-gray-7, #000);
-    color: var(--sl-color-white);
-    font-family: 'Mindustry Mono', var(--__sl-font-mono, monospace);
-    font-size: var(--sl-text-sm);
-    line-height: 1.5;
-    resize: vertical;
+/* Правое поле под стрелки переходов примеру не нужно: переходов в нём почти не бывает */
+.example__editor .editor {
+    padding: 0 24px 0 0;
+    background: none;
 }
 
 .example__vars {
-    width: 100%;
-    margin: 0;
-    font-size: var(--sl-text-xs);
-    line-height: 1.4;
+    flex: 0 1 auto;
+    min-width: 0;
+    overflow-x: auto;
+    font-family: 'Mindustry', system-ui, sans-serif;
+    font-size: 14px;
+    color: #e6e6e6;
 }
 
-.example__vars td {
-    padding: 0.1rem 0.4rem;
-    border: 0;
-    border-bottom: 1px solid var(--sl-color-gray-6);
-    vertical-align: top;
+/* Строки переменных в примере ниже, чем в окне игры: их тут обычно много, а места мало */
+.example__vars .vars {
+    grid-auto-rows: 32px;
 }
 
-.example__name {
-    color: #ffd37f;
-    font-family: 'Mindustry Mono', var(--__sl-font-mono, monospace);
-}
-
-.example__value {
-    width: 55%;
-    color: var(--sl-color-white);
-    font-family: 'Mindustry Mono', var(--__sl-font-mono, monospace);
-    word-break: break-word;
-}
-
-.example__type {
-    text-align: right;
-    white-space: nowrap;
-}
-
-.example__empty {
-    color: var(--sl-color-gray-3);
+.example__vars .vars__value {
+    width: 110px;
 }
 
 .example__world {
     display: block;
     max-width: 100%;
-    margin: 0 auto 0.5rem;
+    margin: 0 auto 8px;
     image-rendering: pixelated;
 }

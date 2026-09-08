@@ -18,6 +18,8 @@ import {
     TYPE_COLORS, NAME_BACKGROUND, bufferRow, dim, typeName, valueText
 } from '@mlog/editor/src/variables.js'
 
+import './variables.css'
+
 /**
  * @param beat меняется, когда пора перечитать значения. Само значение при этом не передаётся:
  *             таблица берёт его прямо из переменных процессора.

@@ -26,33 +26,27 @@
     font-size: var(--sl-text-xs);
 }
 
+/* Легенда сложности: таблица, а не пары — иначе подписи расползаются по узкой колонке */
 .legend {
-    display: grid;
-    gap: 0.2rem;
     margin: 1rem 0 2rem;
-    padding: 0.6rem 0.8rem;
-    border-left: 3px solid var(--sl-color-gray-5);
     font-size: var(--sl-text-sm);
 }
 
-.legend__row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.5rem;
+.legend td {
+    padding: 0.3rem 0.6rem;
+    vertical-align: top;
 }
 
-.legend dt {
+.legend td + td {
+    color: var(--sl-color-gray-3);
+}
+
+.legend__level {
     display: flex;
     align-items: center;
-    gap: 0.35rem;
-    min-width: 6rem;
+    gap: 0.4rem;
+    white-space: nowrap;
     font-weight: 600;
-}
-
-.legend dd {
-    margin: 0;
-    color: var(--sl-color-gray-3);
 }
 
 .group {

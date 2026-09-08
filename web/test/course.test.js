@@ -18,7 +18,7 @@ import {Processor} from '@mlog/core/src/vm.js'
 import logicIds from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 
 import {BUILDINGS, ITEMS, UNITS, HOLDERS} from '../src/course/scenes/sensor.js'
-import {VALUES, EMPTINESS} from '../src/course/scenes/basics.js'
+import {VALUES, EMPTINESS, PROCESSOR} from '../src/course/scenes/basics.js'
 
 const content = createContent(logicIds)
 
@@ -57,6 +57,31 @@ const num = (processor, name) => processor.get(name).numval
 
 /** Объект из переменной: контент, здание или null. */
 const obj = (processor, name) => processor.get(name).objval
+
+test('урок «Как работает процессор»: скорость микропроцессора и круг из двух инструкций', () => {
+    const processor = run(PROCESSOR, 60)
+
+    assert.equal(num(processor, 'скорость'), 2)
+
+    /*
+     * Две инструкции за такт при программе из двух инструкций — круг в такт, то есть около
+     * шестидесяти кругов в секунду. Ровно шестьдесят не выходит: накопитель начинается
+     * с нуля, и первый круг достаётся не полностью. Урок так и говорит — «около».
+     */
+    assert.ok(Math.abs(num(processor, 'кругов') - 60) <= 1, num(processor, 'кругов'))
+})
+
+test('урок «Как работает процессор»: счётчик обходит две строки и уходит за последнюю', () => {
+    const processor = run(PROCESSOR, 0)
+    const counters = []
+
+    for (let i = 0; i < 4; i++) {
+        processor.step()
+        counters.push(processor.counter.numval)
+    }
+
+    assert.deepEqual(counters, [1, 2, 1, 2])
+})
 
 test('урок «Число, объект и пустота»: у значения есть вид, и он приходит со значением', () => {
     const processor = run(VALUES)
