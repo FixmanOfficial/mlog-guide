@@ -11,8 +11,6 @@ import {Example} from '../../../../../example/Example.jsx'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
-import Parts from '../../../../../course/Parts.astro'
-import Part from '../../../../../course/Part.astro'
 import {ITEMS} from '../../../../../course/scenes/sensor.js'
 
 <LessonHead
@@ -30,20 +28,13 @@ import {ITEMS} from '../../../../../course/scenes/sensor.js'
 
 <Example client:only="preact" scene={ITEMS} />
 
-<Parts title="Три ответа на три похожих вопроса">
-    <Part name="медь" label="220">
-        Предмет есть, вот сколько его.
-    </Part>
+Три ответа на три похожих вопроса:
 
-    <Part name="кремний" label="0">
-        Предмет бывает, но здесь его нет. Ноль — это ответ «нисколько».
-    </Part>
-
-    <Part name="вода" label="null">
-        Хранилище не держит жидкости вовсе, спрашивать не о чем. Пустота — это «вопрос
-        не про меня».
-    </Part>
-</Parts>
+| Спросили | Ответ | Что это значит |
+| --- | --- | --- |
+| `@copper` | 220 | предмет есть, вот сколько его |
+| `@silicon` | 0 | предмет бывает, но здесь его нет: ноль — это «нисколько» |
+| `@water` | `null` | хранилище не держит жидкости вовсе: пустота — это «вопрос не про меня» |
 
 <Card kind="trap">
     Разница не косметическая: в обычном сравнении пустота притворяется нулём, и проверка
