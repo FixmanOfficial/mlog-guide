@@ -47,6 +47,7 @@ export const STRINGS = {
         processorVarsNote: 'В окне игры их нет: они заводятся не в общем списке, '
             + 'а в самом процессоре.',
         blocksCount: (count) => `только у блоков: ${count}`,
+        blocksOwn: (count) => `свой ответ у ${count} блоков`,
         seeProperties: 'Какие бывают свойства и у кого читаются — в таблице свойств sensor.',
         noValue: 'null',
         holders: {
@@ -103,6 +104,7 @@ export const STRINGS = {
         processorVarsNote: 'The in-game window does not list them: they live in the processor, '
             + 'not in the global list.',
         blocksCount: (count) => `blocks only: ${count}`,
+        blocksOwn: (count) => `answered differently by ${count} blocks`,
         seeProperties: 'Which properties exist and what answers them — in the sensor property table.',
         noValue: 'null',
         holders: {

@@ -21,6 +21,16 @@ const text = strings(locale)
 const rows = properties(locale)
 
 const holderTitle = (holder) => text.holders[holder] ?? holder
+
+/*
+ * Список блоков значит разное. Если у свойства нет общего носителя, оно живёт только
+ * в этих блоках: `@ammo` бывает у турели и больше нигде. Если общий носитель есть,
+ * блоки отвечают на тот же вопрос **по-своему**: `@firstItem` читается у любого здания
+ * с содержимым, а конвейер и бур считают его иначе.
+ */
+const blocksLabel = (row) => Object.keys(row.sense).length === 0
+    ? text.blocksCount(row.blocks.length)
+    : text.blocksOwn(row.blocks.length)
 const kindTitle = (kind) => kind === 'object' ? text.object : text.number
 ---
 
@@ -50,7 +60,7 @@ const kindTitle = (kind) => kind === 'object' ? text.object : text.number
                     </div>
                     {row.blocks.length === 0 ? null : (
                         <details class="ref-blocks">
-                            <summary>{text.blocksCount(row.blocks.length)}</summary>
+                            <summary>{blocksLabel(row)}</summary>
                             {row.blocks.map(name => blockTitle(locale, name)).join(', ')}
                         </details>
                     )}
