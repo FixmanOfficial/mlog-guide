@@ -73,7 +73,7 @@ const ABOUT_PROPERTIES = ['sensor', 'control', 'setprop']
                             ) : (
                                 <ul class="ref-values">
                                     {param.values.map(value => (
-                                        <li>
+                                        <li class="ref-value">
                                             <code>{value.name}</code>
                                             {value.symbol === null ? null : <span class="ref-note"> {value.func ? `${value.symbol}()` : value.symbol}</span>}
                                         </li>
