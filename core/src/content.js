@@ -85,6 +85,27 @@ export class Content {
         return NaN
     }
 
+    /**
+     * Сколько в контенте другого контента. У типа блока это **цена постройки**:
+     * `sensor медь @duo @copper` отдаёт 35 — столько меди стоит дуо. Малоизвестно, но
+     * работает, и режим бесконечных ресурсов честно отвечает нулём.
+     *
+     * У остальных видов контента ответ ноль, а не пустота: `Senseable.sense(Content)`
+     * по умолчанию возвращает 0. Block.java:1677-1690, Senseable.java:10
+     */
+    senseContent(content, rules = null) {
+        if (this.contentType !== 'block') return 0
+        if (content?.contentType !== 'item') return NaN
+
+        if (rules?.get('infiniteResources') === true) return 0
+
+        const spec = blockSpecs.blocks[this.name]
+        const stack = spec?.requirements?.find(entry => entry.item === content.name)
+        if (stack === undefined) return 0
+
+        return Math.round(stack.amount * (rules?.get('buildCostMultiplier') ?? 1))
+    }
+
     /** Единственное объектное свойство контента — имя. */
     senseObject(property) {
         return property === 'name' ? this.name : NOT_SENSED

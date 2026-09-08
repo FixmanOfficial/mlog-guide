@@ -5,6 +5,7 @@ import {readFileSync} from 'node:fs'
 import {createContent} from '../src/content.js'
 import {Processor} from '../src/vm.js'
 import {LVar} from '../src/lvar.js'
+import {World} from '../src/world.js'
 
 const data = JSON.parse(readFileSync(new URL('../data/logic-ids.json', import.meta.url), 'utf8'))
 const content = createContent(data)
@@ -89,4 +90,41 @@ test('set копирует значение мимо проверки на ко�
     // А инструкция set — защищает
     const processor = run('set @pi 3\nset result @pi', 2)
     assert.equal(processor.num('result'), 3.1415927410125732)
+})
+
+test('у типа блока предметом спрашивают цену постройки', () => {
+    // Block.sense(Content):1677-1690 — стоимость, умноженная на buildCostMultiplier
+    const world = new World({content})
+    const processor = new Processor([
+        'sensor медьДуо @duo @copper',
+        'sensor титанХранилища @vault @titanium',
+        'sensor медьХранилища @vault @copper',
+        'sensor водаДуо @duo @water'
+    ].join('\n'), {world, content, globals: content.globals})
+
+    world.addProcessor(processor)
+    processor.run(4)
+
+    assert.equal(processor.num('медьДуо'), 35)
+    assert.equal(processor.num('титанХранилища'), 250)
+
+    // Меди хранилище не стоит вовсе — ноль, а не пустота
+    assert.equal(processor.num('медьХранилища'), 0)
+
+    // Жидкостью блок не оплачивают: Block.sense отдаёт NaN, и он становится пустотой
+    assert.equal(processor.get('водаДуо').objval, null)
+})
+
+test('в песочнице постройка бесплатна, и цена отвечает нулём', () => {
+    const world = new World({content})
+    world.rules.set('infiniteResources', true)
+
+    const processor = new Processor('sensor медьДуо @duo @copper', {
+        world, content, globals: content.globals
+    })
+
+    world.addProcessor(processor)
+    processor.run(1)
+
+    assert.equal(processor.num('медьДуо'), 0)
 })

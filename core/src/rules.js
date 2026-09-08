@@ -53,7 +53,14 @@ export const DEFAULT_RULES = {
      * `instantBuild` она ещё и мгновенна — `BuilderComp` проверяет оба правила сразу.
      */
     infiniteResources: false,
-    instantBuild: false
+    instantBuild: false,
+
+    /*
+     * Множитель стоимости постройки. Логикой он не меняется — в `LogicRule` его нет, —
+     * но читается: `Block.sense(Content)` считает им цену блока, которую спрашивают
+     * у типа (`sensor цена @duo @copper`). Rules.java
+     */
+    buildCostMultiplier: 1
 }
 
 /**

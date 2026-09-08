@@ -3,9 +3,15 @@
  * Шапка урока: сложность словом и цветом плюс то, что нужно знать заранее.
  *
  * «Нужно знать» — ссылками, а не порядком в меню: группы курса независимы, и человек,
- * пришедший сразу за юнитами, должен видеть, чего ему не хватает, а не проходить всё
- * подряд.
+ * пришедший сразу за юнитами, должен видеть, чего ему не хватает, а не проходить всё подряд.
+ *
+ * Ссылаться можно на группу целиком (`{group: 'ubind'}`) или на конкретный урок
+ * (`{lesson: 'sensor/zdaniya'}`). Ненаписанная группа не превращается в ссылку в никуда:
+ * шапка так и пишет, что её ещё нет. Курс пишется годами, и такие ссылки появятся раньше
+ * самих уроков.
  */
+
+import {getCollection} from 'astro:content'
 
 import Level from './Level.astro'
 import './course.css'
@@ -13,22 +19,42 @@ import './course.css'
 const {difficulty = 'easy', locale = 'ru', needs = []} = Astro.props
 
 const TEXT = {
-    ru: {needs: 'Нужно знать:'},
-    en: {needs: 'You need:'}
+    ru: {needs: 'Нужно знать:', soon: 'ещё не написано', group: 'группа'},
+    en: {needs: 'You need:', soon: 'not written yet', group: 'group'}
 }
 
 const text = TEXT[locale] ?? TEXT.en
+const pages = await getCollection('docs')
+
+/** Ищет страницу по адресу внутри курса: группа или урок. */
+function resolve(item) {
+    if (item.href !== undefined) return {...item, ready: true}
+
+    const path = item.group ?? item.lesson
+    const slug = `${locale}/course/${path}`
+    const page = pages.find(entry => entry.slug === slug)
+
+    return {
+        title: item.title ?? (item.group === undefined ? path : `${text.group} ${path}`),
+        href: `/${slug}/`,
+        ready: page !== undefined
+    }
+}
+
+const items = needs.map(resolve)
 ---
 <div class="lesson-head">
     <Level difficulty={difficulty} locale={locale} label />
 
-    {needs.length === 0 ? null : (
+    {items.length === 0 ? null : (
         <span class="lesson-head__needs">
             {text.needs}{' '}
-            {needs.map((item, index) => (
+            {items.map((item, index) => (
                 <>
                     {index === 0 ? '' : ', '}
-                    <a href={item.href}>{item.title}</a>
+                    {item.ready
+                        ? <a href={item.href}>{item.title}</a>
+                        : <span class="lesson-head__soon">{item.title} — {text.soon}</span>}
                 </>
             ))}
         </span>

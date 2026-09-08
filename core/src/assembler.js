@@ -536,7 +536,7 @@ const builders = {
         const property = asm.var(params[2] ?? '@copper')
 
         return {
-            run: () => {
+            run: (vm) => {
                 const object = target.obj()
                 const name = propertyName(property)
 
@@ -549,7 +549,8 @@ const builders = {
                 // Спрашивают не свойство, а контент: сколько в здании меди, что у юнита в руках
                 const content = property.obj()
                 if (name === null && content !== null && content.contentType !== undefined) {
-                    output.setnum(object?.senseContent?.(content) ?? 0)
+                    // Правила нужны цене блока: в песочнице она ноль. Block.sense(Content)
+                    output.setnum(object?.senseContent?.(content, vm?.world?.rules) ?? 0)
                     return
                 }
 

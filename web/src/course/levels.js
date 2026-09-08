@@ -15,24 +15,26 @@ export const LEVELS = {
         color: pal.colors.heal,
         title: {ru: 'просто', en: 'easy'},
         hint: {
-            ru: 'Хватит того, что уже прочитано в этой группе',
-            en: 'What you have already read in this group is enough'
+            ru: 'Читается с нуля: знать заранее ничего не нужно',
+            en: 'Reads from scratch: nothing needs to be known first'
         }
     },
     medium: {
         color: pal.colors.accent,
         title: {ru: 'средний', en: 'medium'},
         hint: {
-            ru: 'Нужны инструкции из других групп — какие, написано в начале урока',
-            en: 'Needs instructions from other groups, listed at the top of the lesson'
+            ru: 'Нужны другие уроки — какие именно, написано в начале',
+            en: 'Needs other lessons, listed at the top of the page'
         }
     },
     hard: {
         color: pal.colors.remove,
         title: {ru: 'сложно', en: 'hard'},
         hint: {
-            ru: 'Тонкости, из-за которых программа ведёт себя не так, как написано',
-            en: 'The fine print that makes a program behave unlike what it says'
+            ru: 'Подводные камни: работающая на вид программа врёт молча. Читать, когда '
+                + 'основное уже уложилось',
+            en: 'The fine print: a program that looks right lies silently. Read it once the '
+                + 'basics have settled'
         }
     }
 }

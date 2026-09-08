@@ -18,6 +18,7 @@ import {Processor} from '@mlog/core/src/vm.js'
 import logicIds from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 
 import {BUILDINGS, ITEMS, UNITS, HOLDERS} from '../src/course/scenes/sensor.js'
+import {VALUES, EMPTINESS} from '../src/course/scenes/basics.js'
 
 const content = createContent(logicIds)
 
@@ -56,6 +57,39 @@ const num = (processor, name) => processor.get(name).numval
 
 /** Объект из переменной: контент, здание или null. */
 const obj = (processor, name) => processor.get(name).objval
+
+test('урок «Число, объект и пустота»: у значения есть вид, и он приходит со значением', () => {
+    const processor = run(VALUES)
+
+    assert.equal(processor.get('число').isobj, false)
+    assert.equal(processor.get('текст').objval, 'медь')
+    assert.equal(processor.get('предмет').objval, content.find('copper'))
+    assert.equal(processor.get('пусто').objval, null)
+})
+
+test('урок «Число, объект и пустота»: пустота считается нулём, объект — единицей', () => {
+    const processor = run(EMPTINESS)
+
+    assert.equal(num(processor, 'равно'), 1)
+    assert.equal(num(processor, 'строго'), 0)
+    assert.equal(num(processor, 'сумма'), 1)
+
+    // Любой объект в арифметике это единица: LVar.num
+    assert.equal(num(processor, 'объектПлюсОдин'), 2)
+})
+
+test('урок «Предметы и пустота»: у типа блока предметом спрашивают цену', () => {
+    const processor = run({
+        ...ITEMS,
+        processors: [{
+            ...ITEMS.processors[0],
+            program: ['sensor титан @vault @titanium', 'sensor медь @vault @copper'].join('\n')
+        }]
+    })
+
+    assert.equal(num(processor, 'титан'), 250)
+    assert.equal(num(processor, 'медь'), 0)
+})
 
 test('урок «Свойства зданий»: контейнер отвечает теми числами, что названы в тексте', () => {
     const processor = run(BUILDINGS)
