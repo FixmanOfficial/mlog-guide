@@ -125,6 +125,17 @@ export function Editor({initial = [], onChange, counter = null, addOpen = false,
     }
 
     /**
+     * Жест отменили — системным свайпом, звонком, чем угодно. Строка возвращается на место:
+     * бросить её там, где палец пропал, было бы неожиданностью.
+     */
+    const onPointerCancel = () => {
+        if (dragState.current === null) return
+
+        dragState.current = null
+        setDrag(null)
+    }
+
+    /**
      * Цель перехода выбирается перетаскиванием узла на строку — `LCanvas.JumpButton`.
      *
      * Нажатие сразу снимает старую цель (`setter.get(null)` в `touchDown`), пока тащат, стрелка
@@ -178,7 +189,12 @@ export function Editor({initial = [], onChange, counter = null, addOpen = false,
     }
 
     return (
-        <div class="editor" onPointerMove={onPointerMove} onPointerUp={onPointerUp}>
+        <div
+            class="editor"
+            onPointerMove={onPointerMove}
+            onPointerUp={onPointerUp}
+            onPointerCancel={onPointerCancel}
+        >
             <div class={`editor__list${selecting !== null ? ' editor__list--selecting' : ''}`} ref={listRef}>
                 {statements.map((statement, index) => (
                     <div
