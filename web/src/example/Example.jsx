@@ -85,6 +85,34 @@ function fitTile({stage, varsHeight}, world) {
 const MAX_DELTA = 4
 
 /**
+ * Где запоминается, показывать ли подсветку следующей строки.
+ *
+ * Подсветка — наша добавка, в игре её нет, и на «пуске» она перескакивает каждый такт.
+ * Кому от мельтешения плохо, тот выключает её один раз, а не на каждой странице курса,
+ * поэтому выбор запоминается на весь сайт. Ключ отдельный от песочницы: там своя кнопка
+ * и свои привычки.
+ */
+const HIGHLIGHT_KEY = 'mlog.example.highlight'
+
+function storedHighlight() {
+    try {
+        // По умолчанию включена: пример проходят шагами, и рамка в нём — главный указатель
+        return globalThis.localStorage?.getItem(HIGHLIGHT_KEY) !== 'off'
+    } catch {
+        // Приватное окно и запрет на хранилище — не повод падать
+        return true
+    }
+}
+
+function rememberHighlight(on) {
+    try {
+        globalThis.localStorage?.setItem(HIGHLIGHT_KEY, on ? 'on' : 'off')
+    } catch {
+        // Не запомнили — на этой странице всё равно работает
+    }
+}
+
+/**
  * Номер строки, которую процессор выполнит следующей.
  *
  * Счётчик увеличивается до запуска инструкции, поэтому на паузе он показывает именно
@@ -123,6 +151,9 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
 
     // Меню добавления живёт в редакторе, а кнопка к нему в игре стоит в нижнем ряду окна
     const [addOpen, setAddOpen] = useState(false)
+
+    // Подсветка следующей строки: выключается глазом и запоминается на весь сайт
+    const [highlight, setHighlight] = useState(storedHighlight)
 
     // Размеры, девятипатчи и кривые интерфейса игры: без них редактор рисуется на глазок
     useEffect(() => {
@@ -307,6 +338,18 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
                     <Icon name="add" size={20} />
                 </button>
 
+                <button
+                    class="game-button example__button"
+                    title={highlight ? 'Скрыть подсветку строки' : 'Показать подсветку строки'}
+                    aria-pressed={highlight ? 'true' : 'false'}
+                    onClick={() => {
+                        setHighlight(!highlight)
+                        rememberHighlight(!highlight)
+                    }}
+                >
+                    <Icon name={highlight ? 'eye' : 'eye-off'} size={20} />
+                </button>
+
                 <span class="example__tick">
                     тик {ready ? Math.trunc(stand.current.scene.world.tick) : 0}
                 </span>
@@ -318,7 +361,7 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
                         key={generation}
                         initial={fromText(program)}
                         onChange={setProgram}
-                        counter={processor === null ? null : nextIndex(processor)}
+                        counter={processor === null || !highlight ? null : nextIndex(processor)}
                         addOpen={addOpen}
                         onAddClose={() => setAddOpen(false)}
                         allow={allow}
