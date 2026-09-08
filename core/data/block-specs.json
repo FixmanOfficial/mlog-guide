@@ -27,6 +27,11 @@
       "liquidCapacity": -1,
       "mapColor": "#000000",
       "useColor": false,
+      "javaClasses": [
+        "AirBlock",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -65,6 +70,12 @@
       "liquidCapacity": 10,
       "mapColor": "#a93527",
       "useColor": false,
+      "javaClasses": [
+        "SpawnBlock",
+        "OverlayFloor",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -102,6 +113,10 @@
       "liquidCapacity": 10,
       "mapColor": "#ff603c",
       "useColor": true,
+      "javaClasses": [
+        "RemoveWall",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -132,6 +147,12 @@
       "liquidCapacity": 10,
       "mapColor": "#c4432a",
       "useColor": false,
+      "javaClasses": [
+        "RemoveOre",
+        "OverlayFloor",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -169,6 +190,10 @@
       "liquidCapacity": 10,
       "mapColor": "#7f7f7f",
       "useColor": true,
+      "javaClasses": [
+        "Cliff",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -199,6 +224,10 @@
       "liquidCapacity": 10,
       "mapColor": "#000000",
       "useColor": true,
+      "javaClasses": [
+        "ConstructBlock",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -229,6 +258,10 @@
       "liquidCapacity": 10,
       "mapColor": "#000000",
       "useColor": true,
+      "javaClasses": [
+        "ConstructBlock",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -259,6 +292,10 @@
       "liquidCapacity": 10,
       "mapColor": "#000000",
       "useColor": true,
+      "javaClasses": [
+        "ConstructBlock",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -289,6 +326,10 @@
       "liquidCapacity": 10,
       "mapColor": "#000000",
       "useColor": true,
+      "javaClasses": [
+        "ConstructBlock",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -319,6 +360,10 @@
       "liquidCapacity": 10,
       "mapColor": "#000000",
       "useColor": true,
+      "javaClasses": [
+        "ConstructBlock",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -349,6 +394,10 @@
       "liquidCapacity": 10,
       "mapColor": "#000000",
       "useColor": true,
+      "javaClasses": [
+        "ConstructBlock",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -379,6 +428,10 @@
       "liquidCapacity": 10,
       "mapColor": "#000000",
       "useColor": true,
+      "javaClasses": [
+        "ConstructBlock",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -409,6 +462,10 @@
       "liquidCapacity": 10,
       "mapColor": "#000000",
       "useColor": true,
+      "javaClasses": [
+        "ConstructBlock",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -439,6 +496,10 @@
       "liquidCapacity": 10,
       "mapColor": "#000000",
       "useColor": true,
+      "javaClasses": [
+        "ConstructBlock",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -469,6 +530,10 @@
       "liquidCapacity": 10,
       "mapColor": "#000000",
       "useColor": true,
+      "javaClasses": [
+        "ConstructBlock",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -499,6 +564,10 @@
       "liquidCapacity": 10,
       "mapColor": "#000000",
       "useColor": true,
+      "javaClasses": [
+        "ConstructBlock",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -529,6 +598,10 @@
       "liquidCapacity": 10,
       "mapColor": "#000000",
       "useColor": true,
+      "javaClasses": [
+        "ConstructBlock",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -559,6 +632,10 @@
       "liquidCapacity": 10,
       "mapColor": "#000000",
       "useColor": true,
+      "javaClasses": [
+        "ConstructBlock",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -589,6 +666,10 @@
       "liquidCapacity": 10,
       "mapColor": "#000000",
       "useColor": true,
+      "javaClasses": [
+        "ConstructBlock",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -619,6 +700,10 @@
       "liquidCapacity": 10,
       "mapColor": "#000000",
       "useColor": true,
+      "javaClasses": [
+        "ConstructBlock",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -649,6 +734,10 @@
       "liquidCapacity": 10,
       "mapColor": "#000000",
       "useColor": true,
+      "javaClasses": [
+        "ConstructBlock",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -679,6 +768,10 @@
       "liquidCapacity": 10,
       "mapColor": "#3d4980",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -717,6 +810,10 @@
       "liquidCapacity": 10,
       "mapColor": "#47548f",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -755,6 +852,10 @@
       "liquidCapacity": 10,
       "mapColor": "#4a3972",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -793,6 +894,10 @@
       "liquidCapacity": 10,
       "mapColor": "#352953",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -831,6 +936,11 @@
       "liquidCapacity": 10,
       "mapColor": "#39324a",
       "useColor": true,
+      "javaClasses": [
+        "ShallowLiquid",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -870,6 +980,11 @@
       "liquidCapacity": 10,
       "mapColor": "#74687a",
       "useColor": true,
+      "javaClasses": [
+        "ShallowLiquid",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -909,6 +1024,11 @@
       "liquidCapacity": 10,
       "mapColor": "#353751",
       "useColor": true,
+      "javaClasses": [
+        "ShallowLiquid",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -948,6 +1068,10 @@
       "liquidCapacity": 10,
       "mapColor": "#161817",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -985,6 +1109,10 @@
       "liquidCapacity": 10,
       "mapColor": "#549db5",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -1022,6 +1150,10 @@
       "liquidCapacity": 10,
       "mapColor": "#c46332",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -1060,6 +1192,10 @@
       "liquidCapacity": 10,
       "mapColor": "#050012",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -1097,6 +1233,11 @@
       "liquidCapacity": 10,
       "mapColor": "#000000",
       "useColor": true,
+      "javaClasses": [
+        "EmptyFloor",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -1134,6 +1275,10 @@
       "liquidCapacity": 10,
       "mapColor": "#424247",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -1173,6 +1318,10 @@
       "liquidCapacity": 10,
       "mapColor": "#434347",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -1212,6 +1361,10 @@
       "liquidCapacity": 10,
       "mapColor": "#3c3c42",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -1251,6 +1404,10 @@
       "liquidCapacity": 10,
       "mapColor": "#312f2f",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -1290,6 +1447,10 @@
       "liquidCapacity": 10,
       "mapColor": "#433831",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -1330,6 +1491,10 @@
       "liquidCapacity": 10,
       "mapColor": "#684a35",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -1370,6 +1535,10 @@
       "liquidCapacity": 10,
       "mapColor": "#a7896f",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -1410,6 +1579,10 @@
       "liquidCapacity": 10,
       "mapColor": "#302e2e",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -1450,6 +1623,10 @@
       "liquidCapacity": 10,
       "mapColor": "#4f312a",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -1489,6 +1666,10 @@
       "liquidCapacity": 10,
       "mapColor": "#291815",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -1527,6 +1708,10 @@
       "liquidCapacity": 10,
       "mapColor": "#787986",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -1566,6 +1751,10 @@
       "liquidCapacity": 10,
       "mapColor": "#5b392e",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -1605,6 +1794,10 @@
       "liquidCapacity": 10,
       "mapColor": "#59372c",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -1645,6 +1838,10 @@
       "liquidCapacity": 10,
       "mapColor": "#51322b",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -1684,6 +1881,10 @@
       "liquidCapacity": 10,
       "mapColor": "#724b36",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -1723,6 +1924,10 @@
       "liquidCapacity": 10,
       "mapColor": "#744d36",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -1762,6 +1967,10 @@
       "liquidCapacity": 10,
       "mapColor": "#22262b",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -1801,6 +2010,10 @@
       "liquidCapacity": 10,
       "mapColor": "#383231",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -1840,6 +2053,10 @@
       "liquidCapacity": 10,
       "mapColor": "#3c3533",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -1879,6 +2096,10 @@
       "liquidCapacity": 10,
       "mapColor": "#29302b",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -1918,6 +2139,10 @@
       "liquidCapacity": 10,
       "mapColor": "#2d272f",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -1957,6 +2182,10 @@
       "liquidCapacity": 10,
       "mapColor": "#3a2f43",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -1996,6 +2225,10 @@
       "liquidCapacity": 10,
       "mapColor": "#815d38",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -2035,6 +2268,10 @@
       "liquidCapacity": 10,
       "mapColor": "#8b3d41",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -2074,6 +2311,10 @@
       "liquidCapacity": 10,
       "mapColor": "#924744",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -2113,6 +2354,10 @@
       "liquidCapacity": 10,
       "mapColor": "#c1aea8",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -2152,6 +2397,10 @@
       "liquidCapacity": 10,
       "mapColor": "#55703b",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -2190,6 +2439,10 @@
       "liquidCapacity": 10,
       "mapColor": "#384932",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -2229,6 +2482,11 @@
       "liquidCapacity": 10,
       "mapColor": "#42231e",
       "useColor": true,
+      "javaClasses": [
+        "SteamVent",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -2268,6 +2526,11 @@
       "liquidCapacity": 10,
       "mapColor": "#17191f",
       "useColor": true,
+      "javaClasses": [
+        "SteamVent",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -2307,6 +2570,11 @@
       "liquidCapacity": 10,
       "mapColor": "#283629",
       "useColor": true,
+      "javaClasses": [
+        "SteamVent",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -2346,6 +2614,11 @@
       "liquidCapacity": 10,
       "mapColor": "#5c3826",
       "useColor": true,
+      "javaClasses": [
+        "SteamVent",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -2385,6 +2658,11 @@
       "liquidCapacity": 10,
       "mapColor": "#6c2e37",
       "useColor": true,
+      "javaClasses": [
+        "SteamVent",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -2424,6 +2702,11 @@
       "liquidCapacity": 10,
       "mapColor": "#1f1c22",
       "useColor": true,
+      "javaClasses": [
+        "SteamVent",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -2463,6 +2746,11 @@
       "liquidCapacity": 10,
       "mapColor": "#333138",
       "useColor": true,
+      "javaClasses": [
+        "SteamVent",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -2502,6 +2790,11 @@
       "liquidCapacity": 10,
       "mapColor": "#262324",
       "useColor": true,
+      "javaClasses": [
+        "SteamVent",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -2541,6 +2834,10 @@
       "liquidCapacity": 10,
       "mapColor": "#452b2a",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -2579,6 +2876,10 @@
       "liquidCapacity": 10,
       "mapColor": "#2d2740",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -2617,6 +2918,10 @@
       "liquidCapacity": 10,
       "mapColor": "#548449",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -2655,6 +2960,10 @@
       "liquidCapacity": 10,
       "mapColor": "#bcbdbf",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -2693,6 +3002,10 @@
       "liquidCapacity": 10,
       "mapColor": "#b3b7bb",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -2732,6 +3045,10 @@
       "liquidCapacity": 10,
       "mapColor": "#a2a2c2",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -2771,6 +3088,10 @@
       "liquidCapacity": 10,
       "mapColor": "#9c9ebb",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -2810,6 +3131,10 @@
       "liquidCapacity": 10,
       "mapColor": "#4a4665",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -2849,6 +3174,10 @@
       "liquidCapacity": 10,
       "mapColor": "#56365c",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -2888,6 +3217,10 @@
       "liquidCapacity": 10,
       "mapColor": "#6b5b4b",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -2925,6 +3258,10 @@
       "liquidCapacity": 10,
       "mapColor": "#563868",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -2964,6 +3301,11 @@
       "liquidCapacity": 10,
       "mapColor": "#7a7a7f",
       "useColor": true,
+      "javaClasses": [
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -2996,6 +3338,11 @@
       "liquidCapacity": 10,
       "mapColor": "#8b5695",
       "useColor": true,
+      "javaClasses": [
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3028,6 +3375,11 @@
       "liquidCapacity": 10,
       "mapColor": "#704640",
       "useColor": true,
+      "javaClasses": [
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3060,6 +3412,11 @@
       "liquidCapacity": 10,
       "mapColor": "#a0a1b8",
       "useColor": true,
+      "javaClasses": [
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3092,6 +3449,11 @@
       "liquidCapacity": 10,
       "mapColor": "#d3d1ff",
       "useColor": true,
+      "javaClasses": [
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3124,6 +3486,11 @@
       "liquidCapacity": 10,
       "mapColor": "#eff7ff",
       "useColor": true,
+      "javaClasses": [
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3156,6 +3523,11 @@
       "liquidCapacity": 10,
       "mapColor": "#5a5959",
       "useColor": true,
+      "javaClasses": [
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3188,6 +3560,11 @@
       "liquidCapacity": 10,
       "mapColor": "#ca9a5a",
       "useColor": true,
+      "javaClasses": [
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3220,6 +3597,11 @@
       "liquidCapacity": 10,
       "mapColor": "#a46f48",
       "useColor": true,
+      "javaClasses": [
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3252,6 +3634,11 @@
       "liquidCapacity": 10,
       "mapColor": "#754539",
       "useColor": true,
+      "javaClasses": [
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3284,6 +3671,11 @@
       "liquidCapacity": 10,
       "mapColor": "#444c51",
       "useColor": true,
+      "javaClasses": [
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3316,6 +3708,11 @@
       "liquidCapacity": 10,
       "mapColor": "#6d635c",
       "useColor": true,
+      "javaClasses": [
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3348,6 +3745,11 @@
       "liquidCapacity": 10,
       "mapColor": "#4e5d50",
       "useColor": true,
+      "javaClasses": [
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3380,6 +3782,11 @@
       "liquidCapacity": 10,
       "mapColor": "#678456",
       "useColor": true,
+      "javaClasses": [
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3412,6 +3819,11 @@
       "liquidCapacity": 10,
       "mapColor": "#6a5a69",
       "useColor": true,
+      "javaClasses": [
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3444,6 +3856,11 @@
       "liquidCapacity": 10,
       "mapColor": "#fbdce3",
       "useColor": true,
+      "javaClasses": [
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3476,6 +3893,11 @@
       "liquidCapacity": 10,
       "mapColor": "#bb5359",
       "useColor": true,
+      "javaClasses": [
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3508,6 +3930,12 @@
       "liquidCapacity": 10,
       "mapColor": "#e38166",
       "useColor": true,
+      "javaClasses": [
+        "StaticTree",
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3540,6 +3968,11 @@
       "liquidCapacity": 10,
       "mapColor": "#ffdfbc",
       "useColor": true,
+      "javaClasses": [
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3572,6 +4005,11 @@
       "liquidCapacity": 10,
       "mapColor": "#f4f8ff",
       "useColor": true,
+      "javaClasses": [
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3604,6 +4042,11 @@
       "liquidCapacity": 10,
       "mapColor": "#70bb67",
       "useColor": true,
+      "javaClasses": [
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3636,6 +4079,11 @@
       "liquidCapacity": 10,
       "mapColor": "#7274a0",
       "useColor": true,
+      "javaClasses": [
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3668,6 +4116,12 @@
       "liquidCapacity": 10,
       "mapColor": "#924e94",
       "useColor": true,
+      "javaClasses": [
+        "StaticTree",
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3699,6 +4153,12 @@
       "liquidCapacity": 10,
       "mapColor": "#eef7ff",
       "useColor": true,
+      "javaClasses": [
+        "StaticTree",
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3730,6 +4190,12 @@
       "liquidCapacity": 10,
       "mapColor": "#5a9f5c",
       "useColor": true,
+      "javaClasses": [
+        "StaticTree",
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3761,6 +4227,10 @@
       "liquidCapacity": 10,
       "mapColor": "#e1eafc",
       "useColor": true,
+      "javaClasses": [
+        "TreeBlock",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3791,6 +4261,10 @@
       "liquidCapacity": 10,
       "mapColor": "#d6dbf9",
       "useColor": true,
+      "javaClasses": [
+        "TreeBlock",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3821,6 +4295,10 @@
       "liquidCapacity": 10,
       "mapColor": "#c4b2fa",
       "useColor": true,
+      "javaClasses": [
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3853,6 +4331,11 @@
       "liquidCapacity": 10,
       "mapColor": "#dd6f4e",
       "useColor": true,
+      "javaClasses": [
+        "Seaweed",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3885,6 +4368,11 @@
       "liquidCapacity": 10,
       "mapColor": "#5c58a4",
       "useColor": true,
+      "javaClasses": [
+        "SeaBush",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3916,6 +4404,11 @@
       "liquidCapacity": 10,
       "mapColor": "#e68248",
       "useColor": true,
+      "javaClasses": [
+        "SeaBush",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3947,6 +4440,11 @@
       "liquidCapacity": 10,
       "mapColor": "#7c7c81",
       "useColor": true,
+      "javaClasses": [
+        "StaticProp",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -3979,6 +4477,11 @@
       "liquidCapacity": 10,
       "mapColor": "#eff7ff",
       "useColor": true,
+      "javaClasses": [
+        "StaticProp",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -4011,6 +4514,11 @@
       "liquidCapacity": 10,
       "mapColor": "#777aa9",
       "useColor": true,
+      "javaClasses": [
+        "StaticProp",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -4043,6 +4551,11 @@
       "liquidCapacity": 10,
       "mapColor": "#ffddb9",
       "useColor": true,
+      "javaClasses": [
+        "StaticProp",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -4075,6 +4588,11 @@
       "liquidCapacity": 10,
       "mapColor": "#a9aabe",
       "useColor": true,
+      "javaClasses": [
+        "StaticProp",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -4107,6 +4625,11 @@
       "liquidCapacity": 10,
       "mapColor": "#5b5a5a",
       "useColor": true,
+      "javaClasses": [
+        "StaticProp",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -4139,6 +4662,11 @@
       "liquidCapacity": 10,
       "mapColor": "#474f54",
       "useColor": true,
+      "javaClasses": [
+        "StaticProp",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -4171,6 +4699,11 @@
       "liquidCapacity": 10,
       "mapColor": "#71665f",
       "useColor": true,
+      "javaClasses": [
+        "StaticProp",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -4203,6 +4736,11 @@
       "liquidCapacity": 10,
       "mapColor": "#516153",
       "useColor": true,
+      "javaClasses": [
+        "StaticProp",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -4235,6 +4773,11 @@
       "liquidCapacity": 10,
       "mapColor": "#a06c45",
       "useColor": true,
+      "javaClasses": [
+        "StaticProp",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -4267,6 +4810,10 @@
       "liquidCapacity": 10,
       "mapColor": "#658155",
       "useColor": true,
+      "javaClasses": [
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -4299,6 +4846,10 @@
       "liquidCapacity": 10,
       "mapColor": "#846d82",
       "useColor": true,
+      "javaClasses": [
+        "TallBlock",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -4331,6 +4882,10 @@
       "liquidCapacity": 10,
       "mapColor": "#b97eb3",
       "useColor": true,
+      "javaClasses": [
+        "TallBlock",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -4363,6 +4918,10 @@
       "liquidCapacity": 10,
       "mapColor": "#cfa15a",
       "useColor": true,
+      "javaClasses": [
+        "TallBlock",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -4395,6 +4954,10 @@
       "liquidCapacity": 10,
       "mapColor": "#7c9c62",
       "useColor": true,
+      "javaClasses": [
+        "TallBlock",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -4427,6 +4990,11 @@
       "liquidCapacity": 10,
       "mapColor": "#675666",
       "useColor": true,
+      "javaClasses": [
+        "StaticProp",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -4459,6 +5027,11 @@
       "liquidCapacity": 10,
       "mapColor": "#fedce1",
       "useColor": true,
+      "javaClasses": [
+        "StaticProp",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -4491,6 +5064,11 @@
       "liquidCapacity": 10,
       "mapColor": "#96644b",
       "useColor": true,
+      "javaClasses": [
+        "StaticProp",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -4523,6 +5101,11 @@
       "liquidCapacity": 10,
       "mapColor": "#bc5559",
       "useColor": true,
+      "javaClasses": [
+        "StaticProp",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -4555,6 +5138,10 @@
       "liquidCapacity": 10,
       "mapColor": "#555760",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -4593,6 +5180,10 @@
       "liquidCapacity": 10,
       "mapColor": "#53545e",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -4632,6 +5223,10 @@
       "liquidCapacity": 10,
       "mapColor": "#50515a",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -4670,6 +5265,10 @@
       "liquidCapacity": 10,
       "mapColor": "#5a5b65",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -4708,6 +5307,10 @@
       "liquidCapacity": 10,
       "mapColor": "#5d5f6a",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -4746,6 +5349,10 @@
       "liquidCapacity": 10,
       "mapColor": "#6c584c",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -4784,6 +5391,10 @@
       "liquidCapacity": 10,
       "mapColor": "#3c3e47",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -4822,6 +5433,10 @@
       "liquidCapacity": 10,
       "mapColor": "#413e45",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -4860,6 +5475,10 @@
       "liquidCapacity": 10,
       "mapColor": "#3b3c45",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -4898,6 +5517,10 @@
       "liquidCapacity": 10,
       "mapColor": "#43454f",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -4936,6 +5559,10 @@
       "liquidCapacity": 10,
       "mapColor": "#46434b",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -4974,6 +5601,10 @@
       "liquidCapacity": 10,
       "mapColor": "#4e454c",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -5012,6 +5643,11 @@
       "liquidCapacity": 10,
       "mapColor": "#7e808f",
       "useColor": true,
+      "javaClasses": [
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -5044,6 +5680,10 @@
       "liquidCapacity": 10,
       "mapColor": "#3a3a41",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -5082,6 +5722,10 @@
       "liquidCapacity": 10,
       "mapColor": "#2c2c33",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -5120,6 +5764,10 @@
       "liquidCapacity": 10,
       "mapColor": "#5d493c",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -5158,6 +5806,10 @@
       "liquidCapacity": 10,
       "mapColor": "#633a3f",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -5196,6 +5848,10 @@
       "liquidCapacity": 10,
       "mapColor": "#2f2f36",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -5234,6 +5890,10 @@
       "liquidCapacity": 10,
       "mapColor": "#864845",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -5272,6 +5932,10 @@
       "liquidCapacity": 10,
       "mapColor": "#3a3a41",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -5310,6 +5974,10 @@
       "liquidCapacity": 10,
       "mapColor": "#2d2c33",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -5348,6 +6016,10 @@
       "liquidCapacity": 10,
       "mapColor": "#313239",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -5386,6 +6058,10 @@
       "liquidCapacity": 10,
       "mapColor": "#38383f",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -5424,6 +6100,10 @@
       "liquidCapacity": 10,
       "mapColor": "#34343b",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -5462,6 +6142,10 @@
       "liquidCapacity": 10,
       "mapColor": "#783a3d",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -5500,6 +6184,10 @@
       "liquidCapacity": 10,
       "mapColor": "#36373e",
       "useColor": true,
+      "javaClasses": [
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -5538,6 +6226,11 @@
       "liquidCapacity": 10,
       "mapColor": "#5c5c67",
       "useColor": true,
+      "javaClasses": [
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -5570,6 +6263,11 @@
       "liquidCapacity": 10,
       "mapColor": "#666672",
       "useColor": true,
+      "javaClasses": [
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -5602,6 +6300,11 @@
       "liquidCapacity": 10,
       "mapColor": "#53535f",
       "useColor": true,
+      "javaClasses": [
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -5634,6 +6337,11 @@
       "liquidCapacity": 10,
       "mapColor": "#b1acb8",
       "useColor": true,
+      "javaClasses": [
+        "ColoredFloor",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -5672,6 +6380,12 @@
       "liquidCapacity": 10,
       "mapColor": "#f0ebfd",
       "useColor": true,
+      "javaClasses": [
+        "ColoredWall",
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -5704,6 +6418,12 @@
       "liquidCapacity": 10,
       "mapColor": "#545662",
       "useColor": false,
+      "javaClasses": [
+        "CharacterOverlay",
+        "OverlayFloor",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -5741,6 +6461,12 @@
       "liquidCapacity": 10,
       "mapColor": "#c4c4c4",
       "useColor": false,
+      "javaClasses": [
+        "CharacterOverlay",
+        "OverlayFloor",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -5778,6 +6504,12 @@
       "liquidCapacity": 10,
       "mapColor": "#545662",
       "useColor": false,
+      "javaClasses": [
+        "RuneOverlay",
+        "OverlayFloor",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -5815,6 +6547,12 @@
       "liquidCapacity": 10,
       "mapColor": "#c45551",
       "useColor": false,
+      "javaClasses": [
+        "RuneOverlay",
+        "OverlayFloor",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -5852,6 +6590,11 @@
       "liquidCapacity": 10,
       "mapColor": "#48474b",
       "useColor": false,
+      "javaClasses": [
+        "OverlayFloor",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -5890,6 +6633,11 @@
       "liquidCapacity": 10,
       "mapColor": "#523459",
       "useColor": false,
+      "javaClasses": [
+        "OverlayFloor",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -5928,6 +6676,12 @@
       "liquidCapacity": 10,
       "mapColor": "#d99d73",
       "useColor": true,
+      "javaClasses": [
+        "OreBlock",
+        "OverlayFloor",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -5967,6 +6721,12 @@
       "liquidCapacity": 10,
       "mapColor": "#8c7fa9",
       "useColor": true,
+      "javaClasses": [
+        "OreBlock",
+        "OverlayFloor",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -6006,6 +6766,12 @@
       "liquidCapacity": 10,
       "mapColor": "#777777",
       "useColor": true,
+      "javaClasses": [
+        "OreBlock",
+        "OverlayFloor",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -6045,6 +6811,12 @@
       "liquidCapacity": 10,
       "mapColor": "#272727",
       "useColor": true,
+      "javaClasses": [
+        "OreBlock",
+        "OverlayFloor",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -6084,6 +6856,12 @@
       "liquidCapacity": 10,
       "mapColor": "#8da1e3",
       "useColor": true,
+      "javaClasses": [
+        "OreBlock",
+        "OverlayFloor",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -6123,6 +6901,12 @@
       "liquidCapacity": 10,
       "mapColor": "#f9a3c7",
       "useColor": true,
+      "javaClasses": [
+        "OreBlock",
+        "OverlayFloor",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -6162,6 +6946,12 @@
       "liquidCapacity": 10,
       "mapColor": "#3a8f64",
       "useColor": true,
+      "javaClasses": [
+        "OreBlock",
+        "OverlayFloor",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -6201,6 +6991,12 @@
       "liquidCapacity": 10,
       "mapColor": "#768a9a",
       "useColor": true,
+      "javaClasses": [
+        "OreBlock",
+        "OverlayFloor",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -6240,6 +7036,12 @@
       "liquidCapacity": 10,
       "mapColor": "#f9a3c7",
       "useColor": true,
+      "javaClasses": [
+        "OreBlock",
+        "OverlayFloor",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -6279,6 +7081,12 @@
       "liquidCapacity": 10,
       "mapColor": "#f9a3c7",
       "useColor": true,
+      "javaClasses": [
+        "OreBlock",
+        "OverlayFloor",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -6318,6 +7126,12 @@
       "liquidCapacity": 10,
       "mapColor": "#3a8f64",
       "useColor": true,
+      "javaClasses": [
+        "OreBlock",
+        "OverlayFloor",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -6357,6 +7171,11 @@
       "liquidCapacity": 10,
       "mapColor": "#505a6b",
       "useColor": true,
+      "javaClasses": [
+        "StaticWall",
+        "Prop",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -6390,6 +7209,12 @@
       "liquidCapacity": 10,
       "mapColor": "#b2c6d2",
       "useColor": true,
+      "javaClasses": [
+        "OreBlock",
+        "OverlayFloor",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -6429,6 +7254,12 @@
       "liquidCapacity": 10,
       "mapColor": "#768a9a",
       "useColor": true,
+      "javaClasses": [
+        "OreBlock",
+        "OverlayFloor",
+        "Floor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -6468,6 +7299,10 @@
       "liquidCapacity": 10,
       "mapColor": "#9397a1",
       "useColor": true,
+      "javaClasses": [
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "shown",
@@ -6507,6 +7342,10 @@
       "liquidCapacity": 60,
       "mapColor": "#8e929b",
       "useColor": true,
+      "javaClasses": [
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "shown",
@@ -6554,6 +7393,10 @@
       "liquidCapacity": 10,
       "mapColor": "#898c94",
       "useColor": true,
+      "javaClasses": [
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "shown",
@@ -6593,6 +7436,11 @@
       "liquidCapacity": 10,
       "mapColor": "#8a8d95",
       "useColor": true,
+      "javaClasses": [
+        "AttributeCrafter",
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "shown",
@@ -6640,6 +7488,10 @@
       "liquidCapacity": 10,
       "mapColor": "#a39a9c",
       "useColor": true,
+      "javaClasses": [
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "shown",
@@ -6683,6 +7535,10 @@
       "liquidCapacity": 60,
       "mapColor": "#aeb6aa",
       "useColor": true,
+      "javaClasses": [
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "shown",
@@ -6730,6 +7586,10 @@
       "liquidCapacity": 10,
       "mapColor": "#c6b09d",
       "useColor": true,
+      "javaClasses": [
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "shown",
@@ -6773,6 +7633,10 @@
       "liquidCapacity": 10,
       "mapColor": "#b4a698",
       "useColor": true,
+      "javaClasses": [
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "shown",
@@ -6816,6 +7680,10 @@
       "liquidCapacity": 36,
       "mapColor": "#9ba1ba",
       "useColor": true,
+      "javaClasses": [
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "shown",
@@ -6859,6 +7727,10 @@
       "liquidCapacity": 10,
       "mapColor": "#baada8",
       "useColor": true,
+      "javaClasses": [
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "shown",
@@ -6898,6 +7770,10 @@
       "liquidCapacity": 10,
       "mapColor": "#baa7a7",
       "useColor": true,
+      "javaClasses": [
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "shown",
@@ -6937,6 +7813,10 @@
       "liquidCapacity": 10,
       "mapColor": "#bb9995",
       "useColor": true,
+      "javaClasses": [
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "shown",
@@ -6980,6 +7860,10 @@
       "liquidCapacity": 40,
       "mapColor": "#b09c9f",
       "useColor": true,
+      "javaClasses": [
+        "Separator",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "shown",
@@ -7019,6 +7903,10 @@
       "liquidCapacity": 72,
       "mapColor": "#b49a9b",
       "useColor": true,
+      "javaClasses": [
+        "Separator",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "shown",
@@ -7066,6 +7954,10 @@
       "liquidCapacity": 60,
       "mapColor": "#9f9fb8",
       "useColor": true,
+      "javaClasses": [
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "shown",
@@ -7105,6 +7997,10 @@
       "liquidCapacity": 10,
       "mapColor": "#828591",
       "useColor": true,
+      "javaClasses": [
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "shown",
@@ -7144,6 +8040,10 @@
       "liquidCapacity": 60,
       "mapColor": "#b1baa7",
       "useColor": true,
+      "javaClasses": [
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "shown",
@@ -7187,6 +8087,10 @@
       "liquidCapacity": 10,
       "mapColor": "#8d706e",
       "useColor": true,
+      "javaClasses": [
+        "Incinerator",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "shown",
@@ -7226,6 +8130,10 @@
       "liquidCapacity": 10,
       "mapColor": "#736e73",
       "useColor": true,
+      "javaClasses": [
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "shown",
@@ -7265,6 +8173,10 @@
       "liquidCapacity": 50,
       "mapColor": "#73847e",
       "useColor": true,
+      "javaClasses": [
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "crafting",
       "group": "liquids",
       "buildVisibility": "shown",
@@ -7312,6 +8224,11 @@
       "liquidCapacity": 60,
       "mapColor": "#8189a3",
       "useColor": true,
+      "javaClasses": [
+        "HeatCrafter",
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "shown",
@@ -7355,6 +8272,11 @@
       "liquidCapacity": 30,
       "mapColor": "#71867e",
       "useColor": true,
+      "javaClasses": [
+        "HeatProducer",
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "shown",
@@ -7402,6 +8324,11 @@
       "liquidCapacity": 10,
       "mapColor": "#887f87",
       "useColor": true,
+      "javaClasses": [
+        "HeatProducer",
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "shown",
@@ -7445,6 +8372,11 @@
       "liquidCapacity": 120,
       "mapColor": "#947c7e",
       "useColor": true,
+      "javaClasses": [
+        "HeatProducer",
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "shown",
@@ -7488,6 +8420,11 @@
       "liquidCapacity": 10,
       "mapColor": "#948988",
       "useColor": true,
+      "javaClasses": [
+        "HeatProducer",
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "shown",
@@ -7531,6 +8468,10 @@
       "liquidCapacity": 10,
       "mapColor": "#887f87",
       "useColor": true,
+      "javaClasses": [
+        "HeatConductor",
+        "Block"
+      ],
       "category": "crafting",
       "group": "heat",
       "buildVisibility": "shown",
@@ -7570,6 +8511,10 @@
       "liquidCapacity": 10,
       "mapColor": "#8a7f86",
       "useColor": true,
+      "javaClasses": [
+        "HeatConductor",
+        "Block"
+      ],
       "category": "crafting",
       "group": "heat",
       "buildVisibility": "shown",
@@ -7609,6 +8554,10 @@
       "liquidCapacity": 10,
       "mapColor": "#857e88",
       "useColor": true,
+      "javaClasses": [
+        "HeatConductor",
+        "Block"
+      ],
       "category": "crafting",
       "group": "heat",
       "buildVisibility": "shown",
@@ -7648,6 +8597,10 @@
       "liquidCapacity": 10,
       "mapColor": "#a08483",
       "useColor": true,
+      "javaClasses": [
+        "ItemIncinerator",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "shown",
@@ -7683,6 +8636,11 @@
       "liquidCapacity": 10,
       "mapColor": "#a07f7c",
       "useColor": true,
+      "javaClasses": [
+        "HeatCrafter",
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "shown",
@@ -7726,6 +8684,10 @@
       "liquidCapacity": 80,
       "mapColor": "#967c7c",
       "useColor": true,
+      "javaClasses": [
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "debugOnly",
@@ -7773,6 +8735,11 @@
       "liquidCapacity": 400,
       "mapColor": "#8f8580",
       "useColor": true,
+      "javaClasses": [
+        "HeatCrafter",
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "shown",
@@ -7820,6 +8787,11 @@
       "liquidCapacity": 80,
       "mapColor": "#858ca6",
       "useColor": true,
+      "javaClasses": [
+        "HeatCrafter",
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "shown",
@@ -7867,6 +8839,11 @@
       "liquidCapacity": 40,
       "mapColor": "#9f8c80",
       "useColor": true,
+      "javaClasses": [
+        "HeatCrafter",
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "shown",
@@ -7914,6 +8891,11 @@
       "liquidCapacity": 10,
       "mapColor": "#887b82",
       "useColor": true,
+      "javaClasses": [
+        "HeatProducer",
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "debugOnly",
@@ -7961,6 +8943,10 @@
       "liquidCapacity": 10,
       "mapColor": "#c69b81",
       "useColor": true,
+      "javaClasses": [
+        "Wall",
+        "Block"
+      ],
       "category": "defense",
       "group": "walls",
       "buildVisibility": "shown",
@@ -7996,6 +8982,10 @@
       "liquidCapacity": 10,
       "mapColor": "#c79b81",
       "useColor": true,
+      "javaClasses": [
+        "Wall",
+        "Block"
+      ],
       "category": "defense",
       "group": "walls",
       "buildVisibility": "shown",
@@ -8031,6 +9021,10 @@
       "liquidCapacity": 10,
       "mapColor": "#7f8fed",
       "useColor": true,
+      "javaClasses": [
+        "Wall",
+        "Block"
+      ],
       "category": "defense",
       "group": "walls",
       "buildVisibility": "shown",
@@ -8066,6 +9060,10 @@
       "liquidCapacity": 10,
       "mapColor": "#7e8fec",
       "useColor": true,
+      "javaClasses": [
+        "Wall",
+        "Block"
+      ],
       "category": "defense",
       "group": "walls",
       "buildVisibility": "shown",
@@ -8101,6 +9099,10 @@
       "liquidCapacity": 10,
       "mapColor": "#e2f197",
       "useColor": true,
+      "javaClasses": [
+        "Wall",
+        "Block"
+      ],
       "category": "defense",
       "group": "walls",
       "buildVisibility": "shown",
@@ -8140,6 +9142,10 @@
       "liquidCapacity": 10,
       "mapColor": "#dbeb90",
       "useColor": true,
+      "javaClasses": [
+        "Wall",
+        "Block"
+      ],
       "category": "defense",
       "group": "walls",
       "buildVisibility": "shown",
@@ -8179,6 +9185,10 @@
       "liquidCapacity": 10,
       "mapColor": "#8e81b5",
       "useColor": true,
+      "javaClasses": [
+        "Wall",
+        "Block"
+      ],
       "category": "defense",
       "group": "walls",
       "buildVisibility": "shown",
@@ -8214,6 +9224,10 @@
       "liquidCapacity": 10,
       "mapColor": "#8e81b5",
       "useColor": true,
+      "javaClasses": [
+        "Wall",
+        "Block"
+      ],
       "category": "defense",
       "group": "walls",
       "buildVisibility": "shown",
@@ -8249,6 +9263,10 @@
       "liquidCapacity": 10,
       "mapColor": "#ffe1b6",
       "useColor": true,
+      "javaClasses": [
+        "Wall",
+        "Block"
+      ],
       "category": "defense",
       "group": "walls",
       "buildVisibility": "shown",
@@ -8284,6 +9302,10 @@
       "liquidCapacity": 10,
       "mapColor": "#ffdbaf",
       "useColor": true,
+      "javaClasses": [
+        "Wall",
+        "Block"
+      ],
       "category": "defense",
       "group": "walls",
       "buildVisibility": "shown",
@@ -8319,6 +9341,10 @@
       "liquidCapacity": 10,
       "mapColor": "#fddd7e",
       "useColor": true,
+      "javaClasses": [
+        "Wall",
+        "Block"
+      ],
       "category": "defense",
       "group": "walls",
       "buildVisibility": "shown",
@@ -8354,6 +9380,10 @@
       "liquidCapacity": 10,
       "mapColor": "#fddc7e",
       "useColor": true,
+      "javaClasses": [
+        "Wall",
+        "Block"
+      ],
       "category": "defense",
       "group": "walls",
       "buildVisibility": "shown",
@@ -8389,6 +9419,11 @@
       "liquidCapacity": 10,
       "mapColor": "#9faaba",
       "useColor": true,
+      "javaClasses": [
+        "Door",
+        "Wall",
+        "Block"
+      ],
       "category": "defense",
       "group": "walls",
       "buildVisibility": "shown",
@@ -8428,6 +9463,11 @@
       "liquidCapacity": 10,
       "mapColor": "#9ca4b6",
       "useColor": true,
+      "javaClasses": [
+        "Door",
+        "Wall",
+        "Block"
+      ],
       "category": "defense",
       "group": "walls",
       "buildVisibility": "shown",
@@ -8467,6 +9507,10 @@
       "liquidCapacity": 10,
       "mapColor": "#a5afc3",
       "useColor": true,
+      "javaClasses": [
+        "Wall",
+        "Block"
+      ],
       "category": "defense",
       "group": "walls",
       "buildVisibility": "shown",
@@ -8503,6 +9547,10 @@
       "liquidCapacity": 10,
       "mapColor": "#a9b4c8",
       "useColor": true,
+      "javaClasses": [
+        "Wall",
+        "Block"
+      ],
       "category": "defense",
       "group": "walls",
       "buildVisibility": "shown",
@@ -8539,6 +9587,10 @@
       "liquidCapacity": 10,
       "mapColor": "#a7b2c5",
       "useColor": true,
+      "javaClasses": [
+        "Wall",
+        "Block"
+      ],
       "category": "defense",
       "group": "walls",
       "buildVisibility": "shown",
@@ -8575,6 +9627,10 @@
       "liquidCapacity": 10,
       "mapColor": "#a7b3c6",
       "useColor": true,
+      "javaClasses": [
+        "Wall",
+        "Block"
+      ],
       "category": "defense",
       "group": "walls",
       "buildVisibility": "shown",
@@ -8610,6 +9666,11 @@
       "liquidCapacity": 10,
       "mapColor": "#9fa8bc",
       "useColor": true,
+      "javaClasses": [
+        "Thruster",
+        "Wall",
+        "Block"
+      ],
       "category": "defense",
       "group": "walls",
       "buildVisibility": "sandboxOnly",
@@ -8645,6 +9706,10 @@
       "liquidCapacity": 10,
       "mapColor": "#66a77a",
       "useColor": true,
+      "javaClasses": [
+        "Wall",
+        "Block"
+      ],
       "category": "defense",
       "group": "walls",
       "buildVisibility": "shown",
@@ -8680,6 +9745,10 @@
       "liquidCapacity": 10,
       "mapColor": "#5e9a72",
       "useColor": true,
+      "javaClasses": [
+        "Wall",
+        "Block"
+      ],
       "category": "defense",
       "group": "walls",
       "buildVisibility": "shown",
@@ -8715,6 +9784,10 @@
       "liquidCapacity": 10,
       "mapColor": "#828491",
       "useColor": true,
+      "javaClasses": [
+        "Wall",
+        "Block"
+      ],
       "category": "defense",
       "group": "walls",
       "buildVisibility": "shown",
@@ -8750,6 +9823,10 @@
       "liquidCapacity": 10,
       "mapColor": "#7d7f8c",
       "useColor": true,
+      "javaClasses": [
+        "Wall",
+        "Block"
+      ],
       "category": "defense",
       "group": "walls",
       "buildVisibility": "shown",
@@ -8785,6 +9862,11 @@
       "liquidCapacity": 10,
       "mapColor": "#798389",
       "useColor": true,
+      "javaClasses": [
+        "AutoDoor",
+        "Wall",
+        "Block"
+      ],
       "category": "defense",
       "group": "walls",
       "buildVisibility": "shown",
@@ -8824,6 +9906,10 @@
       "liquidCapacity": 10,
       "mapColor": "#ffe885",
       "useColor": true,
+      "javaClasses": [
+        "Wall",
+        "Block"
+      ],
       "category": "defense",
       "group": "walls",
       "buildVisibility": "shown",
@@ -8863,6 +9949,10 @@
       "liquidCapacity": 10,
       "mapColor": "#ffe283",
       "useColor": true,
+      "javaClasses": [
+        "Wall",
+        "Block"
+      ],
       "category": "defense",
       "group": "walls",
       "buildVisibility": "shown",
@@ -8902,6 +9992,10 @@
       "liquidCapacity": 10,
       "mapColor": "#a48ab5",
       "useColor": true,
+      "javaClasses": [
+        "Wall",
+        "Block"
+      ],
       "category": "defense",
       "group": "walls",
       "buildVisibility": "shown",
@@ -8941,6 +10035,10 @@
       "liquidCapacity": 10,
       "mapColor": "#9c84b0",
       "useColor": true,
+      "javaClasses": [
+        "Wall",
+        "Block"
+      ],
       "category": "defense",
       "group": "walls",
       "buildVisibility": "shown",
@@ -8980,6 +10078,11 @@
       "liquidCapacity": 10,
       "mapColor": "#ffdbb0",
       "useColor": true,
+      "javaClasses": [
+        "ShieldWall",
+        "Wall",
+        "Block"
+      ],
       "category": "defense",
       "group": "walls",
       "buildVisibility": "shown",
@@ -9023,6 +10126,10 @@
       "liquidCapacity": 10,
       "mapColor": "#95b6a9",
       "useColor": true,
+      "javaClasses": [
+        "MendProjector",
+        "Block"
+      ],
       "category": "effect",
       "group": "projectors",
       "buildVisibility": "shown",
@@ -9062,6 +10169,10 @@
       "liquidCapacity": 10,
       "mapColor": "#96b6a9",
       "useColor": true,
+      "javaClasses": [
+        "MendProjector",
+        "Block"
+      ],
       "category": "effect",
       "group": "projectors",
       "buildVisibility": "shown",
@@ -9109,6 +10220,10 @@
       "liquidCapacity": 10,
       "mapColor": "#b7a1a1",
       "useColor": true,
+      "javaClasses": [
+        "OverdriveProjector",
+        "Block"
+      ],
       "category": "effect",
       "group": "projectors",
       "buildVisibility": "shown",
@@ -9156,6 +10271,10 @@
       "liquidCapacity": 10,
       "mapColor": "#ba9f9e",
       "useColor": true,
+      "javaClasses": [
+        "OverdriveProjector",
+        "Block"
+      ],
       "category": "effect",
       "group": "projectors",
       "buildVisibility": "shown",
@@ -9207,6 +10326,10 @@
       "liquidCapacity": 60,
       "mapColor": "#b0a9a8",
       "useColor": true,
+      "javaClasses": [
+        "ForceProjector",
+        "Block"
+      ],
       "category": "effect",
       "group": "projectors",
       "buildVisibility": "shown",
@@ -9250,6 +10373,10 @@
       "liquidCapacity": 10,
       "mapColor": "#595b65",
       "useColor": true,
+      "javaClasses": [
+        "ShockMine",
+        "Block"
+      ],
       "category": "effect",
       "group": "none",
       "buildVisibility": "shown",
@@ -9289,6 +10416,10 @@
       "liquidCapacity": 10,
       "mapColor": "#91847c",
       "useColor": true,
+      "javaClasses": [
+        "Radar",
+        "Block"
+      ],
       "category": "effect",
       "group": "none",
       "buildVisibility": "fogOnly",
@@ -9332,6 +10463,11 @@
       "liquidCapacity": 30,
       "mapColor": "#827674",
       "useColor": true,
+      "javaClasses": [
+        "BuildTurret",
+        "BaseTurret",
+        "Block"
+      ],
       "category": "effect",
       "group": "turrets",
       "buildVisibility": "shown",
@@ -9376,6 +10512,10 @@
       "liquidCapacity": 10,
       "mapColor": "#80879d",
       "useColor": true,
+      "javaClasses": [
+        "RegenProjector",
+        "Block"
+      ],
       "category": "effect",
       "group": "projectors",
       "buildVisibility": "shown",
@@ -9423,6 +10563,10 @@
       "liquidCapacity": 15,
       "mapColor": "#948185",
       "useColor": true,
+      "javaClasses": [
+        "ShockwaveTower",
+        "Block"
+      ],
       "category": "effect",
       "group": "none",
       "buildVisibility": "shown",
@@ -9470,6 +10614,10 @@
       "liquidCapacity": 10,
       "mapColor": "#938887",
       "useColor": true,
+      "javaClasses": [
+        "BaseShield",
+        "Block"
+      ],
       "category": "effect",
       "group": "none",
       "buildVisibility": "editorOnly",
@@ -9500,6 +10648,10 @@
       "liquidCapacity": 10,
       "mapColor": "#928887",
       "useColor": true,
+      "javaClasses": [
+        "BaseShield",
+        "Block"
+      ],
       "category": "effect",
       "group": "none",
       "buildVisibility": "editorOnly",
@@ -9530,6 +10682,10 @@
       "liquidCapacity": 10,
       "mapColor": "#6f717c",
       "useColor": true,
+      "javaClasses": [
+        "Conveyor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -9565,6 +10721,10 @@
       "liquidCapacity": 10,
       "mapColor": "#676e92",
       "useColor": true,
+      "javaClasses": [
+        "Conveyor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -9608,6 +10768,10 @@
       "liquidCapacity": 10,
       "mapColor": "#747a69",
       "useColor": true,
+      "javaClasses": [
+        "StackConveyor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -9651,6 +10815,11 @@
       "liquidCapacity": 10,
       "mapColor": "#686483",
       "useColor": true,
+      "javaClasses": [
+        "ArmoredConveyor",
+        "Conveyor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -9694,6 +10863,10 @@
       "liquidCapacity": 10,
       "mapColor": "#818391",
       "useColor": true,
+      "javaClasses": [
+        "Junction",
+        "Block"
+      ],
       "category": "distribution",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -9729,6 +10902,11 @@
       "liquidCapacity": 10,
       "mapColor": "#7c7d8a",
       "useColor": true,
+      "javaClasses": [
+        "BufferedItemBridge",
+        "ItemBridge",
+        "Block"
+      ],
       "category": "distribution",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -9768,6 +10946,10 @@
       "liquidCapacity": 10,
       "mapColor": "#bcaba2",
       "useColor": true,
+      "javaClasses": [
+        "ItemBridge",
+        "Block"
+      ],
       "category": "distribution",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -9815,6 +10997,10 @@
       "liquidCapacity": 10,
       "mapColor": "#6e707c",
       "useColor": true,
+      "javaClasses": [
+        "Sorter",
+        "Block"
+      ],
       "category": "distribution",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -9854,6 +11040,10 @@
       "liquidCapacity": 10,
       "mapColor": "#77737a",
       "useColor": true,
+      "javaClasses": [
+        "Sorter",
+        "Block"
+      ],
       "category": "distribution",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -9893,6 +11083,10 @@
       "liquidCapacity": 10,
       "mapColor": "#787a88",
       "useColor": true,
+      "javaClasses": [
+        "Router",
+        "Block"
+      ],
       "category": "distribution",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -9928,6 +11122,10 @@
       "liquidCapacity": 10,
       "mapColor": "#7d7f8c",
       "useColor": true,
+      "javaClasses": [
+        "Router",
+        "Block"
+      ],
       "category": "distribution",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -9967,6 +11165,10 @@
       "liquidCapacity": 10,
       "mapColor": "#70727e",
       "useColor": true,
+      "javaClasses": [
+        "OverflowGate",
+        "Block"
+      ],
       "category": "distribution",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -10006,6 +11208,10 @@
       "liquidCapacity": 10,
       "mapColor": "#79757d",
       "useColor": true,
+      "javaClasses": [
+        "OverflowGate",
+        "Block"
+      ],
       "category": "distribution",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -10045,6 +11251,10 @@
       "liquidCapacity": 10,
       "mapColor": "#aaa3a4",
       "useColor": true,
+      "javaClasses": [
+        "Unloader",
+        "Block"
+      ],
       "category": "distribution",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -10084,6 +11294,10 @@
       "liquidCapacity": 10,
       "mapColor": "#9f9da1",
       "useColor": true,
+      "javaClasses": [
+        "MassDriver",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "shown",
@@ -10131,6 +11345,10 @@
       "liquidCapacity": 10,
       "mapColor": "#73747f",
       "useColor": true,
+      "javaClasses": [
+        "Duct",
+        "Block"
+      ],
       "category": "distribution",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -10166,6 +11384,10 @@
       "liquidCapacity": 10,
       "mapColor": "#848c9d",
       "useColor": true,
+      "javaClasses": [
+        "Duct",
+        "Block"
+      ],
       "category": "distribution",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -10205,6 +11427,10 @@
       "liquidCapacity": 10,
       "mapColor": "#81838e",
       "useColor": true,
+      "javaClasses": [
+        "DuctRouter",
+        "Block"
+      ],
       "category": "distribution",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -10240,6 +11466,10 @@
       "liquidCapacity": 10,
       "mapColor": "#7d7f8c",
       "useColor": true,
+      "javaClasses": [
+        "OverflowDuct",
+        "Block"
+      ],
       "category": "distribution",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -10279,6 +11509,10 @@
       "liquidCapacity": 10,
       "mapColor": "#85848c",
       "useColor": true,
+      "javaClasses": [
+        "OverflowDuct",
+        "Block"
+      ],
       "category": "distribution",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -10318,6 +11552,11 @@
       "liquidCapacity": 10,
       "mapColor": "#737481",
       "useColor": true,
+      "javaClasses": [
+        "DuctBridge",
+        "DirectionBridge",
+        "Block"
+      ],
       "category": "distribution",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -10353,6 +11592,10 @@
       "liquidCapacity": 10,
       "mapColor": "#8c8e99",
       "useColor": true,
+      "javaClasses": [
+        "DirectionalUnloader",
+        "Block"
+      ],
       "category": "distribution",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -10396,6 +11639,10 @@
       "liquidCapacity": 10,
       "mapColor": "#8c776c",
       "useColor": true,
+      "javaClasses": [
+        "StackConveyor",
+        "Block"
+      ],
       "category": "distribution",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -10435,6 +11682,11 @@
       "liquidCapacity": 10,
       "mapColor": "#baa295",
       "useColor": true,
+      "javaClasses": [
+        "StackRouter",
+        "DuctRouter",
+        "Block"
+      ],
       "category": "distribution",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -10474,6 +11726,10 @@
       "liquidCapacity": 100,
       "mapColor": "#a28d82",
       "useColor": true,
+      "javaClasses": [
+        "UnitCargoLoader",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "shown",
@@ -10517,6 +11773,10 @@
       "liquidCapacity": 10,
       "mapColor": "#978b87",
       "useColor": true,
+      "javaClasses": [
+        "UnitCargoUnloadPoint",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "shown",
@@ -10556,6 +11816,11 @@
       "liquidCapacity": 20,
       "mapColor": "#a49da1",
       "useColor": true,
+      "javaClasses": [
+        "Pump",
+        "LiquidBlock",
+        "Block"
+      ],
       "category": "liquid",
       "group": "liquids",
       "buildVisibility": "shown",
@@ -10595,6 +11860,11 @@
       "liquidCapacity": 80,
       "mapColor": "#949cc6",
       "useColor": true,
+      "javaClasses": [
+        "Pump",
+        "LiquidBlock",
+        "Block"
+      ],
       "category": "liquid",
       "group": "liquids",
       "buildVisibility": "shown",
@@ -10642,6 +11912,11 @@
       "liquidCapacity": 200,
       "mapColor": "#8f99cf",
       "useColor": true,
+      "javaClasses": [
+        "Pump",
+        "LiquidBlock",
+        "Block"
+      ],
       "category": "liquid",
       "group": "liquids",
       "buildVisibility": "shown",
@@ -10693,6 +11968,11 @@
       "liquidCapacity": 20,
       "mapColor": "#989da5",
       "useColor": true,
+      "javaClasses": [
+        "Conduit",
+        "LiquidBlock",
+        "Block"
+      ],
       "category": "liquid",
       "group": "liquids",
       "buildVisibility": "shown",
@@ -10728,6 +12008,11 @@
       "liquidCapacity": 40,
       "mapColor": "#8b97c1",
       "useColor": true,
+      "javaClasses": [
+        "Conduit",
+        "LiquidBlock",
+        "Block"
+      ],
       "category": "liquid",
       "group": "liquids",
       "buildVisibility": "shown",
@@ -10767,6 +12052,12 @@
       "liquidCapacity": 50,
       "mapColor": "#8a85a7",
       "useColor": true,
+      "javaClasses": [
+        "ArmoredConduit",
+        "Conduit",
+        "LiquidBlock",
+        "Block"
+      ],
       "category": "liquid",
       "group": "liquids",
       "buildVisibility": "shown",
@@ -10810,6 +12101,11 @@
       "liquidCapacity": 120,
       "mapColor": "#969aa7",
       "useColor": true,
+      "javaClasses": [
+        "LiquidRouter",
+        "LiquidBlock",
+        "Block"
+      ],
       "category": "liquid",
       "group": "liquids",
       "buildVisibility": "shown",
@@ -10849,6 +12145,11 @@
       "liquidCapacity": 700,
       "mapColor": "#99a0c3",
       "useColor": true,
+      "javaClasses": [
+        "LiquidRouter",
+        "LiquidBlock",
+        "Block"
+      ],
       "category": "liquid",
       "group": "liquids",
       "buildVisibility": "shown",
@@ -10888,6 +12189,11 @@
       "liquidCapacity": 1800,
       "mapColor": "#969ec3",
       "useColor": true,
+      "javaClasses": [
+        "LiquidRouter",
+        "LiquidBlock",
+        "Block"
+      ],
       "category": "liquid",
       "group": "liquids",
       "buildVisibility": "shown",
@@ -10927,6 +12233,11 @@
       "liquidCapacity": 10,
       "mapColor": "#adb4be",
       "useColor": true,
+      "javaClasses": [
+        "LiquidJunction",
+        "LiquidBlock",
+        "Block"
+      ],
       "category": "liquid",
       "group": "liquids",
       "buildVisibility": "shown",
@@ -10966,6 +12277,11 @@
       "liquidCapacity": 100,
       "mapColor": "#a5aab5",
       "useColor": true,
+      "javaClasses": [
+        "LiquidBridge",
+        "ItemBridge",
+        "Block"
+      ],
       "category": "liquid",
       "group": "liquids",
       "buildVisibility": "shown",
@@ -11005,6 +12321,11 @@
       "liquidCapacity": 100,
       "mapColor": "#939cc5",
       "useColor": true,
+      "javaClasses": [
+        "LiquidBridge",
+        "ItemBridge",
+        "Block"
+      ],
       "category": "liquid",
       "group": "liquids",
       "buildVisibility": "shown",
@@ -11052,6 +12373,11 @@
       "liquidCapacity": 160,
       "mapColor": "#7d8782",
       "useColor": true,
+      "javaClasses": [
+        "Pump",
+        "LiquidBlock",
+        "Block"
+      ],
       "category": "liquid",
       "group": "liquids",
       "buildVisibility": "shown",
@@ -11095,6 +12421,12 @@
       "liquidCapacity": 50,
       "mapColor": "#85ab85",
       "useColor": true,
+      "javaClasses": [
+        "ArmoredConduit",
+        "Conduit",
+        "LiquidBlock",
+        "Block"
+      ],
       "category": "liquid",
       "group": "liquids",
       "buildVisibility": "shown",
@@ -11130,6 +12462,11 @@
       "liquidCapacity": 10,
       "mapColor": "#8da491",
       "useColor": true,
+      "javaClasses": [
+        "LiquidJunction",
+        "LiquidBlock",
+        "Block"
+      ],
       "category": "liquid",
       "group": "liquids",
       "buildVisibility": "shown",
@@ -11169,6 +12506,11 @@
       "liquidCapacity": 120,
       "mapColor": "#728d79",
       "useColor": true,
+      "javaClasses": [
+        "DirectionLiquidBridge",
+        "DirectionBridge",
+        "Block"
+      ],
       "category": "liquid",
       "group": "liquids",
       "buildVisibility": "shown",
@@ -11208,6 +12550,11 @@
       "liquidCapacity": 150,
       "mapColor": "#73857b",
       "useColor": true,
+      "javaClasses": [
+        "LiquidRouter",
+        "LiquidBlock",
+        "Block"
+      ],
       "category": "liquid",
       "group": "liquids",
       "buildVisibility": "shown",
@@ -11247,6 +12594,11 @@
       "liquidCapacity": 1000,
       "mapColor": "#71877e",
       "useColor": true,
+      "javaClasses": [
+        "LiquidRouter",
+        "LiquidBlock",
+        "Block"
+      ],
       "category": "liquid",
       "group": "liquids",
       "buildVisibility": "shown",
@@ -11286,6 +12638,11 @@
       "liquidCapacity": 2700,
       "mapColor": "#748280",
       "useColor": true,
+      "javaClasses": [
+        "LiquidRouter",
+        "LiquidBlock",
+        "Block"
+      ],
       "category": "liquid",
       "group": "liquids",
       "buildVisibility": "shown",
@@ -11325,6 +12682,11 @@
       "liquidCapacity": 10,
       "mapColor": "#c4bba0",
       "useColor": true,
+      "javaClasses": [
+        "PowerNode",
+        "PowerBlock",
+        "Block"
+      ],
       "category": "power",
       "group": "power",
       "buildVisibility": "shown",
@@ -11364,6 +12726,11 @@
       "liquidCapacity": 10,
       "mapColor": "#c8bfa1",
       "useColor": true,
+      "javaClasses": [
+        "PowerNode",
+        "PowerBlock",
+        "Block"
+      ],
       "category": "power",
       "group": "power",
       "buildVisibility": "shown",
@@ -11407,6 +12774,11 @@
       "liquidCapacity": 10,
       "mapColor": "#d1b997",
       "useColor": true,
+      "javaClasses": [
+        "PowerNode",
+        "PowerBlock",
+        "Block"
+      ],
       "category": "power",
       "group": "power",
       "buildVisibility": "shown",
@@ -11454,6 +12826,10 @@
       "liquidCapacity": 10,
       "mapColor": "#a19f9e",
       "useColor": true,
+      "javaClasses": [
+        "PowerDiode",
+        "Block"
+      ],
       "category": "power",
       "group": "power",
       "buildVisibility": "shown",
@@ -11497,6 +12873,12 @@
       "liquidCapacity": 10,
       "mapColor": "#c8b79f",
       "useColor": true,
+      "javaClasses": [
+        "Battery",
+        "PowerDistributor",
+        "PowerBlock",
+        "Block"
+      ],
       "category": "power",
       "group": "power",
       "buildVisibility": "shown",
@@ -11536,6 +12918,12 @@
       "liquidCapacity": 10,
       "mapColor": "#c5b29d",
       "useColor": true,
+      "javaClasses": [
+        "Battery",
+        "PowerDistributor",
+        "PowerBlock",
+        "Block"
+      ],
       "category": "power",
       "group": "power",
       "buildVisibility": "shown",
@@ -11579,6 +12967,13 @@
       "liquidCapacity": 10,
       "mapColor": "#bda894",
       "useColor": true,
+      "javaClasses": [
+        "ConsumeGenerator",
+        "PowerGenerator",
+        "PowerDistributor",
+        "PowerBlock",
+        "Block"
+      ],
       "category": "power",
       "group": "power",
       "buildVisibility": "shown",
@@ -11618,6 +13013,13 @@
       "liquidCapacity": 10,
       "mapColor": "#bd9f9e",
       "useColor": true,
+      "javaClasses": [
+        "ThermalGenerator",
+        "PowerGenerator",
+        "PowerDistributor",
+        "PowerBlock",
+        "Block"
+      ],
       "category": "power",
       "group": "power",
       "buildVisibility": "shown",
@@ -11669,6 +13071,13 @@
       "liquidCapacity": 60,
       "mapColor": "#b7afa4",
       "useColor": true,
+      "javaClasses": [
+        "ConsumeGenerator",
+        "PowerGenerator",
+        "PowerDistributor",
+        "PowerBlock",
+        "Block"
+      ],
       "category": "power",
       "group": "power",
       "buildVisibility": "shown",
@@ -11716,6 +13125,13 @@
       "liquidCapacity": 60,
       "mapColor": "#c1b39f",
       "useColor": true,
+      "javaClasses": [
+        "ConsumeGenerator",
+        "PowerGenerator",
+        "PowerDistributor",
+        "PowerBlock",
+        "Block"
+      ],
       "category": "power",
       "group": "power",
       "buildVisibility": "shown",
@@ -11767,6 +13183,13 @@
       "liquidCapacity": 10,
       "mapColor": "#857ea1",
       "useColor": true,
+      "javaClasses": [
+        "ConsumeGenerator",
+        "PowerGenerator",
+        "PowerDistributor",
+        "PowerBlock",
+        "Block"
+      ],
       "category": "power",
       "group": "power",
       "buildVisibility": "shown",
@@ -11818,6 +13241,13 @@
       "liquidCapacity": 10,
       "mapColor": "#8c92a1",
       "useColor": true,
+      "javaClasses": [
+        "SolarGenerator",
+        "PowerGenerator",
+        "PowerDistributor",
+        "PowerBlock",
+        "Block"
+      ],
       "category": "power",
       "group": "power",
       "buildVisibility": "shown",
@@ -11857,6 +13287,13 @@
       "liquidCapacity": 10,
       "mapColor": "#808396",
       "useColor": true,
+      "javaClasses": [
+        "SolarGenerator",
+        "PowerGenerator",
+        "PowerDistributor",
+        "PowerBlock",
+        "Block"
+      ],
       "category": "power",
       "group": "power",
       "buildVisibility": "shown",
@@ -11900,6 +13337,13 @@
       "liquidCapacity": 30,
       "mapColor": "#827e9a",
       "useColor": true,
+      "javaClasses": [
+        "NuclearReactor",
+        "PowerGenerator",
+        "PowerDistributor",
+        "PowerBlock",
+        "Block"
+      ],
       "category": "power",
       "group": "power",
       "buildVisibility": "shown",
@@ -11951,6 +13395,13 @@
       "liquidCapacity": 80,
       "mapColor": "#b19799",
       "useColor": true,
+      "javaClasses": [
+        "ImpactReactor",
+        "PowerGenerator",
+        "PowerDistributor",
+        "PowerBlock",
+        "Block"
+      ],
       "category": "power",
       "group": "power",
       "buildVisibility": "shown",
@@ -12006,6 +13457,11 @@
       "liquidCapacity": 10,
       "mapColor": "#76907e",
       "useColor": true,
+      "javaClasses": [
+        "BeamNode",
+        "PowerBlock",
+        "Block"
+      ],
       "category": "power",
       "group": "power",
       "buildVisibility": "shown",
@@ -12041,6 +13497,11 @@
       "liquidCapacity": 10,
       "mapColor": "#748683",
       "useColor": true,
+      "javaClasses": [
+        "BeamNode",
+        "PowerBlock",
+        "Block"
+      ],
       "category": "power",
       "group": "power",
       "buildVisibility": "shown",
@@ -12084,6 +13545,12 @@
       "liquidCapacity": 10,
       "mapColor": "#738d80",
       "useColor": true,
+      "javaClasses": [
+        "LongPowerNode",
+        "PowerNode",
+        "PowerBlock",
+        "Block"
+      ],
       "category": "power",
       "group": "power",
       "buildVisibility": "shown",
@@ -12139,6 +13606,13 @@
       "liquidCapacity": 20,
       "mapColor": "#907d81",
       "useColor": true,
+      "javaClasses": [
+        "ThermalGenerator",
+        "PowerGenerator",
+        "PowerDistributor",
+        "PowerBlock",
+        "Block"
+      ],
       "category": "power",
       "group": "liquids",
       "buildVisibility": "shown",
@@ -12174,6 +13648,13 @@
       "liquidCapacity": 100,
       "mapColor": "#758782",
       "useColor": true,
+      "javaClasses": [
+        "ConsumeGenerator",
+        "PowerGenerator",
+        "PowerDistributor",
+        "PowerBlock",
+        "Block"
+      ],
       "category": "power",
       "group": "power",
       "buildVisibility": "shown",
@@ -12221,6 +13702,13 @@
       "liquidCapacity": 150,
       "mapColor": "#73877f",
       "useColor": true,
+      "javaClasses": [
+        "ConsumeGenerator",
+        "PowerGenerator",
+        "PowerDistributor",
+        "PowerBlock",
+        "Block"
+      ],
       "category": "power",
       "group": "power",
       "buildVisibility": "shown",
@@ -12268,6 +13756,13 @@
       "liquidCapacity": 30,
       "mapColor": "#8e8581",
       "useColor": true,
+      "javaClasses": [
+        "VariableReactor",
+        "PowerGenerator",
+        "PowerDistributor",
+        "PowerBlock",
+        "Block"
+      ],
       "category": "power",
       "group": "power",
       "buildVisibility": "shown",
@@ -12319,6 +13814,14 @@
       "liquidCapacity": 80,
       "mapColor": "#947f83",
       "useColor": true,
+      "javaClasses": [
+        "HeaterGenerator",
+        "ConsumeGenerator",
+        "PowerGenerator",
+        "PowerDistributor",
+        "PowerBlock",
+        "Block"
+      ],
       "category": "power",
       "group": "power",
       "buildVisibility": "shown",
@@ -12374,6 +13877,10 @@
       "liquidCapacity": 30,
       "mapColor": "#9f8e88",
       "useColor": true,
+      "javaClasses": [
+        "Drill",
+        "Block"
+      ],
       "category": "production",
       "group": "drills",
       "buildVisibility": "shown",
@@ -12409,6 +13916,10 @@
       "liquidCapacity": 35,
       "mapColor": "#969ba6",
       "useColor": true,
+      "javaClasses": [
+        "Drill",
+        "Block"
+      ],
       "category": "production",
       "group": "drills",
       "buildVisibility": "shown",
@@ -12448,6 +13959,10 @@
       "liquidCapacity": 48,
       "mapColor": "#9998b2",
       "useColor": true,
+      "javaClasses": [
+        "Drill",
+        "Block"
+      ],
       "category": "production",
       "group": "drills",
       "buildVisibility": "shown",
@@ -12495,6 +14010,10 @@
       "liquidCapacity": 60,
       "mapColor": "#aa989c",
       "useColor": true,
+      "javaClasses": [
+        "Drill",
+        "Block"
+      ],
       "category": "production",
       "group": "drills",
       "buildVisibility": "shown",
@@ -12542,6 +14061,12 @@
       "liquidCapacity": 40,
       "mapColor": "#9198b2",
       "useColor": true,
+      "javaClasses": [
+        "SolidPump",
+        "Pump",
+        "LiquidBlock",
+        "Block"
+      ],
       "category": "production",
       "group": "liquids",
       "buildVisibility": "shown",
@@ -12589,6 +14114,11 @@
       "liquidCapacity": 80,
       "mapColor": "#9293a6",
       "useColor": true,
+      "javaClasses": [
+        "AttributeCrafter",
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "production",
       "group": "none",
       "buildVisibility": "shown",
@@ -12632,6 +14162,13 @@
       "liquidCapacity": 40,
       "mapColor": "#a3aaa2",
       "useColor": true,
+      "javaClasses": [
+        "Fracker",
+        "SolidPump",
+        "Pump",
+        "LiquidBlock",
+        "Block"
+      ],
       "category": "production",
       "group": "liquids",
       "buildVisibility": "shown",
@@ -12683,6 +14220,11 @@
       "liquidCapacity": 60,
       "mapColor": "#6e847a",
       "useColor": true,
+      "javaClasses": [
+        "AttributeCrafter",
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "production",
       "group": "liquids",
       "buildVisibility": "shown",
@@ -12722,6 +14264,10 @@
       "liquidCapacity": 10,
       "mapColor": "#948584",
       "useColor": true,
+      "javaClasses": [
+        "WallCrafter",
+        "Block"
+      ],
       "category": "production",
       "group": "none",
       "buildVisibility": "shown",
@@ -12761,6 +14307,10 @@
       "liquidCapacity": 10,
       "mapColor": "#8a7f80",
       "useColor": true,
+      "javaClasses": [
+        "WallCrafter",
+        "Block"
+      ],
       "category": "production",
       "group": "none",
       "buildVisibility": "shown",
@@ -12808,6 +14358,10 @@
       "liquidCapacity": 10,
       "mapColor": "#ad8e85",
       "useColor": true,
+      "javaClasses": [
+        "BeamDrill",
+        "Block"
+      ],
       "category": "production",
       "group": "none",
       "buildVisibility": "shown",
@@ -12843,6 +14397,10 @@
       "liquidCapacity": 30,
       "mapColor": "#9f8782",
       "useColor": true,
+      "javaClasses": [
+        "BeamDrill",
+        "Block"
+      ],
       "category": "production",
       "group": "none",
       "buildVisibility": "shown",
@@ -12890,6 +14448,11 @@
       "liquidCapacity": 100,
       "mapColor": "#937f82",
       "useColor": true,
+      "javaClasses": [
+        "BurstDrill",
+        "Drill",
+        "Block"
+      ],
       "category": "production",
       "group": "drills",
       "buildVisibility": "shown",
@@ -12933,6 +14496,11 @@
       "liquidCapacity": 40,
       "mapColor": "#80869d",
       "useColor": true,
+      "javaClasses": [
+        "BurstDrill",
+        "Drill",
+        "Block"
+      ],
       "category": "production",
       "group": "drills",
       "buildVisibility": "shown",
@@ -12980,6 +14548,11 @@
       "liquidCapacity": 10,
       "mapColor": "#c7b6a7",
       "useColor": true,
+      "javaClasses": [
+        "CoreBlock",
+        "StorageBlock",
+        "Block"
+      ],
       "category": "effect",
       "group": "transportation",
       "buildVisibility": "coreZoneOnly",
@@ -13019,6 +14592,11 @@
       "liquidCapacity": 10,
       "mapColor": "#cdb5a0",
       "useColor": true,
+      "javaClasses": [
+        "CoreBlock",
+        "StorageBlock",
+        "Block"
+      ],
       "category": "effect",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -13062,6 +14640,11 @@
       "liquidCapacity": 10,
       "mapColor": "#d1b59d",
       "useColor": true,
+      "javaClasses": [
+        "CoreBlock",
+        "StorageBlock",
+        "Block"
+      ],
       "category": "effect",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -13109,6 +14692,11 @@
       "liquidCapacity": 10,
       "mapColor": "#a59287",
       "useColor": true,
+      "javaClasses": [
+        "CoreBlock",
+        "StorageBlock",
+        "Block"
+      ],
       "category": "effect",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -13152,6 +14740,11 @@
       "liquidCapacity": 10,
       "mapColor": "#b39886",
       "useColor": true,
+      "javaClasses": [
+        "CoreBlock",
+        "StorageBlock",
+        "Block"
+      ],
       "category": "effect",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -13199,6 +14792,11 @@
       "liquidCapacity": 10,
       "mapColor": "#ae9686",
       "useColor": true,
+      "javaClasses": [
+        "CoreBlock",
+        "StorageBlock",
+        "Block"
+      ],
       "category": "effect",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -13250,6 +14848,10 @@
       "liquidCapacity": 10,
       "mapColor": "#b8afac",
       "useColor": true,
+      "javaClasses": [
+        "StorageBlock",
+        "Block"
+      ],
       "category": "effect",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -13285,6 +14887,10 @@
       "liquidCapacity": 10,
       "mapColor": "#bbb1ac",
       "useColor": true,
+      "javaClasses": [
+        "StorageBlock",
+        "Block"
+      ],
       "category": "effect",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -13324,6 +14930,10 @@
       "liquidCapacity": 10,
       "mapColor": "#9f8f87",
       "useColor": true,
+      "javaClasses": [
+        "StorageBlock",
+        "Block"
+      ],
       "category": "effect",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -13363,6 +14973,10 @@
       "liquidCapacity": 10,
       "mapColor": "#9a8d8b",
       "useColor": true,
+      "javaClasses": [
+        "StorageBlock",
+        "Block"
+      ],
       "category": "effect",
       "group": "transportation",
       "buildVisibility": "shown",
@@ -13406,6 +15020,13 @@
       "liquidCapacity": 20,
       "mapColor": "#908282",
       "useColor": true,
+      "javaClasses": [
+        "ItemTurret",
+        "Turret",
+        "ReloadTurret",
+        "BaseTurret",
+        "Block"
+      ],
       "category": "turret",
       "group": "turrets",
       "buildVisibility": "shown",
@@ -13442,6 +15063,13 @@
       "liquidCapacity": 20,
       "mapColor": "#7f818a",
       "useColor": true,
+      "javaClasses": [
+        "ItemTurret",
+        "Turret",
+        "ReloadTurret",
+        "BaseTurret",
+        "Block"
+      ],
       "category": "turret",
       "group": "turrets",
       "buildVisibility": "shown",
@@ -13482,6 +15110,13 @@
       "liquidCapacity": 20,
       "mapColor": "#948c90",
       "useColor": true,
+      "javaClasses": [
+        "ItemTurret",
+        "Turret",
+        "ReloadTurret",
+        "BaseTurret",
+        "Block"
+      ],
       "category": "turret",
       "group": "turrets",
       "buildVisibility": "shown",
@@ -13522,6 +15157,13 @@
       "liquidCapacity": 20,
       "mapColor": "#968c8e",
       "useColor": true,
+      "javaClasses": [
+        "ItemTurret",
+        "Turret",
+        "ReloadTurret",
+        "BaseTurret",
+        "Block"
+      ],
       "category": "turret",
       "group": "turrets",
       "buildVisibility": "shown",
@@ -13562,6 +15204,13 @@
       "liquidCapacity": 10,
       "mapColor": "#9a949d",
       "useColor": true,
+      "javaClasses": [
+        "LiquidTurret",
+        "Turret",
+        "ReloadTurret",
+        "BaseTurret",
+        "Block"
+      ],
       "category": "turret",
       "group": "turrets",
       "buildVisibility": "shown",
@@ -13606,6 +15255,13 @@
       "liquidCapacity": 20,
       "mapColor": "#969fc0",
       "useColor": true,
+      "javaClasses": [
+        "PowerTurret",
+        "Turret",
+        "ReloadTurret",
+        "BaseTurret",
+        "Block"
+      ],
       "category": "turret",
       "group": "turrets",
       "buildVisibility": "shown",
@@ -13654,6 +15310,13 @@
       "liquidCapacity": 20,
       "mapColor": "#9599ad",
       "useColor": true,
+      "javaClasses": [
+        "PowerTurret",
+        "Turret",
+        "ReloadTurret",
+        "BaseTurret",
+        "Block"
+      ],
       "category": "turret",
       "group": "turrets",
       "buildVisibility": "shown",
@@ -13694,6 +15357,11 @@
       "liquidCapacity": 10,
       "mapColor": "#a7acbc",
       "useColor": true,
+      "javaClasses": [
+        "TractorBeamTurret",
+        "BaseTurret",
+        "Block"
+      ],
       "category": "turret",
       "group": "turrets",
       "buildVisibility": "shown",
@@ -13738,6 +15406,13 @@
       "liquidCapacity": 20,
       "mapColor": "#957876",
       "useColor": true,
+      "javaClasses": [
+        "ItemTurret",
+        "Turret",
+        "ReloadTurret",
+        "BaseTurret",
+        "Block"
+      ],
       "category": "turret",
       "group": "turrets",
       "buildVisibility": "shown",
@@ -13786,6 +15461,13 @@
       "liquidCapacity": 20,
       "mapColor": "#9293ad",
       "useColor": true,
+      "javaClasses": [
+        "ItemTurret",
+        "Turret",
+        "ReloadTurret",
+        "BaseTurret",
+        "Block"
+      ],
       "category": "turret",
       "group": "turrets",
       "buildVisibility": "shown",
@@ -13830,6 +15512,12 @@
       "liquidCapacity": 10,
       "mapColor": "#aca9b1",
       "useColor": true,
+      "javaClasses": [
+        "PointDefenseTurret",
+        "ReloadTurret",
+        "BaseTurret",
+        "Block"
+      ],
       "category": "turret",
       "group": "turrets",
       "buildVisibility": "shown",
@@ -13878,6 +15566,13 @@
       "liquidCapacity": 40,
       "mapColor": "#83889c",
       "useColor": true,
+      "javaClasses": [
+        "LiquidTurret",
+        "Turret",
+        "ReloadTurret",
+        "BaseTurret",
+        "Block"
+      ],
       "category": "turret",
       "group": "turrets",
       "buildVisibility": "shown",
@@ -13926,6 +15621,13 @@
       "liquidCapacity": 20,
       "mapColor": "#7c829b",
       "useColor": true,
+      "javaClasses": [
+        "ItemTurret",
+        "Turret",
+        "ReloadTurret",
+        "BaseTurret",
+        "Block"
+      ],
       "category": "turret",
       "group": "turrets",
       "buildVisibility": "shown",
@@ -13970,6 +15672,13 @@
       "liquidCapacity": 20,
       "mapColor": "#8b8185",
       "useColor": true,
+      "javaClasses": [
+        "ItemTurret",
+        "Turret",
+        "ReloadTurret",
+        "BaseTurret",
+        "Block"
+      ],
       "category": "turret",
       "group": "turrets",
       "buildVisibility": "shown",
@@ -14014,6 +15723,13 @@
       "liquidCapacity": 20,
       "mapColor": "#918e8a",
       "useColor": true,
+      "javaClasses": [
+        "ItemTurret",
+        "Turret",
+        "ReloadTurret",
+        "BaseTurret",
+        "Block"
+      ],
       "category": "turret",
       "group": "turrets",
       "buildVisibility": "shown",
@@ -14058,6 +15774,13 @@
       "liquidCapacity": 60,
       "mapColor": "#898682",
       "useColor": true,
+      "javaClasses": [
+        "ItemTurret",
+        "Turret",
+        "ReloadTurret",
+        "BaseTurret",
+        "Block"
+      ],
       "category": "turret",
       "group": "turrets",
       "buildVisibility": "shown",
@@ -14110,6 +15833,13 @@
       "liquidCapacity": 120,
       "mapColor": "#8d8284",
       "useColor": true,
+      "javaClasses": [
+        "ItemTurret",
+        "Turret",
+        "ReloadTurret",
+        "BaseTurret",
+        "Block"
+      ],
       "category": "turret",
       "group": "turrets",
       "buildVisibility": "shown",
@@ -14162,6 +15892,14 @@
       "liquidCapacity": 60,
       "mapColor": "#877d7f",
       "useColor": true,
+      "javaClasses": [
+        "LaserTurret",
+        "PowerTurret",
+        "Turret",
+        "ReloadTurret",
+        "BaseTurret",
+        "Block"
+      ],
       "category": "turret",
       "group": "turrets",
       "buildVisibility": "shown",
@@ -14214,6 +15952,13 @@
       "liquidCapacity": 20,
       "mapColor": "#657273",
       "useColor": true,
+      "javaClasses": [
+        "ItemTurret",
+        "Turret",
+        "ReloadTurret",
+        "BaseTurret",
+        "Block"
+      ],
       "category": "turret",
       "group": "turrets",
       "buildVisibility": "shown",
@@ -14258,6 +16003,13 @@
       "liquidCapacity": 20,
       "mapColor": "#776c72",
       "useColor": true,
+      "javaClasses": [
+        "ItemTurret",
+        "Turret",
+        "ReloadTurret",
+        "BaseTurret",
+        "Block"
+      ],
       "category": "turret",
       "group": "turrets",
       "buildVisibility": "shown",
@@ -14306,6 +16058,14 @@
       "liquidCapacity": 50,
       "mapColor": "#766d80",
       "useColor": true,
+      "javaClasses": [
+        "ContinuousLiquidTurret",
+        "ContinuousTurret",
+        "Turret",
+        "ReloadTurret",
+        "BaseTurret",
+        "Block"
+      ],
       "category": "turret",
       "group": "turrets",
       "buildVisibility": "shown",
@@ -14354,6 +16114,13 @@
       "liquidCapacity": 20,
       "mapColor": "#776e74",
       "useColor": true,
+      "javaClasses": [
+        "ItemTurret",
+        "Turret",
+        "ReloadTurret",
+        "BaseTurret",
+        "Block"
+      ],
       "category": "turret",
       "group": "turrets",
       "buildVisibility": "shown",
@@ -14398,6 +16165,13 @@
       "liquidCapacity": 20,
       "mapColor": "#747784",
       "useColor": true,
+      "javaClasses": [
+        "ItemTurret",
+        "Turret",
+        "ReloadTurret",
+        "BaseTurret",
+        "Block"
+      ],
       "category": "turret",
       "group": "turrets",
       "buildVisibility": "shown",
@@ -14446,6 +16220,13 @@
       "liquidCapacity": 20,
       "mapColor": "#797676",
       "useColor": true,
+      "javaClasses": [
+        "PowerTurret",
+        "Turret",
+        "ReloadTurret",
+        "BaseTurret",
+        "Block"
+      ],
       "category": "turret",
       "group": "turrets",
       "buildVisibility": "shown",
@@ -14494,6 +16275,13 @@
       "liquidCapacity": 20,
       "mapColor": "#727582",
       "useColor": true,
+      "javaClasses": [
+        "ContinuousTurret",
+        "Turret",
+        "ReloadTurret",
+        "BaseTurret",
+        "Block"
+      ],
       "category": "turret",
       "group": "turrets",
       "buildVisibility": "shown",
@@ -14542,6 +16330,13 @@
       "liquidCapacity": 20,
       "mapColor": "#7f7074",
       "useColor": true,
+      "javaClasses": [
+        "ItemTurret",
+        "Turret",
+        "ReloadTurret",
+        "BaseTurret",
+        "Block"
+      ],
       "category": "turret",
       "group": "turrets",
       "buildVisibility": "shown",
@@ -14594,6 +16389,13 @@
       "liquidCapacity": 20,
       "mapColor": "#827776",
       "useColor": true,
+      "javaClasses": [
+        "ItemTurret",
+        "Turret",
+        "ReloadTurret",
+        "BaseTurret",
+        "Block"
+      ],
       "category": "turret",
       "group": "turrets",
       "buildVisibility": "shown",
@@ -14646,6 +16448,13 @@
       "liquidCapacity": 20,
       "mapColor": "#807388",
       "useColor": true,
+      "javaClasses": [
+        "PowerTurret",
+        "Turret",
+        "ReloadTurret",
+        "BaseTurret",
+        "Block"
+      ],
       "category": "turret",
       "group": "turrets",
       "buildVisibility": "shown",
@@ -14698,6 +16507,12 @@
       "liquidCapacity": 10,
       "mapColor": "#918990",
       "useColor": true,
+      "javaClasses": [
+        "UnitFactory",
+        "UnitBlock",
+        "PayloadBlock",
+        "Block"
+      ],
       "category": "units",
       "group": "units",
       "buildVisibility": "shown",
@@ -14741,6 +16556,12 @@
       "liquidCapacity": 10,
       "mapColor": "#829393",
       "useColor": true,
+      "javaClasses": [
+        "UnitFactory",
+        "UnitBlock",
+        "PayloadBlock",
+        "Block"
+      ],
       "category": "units",
       "group": "units",
       "buildVisibility": "shown",
@@ -14784,6 +16605,12 @@
       "liquidCapacity": 10,
       "mapColor": "#81879f",
       "useColor": true,
+      "javaClasses": [
+        "UnitFactory",
+        "UnitBlock",
+        "PayloadBlock",
+        "Block"
+      ],
       "category": "units",
       "group": "units",
       "buildVisibility": "shown",
@@ -14827,6 +16654,12 @@
       "liquidCapacity": 10,
       "mapColor": "#89888e",
       "useColor": true,
+      "javaClasses": [
+        "Reconstructor",
+        "UnitBlock",
+        "PayloadBlock",
+        "Block"
+      ],
       "category": "units",
       "group": "units",
       "buildVisibility": "shown",
@@ -14870,6 +16703,12 @@
       "liquidCapacity": 10,
       "mapColor": "#888890",
       "useColor": true,
+      "javaClasses": [
+        "Reconstructor",
+        "UnitBlock",
+        "PayloadBlock",
+        "Block"
+      ],
       "category": "units",
       "group": "units",
       "buildVisibility": "shown",
@@ -14917,6 +16756,12 @@
       "liquidCapacity": 600,
       "mapColor": "#89888f",
       "useColor": true,
+      "javaClasses": [
+        "Reconstructor",
+        "UnitBlock",
+        "PayloadBlock",
+        "Block"
+      ],
       "category": "units",
       "group": "units",
       "buildVisibility": "shown",
@@ -14972,6 +16817,12 @@
       "liquidCapacity": 1800,
       "mapColor": "#8a868a",
       "useColor": true,
+      "javaClasses": [
+        "Reconstructor",
+        "UnitBlock",
+        "PayloadBlock",
+        "Block"
+      ],
       "category": "units",
       "group": "units",
       "buildVisibility": "shown",
@@ -15027,6 +16878,10 @@
       "liquidCapacity": 10,
       "mapColor": "#7d8d8d",
       "useColor": true,
+      "javaClasses": [
+        "RepairTurret",
+        "Block"
+      ],
       "category": "units",
       "group": "projectors",
       "buildVisibility": "shown",
@@ -15070,6 +16925,10 @@
       "liquidCapacity": 96,
       "mapColor": "#869a96",
       "useColor": true,
+      "javaClasses": [
+        "RepairTurret",
+        "Block"
+      ],
       "category": "units",
       "group": "projectors",
       "buildVisibility": "shown",
@@ -15113,6 +16972,12 @@
       "liquidCapacity": 10,
       "mapColor": "#76696e",
       "useColor": true,
+      "javaClasses": [
+        "UnitFactory",
+        "UnitBlock",
+        "PayloadBlock",
+        "Block"
+      ],
       "category": "units",
       "group": "units",
       "buildVisibility": "shown",
@@ -15152,6 +17017,12 @@
       "liquidCapacity": 10,
       "mapColor": "#6a687d",
       "useColor": true,
+      "javaClasses": [
+        "UnitFactory",
+        "UnitBlock",
+        "PayloadBlock",
+        "Block"
+      ],
       "category": "units",
       "group": "units",
       "buildVisibility": "shown",
@@ -15191,6 +17062,12 @@
       "liquidCapacity": 10,
       "mapColor": "#6b6f80",
       "useColor": true,
+      "javaClasses": [
+        "UnitFactory",
+        "UnitBlock",
+        "PayloadBlock",
+        "Block"
+      ],
       "category": "units",
       "group": "units",
       "buildVisibility": "shown",
@@ -15234,6 +17111,12 @@
       "liquidCapacity": 30,
       "mapColor": "#726669",
       "useColor": true,
+      "javaClasses": [
+        "Reconstructor",
+        "UnitBlock",
+        "PayloadBlock",
+        "Block"
+      ],
       "category": "units",
       "group": "units",
       "buildVisibility": "shown",
@@ -15277,6 +17160,12 @@
       "liquidCapacity": 30,
       "mapColor": "#676478",
       "useColor": true,
+      "javaClasses": [
+        "Reconstructor",
+        "UnitBlock",
+        "PayloadBlock",
+        "Block"
+      ],
       "category": "units",
       "group": "units",
       "buildVisibility": "shown",
@@ -15324,6 +17213,12 @@
       "liquidCapacity": 30,
       "mapColor": "#686c7c",
       "useColor": true,
+      "javaClasses": [
+        "Reconstructor",
+        "UnitBlock",
+        "PayloadBlock",
+        "Block"
+      ],
       "category": "units",
       "group": "units",
       "buildVisibility": "shown",
@@ -15367,6 +17262,12 @@
       "liquidCapacity": 100,
       "mapColor": "#746d6e",
       "useColor": true,
+      "javaClasses": [
+        "Reconstructor",
+        "UnitBlock",
+        "PayloadBlock",
+        "Block"
+      ],
       "category": "units",
       "group": "units",
       "buildVisibility": "shown",
@@ -15414,6 +17315,11 @@
       "liquidCapacity": 90,
       "mapColor": "#81757b",
       "useColor": true,
+      "javaClasses": [
+        "UnitAssembler",
+        "PayloadBlock",
+        "Block"
+      ],
       "category": "units",
       "group": "units",
       "buildVisibility": "shown",
@@ -15461,6 +17367,11 @@
       "liquidCapacity": 120,
       "mapColor": "#767389",
       "useColor": true,
+      "javaClasses": [
+        "UnitAssembler",
+        "PayloadBlock",
+        "Block"
+      ],
       "category": "units",
       "group": "units",
       "buildVisibility": "shown",
@@ -15512,6 +17423,11 @@
       "liquidCapacity": 120,
       "mapColor": "#777b8c",
       "useColor": true,
+      "javaClasses": [
+        "UnitAssembler",
+        "PayloadBlock",
+        "Block"
+      ],
       "category": "units",
       "group": "units",
       "buildVisibility": "shown",
@@ -15563,6 +17479,11 @@
       "liquidCapacity": 10,
       "mapColor": "#786d6a",
       "useColor": true,
+      "javaClasses": [
+        "UnitAssemblerModule",
+        "PayloadBlock",
+        "Block"
+      ],
       "category": "units",
       "group": "payloads",
       "buildVisibility": "shown",
@@ -15610,6 +17531,10 @@
       "liquidCapacity": 30,
       "mapColor": "#728981",
       "useColor": true,
+      "javaClasses": [
+        "RepairTower",
+        "Block"
+      ],
       "category": "units",
       "group": "none",
       "buildVisibility": "shown",
@@ -15653,6 +17578,10 @@
       "liquidCapacity": 10,
       "mapColor": "#6d707a",
       "useColor": true,
+      "javaClasses": [
+        "PayloadConveyor",
+        "Block"
+      ],
       "category": "units",
       "group": "payloads",
       "buildVisibility": "shown",
@@ -15692,6 +17621,11 @@
       "liquidCapacity": 10,
       "mapColor": "#767985",
       "useColor": true,
+      "javaClasses": [
+        "PayloadRouter",
+        "PayloadConveyor",
+        "Block"
+      ],
       "category": "units",
       "group": "payloads",
       "buildVisibility": "shown",
@@ -15731,6 +17665,10 @@
       "liquidCapacity": 10,
       "mapColor": "#4d4f57",
       "useColor": true,
+      "javaClasses": [
+        "PayloadConveyor",
+        "Block"
+      ],
       "category": "units",
       "group": "payloads",
       "buildVisibility": "shown",
@@ -15766,6 +17704,11 @@
       "liquidCapacity": 10,
       "mapColor": "#5a5b63",
       "useColor": true,
+      "javaClasses": [
+        "PayloadRouter",
+        "PayloadConveyor",
+        "Block"
+      ],
       "category": "units",
       "group": "payloads",
       "buildVisibility": "shown",
@@ -15801,6 +17744,11 @@
       "liquidCapacity": 10,
       "mapColor": "#7a7173",
       "useColor": true,
+      "javaClasses": [
+        "PayloadMassDriver",
+        "PayloadBlock",
+        "Block"
+      ],
       "category": "units",
       "group": "units",
       "buildVisibility": "shown",
@@ -15844,6 +17792,11 @@
       "liquidCapacity": 10,
       "mapColor": "#82797a",
       "useColor": true,
+      "javaClasses": [
+        "PayloadMassDriver",
+        "PayloadBlock",
+        "Block"
+      ],
       "category": "units",
       "group": "units",
       "buildVisibility": "shown",
@@ -15895,6 +17848,11 @@
       "liquidCapacity": 10,
       "mapColor": "#7b6f74",
       "useColor": true,
+      "javaClasses": [
+        "PayloadDeconstructor",
+        "PayloadBlock",
+        "Block"
+      ],
       "category": "units",
       "group": "payloads",
       "buildVisibility": "shown",
@@ -15942,6 +17900,11 @@
       "liquidCapacity": 10,
       "mapColor": "#816c6d",
       "useColor": true,
+      "javaClasses": [
+        "PayloadDeconstructor",
+        "PayloadBlock",
+        "Block"
+      ],
       "category": "units",
       "group": "payloads",
       "buildVisibility": "shown",
@@ -15989,6 +17952,12 @@
       "liquidCapacity": 10,
       "mapColor": "#756d6f",
       "useColor": true,
+      "javaClasses": [
+        "Constructor",
+        "BlockProducer",
+        "PayloadBlock",
+        "Block"
+      ],
       "category": "units",
       "group": "payloads",
       "buildVisibility": "shown",
@@ -16032,6 +18001,12 @@
       "liquidCapacity": 10,
       "mapColor": "#746c6f",
       "useColor": true,
+      "javaClasses": [
+        "Constructor",
+        "BlockProducer",
+        "PayloadBlock",
+        "Block"
+      ],
       "category": "units",
       "group": "payloads",
       "buildVisibility": "shown",
@@ -16079,6 +18054,11 @@
       "liquidCapacity": 100,
       "mapColor": "#585667",
       "useColor": true,
+      "javaClasses": [
+        "PayloadLoader",
+        "PayloadBlock",
+        "Block"
+      ],
       "category": "units",
       "group": "payloads",
       "buildVisibility": "shown",
@@ -16122,6 +18102,12 @@
       "liquidCapacity": 100,
       "mapColor": "#625c5d",
       "useColor": true,
+      "javaClasses": [
+        "PayloadUnloader",
+        "PayloadLoader",
+        "PayloadBlock",
+        "Block"
+      ],
       "category": "units",
       "group": "payloads",
       "buildVisibility": "shown",
@@ -16165,6 +18151,12 @@
       "liquidCapacity": 10,
       "mapColor": "#c4b2a0",
       "useColor": true,
+      "javaClasses": [
+        "PowerSource",
+        "PowerNode",
+        "PowerBlock",
+        "Block"
+      ],
       "category": "power",
       "group": "power",
       "buildVisibility": "sandboxOnly",
@@ -16195,6 +18187,11 @@
       "liquidCapacity": 10,
       "mapColor": "#ae9b89",
       "useColor": true,
+      "javaClasses": [
+        "PowerVoid",
+        "PowerBlock",
+        "Block"
+      ],
       "category": "power",
       "group": "power",
       "buildVisibility": "sandboxOnly",
@@ -16225,6 +18222,10 @@
       "liquidCapacity": 10,
       "mapColor": "#907e71",
       "useColor": true,
+      "javaClasses": [
+        "ItemSource",
+        "Block"
+      ],
       "category": "distribution",
       "group": "transportation",
       "buildVisibility": "sandboxOnly",
@@ -16255,6 +18256,10 @@
       "liquidCapacity": 10,
       "mapColor": "#917d72",
       "useColor": true,
+      "javaClasses": [
+        "ItemVoid",
+        "Block"
+      ],
       "category": "distribution",
       "group": "transportation",
       "buildVisibility": "sandboxOnly",
@@ -16285,6 +18290,10 @@
       "liquidCapacity": 10000,
       "mapColor": "#b5a597",
       "useColor": true,
+      "javaClasses": [
+        "LiquidSource",
+        "Block"
+      ],
       "category": "liquid",
       "group": "liquids",
       "buildVisibility": "sandboxOnly",
@@ -16315,6 +18324,10 @@
       "liquidCapacity": 10000,
       "mapColor": "#bba99c",
       "useColor": true,
+      "javaClasses": [
+        "LiquidVoid",
+        "Block"
+      ],
       "category": "liquid",
       "group": "liquids",
       "buildVisibility": "sandboxOnly",
@@ -16345,6 +18358,11 @@
       "liquidCapacity": 10,
       "mapColor": "#8c827f",
       "useColor": true,
+      "javaClasses": [
+        "PayloadSource",
+        "PayloadBlock",
+        "Block"
+      ],
       "category": "units",
       "group": "payloads",
       "buildVisibility": "sandboxOnly",
@@ -16375,6 +18393,11 @@
       "liquidCapacity": 10,
       "mapColor": "#8f8083",
       "useColor": true,
+      "javaClasses": [
+        "PayloadVoid",
+        "PayloadBlock",
+        "Block"
+      ],
       "category": "units",
       "group": "payloads",
       "buildVisibility": "sandboxOnly",
@@ -16405,6 +18428,11 @@
       "liquidCapacity": 10,
       "mapColor": "#928788",
       "useColor": true,
+      "javaClasses": [
+        "HeatProducer",
+        "GenericCrafter",
+        "Block"
+      ],
       "category": "crafting",
       "group": "none",
       "buildVisibility": "sandboxOnly",
@@ -16435,6 +18463,10 @@
       "liquidCapacity": 10,
       "mapColor": "#adb2bd",
       "useColor": true,
+      "javaClasses": [
+        "LightBlock",
+        "Block"
+      ],
       "category": "effect",
       "group": "none",
       "buildVisibility": "lightingOnly",
@@ -16478,6 +18510,11 @@
       "liquidCapacity": 10,
       "mapColor": "#000000",
       "useColor": true,
+      "javaClasses": [
+        "LegacyMechPad",
+        "LegacyBlock",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -16508,6 +18545,11 @@
       "liquidCapacity": 10,
       "mapColor": "#000000",
       "useColor": true,
+      "javaClasses": [
+        "LegacyUnitFactory",
+        "LegacyBlock",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -16538,6 +18580,11 @@
       "liquidCapacity": 10,
       "mapColor": "#000000",
       "useColor": true,
+      "javaClasses": [
+        "LegacyUnitFactory",
+        "LegacyBlock",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -16568,6 +18615,11 @@
       "liquidCapacity": 10,
       "mapColor": "#000000",
       "useColor": true,
+      "javaClasses": [
+        "LegacyUnitFactory",
+        "LegacyBlock",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -16598,6 +18650,11 @@
       "liquidCapacity": 10,
       "mapColor": "#000000",
       "useColor": true,
+      "javaClasses": [
+        "LegacyCommandCenter",
+        "LegacyBlock",
+        "Block"
+      ],
       "category": "distribution",
       "group": "none",
       "buildVisibility": "hidden",
@@ -16628,6 +18685,10 @@
       "liquidCapacity": 10,
       "mapColor": "#b5a69f",
       "useColor": true,
+      "javaClasses": [
+        "LaunchPad",
+        "Block"
+      ],
       "category": "effect",
       "group": "none",
       "buildVisibility": "legacyLaunchPadOnly",
@@ -16675,6 +18736,10 @@
       "liquidCapacity": 40,
       "mapColor": "#aba3a3",
       "useColor": true,
+      "javaClasses": [
+        "LaunchPad",
+        "Block"
+      ],
       "category": "effect",
       "group": "none",
       "buildVisibility": "notLegacyLaunchPadOnly",
@@ -16722,6 +18787,10 @@
       "liquidCapacity": 3000,
       "mapColor": "#aba5a6",
       "useColor": true,
+      "javaClasses": [
+        "LandingPad",
+        "Block"
+      ],
       "category": "effect",
       "group": "none",
       "buildVisibility": "notLegacyLaunchPadOnly",
@@ -16765,6 +18834,10 @@
       "liquidCapacity": 10,
       "mapColor": "#b0a9a9",
       "useColor": true,
+      "javaClasses": [
+        "Accelerator",
+        "Block"
+      ],
       "category": "effect",
       "group": "none",
       "buildVisibility": "campaignOnly",
@@ -16820,6 +18893,10 @@
       "liquidCapacity": 10,
       "mapColor": "#848396",
       "useColor": true,
+      "javaClasses": [
+        "MessageBlock",
+        "Block"
+      ],
       "category": "logic",
       "group": "logic",
       "buildVisibility": "shown",
@@ -16861,6 +18938,10 @@
       "liquidCapacity": 10,
       "mapColor": "#7b7990",
       "useColor": true,
+      "javaClasses": [
+        "SwitchBlock",
+        "Block"
+      ],
       "category": "logic",
       "group": "logic",
       "buildVisibility": "shown",
@@ -16900,6 +18981,10 @@
       "liquidCapacity": 10,
       "mapColor": "#a096c5",
       "useColor": true,
+      "javaClasses": [
+        "LogicBlock",
+        "Block"
+      ],
       "category": "logic",
       "group": "logic",
       "buildVisibility": "shown",
@@ -16947,6 +19032,10 @@
       "liquidCapacity": 10,
       "mapColor": "#a09ac0",
       "useColor": true,
+      "javaClasses": [
+        "LogicBlock",
+        "Block"
+      ],
       "category": "logic",
       "group": "logic",
       "buildVisibility": "shown",
@@ -16998,6 +19087,10 @@
       "liquidCapacity": 48,
       "mapColor": "#a096c4",
       "useColor": true,
+      "javaClasses": [
+        "LogicBlock",
+        "Block"
+      ],
       "category": "logic",
       "group": "logic",
       "buildVisibility": "shown",
@@ -17049,6 +19142,10 @@
       "liquidCapacity": 10,
       "mapColor": "#847d9d",
       "useColor": true,
+      "javaClasses": [
+        "MemoryBlock",
+        "Block"
+      ],
       "category": "logic",
       "group": "logic",
       "buildVisibility": "shown",
@@ -17093,6 +19190,10 @@
       "liquidCapacity": 10,
       "mapColor": "#847a9e",
       "useColor": true,
+      "javaClasses": [
+        "MemoryBlock",
+        "Block"
+      ],
       "category": "logic",
       "group": "logic",
       "buildVisibility": "shown",
@@ -17141,6 +19242,10 @@
       "liquidCapacity": 10,
       "mapColor": "#717186",
       "useColor": true,
+      "javaClasses": [
+        "LogicDisplay",
+        "Block"
+      ],
       "category": "logic",
       "group": "logic",
       "buildVisibility": "shown",
@@ -17185,6 +19290,10 @@
       "liquidCapacity": 10,
       "mapColor": "#68687b",
       "useColor": true,
+      "javaClasses": [
+        "LogicDisplay",
+        "Block"
+      ],
       "category": "logic",
       "group": "logic",
       "buildVisibility": "shown",
@@ -17233,6 +19342,11 @@
       "liquidCapacity": 10,
       "mapColor": "#848897",
       "useColor": true,
+      "javaClasses": [
+        "TileableLogicDisplay",
+        "LogicDisplay",
+        "Block"
+      ],
       "category": "logic",
       "group": "logic",
       "buildVisibility": "shown",
@@ -17281,6 +19395,10 @@
       "liquidCapacity": 10,
       "mapColor": "#5c5255",
       "useColor": true,
+      "javaClasses": [
+        "CanvasBlock",
+        "Block"
+      ],
       "category": "logic",
       "group": "none",
       "buildVisibility": "shown",
@@ -17320,6 +19438,10 @@
       "liquidCapacity": 10,
       "mapColor": "#53494c",
       "useColor": true,
+      "javaClasses": [
+        "CanvasBlock",
+        "Block"
+      ],
       "category": "logic",
       "group": "none",
       "buildVisibility": "shown",
@@ -17363,6 +19485,10 @@
       "liquidCapacity": 10,
       "mapColor": "#837c86",
       "useColor": true,
+      "javaClasses": [
+        "MessageBlock",
+        "Block"
+      ],
       "category": "logic",
       "group": "logic",
       "buildVisibility": "shown",
@@ -17404,6 +19530,10 @@
       "liquidCapacity": 10,
       "mapColor": "#c9ae9c",
       "useColor": true,
+      "javaClasses": [
+        "LogicBlock",
+        "Block"
+      ],
       "category": "logic",
       "group": "logic",
       "buildVisibility": "worldProcessorOnly",
@@ -17438,6 +19568,10 @@
       "liquidCapacity": 10,
       "mapColor": "#948982",
       "useColor": true,
+      "javaClasses": [
+        "MemoryBlock",
+        "Block"
+      ],
       "category": "logic",
       "group": "logic",
       "buildVisibility": "worldProcessorOnly",
@@ -17469,6 +19603,10 @@
       "liquidCapacity": 10,
       "mapColor": "#8a898a",
       "useColor": true,
+      "javaClasses": [
+        "MessageBlock",
+        "Block"
+      ],
       "category": "logic",
       "group": "logic",
       "buildVisibility": "worldProcessorOnly",
@@ -17501,6 +19639,10 @@
       "liquidCapacity": 10,
       "mapColor": "#857f81",
       "useColor": true,
+      "javaClasses": [
+        "SwitchBlock",
+        "Block"
+      ],
       "category": "logic",
       "group": "logic",
       "buildVisibility": "worldProcessorOnly",

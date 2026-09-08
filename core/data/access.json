@@ -1,0 +1,1203 @@
+{
+  "gameVersion": "v159.7",
+  "source": "logic/LAccess.java плюс тела sense/senseObject/setProp у восьми носителей",
+  "note": "Файл сгенерирован, править вручную нельзя. sense — у кого свойство читается и что отдаёт (число или объект); set — кому его пишет setprop; blocks — блоки, у класса которых своё чтение сверх общего для зданий; settable — список из самой игры, controlled — коды того, кем управляется юнит.",
+  "holders": {
+    "block": "тип блока",
+    "building": "здание",
+    "unitType": "тип юнита",
+    "unit": "юнит",
+    "item": "предмет",
+    "liquid": "жидкость",
+    "team": "команда",
+    "bullet": "пуля"
+  },
+  "settable": [
+    "x",
+    "y",
+    "velocityX",
+    "velocityY",
+    "rotation",
+    "speed",
+    "armor",
+    "health",
+    "shield",
+    "team",
+    "flag",
+    "totalPower",
+    "payloadType",
+    "bulletTime",
+    "bulletLifetime"
+  ],
+  "controlled": {
+    "ctrlProcessor": 1,
+    "ctrlPlayer": 2,
+    "ctrlCommand": 3
+  },
+  "properties": {
+    "totalItems": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "building": "number",
+        "unit": "number"
+      }
+    },
+    "firstItem": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "building": "object",
+        "unit": "object"
+      },
+      "blocks": {
+        "conveyor": "object",
+        "titanium-conveyor": "object",
+        "armored-conveyor": "object",
+        "mechanical-drill": "object",
+        "pneumatic-drill": "object",
+        "laser-drill": "object",
+        "blast-drill": "object",
+        "impact-drill": "object",
+        "eruption-drill": "object"
+      }
+    },
+    "totalLiquids": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "building": "number"
+      },
+      "blocks": {
+        "graphite-press": "number",
+        "multi-press": "number",
+        "silicon-smelter": "number",
+        "silicon-crucible": "number",
+        "kiln": "number",
+        "plastanium-compressor": "number",
+        "phase-weaver": "number",
+        "surge-smelter": "number",
+        "cryofluid-mixer": "number",
+        "pyratite-mixer": "number",
+        "blast-mixer": "number",
+        "melter": "number",
+        "spore-press": "number",
+        "pulverizer": "number",
+        "coal-centrifuge": "number",
+        "silicon-arc-furnace": "number",
+        "electrolyzer": "number",
+        "atmospheric-concentrator": "number",
+        "oxidation-chamber": "number",
+        "electric-heater": "number",
+        "slag-heater": "number",
+        "phase-heater": "number",
+        "carbide-crucible": "number",
+        "slag-centrifuge": "number",
+        "surge-crucible": "number",
+        "cyanogen-synthesizer": "number",
+        "phase-synthesizer": "number",
+        "heat-reactor": "number",
+        "mechanical-pump": "number",
+        "rotary-pump": "number",
+        "impulse-pump": "number",
+        "reinforced-pump": "number",
+        "water-extractor": "number",
+        "cultivator": "number",
+        "oil-extractor": "number",
+        "vent-condenser": "number",
+        "heat-source": "number"
+      }
+    },
+    "totalPower": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "building": "number"
+      },
+      "set": [
+        "building"
+      ]
+    },
+    "itemCapacity": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "block": "number",
+        "building": "number",
+        "unitType": "number",
+        "unit": "number"
+      },
+      "blocks": {
+        "core-shard": "number",
+        "core-foundation": "number",
+        "core-nucleus": "number",
+        "core-bastion": "number",
+        "core-citadel": "number",
+        "core-acropolis": "number",
+        "container": "number",
+        "vault": "number",
+        "reinforced-container": "number",
+        "reinforced-vault": "number",
+        "ground-factory": "number",
+        "air-factory": "number",
+        "naval-factory": "number",
+        "additive-reconstructor": "number",
+        "multiplicative-reconstructor": "number",
+        "exponential-reconstructor": "number",
+        "tetrative-reconstructor": "number",
+        "tank-fabricator": "number",
+        "ship-fabricator": "number",
+        "mech-fabricator": "number",
+        "tank-refabricator": "number",
+        "ship-refabricator": "number",
+        "mech-refabricator": "number",
+        "prime-refabricator": "number"
+      }
+    },
+    "liquidCapacity": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "block": "number",
+        "building": "number"
+      }
+    },
+    "powerCapacity": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "block": "number",
+        "building": "number"
+      }
+    },
+    "powerNetStored": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "building": "number"
+      }
+    },
+    "powerNetCapacity": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "building": "number"
+      }
+    },
+    "powerNetIn": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "building": "number"
+      }
+    },
+    "powerNetOut": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "building": "number"
+      }
+    },
+    "ammo": {
+      "params": [],
+      "isObj": false,
+      "blocks": {
+        "duo": "number",
+        "scatter": "number",
+        "scorch": "number",
+        "hail": "number",
+        "wave": "number",
+        "lancer": "number",
+        "arc": "number",
+        "swarmer": "number",
+        "salvo": "number",
+        "tsunami": "number",
+        "fuse": "number",
+        "ripple": "number",
+        "cyclone": "number",
+        "foreshadow": "number",
+        "spectre": "number",
+        "meltdown": "number",
+        "breach": "number",
+        "diffuse": "number",
+        "sublimate": "number",
+        "titan": "number",
+        "disperse": "number",
+        "afflict": "number",
+        "lustre": "number",
+        "scathe": "number",
+        "smite": "number",
+        "malign": "number"
+      }
+    },
+    "ammoCapacity": {
+      "params": [],
+      "isObj": false,
+      "blocks": {
+        "duo": "number",
+        "scatter": "number",
+        "scorch": "number",
+        "hail": "number",
+        "wave": "number",
+        "lancer": "number",
+        "arc": "number",
+        "swarmer": "number",
+        "salvo": "number",
+        "tsunami": "number",
+        "fuse": "number",
+        "ripple": "number",
+        "cyclone": "number",
+        "foreshadow": "number",
+        "spectre": "number",
+        "meltdown": "number",
+        "breach": "number",
+        "diffuse": "number",
+        "sublimate": "number",
+        "titan": "number",
+        "disperse": "number",
+        "afflict": "number",
+        "lustre": "number",
+        "scathe": "number",
+        "smite": "number",
+        "malign": "number"
+      }
+    },
+    "currentAmmoType": {
+      "params": [],
+      "isObj": false,
+      "blocks": {
+        "duo": "object",
+        "scatter": "object",
+        "scorch": "object",
+        "hail": "object",
+        "wave": "object",
+        "swarmer": "object",
+        "salvo": "object",
+        "tsunami": "object",
+        "fuse": "object",
+        "ripple": "object",
+        "cyclone": "object",
+        "foreshadow": "object",
+        "spectre": "object",
+        "breach": "object",
+        "diffuse": "object",
+        "sublimate": "object",
+        "titan": "object",
+        "disperse": "object",
+        "scathe": "object",
+        "smite": "object"
+      }
+    },
+    "memoryCapacity": {
+      "params": [],
+      "isObj": false,
+      "blocks": {
+        "memory-cell": "number",
+        "memory-bank": "number",
+        "world-cell": "number"
+      }
+    },
+    "health": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "block": "number",
+        "building": "number",
+        "unitType": "number",
+        "unit": "number",
+        "bullet": "number"
+      },
+      "set": [
+        "building",
+        "unit",
+        "bullet"
+      ]
+    },
+    "maxHealth": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "block": "number",
+        "building": "number",
+        "unitType": "number",
+        "unit": "number",
+        "bullet": "number"
+      }
+    },
+    "heat": {
+      "params": [],
+      "isObj": false,
+      "blocks": {
+        "atmospheric-concentrator": "number",
+        "oxidation-chamber": "number",
+        "electric-heater": "number",
+        "slag-heater": "number",
+        "phase-heater": "number",
+        "heat-redirector": "number",
+        "small-heat-redirector": "number",
+        "heat-router": "number",
+        "carbide-crucible": "number",
+        "surge-crucible": "number",
+        "cyanogen-synthesizer": "number",
+        "phase-synthesizer": "number",
+        "heat-reactor": "number",
+        "force-projector": "number",
+        "shockwave-tower": "number",
+        "thorium-reactor": "number",
+        "impact-reactor": "number",
+        "flux-reactor": "number",
+        "neoplasia-reactor": "number",
+        "lancer": "number",
+        "arc": "number",
+        "meltdown": "number",
+        "afflict": "number",
+        "malign": "number",
+        "heat-source": "number"
+      }
+    },
+    "shield": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "unit": "number"
+      },
+      "set": [
+        "unit"
+      ],
+      "blocks": {
+        "force-projector": "number"
+      },
+      "setBlocks": [
+        "force-projector"
+      ]
+    },
+    "armor": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "unitType": "number",
+        "unit": "number"
+      },
+      "set": [
+        "unit"
+      ]
+    },
+    "efficiency": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "building": "number"
+      },
+      "blocks": {
+        "mechanical-pump": "number",
+        "rotary-pump": "number",
+        "impulse-pump": "number",
+        "reinforced-pump": "number",
+        "water-extractor": "number",
+        "oil-extractor": "number"
+      }
+    },
+    "progress": {
+      "params": [],
+      "isObj": false,
+      "blocks": {
+        "build1": "number",
+        "build2": "number",
+        "build3": "number",
+        "build4": "number",
+        "build5": "number",
+        "build6": "number",
+        "build7": "number",
+        "build8": "number",
+        "build9": "number",
+        "build10": "number",
+        "build11": "number",
+        "build12": "number",
+        "build13": "number",
+        "build14": "number",
+        "build15": "number",
+        "build16": "number",
+        "graphite-press": "number",
+        "multi-press": "number",
+        "silicon-smelter": "number",
+        "silicon-crucible": "number",
+        "kiln": "number",
+        "plastanium-compressor": "number",
+        "phase-weaver": "number",
+        "surge-smelter": "number",
+        "cryofluid-mixer": "number",
+        "pyratite-mixer": "number",
+        "blast-mixer": "number",
+        "melter": "number",
+        "separator": "number",
+        "disassembler": "number",
+        "spore-press": "number",
+        "pulverizer": "number",
+        "coal-centrifuge": "number",
+        "silicon-arc-furnace": "number",
+        "electrolyzer": "number",
+        "atmospheric-concentrator": "number",
+        "oxidation-chamber": "number",
+        "electric-heater": "number",
+        "slag-heater": "number",
+        "phase-heater": "number",
+        "carbide-crucible": "number",
+        "slag-centrifuge": "number",
+        "surge-crucible": "number",
+        "cyanogen-synthesizer": "number",
+        "phase-synthesizer": "number",
+        "heat-reactor": "number",
+        "mender": "number",
+        "mend-projector": "number",
+        "shockwave-tower": "number",
+        "conveyor": "number",
+        "titanium-conveyor": "number",
+        "armored-conveyor": "number",
+        "mass-driver": "number",
+        "duct": "number",
+        "armored-duct": "number",
+        "mechanical-drill": "number",
+        "pneumatic-drill": "number",
+        "laser-drill": "number",
+        "blast-drill": "number",
+        "cultivator": "number",
+        "vent-condenser": "number",
+        "impact-drill": "number",
+        "eruption-drill": "number",
+        "duo": "number",
+        "scatter": "number",
+        "scorch": "number",
+        "hail": "number",
+        "wave": "number",
+        "lancer": "number",
+        "arc": "number",
+        "swarmer": "number",
+        "salvo": "number",
+        "tsunami": "number",
+        "fuse": "number",
+        "ripple": "number",
+        "cyclone": "number",
+        "foreshadow": "number",
+        "spectre": "number",
+        "meltdown": "number",
+        "breach": "number",
+        "diffuse": "number",
+        "sublimate": "number",
+        "titan": "number",
+        "disperse": "number",
+        "afflict": "number",
+        "lustre": "number",
+        "scathe": "number",
+        "smite": "number",
+        "malign": "number",
+        "ground-factory": "number",
+        "air-factory": "number",
+        "naval-factory": "number",
+        "additive-reconstructor": "number",
+        "multiplicative-reconstructor": "number",
+        "exponential-reconstructor": "number",
+        "tetrative-reconstructor": "number",
+        "tank-fabricator": "number",
+        "ship-fabricator": "number",
+        "mech-fabricator": "number",
+        "tank-refabricator": "number",
+        "ship-refabricator": "number",
+        "mech-refabricator": "number",
+        "prime-refabricator": "number",
+        "tank-assembler": "number",
+        "ship-assembler": "number",
+        "mech-assembler": "number",
+        "payload-mass-driver": "number",
+        "large-payload-mass-driver": "number",
+        "small-deconstructor": "number",
+        "deconstructor": "number",
+        "large-constructor": "number",
+        "heat-source": "number",
+        "launch-pad": "number",
+        "advanced-launch-pad": "number"
+      }
+    },
+    "timescale": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "building": "number"
+      }
+    },
+    "rotation": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "building": "number",
+        "unit": "number",
+        "bullet": "number"
+      },
+      "set": [
+        "unit",
+        "bullet"
+      ],
+      "blocks": {
+        "duo": "number",
+        "scatter": "number",
+        "scorch": "number",
+        "hail": "number",
+        "wave": "number",
+        "lancer": "number",
+        "arc": "number",
+        "swarmer": "number",
+        "salvo": "number",
+        "tsunami": "number",
+        "fuse": "number",
+        "ripple": "number",
+        "cyclone": "number",
+        "foreshadow": "number",
+        "spectre": "number",
+        "meltdown": "number",
+        "breach": "number",
+        "diffuse": "number",
+        "sublimate": "number",
+        "titan": "number",
+        "disperse": "number",
+        "afflict": "number",
+        "lustre": "number",
+        "scathe": "number",
+        "smite": "number",
+        "malign": "number"
+      }
+    },
+    "x": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "building": "number",
+        "unit": "number",
+        "bullet": "number"
+      },
+      "set": [
+        "unit",
+        "bullet"
+      ]
+    },
+    "y": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "building": "number",
+        "unit": "number",
+        "bullet": "number"
+      },
+      "set": [
+        "unit",
+        "bullet"
+      ]
+    },
+    "velocityX": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "unit": "number",
+        "bullet": "number"
+      },
+      "set": [
+        "unit",
+        "bullet"
+      ]
+    },
+    "velocityY": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "unit": "number",
+        "bullet": "number"
+      },
+      "set": [
+        "unit",
+        "bullet"
+      ]
+    },
+    "shootX": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "unit": "number",
+        "bullet": "number"
+      },
+      "blocks": {
+        "duo": "number",
+        "scatter": "number",
+        "scorch": "number",
+        "hail": "number",
+        "wave": "number",
+        "lancer": "number",
+        "arc": "number",
+        "swarmer": "number",
+        "salvo": "number",
+        "tsunami": "number",
+        "fuse": "number",
+        "ripple": "number",
+        "cyclone": "number",
+        "foreshadow": "number",
+        "spectre": "number",
+        "meltdown": "number",
+        "breach": "number",
+        "diffuse": "number",
+        "sublimate": "number",
+        "titan": "number",
+        "disperse": "number",
+        "afflict": "number",
+        "lustre": "number",
+        "scathe": "number",
+        "smite": "number",
+        "malign": "number"
+      }
+    },
+    "shootY": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "unit": "number",
+        "bullet": "number"
+      },
+      "blocks": {
+        "duo": "number",
+        "scatter": "number",
+        "scorch": "number",
+        "hail": "number",
+        "wave": "number",
+        "lancer": "number",
+        "arc": "number",
+        "swarmer": "number",
+        "salvo": "number",
+        "tsunami": "number",
+        "fuse": "number",
+        "ripple": "number",
+        "cyclone": "number",
+        "foreshadow": "number",
+        "spectre": "number",
+        "meltdown": "number",
+        "breach": "number",
+        "diffuse": "number",
+        "sublimate": "number",
+        "titan": "number",
+        "disperse": "number",
+        "afflict": "number",
+        "lustre": "number",
+        "scathe": "number",
+        "smite": "number",
+        "malign": "number"
+      }
+    },
+    "cameraX": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "building": "number",
+        "unit": "number"
+      }
+    },
+    "cameraY": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "building": "number",
+        "unit": "number"
+      }
+    },
+    "cameraWidth": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "building": "number",
+        "unit": "number"
+      }
+    },
+    "cameraHeight": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "building": "number",
+        "unit": "number"
+      }
+    },
+    "displayWidth": {
+      "params": [],
+      "isObj": false,
+      "blocks": {
+        "logic-display": "number",
+        "large-logic-display": "number",
+        "tile-logic-display": "number",
+        "canvas": "number",
+        "large-canvas": "number"
+      }
+    },
+    "displayHeight": {
+      "params": [],
+      "isObj": false,
+      "blocks": {
+        "logic-display": "number",
+        "large-logic-display": "number",
+        "tile-logic-display": "number",
+        "canvas": "number",
+        "large-canvas": "number"
+      }
+    },
+    "bufferSize": {
+      "params": [],
+      "isObj": false,
+      "blocks": {
+        "message": "number",
+        "logic-display": "number",
+        "large-logic-display": "number",
+        "tile-logic-display": "number",
+        "reinforced-message": "number",
+        "world-message": "number"
+      }
+    },
+    "operations": {
+      "params": [],
+      "isObj": false,
+      "blocks": {
+        "logic-display": "number",
+        "large-logic-display": "number",
+        "tile-logic-display": "number"
+      }
+    },
+    "size": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "block": "number",
+        "building": "number",
+        "unitType": "number",
+        "unit": "number",
+        "bullet": "number"
+      }
+    },
+    "solid": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "block": "number",
+        "building": "number"
+      }
+    },
+    "dead": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "building": "number",
+        "unit": "number",
+        "bullet": "number"
+      }
+    },
+    "range": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "building": "number",
+        "unitType": "number",
+        "unit": "number",
+        "bullet": "number"
+      }
+    },
+    "shooting": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "unit": "number"
+      },
+      "blocks": {
+        "duo": "number",
+        "scatter": "number",
+        "scorch": "number",
+        "hail": "number",
+        "wave": "number",
+        "lancer": "number",
+        "arc": "number",
+        "swarmer": "number",
+        "salvo": "number",
+        "tsunami": "number",
+        "fuse": "number",
+        "ripple": "number",
+        "cyclone": "number",
+        "foreshadow": "number",
+        "spectre": "number",
+        "meltdown": "number",
+        "breach": "number",
+        "diffuse": "number",
+        "sublimate": "number",
+        "titan": "number",
+        "disperse": "number",
+        "afflict": "number",
+        "lustre": "number",
+        "scathe": "number",
+        "smite": "number",
+        "malign": "number"
+      }
+    },
+    "boosting": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "unit": "number"
+      }
+    },
+    "mineX": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "unit": "number"
+      }
+    },
+    "mineY": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "unit": "number"
+      }
+    },
+    "mining": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "unit": "number"
+      }
+    },
+    "buildX": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "unit": "number"
+      },
+      "blocks": {
+        "build-tower": "number"
+      }
+    },
+    "buildY": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "unit": "number"
+      },
+      "blocks": {
+        "build-tower": "number"
+      }
+    },
+    "pingX": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "unit": "number"
+      }
+    },
+    "pingY": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "unit": "number"
+      }
+    },
+    "pingText": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "unit": "object"
+      }
+    },
+    "building": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "unit": "object"
+      },
+      "blocks": {
+        "build1": "object",
+        "build2": "object",
+        "build3": "object",
+        "build4": "object",
+        "build5": "object",
+        "build6": "object",
+        "build7": "object",
+        "build8": "object",
+        "build9": "object",
+        "build10": "object",
+        "build11": "object",
+        "build12": "object",
+        "build13": "object",
+        "build14": "object",
+        "build15": "object",
+        "build16": "object",
+        "build-tower": "object"
+      }
+    },
+    "breaking": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "unit": "object"
+      },
+      "blocks": {
+        "build1": "number",
+        "build2": "number",
+        "build3": "number",
+        "build4": "number",
+        "build5": "number",
+        "build6": "number",
+        "build7": "number",
+        "build8": "number",
+        "build9": "number",
+        "build10": "number",
+        "build11": "number",
+        "build12": "number",
+        "build13": "number",
+        "build14": "number",
+        "build15": "number",
+        "build16": "number",
+        "build-tower": "object"
+      }
+    },
+    "speed": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "unitType": "number",
+        "unit": "number",
+        "bullet": "number"
+      },
+      "set": [
+        "unit",
+        "bullet"
+      ]
+    },
+    "team": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "building": "number",
+        "unit": "number",
+        "bullet": "number"
+      },
+      "set": [
+        "building",
+        "unit",
+        "bullet"
+      ]
+    },
+    "type": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "building": "object",
+        "unit": "object"
+      }
+    },
+    "flag": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "unit": "number"
+      },
+      "set": [
+        "unit"
+      ]
+    },
+    "flying": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "unitType": "number",
+        "unit": "number"
+      }
+    },
+    "controlled": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "building": "number",
+        "unit": "number"
+      }
+    },
+    "controller": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "unit": "object"
+      }
+    },
+    "name": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "block": "object",
+        "unitType": "object",
+        "unit": "object",
+        "item": "object",
+        "liquid": "object",
+        "team": "object"
+      }
+    },
+    "payloadCount": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "building": "number",
+        "unit": "number"
+      }
+    },
+    "payloadType": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "building": "object",
+        "unit": "object"
+      },
+      "set": [
+        "unit"
+      ]
+    },
+    "totalPayload": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "unit": "number"
+      }
+    },
+    "payloadCapacity": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "unitType": "number",
+        "unit": "number"
+      }
+    },
+    "maxUnits": {
+      "params": [],
+      "isObj": false,
+      "blocks": {
+        "core-shard": "number",
+        "core-foundation": "number",
+        "core-nucleus": "number",
+        "core-bastion": "number",
+        "core-citadel": "number",
+        "core-acropolis": "number"
+      }
+    },
+    "id": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "block": "number",
+        "unitType": "number",
+        "item": "number",
+        "liquid": "number",
+        "team": "number"
+      }
+    },
+    "selectedBlock": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "unit": "object"
+      }
+    },
+    "selectedRotation": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "unit": "number"
+      }
+    },
+    "bulletLifetime": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "bullet": "number"
+      },
+      "set": [
+        "bullet"
+      ]
+    },
+    "bulletTime": {
+      "params": [],
+      "isObj": false,
+      "sense": {
+        "bullet": "number"
+      },
+      "set": [
+        "bullet"
+      ]
+    },
+    "enabled": {
+      "params": [
+        "to"
+      ],
+      "isObj": false,
+      "sense": {
+        "building": "number"
+      },
+      "blocks": {
+        "door": "number",
+        "door-large": "number",
+        "blast-door": "number"
+      }
+    },
+    "shoot": {
+      "params": [
+        "x",
+        "y",
+        "shoot"
+      ],
+      "isObj": false
+    },
+    "shootp": {
+      "params": [
+        "unit",
+        "shoot"
+      ],
+      "isObj": true
+    },
+    "config": {
+      "params": [
+        "to"
+      ],
+      "isObj": true,
+      "sense": {
+        "building": "object"
+      },
+      "blocks": {
+        "ground-factory": "object",
+        "air-factory": "object",
+        "naval-factory": "object",
+        "additive-reconstructor": "object",
+        "multiplicative-reconstructor": "object",
+        "exponential-reconstructor": "object",
+        "tetrative-reconstructor": "object",
+        "tank-fabricator": "object",
+        "ship-fabricator": "object",
+        "mech-fabricator": "object",
+        "tank-refabricator": "object",
+        "ship-refabricator": "object",
+        "mech-refabricator": "object",
+        "prime-refabricator": "object"
+      }
+    },
+    "color": {
+      "params": [
+        "to"
+      ],
+      "isObj": false,
+      "sense": {
+        "block": "number",
+        "building": "number",
+        "unit": "number",
+        "item": "number",
+        "liquid": "number",
+        "team": "number",
+        "bullet": "number"
+      },
+      "blocks": {
+        "illuminator": "number"
+      }
+    }
+  }
+}

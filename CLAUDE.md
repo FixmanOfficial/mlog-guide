@@ -201,6 +201,20 @@ node tools/gen-globals.mjs <путь-к-Mindustry>
 лежат в бандлах под ключами `lglobal.` и снимаются `gen-bundles.mjs`.
 
 ```bash
+node tools/gen-access.mjs <путь-к-Mindustry>
+```
+
+Снимает таблицу свойств `LAccess` в `core/data/access.json`: 77 свойств — у кого каждое
+читается, число это или объект, кому его пишет `setprop`. Имена свойств игра переводит,
+а вот **у кого** свойство работает не написано нигде: это `switch` в коде, и их полсотни.
+
+Общие лежат у восьми носителей (`Block`, `BuildingComp`, `UnitType`, `UnitComp`, `Item`,
+`Liquid`, `Team`, `BulletComp`), остальные — в конкретных классах блоков: `@ammo` только
+у турели, `@progress` у бура и фабрики, `@memoryCapacity` у ячейки памяти. Класс блока
+и вся цепочка его предков приходят из выгрузки (`javaClasses` в `block-specs.json`),
+по ней 42 переопределения разворачиваются в списки блоков.
+
+```bash
 node tools/gen-icons.mjs <путь-к-Mindustry>
 ```
 

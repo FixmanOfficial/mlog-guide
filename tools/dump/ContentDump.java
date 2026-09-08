@@ -232,6 +232,23 @@ public class ContentDump{
             spec.string("mapColor", color(block.mapColor));
             spec.bool("useColor", block.useColor);
 
+            /*
+             * Цепочка классов блока в игре, от своего до `Block`. Нужна справочнику:
+             * свойства вроде `@shield` или `@currentAmmoType` объявлены не в базовом
+             * `Block`, а в конкретном классе, и без этой связи нельзя сказать, у каких
+             * блоков они читаются.
+             *
+             * Почти все блоки в `Blocks.java` заведены анонимными подклассами
+             * (`new Wall("door"){{ ... }}`), а у анонимного класса простого имени нет
+             * вовсе — поэтому такие пропускаются.
+             */
+            List<String> chain = new ArrayList<>();
+            for(Class<?> type = block.getClass(); type != null; type = type.getSuperclass()){
+                if(!type.isAnonymousClass()) chain.add(type.getSimpleName());
+                if(type == Block.class) break;
+            }
+            spec.strings("javaClasses", chain);
+
             spec.string("category", block.category.name());
             spec.string("group", block.group.name());
             spec.string("buildVisibility", visibilityName(block.buildVisibility));
@@ -538,6 +555,12 @@ public class ContentDump{
 
         void string(String name, String value){
             raw(name, "\"" + value.replace("\\", "\\\\").replace("\"", "\\\"") + "\"");
+        }
+
+        void strings(String name, List<String> values){
+            List<String> quoted = new ArrayList<>();
+            for(String value : values) quoted.add("\"" + value.replace("\\", "\\\\").replace("\"", "\\\"") + "\"");
+            raw(name, "[" + String.join(", ", quoted) + "]");
         }
 
         void bool(String name, boolean value){
