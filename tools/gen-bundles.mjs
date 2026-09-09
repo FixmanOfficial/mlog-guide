@@ -68,6 +68,27 @@ function collectNames(props, prefix, names) {
     return out
 }
 
+/**
+ * Подсказки к подписям параметров: ключи вида `<инструкция>.<подпись>`.
+ *
+ * Общей приставки у них нет, зато есть список инструкций — по нему и отбираются. Ключи
+ * с точкой внутри значения (`lst.`, `lenum.`) отсеиваются сами: их приставка не совпадает
+ * ни с одним именем инструкции.
+ */
+function collectParams(props, opcodes) {
+    const out = {}
+
+    for (const [key, value] of props) {
+        const dot = key.indexOf('.')
+        if (dot === -1) continue
+
+        if (!opcodes.has(key.slice(0, dot))) continue
+        out[key] = value
+    }
+
+    return out
+}
+
 function collectByPrefix(props, prefix, {suffix = null, strip = false} = {}) {
     const out = {}
 
@@ -93,6 +114,19 @@ function main() {
     const gameRoot = resolve(process.argv[2] ?? '../Mindustry')
     const requested = process.argv.slice(3)
     const locales = requested.length > 0 ? requested : DEFAULT_LOCALES
+
+    /*
+     * Список инструкций нужен для подсказок к подписям параметров: ключ там собран из имени
+     * инструкции, и опознать его иначе нельзя. Файл снимает `gen-instructions.mjs`.
+     */
+    let opcodes = new Set()
+
+    try {
+        const schema = JSON.parse(readFileSync('core/data/instructions.json', 'utf8'))
+        opcodes = new Set((schema.instructions ?? []).map(entry => entry.opcode))
+    } catch {
+        console.error('Не найден core/data/instructions.json — подсказки к параметрам пропущены')
+    }
 
     let ids
     try {
@@ -131,7 +165,14 @@ function main() {
             instructions: collectByPrefix(props, 'lst.'),
             properties: collectByPrefix(props, 'lenum.'),
             // Описания встроенных переменных и заголовки их разделов: окно GlobalVarsDialog
-            globals: collectByPrefix(props, 'lglobal.')
+            globals: collectByPrefix(props, 'lglobal.'),
+
+            /*
+             * Подсказки к подписям параметров. Ключ игра собирает из имени инструкции
+             * и текста подписи (`LStatement.param`), поэтому у них нет общей приставки:
+             * `radar.from`, `control.of`, `sensor.in`. Собираются по списку инструкций.
+             */
+            params: collectParams(props, opcodes)
         }
 
         // Цели карты и метки: названия видов и строки, которыми игра пишет условие

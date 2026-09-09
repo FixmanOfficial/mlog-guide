@@ -3,6 +3,7 @@ import {useMemo, useRef, useState} from 'preact/hooks'
 import {available} from './program.js'
 import {CATEGORY_ORDER, CATEGORY_ICONS, categoryColor, displayName} from './theme.js'
 import {categoryName, categoryTip, instructionTip} from './tooltips.js'
+import {tipProps} from './tip.js'
 import {Icon} from './Icon.jsx'
 import {Overlay} from './Overlay.jsx'
 
@@ -63,7 +64,7 @@ export function AddDialog({onPick, onClose, privileged = false, unitControl = tr
                     <div class="dialog__groups">
                         {groups.map(([category, list]) => (
                             <div class="group" key={category} style={{'--category': categoryColor(category)}}>
-                                <div class="group__title" title={categoryTip(category) ?? ''}>
+                                <div class="group__title" {...tipProps(categoryTip(category))}>
                                     {CATEGORY_ICONS[category] !== undefined && (
                                         <Icon name={CATEGORY_ICONS[category]} size={15} />
                                     )}
@@ -76,7 +77,7 @@ export function AddDialog({onPick, onClose, privileged = false, unitControl = tr
                                         <button
                                             class="group__item"
                                             key={instruction.opcode}
-                                            title={instructionTip(instruction.opcode) ?? ''}
+                                            {...tipProps(instructionTip(instruction.opcode))}
                                             onClick={() => onPick(instruction.opcode)}
                                         >
                                             {displayName(instruction.opcode)}

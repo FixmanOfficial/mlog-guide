@@ -34,8 +34,33 @@ export function globalTip(name) {
     return text === undefined ? null : stripMarkup(text)
 }
 
+/**
+ * Описание свойства, операции или условия: ключи `lenum.<имя>`.
+ *
+ * Имя приводится к нижнему регистру и лишается пробелов ровно так, как это делает
+ * `LCanvas.tooltip`: в бандле лежит `lessthan`, а в списке операций — `lessThan`,
+ * и без приведения половина подсказок не находилась вовсе.
+ */
 export function propertyTip(name) {
-    const text = bundle.logic?.properties?.[name]
+    if (typeof name !== 'string') return null
+
+    const key = name.toLowerCase().replace(/ /g, '')
+    const text = bundle.logic?.properties?.[key]
+
+    return text === undefined ? null : stripMarkup(text)
+}
+
+/**
+ * Подсказка к подписи параметра. `LStatement.param` собирает ключ из имени инструкции
+ * и текста подписи: `radar.from`, `control.of`. Есть такая подсказка не у каждой подписи —
+ * у половины инструкций их в игре нет вовсе.
+ */
+export function paramTip(opcode, label) {
+    if (typeof opcode !== 'string' || typeof label !== 'string') return null
+
+    const key = `${opcode}.${label}`.toLowerCase().replace(/ /g, '')
+    const text = bundle.logic?.params?.[key]
+
     return text === undefined ? null : stripMarkup(text)
 }
 

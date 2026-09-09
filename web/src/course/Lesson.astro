@@ -1,0 +1,32 @@
+---
+/**
+ * Ссылка на другой урок прямо в тексте.
+ *
+ * Курс пишется годами, и урок то и дело хочет сослаться на тот, которого ещё нет. Написать
+ * обычную ссылку — значит завести битую; написать «будет позже» словами — значит однажды
+ * забыть её заменить, потому что напоминать некому.
+ *
+ * Поэтому ссылка ставится всегда, а решает страница: есть урок — выйдет ссылка, нет —
+ * тот же текст без неё. Когда урок появится, ссылка появится сама.
+ *
+ * То же самое делает шапка урока для списка «нужно знать» (`LessonHead`), только там это
+ * список, а здесь строка внутри абзаца:
+ *
+ *     <Lesson group="advanced">группе «Продвинутое»</Lesson>
+ *     <Lesson lesson="op/logic">«Сравнения и логика»</Lesson>
+ */
+
+import {getCollection} from 'astro:content'
+
+const {lesson, group, locale = 'ru'} = Astro.props
+
+const path = group ?? lesson
+const slug = `${locale}/course/${path}`
+
+const pages = await getCollection('docs')
+const ready = pages.some(entry => entry.slug === slug || entry.slug === `${slug}/index`)
+---
+
+{ready
+    ? <a href={`/${slug}/`}><slot /></a>
+    : <span class="lesson-soon"><slot /></span>}

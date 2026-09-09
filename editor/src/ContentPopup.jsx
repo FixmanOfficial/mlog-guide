@@ -4,6 +4,7 @@ import sprites from '@mlog/core/data/sprites.json'
 
 import {ENUMS, ENUM_PARAMS} from './program.js'
 import {propertyTip, contentName} from './tooltips.js'
+import {tipProps} from './tip.js'
 import {Icon} from './Icon.jsx'
 import {useAnchored, anchoredStyle} from './anchor.js'
 
@@ -69,7 +70,7 @@ export function ContentPopup({current, anchor, onPick, onClose}) {
                             <button
                                 key={name}
                                 class={`content-popup__item${current === `@${name}` ? ' content-popup__item--current' : ''}`}
-                                title={propertyTip(name) ?? ''}
+                                {...tipProps(propertyTip(name))}
                                 onClick={() => onPick(`@${name}`)}
                             >
                                 {name}

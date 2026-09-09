@@ -1,5 +1,6 @@
 import {ENUM_SYMBOLS} from './program.js'
 import {propertyTip} from './tooltips.js'
+import {tipProps, hideTip} from './tip.js'
 import {useAnchored, anchoredStyle} from './anchor.js'
 
 /**
@@ -47,8 +48,8 @@ export function SelectPopup({
                     <button
                         key={value}
                         class={`popup__item${value === current ? ' popup__item--current' : ''}`}
-                        title={propertyTip(value) ?? ''}
-                        onClick={() => onPick(value)}
+                        {...tipProps(propertyTip(value))}
+                        onClick={() => { hideTip(); onPick(value) }}
                     >
                         {symbols[value] ?? value}
                     </button>

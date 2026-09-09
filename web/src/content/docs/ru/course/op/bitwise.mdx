@@ -11,6 +11,7 @@ import {Example} from '../../../../../example/Example.jsx'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
 import {BITWISE, SHIFTS} from '../../../../../course/scenes/op.js'
 
 <LessonHead
@@ -78,8 +79,8 @@ import {BITWISE, SHIFTS} from '../../../../../course/scenes/op.js'
 а мест, куда можно положить число для другого процессора, мало: ячейка памяти, флаг юнита.
 Сдвигами и `or` в одно число складывают несколько, а `shr` и `and` достают обратно.
 
-Отдельный урок про упаковку будет в группе «Продвинутое» — там же про предел точности,
-за которым числа начинают терять младшие биты.
+Подробнее — в <Lesson group="advanced">группе «Продвинутое»</Lesson>: там про упаковку
+целиком и про предел точности, за которым числа начинают терять младшие биты.
 
 <Card kind="recap">
 - Битовых операций шесть: `and`, `or`, `xor`, `not`, `shl`, `shr`, плюс беззнаковый `ushr`.

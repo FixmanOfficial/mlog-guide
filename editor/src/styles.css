@@ -766,6 +766,22 @@
  * Поля ввода и кнопка операции — наоборот, обычным Fonts.def, поэтому обводки там нет.
  * Styles.java:200-208, 411-421, 166-173
  */
+/*
+ * Подсказка. `Styles.black8` — чёрный с прозрачностью 0.8, отступ `margin(4f)`,
+ * текст `[lightgray]` (#bfbfbf) со шрифтом-обводкой. Позицию ставит `tip.js`.
+ */
+.tip {
+    position: fixed;
+    z-index: 1000;
+    max-width: 320px;
+    padding: 4px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #bfbfbf;
+    pointer-events: none;
+    -webkit-text-stroke: 4px var(--outline, #3f3f3f);
+    paint-order: stroke fill;
+}
+
 .popup__item {
     height: 38px;
     border: none;
@@ -775,12 +791,18 @@
     cursor: pointer;
 }
 
-.popup__item:hover {
+/*
+ * Наведение подсвечивает только невыбранное: в `Styles.logicTogglet` у кнопки вовсе нет
+ * состояния `over`, но на странице без него не видно, куда наводишь. Выбранное же
+ * подсвечивать нечем — оно и так акцентное, а подсветка поверх делала его нечитаемым.
+ */
+.popup__item:not(.popup__item--current):hover {
     background: rgba(255, 255, 255, 0.12);
 }
 
-/* Выбранное подсвечено акцентом — Pal.accent */
-.popup__item--current {
+/* `checked` и `down` у кнопки одинаковые — Pal.accent. Нажатое остаётся жёлтым, не чёрным */
+.popup__item--current,
+.popup__item:active {
     background: #ffd37f;
     color: #14141a;
     -webkit-text-stroke: 0;

@@ -3,7 +3,8 @@ import {useRef, useState} from 'preact/hooks'
 import {INSTRUCTIONS, ENUMS, ENUM_SYMBOLS, SENSEABLE, visibleParams, targetIndex} from './program.js'
 import {describeBody, CUSTOM_BODIES, DRAW_DEFAULTS} from './bodies.js'
 import {categoryColor, headerTextColor, displayName} from './theme.js'
-import {instructionTip, propertyTip} from './tooltips.js'
+import {instructionTip, propertyTip, paramTip} from './tooltips.js'
+import {tipProps, hideTip} from './tip.js'
 import {SelectPopup} from './SelectPopup.jsx'
 import {Icon} from './Icon.jsx'
 import {ContentButton} from './ContentButton.jsx'
@@ -40,7 +41,7 @@ export function StatementRow({
             style={{'--category': color, '--header-text': headerTextColor(definition.category)}}
         >
             <div class="statement__header" onPointerDown={onDragStart}>
-                <span class="statement__name" title={instructionTip(statement.opcode) ?? ''}>
+                <span class="statement__name" {...tipProps(instructionTip(statement.opcode))}>
                     {title}
                 </span>
                 <span class="statement__spacer" />
@@ -85,7 +86,20 @@ function renderDescribed(statement, definition, onParam) {
     return (describeBody(statement) ?? []).map((item, position) => {
         if (item.break === true) return <div class="break" key={`break${position}`} />
         if (item.label !== undefined) {
-            return <span class="label" key={`label${position}`}>{item.label}</span>
+            /*
+             * Подсказка к подписи собирается из имени инструкции и самой подписи —
+             * `radar.from`, `sensor.in`. Есть она не у всякой подписи: у знака равенства,
+             * например, нет и в игре. LStatement.param
+             */
+            return (
+                <span
+                    class="label"
+                    key={`label${position}`}
+                    {...tipProps(paramTip(statement.opcode, item.label.trim()))}
+                >
+                    {item.label}
+                </span>
+            )
         }
 
         if (item.content !== undefined) {
@@ -145,7 +159,15 @@ function renderGeneric(definition, statement, onParam) {
         return hint.items.map((item, position) => {
             if (item.kind === 'row') return <div class="break" key={`row${position}`} />
             if (item.kind === 'label') {
-                return <span class="label" key={`label${position}`}>{item.text}</span>
+                return (
+                    <span
+                        class="label"
+                        key={`label${position}`}
+                        {...tipProps(paramTip(statement.opcode, item.text.trim()))}
+                    >
+                        {item.text}
+                    </span>
+                )
             }
 
             const param = definition.params.find(candidate => candidate.name === item.param)
@@ -159,7 +181,9 @@ function renderGeneric(definition, statement, onParam) {
         .filter(entry => !entry.hidden)
         .map(entry => (
             <span class="pair" key={entry.param.name}>
-                <span class="label" title={propertyTip(entry.label) ?? ''}>{entry.label}</span>
+                <span class="label" {...tipProps(paramTip(statement.opcode, entry.label))}>
+                    {entry.label}
+                </span>
                 {renderParam(entry.param, statement, onParam)}
             </span>
         ))
@@ -219,8 +243,8 @@ function EnumButton({param, statement, onParam, values, width, columns, cellWidt
                 class="enum"
                 ref={anchor}
                 style={width === undefined ? undefined : {width: `${width}px`, minWidth: `${width}px`}}
-                title={propertyTip(value) ?? ''}
-                onClick={() => setOpen(!open)}
+                {...tipProps(propertyTip(value))}
+                onClick={() => { hideTip(); setOpen(!open) }}
             >
                 {symbols[value] ?? value}
             </button>
