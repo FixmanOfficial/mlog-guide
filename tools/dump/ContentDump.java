@@ -25,6 +25,7 @@ import mindustry.world.blocks.logic.LogicDisplay;
 import mindustry.world.blocks.logic.MemoryBlock;
 import mindustry.world.blocks.logic.MessageBlock;
 import mindustry.world.blocks.storage.CoreBlock;
+import mindustry.world.blocks.distribution.ChainedBuilding;
 import mindustry.world.blocks.environment.Floor;
 import mindustry.world.blocks.environment.OreBlock;
 import mindustry.world.blocks.environment.OverlayFloor;
@@ -321,6 +322,23 @@ public class ContentDump{
             spec.bool("allowDiagonal", block.allowDiagonal);
             spec.bool("ignoreLineRotation", block.ignoreLineRotation);
 
+            /*
+             * Замена блока блоком. Конвейер ставится поверх конвейера — так его и
+             * поворачивают на углу, — а стена поверх стены: `group.anyReplace`. Правила
+             * лежат в `Block.canReplace`, и им нужны четыре поля разом.
+             */
+            spec.bool("replaceable", block.replaceable);
+            spec.bool("alwaysReplace", block.alwaysReplace);
+            spec.bool("groupAnyReplace", block.group.anyReplace);
+            if(block.subclass != null) spec.string("subclass", block.subclass.getSimpleName());
+
+            /*
+             * Звено цепи. `ChainedBuilding` это конвейеры и трубы: линия, доведённая до
+             * такого блока, не разворачивает его, а берёт его поворот себе.
+             * InputHandler.iterateLine
+             */
+            spec.bool("chained", chained(block));
+
             if(block instanceof Conveyor conveyor){
                 spec.number("speed", conveyor.speed);
                 spec.number("displayedSpeed", conveyor.displayedSpeed);
@@ -464,6 +482,18 @@ public class ContentDump{
      * нельзя. Спрашивать `visible()` тем более: половина условий там смотрит в `Vars.state`,
      * которого без запущенной игры нет. Поэтому имя достаётся отражением по совпадению ссылки.
      */
+    /**
+     * Звено ли это цепи. `ChainedBuilding` реализует не блок, а его здание, поэтому здание
+     * приходится завести — вне мира, только чтобы спросить о типе.
+     */
+    static boolean chained(Block block){
+        try{
+            return block.buildType.get() instanceof ChainedBuilding;
+        }catch(Throwable ignored){
+            return false;
+        }
+    }
+
     static String visibilityName(BuildVisibility visibility) throws Exception{
         for(Field field : BuildVisibility.class.getFields()){
             if(Modifier.isStatic(field.getModifiers()) && field.get(null) == visibility) return field.getName();

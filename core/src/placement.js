@@ -12,10 +12,12 @@
  *    от предыдущего (только у конвейеров и труб) или общий поворот линии;
  *  - блоки крупнее клетки не наезжают друг на друга: следующая точка пропускается, пока
  *    её след перекрывается с уже поставленным;
- *  - у турелей и буров поворот линии не трогается вовсе — `ignoreLineRotation`.
+ *  - у турелей и буров поворот линии не трогается вовсе — `ignoreLineRotation`;
+ *  - линия, доведённая до конвейера или трубы, не разворачивает их: последний блок берёт
+ *    поворот того, во что упёрся.
  *
- * Модуль чистый: ни холста, ни событий, ни мира. Поэтому его можно прогнать в тесте и не
- * гадать, отчего конвейер лёг не туда.
+ * Ни холста, ни событий здесь нет — только мир, и тот необязателен. Поэтому линию можно
+ * прогнать в тесте и не гадать, отчего конвейер лёг не туда.
  */
 
 import {BLOCK_SPECS} from './world.js'
@@ -28,6 +30,15 @@ function relativeTo(fromX, fromY, toX, toY) {
     if (fromX === toX + 1 && fromY === toY) return 2
 
     return -1
+}
+
+/**
+ * Звено цепи в этой клетке, если оно там есть. `ChainedBuilding` — это конвейеры и трубы:
+ * то, что выстраивается в линию и передаёт содержимое следующему.
+ */
+function chainedAt(world, x, y) {
+    const building = world?.at(x, y)
+    return building !== undefined && building?.spec.chained === true ? building : null
 }
 
 /** Угол в градусах от 0 до 360, как `Angles.angle`. */
@@ -61,13 +72,27 @@ export function normalizeLine(startX, startY, endX, endY) {
  * @param start    клетка, где нажали
  * @param end      клетка под курсором сейчас
  * @param rotation поворот, выбранный колесом; он же общий для линии
+ * @param world    мир, если он есть: по нему линия узнаёт, во что упёрлась
  * @returns массив `{type, x, y, rotation}` в порядке постановки
  */
-export function linePlans(type, start, end, rotation = 0) {
+export function linePlans(type, start, end, rotation = 0, world = null) {
     const spec = BLOCK_SPECS[type]
     if (spec === undefined) return []
 
     const points = normalizeLine(start.x, start.y, end.x, end.y)
+
+    /*
+     * Линия упёрлась в чужой конвейер или трубу — последний блок берёт их поворот, а не
+     * разворачивает их по ходу протяжки. Правило отменяется, когда предпоследняя клетка
+     * тоже звено цепи: тогда линия идёт вдоль неё, а не втыкается в неё.
+     */
+    let endRotation = -1
+    const met = chainedAt(world, end.x, end.y)
+
+    if (points.length > 1 && met !== null
+        && chainedAt(world, points[points.length - 2].x, points[points.length - 2].y) === null) {
+        endRotation = met.rotation
+    }
 
     /*
      * Общий поворот линии: направление от начала к концу, округлённое до четверти оборота.
@@ -96,6 +121,8 @@ export function linePlans(type, start, end, rotation = 0) {
             turn = rotation
         } else if (next !== null) {
             turn = relativeTo(point.x, point.y, next.x, next.y)
+        } else if (endRotation !== -1) {
+            turn = endRotation
         } else if (spec.conveyorPlacement === true && i > 0) {
             const previous = points[i - 1]
             turn = relativeTo(previous.x, previous.y, point.x, point.y)

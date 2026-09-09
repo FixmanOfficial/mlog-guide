@@ -372,7 +372,8 @@ export function Sandbox({allow = {}, scene: description = undefined,
 
         if (blockRef.current === null) return null
 
-        return {plans: linePlans(blockRef.current, start, spot, rotationRef.current)}
+        const world = stand.current?.scene?.world ?? null
+        return {plans: linePlans(blockRef.current, start, spot, rotationRef.current, world)}
     }
 
     /** Пересчитать призрак под курсором и перерисовать мир. */
@@ -723,7 +724,7 @@ export function Sandbox({allow = {}, scene: description = undefined,
                 if (overlaps(building, area)) breakBuilding(building)
             }
         } else if (blockRef.current !== null) {
-            for (const plan of linePlans(blockRef.current, start, end, rotationRef.current)) {
+            for (const plan of linePlans(blockRef.current, start, end, rotationRef.current, scene.world)) {
                 placeBlock(plan.type, plan, plan.rotation)
             }
         }

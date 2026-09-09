@@ -91,6 +91,10 @@
 | **Блок с чётной стороной стоит по углу тайла**: `offset = ((size + 1) % 2) * tilesize / 2`, а занимает тайлы начиная со своего (`sizeOffset = -((size - 1) / 2)`). Поэтому `sensor @x` у процессора 2 на 2 отдаёт половинную координату | `world/Block.java:761-762`, `BuildingComp:2101` | ✓ `world.test.js` |
 | `sensor` от пустого объекта со свойством `@dead` возвращает 1, а не пустое значение | `LExecutor.SenseI` | ✓ `semantics.test.js` |
 | `sensor` от строки со свойством `@size` или `@bufferSize` даёт её длину | `LExecutor.SenseI` | ✓ `semantics.test.js` |
+| **Блок ставится поверх блока**: `canReplace` разрешает замену, если старый `replaceable`, у него та же группа и он умещается под новым. Ради этого `BlockGroup` и заведён | `world/Block.java:782-787` | ✓ `placement.test.js` |
+| **Тот же блок заменяет сам себя только ради поворота**: условие `other != this \|\| (rotate && quickRotate)`. Так и разворачивают конвейер на углу — ставят его поверх себя другим поворотом | `world/Block.java:785` | ✓ `placement.test.js` |
+| Тот же блок тем же поворотом ставить некуда: `validPlace` отказывает явной строкой `type == check.block() && rotation == check.build.rotation && type.rotate` | `world/Build.java:255` | ✓ `placement.test.js` |
+| Линия, доведённая до конвейера или трубы (`ChainedBuilding`), не разворачивает его: последний блок берёт **его** поворот. Правило отменяется, если предпоследняя клетка тоже звено цепи | `input/InputHandler.java:2455-2460,2487` | ✓ `placement.test.js` |
 
 ## Время
 

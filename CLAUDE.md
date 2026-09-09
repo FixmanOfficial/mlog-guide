@@ -116,10 +116,20 @@ node tools/gen-dump.mjs <путь-к-Mindustry.jar>
 с номером блока из `sprites/block_colors.png`. Генератор достаёт её из того же jar, иначе
 `sensor @router @color` отдавал бы черноту всем блокам подряд.
 
+Вместе с блоком снимаются и правила постановки: `canReplace` и его поля (`replaceable`,
+`alwaysReplace`, `subclass`, `groupAnyReplace`) плюс признак `chained` — звено ли это цепи
+вроде конвейера. Признак берётся у построенного здания: `ChainedBuilding` реализует не блок,
+а его `Building`, и в полях блока этого нет вовсе.
+
 Нужен JDK 17 или новее (игра собрана под 17, на восьмёрке не запустится) — ищется сам,
 в `JAVA_HOME`, среди установленных Adoptium и в PATH. Jar в репозиторий не кладём, качать
 отсюда: `github.com/Anuken/Mindustry/releases/download/v159.7/Mindustry.jar`, 86 МБ.
 Сам дампер — `tools/dump/ContentDump.java`.
+
+**Версию jar проверять перед запуском**: `unzip -p <jar> version.properties` должен показать
+`build=159.7`. Файл с именем `Mindustry.jar` в загрузках может оказаться бетой другой сборки,
+и тогда дамп молча разойдётся с исходниками — у сборки 155 нет блока `large-canvas`, и все
+идентификаторы после него съезжают на единицу.
 
 ```bash
 node tools/gen-content.mjs <путь-к-Mindustry>

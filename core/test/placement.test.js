@@ -10,6 +10,7 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 
 import {linePlans, normalizeLine, breakArea} from '../src/placement.js'
+import {World, canReplace} from '../src/world.js'
 
 test('линия идёт по той оси, вдоль которой протянули дальше', () => {
     // Placement.normalizeLine: наискось линия не идёт никогда
@@ -67,4 +68,67 @@ test('неповорачиваемый блок остаётся с нулевы
 
 test('снос протяжкой выделяет прямоугольник', () => {
     assert.deepEqual(breakArea({x: 5, y: 7}, {x: 2, y: 3}), {x: 2, y: 3, width: 4, height: 5})
+})
+
+test('конвейер поверх конвейера меняет ему поворот', () => {
+    // `Block.canReplace`: тот же блок заменяет сам себя только ради поворота
+    assert.ok(canReplace('conveyor', 'conveyor'))
+    assert.ok(canReplace('conveyor', 'router'), 'одна группа transportation')
+    assert.ok(!canReplace('router', 'router'), 'маршрутизатор не поворачивается — и не заменяется')
+    assert.ok(!canReplace('conveyor', 'container'), 'чужая группа')
+
+    const world = new World({width: 8, height: 8})
+    const first = world.place('conveyor', 3, 3, {rotation: 0})
+
+    assert.equal(first.rotation, 0)
+    assert.ok(!world.canPlace('conveyor', 3, 3, 0), 'тот же поворот ставить некуда')
+    assert.ok(world.canPlace('conveyor', 3, 3, 3), 'другой поворот — это разворот на углу')
+
+    const turned = world.place('conveyor', 3, 3, {rotation: 3})
+
+    assert.equal(turned.rotation, 3)
+    assert.equal(world.buildings.length, 1, 'старый исчез под новым, а не остался рядом')
+})
+
+test('крупная стена накрывает мелкие, мелкая поверх крупной не встаёт', () => {
+    const world = new World({width: 12, height: 12})
+
+    for (const [x, y] of [[4, 4], [5, 4], [4, 5], [5, 5]]) world.place('copper-wall', x, y)
+    assert.equal(world.buildings.length, 4)
+
+    // Стена два на два накрывает все четыре: одна группа, `group.anyReplace`
+    assert.ok(world.canPlace('copper-wall-large', 4, 4))
+    world.place('copper-wall-large', 4, 4)
+
+    assert.equal(world.buildings.length, 1, 'четыре мелких исчезли под одной крупной')
+    assert.equal(world.at(5, 5).type, 'copper-wall-large')
+
+    // Обратно нельзя: новый блок должен уместить старый под собой целиком
+    assert.ok(!world.canPlace('copper-wall', 4, 4))
+})
+
+test('линия, упёршаяся в чужой конвейер, не разворачивает его', () => {
+    const world = new World({width: 12, height: 12})
+
+    // Поперечный конвейер смотрит вверх; линия идёт к нему слева направо
+    world.place('conveyor', 6, 2, {rotation: 1})
+
+    const plans = linePlans('conveyor', {x: 2, y: 2}, {x: 6, y: 2}, 0, world)
+
+    assert.deepEqual(plans.map(plan => plan.rotation), [0, 0, 0, 0, 1])
+
+    // Без мира узнать не у кого, и последний блок просто продолжает линию
+    const blind = linePlans('conveyor', {x: 2, y: 2}, {x: 6, y: 2}, 0)
+    assert.deepEqual(blind.map(plan => plan.rotation), [0, 0, 0, 0, 0])
+})
+
+test('линия вдоль чужого конвейера его поворот не наследует', () => {
+    const world = new World({width: 12, height: 12})
+
+    // Два звена подряд: линия идёт вдоль них, а не втыкается в последнее
+    world.place('conveyor', 5, 2, {rotation: 1})
+    world.place('conveyor', 6, 2, {rotation: 1})
+
+    const plans = linePlans('conveyor', {x: 2, y: 2}, {x: 6, y: 2}, 0, world)
+    assert.equal(plans.at(-1).rotation, 0)
 })

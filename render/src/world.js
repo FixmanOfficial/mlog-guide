@@ -279,7 +279,8 @@ export class WorldView {
         const sprite = this.sprite(type)
         if (sprite === null) return
 
-        const valid = this.world.canPlace?.(type, x, y) ?? true
+        // Поворот важен и призраку: тот же конвейер другим поворотом ставится, тем же — нет
+        const valid = this.world.canPlace?.(type, x, y, rotation) ?? true
 
         /*
          * Mathf.absin(Time.globalTime, 6, 0.28): пульсация от времени мира, а не от часов

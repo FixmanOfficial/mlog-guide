@@ -52,6 +52,37 @@ export const DOOR_TAP_DELAY = 60
  * Здание. Разделение sense и senseObject повторяет Senseable: сначала спрашивают объект,
  * и только если его нет — число. Неизвестное свойство даёт NaN, а не ноль.
  */
+/**
+ * Заменяет ли один блок другой. `Block.canReplace`
+ *
+ * Ради этого правила в игре и держится `BlockGroup`: конвейер встаёт поверх конвейера
+ * и маршрутизатора, стена поверх стены. Тот же блок сам себя заменяет только если его
+ * можно быстро повернуть — так конвейер и разворачивают на углу, ставя его поверх себя.
+ *
+ * Наложенный конвейер (`StackConveyor`) из проверки выпал: его в модели нет вовсе.
+ */
+export function canReplace(type, other) {
+    const spec = BLOCK_SPECS[type]
+    const otherSpec = BLOCK_SPECS[other]
+
+    if (spec === undefined || otherSpec === undefined) return false
+    if (otherSpec.alwaysReplace === true) return true
+    if (otherSpec.privileged === true) return false
+
+    const same = other === type
+    const rotatable = spec.rotate === true && spec.quickRotate === true
+
+    const fits = spec.size === otherSpec.size
+        || (spec.size >= otherSpec.size
+            && ((spec.subclass !== undefined && spec.subclass === otherSpec.subclass)
+                || spec.groupAnyReplace === true))
+
+    return otherSpec.replaceable === true
+        && (!same || rotatable)
+        && ((spec.group !== 'none' && otherSpec.group === spec.group) || same)
+        && fits
+}
+
 export class Building {
     constructor(world, type, {x = 0, y = 0, team = 1, ...options} = {}) {
         const spec = BLOCK_SPECS[type] ?? {size: 1, health: 100}
@@ -833,15 +864,19 @@ export class World {
      * Можно ли поставить блок так, чтобы его центр пришёлся на этот тайл.
      *
      * `Build.validPlace` в игре куда длиннее: там туман войны, радиусы чужих ядер,
-     * глубокая вода, замена одного блока другим и пределы на количество. Здесь
-     * проверяется то, что у нас смоделировано, — и это перечислено явно:
+     * глубокая вода и пределы на количество. Здесь проверяется то, что у нас
+     * смоделировано, — и это перечислено явно:
      *
      *  - блок целиком внутри карты;
      *  - под каждым его тайлом пол, на который вообще можно ставить (`placeableOn`);
-     *  - там нет статичной стены и нет другого здания;
+     *  - там нет статичной стены;
+     *  - здание там либо отсутствует, либо заменяется этим блоком (см. `canReplace`);
      *  - `checkNoUnitOverlap`: сплошной блок нельзя поставить поверх юнита.
+     *
+     * Поворот здесь не для красоты: тот же блок тем же поворотом ставить некуда, а тот же
+     * блок другим поворотом — это и есть разворот конвейера на углу.
      */
-    canPlace(type, x, y) {
+    canPlace(type, x, y, rotation = 0) {
         const spec = BLOCK_SPECS[type]
         if (spec === undefined) return false
 
@@ -854,7 +889,20 @@ export class World {
                 if (!this.inside(tx, ty)) return false
                 if (BLOCK_SPECS[this.floorAt(tx, ty)]?.placeableOn === false) return false
                 if (this.wallAt(tx, ty) !== null) return false
-                if (this.at(tx, ty) !== undefined) return false
+
+                const other = this.at(tx, ty)
+                if (other === undefined) continue
+
+                // Тот же блок тем же поворотом: ставить нечего. Build.validPlace
+                if (other.type === type && spec.rotate === true && other.rotation === rotation) return false
+                if (!canReplace(type, other.type)) return false
+
+                // Новый блок должен накрыть старый целиком, а не наполовину
+                const from = other.x + other.sizeOffset
+                const under = other.y + other.sizeOffset
+
+                if (from < x + offset || from + other.size > x + offset + spec.size) return false
+                if (under < y + offset || under + other.size > y + offset + spec.size) return false
             }
         }
 
@@ -886,12 +934,34 @@ export class World {
      * только для своей команды — по нему считает цель «построить столько-то».
      */
     place(type, x, y, options = {}) {
-        if (!this.canPlace(type, x, y)) return null
+        const rotation = options.rotation ?? 0
+        if (!this.canPlace(type, x, y, rotation)) return null
+
+        // Заменяемое уходит молча: в игре старый блок не разбирается, а исчезает под новым
+        for (const other of this.covered(type, x, y)) this.remove(other)
 
         const building = this.add(type, {...options, x, y})
         if (building.team === this.rules.defaultTeam) this.stats.placedBlockCount.increment(type)
 
         return building
+    }
+
+    /** Здания под следом блока: те, что заменит постановка. */
+    covered(type, x, y) {
+        const spec = BLOCK_SPECS[type]
+        if (spec === undefined) return []
+
+        const offset = -Math.trunc((spec.size - 1) / 2)
+        const found = new Set()
+
+        for (let dy = 0; dy < spec.size; dy++) {
+            for (let dx = 0; dx < spec.size; dx++) {
+                const other = this.at(x + offset + dx, y + offset + dy)
+                if (other !== undefined) found.add(other)
+            }
+        }
+
+        return [...found]
     }
 
     /**
