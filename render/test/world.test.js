@@ -221,3 +221,19 @@ test('накладка команды берётся своя у команд с
     // У блока без накладки её нет ни в каком виде: маршрутизатор рисуется одним спрайтом
     assert.equal(sprites['router-team'], undefined)
 })
+
+test('поворот блока считается по-игровому, а не по-холстовому', () => {
+    const world = new World({width: 6, height: 6})
+    const belt = world.add('conveyor', {x: 2, y: 2, rotation: 1})
+    const it = view(world)
+
+    /*
+     * `Draw.rect(region, x, y, rotation * 90)` — угол против часовой от оси X. Знак
+     * переворачивает уже `rotated`, потому что ось Y холста смотрит вниз. Пока здесь стоял
+     * минус, конвейер ехал ровно в обратную сторону от нарисованной на нём стрелки.
+     */
+    assert.equal(it.blockAngle(belt), 90)
+
+    const still = world.add('router', {x: 4, y: 4})
+    assert.equal(it.blockAngle(still), 0)
+})

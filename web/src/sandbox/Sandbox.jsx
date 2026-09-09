@@ -245,6 +245,9 @@ export function Sandbox({allow = {}, scene: description = undefined,
 
     // Цикл отрисовки живёт вне состояния, поэтому наведённое и настраиваемое нужны ссылкой
     const hoveredRef = useRef(null)
+
+    // Зажата ли R: с ней колесо крутит уже поставленный блок. Binding.rotatePlaced
+    const rotatePlacedRef = useRef(false)
     const configuredRef = useRef(null)
 
     // Что показывать под курсором: клетка, выбранный блок и режим сноса
@@ -301,6 +304,71 @@ export function Sandbox({allow = {}, scene: description = undefined,
         window.addEventListener('keydown', onKey)
         return () => window.removeEventListener('keydown', onKey)
     }, [])
+
+    /*
+     * Клавиша поворота уже поставленного блока. В игре это `Binding.rotatePlaced`, по умолчанию
+     * R: сама по себе она ничего не делает, а вместе с колесом крутит блок под курсором.
+     */
+    useEffect(() => {
+        const isRotate = (event) => event.code === 'KeyR'
+
+        const down = (event) => {
+            if (isRotate(event)) rotatePlacedRef.current = true
+        }
+
+        const up = (event) => {
+            if (isRotate(event)) rotatePlacedRef.current = false
+        }
+
+        // Уход со страницы клавишу не отпускает — иначе она осталась бы «зажатой» навсегда
+        const clear = () => {
+            rotatePlacedRef.current = false
+        }
+
+        window.addEventListener('keydown', down)
+        window.addEventListener('keyup', up)
+        window.addEventListener('blur', clear)
+
+        return () => {
+            window.removeEventListener('keydown', down)
+            window.removeEventListener('keyup', up)
+            window.removeEventListener('blur', clear)
+        }
+    }, [])
+
+    /**
+     * Колесо над картой.
+     *
+     * `DesktopInput`: колесо крутит то, что сейчас ставят (`rotation = mod(rotation + tap, 4)`),
+     * а с зажатой `rotatePlaced` — блок под курсором, если он вообще поворачивается и разрешает
+     * быстрый поворот. Прокрутка вверх считается за плюс, как `axisTap` в игре.
+     *
+     * Когда крутить нечего, страница листается как обычно: отбирать у читателя колесо посреди
+     * урока нельзя.
+     */
+    const wheelWorld = (event) => {
+        if (!rights.build) return
+
+        const step = event.deltaY > 0 ? -1 : 1
+        const hovered = hoveredRef.current
+
+        if (rotatePlacedRef.current) {
+            if (hovered === null || hovered.spec.rotate !== true || hovered.spec.quickRotate !== true) return
+
+            event.preventDefault()
+            hovered.rotation = mod(hovered.rotation + step, 4)
+
+            const view = stand.current?.worldView
+            view?.draw({configured: configuredRef.current, cursor: cursorRef.current})
+            return
+        }
+
+        if (blockRef.current === null) return
+
+        event.preventDefault()
+        rotationRef.current = mod(rotationRef.current + step, 4)
+        setRotation(rotationRef.current)
+    }
 
     // Мир, процессоры и виды живут вне состояния: перерисовка их не касается
     useEffect(() => {
@@ -715,6 +783,7 @@ export function Sandbox({allow = {}, scene: description = undefined,
                         class="sandbox__world"
                         ref={worldCanvas}
                         onClick={clickWorld}
+                        onWheel={wheelWorld}
                         onMouseMove={(event) => {
                             const view = stand.current?.worldView
                             if (view === undefined) return

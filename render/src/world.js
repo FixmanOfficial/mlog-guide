@@ -853,7 +853,12 @@ export class WorldView {
      * это `rotation * 90`. У холста ось Y смотрит вниз, поэтому знак обратный.
      */
     blockAngle(building) {
-        return building.spec.rotate === true ? -building.rotation * 90 : 0
+        /*
+         * Угол игровой: против часовой от оси X, как `Draw.rect(region, x, y, rotation * 90)`.
+         * В холсте ось Y смотрит вниз, и знак переворачивает `rotated` — здесь его менять
+         * нельзя, иначе конвейер поедет ровно в обратную сторону от своей стрелки.
+         */
+        return building.spec.rotate === true ? building.rotation * 90 : 0
     }
 
     /**

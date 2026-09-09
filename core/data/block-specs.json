@@ -38,6 +38,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -84,6 +85,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "overlay",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -127,6 +129,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "remove-ore": {
@@ -165,6 +168,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "overlay",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -208,6 +212,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "build1": {
@@ -244,6 +249,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "build2": {
@@ -280,6 +286,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "build3": {
@@ -316,6 +323,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "build4": {
@@ -352,6 +360,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "build5": {
@@ -388,6 +397,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "build6": {
@@ -424,6 +434,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "build7": {
@@ -460,6 +471,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "build8": {
@@ -496,6 +508,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "build9": {
@@ -532,6 +545,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "build10": {
@@ -568,6 +582,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "build11": {
@@ -604,6 +619,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "build12": {
@@ -640,6 +656,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "build13": {
@@ -676,6 +693,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "build14": {
@@ -712,6 +730,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "build15": {
@@ -748,6 +767,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "build16": {
@@ -784,6 +804,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "deep-water": {
@@ -820,6 +841,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "speedMultiplier": 0.2,
       "dragMultiplier": 1,
@@ -864,6 +886,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "speedMultiplier": 0.5,
       "dragMultiplier": 1,
@@ -908,6 +931,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "speedMultiplier": 0.5,
       "dragMultiplier": 1,
@@ -952,6 +976,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "speedMultiplier": 0.18,
       "dragMultiplier": 1,
@@ -997,6 +1022,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 0.75,
@@ -1043,6 +1069,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 0.8,
@@ -1089,6 +1116,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 0.8,
@@ -1134,6 +1162,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "speedMultiplier": 0.19,
       "dragMultiplier": 1,
@@ -1177,6 +1206,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "speedMultiplier": 0.5,
       "dragMultiplier": 1,
@@ -1220,6 +1250,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "speedMultiplier": 0.19,
       "dragMultiplier": 1,
@@ -1264,6 +1295,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -1308,6 +1340,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -1351,6 +1384,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1396,6 +1430,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1441,6 +1476,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1486,6 +1522,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1531,6 +1568,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1577,6 +1615,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1623,6 +1662,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "itemDrop": "sand",
@@ -1669,6 +1709,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "itemDrop": "sand",
@@ -1715,6 +1756,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1760,6 +1802,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 0.6,
@@ -1804,6 +1847,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1849,6 +1893,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1894,6 +1939,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1940,6 +1986,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1985,6 +2032,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2030,6 +2078,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2075,6 +2124,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 4,
       "speedMultiplier": 1,
@@ -2120,6 +2170,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2165,6 +2216,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2210,6 +2262,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 4,
       "speedMultiplier": 1,
@@ -2255,6 +2308,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 5,
       "speedMultiplier": 1,
@@ -2300,6 +2354,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 4,
       "speedMultiplier": 1,
@@ -2345,6 +2400,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2390,6 +2446,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 4,
       "speedMultiplier": 1,
@@ -2435,6 +2492,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 4,
       "speedMultiplier": 1,
@@ -2480,6 +2538,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 0.9,
@@ -2525,6 +2584,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "speedMultiplier": 0.3,
       "dragMultiplier": 1,
@@ -2569,6 +2629,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2615,6 +2676,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -2661,6 +2723,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -2707,6 +2770,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -2753,6 +2817,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -2799,6 +2864,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -2845,6 +2911,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -2891,6 +2958,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -2937,6 +3005,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -2982,6 +3051,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -3026,6 +3096,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -3070,6 +3141,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -3114,6 +3186,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -3158,6 +3231,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -3203,6 +3277,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 0.9,
@@ -3248,6 +3323,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -3293,6 +3369,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -3338,6 +3415,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -3383,6 +3461,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -3426,6 +3505,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -3472,6 +3552,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3511,6 +3592,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3550,6 +3632,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3589,6 +3672,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3628,6 +3712,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3667,6 +3752,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3706,6 +3792,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3745,6 +3832,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3784,6 +3872,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3823,6 +3912,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3862,6 +3952,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3901,6 +3992,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3940,6 +4032,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3979,6 +4072,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "variants": 3,
       "requirements": []
@@ -4018,6 +4112,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "variants": 4,
       "requirements": []
@@ -4057,6 +4152,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4096,6 +4192,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4136,6 +4233,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "variants": 3,
       "requirements": []
@@ -4175,6 +4273,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4214,6 +4313,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4253,6 +4353,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4292,6 +4393,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4332,6 +4434,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "requirements": []
     },
@@ -4371,6 +4474,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "requirements": []
     },
@@ -4410,6 +4514,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "requirements": []
     },
@@ -4447,6 +4552,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "white-tree": {
@@ -4483,6 +4589,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "spore-cluster": {
@@ -4519,6 +4626,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -4558,6 +4666,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -4597,6 +4706,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "prop",
       "requirements": []
     },
@@ -4635,6 +4745,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "prop",
       "requirements": []
     },
@@ -4673,6 +4784,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -4712,6 +4824,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -4751,6 +4864,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -4790,6 +4904,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -4829,6 +4944,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -4868,6 +4984,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -4907,6 +5024,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -4946,6 +5064,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -4985,6 +5104,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -5024,6 +5144,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -5062,6 +5183,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -5100,6 +5222,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -5138,6 +5261,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -5176,6 +5300,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -5214,6 +5339,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -5253,6 +5379,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -5292,6 +5419,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -5331,6 +5459,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -5370,6 +5499,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "prop",
       "variants": 4,
       "requirements": []
@@ -5408,6 +5538,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5452,6 +5583,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -5497,6 +5629,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5541,6 +5674,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5585,6 +5719,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5629,6 +5764,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5673,6 +5809,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5717,6 +5854,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5761,6 +5899,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5805,6 +5944,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5849,6 +5989,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5893,6 +6034,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5938,6 +6080,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -5976,6 +6119,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6020,6 +6164,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6064,6 +6209,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6108,6 +6254,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6152,6 +6299,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6196,6 +6344,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6240,6 +6389,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6284,6 +6434,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6328,6 +6479,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6372,6 +6524,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6416,6 +6569,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6460,6 +6614,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6504,6 +6659,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6549,6 +6705,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -6588,6 +6745,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -6627,6 +6785,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -6666,6 +6825,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6712,6 +6872,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -6752,6 +6913,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "overlay",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -6797,6 +6959,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "overlay",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -6842,6 +7005,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "overlay",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -6887,6 +7051,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "overlay",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -6931,6 +7096,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "overlay",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6976,6 +7142,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "overlay",
       "variants": 3,
       "speedMultiplier": 1,
@@ -7022,6 +7189,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "copper",
@@ -7069,6 +7237,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "lead",
@@ -7116,6 +7285,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "scrap",
@@ -7163,6 +7333,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "coal",
@@ -7210,6 +7381,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "titanium",
@@ -7257,6 +7429,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "thorium",
@@ -7304,6 +7477,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "beryllium",
@@ -7351,6 +7525,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "tungsten",
@@ -7398,6 +7573,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "thorium",
@@ -7445,6 +7621,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "thorium",
@@ -7492,6 +7669,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "beryllium",
@@ -7538,6 +7716,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "staticWall",
       "variants": 3,
       "itemDrop": "graphite",
@@ -7579,6 +7758,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "graphite",
@@ -7626,6 +7806,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "tungsten",
@@ -7671,6 +7852,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 90,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -7737,6 +7919,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 30,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -7826,6 +8009,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 40,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -7905,6 +8089,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 90,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -7995,6 +8180,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 30,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -8077,6 +8263,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 60,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -8166,6 +8353,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 120,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -8248,6 +8436,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 75,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -8338,6 +8527,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 120,
       "warmupSpeed": 0.019,
       "outputLiquids": [
@@ -8423,6 +8613,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 80,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -8505,6 +8696,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 80,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -8583,6 +8775,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 10,
       "warmupSpeed": 0.019,
       "outputLiquids": [
@@ -8661,6 +8854,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -8723,6 +8917,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -8804,6 +8999,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 20,
       "warmupSpeed": 0.019,
       "outputLiquids": [
@@ -8878,6 +9074,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 40,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -8952,6 +9149,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 30,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -9026,6 +9224,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -9081,6 +9280,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 50,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -9159,6 +9359,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 10,
       "warmupSpeed": 0.019,
       "outputLiquids": [
@@ -9242,6 +9443,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 80,
       "warmupSpeed": 0.019,
       "outputLiquids": [
@@ -9310,6 +9512,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 120,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -9400,6 +9603,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 80,
       "warmupSpeed": 0.019,
       "consumes": [
@@ -9462,6 +9666,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 80,
       "warmupSpeed": 0.019,
       "consumes": [
@@ -9523,6 +9728,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 480,
       "warmupSpeed": 0.019,
       "consumes": [
@@ -9587,6 +9793,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "graphite",
@@ -9632,6 +9839,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "graphite",
@@ -9677,6 +9885,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "graphite",
@@ -9722,6 +9931,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "liquid",
@@ -9773,6 +9983,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 33.75,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -9855,6 +10066,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 120,
       "warmupSpeed": 0.019,
       "outputLiquids": [
@@ -9945,6 +10157,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 45,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -10035,6 +10248,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 20,
       "warmupSpeed": 0.019,
       "outputLiquids": [
@@ -10125,6 +10339,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 30,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -10219,6 +10434,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 600,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -10300,6 +10516,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "copper",
@@ -10341,6 +10558,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "copper",
@@ -10382,6 +10600,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "titanium",
@@ -10423,6 +10642,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "titanium",
@@ -10464,6 +10684,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "metaglass",
@@ -10509,6 +10730,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "metaglass",
@@ -10554,6 +10776,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "thorium",
@@ -10595,6 +10818,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "thorium",
@@ -10636,6 +10860,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "phase-fabric",
@@ -10677,6 +10902,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "phase-fabric",
@@ -10718,6 +10944,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "surge-alloy",
@@ -10759,6 +10986,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "surge-alloy",
@@ -10801,6 +11029,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "titanium",
@@ -10847,6 +11076,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "titanium",
@@ -10892,6 +11122,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "variants": 5,
       "requirements": [
         {
@@ -10934,6 +11165,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "variants": 4,
       "requirements": [
         {
@@ -10976,6 +11208,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "variants": 3,
       "requirements": [
         {
@@ -11018,6 +11251,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "scrap",
@@ -11060,6 +11294,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": false,
       "requirements": [
         {
           "item": "scrap",
@@ -11101,6 +11336,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "beryllium",
@@ -11142,6 +11378,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "beryllium",
@@ -11183,6 +11420,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "tungsten",
@@ -11224,6 +11462,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "tungsten",
@@ -11266,6 +11505,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "silicon",
@@ -11311,6 +11551,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "surge-alloy",
@@ -11356,6 +11597,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "surge-alloy",
@@ -11401,6 +11643,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "thorium",
@@ -11446,6 +11689,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "thorium",
@@ -11492,6 +11736,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -11551,6 +11796,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -11617,6 +11863,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -11691,6 +11938,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -11765,6 +12013,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -11847,6 +12096,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "items",
@@ -11917,6 +12167,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "lead",
@@ -11962,6 +12213,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -12023,6 +12275,7 @@
       "range": 200,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -12089,6 +12342,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -12170,6 +12424,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "liquids",
@@ -12244,6 +12499,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -12290,6 +12546,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -12336,6 +12593,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "speed": 0.046,
       "displayedSpeed": 6.5,
       "requirements": [
@@ -12379,6 +12637,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "speed": 0.0801,
       "displayedSpeed": 10,
       "requirements": [
@@ -12430,6 +12689,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "graphite",
@@ -12480,6 +12740,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "speed": 0.08,
       "displayedSpeed": 10,
       "requirements": [
@@ -12531,6 +12792,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "copper",
@@ -12573,6 +12835,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "copper",
@@ -12618,6 +12881,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -12681,6 +12945,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": true,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "copper",
@@ -12726,6 +12991,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": true,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "copper",
@@ -12771,6 +13037,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "speed": 8,
       "requirements": [
         {
@@ -12813,6 +13080,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "speed": 8,
       "requirements": [
         {
@@ -12859,6 +13127,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": true,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "copper",
@@ -12904,6 +13173,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": true,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "copper",
@@ -12949,6 +13219,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "titanium",
@@ -12994,6 +13265,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -13057,6 +13329,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "beryllium",
@@ -13098,6 +13371,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "beryllium",
@@ -13143,6 +13417,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "beryllium",
@@ -13184,6 +13459,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "graphite",
@@ -13229,6 +13505,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "graphite",
@@ -13275,6 +13552,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "beryllium",
@@ -13316,6 +13594,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "graphite",
@@ -13365,6 +13644,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -13421,6 +13701,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -13476,6 +13757,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -13542,6 +13824,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "silicon",
@@ -13588,6 +13871,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "copper",
@@ -13634,6 +13918,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -13698,6 +13983,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -13766,6 +14052,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "metaglass",
@@ -13808,6 +14095,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "metaglass",
@@ -13855,6 +14143,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "metaglass",
@@ -13905,6 +14194,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "metaglass",
@@ -13951,6 +14241,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "metaglass",
@@ -13997,6 +14288,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "metaglass",
@@ -14043,6 +14335,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "metaglass",
@@ -14089,6 +14382,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "metaglass",
@@ -14135,6 +14429,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -14199,6 +14494,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "liquid",
@@ -14259,6 +14555,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "beryllium",
@@ -14301,6 +14598,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "graphite",
@@ -14347,6 +14645,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "graphite",
@@ -14393,6 +14692,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "graphite",
@@ -14439,6 +14739,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "beryllium",
@@ -14485,6 +14786,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "beryllium",
@@ -14531,6 +14833,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "copper",
@@ -14577,6 +14880,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "lead",
@@ -14627,6 +14931,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "lead",
@@ -14680,6 +14985,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "metaglass",
@@ -14731,6 +15037,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -14788,6 +15095,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -14850,6 +15158,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "copper",
@@ -14898,6 +15207,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "copper",
@@ -14958,6 +15268,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "liquid",
@@ -15023,6 +15334,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "items",
@@ -15103,6 +15415,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "lead",
@@ -15163,6 +15476,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "lead",
@@ -15211,6 +15525,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "lead",
@@ -15263,6 +15578,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "items",
@@ -15343,6 +15659,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -15433,6 +15750,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -15485,6 +15803,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -15546,6 +15865,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "silicon",
@@ -15610,6 +15930,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "beryllium",
@@ -15654,6 +15975,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "liquids",
@@ -15727,6 +16049,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "liquids",
@@ -15800,6 +16123,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "liquid",
@@ -15870,6 +16194,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "liquid",
@@ -15958,6 +16283,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "tier": 2,
       "drillTime": 600,
       "hardnessDrillMultiplier": 50,
@@ -16013,6 +16339,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "tier": 3,
       "drillTime": 400,
       "hardnessDrillMultiplier": 50,
@@ -16072,6 +16399,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "tier": 4,
       "drillTime": 280,
       "hardnessDrillMultiplier": 50,
@@ -16147,6 +16475,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "tier": 5,
       "drillTime": 280,
       "hardnessDrillMultiplier": 50,
@@ -16224,6 +16553,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -16288,6 +16618,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 100,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -16365,6 +16696,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "items",
@@ -16451,6 +16783,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 120,
       "warmupSpeed": 0.019,
       "outputLiquids": [
@@ -16514,6 +16847,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -16569,6 +16903,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -16650,6 +16985,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -16708,6 +17044,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -16786,6 +17123,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "tier": 6,
       "drillTime": 720,
       "hardnessDrillMultiplier": 0,
@@ -16872,6 +17210,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "tier": 7,
       "drillTime": 281.25,
       "hardnessDrillMultiplier": 0,
@@ -16958,6 +17297,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "copper",
@@ -17004,6 +17344,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "copper",
@@ -17054,6 +17395,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "copper",
@@ -17108,6 +17450,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "graphite",
@@ -17158,6 +17501,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "silicon",
@@ -17212,6 +17556,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "silicon",
@@ -17269,6 +17614,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "titanium",
@@ -17310,6 +17656,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "titanium",
@@ -17355,6 +17702,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "graphite",
@@ -17400,6 +17748,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "thorium",
@@ -17453,6 +17802,7 @@
       "range": 160,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": false,
       "requirements": [
         {
           "item": "copper",
@@ -17498,6 +17848,7 @@
       "range": 220,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": false,
       "requirements": [
         {
           "item": "copper",
@@ -17547,6 +17898,7 @@
       "range": 60,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": false,
       "requirements": [
         {
           "item": "copper",
@@ -17596,6 +17948,7 @@
       "range": 235,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": false,
       "requirements": [
         {
           "item": "copper",
@@ -17645,6 +17998,7 @@
       "range": 110,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": false,
       "requirements": [
         {
           "item": "copper",
@@ -17698,6 +18052,7 @@
       "range": 165,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": false,
       "consumes": [
         {
           "kind": "power",
@@ -17765,6 +18120,7 @@
       "range": 90,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": false,
       "consumes": [
         {
           "kind": "power",
@@ -17822,6 +18178,7 @@
       "range": 300,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -17885,6 +18242,7 @@
       "range": 240,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": false,
       "requirements": [
         {
           "item": "graphite",
@@ -17942,6 +18300,7 @@
       "range": 190,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": false,
       "requirements": [
         {
           "item": "copper",
@@ -17994,6 +18353,7 @@
       "range": 180,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -18061,6 +18421,7 @@
       "range": 190,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": false,
       "requirements": [
         {
           "item": "lead",
@@ -18118,6 +18479,7 @@
       "range": 90,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": false,
       "requirements": [
         {
           "item": "copper",
@@ -18171,6 +18533,7 @@
       "range": 290,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": false,
       "requirements": [
         {
           "item": "copper",
@@ -18224,6 +18587,7 @@
       "range": 200,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": false,
       "requirements": [
         {
           "item": "copper",
@@ -18277,6 +18641,7 @@
       "range": 500,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": false,
       "consumes": [
         {
           "kind": "power",
@@ -18348,6 +18713,7 @@
       "range": 260,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": false,
       "requirements": [
         {
           "item": "copper",
@@ -18410,6 +18776,7 @@
       "range": 195,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": false,
       "consumes": [
         {
           "kind": "power",
@@ -18481,6 +18848,7 @@
       "range": 190,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": false,
       "consumes": [
         {
           "kind": "liquid",
@@ -18543,6 +18911,7 @@
       "range": 125,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": false,
       "consumes": [
         {
           "kind": "liquid",
@@ -18610,6 +18979,7 @@
       "range": 130,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": false,
       "requirements": [
         {
           "item": "silicon",
@@ -18667,6 +19037,7 @@
       "range": 390,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": false,
       "consumes": [
         {
           "kind": "liquid",
@@ -18736,6 +19107,7 @@
       "range": 310,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": false,
       "consumes": [
         {
           "kind": "liquid",
@@ -18802,6 +19174,7 @@
       "range": 368,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": false,
       "consumes": [
         {
           "kind": "power",
@@ -18869,6 +19242,7 @@
       "range": 250,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": false,
       "consumes": [
         {
           "kind": "liquid",
@@ -18943,6 +19317,7 @@
       "range": 1350,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": false,
       "consumes": [
         {
           "kind": "liquid",
@@ -19013,6 +19388,7 @@
       "range": 300,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": false,
       "consumes": [
         {
           "kind": "liquid",
@@ -19083,6 +19459,7 @@
       "range": 410,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": false,
       "consumes": [
         {
           "kind": "power",
@@ -19152,6 +19529,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -19213,6 +19591,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -19274,6 +19653,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -19335,6 +19715,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -19411,6 +19792,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -19495,6 +19877,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -19594,6 +19977,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -19695,6 +20079,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -19754,6 +20139,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -19815,6 +20201,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -19872,6 +20259,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -19929,6 +20317,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -19990,6 +20379,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -20073,6 +20463,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -20160,6 +20551,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -20243,6 +20635,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -20329,6 +20722,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": false,
       "consumes": [
         {
           "kind": "power",
@@ -20400,6 +20794,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": false,
       "consumes": [
         {
           "kind": "power",
@@ -20475,6 +20870,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": false,
       "consumes": [
         {
           "kind": "power",
@@ -20550,6 +20946,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -20613,6 +21010,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -20679,6 +21077,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "copper",
@@ -20725,6 +21124,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "copper",
@@ -20770,6 +21170,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "tungsten",
@@ -20812,6 +21213,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "tungsten",
@@ -20854,6 +21256,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -20914,6 +21317,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -20982,6 +21386,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -21046,6 +21451,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -21111,6 +21517,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -21172,6 +21579,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -21236,6 +21644,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -21297,6 +21706,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -21358,6 +21768,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "power-void": {
@@ -21395,6 +21806,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -21441,6 +21853,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "item-void": {
@@ -21477,6 +21890,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "liquid-source": {
@@ -21513,6 +21927,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "liquid-void": {
@@ -21549,6 +21964,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "payload-source": {
@@ -21586,6 +22002,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "payload-void": {
@@ -21623,6 +22040,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "heat-source": {
@@ -21660,6 +22078,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "craftTime": 80,
       "warmupSpeed": 0.019,
       "requirements": []
@@ -21698,6 +22117,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -21758,6 +22178,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "legacy-unit-factory": {
@@ -21795,6 +22216,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "legacy-unit-factory-air": {
@@ -21832,6 +22254,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "legacy-unit-factory-ground": {
@@ -21869,6 +22292,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "command-center": {
@@ -21906,6 +22330,7 @@
       "canBeBuilt": false,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "launch-pad": {
@@ -21942,6 +22367,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -22005,6 +22431,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "liquid",
@@ -22075,6 +22502,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "liquid",
@@ -22133,6 +22561,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "power",
@@ -22229,6 +22658,7 @@
       "maxNewlines": 24,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "copper",
@@ -22274,6 +22704,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "copper",
@@ -22323,6 +22754,7 @@
       "maxInstructionsPerTick": 40,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "copper",
@@ -22376,6 +22808,7 @@
       "maxInstructionsPerTick": 40,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "lead",
@@ -22433,6 +22866,7 @@
       "maxInstructionsPerTick": 40,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "consumes": [
         {
           "kind": "liquid",
@@ -22496,6 +22930,7 @@
       "memoryCapacity": 64,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "copper",
@@ -22546,6 +22981,7 @@
       "memoryCapacity": 512,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "copper",
@@ -22600,6 +23036,7 @@
       "displaySize": 80,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "lead",
@@ -22650,6 +23087,7 @@
       "displaySize": 176,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "lead",
@@ -22705,6 +23143,7 @@
       "displaySize": 32,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "lead",
@@ -22758,6 +23197,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "silicon",
@@ -22803,6 +23243,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "silicon",
@@ -22854,6 +23295,7 @@
       "maxNewlines": 24,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": [
         {
           "item": "graphite",
@@ -22903,6 +23345,7 @@
       "maxInstructionsPerTick": 1000,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "world-cell": {
@@ -22940,6 +23383,7 @@
       "memoryCapacity": 512,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "world-message": {
@@ -22978,6 +23422,7 @@
       "maxNewlines": 24,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     },
     "world-switch": {
@@ -23014,6 +23459,7 @@
       "canBeBuilt": true,
       "dumpTime": 5,
       "instantTransfer": false,
+      "quickRotate": true,
       "requirements": []
     }
   }

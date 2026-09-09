@@ -305,6 +305,12 @@ public class ContentDump{
              */
             spec.bool("instantTransfer", block.instantTransfer);
 
+            /*
+             * Быстрый поворот: колесо с зажатой R крутит уже поставленный блок, но не всякий.
+             * У сортировщика и моста этого нет — им поворот не нужен. Block.quickRotate
+             */
+            spec.bool("quickRotate", block.quickRotate);
+
             if(block instanceof Conveyor conveyor){
                 spec.number("speed", conveyor.speed);
                 spec.number("displayedSpeed", conveyor.displayedSpeed);
