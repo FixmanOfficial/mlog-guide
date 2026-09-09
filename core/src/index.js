@@ -7,7 +7,10 @@
 
 export {Processor, IPT, MAX_TEXT_BUFFER, MAX_GRAPHICS_BUFFER, MAX_INSTRUCTION_SCALE} from './vm.js'
 export {DrillBuilding, CrafterBuilding} from './production.js'
-export {ConveyorBuilding, RouterBuilding} from './distribution.js'
+export {
+    ConveyorBuilding, RouterBuilding, JunctionBuilding, SorterBuilding, OverflowGateBuilding
+} from './distribution.js'
+export {ItemSourceBuilding, ItemVoidBuilding} from './sandbox.js'
 export {World, Building, BLOCK_SPECS} from './world.js'
 export {NOT_SENSED} from './sense.js'
 export {Rules, DEFAULT_RULES} from './rules.js'

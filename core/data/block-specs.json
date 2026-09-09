@@ -25580,6 +25580,7 @@
       "groupAnyReplace": true,
       "subclass": "ItemSource",
       "chained": false,
+      "itemsPerSecond": 100,
       "requirements": []
     },
     "item-void": {

@@ -790,7 +790,7 @@ export function Sandbox({allow = {}, scene: description = undefined,
         }
 
         // У сообщения, памяти и сортировщика есть что настраивать — показываем ряд, как в игре
-        if (CONFIGURABLE.has(building.type) || building.sortItem !== undefined) {
+        if (CONFIGURABLE.has(building.type) || building.configItem !== undefined) {
             setConfigured(building)
             worldView.draw({configured: building, cursor: cursorRef.current})
             return
@@ -984,17 +984,17 @@ export function Sandbox({allow = {}, scene: description = undefined,
                               * кнопки по 40 на чёрном, по четыре в ряд, а щелчок по уже
                               * выбранному снимает выбор — группа держит ноль отмеченных.
                               */}
-                            {configured.sortItem !== undefined && (
+                            {configured.configItem !== undefined && (
                                 <div class="config-bar__items">
                                     {ITEM_ORDER.map(name => (
                                         <button
                                             key={name}
-                                            class={configured.sortItem === name
+                                            class={configured.configItem === name
                                                 ? 'config-bar__item config-bar__item--on'
                                                 : 'config-bar__item'}
                                             title={name}
                                             onClick={() => {
-                                                configured.sortItem = configured.sortItem === name ? null : name
+                                                configured.configItem = configured.configItem === name ? null : name
                                                 setBeat(beat => beat + 1)
                                             }}
                                         >

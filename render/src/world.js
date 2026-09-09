@@ -479,8 +479,8 @@ export class WorldView {
             return
         }
 
-        // Сортировщик показывает свою настройку под собственным спрайтом. Sorter.draw
-        if (building.sortItem !== undefined) this.drawSortItem(building, cx, cy, side)
+        // Сортировщик и источник показывают настройку под своим спрайтом. Sorter.draw
+        if (building.configItem !== undefined) this.drawConfigItem(building, cx, cy, side)
 
         const icon = this.sprite(open ? 'door-open' : building.type)
 
@@ -579,18 +579,19 @@ export class WorldView {
     }
 
     /**
-     * Настройка сортировщика под его спрайтом. `Sorter.draw`: названный предмет — сплошной
-     * квадрат в цвет предмета со стороной в тайл, а ненастроенный сортировщик — перечёркнутый
-     * круг `cross`. И то, и другое рисуется до самого блока: у его спрайта середина прозрачная.
+     * Настройка предметом под спрайтом блока. `Sorter.draw` и `ItemSource.draw` написаны
+     * одинаково: названный предмет — сплошной квадрат в его цвет со стороной в тайл,
+     * а ненастроенный блок — перечёркнутый круг `cross`. И то, и другое рисуется до самого
+     * блока: у его спрайта середина прозрачная.
      */
-    drawSortItem(building, cx, cy, side) {
-        if (building.sortItem === null) {
+    drawConfigItem(building, cx, cy, side) {
+        if (building.configItem === null) {
             const cross = this.sprite('cross-full')
             if (cross !== null) this.context.drawImage(cross, cx - side / 2, cy - side / 2, side, side)
             return
         }
 
-        const color = MATERIALS.items[building.sortItem]?.color
+        const color = MATERIALS.items[building.configItem]?.color
         if (color === undefined) return
 
         this.context.fillStyle = color

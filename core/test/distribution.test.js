@@ -14,6 +14,7 @@ import {World} from '../src/world.js'
 import {createContent} from '../src/content.js'
 import '../src/production.js'
 import '../src/distribution.js'
+import '../src/sandbox.js'
 
 const logicIds = JSON.parse(readFileSync(new URL('../data/logic-ids.json', import.meta.url), 'utf8'))
 const content = createContent(logicIds)
@@ -341,4 +342,64 @@ test('ворота недополнения пускают прямо тольк
 
     assert.ok(give(gate, source, 'copper'))
     assert.equal(ahead.line.length, 1, 'по бокам никого — тогда прямо')
+})
+
+test('источник песочницы выдаёт предмет сто раз в секунду и ничего не копит', () => {
+    const scene = world()
+
+    const source = scene.place('item-source', 5, 5, {outputItem: 'copper'})
+    const belt = scene.place('conveyor', 6, 5, {rotation: 0})
+
+    // `ItemSource.itemsPerSecond` — сто, то есть предмет каждые 0.6 тика
+    scene.steps(2)
+
+    assert.ok(belt.line.length > 0, 'лента уже приняла')
+    assert.equal(source.items?.get('copper') ?? 0, 0, 'у самого источника не остаётся ничего')
+    assert.ok(!source.acceptItem(belt, 'copper'), 'источник ничего не принимает')
+})
+
+test('ненастроенный источник не выдаёт ничего', () => {
+    const scene = world()
+
+    scene.place('item-source', 5, 5)
+    const belt = scene.place('conveyor', 6, 5, {rotation: 0})
+
+    scene.steps(60)
+    assert.equal(belt.line.length, 0)
+})
+
+test('яма песочницы принимает что угодно и не хранит', () => {
+    const scene = world()
+
+    const belt = scene.place('conveyor', 4, 5, {rotation: 0})
+    const pit = scene.place('item-void', 5, 5)
+
+    assert.ok(pit.acceptItem(belt, 'copper'))
+    assert.ok(pit.acceptItem(belt, 'thorium'))
+
+    pit.handleItem(belt, 'thorium')
+
+    assert.equal(pit.items, null, 'содержимого у ямы нет вовсе')
+    assert.equal(pit.consumed, 1)
+
+    // Выключенная яма ничего не берёт: `ItemVoid.acceptItem` возвращает `enabled`
+    pit.enabled = false
+    assert.ok(!pit.acceptItem(belt, 'copper'))
+})
+
+test('источник кормит сортировщик, а яма забирает лишнее', () => {
+    const scene = world()
+
+    scene.place('item-source', 4, 5, {outputItem: 'copper'})
+
+    const sorter = scene.place('sorter', 5, 5, {sortItem: 'copper'})
+    const ahead = scene.place('conveyor', 6, 5, {rotation: 0})
+    const pit = scene.place('item-void', 5, 6)
+
+    scene.steps(30)
+
+    assert.ok(ahead.line.length > 0, 'медь идёт насквозь')
+    assert.equal(pit.consumed, 0, 'вбок ничего не ушло: у источника только медь')
+
+    assert.ok(sorter.configItem === 'copper')
 })

@@ -451,6 +451,15 @@ export class SorterBuilding extends Building {
         this.sortItem = this.initial.sortItem
     }
 
+    /** Настройка предметом. `Building.config` */
+    get configItem() {
+        return this.sortItem
+    }
+
+    set configItem(item) {
+        this.sortItem = item
+    }
+
     /** Мгновенная передача у обоих: два таких блока подряд предмет не гоняют. */
     isSame(other) {
         return other !== null && other.spec.instantTransfer === true

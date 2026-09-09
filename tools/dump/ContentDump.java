@@ -35,6 +35,7 @@ import mindustry.world.blocks.distribution.Junction;
 import mindustry.world.blocks.distribution.OverflowGate;
 import mindustry.world.blocks.distribution.Router;
 import mindustry.world.blocks.distribution.Sorter;
+import mindustry.world.blocks.sandbox.ItemSource;
 import mindustry.world.blocks.production.Drill;
 import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.consumers.Consume;
@@ -367,6 +368,11 @@ public class ContentDump{
              */
             if(block instanceof Sorter sorter){
                 spec.bool("invert", sorter.invert);
+            }
+
+            /* Источник песочницы выдаёт сто предметов в секунду. ItemSource.itemsPerSecond */
+            if(block instanceof ItemSource source){
+                spec.number("itemsPerSecond", source.itemsPerSecond);
             }
 
             if(block instanceof OverflowGate gate){
