@@ -15151,6 +15151,9 @@
       "groupAnyReplace": true,
       "subclass": "Junction",
       "chained": false,
+      "speed": 26,
+      "capacity": 6,
+      "displayedSpeed": 13,
       "requirements": [
         {
           "item": "copper",
@@ -15331,6 +15334,7 @@
       "groupAnyReplace": true,
       "subclass": "Sorter",
       "chained": false,
+      "invert": false,
       "requirements": [
         {
           "item": "copper",
@@ -15386,6 +15390,7 @@
       "groupAnyReplace": true,
       "subclass": "Sorter",
       "chained": false,
+      "invert": true,
       "requirements": [
         {
           "item": "copper",
@@ -15549,6 +15554,8 @@
       "groupAnyReplace": true,
       "subclass": "OverflowGate",
       "chained": false,
+      "speed": 1,
+      "invert": false,
       "requirements": [
         {
           "item": "copper",
@@ -15604,6 +15611,8 @@
       "groupAnyReplace": true,
       "subclass": "OverflowGate",
       "chained": false,
+      "speed": 1,
+      "invert": true,
       "requirements": [
         {
           "item": "copper",

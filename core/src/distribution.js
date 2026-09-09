@@ -1,5 +1,5 @@
 /**
- * Транспорт: конвейеры и маршрутизаторы.
+ * Транспорт: конвейеры, маршрутизаторы, перекрёстки, сортировщики и ворота.
  *
  * Конвейер в Mindustry — не очередь, а лента с координатами: у каждого предмета своё место
  * от нуля до единицы вдоль ленты и смещение поперёк неё. Отсюда всё знакомое поведение —
@@ -362,3 +362,211 @@ export class RouterBuilding extends Building {
 }
 
 registerBuilders({Conveyor: ConveyorBuilding, Router: RouterBuilding})
+
+/**
+ * Перекрёсток: четыре очереди, по одной на сторону.
+ *
+ * Предмет входит с одной стороны и выходит с противоположной ровно через `speed` тиков —
+ * у обычного это 26. Ленты при этом не пересекаются: две линии идут сквозь друг друга,
+ * и каждая ждёт своей очереди отдельно.
+ *
+ * `Junction.JunctionBuild`
+ */
+export class JunctionBuilding extends Building {
+    constructor(world, type, options) {
+        super(world, type, options)
+        this.buffers = [[], [], [], []]
+    }
+
+    reset() {
+        super.reset()
+        this.buffers = [[], [], [], []]
+    }
+
+    /** Вместимость одной очереди. `Junction.capacity` */
+    get capacity() {
+        return this.spec.capacity ?? 6
+    }
+
+    /**
+     * `Junction.acceptItem`: сторона считается от отправителя, а не от нас. Если с той
+     * стороны выхода нет вовсе, предмет не берут — иначе он застрял бы в очереди навсегда.
+     */
+    acceptItem(source, item) {
+        const relative = source.relativeTo(this.x, this.y)
+        if (relative === -1 || this.buffers[relative].length >= this.capacity) return false
+
+        const to = this.nearby(relative)
+        return to !== null && to.team === this.team
+    }
+
+    handleItem(source, item) {
+        const relative = source.relativeTo(this.x, this.y)
+        if (relative === -1) return
+
+        this.buffers[relative].push({item, time: this.world.tick})
+    }
+
+    /**
+     * `Junction.updateTile`: очередь отдаёт голову, когда та отлежала `speed` тиков.
+     * Не взявший сосед очередь не сбрасывает — предмет ждёт его дальше.
+     */
+    update() {
+        for (let i = 0; i < 4; i++) {
+            const queue = this.buffers[i]
+            if (queue.length === 0) continue
+
+            const head = queue[0]
+            if (this.world.tick < head.time + this.spec.speed) continue
+
+            const dest = this.nearby(i)
+            if (dest === null || dest.team !== this.team || !dest.acceptItem(this, head.item)) continue
+
+            dest.handleItem(this, head.item)
+            queue.shift()
+        }
+    }
+}
+
+/**
+ * Сортировщик: названный предмет идёт насквозь, остальные — вбок.
+ *
+ * Обратный сортировщик — тот же класс с `invert`: у него насквозь идёт всё, кроме названного.
+ * Своего содержимого у сортировщика нет вовсе: он не хранит предмет, а решает, кому его
+ * передать, и потому берёт предмет только если тот, кому передавать, готов его принять.
+ *
+ * `Sorter.SorterBuild`
+ */
+export class SorterBuilding extends Building {
+    constructor(world, type, options) {
+        super(world, type, options)
+
+        // Настройка блока: какой предмет считать своим. `Sorter.sortItem`
+        this.sortItem = options.sortItem ?? null
+        this.initial.sortItem = this.sortItem
+    }
+
+    reset() {
+        super.reset()
+        this.sortItem = this.initial.sortItem
+    }
+
+    /** Мгновенная передача у обоих: два таких блока подряд предмет не гоняют. */
+    isSame(other) {
+        return other !== null && other.spec.instantTransfer === true
+    }
+
+    acceptItem(source, item) {
+        const to = this.target(item, source, false)
+        return to !== null && to.team === this.team && to.acceptItem(this, item)
+    }
+
+    handleItem(source, item) {
+        const to = this.target(item, source, true)
+        if (to !== null) to.handleItem(this, item)
+    }
+
+    /**
+     * Кому отдать. `Sorter.getTileTarget`
+     *
+     * Насквозь — если предмет совпал с названным (у обратного наоборот) и блок включён.
+     * Иначе вбок, и при выборе из двух сторон они чередуются: указатель хранится битом
+     * в `rotation`, которому у сортировщика другого дела всё равно нет.
+     */
+    target(item, source, flip) {
+        const dir = source.relativeTo(this.x, this.y)
+        if (dir === -1) return null
+
+        const matches = (item === this.sortItem) !== (this.spec.invert === true)
+
+        if (matches === (this.enabled !== false)) {
+            // Три подряд не выстраиваются: сортировщик не отдаёт такому же, приняв от такого же
+            if (this.isSame(source) && this.isSame(this.nearby(dir))) return null
+            return this.nearby(dir)
+        }
+
+        const a = this.nearby(mod(dir - 1, 4))
+        const b = this.nearby(mod(dir + 1, 4))
+
+        const takes = other => other !== null
+            && !(other.spec.instantTransfer === true && source.spec.instantTransfer === true)
+            && other.acceptItem(this, item)
+
+        const ac = takes(a)
+        const bc = takes(b)
+
+        if (ac && !bc) return a
+        if (bc && !ac) return b
+        if (!bc) return null
+
+        const to = (this.rotation & (1 << dir)) === 0 ? a : b
+        if (flip) this.rotation ^= (1 << dir)
+
+        return to
+    }
+}
+
+/**
+ * Ворота переполнения: прямо, а если впереди не берут — вбок.
+ *
+ * Недополнение (`underflow-gate`) — тот же класс с `invert`: у него всё наоборот, вбок
+ * идёт всегда, а прямо только когда по бокам не берут.
+ *
+ * `OverflowGate.OverflowGateBuild`
+ */
+export class OverflowGateBuilding extends Building {
+    acceptItem(source, item) {
+        const to = this.target(item, source, false)
+        return to !== null && to.team === this.team && to.acceptItem(this, item)
+    }
+
+    handleItem(source, item) {
+        const to = this.target(item, source, true)
+        if (to !== null) to.handleItem(this, item)
+    }
+
+    /** `OverflowGate.getTileTarget` */
+    target(item, source, flip) {
+        const from = this.relativeToEdge(source)
+        if (from === -1) return null
+
+        let to = this.nearby((from + 2) % 4)
+
+        const instant = source.spec.instantTransfer === true
+        const forward = to !== null && to.team === this.team
+            && !(instant && to.spec.instantTransfer === true) && to.acceptItem(this, item)
+
+        const inverted = (this.spec.invert === true) === (this.enabled !== false)
+
+        if (forward && !inverted) return to
+
+        const a = this.nearby(mod(from - 1, 4))
+        const b = this.nearby(mod(from + 1, 4))
+
+        const takes = other => other !== null && other.team === this.team
+            && !(instant && other.spec.instantTransfer === true)
+            && other.acceptItem(this, item)
+
+        const ac = takes(a)
+        const bc = takes(b)
+
+        if (!ac && !bc) return inverted && forward ? to : null
+
+        if (ac && !bc) {
+            to = a
+        } else if (bc && !ac) {
+            to = b
+        } else {
+            to = (this.rotation & (1 << from)) === 0 ? a : b
+            if (flip) this.rotation ^= (1 << from)
+        }
+
+        return to
+    }
+}
+
+registerBuilders({
+    Junction: JunctionBuilding,
+    Sorter: SorterBuilding,
+    OverflowGate: OverflowGateBuilding
+})

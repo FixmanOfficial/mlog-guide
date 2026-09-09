@@ -12,7 +12,9 @@ import {
     GlobalsDialog, LogicDialog, applyEasings, applyMetrics, applyNinePatches, fromText
 } from '@mlog/editor'
 import {Icon} from '@mlog/editor/src/Icon.jsx'
+import {ContentIcon} from '@mlog/editor/src/ContentPopup.jsx'
 import {mod} from '@mlog/core/src/arc.js'
+import {ITEM_ORDER} from '@mlog/core/src/world.js'
 import {DisplayView} from '@mlog/render/src/display.js'
 import {WorldView} from '@mlog/render/src/world.js'
 
@@ -787,8 +789,8 @@ export function Sandbox({allow = {}, scene: description = undefined,
             return
         }
 
-        // У сообщения и памяти есть что настраивать — показываем ряд, как в игре
-        if (CONFIGURABLE.has(building.type)) {
+        // У сообщения, памяти и сортировщика есть что настраивать — показываем ряд, как в игре
+        if (CONFIGURABLE.has(building.type) || building.sortItem !== undefined) {
             setConfigured(building)
             worldView.draw({configured: building, cursor: cursorRef.current})
             return
@@ -977,6 +979,31 @@ export function Sandbox({allow = {}, scene: description = undefined,
 
                     {configured !== null && (
                         <div class="config-bar" style={configuredSpot()}>
+                            {/*
+                              * Выбор предмета у сортировщика. `ItemSelection.buildTable`:
+                              * кнопки по 40 на чёрном, по четыре в ряд, а щелчок по уже
+                              * выбранному снимает выбор — группа держит ноль отмеченных.
+                              */}
+                            {configured.sortItem !== undefined && (
+                                <div class="config-bar__items">
+                                    {ITEM_ORDER.map(name => (
+                                        <button
+                                            key={name}
+                                            class={configured.sortItem === name
+                                                ? 'config-bar__item config-bar__item--on'
+                                                : 'config-bar__item'}
+                                            title={name}
+                                            onClick={() => {
+                                                configured.sortItem = configured.sortItem === name ? null : name
+                                                setBeat(beat => beat + 1)
+                                            }}
+                                        >
+                                            <ContentIcon type="item" name={name} size={32} />
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+
                             {configured.type === 'message' && (
                                 <button
                                     class="config-bar__button"

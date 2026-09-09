@@ -13,7 +13,7 @@
 import specs from '../data/block-specs.json' with {type: 'json'}
 import {Unit, unconv} from './unit.js'
 import {NOT_SENSED} from './sense.js'
-import {edgeOffsets} from './edges.js'
+import {edgeOffsets, facingEdge} from './edges.js'
 import materials from '../data/materials.json' with {type: 'json'}
 import {teamColorBits} from './teams.js'
 import {Rules} from './rules.js'
@@ -330,6 +330,42 @@ export class Building {
         return true
     }
 
+    /** Сосед по стороне света: ноль вправо, единица вверх. `BuildingComp.nearby` */
+    nearby(direction) {
+        const step = D4[direction]
+        return step === undefined ? null : this.world.at(this.x + step.x, this.y + step.y) ?? null
+    }
+
+    /**
+     * В какую сторону от нас лежит клетка. `Tile.absoluteRelativeTo`
+     *
+     * Ось выбирается по большему смещению, и потому у блока по диагонали стороны нет вовсе —
+     * ответ минус один. У блока с чётной стороной центр смещён на полклетки, и сравнение
+     * идёт с этой поправкой.
+     */
+    relativeTo(cx, cy) {
+        const shift = this.size % 2 === 1 ? 0 : 0.5
+
+        if (Math.abs(this.x - cx + shift) > Math.abs(this.y - cy + shift)) {
+            if (this.x + shift <= cx - 1) return 0
+            if (this.x + shift >= cx + 1) return 2
+        } else {
+            if (this.y + shift <= cy - 1) return 1
+            if (this.y + shift >= cy + 1) return 3
+        }
+
+        return -1
+    }
+
+    /**
+     * То же, но до ближнего края блока, а не до его начала. `BuildingComp.relativeToEdge`:
+     * у склада три на три сторона считается от той клетки, что смотрит на нас.
+     */
+    relativeToEdge(other) {
+        const edge = facingEdge(other, this.x, this.y)
+        return edge === null ? -1 : this.relativeTo(edge.x, edge.y)
+    }
+
     /** `BuildingComp.acceptItem`: берут только то, что потребляют, и только до вместимости. */
     acceptItem(source, item) {
         return this.consumesItem(item) && (this.items?.get(item) ?? 0) < this.maximumAccepted(item)
@@ -412,6 +448,9 @@ export class Building {
     }
 }
 
+/** Смещения по сторонам света: `Geometry.d4`, где ноль это вправо. */
+const D4 = [{x: 1, y: 0}, {x: 0, y: 1}, {x: -1, y: 0}, {x: 0, y: -1}]
+
 /** Сколько таймеров держит здание. В игре их у каждого блока свой набор, у нас общий. */
 const TIMERS = 4
 
@@ -422,7 +461,7 @@ export const TIMER_DUMP = 0
  * Предметы в порядке описи игры: по нему `dump` перебирает содержимое, и от него зависит,
  * что уедет соседу первым.
  */
-const ITEM_ORDER = Object.entries(materials.items)
+export const ITEM_ORDER = Object.entries(materials.items)
     .sort(([, first], [, second]) => first.id - second.id)
     .map(([name]) => name)
 

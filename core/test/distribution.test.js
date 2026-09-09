@@ -198,3 +198,147 @@ test('снос соседа возвращает ленте прямой вид'
     scene.remove(side)
     assert.equal(middle.blendbits, 0, 'сосед исчез — исчез и угол')
 })
+
+/** Кладёт предмет в блок от имени соседа, если тот его берёт. */
+function give(target, source, item = 'copper') {
+    if (!target.acceptItem(source, item)) return false
+
+    target.handleItem(source, item)
+    return true
+}
+
+/*
+ * Приёмники во всех проверках ниже — ленты, а не хранилища: у контейнера сторона два на два,
+ * и четыре штуки вокруг одной клетки просто не помещаются. Лента же занимает клетку и по
+ * содержимому видна: `line` — это то, что на ней лежит.
+ */
+
+test('перекрёсток пропускает две линии насквозь и не смешивает их', () => {
+    const scene = world()
+
+    const cross = scene.place('junction', 5, 5)
+
+    const west = scene.place('conveyor', 4, 5, {rotation: 0})
+    const east = scene.place('conveyor', 6, 5, {rotation: 0})
+    const south = scene.place('conveyor', 5, 4, {rotation: 1})
+    const north = scene.place('conveyor', 5, 6, {rotation: 1})
+
+    assert.ok(give(cross, west, 'copper'), 'слева берут')
+    assert.ok(give(cross, south, 'lead'), 'снизу берут')
+
+    // 26 тиков — `Junction.speed`; до них предмет ещё внутри
+    scene.steps(25)
+    assert.equal(east.line.length + north.line.length, 0, 'рано')
+
+    scene.steps(2)
+
+    assert.equal(east.line.length, 1, 'медь вышла с той стороны, куда шла')
+    assert.equal(east.line[0].item, 'copper')
+    assert.equal(north.line.length, 1, 'свинец ушёл вверх, а не вбок')
+    assert.equal(north.line[0].item, 'lead')
+})
+
+test('перекрёсток не берёт предмет, когда выхода с той стороны нет', () => {
+    const scene = world()
+
+    const cross = scene.place('junction', 5, 5)
+    const west = scene.place('conveyor', 4, 5, {rotation: 0})
+
+    assert.ok(!cross.acceptItem(west, 'copper'), 'справа пусто — предмет застрял бы')
+
+    scene.place('conveyor', 6, 5, {rotation: 0})
+    assert.ok(cross.acceptItem(west, 'copper'))
+})
+
+test('сортировщик пропускает названный предмет насквозь, остальные вбок', () => {
+    const scene = world()
+
+    const sorter = scene.place('sorter', 5, 5, {sortItem: 'copper'})
+    const source = scene.place('conveyor', 4, 5, {rotation: 0})
+
+    const ahead = scene.place('conveyor', 6, 5, {rotation: 0})
+    const side = scene.place('conveyor', 5, 6, {rotation: 1})
+
+    assert.ok(give(sorter, source, 'copper'))
+    assert.equal(ahead.line.length, 1, 'свой предмет идёт прямо')
+
+    assert.ok(give(sorter, source, 'lead'))
+    assert.equal(side.line[0].item, 'lead', 'чужой уходит вбок')
+
+    // Сам сортировщик ничего не держит: он только передаёт
+    assert.equal(sorter.items, null)
+})
+
+test('обратный сортировщик делает наоборот', () => {
+    const scene = world()
+
+    const sorter = scene.place('inverted-sorter', 5, 5, {sortItem: 'copper'})
+    const source = scene.place('conveyor', 4, 5, {rotation: 0})
+
+    const ahead = scene.place('conveyor', 6, 5, {rotation: 0})
+    const side = scene.place('conveyor', 5, 6, {rotation: 1})
+
+    assert.ok(give(sorter, source, 'copper'))
+    assert.equal(side.line[0].item, 'copper', 'названный предмет уходит вбок')
+
+    assert.ok(give(sorter, source, 'lead'))
+    assert.equal(ahead.line[0].item, 'lead', 'остальные идут прямо')
+})
+
+test('сортировщик чередует стороны, когда берут обе', () => {
+    const scene = world()
+
+    const sorter = scene.place('sorter', 5, 5, {sortItem: 'copper'})
+    const source = scene.place('conveyor', 4, 5, {rotation: 0})
+
+    const up = scene.place('conveyor', 5, 6, {rotation: 1})
+    const down = scene.place('conveyor', 5, 4, {rotation: 3})
+
+    assert.ok(give(sorter, source, 'lead'))
+    assert.ok(give(sorter, source, 'lead'))
+
+    assert.equal(up.line.length, 1, 'по одному на сторону, а не оба в одну')
+    assert.equal(down.line.length, 1)
+})
+
+test('ворота переполнения пускают вбок только когда впереди не берут', () => {
+    const scene = world()
+
+    const gate = scene.place('overflow-gate', 5, 5)
+    const source = scene.place('conveyor', 4, 5, {rotation: 0})
+
+    const ahead = scene.place('conveyor', 6, 5, {rotation: 0})
+    const side = scene.place('conveyor', 5, 6, {rotation: 1})
+
+    assert.ok(give(gate, source, 'copper'))
+    assert.equal(ahead.line.length, 1, 'пока берут впереди — идёт прямо')
+    assert.equal(side.line.length, 0)
+
+    /*
+     * Тик спустя лента впереди уже занята: `minitem` считается в её такте, и до тех пор
+     * она о принятом предмете не знает — в игре ровно так же.
+     */
+    scene.step()
+
+    assert.ok(!ahead.acceptItem(gate, 'copper'), 'впереди голова ленты ещё в начале')
+    assert.ok(give(gate, source, 'copper'))
+    assert.equal(side.line.length, 1, 'впереди занято — ушло вбок')
+})
+
+test('ворота недополнения пускают прямо только когда по бокам не берут', () => {
+    const scene = world()
+
+    const gate = scene.place('underflow-gate', 5, 5)
+    const source = scene.place('conveyor', 4, 5, {rotation: 0})
+
+    const ahead = scene.place('conveyor', 6, 5, {rotation: 0})
+    const side = scene.place('conveyor', 5, 6, {rotation: 1})
+
+    assert.ok(give(gate, source, 'copper'))
+    assert.equal(side.line.length, 1, 'сначала вбок')
+
+    scene.remove(side)
+
+    assert.ok(give(gate, source, 'copper'))
+    assert.equal(ahead.line.length, 1, 'по бокам никого — тогда прямо')
+})

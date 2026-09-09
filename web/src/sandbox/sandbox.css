@@ -118,6 +118,34 @@
     to { transform: translateX(-50%) scaleX(0); }
 }
 
+/* `ItemSelection.buildTable`: кнопки по 40 на чёрном фоне, по четыре в ряд */
+.config-bar__items {
+    display: grid;
+    grid-template-columns: repeat(4, 40px);
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.config-bar__item {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.config-bar__item:hover {
+    background: #454545;
+}
+
+/* Отмеченная кнопка в игре подсвечена цветом акцента */
+.config-bar__item--on {
+    background: rgba(255, 211, 127, 0.3);
+}
+
 .config-bar__button {
     width: 40px;
     height: 40px;

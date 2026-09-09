@@ -14,6 +14,7 @@ import {polyPoints, polyRing, polyArc, arcSlice, lineQuad, rectBorders} from './
 import {randomSeed, packPoint, sin, degRad, PI} from '@mlog/core/src/arc.js'
 import {BLOCK_SPECS} from '@mlog/core/src/world.js'
 import {LABEL_BACKGROUND, LABEL_OUTLINE, ALIGN} from '@mlog/core/src/markers.js'
+import MATERIALS from '@mlog/core/data/materials.json' with {type: 'json'}
 
 /**
  * Geometry.d8 — восемь соседей по кругу, начиная с правого. Порядок важен: игра перебирает
@@ -478,6 +479,9 @@ export class WorldView {
             return
         }
 
+        // Сортировщик показывает свою настройку под собственным спрайтом. Sorter.draw
+        if (building.sortItem !== undefined) this.drawSortItem(building, cx, cy, side)
+
         const icon = this.sprite(open ? 'door-open' : building.type)
 
         if (icon === null) {
@@ -572,6 +576,25 @@ export class WorldView {
 
             this.context.drawImage(icon, px - side / 2, py - side / 2, side, side)
         }
+    }
+
+    /**
+     * Настройка сортировщика под его спрайтом. `Sorter.draw`: названный предмет — сплошной
+     * квадрат в цвет предмета со стороной в тайл, а ненастроенный сортировщик — перечёркнутый
+     * круг `cross`. И то, и другое рисуется до самого блока: у его спрайта середина прозрачная.
+     */
+    drawSortItem(building, cx, cy, side) {
+        if (building.sortItem === null) {
+            const cross = this.sprite('cross-full')
+            if (cross !== null) this.context.drawImage(cross, cx - side / 2, cy - side / 2, side, side)
+            return
+        }
+
+        const color = MATERIALS.items[building.sortItem]?.color
+        if (color === undefined) return
+
+        this.context.fillStyle = color
+        this.context.fillRect(cx - side / 2, cy - side / 2, side, side)
     }
 
     /** Иконка предмета из атласа контента: та же, что в меню выбора. */

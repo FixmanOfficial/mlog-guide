@@ -31,7 +31,10 @@ import mindustry.world.blocks.environment.OreBlock;
 import mindustry.world.blocks.environment.OverlayFloor;
 import mindustry.world.blocks.environment.Prop;
 import mindustry.world.blocks.distribution.Conveyor;
+import mindustry.world.blocks.distribution.Junction;
+import mindustry.world.blocks.distribution.OverflowGate;
 import mindustry.world.blocks.distribution.Router;
+import mindustry.world.blocks.distribution.Sorter;
 import mindustry.world.blocks.production.Drill;
 import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.consumers.Consume;
@@ -346,6 +349,29 @@ public class ContentDump{
 
             if(block instanceof Router router){
                 spec.number("speed", router.speed);
+            }
+
+            /*
+             * Перекрёсток держит четыре очереди, по одной на сторону: предмет идёт насквозь
+             * и выходит через `speed` тиков. Junction
+             */
+            if(block instanceof Junction junction){
+                spec.number("speed", junction.speed);
+                spec.number("capacity", junction.capacity);
+                spec.number("displayedSpeed", junction.displayedSpeed);
+            }
+
+            /*
+             * Сортировщик и переполнение различаются одним полем: обратный делает всё
+             * наоборот. Отдельного класса у обратных нет. Sorter.invert, OverflowGate.invert
+             */
+            if(block instanceof Sorter sorter){
+                spec.bool("invert", sorter.invert);
+            }
+
+            if(block instanceof OverflowGate gate){
+                spec.number("speed", gate.speed);
+                spec.bool("invert", gate.invert);
             }
 
             if(block instanceof Drill drill){
