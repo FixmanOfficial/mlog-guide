@@ -91,3 +91,68 @@ export const PRECISION = {
         ].join('\n')
     }]
 }
+
+/** Урок «Сравнения и логика»: два условия про запас меди и их соединение. */
+export const LOGIC = {
+    width: 8, height: 5, floor: 'sand',
+    blocks: [{type: 'micro-processor', x: 2, y: 2}],
+    processors: [{
+        at: [2, 2],
+        links: [],
+        program: [
+            'set медь 40',
+            'set предел 100',
+            'op lessThan мало медь предел',
+            'op greaterThan много медь предел',
+            'op land оба мало много',
+            'op or хотяБы мало много'
+        ].join('\n')
+    }]
+}
+
+/** Урок «Сравнения и логика»: `not` не отрицание, а инверсия битов. */
+export const NEGATION = {
+    width: 8, height: 5, floor: 'sand',
+    blocks: [{type: 'micro-processor', x: 2, y: 2}],
+    processors: [{
+        at: [2, 2],
+        links: [],
+        program: [
+            'op not побитовое 1',
+            'op equal логическое 1 0'
+        ].join('\n')
+    }]
+}
+
+/** Урок «Битовые операции»: три операции над 12 и 10 и два сдвига. */
+export const BITWISE = {
+    width: 8, height: 5, floor: 'sand',
+    blocks: [{type: 'micro-processor', x: 2, y: 2}],
+    processors: [{
+        at: [2, 2],
+        links: [],
+        program: [
+            'op and маска 12 10',
+            'op or обе 12 10',
+            'op xor разные 12 10',
+            'op shl сдвиг 1 3',
+            'op shr обратно 8 3',
+            'op not инверт 5'
+        ].join('\n')
+    }]
+}
+
+/** Урок «Битовые операции»: три ответа, которых никто не ждёт. */
+export const SHIFTS = {
+    width: 8, height: 5, floor: 'sand',
+    blocks: [{type: 'micro-processor', x: 2, y: 2}],
+    processors: [{
+        at: [2, 2],
+        links: [],
+        program: [
+            'op shl перебор 1 64',
+            'op shr знак -8 1',
+            'op ushr беззнак -1 60'
+        ].join('\n')
+    }]
+}

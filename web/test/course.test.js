@@ -19,7 +19,9 @@ import logicIds from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 
 import {BUILDINGS, ITEMS, UNITS, HOLDERS} from '../src/course/scenes/sensor.js'
 import {VALUES, EMPTINESS, PROCESSOR} from '../src/course/scenes/basics.js'
-import {ARITHMETIC, STEPS, INTEGERS, ROUNDING, PRECISION} from '../src/course/scenes/op.js'
+import {
+    ARITHMETIC, STEPS, INTEGERS, ROUNDING, PRECISION, LOGIC, NEGATION, BITWISE, SHIFTS
+} from '../src/course/scenes/op.js'
 
 const content = createContent(logicIds)
 
@@ -292,4 +294,72 @@ test('урок «Целые и точность»: сто предметов п�
     assert.equal(num(processor, 'остаток'), 10)
     assert.equal(num(processor, 'ящикиМинус'), -4)
     assert.equal(num(processor, 'остатокМинус'), -10)
+})
+
+test('урок «Сравнения и логика»: сравнение отдаёт единицу или ноль', () => {
+    const processor = run(LOGIC)
+
+    assert.equal(num(processor, 'мало'), 1)
+    assert.equal(num(processor, 'много'), 0)
+
+    // `land` — это «и», а «или» в mlog приходится писать побитовым `or`
+    assert.equal(num(processor, 'оба'), 0)
+    assert.equal(num(processor, 'хотяБы'), 1)
+})
+
+test('урок «Сравнения и логика»: not даёт −2, а отрицание пишется через equal', () => {
+    const processor = run(NEGATION)
+
+    assert.equal(num(processor, 'побитовое'), -2)
+    assert.equal(num(processor, 'логическое'), 0)
+})
+
+test('урок «Битовые операции»: маски и сдвиги над 12 и 10', () => {
+    const processor = run(BITWISE)
+
+    assert.equal(num(processor, 'маска'), 8)
+    assert.equal(num(processor, 'обе'), 14)
+    assert.equal(num(processor, 'разные'), 6)
+    assert.equal(num(processor, 'сдвиг'), 8)
+    assert.equal(num(processor, 'обратно'), 1)
+    assert.equal(num(processor, 'инверт'), -6)
+})
+
+test('урок «Битовые операции»: три ответа, которых никто не ждёт', () => {
+    const processor = run(SHIFTS)
+
+    // Величина сдвига берётся по младшим шести битам: сдвиг на 64 — это сдвиг на ноль
+    assert.equal(num(processor, 'перебор'), 1)
+
+    // `shr` бережёт знак, `ushr` считает число беззнаковым
+    assert.equal(num(processor, 'знак'), -4)
+    assert.equal(num(processor, 'беззнак'), 15)
+})
+
+test('урок «Битовые операции»: два числа складываются в одно и достаются обратно', () => {
+    const processor = run({
+        ...BITWISE,
+        processors: [{
+            ...BITWISE.processors[0],
+            program: [
+                'op shl упаковано 5 8',
+                'op or упаковано упаковано 3',
+                'op and первое упаковано 255',
+                'op shr второе упаковано 8'
+            ].join('\n')
+        }]
+    })
+
+    assert.equal(num(processor, 'упаковано'), 1283)
+    assert.equal(num(processor, 'первое'), 3)
+    assert.equal(num(processor, 'второе'), 5)
+})
+
+test('урок «Битовые операции»: дробная часть до операции отбрасывается', () => {
+    const processor = run({
+        ...BITWISE,
+        processors: [{...BITWISE.processors[0], program: 'op and дробь 12.7 10'}]
+    })
+
+    assert.equal(num(processor, 'дробь'), 8)
 })
