@@ -51,7 +51,7 @@ const text = TEXT[locale] ?? TEXT.en
 {groups.map(group => (
     <section class="group">
         <h2 id={group.name}>
-            <a class="group__name" href={group.href}>{group.name}</a>
+            <a class="group__name" href={group.href}>{group.title}</a>
         </h2>
         {group.lead === null ? null : <p class="group__lead">{group.lead}</p>}
         <LessonList locale={locale} group={group.name} />

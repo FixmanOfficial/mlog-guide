@@ -58,6 +58,13 @@ export async function courseGroups(locale) {
 
         groups.push({
             name: group,
+
+            /*
+             * Как группа называется, решает её собственная страница. У групп-инструкций
+             * это имя инструкции — оно не переводится, — а у тех, что не про инструкцию,
+             * человеческое название: «Основы», а не `basics`.
+             */
+            title: page?.data.title ?? group,
             href: page === undefined ? lessons[0].href : `/${page.slug.replace(/\/index$/, '')}/`,
             lead: page?.data.lead ?? null,
             lessons

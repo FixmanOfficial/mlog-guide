@@ -76,11 +76,32 @@ export default defineConfig({
             sidebar: [
                 {label: 'Песочница', translations: {en: 'Sandbox'}, link: 'sandbox'},
                 /*
-                 * Курс собирается сам из папок: группа — папка с именем инструкции, урок —
-                 * страница в ней. Имена инструкций не переводятся, поэтому подписи групп
-                 * в меню одинаковы на всех языках, и это правильно.
+                 * Курс: группа — папка, урок — страница в ней. Имена инструкций
+                 * не переводятся, поэтому у большинства групп подпись одна на всех языках.
+                 * Переводятся только те группы, что не про инструкцию, — «Основы».
+                 *
+                 * Список групп здесь руками, а не `autogenerate` по всей папке: иначе
+                 * подписью группы становится имя папки, и `basics` так и остаётся `basics`.
+                 * Новая группа — новая строка, и это правильно: группа появляется в меню
+                 * тогда же, когда в ней появляется первый урок.
                  */
-                {label: 'Курс', translations: {en: 'Course'}, autogenerate: {directory: 'course'}},
+                {
+                    label: 'Курс',
+                    translations: {en: 'Course'},
+                    items: [
+                        {
+                            label: 'Все уроки',
+                            translations: {en: 'All lessons'},
+                            link: 'course'
+                        },
+                        {
+                            label: 'Основы',
+                            translations: {en: 'Basics'},
+                            autogenerate: {directory: 'course/basics'}
+                        },
+                        {label: 'sensor', autogenerate: {directory: 'course/sensor'}}
+                    ]
+                },
                 {
                     label: 'Справочник',
                     translations: {en: 'Reference'},
