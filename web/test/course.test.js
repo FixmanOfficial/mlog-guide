@@ -19,6 +19,7 @@ import logicIds from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 
 import {BUILDINGS, ITEMS, UNITS, HOLDERS} from '../src/course/scenes/sensor.js'
 import {VALUES, EMPTINESS, PROCESSOR} from '../src/course/scenes/basics.js'
+import {ARITHMETIC, STEPS, INTEGERS, ROUNDING, PRECISION} from '../src/course/scenes/op.js'
 
 const content = createContent(logicIds)
 
@@ -207,4 +208,88 @@ test('урок «Свойство есть не у каждого»: тип от
 
     // У маршрутизатора памяти нет вовсе: не ноль, а null
     assert.equal(obj(processor, 'памятьМаршрута'), null)
+})
+
+test('урок «Арифметика»: четыре действия над 12 и 5', () => {
+    const processor = run(ARITHMETIC)
+
+    assert.equal(num(processor, 'сумма'), 17)
+    assert.equal(num(processor, 'разность'), 7)
+    assert.equal(num(processor, 'произведение'), 60)
+
+    // Урок отдельно говорит, что деление обычное: 12 на 5 это 2.4, а не 2
+    assert.equal(num(processor, 'частное'), 2.4)
+})
+
+test('урок «Арифметика»: деление на ноль даёт не бесконечность, а null', () => {
+    const processor = run({
+        ...ARITHMETIC,
+        processors: [{
+            ...ARITHMETIC.processors[0],
+            program: ['set a 12', 'set b 0', 'op div частное a b', 'op add потом частное 1'].join('\n')
+        }]
+    })
+
+    // `LVar.setnum`: бесконечность хранению не подлежит, переменная становится объектом null
+    assert.equal(processor.get('частное').isobj, true)
+    assert.equal(processor.get('частное').objval, null)
+
+    // И дальше он считается нулём — ровно это урок и обещает в задании
+    assert.equal(num(processor, 'потом'), 1)
+})
+
+test('урок «Арифметика»: сложное выражение разворачивается в две строки', () => {
+    const processor = run(STEPS)
+
+    assert.equal(num(processor, 'сумма'), 17)
+    assert.equal(num(processor, 'итог'), 34)
+})
+
+test('урок «Целые и точность»: idiv округляет вниз, а знак mod идёт от делимого', () => {
+    const processor = run(INTEGERS)
+
+    assert.equal(num(processor, 'точно'), 3.5)
+    assert.equal(num(processor, 'целое'), 3)
+    assert.equal(num(processor, 'остаток'), 1)
+
+    // Два числа, ради которых урок и написан
+    assert.equal(num(processor, 'вниз'), -4)
+    assert.equal(num(processor, 'знак'), -1)
+    assert.equal(num(processor, 'всегда'), 2)
+})
+
+test('урок «Целые и точность»: round отправляет половину вверх', () => {
+    const processor = run(ROUNDING)
+
+    assert.equal(num(processor, 'вниз'), 3)
+    assert.equal(num(processor, 'вверх'), 4)
+    assert.equal(num(processor, 'ближе'), 3)
+})
+
+test('урок «Целые и точность»: equal прощает хвост дроби, strictEqual — нет', () => {
+    const processor = run(PRECISION)
+
+    assert.equal(num(processor, 'сумма'), 0.30000000000000004)
+    assert.equal(num(processor, 'равно'), 1)
+    assert.equal(num(processor, 'строго'), 0)
+})
+
+test('урок «Целые и точность»: сто предметов по тридцать, и то же самое в минусе', () => {
+    const processor = run({
+        ...INTEGERS,
+        processors: [{
+            ...INTEGERS.processors[0],
+            program: [
+                'op idiv ящики 100 30',
+                'op mod остаток 100 30',
+                'op idiv ящикиМинус -100 30',
+                'op mod остатокМинус -100 30'
+            ].join('\n')
+        }]
+    })
+
+    assert.equal(num(processor, 'ящики'), 3)
+    assert.equal(num(processor, 'остаток'), 10)
+    assert.equal(num(processor, 'ящикиМинус'), -4)
+    assert.equal(num(processor, 'остатокМинус'), -10)
 })

@@ -99,6 +99,7 @@ export default defineConfig({
                             translations: {en: 'Basics'},
                             autogenerate: {directory: 'course/basics'}
                         },
+                        {label: 'op', autogenerate: {directory: 'course/op'}},
                         {label: 'sensor', autogenerate: {directory: 'course/sensor'}}
                     ]
                 },
