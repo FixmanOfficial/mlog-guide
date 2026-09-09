@@ -14,6 +14,9 @@
  */
 
 import {World} from './world.js'
+
+// Побочный эффект: производственные блоки записываются в опись классов при загрузке
+import './production.js'
 import {Marker} from './markers.js'
 import {packColorHex} from './arc.js'
 import {OBJECTIVE_TYPES} from './objectives.js'

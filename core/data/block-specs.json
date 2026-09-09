@@ -36,6 +36,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -80,6 +81,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "overlay",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -121,6 +123,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "requirements": []
     },
     "remove-ore": {
@@ -157,6 +160,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "overlay",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -198,6 +202,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "requirements": []
     },
     "build1": {
@@ -232,6 +237,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "requirements": []
     },
     "build2": {
@@ -266,6 +272,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "requirements": []
     },
     "build3": {
@@ -300,6 +307,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "requirements": []
     },
     "build4": {
@@ -334,6 +342,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "requirements": []
     },
     "build5": {
@@ -368,6 +377,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "requirements": []
     },
     "build6": {
@@ -402,6 +412,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "requirements": []
     },
     "build7": {
@@ -436,6 +447,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "requirements": []
     },
     "build8": {
@@ -470,6 +482,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "requirements": []
     },
     "build9": {
@@ -504,6 +517,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "requirements": []
     },
     "build10": {
@@ -538,6 +552,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "requirements": []
     },
     "build11": {
@@ -572,6 +587,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "requirements": []
     },
     "build12": {
@@ -606,6 +622,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "requirements": []
     },
     "build13": {
@@ -640,6 +657,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "requirements": []
     },
     "build14": {
@@ -674,6 +692,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "requirements": []
     },
     "build15": {
@@ -708,6 +727,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "requirements": []
     },
     "build16": {
@@ -742,6 +762,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "requirements": []
     },
     "deep-water": {
@@ -776,6 +797,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "speedMultiplier": 0.2,
       "dragMultiplier": 1,
@@ -818,6 +840,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "speedMultiplier": 0.5,
       "dragMultiplier": 1,
@@ -860,6 +883,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "speedMultiplier": 0.5,
       "dragMultiplier": 1,
@@ -902,6 +926,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "speedMultiplier": 0.18,
       "dragMultiplier": 1,
@@ -945,6 +970,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 0.75,
@@ -989,6 +1015,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 0.8,
@@ -1033,6 +1060,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 0.8,
@@ -1076,6 +1104,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "speedMultiplier": 0.19,
       "dragMultiplier": 1,
@@ -1117,6 +1146,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "speedMultiplier": 0.5,
       "dragMultiplier": 1,
@@ -1158,6 +1188,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "speedMultiplier": 0.19,
       "dragMultiplier": 1,
@@ -1200,6 +1231,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -1242,6 +1274,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -1283,6 +1316,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1326,6 +1360,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1369,6 +1404,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1412,6 +1448,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1455,6 +1492,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1499,6 +1537,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1543,6 +1582,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "itemDrop": "sand",
@@ -1587,6 +1627,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "itemDrop": "sand",
@@ -1631,6 +1672,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1674,6 +1716,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 0.6,
@@ -1716,6 +1759,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1759,6 +1803,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1802,6 +1847,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1846,6 +1892,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1889,6 +1936,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1932,6 +1980,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1975,6 +2024,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 4,
       "speedMultiplier": 1,
@@ -2018,6 +2068,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2061,6 +2112,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2104,6 +2156,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 4,
       "speedMultiplier": 1,
@@ -2147,6 +2200,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 5,
       "speedMultiplier": 1,
@@ -2190,6 +2244,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 4,
       "speedMultiplier": 1,
@@ -2233,6 +2288,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2276,6 +2332,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 4,
       "speedMultiplier": 1,
@@ -2319,6 +2376,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 4,
       "speedMultiplier": 1,
@@ -2362,6 +2420,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 0.9,
@@ -2405,6 +2464,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "speedMultiplier": 0.3,
       "dragMultiplier": 1,
@@ -2447,6 +2507,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2491,6 +2552,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -2535,6 +2597,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -2579,6 +2642,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -2623,6 +2687,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -2667,6 +2732,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -2711,6 +2777,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -2755,6 +2822,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -2799,6 +2867,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -2842,6 +2911,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2884,6 +2954,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2926,6 +2997,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2968,6 +3040,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -3010,6 +3083,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -3053,6 +3127,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 0.9,
@@ -3096,6 +3171,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -3139,6 +3215,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -3182,6 +3259,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -3225,6 +3303,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -3266,6 +3345,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -3310,6 +3390,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3347,6 +3428,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3384,6 +3466,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3421,6 +3504,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3458,6 +3542,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3495,6 +3580,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3532,6 +3618,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3569,6 +3656,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3606,6 +3694,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3643,6 +3732,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3680,6 +3770,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3717,6 +3808,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3754,6 +3846,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3791,6 +3884,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "variants": 3,
       "requirements": []
@@ -3828,6 +3922,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "variants": 4,
       "requirements": []
@@ -3865,6 +3960,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3902,6 +3998,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3940,6 +4037,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "variants": 3,
       "requirements": []
@@ -3977,6 +4075,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4014,6 +4113,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4051,6 +4151,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4088,6 +4189,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4126,6 +4228,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "requirements": []
     },
@@ -4163,6 +4266,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "requirements": []
     },
@@ -4200,6 +4304,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "requirements": []
     },
@@ -4235,6 +4340,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "requirements": []
     },
     "white-tree": {
@@ -4269,6 +4375,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "requirements": []
     },
     "spore-cluster": {
@@ -4303,6 +4410,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -4340,6 +4448,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -4377,6 +4486,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "prop",
       "requirements": []
     },
@@ -4413,6 +4523,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "prop",
       "requirements": []
     },
@@ -4449,6 +4560,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -4486,6 +4598,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -4523,6 +4636,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -4560,6 +4674,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -4597,6 +4712,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -4634,6 +4750,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -4671,6 +4788,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -4708,6 +4826,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -4745,6 +4864,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -4782,6 +4902,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -4818,6 +4939,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -4854,6 +4976,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -4890,6 +5013,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -4926,6 +5050,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -4962,6 +5087,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -4999,6 +5125,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -5036,6 +5163,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -5073,6 +5201,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -5110,6 +5239,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "prop",
       "variants": 4,
       "requirements": []
@@ -5146,6 +5276,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5188,6 +5319,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -5231,6 +5363,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5273,6 +5406,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5315,6 +5449,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5357,6 +5492,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5399,6 +5535,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5441,6 +5578,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5483,6 +5621,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5525,6 +5664,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5567,6 +5707,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5609,6 +5750,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5652,6 +5794,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -5688,6 +5831,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -5730,6 +5874,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -5772,6 +5917,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -5814,6 +5960,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -5856,6 +6003,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -5898,6 +6046,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -5940,6 +6089,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -5982,6 +6132,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6024,6 +6175,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6066,6 +6218,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6108,6 +6261,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6150,6 +6304,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6192,6 +6347,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6235,6 +6391,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -6272,6 +6429,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -6309,6 +6467,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -6346,6 +6505,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6390,6 +6550,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -6428,6 +6589,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "overlay",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -6471,6 +6633,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "overlay",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -6514,6 +6677,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "overlay",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -6557,6 +6721,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "overlay",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -6599,6 +6764,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "overlay",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6642,6 +6808,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "overlay",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6686,6 +6853,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "copper",
@@ -6731,6 +6899,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "lead",
@@ -6776,6 +6945,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "scrap",
@@ -6821,6 +6991,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "coal",
@@ -6866,6 +7037,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "titanium",
@@ -6911,6 +7083,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "thorium",
@@ -6956,6 +7129,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "beryllium",
@@ -7001,6 +7175,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "tungsten",
@@ -7046,6 +7221,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "thorium",
@@ -7091,6 +7267,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "thorium",
@@ -7136,6 +7313,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "beryllium",
@@ -7180,6 +7358,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "staticWall",
       "variants": 3,
       "itemDrop": "graphite",
@@ -7219,6 +7398,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "graphite",
@@ -7264,6 +7444,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "tungsten",
@@ -7307,6 +7488,28 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "craftTime": 90,
+      "warmupSpeed": 0.019,
+      "outputItems": [
+        {
+          "item": "graphite",
+          "amount": 1
+        }
+      ],
+      "consumes": [
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "coal",
+              "amount": 2
+            }
+          ],
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -7350,6 +7553,43 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "craftTime": 30,
+      "warmupSpeed": 0.019,
+      "outputItems": [
+        {
+          "item": "graphite",
+          "amount": 2
+        }
+      ],
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 1.8,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "coal",
+              "amount": 3
+            }
+          ],
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "water",
+          "amount": 0.1,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "lead",
@@ -7401,6 +7641,40 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "craftTime": 40,
+      "warmupSpeed": 0.019,
+      "outputItems": [
+        {
+          "item": "silicon",
+          "amount": 1
+        }
+      ],
+      "consumes": [
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "coal",
+              "amount": 1
+            },
+            {
+              "item": "sand",
+              "amount": 2
+            }
+          ],
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "power",
+          "usage": 0.5,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -7445,6 +7719,44 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "craftTime": 90,
+      "warmupSpeed": 0.019,
+      "outputItems": [
+        {
+          "item": "silicon",
+          "amount": 8
+        }
+      ],
+      "consumes": [
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "coal",
+              "amount": 4
+            },
+            {
+              "item": "sand",
+              "amount": 6
+            },
+            {
+              "item": "pyratite",
+              "amount": 1
+            }
+          ],
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "power",
+          "usage": 4,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "metaglass",
@@ -7496,6 +7808,40 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "craftTime": 30,
+      "warmupSpeed": 0.019,
+      "outputItems": [
+        {
+          "item": "metaglass",
+          "amount": 1
+        }
+      ],
+      "consumes": [
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "lead",
+              "amount": 1
+            },
+            {
+              "item": "sand",
+              "amount": 1
+            }
+          ],
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "power",
+          "usage": 0.6,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -7543,6 +7889,43 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "craftTime": 60,
+      "warmupSpeed": 0.019,
+      "outputItems": [
+        {
+          "item": "plastanium",
+          "amount": 1
+        }
+      ],
+      "consumes": [
+        {
+          "kind": "liquid",
+          "liquid": "oil",
+          "amount": 0.25,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "power",
+          "usage": 3,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "titanium",
+              "amount": 2
+            }
+          ],
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "lead",
@@ -7594,6 +7977,40 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "craftTime": 120,
+      "warmupSpeed": 0.019,
+      "outputItems": [
+        {
+          "item": "phase-fabric",
+          "amount": 1
+        }
+      ],
+      "consumes": [
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "thorium",
+              "amount": 4
+            },
+            {
+              "item": "sand",
+              "amount": 10
+            }
+          ],
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "power",
+          "usage": 5,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "lead",
@@ -7641,6 +8058,48 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "craftTime": 75,
+      "warmupSpeed": 0.019,
+      "outputItems": [
+        {
+          "item": "surge-alloy",
+          "amount": 1
+        }
+      ],
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 4,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "copper",
+              "amount": 3
+            },
+            {
+              "item": "lead",
+              "amount": 4
+            },
+            {
+              "item": "titanium",
+              "amount": 2
+            },
+            {
+              "item": "silicon",
+              "amount": 3
+            }
+          ],
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "lead",
@@ -7688,6 +8147,43 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "craftTime": 120,
+      "warmupSpeed": 0.019,
+      "outputLiquids": [
+        {
+          "liquid": "cryofluid",
+          "amount": 0.2
+        }
+      ],
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 1,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "titanium",
+              "amount": 1
+            }
+          ],
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "water",
+          "amount": 0.2,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "lead",
@@ -7735,6 +8231,44 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "craftTime": 80,
+      "warmupSpeed": 0.019,
+      "outputItems": [
+        {
+          "item": "pyratite",
+          "amount": 1
+        }
+      ],
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 0.2,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "coal",
+              "amount": 1
+            },
+            {
+              "item": "lead",
+              "amount": 2
+            },
+            {
+              "item": "sand",
+              "amount": 2
+            }
+          ],
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -7778,6 +8312,40 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "craftTime": 80,
+      "warmupSpeed": 0.019,
+      "outputItems": [
+        {
+          "item": "blast-compound",
+          "amount": 1
+        }
+      ],
+      "consumes": [
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "pyratite",
+              "amount": 1
+            },
+            {
+              "item": "spore-pod",
+              "amount": 1
+            }
+          ],
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "power",
+          "usage": 0.4,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "lead",
@@ -7821,6 +8389,36 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "craftTime": 10,
+      "warmupSpeed": 0.019,
+      "outputLiquids": [
+        {
+          "liquid": "slag",
+          "amount": 0.2
+        }
+      ],
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 1,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "scrap",
+              "amount": 1
+            }
+          ],
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -7868,6 +8466,24 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 1.1,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "slag",
+          "amount": 0.06666667,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -7911,6 +8527,35 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 4,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "scrap",
+              "amount": 1
+            }
+          ],
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "slag",
+          "amount": 0.12,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "titanium",
@@ -7962,6 +8607,36 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "craftTime": 20,
+      "warmupSpeed": 0.019,
+      "outputLiquids": [
+        {
+          "liquid": "oil",
+          "amount": 0.3
+        }
+      ],
+      "consumes": [
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "spore-pod",
+              "amount": 1
+            }
+          ],
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "power",
+          "usage": 0.7,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "lead",
@@ -8005,6 +8680,36 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "craftTime": 40,
+      "warmupSpeed": 0.019,
+      "outputItems": [
+        {
+          "item": "sand",
+          "amount": 1
+        }
+      ],
+      "consumes": [
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "scrap",
+              "amount": 1
+            }
+          ],
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "power",
+          "usage": 0.5,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -8048,6 +8753,32 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "craftTime": 30,
+      "warmupSpeed": 0.019,
+      "outputItems": [
+        {
+          "item": "coal",
+          "amount": 1
+        }
+      ],
+      "consumes": [
+        {
+          "kind": "liquid",
+          "liquid": "oil",
+          "amount": 0.1,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "power",
+          "usage": 0.7,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "lead",
@@ -8095,6 +8826,17 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 0.5,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "lead",
@@ -8138,6 +8880,40 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "craftTime": 50,
+      "warmupSpeed": 0.019,
+      "outputItems": [
+        {
+          "item": "silicon",
+          "amount": 4
+        }
+      ],
+      "consumes": [
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "graphite",
+              "amount": 1
+            },
+            {
+              "item": "sand",
+              "amount": 4
+            }
+          ],
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "power",
+          "usage": 5,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "graphite",
@@ -8181,6 +8957,36 @@
       "group": "liquids",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "craftTime": 10,
+      "warmupSpeed": 0.019,
+      "outputLiquids": [
+        {
+          "liquid": "ozone",
+          "amount": 0.06666667
+        },
+        {
+          "liquid": "hydrogen",
+          "amount": 0.1
+        }
+      ],
+      "consumes": [
+        {
+          "kind": "liquid",
+          "liquid": "water",
+          "amount": 0.16666667,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "power",
+          "usage": 1,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "graphite",
@@ -8233,6 +9039,25 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "craftTime": 80,
+      "warmupSpeed": 0.019,
+      "outputLiquids": [
+        {
+          "liquid": "nitrogen",
+          "amount": 0.26666668
+        }
+      ],
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 2,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "silicon",
@@ -8281,6 +9106,43 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "craftTime": 120,
+      "warmupSpeed": 0.019,
+      "outputItems": [
+        {
+          "item": "oxide",
+          "amount": 1
+        }
+      ],
+      "consumes": [
+        {
+          "kind": "liquid",
+          "liquid": "ozone",
+          "amount": 0.033333335,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "beryllium",
+              "amount": 1
+            }
+          ],
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "power",
+          "usage": 0.5,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "graphite",
@@ -8333,6 +9195,19 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "craftTime": 80,
+      "warmupSpeed": 0.019,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 1.6666666,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "beryllium",
@@ -8381,6 +9256,18 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "craftTime": 80,
+      "warmupSpeed": 0.019,
+      "consumes": [
+        {
+          "kind": "liquid",
+          "liquid": "slag",
+          "amount": 0.6666667,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "beryllium",
@@ -8429,6 +9316,22 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "craftTime": 480,
+      "warmupSpeed": 0.019,
+      "consumes": [
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "phase-fabric",
+              "amount": 1
+            }
+          ],
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "beryllium",
@@ -8476,6 +9379,7 @@
       "group": "heat",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "graphite",
@@ -8519,6 +9423,7 @@
       "group": "heat",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "graphite",
@@ -8562,6 +9467,7 @@
       "group": "heat",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "graphite",
@@ -8605,6 +9511,16 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "liquid",
+          "liquid": "slag",
+          "amount": 0,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "tungsten",
@@ -8645,6 +9561,40 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "craftTime": 33.75,
+      "warmupSpeed": 0.019,
+      "outputItems": [
+        {
+          "item": "carbide",
+          "amount": 1
+        }
+      ],
+      "consumes": [
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "tungsten",
+              "amount": 2
+            },
+            {
+              "item": "graphite",
+              "amount": 3
+            }
+          ],
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "power",
+          "usage": 2,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "thorium",
@@ -8692,6 +9642,43 @@
       "group": "none",
       "buildVisibility": "debugOnly",
       "canBeBuilt": false,
+      "dumpTime": 5,
+      "craftTime": 120,
+      "warmupSpeed": 0.019,
+      "outputLiquids": [
+        {
+          "liquid": "gallium",
+          "amount": 0.016666668
+        }
+      ],
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 0.033333335,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "sand",
+              "amount": 1
+            }
+          ],
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "slag",
+          "amount": 0.6666667,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "graphite",
@@ -8744,6 +9731,43 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "craftTime": 45,
+      "warmupSpeed": 0.019,
+      "outputItems": [
+        {
+          "item": "surge-alloy",
+          "amount": 1
+        }
+      ],
+      "consumes": [
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "silicon",
+              "amount": 3
+            }
+          ],
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "slag",
+          "amount": 2.6666667,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "power",
+          "usage": 1.5,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "graphite",
@@ -8796,6 +9820,43 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "craftTime": 20,
+      "warmupSpeed": 0.019,
+      "outputLiquids": [
+        {
+          "liquid": "cyanogen",
+          "amount": 0.2
+        }
+      ],
+      "consumes": [
+        {
+          "kind": "liquid",
+          "liquid": "arkycite",
+          "amount": 2.6666667,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "graphite",
+              "amount": 1
+            }
+          ],
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "power",
+          "usage": 2,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "silicon",
@@ -8848,6 +9909,47 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "craftTime": 30,
+      "warmupSpeed": 0.019,
+      "outputItems": [
+        {
+          "item": "phase-fabric",
+          "amount": 1
+        }
+      ],
+      "consumes": [
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "thorium",
+              "amount": 2
+            },
+            {
+              "item": "sand",
+              "amount": 6
+            }
+          ],
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "ozone",
+          "amount": 0.13333334,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "power",
+          "usage": 8,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "thorium",
@@ -8900,6 +10002,35 @@
       "group": "none",
       "buildVisibility": "debugOnly",
       "canBeBuilt": false,
+      "dumpTime": 5,
+      "craftTime": 600,
+      "warmupSpeed": 0.019,
+      "outputItems": [
+        {
+          "item": "fissile-matter",
+          "amount": 1
+        }
+      ],
+      "consumes": [
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "thorium",
+              "amount": 3
+            }
+          ],
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "nitrogen",
+          "amount": 0.016666668,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "graphite",
@@ -8951,6 +10082,7 @@
       "group": "walls",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -8990,6 +10122,7 @@
       "group": "walls",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -9029,6 +10162,7 @@
       "group": "walls",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "titanium",
@@ -9068,6 +10202,7 @@
       "group": "walls",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "titanium",
@@ -9107,6 +10242,7 @@
       "group": "walls",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "metaglass",
@@ -9150,6 +10286,7 @@
       "group": "walls",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "metaglass",
@@ -9193,6 +10330,7 @@
       "group": "walls",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "thorium",
@@ -9232,6 +10370,7 @@
       "group": "walls",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "thorium",
@@ -9271,6 +10410,7 @@
       "group": "walls",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "phase-fabric",
@@ -9310,6 +10450,7 @@
       "group": "walls",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "phase-fabric",
@@ -9349,6 +10490,7 @@
       "group": "walls",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "surge-alloy",
@@ -9388,6 +10530,7 @@
       "group": "walls",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "surge-alloy",
@@ -9428,6 +10571,7 @@
       "group": "walls",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "titanium",
@@ -9472,6 +10616,7 @@
       "group": "walls",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "titanium",
@@ -9515,6 +10660,7 @@
       "group": "walls",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "variants": 5,
       "requirements": [
         {
@@ -9555,6 +10701,7 @@
       "group": "walls",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "variants": 4,
       "requirements": [
         {
@@ -9595,6 +10742,7 @@
       "group": "walls",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "variants": 3,
       "requirements": [
         {
@@ -9635,6 +10783,7 @@
       "group": "walls",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "scrap",
@@ -9675,6 +10824,7 @@
       "group": "walls",
       "buildVisibility": "sandboxOnly",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "scrap",
@@ -9714,6 +10864,7 @@
       "group": "walls",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "beryllium",
@@ -9753,6 +10904,7 @@
       "group": "walls",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "beryllium",
@@ -9792,6 +10944,7 @@
       "group": "walls",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "tungsten",
@@ -9831,6 +10984,7 @@
       "group": "walls",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "tungsten",
@@ -9871,6 +11025,7 @@
       "group": "walls",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "silicon",
@@ -9914,6 +11069,7 @@
       "group": "walls",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "surge-alloy",
@@ -9957,6 +11113,7 @@
       "group": "walls",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "surge-alloy",
@@ -10000,6 +11157,7 @@
       "group": "walls",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "thorium",
@@ -10043,6 +11201,7 @@
       "group": "walls",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "thorium",
@@ -10087,6 +11246,17 @@
       "group": "walls",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 0.05,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "phase-fabric",
@@ -10134,6 +11304,28 @@
       "group": "projectors",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 0.3,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "silicon",
+              "amount": 1
+            }
+          ],
+          "optional": true,
+          "boost": true
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -10177,6 +11369,28 @@
       "group": "projectors",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 1.5,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "phase-fabric",
+              "amount": 1
+            }
+          ],
+          "optional": true,
+          "boost": true
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -10228,6 +11442,28 @@
       "group": "projectors",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 3.5,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "phase-fabric",
+              "amount": 1
+            }
+          ],
+          "optional": true,
+          "boost": true
+        }
+      ],
       "requirements": [
         {
           "item": "lead",
@@ -10279,6 +11515,32 @@
       "group": "projectors",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 10,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "phase-fabric",
+              "amount": 1
+            },
+            {
+              "item": "silicon",
+              "amount": 1
+            }
+          ],
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "lead",
@@ -10334,6 +11596,28 @@
       "group": "projectors",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "phase-fabric",
+              "amount": 1
+            }
+          ],
+          "optional": true,
+          "boost": true
+        },
+        {
+          "kind": "power",
+          "usage": 4,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "lead",
@@ -10381,6 +11665,7 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "lead",
@@ -10424,6 +11709,17 @@
       "group": "none",
       "buildVisibility": "fogOnly",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 0.6,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "graphite",
@@ -10473,6 +11769,24 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "range": 200,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 3,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "nitrogen",
+          "amount": 0.05,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "thorium",
@@ -10520,6 +11834,35 @@
       "group": "projectors",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 1,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "hydrogen",
+          "amount": 0.016666668,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "phase-fabric",
+              "amount": 1
+            }
+          ],
+          "optional": true,
+          "boost": true
+        }
+      ],
       "requirements": [
         {
           "item": "silicon",
@@ -10571,6 +11914,28 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "liquids",
+          "liquids": [
+            {
+              "liquid": "cyanogen",
+              "amount": 0.025
+            }
+          ],
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "power",
+          "usage": 1.6666666,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "silicon",
@@ -10622,6 +11987,17 @@
       "group": "none",
       "buildVisibility": "editorOnly",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 5,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": []
     },
     "large-shield-projector": {
@@ -10656,6 +12032,17 @@
       "group": "none",
       "buildVisibility": "editorOnly",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 5,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": []
     },
     "conveyor": {
@@ -10690,6 +12077,7 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -10729,6 +12117,7 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -10776,6 +12165,7 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "graphite",
@@ -10824,6 +12214,7 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "metaglass",
@@ -10871,6 +12262,7 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -10911,6 +12303,7 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -10954,6 +12347,17 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 0.3,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "lead",
@@ -11005,6 +12409,7 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -11048,6 +12453,7 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -11091,6 +12497,7 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -11130,6 +12537,7 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -11173,6 +12581,7 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -11216,6 +12625,7 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -11259,6 +12669,7 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "titanium",
@@ -11302,6 +12713,17 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 1.75,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "lead",
@@ -11353,6 +12775,7 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "beryllium",
@@ -11392,6 +12815,7 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "beryllium",
@@ -11435,6 +12859,7 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "beryllium",
@@ -11474,6 +12899,7 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "graphite",
@@ -11517,6 +12943,7 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "graphite",
@@ -11561,6 +12988,7 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "beryllium",
@@ -11600,6 +13028,7 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "graphite",
@@ -11647,6 +13076,17 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 0.016666668,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "surge-alloy",
@@ -11691,6 +13131,17 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 0.05,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "surge-alloy",
@@ -11734,6 +13185,24 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 0.13333334,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "nitrogen",
+          "amount": 0.16666667,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "silicon",
@@ -11781,6 +13250,7 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "silicon",
@@ -11825,6 +13295,7 @@
       "group": "liquids",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -11869,6 +13340,17 @@
       "group": "liquids",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 0.3,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -11921,6 +13403,17 @@
       "group": "liquids",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 1.3,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -11977,6 +13470,7 @@
       "group": "liquids",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "metaglass",
@@ -12017,6 +13511,7 @@
       "group": "liquids",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "metaglass",
@@ -12062,6 +13557,7 @@
       "group": "liquids",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "metaglass",
@@ -12110,6 +13606,7 @@
       "group": "liquids",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "metaglass",
@@ -12154,6 +13651,7 @@
       "group": "liquids",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "metaglass",
@@ -12198,6 +13696,7 @@
       "group": "liquids",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "metaglass",
@@ -12242,6 +13741,7 @@
       "group": "liquids",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "metaglass",
@@ -12286,6 +13786,7 @@
       "group": "liquids",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "metaglass",
@@ -12330,6 +13831,17 @@
       "group": "liquids",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 0.3,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "metaglass",
@@ -12382,6 +13894,16 @@
       "group": "liquids",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "liquid",
+          "liquid": "hydrogen",
+          "amount": 0.025,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "silicon",
@@ -12431,6 +13953,7 @@
       "group": "liquids",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "beryllium",
@@ -12471,6 +13994,7 @@
       "group": "liquids",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "graphite",
@@ -12515,6 +14039,7 @@
       "group": "liquids",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "graphite",
@@ -12559,6 +14084,7 @@
       "group": "liquids",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "graphite",
@@ -12603,6 +14129,7 @@
       "group": "liquids",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "beryllium",
@@ -12647,6 +14174,7 @@
       "group": "liquids",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "beryllium",
@@ -12691,6 +14219,7 @@
       "group": "power",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -12735,6 +14264,7 @@
       "group": "power",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "lead",
@@ -12783,6 +14313,7 @@
       "group": "power",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "lead",
@@ -12834,6 +14365,7 @@
       "group": "power",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "metaglass",
@@ -12883,6 +14415,17 @@
       "group": "power",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 0,
+          "capacity": 4000,
+          "buffered": true,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -12928,6 +14471,17 @@
       "group": "power",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 0,
+          "capacity": 50000,
+          "buffered": true,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "lead",
@@ -12978,6 +14532,7 @@
       "group": "power",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -13024,6 +14579,7 @@
       "group": "power",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -13082,6 +14638,16 @@
       "group": "power",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "liquid",
+          "liquid": "water",
+          "amount": 0.1,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -13136,6 +14702,27 @@
       "group": "power",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "pyratite",
+              "amount": 1
+            }
+          ],
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "cryofluid",
+          "amount": 0.1,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -13194,6 +14781,7 @@
       "group": "power",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "lead",
@@ -13252,6 +14840,7 @@
       "group": "power",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "lead",
@@ -13298,6 +14887,7 @@
       "group": "power",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "lead",
@@ -13348,6 +14938,27 @@
       "group": "power",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "thorium",
+              "amount": 1
+            }
+          ],
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "cryofluid",
+          "amount": 0.04,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "lead",
@@ -13406,6 +15017,35 @@
       "group": "power",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 25,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "blast-compound",
+              "amount": 1
+            }
+          ],
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "cryofluid",
+          "amount": 0.25,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "lead",
@@ -13466,6 +15106,17 @@
       "group": "power",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 0,
+          "capacity": 1000,
+          "buffered": true,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "beryllium",
@@ -13506,6 +15157,17 @@
       "group": "power",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 0,
+          "capacity": 40000,
+          "buffered": true,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "silicon",
@@ -13555,6 +15217,7 @@
       "group": "power",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "silicon",
@@ -13617,6 +15280,7 @@
       "group": "liquids",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "beryllium",
@@ -13659,6 +15323,24 @@
       "group": "power",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "liquids",
+          "liquids": [
+            {
+              "liquid": "ozone",
+              "amount": 0.033333335
+            },
+            {
+              "liquid": "arkycite",
+              "amount": 0.6666667
+            }
+          ],
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "graphite",
@@ -13713,6 +15395,24 @@
       "group": "power",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "liquids",
+          "liquids": [
+            {
+              "liquid": "slag",
+              "amount": 0.33333334
+            },
+            {
+              "liquid": "arkycite",
+              "amount": 0.6666667
+            }
+          ],
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "graphite",
@@ -13767,6 +15467,16 @@
       "group": "power",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "liquid",
+          "liquid": "cyanogen",
+          "amount": 0.15,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "graphite",
@@ -13826,6 +15536,34 @@
       "group": "power",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "liquid",
+          "liquid": "arkycite",
+          "amount": 1.3333334,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "water",
+          "amount": 0.16666667,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "phase-fabric",
+              "amount": 1
+            }
+          ],
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "silicon",
@@ -13885,6 +15623,21 @@
       "group": "drills",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "tier": 2,
+      "drillTime": 600,
+      "hardnessDrillMultiplier": 50,
+      "liquidBoostIntensity": 1.6,
+      "warmupSpeed": 0.015,
+      "consumes": [
+        {
+          "kind": "liquid",
+          "liquid": "water",
+          "amount": 0.05,
+          "optional": true,
+          "boost": true
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -13924,6 +15677,21 @@
       "group": "drills",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "tier": 3,
+      "drillTime": 400,
+      "hardnessDrillMultiplier": 50,
+      "liquidBoostIntensity": 1.6,
+      "warmupSpeed": 0.015,
+      "consumes": [
+        {
+          "kind": "liquid",
+          "liquid": "water",
+          "amount": 0.058333334,
+          "optional": true,
+          "boost": true
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -13967,6 +15735,29 @@
       "group": "drills",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "tier": 4,
+      "drillTime": 280,
+      "hardnessDrillMultiplier": 50,
+      "liquidBoostIntensity": 1.6,
+      "warmupSpeed": 0.015,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 1.1,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "water",
+          "amount": 0.08,
+          "optional": true,
+          "boost": true
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -14018,6 +15809,29 @@
       "group": "drills",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "tier": 5,
+      "drillTime": 280,
+      "hardnessDrillMultiplier": 50,
+      "liquidBoostIntensity": 1.8,
+      "warmupSpeed": 0.01,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 3,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "water",
+          "amount": 0.1,
+          "optional": true,
+          "boost": true
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -14071,6 +15885,17 @@
       "group": "liquids",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 1.5,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -14123,6 +15948,32 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "craftTime": 100,
+      "warmupSpeed": 0.019,
+      "outputItems": [
+        {
+          "item": "spore-pod",
+          "amount": 1
+        }
+      ],
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 1.3333334,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "water",
+          "amount": 0.3,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -14173,6 +16024,35 @@
       "group": "liquids",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "sand",
+              "amount": 1
+            }
+          ],
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "power",
+          "usage": 3,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "water",
+          "amount": 0.15,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -14229,6 +16109,25 @@
       "group": "liquids",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "craftTime": 120,
+      "warmupSpeed": 0.019,
+      "outputLiquids": [
+        {
+          "liquid": "water",
+          "amount": 0.5
+        }
+      ],
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 0.5,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "graphite",
@@ -14272,6 +16171,17 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 0.18333334,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "graphite",
@@ -14315,6 +16225,35 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 1,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "hydrogen",
+          "amount": 0.016666668,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "graphite",
+              "amount": 1
+            }
+          ],
+          "optional": true,
+          "boost": true
+        }
+      ],
       "requirements": [
         {
           "item": "silicon",
@@ -14366,6 +16305,24 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 0.15,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "hydrogen",
+          "amount": 0.004166667,
+          "optional": true,
+          "boost": true
+        }
+      ],
       "requirements": [
         {
           "item": "beryllium",
@@ -14405,6 +16362,31 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 0.8,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "hydrogen",
+          "amount": 0.008333334,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "nitrogen",
+          "amount": 0.05,
+          "optional": true,
+          "boost": true
+        }
+      ],
       "requirements": [
         {
           "item": "silicon",
@@ -14457,6 +16439,43 @@
       "group": "drills",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "tier": 6,
+      "drillTime": 720,
+      "hardnessDrillMultiplier": 0,
+      "liquidBoostIntensity": 1.75,
+      "warmupSpeed": 0.015,
+      "blockedItems": [
+        "thorium",
+        "thorium"
+      ],
+      "drillMultipliers": {
+        "beryllium": 2
+      },
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 2.6666667,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "water",
+          "amount": 0.16666667,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "ozone",
+          "amount": 0.05,
+          "optional": true,
+          "boost": true
+        }
+      ],
       "requirements": [
         {
           "item": "graphite",
@@ -14505,6 +16524,39 @@
       "group": "drills",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "tier": 7,
+      "drillTime": 281.25,
+      "hardnessDrillMultiplier": 0,
+      "liquidBoostIntensity": 2,
+      "warmupSpeed": 0.015,
+      "drillMultipliers": {
+        "beryllium": 2
+      },
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 6,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "hydrogen",
+          "amount": 0.06666667,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "cyanogen",
+          "amount": 0.0125,
+          "optional": true,
+          "boost": true
+        }
+      ],
       "requirements": [
         {
           "item": "thorium",
@@ -14557,6 +16609,7 @@
       "group": "transportation",
       "buildVisibility": "coreZoneOnly",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -14601,6 +16654,7 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -14649,6 +16703,7 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -14701,6 +16756,7 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "graphite",
@@ -14749,6 +16805,7 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "silicon",
@@ -14801,6 +16858,7 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "silicon",
@@ -14856,6 +16914,7 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "titanium",
@@ -14895,6 +16954,7 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "titanium",
@@ -14938,6 +16998,7 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "graphite",
@@ -14981,6 +17042,7 @@
       "group": "transportation",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "thorium",
@@ -15032,6 +17094,7 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "range": 160,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -15075,6 +17138,7 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "range": 220,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -15122,6 +17186,7 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "range": 60,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -15169,6 +17234,7 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "range": 235,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -15216,6 +17282,7 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "range": 110,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -15267,6 +17334,17 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "range": 165,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 6,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -15322,6 +17400,17 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "range": 90,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 3.3,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -15367,6 +17456,17 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "range": 300,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 3.3,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "graphite",
@@ -15418,6 +17518,7 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "range": 240,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "graphite",
@@ -15473,6 +17574,7 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "range": 190,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -15523,6 +17625,17 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "range": 180,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 8,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "titanium",
@@ -15578,6 +17691,7 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "range": 190,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "lead",
@@ -15633,6 +17747,7 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "range": 90,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -15684,6 +17799,7 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "range": 290,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -15735,6 +17851,7 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "range": 200,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -15786,6 +17903,17 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "range": 500,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 10,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -15845,6 +17973,7 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "range": 260,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -15905,6 +18034,17 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "range": 195,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 17,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -15964,6 +18104,16 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "range": 190,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "liquid",
+          "liquid": "water",
+          "amount": 0.25,
+          "optional": true,
+          "boost": true
+        }
+      ],
       "requirements": [
         {
           "item": "graphite",
@@ -16015,6 +18165,16 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "range": 125,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "liquid",
+          "liquid": "water",
+          "amount": 0.25,
+          "optional": true,
+          "boost": true
+        }
+      ],
       "requirements": [
         {
           "item": "graphite",
@@ -16071,6 +18231,7 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "range": 130,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "silicon",
@@ -16126,6 +18287,23 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "range": 390,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "liquid",
+          "liquid": "water",
+          "amount": 0.5,
+          "optional": true,
+          "boost": true
+        },
+        {
+          "kind": "liquid",
+          "liquid": "hydrogen",
+          "amount": 0.083333336,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "thorium",
@@ -16177,6 +18355,16 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "range": 310,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "liquid",
+          "liquid": "water",
+          "amount": 0.33333334,
+          "optional": true,
+          "boost": true
+        }
+      ],
       "requirements": [
         {
           "item": "thorium",
@@ -16232,6 +18420,17 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "range": 368,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 5,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "graphite",
@@ -16287,6 +18486,24 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "range": 250,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "liquid",
+          "liquid": "nitrogen",
+          "amount": 0.1,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "power",
+          "usage": 3.3333333,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "graphite",
@@ -16342,6 +18559,16 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "range": 1350,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "liquid",
+          "liquid": "water",
+          "amount": 0.25,
+          "optional": true,
+          "boost": true
+        }
+      ],
       "requirements": [
         {
           "item": "graphite",
@@ -16401,6 +18628,16 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "range": 300,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "liquid",
+          "liquid": "water",
+          "amount": 0.25,
+          "optional": true,
+          "boost": true
+        }
+      ],
       "requirements": [
         {
           "item": "silicon",
@@ -16460,6 +18697,17 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "range": 410,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 40,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "graphite",
@@ -16517,6 +18765,17 @@
       "group": "units",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 1.2,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -16566,6 +18825,17 @@
       "group": "units",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 1.2,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -16615,6 +18885,17 @@
       "group": "units",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 1.2,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -16664,6 +18945,32 @@
       "group": "units",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 3,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "silicon",
+              "amount": 40
+            },
+            {
+              "item": "graphite",
+              "amount": 40
+            }
+          ],
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -16713,6 +19020,36 @@
       "group": "units",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 6,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "silicon",
+              "amount": 130
+            },
+            {
+              "item": "titanium",
+              "amount": 80
+            },
+            {
+              "item": "metaglass",
+              "amount": 40
+            }
+          ],
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "lead",
@@ -16766,6 +19103,43 @@
       "group": "units",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 13,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "silicon",
+              "amount": 850
+            },
+            {
+              "item": "titanium",
+              "amount": 750
+            },
+            {
+              "item": "plastanium",
+              "amount": 650
+            }
+          ],
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "cryofluid",
+          "amount": 1,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "lead",
@@ -16827,6 +19201,47 @@
       "group": "units",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 25,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "silicon",
+              "amount": 1000
+            },
+            {
+              "item": "plastanium",
+              "amount": 600
+            },
+            {
+              "item": "surge-alloy",
+              "amount": 500
+            },
+            {
+              "item": "phase-fabric",
+              "amount": 350
+            }
+          ],
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "cryofluid",
+          "amount": 3,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "lead",
@@ -16886,6 +19301,17 @@
       "group": "projectors",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 1,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -16933,6 +19359,17 @@
       "group": "projectors",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 5,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "thorium",
@@ -16982,6 +19419,17 @@
       "group": "units",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 1.5,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "silicon",
@@ -17027,6 +19475,17 @@
       "group": "units",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 1.5,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "silicon",
@@ -17072,6 +19531,17 @@
       "group": "units",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 1.5,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "silicon",
@@ -17121,6 +19591,39 @@
       "group": "units",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 3,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "hydrogen",
+          "amount": 0.05,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "silicon",
+              "amount": 40
+            },
+            {
+              "item": "tungsten",
+              "amount": 30
+            }
+          ],
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "silicon",
@@ -17170,6 +19673,39 @@
       "group": "units",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 2.5,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "hydrogen",
+          "amount": 0.05,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "silicon",
+              "amount": 60
+            },
+            {
+              "item": "tungsten",
+              "amount": 40
+            }
+          ],
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "silicon",
@@ -17223,6 +19759,39 @@
       "group": "units",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 2.5,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "hydrogen",
+          "amount": 0.05,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "silicon",
+              "amount": 50
+            },
+            {
+              "item": "tungsten",
+              "amount": 40
+            }
+          ],
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "silicon",
@@ -17272,6 +19841,39 @@
       "group": "units",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 4.5,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "nitrogen",
+          "amount": 0.16666667,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "thorium",
+              "amount": 80
+            },
+            {
+              "item": "silicon",
+              "amount": 100
+            }
+          ],
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "thorium",
@@ -17324,6 +19926,24 @@
       "group": "units",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 2.5,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "cyanogen",
+          "amount": 0.15,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "thorium",
@@ -17376,6 +19996,24 @@
       "group": "units",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 2.5,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "cyanogen",
+          "amount": 0.2,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "thorium",
@@ -17432,6 +20070,24 @@
       "group": "units",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 3,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "cyanogen",
+          "amount": 0.2,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "thorium",
@@ -17488,6 +20144,17 @@
       "group": "payloads",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 3.5,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "thorium",
@@ -17539,6 +20206,24 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 1,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "liquid",
+          "liquid": "ozone",
+          "amount": 0.05,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "graphite",
@@ -17586,6 +20271,7 @@
       "group": "payloads",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -17630,6 +20316,7 @@
       "group": "payloads",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -17673,6 +20360,7 @@
       "group": "payloads",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "tungsten",
@@ -17713,6 +20401,7 @@
       "group": "payloads",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "tungsten",
@@ -17753,6 +20442,17 @@
       "group": "units",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 0.5,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "graphite",
@@ -17801,6 +20501,17 @@
       "group": "units",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 3,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "graphite",
@@ -17857,6 +20568,17 @@
       "group": "payloads",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 1,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "graphite",
@@ -17909,6 +20631,17 @@
       "group": "payloads",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 3,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "silicon",
@@ -17962,6 +20695,17 @@
       "group": "payloads",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 2.5,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "silicon",
@@ -18011,6 +20755,17 @@
       "group": "payloads",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 3,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "thorium",
@@ -18063,6 +20818,17 @@
       "group": "payloads",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 0,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "graphite",
@@ -18112,6 +20878,17 @@
       "group": "payloads",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 2,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "graphite",
@@ -18161,6 +20938,7 @@
       "group": "power",
       "buildVisibility": "sandboxOnly",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": []
     },
     "power-void": {
@@ -18196,6 +20974,17 @@
       "group": "power",
       "buildVisibility": "sandboxOnly",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 3.4028235e+38,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": []
     },
     "item-source": {
@@ -18230,6 +21019,7 @@
       "group": "transportation",
       "buildVisibility": "sandboxOnly",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": []
     },
     "item-void": {
@@ -18264,6 +21054,7 @@
       "group": "transportation",
       "buildVisibility": "sandboxOnly",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": []
     },
     "liquid-source": {
@@ -18298,6 +21089,7 @@
       "group": "liquids",
       "buildVisibility": "sandboxOnly",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": []
     },
     "liquid-void": {
@@ -18332,6 +21124,7 @@
       "group": "liquids",
       "buildVisibility": "sandboxOnly",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": []
     },
     "payload-source": {
@@ -18367,6 +21160,7 @@
       "group": "payloads",
       "buildVisibility": "sandboxOnly",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": []
     },
     "payload-void": {
@@ -18402,6 +21196,7 @@
       "group": "payloads",
       "buildVisibility": "sandboxOnly",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": []
     },
     "heat-source": {
@@ -18437,6 +21232,9 @@
       "group": "none",
       "buildVisibility": "sandboxOnly",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "craftTime": 80,
+      "warmupSpeed": 0.019,
       "requirements": []
     },
     "illuminator": {
@@ -18471,6 +21269,17 @@
       "group": "none",
       "buildVisibility": "lightingOnly",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 0.05,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "lead",
@@ -18519,6 +21328,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "requirements": []
     },
     "legacy-unit-factory": {
@@ -18554,6 +21364,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "requirements": []
     },
     "legacy-unit-factory-air": {
@@ -18589,6 +21400,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "requirements": []
     },
     "legacy-unit-factory-ground": {
@@ -18624,6 +21436,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "requirements": []
     },
     "command-center": {
@@ -18659,6 +21472,7 @@
       "group": "none",
       "buildVisibility": "hidden",
       "canBeBuilt": false,
+      "dumpTime": 5,
       "requirements": []
     },
     "launch-pad": {
@@ -18693,6 +21507,17 @@
       "group": "none",
       "buildVisibility": "legacyLaunchPadOnly",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 4,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -18744,6 +21569,24 @@
       "group": "none",
       "buildVisibility": "notLegacyLaunchPadOnly",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "liquid",
+          "liquid": "oil",
+          "amount": 0.15,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "power",
+          "usage": 8,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -18795,6 +21638,16 @@
       "group": "none",
       "buildVisibility": "notLegacyLaunchPadOnly",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "liquid",
+          "liquid": "water",
+          "amount": 1500,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -18842,6 +21695,40 @@
       "group": "none",
       "buildVisibility": "campaignOnly",
       "canBeBuilt": true,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "power",
+          "usage": 10,
+          "capacity": 0,
+          "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "items",
+          "items": [
+            {
+              "item": "copper",
+              "amount": 8000
+            },
+            {
+              "item": "lead",
+              "amount": 8000
+            },
+            {
+              "item": "thorium",
+              "amount": 4000
+            },
+            {
+              "item": "silicon",
+              "amount": 5000
+            }
+          ],
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -18903,6 +21790,7 @@
       "canBeBuilt": true,
       "maxTextLength": 400,
       "maxNewlines": 24,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -18946,6 +21834,7 @@
       "group": "logic",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -18993,6 +21882,7 @@
       "range": 80,
       "maxInstructionScale": 5,
       "maxInstructionsPerTick": 40,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -19044,6 +21934,7 @@
       "range": 176,
       "maxInstructionScale": 5,
       "maxInstructionsPerTick": 40,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "lead",
@@ -19099,6 +21990,16 @@
       "range": 336,
       "maxInstructionScale": 5,
       "maxInstructionsPerTick": 40,
+      "dumpTime": 5,
+      "consumes": [
+        {
+          "kind": "liquid",
+          "liquid": "cryofluid",
+          "amount": 0.08,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "lead",
@@ -19151,6 +22052,7 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "memoryCapacity": 64,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -19199,6 +22101,7 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "memoryCapacity": 512,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "copper",
@@ -19251,6 +22154,7 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "displaySize": 80,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "lead",
@@ -19299,6 +22203,7 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "displaySize": 176,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "lead",
@@ -19352,6 +22257,7 @@
       "buildVisibility": "shown",
       "canBeBuilt": true,
       "displaySize": 32,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "lead",
@@ -19403,6 +22309,7 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "silicon",
@@ -19446,6 +22353,7 @@
       "group": "none",
       "buildVisibility": "shown",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "silicon",
@@ -19495,6 +22403,7 @@
       "canBeBuilt": true,
       "maxTextLength": 400,
       "maxNewlines": 24,
+      "dumpTime": 5,
       "requirements": [
         {
           "item": "graphite",
@@ -19542,6 +22451,7 @@
       "range": 3.4028235e+38,
       "maxInstructionScale": 5,
       "maxInstructionsPerTick": 1000,
+      "dumpTime": 5,
       "requirements": []
     },
     "world-cell": {
@@ -19577,6 +22487,7 @@
       "buildVisibility": "worldProcessorOnly",
       "canBeBuilt": true,
       "memoryCapacity": 512,
+      "dumpTime": 5,
       "requirements": []
     },
     "world-message": {
@@ -19613,6 +22524,7 @@
       "canBeBuilt": true,
       "maxTextLength": 400,
       "maxNewlines": 24,
+      "dumpTime": 5,
       "requirements": []
     },
     "world-switch": {
@@ -19647,6 +22559,7 @@
       "group": "logic",
       "buildVisibility": "worldProcessorOnly",
       "canBeBuilt": true,
+      "dumpTime": 5,
       "requirements": []
     }
   }

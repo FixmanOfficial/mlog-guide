@@ -29,6 +29,13 @@ import mindustry.world.blocks.environment.Floor;
 import mindustry.world.blocks.environment.OreBlock;
 import mindustry.world.blocks.environment.OverlayFloor;
 import mindustry.world.blocks.environment.Prop;
+import mindustry.world.blocks.production.Drill;
+import mindustry.world.blocks.production.GenericCrafter;
+import mindustry.world.consumers.Consume;
+import mindustry.world.consumers.ConsumeItems;
+import mindustry.world.consumers.ConsumeLiquid;
+import mindustry.world.consumers.ConsumeLiquids;
+import mindustry.world.consumers.ConsumePower;
 import mindustry.world.blocks.environment.StaticWall;
 import mindustry.world.blocks.environment.TallBlock;
 import mindustry.world.meta.BuildVisibility;
@@ -280,6 +287,66 @@ public class ContentDump{
                 spec.number("maxNewlines", message.maxNewlines);
             }
 
+            /*
+             * Производство. Без этих чисел база в песочнице мёртвая: бур не копает, фабрика
+             * не варит, а `@progress` и `@totalItems` не меняются вовсе.
+             *
+             * `dumpTime` есть у любого блока: с этой частотой он пытается отдать содержимое
+             * соседям (`BuildingComp.dump`).
+             */
+            spec.number("dumpTime", block.dumpTime);
+
+            if(block instanceof Drill drill){
+                spec.number("tier", drill.tier);
+                spec.number("drillTime", drill.drillTime);
+                spec.number("hardnessDrillMultiplier", drill.hardnessDrillMultiplier);
+                spec.number("liquidBoostIntensity", drill.liquidBoostIntensity);
+                spec.number("warmupSpeed", drill.warmupSpeed);
+
+                List<String> blocked = new ArrayList<>();
+                if(drill.blockedItem != null) blocked.add("\"" + drill.blockedItem.name + "\"");
+                if(drill.blockedItems != null){
+                    for(Item item : drill.blockedItems) blocked.add("\"" + item.name + "\"");
+                }
+                if(!blocked.isEmpty()) spec.raw("blockedItems", "[" + String.join(", ", blocked) + "]");
+
+                // Ускорители под отдельные предметы: у пневматического бура их нет, у титанового есть
+                List<String> multipliers = new ArrayList<>();
+                for(Item item : Vars.content.items()){
+                    float value = drill.drillMultipliers.get(item, 1f);
+                    if(value != 1f) multipliers.add("\"" + item.name + "\": " + value);
+                }
+                if(!multipliers.isEmpty()){
+                    spec.raw("drillMultipliers", "{" + String.join(", ", multipliers) + "}");
+                }
+            }
+
+            if(block instanceof GenericCrafter crafter){
+                spec.number("craftTime", crafter.craftTime);
+                spec.number("warmupSpeed", crafter.warmupSpeed);
+
+                if(crafter.outputItems != null) spec.raw("outputItems", stacks(crafter.outputItems));
+                if(crafter.outputLiquids != null){
+                    List<String> liquids = new ArrayList<>();
+                    for(var stack : crafter.outputLiquids){
+                        liquids.add("{\"liquid\": \"" + stack.liquid.name + "\", \"amount\": " + stack.amount + "}");
+                    }
+                    spec.raw("outputLiquids", "[" + String.join(", ", liquids) + "]");
+                }
+            }
+
+            /*
+             * Что блок потребляет. Игра держит это списком объектов, а не полями: предметы,
+             * энергия и жидкости лежат каждый своим `Consume`. Необязательные (`optional`)
+             * не мешают работать, а только ускоряют — вода в буре именно такая.
+             */
+            List<String> consumes = new ArrayList<>();
+            for(Consume consume : block.consumers){
+                String entry = consume(consume);
+                if(entry != null) consumes.add(entry);
+            }
+            if(!consumes.isEmpty()) spec.raw("consumes", "[" + String.join(", ", consumes) + "]");
+
             // Среда: пол, руда, статичная стена. Отличать их обязательно — рисуются они
             // по-разному, а `ucontrol getBlock` отдаёт пол и руду отдельно от здания
             String kind = kind(block);
@@ -312,6 +379,50 @@ public class ContentDump{
 
         out.raw("blocks", blocks.object());
         return out.object();
+    }
+
+    /** Набор предметов с количествами — тем же видом, что и требования на постройку. */
+    static String stacks(ItemStack[] items){
+        List<String> parts = new ArrayList<>();
+        for(ItemStack stack : items){
+            parts.add("{\"item\": \"" + stack.item.name + "\", \"amount\": " + stack.amount + "}");
+        }
+        return "[" + String.join(", ", parts) + "]";
+    }
+
+    /**
+     * Одно потребление. Видов в игре больше, чем здесь, но остальные — про воду для щита,
+     * нажатие игроком и прочее, чего в модели нет; они пропускаются, и это видно по тому,
+     * что в описи их нет.
+     */
+    static String consume(Consume consume){
+        String tail = ", \"optional\": " + (consume.optional ? "true" : "false")
+            + ", \"boost\": " + (consume.booster ? "true" : "false") + "}";
+
+        if(consume instanceof ConsumeItems items){
+            return "{\"kind\": \"items\", \"items\": " + stacks(items.items) + tail;
+        }
+
+        if(consume instanceof ConsumePower power){
+            return "{\"kind\": \"power\", \"usage\": " + power.usage
+                + ", \"capacity\": " + power.capacity
+                + ", \"buffered\": " + (power.buffered ? "true" : "false") + tail;
+        }
+
+        if(consume instanceof ConsumeLiquid liquid){
+            return "{\"kind\": \"liquid\", \"liquid\": \"" + liquid.liquid.name
+                + "\", \"amount\": " + liquid.amount + tail;
+        }
+
+        if(consume instanceof ConsumeLiquids liquids){
+            List<String> parts = new ArrayList<>();
+            for(var stack : liquids.liquids){
+                parts.add("{\"liquid\": \"" + stack.liquid.name + "\", \"amount\": " + stack.amount + "}");
+            }
+            return "{\"kind\": \"liquids\", \"liquids\": [" + String.join(", ", parts) + "]" + tail;
+        }
+
+        return null;
     }
 
     /**
@@ -444,6 +555,14 @@ public class ContentDump{
             entry.number("radioactivity", item.radioactivity);
             entry.number("charge", item.charge);
             entry.bool("buildable", item.buildable);
+
+            /*
+             * Порядок для бура: при выборе, что копать, игра сначала откидывает предметы
+             * с `lowPriority` (песок под водой), потом смотрит, каких клеток больше, и лишь
+             * потом — на номер. Drill.countOre
+             */
+            entry.bool("lowPriority", item.lowPriority);
+            entry.number("id", item.id);
             items.raw(item.name, entry.object());
         }
 

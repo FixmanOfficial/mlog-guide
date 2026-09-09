@@ -13,6 +13,8 @@
 import specs from '../data/block-specs.json' with {type: 'json'}
 import {Unit, unconv} from './unit.js'
 import {NOT_SENSED} from './sense.js'
+import {edgeOffsets} from './edges.js'
+import materials from '../data/materials.json' with {type: 'json'}
 import {teamColorBits} from './teams.js'
 import {Rules} from './rules.js'
 import {Markers} from './markers.js'
@@ -69,6 +71,21 @@ export class Building {
         this.rotation = spec.rotate === true ? (options.rotation ?? 0) : 0
         this.config = null
         this.spec = spec
+
+        /*
+         * Соседи и указатель раздачи. `BuildingComp.proximity` — здания вокруг блока
+         * в порядке `Edges.getEdges`, `cdump` — на ком остановились в прошлый раз: предметы
+         * раздаются по кругу, иначе первый же сосед забирал бы всё.
+         */
+        this.proximity = []
+        this.cdump = 0
+
+        /*
+         * Таймеры блока, как `Interval` в игре: хранят время последнего срабатывания
+         * и сравниваются с общим временем мира. Начинаются с минус бесконечности, потому
+         * что в игре часы идут задолго до постройки и первая же проверка срабатывает.
+         */
+        this.timers = new Float64Array(TIMERS).fill(-Infinity)
 
         // Хранилище есть не у всех: у процессора и сообщения его нет вовсе
         this.items = spec.hasItems ? new Map() : null
@@ -181,6 +198,9 @@ export class Building {
         this.efficiency = this.initial.efficiency
         this.rotation = this.initial.rotation
         this.config = null
+        this.cdump = 0
+        this.timers.fill(-Infinity)
+        this.items?.clear()
     }
 
     /**
@@ -252,8 +272,122 @@ export class Building {
     }
 
     /** Вызывается миром каждый тик. Базовому зданию делать нечего. */
+    /**
+     * Такт здания. Заготовка пустая: работают только те блоки, которым есть что делать,
+     * и каждый делает это в своём классе — как в игре, где `updateTile` переопределяют.
+     */
     update() { }
+
+    /**
+     * Сработал ли таймер. `Interval.get`: время у мира одно на всех, у здания хранится
+     * только отметка последнего срабатывания. Поэтому таймер не копит дельту и не врёт
+     * при рывках кадра. Interval.java:20-30
+     */
+    timer(id, period) {
+        const now = this.world?.tick ?? 0
+        const last = this.timers[id]
+
+        if (now - last < period && now >= last) return false
+
+        this.timers[id] = now
+        return true
+    }
+
+    /** `BuildingComp.acceptItem`: берут только то, что потребляют, и только до вместимости. */
+    acceptItem(source, item) {
+        return this.consumesItem(item) && (this.items?.get(item) ?? 0) < this.maximumAccepted(item)
+    }
+
+    /** `Block.consumesItem`: фильтр предметов собирается из потребления блока. */
+    consumesItem(item) {
+        return (this.spec.consumes ?? []).some(consume => consume.kind === 'items'
+            && consume.items.some(stack => stack.item === item))
+    }
+
+    handleItem(source, item) {
+        this.handleStack(item, 1)
+    }
+
+    /** `BuildingComp.canDump`: у обычного блока запретов нет, у сортировщика и моста есть. */
+    canDump() {
+        return true
+    }
+
+    incrementDump(size) {
+        this.cdump = (this.cdump + 1) % size
+    }
+
+    /**
+     * Отдать один предмет соседу. `BuildingComp.dump`: обход соседей по кругу от `cdump`,
+     * у каждого перебор предметов в порядке описи игры. Без предмета отдаётся первый, какой
+     * возьмут.
+     */
+    dump(item = null) {
+        if (this.items === null || this.proximity.length === 0) return false
+        if (item !== null && (this.items.get(item) ?? 0) <= 0) return false
+
+        const total = [...this.items.values()].reduce((sum, value) => sum + value, 0)
+        if (total === 0) return false
+
+        const start = this.cdump
+        const size = this.proximity.length
+
+        for (let i = 0; i < size; i++) {
+            const other = this.proximity[(i + start) % size]
+
+            for (const name of item === null ? ITEM_ORDER : [item]) {
+                if ((this.items.get(name) ?? 0) <= 0) continue
+
+                if (other.acceptItem(this, name) && this.canDump(other, name)) {
+                    other.handleItem(this, name)
+                    this.removeStack(name, 1)
+                    this.incrementDump(size)
+                    return true
+                }
+            }
+
+            this.incrementDump(size)
+        }
+
+        return false
+    }
+
+    /**
+     * Отдать соседу только что произведённое, а если никто не берёт — оставить себе.
+     * `BuildingComp.offload`. Отличие от `dump` не только в этом: указатель здесь двигается
+     * до проверки, а не после.
+     */
+    offload(item) {
+        const size = this.proximity.length
+        const start = this.cdump
+
+        for (let i = 0; i < size; i++) {
+            this.incrementDump(size)
+            const other = this.proximity[(i + start) % size]
+
+            if (other.acceptItem(this, item) && this.canDump(other, item)) {
+                other.handleItem(this, item)
+                return
+            }
+        }
+
+        this.handleItem(this, item)
+    }
 }
+
+/** Сколько таймеров держит здание. В игре их у каждого блока свой набор, у нас общий. */
+const TIMERS = 4
+
+/** Номера таймеров: раздача содержимого соседям — `BuildingComp.timerDump`. */
+export const TIMER_DUMP = 0
+
+/**
+ * Предметы в порядке описи игры: по нему `dump` перебирает содержимое, и от него зависит,
+ * что уедет соседу первым.
+ */
+const ITEM_ORDER = Object.entries(materials.items)
+    .sort(([, first], [, second]) => first.id - second.id)
+    .map(([name]) => name)
 
 /** LVar.bool: порог 1e-5. Здесь он же, чтобы control вёл себя как в игре. */
 const truthy = (value) => typeof value === 'number' ? Math.abs(value) >= 0.00001 : value !== null
@@ -384,6 +518,17 @@ export class DisplayBuilding extends Building {
     }
 }
 
+/**
+ * Склад: контейнер, хранилище, ядро. `StorageBlock.acceptItem` не смотрит на фильтр
+ * потребления — берёт что угодно, пока есть место. Этим склад и отличается от фабрики,
+ * которая примет только своё сырьё.
+ */
+export class StorageBuilding extends Building {
+    acceptItem(source, item) {
+        return (this.items?.get(item) ?? 0) < this.maximumAccepted(item)
+    }
+}
+
 /** Тумблер: единственное, что он умеет — быть включённым. */
 export class SwitchBuilding extends Building { }
 
@@ -437,14 +582,41 @@ export class DoorBuilding extends Building {
     }
 }
 
+/**
+ * Какой класс отвечает за блок.
+ *
+ * Ключ — класс блока в самой игре (`javaClasses` из выгрузки), а не имя блока: в игре
+ * поведение задаёт класс, и памяти всё равно, ячейка она или банк. Список по именам пришлось
+ * бы дописывать на каждый новый блок, а так `StorageBlock` разом накрывает контейнер,
+ * хранилище и оба усиленных.
+ */
 const BUILDERS = {
-    'memory-cell': MemoryBuilding,
-    'memory-bank': MemoryBuilding,
-    'logic-display': DisplayBuilding,
-    'large-logic-display': DisplayBuilding,
-    message: MessageBuilding,
-    switch: SwitchBuilding,
-    door: DoorBuilding
+    MemoryBlock: MemoryBuilding,
+    LogicDisplay: DisplayBuilding,
+    MessageBlock: MessageBuilding,
+    SwitchBlock: SwitchBuilding,
+    Door: DoorBuilding,
+    StorageBlock: StorageBuilding
+}
+
+/** Первый подходящий класс из цепочки наследования: от своего к общему. */
+export function builderFor(type) {
+    for (const name of BLOCK_SPECS[type]?.javaClasses ?? []) {
+        const found = BUILDERS[name] ?? EXTRA_BUILDERS[name]
+        if (found !== undefined) return found
+    }
+
+    return Building
+}
+
+/**
+ * Классы, которые живут в других файлах: производство завело бы в `world.js` рецепты
+ * и руду, а этому файлу и так есть чем заняться. Заполняется при загрузке `production.js`.
+ */
+const EXTRA_BUILDERS = {}
+
+export function registerBuilders(entries) {
+    Object.assign(EXTRA_BUILDERS, entries)
 }
 
 /**
@@ -605,13 +777,39 @@ export class World {
             this.processors = this.processors.filter(item => item !== building.processor)
         }
 
+        // Соседи снесённого остаются с ссылкой на него, если их не пересчитать
+        for (const other of building.proximity) this.updateProximity(other)
+        building.proximity = []
+
         this.terrainVersion++
         return this
     }
 
+    /**
+     * Пересчитывает соседей здания. `BuildingComp.updateProximity`: соседи берутся
+     * по клеткам вокруг блока в порядке `Edges.getEdges` и только своей команды —
+     * чужому складу руду не отдают.
+     */
+    updateProximity(building) {
+        const seen = new Set()
+        const found = []
+
+        for (const point of edgeOffsets(building.size)) {
+            const other = this.at(building.x + point.x, building.y + point.y)
+
+            if (other === undefined || other.team !== building.team || seen.has(other)) continue
+
+            seen.add(other)
+            found.push(other)
+        }
+
+        building.proximity = found
+        return building
+    }
+
     /** Ставит здание и выдаёт ему имя связи по типу и порядку подключения. */
     add(type, options = {}) {
-        const Kind = BUILDERS[type] ?? Building
+        const Kind = builderFor(type)
         const building = new Kind(this, type, options)
 
         const prefix = linkName(type)
@@ -620,6 +818,10 @@ export class World {
         building.name = options.name ?? `${prefix}${index}`
 
         this.buildings.push(building)
+
+        this.updateProximity(building)
+        for (const other of building.proximity) this.updateProximity(other)
+
         return building
     }
 
@@ -765,7 +967,7 @@ export class World {
         this.objectives.update(this, delta)
 
         for (const unit of this.units) unit.update(delta)
-        for (const building of this.buildings) building.update()
+        for (const building of this.buildings) building.update(delta)
         for (const processor of this.processors) processor.tick(delta)
 
         return this.tick

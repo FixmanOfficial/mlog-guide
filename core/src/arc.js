@@ -435,6 +435,12 @@ export const clamp = (value, min = 0, max = 1) => f(Math.max(Math.min(value, max
 /** Mathf.approach: шаг к цели, но не дальше неё. */
 export const approach = (from, to, speed) => f(from + clamp(f(to - from), -speed, speed))
 
+/** Mathf.approachDelta: тот же шаг, но за прошедшее время. Mathf.java:420 */
+export const approachDelta = (from, to, speed, delta = 1) => approach(from, to, delta * speed)
+
+/** Mathf.lerp: линейно между двумя значениями. */
+export const lerp = (from, to, progress) => f(from + f(to - from) * progress)
+
 /** Angles.within */
 export const within = (a, b, margin) => angleDist(a, b) <= margin
 

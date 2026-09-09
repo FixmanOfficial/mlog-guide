@@ -11,7 +11,9 @@
       "flammability": 0,
       "radioactivity": 0,
       "charge": 0,
-      "buildable": true
+      "buildable": true,
+      "lowPriority": false,
+      "id": 0
     },
     "lead": {
       "color": "#8c7fa9",
@@ -21,7 +23,9 @@
       "flammability": 0,
       "radioactivity": 0,
       "charge": 0,
-      "buildable": true
+      "buildable": true,
+      "lowPriority": false,
+      "id": 1
     },
     "metaglass": {
       "color": "#ebeef5",
@@ -31,7 +35,9 @@
       "flammability": 0,
       "radioactivity": 0,
       "charge": 0,
-      "buildable": true
+      "buildable": true,
+      "lowPriority": false,
+      "id": 2
     },
     "graphite": {
       "color": "#b2c6d2",
@@ -41,7 +47,9 @@
       "flammability": 0,
       "radioactivity": 0,
       "charge": 0,
-      "buildable": true
+      "buildable": true,
+      "lowPriority": false,
+      "id": 3
     },
     "sand": {
       "color": "#f7cba4",
@@ -51,7 +59,9 @@
       "flammability": 0,
       "radioactivity": 0,
       "charge": 0,
-      "buildable": false
+      "buildable": false,
+      "lowPriority": true,
+      "id": 4
     },
     "coal": {
       "color": "#272727",
@@ -61,7 +71,9 @@
       "flammability": 1,
       "radioactivity": 0,
       "charge": 0,
-      "buildable": false
+      "buildable": false,
+      "lowPriority": false,
+      "id": 5
     },
     "titanium": {
       "color": "#8da1e3",
@@ -71,7 +83,9 @@
       "flammability": 0,
       "radioactivity": 0,
       "charge": 0,
-      "buildable": true
+      "buildable": true,
+      "lowPriority": false,
+      "id": 6
     },
     "thorium": {
       "color": "#f9a3c7",
@@ -81,7 +95,9 @@
       "flammability": 0,
       "radioactivity": 1,
       "charge": 0,
-      "buildable": true
+      "buildable": true,
+      "lowPriority": false,
+      "id": 7
     },
     "scrap": {
       "color": "#777777",
@@ -91,7 +107,9 @@
       "flammability": 0,
       "radioactivity": 0,
       "charge": 0,
-      "buildable": true
+      "buildable": true,
+      "lowPriority": false,
+      "id": 8
     },
     "silicon": {
       "color": "#53565c",
@@ -101,7 +119,9 @@
       "flammability": 0,
       "radioactivity": 0,
       "charge": 0,
-      "buildable": true
+      "buildable": true,
+      "lowPriority": false,
+      "id": 9
     },
     "plastanium": {
       "color": "#cbd97f",
@@ -111,7 +131,9 @@
       "flammability": 0.1,
       "radioactivity": 0,
       "charge": 0,
-      "buildable": true
+      "buildable": true,
+      "lowPriority": false,
+      "id": 10
     },
     "phase-fabric": {
       "color": "#f4ba6e",
@@ -121,7 +143,9 @@
       "flammability": 0,
       "radioactivity": 0.6,
       "charge": 0,
-      "buildable": true
+      "buildable": true,
+      "lowPriority": false,
+      "id": 11
     },
     "surge-alloy": {
       "color": "#f3e979",
@@ -131,7 +155,9 @@
       "flammability": 0,
       "radioactivity": 0,
       "charge": 0.75,
-      "buildable": true
+      "buildable": true,
+      "lowPriority": false,
+      "id": 12
     },
     "spore-pod": {
       "color": "#7457ce",
@@ -141,7 +167,9 @@
       "flammability": 1.15,
       "radioactivity": 0,
       "charge": 0,
-      "buildable": false
+      "buildable": false,
+      "lowPriority": false,
+      "id": 13
     },
     "blast-compound": {
       "color": "#ff795e",
@@ -151,7 +179,9 @@
       "flammability": 0.4,
       "radioactivity": 0,
       "charge": 0,
-      "buildable": false
+      "buildable": false,
+      "lowPriority": false,
+      "id": 14
     },
     "pyratite": {
       "color": "#ffaa5f",
@@ -161,7 +191,9 @@
       "flammability": 1.4,
       "radioactivity": 0,
       "charge": 0,
-      "buildable": false
+      "buildable": false,
+      "lowPriority": false,
+      "id": 15
     },
     "beryllium": {
       "color": "#3a8f64",
@@ -171,7 +203,9 @@
       "flammability": 0,
       "radioactivity": 0,
       "charge": 0,
-      "buildable": true
+      "buildable": true,
+      "lowPriority": false,
+      "id": 16
     },
     "tungsten": {
       "color": "#768a9a",
@@ -181,7 +215,9 @@
       "flammability": 0,
       "radioactivity": 0,
       "charge": 0,
-      "buildable": true
+      "buildable": true,
+      "lowPriority": false,
+      "id": 17
     },
     "oxide": {
       "color": "#e4ffd6",
@@ -191,7 +227,9 @@
       "flammability": 0,
       "radioactivity": 0,
       "charge": 0,
-      "buildable": true
+      "buildable": true,
+      "lowPriority": false,
+      "id": 18
     },
     "carbide": {
       "color": "#89769a",
@@ -201,7 +239,9 @@
       "flammability": 0,
       "radioactivity": 0,
       "charge": 0,
-      "buildable": true
+      "buildable": true,
+      "lowPriority": false,
+      "id": 19
     },
     "fissile-matter": {
       "color": "#5e988d",
@@ -211,7 +251,9 @@
       "flammability": 0,
       "radioactivity": 1.5,
       "charge": 0,
-      "buildable": true
+      "buildable": true,
+      "lowPriority": false,
+      "id": 20
     },
     "dormant-cyst": {
       "color": "#df824d",
@@ -221,7 +263,9 @@
       "flammability": 0.1,
       "radioactivity": 0,
       "charge": 0,
-      "buildable": true
+      "buildable": true,
+      "lowPriority": false,
+      "id": 21
     }
   },
   "liquids": {
