@@ -94,6 +94,9 @@
 | **Блок ставится поверх блока**: `canReplace` разрешает замену, если старый `replaceable`, у него та же группа и он умещается под новым. Ради этого `BlockGroup` и заведён | `world/Block.java:782-787` | ✓ `placement.test.js` |
 | **Тот же блок заменяет сам себя только ради поворота**: условие `other != this \|\| (rotate && quickRotate)`. Так и разворачивают конвейер на углу — ставят его поверх себя другим поворотом | `world/Block.java:785` | ✓ `placement.test.js` |
 | Тот же блок тем же поворотом ставить некуда: `validPlace` отказывает явной строкой `type == check.block() && rotation == check.build.rotation && type.rotate` | `world/Build.java:255` | ✓ `placement.test.js` |
+| **Конвейер рисуется не одним спрайтом, а таблицей** `regions[7][4]`: вид стыковки на кадр хода. Вид считает `Autotiler.buildBlending` по трём сторонам — слева, сзади, справа, — а `transformCase` переводит шесть случаев в пять картинок: лишние получаются отражением по вертикали (`blendscly = -1`) | `world/blocks/Autotiler.java:96-160`, `Conveyor.draw` | ✓ `distribution.test.js` |
+| Стыковка не про соседство, а про предметы: сосед должен либо отдавать предметы, либо принимать их и стоять прямо по ходу ленты, и при этом кто-то из двоих должен смотреть на другого. Неповорачиваемый блок считается смотрящим всегда | `Conveyor.blends`, `Autotiler.lookingAtEither` | ✓ `distribution.test.js` |
+| `updateProximity` зовёт `onProximityUpdate` не только у себя, но и у каждого соседа: иначе поставленный конвейер перерисовал бы себя, а сосед остался бы прямым | `entities/comp/BuildingComp.java:1905-1910` | ✓ `distribution.test.js` |
 | Линия, доведённая до конвейера или трубы (`ChainedBuilding`), не разворачивает его: последний блок берёт **его** поворот. Правило отменяется, если предпоследняя клетка тоже звено цепи | `input/InputHandler.java:2455-2460,2487` | ✓ `placement.test.js` |
 
 ## Время

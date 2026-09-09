@@ -4,7 +4,7 @@
   "note": "Файл сгенерирован, править вручную нельзя. Спрайты лежат в своём разрешении: сторона блока в тайлах, умноженная на 32.",
   "atlas": "render/assets/blocks.png",
   "width": 2048,
-  "height": 1632,
+  "height": 1666,
   "sprites": {
     "tetrative-reconstructor": {
       "x": 1,
@@ -1518,369 +1518,729 @@
       "width": 32,
       "height": 32
     },
-    "titanium-conveyor": {
+    "conveyor-0-0": {
       "x": 827,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "plastanium-conveyor": {
+    "conveyor-0-1": {
       "x": 861,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "armored-conveyor": {
+    "conveyor-0-2": {
       "x": 895,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "junction": {
+    "conveyor-0-3": {
       "x": 929,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "bridge-conveyor": {
+    "conveyor-1-0": {
       "x": 963,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "phase-conveyor": {
+    "conveyor-1-1": {
       "x": 997,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "sorter": {
+    "conveyor-1-2": {
       "x": 1031,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "inverted-sorter": {
+    "conveyor-1-3": {
       "x": 1065,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "router": {
+    "conveyor-2-0": {
       "x": 1099,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "overflow-gate": {
+    "conveyor-2-1": {
       "x": 1133,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "underflow-gate": {
+    "conveyor-2-2": {
       "x": 1167,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "unloader": {
+    "conveyor-2-3": {
       "x": 1201,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "duct": {
+    "conveyor-3-0": {
       "x": 1235,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "armored-duct": {
+    "conveyor-3-1": {
       "x": 1269,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "duct-router": {
+    "conveyor-3-2": {
       "x": 1303,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "overflow-duct": {
+    "conveyor-3-3": {
       "x": 1337,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "underflow-duct": {
+    "conveyor-4-0": {
       "x": 1371,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "duct-bridge": {
+    "conveyor-4-1": {
       "x": 1405,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "duct-unloader": {
+    "conveyor-4-2": {
       "x": 1439,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "surge-conveyor": {
+    "conveyor-4-3": {
       "x": 1473,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "surge-router": {
+    "titanium-conveyor": {
       "x": 1507,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "mechanical-pump": {
+    "titanium-conveyor-0-0": {
       "x": 1541,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "conduit": {
+    "titanium-conveyor-0-1": {
       "x": 1575,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "pulse-conduit": {
+    "titanium-conveyor-0-2": {
       "x": 1609,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "plated-conduit": {
+    "titanium-conveyor-0-3": {
       "x": 1643,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "liquid-router": {
+    "titanium-conveyor-1-0": {
       "x": 1677,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "liquid-junction": {
+    "titanium-conveyor-1-1": {
       "x": 1711,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "bridge-conduit": {
+    "titanium-conveyor-1-2": {
       "x": 1745,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "phase-conduit": {
+    "titanium-conveyor-1-3": {
       "x": 1779,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "reinforced-conduit": {
+    "titanium-conveyor-2-0": {
       "x": 1813,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "reinforced-liquid-junction": {
+    "titanium-conveyor-2-1": {
       "x": 1847,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "reinforced-bridge-conduit": {
+    "titanium-conveyor-2-2": {
       "x": 1881,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "reinforced-liquid-router": {
+    "titanium-conveyor-2-3": {
       "x": 1915,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "power-node": {
+    "titanium-conveyor-3-0": {
       "x": 1949,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "diode": {
+    "titanium-conveyor-3-1": {
       "x": 1983,
       "y": 1563,
       "width": 32,
       "height": 32
     },
-    "battery": {
+    "titanium-conveyor-3-2": {
       "x": 1,
       "y": 1599,
       "width": 32,
       "height": 32
     },
-    "combustion-generator": {
+    "titanium-conveyor-3-3": {
       "x": 35,
       "y": 1599,
       "width": 32,
       "height": 32
     },
-    "solar-panel": {
+    "titanium-conveyor-4-0": {
       "x": 69,
       "y": 1599,
       "width": 32,
       "height": 32
     },
-    "beam-node": {
+    "titanium-conveyor-4-1": {
       "x": 103,
       "y": 1599,
       "width": 32,
       "height": 32
     },
-    "duo": {
+    "titanium-conveyor-4-2": {
       "x": 137,
       "y": 1599,
       "width": 32,
       "height": 32
     },
-    "power-source": {
+    "titanium-conveyor-4-3": {
       "x": 171,
       "y": 1599,
       "width": 32,
       "height": 32
     },
-    "power-void": {
+    "plastanium-conveyor": {
       "x": 205,
       "y": 1599,
       "width": 32,
       "height": 32
     },
-    "item-source": {
+    "armored-conveyor": {
       "x": 239,
       "y": 1599,
       "width": 32,
       "height": 32
     },
-    "item-void": {
+    "armored-conveyor-0-0": {
       "x": 273,
       "y": 1599,
       "width": 32,
       "height": 32
     },
-    "liquid-source": {
+    "armored-conveyor-0-1": {
       "x": 307,
       "y": 1599,
       "width": 32,
       "height": 32
     },
-    "liquid-void": {
+    "armored-conveyor-0-2": {
       "x": 341,
       "y": 1599,
       "width": 32,
       "height": 32
     },
-    "heat-source": {
+    "armored-conveyor-0-3": {
       "x": 375,
       "y": 1599,
       "width": 32,
       "height": 32
     },
-    "illuminator": {
+    "armored-conveyor-1-0": {
       "x": 409,
       "y": 1599,
       "width": 32,
       "height": 32
     },
-    "message": {
+    "armored-conveyor-1-1": {
       "x": 443,
       "y": 1599,
       "width": 32,
       "height": 32
     },
-    "switch": {
+    "armored-conveyor-1-2": {
       "x": 477,
       "y": 1599,
       "width": 32,
       "height": 32
     },
-    "micro-processor": {
+    "armored-conveyor-1-3": {
       "x": 511,
       "y": 1599,
       "width": 32,
       "height": 32
     },
-    "memory-cell": {
+    "armored-conveyor-2-0": {
       "x": 545,
       "y": 1599,
       "width": 32,
       "height": 32
     },
-    "tile-logic-display": {
+    "armored-conveyor-2-1": {
       "x": 579,
       "y": 1599,
       "width": 32,
       "height": 32
     },
-    "reinforced-message": {
+    "armored-conveyor-2-2": {
       "x": 613,
       "y": 1599,
       "width": 32,
       "height": 32
     },
-    "world-processor": {
+    "armored-conveyor-2-3": {
       "x": 647,
       "y": 1599,
       "width": 32,
       "height": 32
     },
-    "world-cell": {
+    "armored-conveyor-3-0": {
       "x": 681,
       "y": 1599,
       "width": 32,
       "height": 32
     },
-    "world-message": {
+    "armored-conveyor-3-1": {
       "x": 715,
       "y": 1599,
       "width": 32,
       "height": 32
     },
-    "world-switch": {
+    "armored-conveyor-3-2": {
       "x": 749,
       "y": 1599,
       "width": 32,
       "height": 32
     },
-    "switch-on": {
+    "armored-conveyor-3-3": {
       "x": 783,
       "y": 1599,
       "width": 32,
       "height": 32
     },
-    "door-open": {
+    "armored-conveyor-4-0": {
       "x": 817,
       "y": 1599,
       "width": 32,
       "height": 32
     },
-    "block-select": {
+    "armored-conveyor-4-1": {
       "x": 851,
       "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "armored-conveyor-4-2": {
+      "x": 885,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "armored-conveyor-4-3": {
+      "x": 919,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "junction": {
+      "x": 953,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "bridge-conveyor": {
+      "x": 987,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "phase-conveyor": {
+      "x": 1021,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "sorter": {
+      "x": 1055,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "inverted-sorter": {
+      "x": 1089,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "router": {
+      "x": 1123,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "overflow-gate": {
+      "x": 1157,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "underflow-gate": {
+      "x": 1191,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "unloader": {
+      "x": 1225,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "duct": {
+      "x": 1259,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "armored-duct": {
+      "x": 1293,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "duct-router": {
+      "x": 1327,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "overflow-duct": {
+      "x": 1361,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "underflow-duct": {
+      "x": 1395,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "duct-bridge": {
+      "x": 1429,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "duct-unloader": {
+      "x": 1463,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "surge-conveyor": {
+      "x": 1497,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "surge-router": {
+      "x": 1531,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "mechanical-pump": {
+      "x": 1565,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "conduit": {
+      "x": 1599,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "pulse-conduit": {
+      "x": 1633,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "plated-conduit": {
+      "x": 1667,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "liquid-router": {
+      "x": 1701,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "liquid-junction": {
+      "x": 1735,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "bridge-conduit": {
+      "x": 1769,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "phase-conduit": {
+      "x": 1803,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "reinforced-conduit": {
+      "x": 1837,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "reinforced-liquid-junction": {
+      "x": 1871,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "reinforced-bridge-conduit": {
+      "x": 1905,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "reinforced-liquid-router": {
+      "x": 1939,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "power-node": {
+      "x": 1973,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "diode": {
+      "x": 2007,
+      "y": 1599,
+      "width": 32,
+      "height": 32
+    },
+    "battery": {
+      "x": 1,
+      "y": 1633,
+      "width": 32,
+      "height": 32
+    },
+    "combustion-generator": {
+      "x": 35,
+      "y": 1633,
+      "width": 32,
+      "height": 32
+    },
+    "solar-panel": {
+      "x": 69,
+      "y": 1633,
+      "width": 32,
+      "height": 32
+    },
+    "beam-node": {
+      "x": 103,
+      "y": 1633,
+      "width": 32,
+      "height": 32
+    },
+    "duo": {
+      "x": 137,
+      "y": 1633,
+      "width": 32,
+      "height": 32
+    },
+    "power-source": {
+      "x": 171,
+      "y": 1633,
+      "width": 32,
+      "height": 32
+    },
+    "power-void": {
+      "x": 205,
+      "y": 1633,
+      "width": 32,
+      "height": 32
+    },
+    "item-source": {
+      "x": 239,
+      "y": 1633,
+      "width": 32,
+      "height": 32
+    },
+    "item-void": {
+      "x": 273,
+      "y": 1633,
+      "width": 32,
+      "height": 32
+    },
+    "liquid-source": {
+      "x": 307,
+      "y": 1633,
+      "width": 32,
+      "height": 32
+    },
+    "liquid-void": {
+      "x": 341,
+      "y": 1633,
+      "width": 32,
+      "height": 32
+    },
+    "heat-source": {
+      "x": 375,
+      "y": 1633,
+      "width": 32,
+      "height": 32
+    },
+    "illuminator": {
+      "x": 409,
+      "y": 1633,
+      "width": 32,
+      "height": 32
+    },
+    "message": {
+      "x": 443,
+      "y": 1633,
+      "width": 32,
+      "height": 32
+    },
+    "switch": {
+      "x": 477,
+      "y": 1633,
+      "width": 32,
+      "height": 32
+    },
+    "micro-processor": {
+      "x": 511,
+      "y": 1633,
+      "width": 32,
+      "height": 32
+    },
+    "memory-cell": {
+      "x": 545,
+      "y": 1633,
+      "width": 32,
+      "height": 32
+    },
+    "tile-logic-display": {
+      "x": 579,
+      "y": 1633,
+      "width": 32,
+      "height": 32
+    },
+    "reinforced-message": {
+      "x": 613,
+      "y": 1633,
+      "width": 32,
+      "height": 32
+    },
+    "world-processor": {
+      "x": 647,
+      "y": 1633,
+      "width": 32,
+      "height": 32
+    },
+    "world-cell": {
+      "x": 681,
+      "y": 1633,
+      "width": 32,
+      "height": 32
+    },
+    "world-message": {
+      "x": 715,
+      "y": 1633,
+      "width": 32,
+      "height": 32
+    },
+    "world-switch": {
+      "x": 749,
+      "y": 1633,
+      "width": 32,
+      "height": 32
+    },
+    "switch-on": {
+      "x": 783,
+      "y": 1633,
+      "width": 32,
+      "height": 32
+    },
+    "door-open": {
+      "x": 817,
+      "y": 1633,
+      "width": 32,
+      "height": 32
+    },
+    "block-select": {
+      "x": 851,
+      "y": 1633,
       "width": 32,
       "height": 32
     }

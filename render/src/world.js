@@ -470,6 +470,14 @@ export class WorldView {
 
         // Открытая дверь рисуется своим спрайтом целиком, а не поверх закрытой. Door.draw
         const open = building.type === 'door' && building.open
+
+        // У конвейера свой путь: кусок ленты по соседям и кадру хода. Conveyor.draw
+        if (building.blendbits !== undefined) {
+            this.drawBelt(building, cx, cy, side)
+            this.drawLineItems(building, cx, cy)
+            return
+        }
+
         const icon = this.sprite(open ? 'door-open' : building.type)
 
         if (icon === null) {
@@ -500,6 +508,34 @@ export class WorldView {
             const screen = building.spec.displaySize * SCALE_FACTOR / SPRITE_SCALE * this.unit
             context.drawImage(picture, cx - screen / 2, cy - screen / 2, screen, screen)
         }
+    }
+
+    /**
+     * Лента конвейера. `Conveyor.draw`
+     *
+     * Рисунок берётся из таблицы `regions[blendbits][кадр]`: пять видов соединения на четыре
+     * кадра хода. Размер — ровно тайл, а не размер спрайта: игра так и пишет,
+     * `tilesize * blendsclx` на `tilesize * blendscly`. Минус единица там означает отражение,
+     * поэтому угол налево и угол направо — одна и та же картинка, перевёрнутая.
+     *
+     * Кадр считается от времени мира и скорости ленты, а не от часов браузера: перерисовка
+     * одного и того же тика должна давать одну и ту же картинку.
+     */
+    drawBelt(building, cx, cy, side) {
+        const speed = building.spec.speed ?? 0
+        const moving = building.enabled !== false
+
+        const frame = moving ? Math.floor(this.world.tick * speed * 8) % 4 : 0
+        const icon = this.sprite(`${building.type}-${building.blendbits}-${frame}`)
+
+        if (icon === null) return
+
+        const context = this.context
+
+        this.rotated(cx, cy, this.blockAngle(building), () => {
+            context.scale(building.blendsclx, building.blendscly)
+            context.drawImage(icon, -side / 2, -side / 2, side, side)
+        })
     }
 
     /**

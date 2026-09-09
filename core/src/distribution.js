@@ -12,7 +12,7 @@
 
 import {Building, registerBuilders} from './world.js'
 import {facingEdge} from './edges.js'
-import {approach, clamp} from './arc.js'
+import {approach, clamp, mod} from './arc.js'
 
 /** `Conveyor.itemSpace`: ближе этого предметы на ленте не стоят. Conveyor.java:27 */
 const ITEM_SPACE = 0.4
@@ -42,6 +42,14 @@ export class ConveyorBuilding extends Building {
         this.line = []
         this.minitem = 1
         this.mid = 0
+
+        /*
+         * Вид соединения и отражение спрайта: их считает `Autotiler` по соседям, а рисунок
+         * берётся из таблицы `regions[blendbits][кадр]`. Ноль — прямой участок.
+         */
+        this.blendbits = 0
+        this.blendsclx = 1
+        this.blendscly = 1
     }
 
     reset() {
@@ -50,6 +58,102 @@ export class ConveyorBuilding extends Building {
         this.line = []
         this.minitem = 1
         this.mid = 0
+    }
+
+    /**
+     * Сосед в направлении `dir`, где ноль — вправо. `Tile.nearbyBuild`
+     *
+     * Направление здесь абсолютное, не относительно ленты: `blends` переводит одно в другое.
+     */
+    nearby(dir) {
+        const step = D4[dir]
+        return this.world.at(this.x + step.x, this.y + step.y) ?? null
+    }
+
+    /**
+     * Смотрит ли лента в этот блок. `Autotiler.lookingAt`
+     *
+     * У блока крупнее клетки берётся не его тайл, а ближний к нам край: иначе лента,
+     * упирающаяся в угол склада, считалась бы смотрящей мимо.
+     */
+    lookingAt(other) {
+        const facing = facingEdge(other, this.x, this.y)
+        if (facing === null) return false
+
+        const step = D4[this.rotation]
+        return this.x + step.x === facing.x && this.y + step.y === facing.y
+    }
+
+    /**
+     * Смотрит ли кто-то из двоих на другого. `Autotiler.lookingAtEither`
+     *
+     * Неповорачиваемый блок считается смотрящим на нас всегда: у склада нет направления,
+     * и лента стыкуется с ним с любой стороны.
+     */
+    lookingAtEither(other) {
+        const step = D4[this.rotation]
+        if (this.x + step.x === other.x && this.y + step.y === other.y) return true
+
+        // `Block.rotatedOutput` по умолчанию это `rotate`
+        if (other.spec.rotate !== true) return true
+
+        const back = D4[other.rotation]
+        return other.x + back.x === this.x && other.y + back.y === this.y
+    }
+
+    /**
+     * Стыкуется ли лента с блоком в направлении `direction`, считая от самой ленты:
+     * ноль — прямо по ходу, единица — слева, тройка — справа. `Autotiler.blends`
+     *
+     * Само правило — из `Conveyor.blends`: сосед должен либо отдавать предметы, либо
+     * принимать их и стоять прямо по ходу ленты, и при этом кто-то из двоих должен
+     * смотреть на другого.
+     */
+    blends(direction) {
+        const other = this.nearby(mod(this.rotation - direction, 4))
+        if (other === null || other.team !== this.team) return false
+
+        const gives = other.spec.hasItems === true
+        const takes = this.lookingAt(other) && other.spec.hasItems === true
+
+        return (gives || takes) && this.lookingAtEither(other)
+    }
+
+    /**
+     * Вид соединения по соседям. `Autotiler.buildBlending` вместе с `transformCase`.
+     *
+     * Пять картинок на все случаи: прямая, угол, тройник и их отражения. Отражение —
+     * это не отдельный спрайт, а минус единица по вертикали, поэтому угол налево и угол
+     * направо рисуются одной и той же картинкой.
+     *
+     * Маску [4] игра считает для блоков с неквадратным спрайтом — это протоки, которых
+     * у нас нет; их кусок ленты, дорисованный поверх соседа, поэтому и не переносится.
+     */
+    onProximityUpdate() {
+        const left = this.blends(1)
+        const right = this.blends(3)
+        const behind = this.blends(2)
+
+        const num = behind && left && right ? 0
+            : left && right ? 1
+            : left && behind ? 2
+            : right && behind ? 3
+            : left ? 4
+            : right ? 5
+            : -1
+
+        this.blendbits = 0
+        this.blendsclx = 1
+        this.blendscly = 1
+
+        switch (num) {
+            case 0: this.blendbits = 3; break
+            case 1: this.blendbits = 4; break
+            case 2: this.blendbits = 2; break
+            case 3: this.blendbits = 2; this.blendscly = -1; break
+            case 4: this.blendbits = 1; this.blendscly = -1; break
+            case 5: this.blendbits = 1; break
+        }
     }
 
     /** Здание, в которое смотрит лента. `BuildingComp.front` */

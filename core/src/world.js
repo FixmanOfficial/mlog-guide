@@ -247,6 +247,12 @@ export class Building {
         return -Math.trunc((this.size - 1) / 2)
     }
 
+    /**
+     * Соседи пересчитаны. `BuildingComp.onProximityUpdate` — у большинства блоков пусто,
+     * а конвейер по нему выбирает, каким куском ленты нарисоваться.
+     */
+    onProximityUpdate() {}
+
     /** Общие свойства, Block.sense плюс базовая часть Building.sense. */
     sense(property) {
         switch (property) {
@@ -835,6 +841,14 @@ export class World {
         }
 
         building.proximity = found
+
+        /*
+         * Пересчёт узнаёт и сам блок, и его соседи: у конвейера от соседей зависит рисунок,
+         * и поставленный рядом блок должен перерисовать не только себя. BuildingComp:1905-1910
+         */
+        building.onProximityUpdate()
+        for (const other of found) other.onProximityUpdate()
+
         return building
     }
 

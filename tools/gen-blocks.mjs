@@ -56,6 +56,22 @@ const STATES = ['switch-on', 'door-open']
 const MARKS = ['block-select']
 
 /**
+ * Конвейеры рисуются не одним спрайтом, а таблицей: пять видов соединения на четыре кадра
+ * хода ленты. Вид выбирается по соседям (`Autotiler.buildBlending`), кадр — по времени
+ * и скорости (`Conveyor.draw`). Без этой таблицы лента на повороте остаётся прямой,
+ * а угол в игре нарисован отдельной картинкой.
+ *
+ * Индексы соединений: 0 прямой, 1 угол, 2 прямой снизу, 3 со всех сторон, 4 прямой сверху.
+ */
+const TILING = 5
+const FRAMES = 4
+
+/** Конвейеры среди блоков: у них та самая таблица. Наложенный конвейер устроен иначе. */
+const CONVEYORS = Object.entries(BLOCK_SPECS)
+    .filter(([, spec]) => spec.javaClasses?.includes('Conveyor'))
+    .map(([name]) => name)
+
+/**
  * Команды со своей палитрой: у них накладка нарисована отдельным спрайтом и в цвет
  * не красится. У остальных берётся общая накладка и перекрашивается цветом команды.
  * `Block.init`: `teamRegions[team.id] = ... team.hasPalette ? find(name + "-team-" + team.name, teamRegion) : teamRegion`
@@ -78,7 +94,7 @@ function main() {
          *    служит `<имя>-0-0` — прямой участок в первом кадре (`Conveyor.icons`);
          *  - у трубы то же самое с `<имя>-top-0`, а у стен с вариантами — `<имя>1`.
          *
-         * Соединения мы не выбираем: конвейер на карте всегда прямой.
+         * У конвейеров сверх этого берётся вся таблица соединений: на карте рисуется она.
          */
         const image = [name, `${name}-preview`, `${name}-0-0`, `${name}-top-0`, `${name}1`]
             .reduce((found, candidate) => found ?? atlas.cut(candidate), null)
@@ -95,6 +111,19 @@ function main() {
          * считает по ним, а не по стороне блока.
          */
         found.push({name, image})
+
+        /*
+         * У конвейера сверх цельного спрайта берётся вся таблица соединений и кадров:
+         * рисуется на карте она, а `<имя>-0-0` остаётся иконкой.
+         */
+        if (CONVEYORS.includes(name)) {
+            for (let bits = 0; bits < TILING; bits++) {
+                for (let frame = 0; frame < FRAMES; frame++) {
+                    const piece = atlas.cut(`${name}-${bits}-${frame}`)
+                    if (piece !== null) found.push({name: `${name}-${bits}-${frame}`, image: piece})
+                }
+            }
+        }
 
         /*
          * Накладка команды: `<имя>-team`, а у команд с палитрой ещё и своя,

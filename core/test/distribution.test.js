@@ -146,3 +146,55 @@ test('двум маршрутизаторам подряд предмет дос
     const passed = (second.items.get('copper') ?? 0) + (first.items.get('copper') ?? 0)
     assert.equal(passed >= 1, true)
 })
+
+test('лента на повороте рисуется углом, а не прямым куском', () => {
+    const scene = world()
+
+    /*
+     * Линия вправо, потом вниз. У углового конвейера приток приходит с одной стороны,
+     * и `Autotiler` даёт вид 1 — угол. Отражение по вертикали переворачивает ту же
+     * картинку: угол налево и угол направо рисуются одним спрайтом.
+     */
+    for (let x = 2; x < 6; x++) scene.place('conveyor', x, 5, {rotation: 0})
+    for (let y = 4; y > 1; y--) scene.place('conveyor', 6, y, {rotation: 3})
+
+    const corner = scene.at(6, 5)
+    assert.equal(corner, undefined, 'угол занимает клетка вертикальной ветки, а не лишняя')
+
+    // Угол — это верхний конвейер вертикальной ветки: в него отдаёт горизонтальная линия
+    const turn = scene.place('conveyor', 6, 5, {rotation: 3})
+
+    assert.equal(turn.blendbits, 1, 'угол')
+    assert.equal(turn.blendscly, -1, 'зеркальный: приток слева, а не справа')
+
+    // Прямой участок в середине линии остаётся прямым
+    assert.equal(scene.at(4, 5).blendbits, 0)
+})
+
+test('лента с двумя притоками рисуется тройником, с тремя — крестом', () => {
+    const scene = world()
+
+    // В центральную клетку отдают слева и справа, сама она смотрит вверх
+    const middle = scene.place('conveyor', 5, 5, {rotation: 1})
+
+    scene.place('conveyor', 4, 5, {rotation: 0})
+    assert.equal(middle.blendbits, 1, 'один приток сбоку — угол')
+
+    scene.place('conveyor', 6, 5, {rotation: 2})
+    assert.equal(middle.blendbits, 4, 'два притока по бокам — прямой сверху')
+
+    scene.place('conveyor', 5, 4, {rotation: 1})
+    assert.equal(middle.blendbits, 3, 'приток ещё и сзади — со всех сторон')
+})
+
+test('снос соседа возвращает ленте прямой вид', () => {
+    const scene = world()
+
+    const middle = scene.place('conveyor', 5, 5, {rotation: 1})
+    const side = scene.place('conveyor', 4, 5, {rotation: 0})
+
+    assert.equal(middle.blendbits, 1)
+
+    scene.remove(side)
+    assert.equal(middle.blendbits, 0, 'сосед исчез — исчез и угол')
+})
