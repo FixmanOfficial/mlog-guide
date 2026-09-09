@@ -29,6 +29,8 @@ import mindustry.world.blocks.environment.Floor;
 import mindustry.world.blocks.environment.OreBlock;
 import mindustry.world.blocks.environment.OverlayFloor;
 import mindustry.world.blocks.environment.Prop;
+import mindustry.world.blocks.distribution.Conveyor;
+import mindustry.world.blocks.distribution.Router;
 import mindustry.world.blocks.production.Drill;
 import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.consumers.Consume;
@@ -295,6 +297,22 @@ public class ContentDump{
              * соседям (`BuildingComp.dump`).
              */
             spec.number("dumpTime", block.dumpTime);
+
+            /*
+             * Мгновенная передача. Маршрутизатор отдаёт соседу сразу, если тот не такой же
+             * маршрутизатор и не сортировщик: иначе предметы бегали бы между ними кругами.
+             * Router.updateTile
+             */
+            spec.bool("instantTransfer", block.instantTransfer);
+
+            if(block instanceof Conveyor conveyor){
+                spec.number("speed", conveyor.speed);
+                spec.number("displayedSpeed", conveyor.displayedSpeed);
+            }
+
+            if(block instanceof Router router){
+                spec.number("speed", router.speed);
+            }
 
             if(block instanceof Drill drill){
                 spec.number("tier", drill.tier);

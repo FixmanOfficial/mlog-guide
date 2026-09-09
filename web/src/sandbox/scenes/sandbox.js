@@ -66,6 +66,17 @@ export const SANDBOX = {
         // Контейнер, куда поли носит добытое: без него `ucontrol itemDrop` некуда целить
         {type: 'container', x: 17, y: 4},
 
+        /*
+         * Живая добыча: бур стоит на медной жиле, лента везёт добытое в тот же контейнер.
+         * Это не украшение — на ней видно то, чего не покажет ни один текст: предметы едут
+         * с задержкой, лента забивается, а `sensor @totalItems` растёт сам собой.
+         */
+        {type: 'mechanical-drill', x: 14, y: 1},
+        {type: 'conveyor', x: 16, y: 1, rotation: 1},
+        {type: 'conveyor', x: 16, y: 2, rotation: 1},
+        {type: 'conveyor', x: 16, y: 3, rotation: 1},
+        {type: 'conveyor', x: 16, y: 4, rotation: 0},
+
         // Ядро: по нему HUD показывает запасы команды, а цели читают предметы
         {type: 'core-shard', x: 2, y: 8, items: {copper: 1250, lead: 480, graphite: 95}}
     ],

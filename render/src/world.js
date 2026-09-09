@@ -39,6 +39,9 @@ function rotate(x, y, degrees) {
 /** Vars.tilesize: восемь мировых единиц на тайл. */
 export const TILE_UNITS = 8
 
+/** `Vars.itemSize`: предмет на ленте рисуется пятью мировыми единицами. */
+const ITEM_SIZE = 5
+
 /** graphics/Pal.java */
 export const PAL = {
     gray: '#454545',
@@ -456,6 +459,7 @@ export class WorldView {
         }
 
         this.drawTeamTop(building, cx, cy)
+        this.drawLineItems(building, cx, cy)
 
         // Включённый тумблер рисуется поверх своим спрайтом. SwitchBlock.draw
         if (building.type === 'switch' && building.enabled) {
@@ -472,6 +476,50 @@ export class WorldView {
             const screen = building.spec.displaySize * SCALE_FACTOR / SPRITE_SCALE * this.unit
             context.drawImage(picture, cx - screen / 2, cy - screen / 2, screen, screen)
         }
+    }
+
+    /**
+     * Предметы на ленте конвейера.
+     *
+     * Место считается так же, как в игре: вектор вдоль ленты длиной в тайл умножается
+     * на положение предмета, к нему прибавляется сдвиг на полтайла назад и поперечное
+     * смещение — то самое, из-за которого въехавший сбоку предмет плавно выходит на середину.
+     * Размер иконки — `Vars.itemSize`, пять мировых единиц. Conveyor.java:164-177
+     */
+    drawLineItems(building, cx, cy) {
+        const line = building.line
+        if (line === undefined || line.length === 0) return
+
+        const radians = building.rotation * Math.PI / 2
+        const cos = Math.cos(radians)
+        const sin = Math.sin(radians)
+
+        const side = ITEM_SIZE * this.unit
+
+        for (const entry of line) {
+            const alongX = TILE_UNITS * cos
+            const alongY = TILE_UNITS * sin
+
+            // trns(rot, -tilesize/2, xs * tilesize/2): поворот сдвига вместе с лентой
+            const backX = -TILE_UNITS / 2 * cos - entry.x * TILE_UNITS / 2 * sin
+            const backY = -TILE_UNITS / 2 * sin + entry.x * TILE_UNITS / 2 * cos
+
+            const icon = this.itemSprite(entry.item)
+            if (icon === null) continue
+
+            const px = cx + (alongX * entry.y + backX) * this.unit
+            const py = cy - (alongY * entry.y + backY) * this.unit
+
+            this.context.drawImage(icon, px - side / 2, py - side / 2, side, side)
+        }
+    }
+
+    /** Иконка предмета из атласа контента: та же, что в меню выбора. */
+    itemSprite(name) {
+        const entry = this.sprites?.index.item?.[name]
+        if (entry === undefined || this.atlas === null) return null
+
+        return this.cut(`item:${name}`, this.atlas, entry.x, entry.y, entry.width, entry.height)
     }
 
     /**

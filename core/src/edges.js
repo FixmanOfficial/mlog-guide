@@ -41,3 +41,26 @@ export function edgeOffsets(size) {
     cache.set(size, points)
     return points
 }
+
+/**
+ * Клетка блока, обращённая к соседу. `Edges.getFacingEdge`.
+ *
+ * У блока размером в одну клетку это он сам, у большого — ближайшая к соседу клетка его следа.
+ * Без этого конвейер не понимает, с какой стороны в него въезжает предмет: центр бура два
+ * на два соседним конвейеру не приходится вовсе.
+ */
+export function facingEdge(building, toX, toY) {
+    const size = building.size
+
+    if (size <= 1) return {x: building.x, y: building.y}
+
+    const low = -Math.trunc((size - 1) / 2)
+    const high = Math.trunc(size / 2)
+    const clamp = (value) => Math.max(low, Math.min(high, value))
+
+    return {
+        x: building.x + clamp(toX - building.x),
+        y: building.y + clamp(toY - building.y)
+    }
+}
+
