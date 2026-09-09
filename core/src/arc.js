@@ -441,6 +441,9 @@ export const approachDelta = (from, to, speed, delta = 1) => approach(from, to, 
 /** Mathf.lerp: линейно между двумя значениями. */
 export const lerp = (from, to, progress) => f(from + f(to - from) * progress)
 
+/** `Mathf.lerpDelta`: то же сглаживание, но шаг умножается на дельту времени. Mathf.java:430 */
+export const lerpDelta = (from, to, progress, delta = 1) => lerp(from, to, clamp(progress * delta))
+
 /** Angles.within */
 export const within = (a, b, margin) => angleDist(a, b) <= margin
 

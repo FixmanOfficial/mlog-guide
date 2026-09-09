@@ -35,7 +35,14 @@ import mindustry.world.blocks.distribution.Junction;
 import mindustry.world.blocks.distribution.OverflowGate;
 import mindustry.world.blocks.distribution.Router;
 import mindustry.world.blocks.distribution.Sorter;
+import mindustry.world.consumers.ConsumeItemEfficiency;
+import mindustry.world.consumers.ConsumeItemExplode;
+import mindustry.world.consumers.ConsumeItemFilter;
+import mindustry.world.blocks.power.ConsumeGenerator;
+import mindustry.world.blocks.power.PowerGenerator;
+import mindustry.world.blocks.power.PowerNode;
 import mindustry.world.blocks.sandbox.ItemSource;
+import mindustry.world.blocks.sandbox.PowerSource;
 import mindustry.world.blocks.production.Drill;
 import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.consumers.Consume;
@@ -370,6 +377,39 @@ public class ContentDump{
                 spec.bool("invert", sorter.invert);
             }
 
+            /*
+             * Энергия. Кто её выдаёт, кто потребляет и кто просто проводит — три разных
+             * поля, и по ним `PowerGraph` раскладывает здания на источники, потребители
+             * и батареи. Изолятор (`insulated`) ток не проводит вовсе.
+             */
+            spec.bool("outputsPower", block.outputsPower);
+            spec.bool("consumesPower", block.consumesPower);
+            spec.bool("connectedPower", block.connectedPower);
+            spec.bool("conductivePower", block.conductivePower);
+            spec.bool("insulated", block.insulated);
+
+            if(block instanceof PowerGenerator generator){
+                spec.number("powerProduction", generator.powerProduction);
+            }
+
+            /* Источник песочницы выдаёт миллион в секунду и не генератор, а мачта */
+            if(block instanceof PowerSource source){
+                spec.number("powerProduction", source.powerProduction);
+            }
+
+            /* Сжигатель: сколько тиков работает одна порция сырья. ConsumeGenerator */
+            if(block instanceof ConsumeGenerator burner){
+                spec.number("itemDuration", burner.itemDuration);
+                spec.number("warmupSpeed", burner.warmupSpeed);
+            }
+
+            /* Мачта: дальность в клетках и предел связей. PowerNode */
+            if(block instanceof PowerNode node){
+                spec.number("laserRange", node.laserRange);
+                spec.number("maxNodes", node.maxNodes);
+                spec.bool("autolink", node.autolink);
+            }
+
             /* Источник песочницы выдаёт сто предметов в секунду. ItemSource.itemsPerSecond */
             if(block instanceof ItemSource source){
                 spec.number("itemsPerSecond", source.itemsPerSecond);
@@ -485,6 +525,45 @@ public class ContentDump{
 
         if(consume instanceof ConsumeItems items){
             return "{\"kind\": \"items\", \"items\": " + stacks(items.items) + tail;
+        }
+
+        /*
+         * Фильтр сырья: сжигатель берёт не названный предмет, а любой горючий. Предикат
+         * в описи не сохранить, поэтому он прогоняется по всем предметам здесь же —
+         * ровно так, как это делает сама игра в `ConsumeItemFilter.apply`.
+         */
+        /*
+         * Взрывоопасное сырьё — не потребление, а урон: `ConsumeItemExplode.efficiency`
+         * всегда единица, а `apply` пуст. В движок он не идёт, но в описи должен быть виден.
+         */
+        if(consume instanceof ConsumeItemExplode explode){
+            return "{\"kind\": \"itemExplode\", \"damage\": " + explode.damage
+                + ", \"threshold\": " + explode.threshold + tail;
+        }
+
+        if(consume instanceof ConsumeItemFilter filter){
+            List<String> names = new ArrayList<>();
+            List<String> multipliers = new ArrayList<>();
+
+            for(Item item : Vars.content.items()){
+                if(!filter.filter.get(item)) continue;
+
+                names.add("\"" + item.name + "\"");
+
+                /*
+                 * У горючего множитель зависит от предмета: уголь горит хуже пиратита,
+                 * и генератор выдаёт по-разному. Множитель считается здесь, потому что
+                 * в исходнике это метод, а не число. ConsumeItemEfficiency
+                 */
+                if(consume instanceof ConsumeItemEfficiency eff){
+                    multipliers.add("\"" + item.name + "\": " + eff.itemEfficiencyMultiplier(item));
+                }
+            }
+
+            String extra = multipliers.isEmpty() ? ""
+                : ", \"multipliers\": {" + String.join(", ", multipliers) + "}";
+
+            return "{\"kind\": \"itemFilter\", \"items\": [" + String.join(", ", names) + "]" + extra + tail;
         }
 
         if(consume instanceof ConsumePower power){

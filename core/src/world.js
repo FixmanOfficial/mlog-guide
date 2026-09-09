@@ -96,12 +96,24 @@ export class Building {
         this.maxHealth = spec.health ?? 100
         this.health = options.health ?? this.maxHealth
         this.enabled = options.enabled ?? true
+        /*
+         * Полезность здания в этом такте: минимум по всем его потреблениям. Её считает
+         * `updateConsumption` каждый тик, и от неё зависит скорость всего — бура, фабрики,
+         * ленты. Единица здесь только до первого такта. BuildingComp.efficiency
+         */
         this.efficiency = options.efficiency ?? 1
+
+        /** Запрашивает ли здание энергию. `BuildingComp.shouldConsumePower` */
+        this.shouldConsumePower = true
+
 
         // Поворот: у невращаемого блока он всё равно есть и всё равно ноль. BuildingComp
         this.rotation = spec.rotate === true ? (options.rotation ?? 0) : 0
         this.config = null
         this.spec = spec
+
+        // Энергия: модуль есть только у блоков с энергией, граф ему выдаёт мир при постановке
+        this.power = spec.hasPower === true && POWER !== null ? new POWER.Module() : null
 
         /*
          * Соседи и указатель раздачи. `BuildingComp.proximity` — здания вокруг блока
@@ -227,6 +239,7 @@ export class Building {
         this.health = this.initial.health
         this.enabled = this.initial.enabled
         this.efficiency = this.initial.efficiency
+        if (this.power !== null) this.power.status = 0
         this.rotation = this.initial.rotation
         this.config = null
         this.cdump = 0
@@ -264,6 +277,20 @@ export class Building {
             case 'size': return this.size
             case 'team': return this.team
             case 'enabled': return this.enabled ? 1 : 0
+
+            /*
+             * Энергия сети, а не блока: все четыре свойства спрашивают граф, к которому
+             * здание подключено. Приход и расход в игре переводятся в секунды — отсюда
+             * умножение на 60, — а запас и вместимость отдаются как есть. BuildingComp:2119
+             */
+            case 'powerCapacity': {
+                const consume = (this.spec.consumes ?? []).find(entry => entry.kind === 'power')
+                return consume === undefined ? 0 : consume.capacity
+            }
+            case 'powerNetIn': return this.power === null ? 0 : this.power.graph.lastScaledPowerIn * 60
+            case 'powerNetOut': return this.power === null ? 0 : this.power.graph.lastScaledPowerOut * 60
+            case 'powerNetStored': return this.power === null ? 0 : this.power.graph.lastPowerStored
+            case 'powerNetCapacity': return this.power === null ? 0 : this.power.graph.lastCapacity
             case 'efficiency': return this.efficiency
             case 'dead': return this.health <= 0 ? 1 : 0
             // BuildingComp: block.solid || checkSolid(). Дверь считает по-своему, см. ниже
@@ -366,6 +393,136 @@ export class Building {
         return edge === null ? -1 : this.relativeTo(edge.x, edge.y)
     }
 
+    /**
+     * С кем здание соединено по энергии. `BuildingComp.getPowerConnections`
+     *
+     * Соседство по стороне проводит ток само по себе, но не между двумя потребителями:
+     * две фабрики рядом энергией не делятся, и это правило записано прямо в условии.
+     * Связи мачт добавляются сверх соседства.
+     */
+    getPowerConnections() {
+        if (this.power === null) return []
+
+        const out = []
+
+        for (const other of this.proximity) {
+            if (other.power === null || other.team !== this.team) continue
+
+            const bothConsume = this.spec.consumesPower === true && other.spec.consumesPower === true
+                && this.spec.outputsPower !== true && other.spec.outputsPower !== true
+                && this.spec.conductivePower !== true && other.spec.conductivePower !== true
+
+            if (bothConsume) continue
+            if (this.spec.insulated === true || other.spec.insulated === true) continue
+            if (this.power.links.includes(other)) continue
+
+            out.push(other)
+        }
+
+        for (const link of this.power.links) {
+            if (link.team === this.team) out.push(link)
+        }
+
+        return out
+    }
+
+    /** Слить графы соседей в свой. `BuildingComp.updatePowerGraph` */
+    updatePowerGraph() {
+        if (this.power === null) return
+
+        for (const other of this.getPowerConnections()) {
+            other.power.graph.addGraph(this.power.graph)
+        }
+    }
+
+    /** Снос: граф разрезается, а связи мачт снимаются с обеих сторон. */
+    powerGraphRemoved() {
+        if (this.power === null) return
+
+        this.power.graph.remove(this)
+
+        for (const other of this.power.links) {
+            if (other.power === null) continue
+            other.power.links = other.power.links.filter(link => link !== this)
+        }
+
+        this.power.links = []
+    }
+
+    /**
+     * Мощность генератора за тик. У обычного здания её нет вовсе.
+     * `BuildingComp.getPowerProduction`
+     */
+    powerProduction() {
+        return 0
+    }
+
+    /**
+     * Полезность здания в этом такте. `BuildingComp.updateConsumption`
+     *
+     * Считается как минимум по всем обязательным потреблениям: нет сырья — ноль, энергии
+     * половина — половина. Выключенное здание не работает вовсе, а блок без потреблений
+     * работает всегда — потому лента и не зависит ни от чего.
+     */
+    updateConsumption() {
+        const consumes = (this.spec.consumes ?? []).filter(consume => consume.optional !== true
+            && consume.boost !== true && consume.kind !== 'itemExplode')
+
+        if (consumes.length === 0) {
+            this.efficiency = this.enabled === false ? 0 : 1
+            this.shouldConsumePower = true
+            return
+        }
+
+        if (this.enabled === false) {
+            this.efficiency = 0
+            this.shouldConsumePower = false
+            return
+        }
+
+        const update = this.shouldConsume()
+        let minimum = 1
+
+        this.shouldConsumePower = true
+
+        for (const consume of consumes) {
+            const result = this.consumeEfficiency(consume)
+
+            // Блок без сырья не запрашивает и энергию: иначе он тянул бы её впустую
+            if (consume.kind !== 'power' && result <= 0.0000001) this.shouldConsumePower = false
+
+            minimum = Math.min(minimum, result)
+        }
+
+        this.efficiency = update ? minimum : 0
+    }
+
+    /** Полезность одного потребления. `Consume.efficiency` у каждого своя. */
+    consumeEfficiency(consume) {
+        if (consume.kind === 'power') {
+            // Буфер работает от своего запаса, а обычный потребитель — от покрытия сети
+            return this.power === null ? 0 : this.power.status
+        }
+
+        if (consume.kind === 'items') {
+            return consume.items.every(stack => (this.items?.get(stack.item) ?? 0) >= stack.amount) ? 1 : 0
+        }
+
+        if (consume.kind === 'itemFilter') {
+            // `ConsumeItemFilter.efficiency`: годится всё, что подходит фильтру
+            if (this.consumeTriggerValid?.()) return 1
+            return consume.items.some(item => (this.items?.get(item) ?? 0) > 0) ? 1 : 0
+        }
+
+        // Жидкостей в модели нет: блок, которому нужна вода, работать не будет
+        return 0
+    }
+
+    /** Стоит ли работать вообще. У фабрики переопределено: некуда девать — не работает. */
+    shouldConsume() {
+        return true
+    }
+
     /** `BuildingComp.acceptItem`: берут только то, что потребляют, и только до вместимости. */
     acceptItem(source, item) {
         return this.consumesItem(item) && (this.items?.get(item) ?? 0) < this.maximumAccepted(item)
@@ -446,6 +603,16 @@ export class Building {
 
         this.handleItem(this, item)
     }
+}
+
+/**
+ * Части энергосети. Их приносит `power.js` тем же способом, каким блоки приносят свои
+ * классы: иначе `world.js` и `power.js` импортировали бы друг друга по кругу.
+ */
+let POWER = null
+
+export function registerPower(parts) {
+    POWER = parts
 }
 
 /** Смещения по сторонам света: `Geometry.d4`, где ноль это вправо. */
@@ -847,6 +1014,7 @@ export class World {
 
     /** Убирает здание из мира вместе с его процессором. */
     remove(building) {
+        building.powerGraphRemoved?.()
         this.buildings = this.buildings.filter(item => item !== building)
 
         if (building.processor !== undefined) {
@@ -903,8 +1071,20 @@ export class World {
 
         this.buildings.push(building)
 
+        // Своя сеть на одно здание: соседние сольются с ней в `updatePowerGraph`
+        if (building.power !== null) {
+            building.power.graph = new POWER.Graph()
+            building.power.graph.add(building)
+        }
+
         this.updateProximity(building)
         for (const other of building.proximity) this.updateProximity(other)
+
+        building.updatePowerGraph?.()
+
+        // Мачта тянет связи сама, а к обычному блоку связь тянут мачты вокруг
+        if (building.autolink !== undefined) building.autolink()
+        else POWER?.linkNodes?.(building)
 
         return building
     }
@@ -1090,6 +1270,23 @@ export class World {
         this.objectives.update(this, delta)
 
         for (const unit of this.units) unit.update(delta)
+
+        /*
+         * Энергия считается до зданий: сеть раздаёт покрытие, `updateConsumption` переводит
+         * его в полезность, и только потом здание работает — с той скоростью, на которую
+         * ему хватило. В игре порядок задан очередью сущностей, здесь он записан явно.
+         */
+        const graphs = new Set()
+
+        for (const building of this.buildings) {
+            if (building.power === null) continue
+            if (graphs.has(building.power.graph)) continue
+
+            graphs.add(building.power.graph)
+            building.power.graph.update(delta)
+        }
+
+        for (const building of this.buildings) building.updateConsumption()
         for (const building of this.buildings) building.update(delta)
         for (const processor of this.processors) processor.tick(delta)
 

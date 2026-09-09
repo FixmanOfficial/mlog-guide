@@ -207,14 +207,13 @@ export class CrafterBuilding extends Building {
             <= this.maximumAccepted())
     }
 
-    /** `BuildingComp.updateConsumption`, сокращённая до того, что смоделировано. */
-    get workEfficiency() {
-        if (!this.enabled) return 0
-        return this.hasInputs() && this.shouldConsume() ? this.efficiency : 0
-    }
-
     update(delta = 1) {
-        const efficiency = this.workEfficiency
+        /*
+         * Полезность считает `updateConsumption` до такта, и в ней уже учтено всё: сырьё,
+         * энергия, выключенность и то, что готовому некуда деться. Фабрике остаётся только
+         * умножить на неё свой ход — при половине энергии она варит вдвое медленнее.
+         */
+        const efficiency = this.efficiency
 
         if (efficiency > 0) {
             this.progress += efficiency * delta / this.spec.craftTime

@@ -48,12 +48,27 @@ function inside(area, building) {
         && building.y + start < area.y + area.height && building.y + start + building.size > area.y
 }
 
+/** `PowerNode.laserScale`: луч рисуется вчетверо тоньше своего спрайта. */
+const LASER_SCALE = 0.25
+
+/** Смешение двух цветов долей, как `Color.lerp`. */
+function mixColors(from, to, amount) {
+    const parse = value => [1, 3, 5].map(start => parseInt(value.slice(start, start + 2), 16))
+    const [fr, fg, fb] = parse(from)
+    const [tr, tg, tb] = parse(to)
+
+    const mix = (first, second) => Math.round(first + (second - first) * amount)
+
+    return `rgb(${mix(fr, tr)}, ${mix(fg, tg)}, ${mix(fb, tb)})`
+}
+
 /** `Vars.itemSize`: предмет на ленте рисуется пятью мировыми единицами. */
 const ITEM_SIZE = 5
 
 /** graphics/Pal.java */
 export const PAL = {
     gray: '#454545',
+    powerLight: '#fbd367',
     place: '#6335f8',
     accent: '#ffd37f',
     remove: '#e55454',
@@ -182,6 +197,9 @@ export class WorldView {
         else this.drawGrid()
 
         for (const building of this.world.buildings) this.drawBuilding(building)
+
+        // Связи мачт: `Layer.power` выше блоков, но ниже юнитов
+        for (const building of this.world.buildings) this.drawPowerLinks(building)
 
         // Юниты идут поверх зданий: в игре у них слой 60 против 30 у блоков
         for (const unit of this.world.units ?? []) this.drawUnit(unit)
@@ -540,6 +558,53 @@ export class WorldView {
             context.scale(building.blendsclx, building.blendscly)
             context.drawImage(icon, -side / 2, -side / 2, side, side)
         })
+    }
+
+    /**
+     * Связи мачты. `PowerNode.drawLaser`
+     *
+     * Луч идёт не от центра к центру, а от края к краю: от каждого блока отступается
+     * половина его стороны без полутора единиц, иначе линия торчала бы из-под спрайта.
+     * Цвет — от белого к `Pal.powerLight` по мере нехватки энергии: полная сеть светится
+     * белым, голодная желтеет. Прозрачность — `Renderer.laserOpacity`, половина.
+     */
+    drawPowerLinks(building) {
+        const links = building.power?.links
+        if (links === undefined || links.length === 0) return
+
+        const context = this.context
+        const step = this.tile * this.ratio
+
+        const satisfaction = building.power.graph?.lastPowerNeeded > 0
+            ? Math.min(1, building.power.graph.lastPowerProduced / building.power.graph.lastPowerNeeded)
+            : 1
+
+        context.save()
+        context.globalAlpha = 0.5
+        context.strokeStyle = mixColors('#ffffff', PAL.powerLight, (1 - satisfaction) * 0.86)
+        context.lineWidth = 12 * LASER_SCALE * this.unit
+
+        for (const other of links) {
+            /*
+             * Луч рисуется один раз на пару: связь хранится у обоих концов, и без этого
+             * каждая линия ложилась бы дважды, а полупрозрачные — вдвое ярче.
+             */
+            if (other.power?.links.includes(building) && other.name < building.name) continue
+
+            const [x1, y1] = this.place(building)
+            const [x2, y2] = this.place(other)
+
+            const angle = Math.atan2(y2 - y1, x2 - x1)
+            const first = (building.size * TILE_UNITS / 2 - 1.5) * this.unit
+            const second = (other.size * TILE_UNITS / 2 - 1.5) * this.unit
+
+            context.beginPath()
+            context.moveTo(x1 + Math.cos(angle) * first, y1 + Math.sin(angle) * first)
+            context.lineTo(x2 - Math.cos(angle) * second, y2 - Math.sin(angle) * second)
+            context.stroke()
+        }
+
+        context.restore()
     }
 
     /**

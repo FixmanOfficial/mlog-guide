@@ -48,6 +48,11 @@
       "groupAnyReplace": false,
       "subclass": "AirBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -104,6 +109,11 @@
       "groupAnyReplace": false,
       "subclass": "SpawnBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "overlay",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -157,6 +167,11 @@
       "groupAnyReplace": false,
       "subclass": "RemoveWall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "remove-ore": {
@@ -205,6 +220,11 @@
       "groupAnyReplace": false,
       "subclass": "RemoveOre",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "overlay",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -258,6 +278,11 @@
       "groupAnyReplace": false,
       "subclass": "Cliff",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "build1": {
@@ -304,6 +329,11 @@
       "groupAnyReplace": false,
       "subclass": "ConstructBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "build2": {
@@ -350,6 +380,11 @@
       "groupAnyReplace": false,
       "subclass": "ConstructBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "build3": {
@@ -396,6 +431,11 @@
       "groupAnyReplace": false,
       "subclass": "ConstructBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "build4": {
@@ -442,6 +482,11 @@
       "groupAnyReplace": false,
       "subclass": "ConstructBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "build5": {
@@ -488,6 +533,11 @@
       "groupAnyReplace": false,
       "subclass": "ConstructBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "build6": {
@@ -534,6 +584,11 @@
       "groupAnyReplace": false,
       "subclass": "ConstructBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "build7": {
@@ -580,6 +635,11 @@
       "groupAnyReplace": false,
       "subclass": "ConstructBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "build8": {
@@ -626,6 +686,11 @@
       "groupAnyReplace": false,
       "subclass": "ConstructBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "build9": {
@@ -672,6 +737,11 @@
       "groupAnyReplace": false,
       "subclass": "ConstructBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "build10": {
@@ -718,6 +788,11 @@
       "groupAnyReplace": false,
       "subclass": "ConstructBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "build11": {
@@ -764,6 +839,11 @@
       "groupAnyReplace": false,
       "subclass": "ConstructBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "build12": {
@@ -810,6 +890,11 @@
       "groupAnyReplace": false,
       "subclass": "ConstructBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "build13": {
@@ -856,6 +941,11 @@
       "groupAnyReplace": false,
       "subclass": "ConstructBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "build14": {
@@ -902,6 +992,11 @@
       "groupAnyReplace": false,
       "subclass": "ConstructBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "build15": {
@@ -948,6 +1043,11 @@
       "groupAnyReplace": false,
       "subclass": "ConstructBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "build16": {
@@ -994,6 +1094,11 @@
       "groupAnyReplace": false,
       "subclass": "ConstructBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "deep-water": {
@@ -1040,6 +1145,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "speedMultiplier": 0.2,
       "dragMultiplier": 1,
@@ -1094,6 +1204,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "speedMultiplier": 0.5,
       "dragMultiplier": 1,
@@ -1148,6 +1263,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "speedMultiplier": 0.5,
       "dragMultiplier": 1,
@@ -1202,6 +1322,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "speedMultiplier": 0.18,
       "dragMultiplier": 1,
@@ -1257,6 +1382,11 @@
       "groupAnyReplace": false,
       "subclass": "ShallowLiquid",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 0.75,
@@ -1313,6 +1443,11 @@
       "groupAnyReplace": false,
       "subclass": "ShallowLiquid",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 0.8,
@@ -1369,6 +1504,11 @@
       "groupAnyReplace": false,
       "subclass": "ShallowLiquid",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 0.8,
@@ -1424,6 +1564,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "speedMultiplier": 0.19,
       "dragMultiplier": 1,
@@ -1477,6 +1622,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "speedMultiplier": 0.5,
       "dragMultiplier": 1,
@@ -1530,6 +1680,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "speedMultiplier": 0.19,
       "dragMultiplier": 1,
@@ -1584,6 +1739,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -1638,6 +1798,11 @@
       "groupAnyReplace": false,
       "subclass": "EmptyFloor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -1691,6 +1856,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1746,6 +1916,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1801,6 +1976,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1856,6 +2036,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1911,6 +2096,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1967,6 +2157,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2023,6 +2218,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "itemDrop": "sand",
@@ -2079,6 +2279,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "itemDrop": "sand",
@@ -2135,6 +2340,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2190,6 +2400,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 0.6,
@@ -2244,6 +2459,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2299,6 +2519,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2354,6 +2579,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2410,6 +2640,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2465,6 +2700,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2520,6 +2760,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2575,6 +2820,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 4,
       "speedMultiplier": 1,
@@ -2630,6 +2880,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2685,6 +2940,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2740,6 +3000,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 4,
       "speedMultiplier": 1,
@@ -2795,6 +3060,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 5,
       "speedMultiplier": 1,
@@ -2850,6 +3120,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 4,
       "speedMultiplier": 1,
@@ -2905,6 +3180,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2960,6 +3240,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 4,
       "speedMultiplier": 1,
@@ -3015,6 +3300,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 4,
       "speedMultiplier": 1,
@@ -3070,6 +3360,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 0.9,
@@ -3125,6 +3420,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "speedMultiplier": 0.3,
       "dragMultiplier": 1,
@@ -3179,6 +3479,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -3235,6 +3540,11 @@
       "groupAnyReplace": false,
       "subclass": "SteamVent",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -3291,6 +3601,11 @@
       "groupAnyReplace": false,
       "subclass": "SteamVent",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -3347,6 +3662,11 @@
       "groupAnyReplace": false,
       "subclass": "SteamVent",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -3403,6 +3723,11 @@
       "groupAnyReplace": false,
       "subclass": "SteamVent",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -3459,6 +3784,11 @@
       "groupAnyReplace": false,
       "subclass": "SteamVent",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -3515,6 +3845,11 @@
       "groupAnyReplace": false,
       "subclass": "SteamVent",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -3571,6 +3906,11 @@
       "groupAnyReplace": false,
       "subclass": "SteamVent",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -3627,6 +3967,11 @@
       "groupAnyReplace": false,
       "subclass": "SteamVent",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -3682,6 +4027,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -3736,6 +4086,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -3790,6 +4145,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -3844,6 +4204,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -3898,6 +4263,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -3953,6 +4323,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 0.9,
@@ -4008,6 +4383,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -4063,6 +4443,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -4118,6 +4503,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -4173,6 +4563,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -4226,6 +4621,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -4282,6 +4682,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticWall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4331,6 +4736,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticWall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4380,6 +4790,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticWall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4429,6 +4844,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticWall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4478,6 +4898,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticWall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4527,6 +4952,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticWall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4576,6 +5006,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticWall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4625,6 +5060,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticWall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4674,6 +5114,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticWall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4723,6 +5168,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticWall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4772,6 +5222,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticWall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4821,6 +5276,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticWall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4870,6 +5330,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticWall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4919,6 +5384,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticWall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "variants": 3,
       "requirements": []
@@ -4968,6 +5438,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticWall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "variants": 4,
       "requirements": []
@@ -5017,6 +5492,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticWall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -5066,6 +5546,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticWall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -5116,6 +5601,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticTree",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "variants": 3,
       "requirements": []
@@ -5165,6 +5655,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticWall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -5214,6 +5709,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticWall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -5263,6 +5763,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticWall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -5312,6 +5817,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticWall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -5362,6 +5872,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticTree",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "requirements": []
     },
@@ -5411,6 +5926,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticTree",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "requirements": []
     },
@@ -5460,6 +5980,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticTree",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "requirements": []
     },
@@ -5507,6 +6032,11 @@
       "groupAnyReplace": false,
       "subclass": "TreeBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "white-tree": {
@@ -5553,6 +6083,11 @@
       "groupAnyReplace": false,
       "subclass": "TreeBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "spore-cluster": {
@@ -5599,6 +6134,11 @@
       "groupAnyReplace": false,
       "subclass": "Prop",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -5648,6 +6188,11 @@
       "groupAnyReplace": false,
       "subclass": "Seaweed",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -5697,6 +6242,11 @@
       "groupAnyReplace": false,
       "subclass": "SeaBush",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "prop",
       "requirements": []
     },
@@ -5745,6 +6295,11 @@
       "groupAnyReplace": false,
       "subclass": "SeaBush",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "prop",
       "requirements": []
     },
@@ -5793,6 +6348,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticProp",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -5842,6 +6402,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticProp",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -5891,6 +6456,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticProp",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -5940,6 +6510,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticProp",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -5989,6 +6564,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticProp",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -6038,6 +6618,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticProp",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -6087,6 +6672,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticProp",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -6136,6 +6726,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticProp",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -6185,6 +6780,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticProp",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -6234,6 +6834,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticProp",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -6282,6 +6887,11 @@
       "groupAnyReplace": false,
       "subclass": "Prop",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -6330,6 +6940,11 @@
       "groupAnyReplace": false,
       "subclass": "TallBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -6378,6 +6993,11 @@
       "groupAnyReplace": false,
       "subclass": "TallBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -6426,6 +7046,11 @@
       "groupAnyReplace": false,
       "subclass": "TallBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -6474,6 +7099,11 @@
       "groupAnyReplace": false,
       "subclass": "TallBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -6523,6 +7153,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticProp",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -6572,6 +7207,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticProp",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -6621,6 +7261,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticProp",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -6670,6 +7315,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticProp",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "prop",
       "variants": 4,
       "requirements": []
@@ -6718,6 +7368,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -6772,6 +7427,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6827,6 +7487,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -6881,6 +7546,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -6935,6 +7605,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -6989,6 +7664,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -7043,6 +7723,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -7097,6 +7782,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -7151,6 +7841,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -7205,6 +7900,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -7259,6 +7959,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -7313,6 +8018,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -7368,6 +8078,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticWall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -7416,6 +8131,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -7470,6 +8190,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -7524,6 +8249,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -7578,6 +8308,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -7632,6 +8367,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -7686,6 +8426,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -7740,6 +8485,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -7794,6 +8544,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -7848,6 +8603,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -7902,6 +8662,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -7956,6 +8721,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -8010,6 +8780,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -8064,6 +8839,11 @@
       "groupAnyReplace": false,
       "subclass": "Floor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -8119,6 +8899,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticWall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -8168,6 +8953,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticWall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -8217,6 +9007,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticWall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -8266,6 +9061,11 @@
       "groupAnyReplace": false,
       "subclass": "ColoredFloor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -8322,6 +9122,11 @@
       "groupAnyReplace": false,
       "subclass": "ColoredWall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -8372,6 +9177,11 @@
       "groupAnyReplace": false,
       "subclass": "CharacterOverlay",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "overlay",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -8427,6 +9237,11 @@
       "groupAnyReplace": false,
       "subclass": "CharacterOverlay",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "overlay",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -8482,6 +9297,11 @@
       "groupAnyReplace": false,
       "subclass": "RuneOverlay",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "overlay",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -8537,6 +9357,11 @@
       "groupAnyReplace": false,
       "subclass": "RuneOverlay",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "overlay",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -8591,6 +9416,11 @@
       "groupAnyReplace": false,
       "subclass": "OverlayFloor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "overlay",
       "variants": 3,
       "speedMultiplier": 1,
@@ -8646,6 +9476,11 @@
       "groupAnyReplace": false,
       "subclass": "OverlayFloor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "overlay",
       "variants": 3,
       "speedMultiplier": 1,
@@ -8702,6 +9537,11 @@
       "groupAnyReplace": false,
       "subclass": "OreBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "copper",
@@ -8759,6 +9599,11 @@
       "groupAnyReplace": false,
       "subclass": "OreBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "lead",
@@ -8816,6 +9661,11 @@
       "groupAnyReplace": false,
       "subclass": "OreBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "scrap",
@@ -8873,6 +9723,11 @@
       "groupAnyReplace": false,
       "subclass": "OreBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "coal",
@@ -8930,6 +9785,11 @@
       "groupAnyReplace": false,
       "subclass": "OreBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "titanium",
@@ -8987,6 +9847,11 @@
       "groupAnyReplace": false,
       "subclass": "OreBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "thorium",
@@ -9044,6 +9909,11 @@
       "groupAnyReplace": false,
       "subclass": "OreBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "beryllium",
@@ -9101,6 +9971,11 @@
       "groupAnyReplace": false,
       "subclass": "OreBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "tungsten",
@@ -9158,6 +10033,11 @@
       "groupAnyReplace": false,
       "subclass": "OreBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "thorium",
@@ -9215,6 +10095,11 @@
       "groupAnyReplace": false,
       "subclass": "OreBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "thorium",
@@ -9272,6 +10157,11 @@
       "groupAnyReplace": false,
       "subclass": "OreBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "beryllium",
@@ -9328,6 +10218,11 @@
       "groupAnyReplace": false,
       "subclass": "StaticWall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "staticWall",
       "variants": 3,
       "itemDrop": "graphite",
@@ -9379,6 +10274,11 @@
       "groupAnyReplace": false,
       "subclass": "OreBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "graphite",
@@ -9436,6 +10336,11 @@
       "groupAnyReplace": false,
       "subclass": "OreBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "tungsten",
@@ -9491,6 +10396,11 @@
       "groupAnyReplace": false,
       "subclass": "GenericCrafter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 90,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -9567,6 +10477,11 @@
       "groupAnyReplace": false,
       "subclass": "GenericCrafter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 30,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -9666,6 +10581,11 @@
       "groupAnyReplace": false,
       "subclass": "GenericCrafter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 40,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -9755,6 +10675,11 @@
       "groupAnyReplace": false,
       "subclass": "AttributeCrafter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 90,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -9855,6 +10780,11 @@
       "groupAnyReplace": false,
       "subclass": "GenericCrafter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 30,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -9947,6 +10877,11 @@
       "groupAnyReplace": false,
       "subclass": "GenericCrafter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 60,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -10046,6 +10981,11 @@
       "groupAnyReplace": false,
       "subclass": "GenericCrafter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 120,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -10138,6 +11078,11 @@
       "groupAnyReplace": false,
       "subclass": "GenericCrafter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 75,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -10238,6 +11183,11 @@
       "groupAnyReplace": false,
       "subclass": "GenericCrafter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 120,
       "warmupSpeed": 0.019,
       "outputLiquids": [
@@ -10333,6 +11283,11 @@
       "groupAnyReplace": false,
       "subclass": "GenericCrafter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 80,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -10425,6 +11380,11 @@
       "groupAnyReplace": false,
       "subclass": "GenericCrafter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 80,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -10513,6 +11473,11 @@
       "groupAnyReplace": false,
       "subclass": "GenericCrafter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 10,
       "warmupSpeed": 0.019,
       "outputLiquids": [
@@ -10601,6 +11566,11 @@
       "groupAnyReplace": false,
       "subclass": "Separator",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -10673,6 +11643,11 @@
       "groupAnyReplace": false,
       "subclass": "Separator",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -10764,6 +11739,11 @@
       "groupAnyReplace": false,
       "subclass": "GenericCrafter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 20,
       "warmupSpeed": 0.019,
       "outputLiquids": [
@@ -10848,6 +11828,11 @@
       "groupAnyReplace": false,
       "subclass": "GenericCrafter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 40,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -10932,6 +11917,11 @@
       "groupAnyReplace": false,
       "subclass": "GenericCrafter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 30,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -11016,6 +12006,11 @@
       "groupAnyReplace": false,
       "subclass": "Incinerator",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -11081,6 +12076,11 @@
       "groupAnyReplace": false,
       "subclass": "GenericCrafter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 50,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -11169,6 +12169,11 @@
       "groupAnyReplace": true,
       "subclass": "GenericCrafter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 10,
       "warmupSpeed": 0.019,
       "outputLiquids": [
@@ -11262,6 +12267,11 @@
       "groupAnyReplace": false,
       "subclass": "HeatCrafter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 80,
       "warmupSpeed": 0.019,
       "outputLiquids": [
@@ -11340,6 +12350,11 @@
       "groupAnyReplace": false,
       "subclass": "HeatProducer",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 120,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -11440,6 +12455,11 @@
       "groupAnyReplace": false,
       "subclass": "HeatProducer",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 80,
       "warmupSpeed": 0.019,
       "consumes": [
@@ -11512,6 +12532,11 @@
       "groupAnyReplace": false,
       "subclass": "HeatProducer",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 80,
       "warmupSpeed": 0.019,
       "consumes": [
@@ -11583,6 +12608,11 @@
       "groupAnyReplace": false,
       "subclass": "HeatProducer",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 480,
       "warmupSpeed": 0.019,
       "consumes": [
@@ -11657,6 +12687,11 @@
       "groupAnyReplace": true,
       "subclass": "HeatConductor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "graphite",
@@ -11712,6 +12747,11 @@
       "groupAnyReplace": true,
       "subclass": "HeatConductor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "graphite",
@@ -11767,6 +12807,11 @@
       "groupAnyReplace": true,
       "subclass": "HeatConductor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "graphite",
@@ -11822,6 +12867,11 @@
       "groupAnyReplace": false,
       "subclass": "ItemIncinerator",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "liquid",
@@ -11883,6 +12933,11 @@
       "groupAnyReplace": false,
       "subclass": "HeatCrafter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 33.75,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -11975,6 +13030,11 @@
       "groupAnyReplace": false,
       "subclass": "GenericCrafter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 120,
       "warmupSpeed": 0.019,
       "outputLiquids": [
@@ -12075,6 +13135,11 @@
       "groupAnyReplace": false,
       "subclass": "HeatCrafter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 45,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -12175,6 +13240,11 @@
       "groupAnyReplace": false,
       "subclass": "HeatCrafter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 20,
       "warmupSpeed": 0.019,
       "outputLiquids": [
@@ -12275,6 +13345,11 @@
       "groupAnyReplace": false,
       "subclass": "HeatCrafter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 30,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -12379,6 +13454,11 @@
       "groupAnyReplace": false,
       "subclass": "HeatProducer",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 600,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -12470,6 +13550,11 @@
       "groupAnyReplace": true,
       "subclass": "Wall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "copper",
@@ -12521,6 +13606,11 @@
       "groupAnyReplace": true,
       "subclass": "Wall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "copper",
@@ -12572,6 +13662,11 @@
       "groupAnyReplace": true,
       "subclass": "Wall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "titanium",
@@ -12623,6 +13718,11 @@
       "groupAnyReplace": true,
       "subclass": "Wall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "titanium",
@@ -12674,6 +13774,11 @@
       "groupAnyReplace": true,
       "subclass": "Wall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": true,
       "requirements": [
         {
           "item": "metaglass",
@@ -12729,6 +13834,11 @@
       "groupAnyReplace": true,
       "subclass": "Wall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": true,
       "requirements": [
         {
           "item": "metaglass",
@@ -12784,6 +13894,11 @@
       "groupAnyReplace": true,
       "subclass": "Wall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "thorium",
@@ -12835,6 +13950,11 @@
       "groupAnyReplace": true,
       "subclass": "Wall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "thorium",
@@ -12886,6 +14006,11 @@
       "groupAnyReplace": true,
       "subclass": "Wall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "phase-fabric",
@@ -12937,6 +14062,11 @@
       "groupAnyReplace": true,
       "subclass": "Wall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "phase-fabric",
@@ -12988,6 +14118,11 @@
       "groupAnyReplace": true,
       "subclass": "Wall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "surge-alloy",
@@ -13039,6 +14174,11 @@
       "groupAnyReplace": true,
       "subclass": "Wall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "surge-alloy",
@@ -13091,6 +14231,11 @@
       "groupAnyReplace": true,
       "subclass": "Door",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "titanium",
@@ -13147,6 +14292,11 @@
       "groupAnyReplace": true,
       "subclass": "Door",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "titanium",
@@ -13202,6 +14352,11 @@
       "groupAnyReplace": true,
       "subclass": "Wall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "variants": 5,
       "requirements": [
         {
@@ -13254,6 +14409,11 @@
       "groupAnyReplace": true,
       "subclass": "Wall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "variants": 4,
       "requirements": [
         {
@@ -13306,6 +14466,11 @@
       "groupAnyReplace": true,
       "subclass": "Wall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "variants": 3,
       "requirements": [
         {
@@ -13358,6 +14523,11 @@
       "groupAnyReplace": true,
       "subclass": "Wall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "scrap",
@@ -13410,6 +14580,11 @@
       "groupAnyReplace": true,
       "subclass": "Thruster",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "scrap",
@@ -13461,6 +14636,11 @@
       "groupAnyReplace": true,
       "subclass": "Wall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "beryllium",
@@ -13512,6 +14692,11 @@
       "groupAnyReplace": true,
       "subclass": "Wall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "beryllium",
@@ -13563,6 +14748,11 @@
       "groupAnyReplace": true,
       "subclass": "Wall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "tungsten",
@@ -13614,6 +14804,11 @@
       "groupAnyReplace": true,
       "subclass": "Wall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "tungsten",
@@ -13666,6 +14861,11 @@
       "groupAnyReplace": true,
       "subclass": "AutoDoor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "silicon",
@@ -13721,6 +14921,11 @@
       "groupAnyReplace": true,
       "subclass": "Wall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "surge-alloy",
@@ -13776,6 +14981,11 @@
       "groupAnyReplace": true,
       "subclass": "Wall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "surge-alloy",
@@ -13831,6 +15041,11 @@
       "groupAnyReplace": true,
       "subclass": "Wall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "thorium",
@@ -13886,6 +15101,11 @@
       "groupAnyReplace": true,
       "subclass": "Wall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "thorium",
@@ -13942,6 +15162,11 @@
       "groupAnyReplace": true,
       "subclass": "ShieldWall",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": true,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -14011,6 +15236,11 @@
       "groupAnyReplace": true,
       "subclass": "MendProjector",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -14087,6 +15317,11 @@
       "groupAnyReplace": true,
       "subclass": "MendProjector",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -14171,6 +15406,11 @@
       "groupAnyReplace": true,
       "subclass": "OverdriveProjector",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -14255,6 +15495,11 @@
       "groupAnyReplace": true,
       "subclass": "OverdriveProjector",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -14347,6 +15592,11 @@
       "groupAnyReplace": true,
       "subclass": "ForceProjector",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "items",
@@ -14427,6 +15677,11 @@
       "groupAnyReplace": false,
       "subclass": "ShockMine",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "lead",
@@ -14482,6 +15737,11 @@
       "groupAnyReplace": false,
       "subclass": "Radar",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -14553,6 +15813,11 @@
       "groupAnyReplace": true,
       "subclass": "BuildTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -14629,6 +15894,11 @@
       "groupAnyReplace": true,
       "subclass": "RegenProjector",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -14720,6 +15990,11 @@
       "groupAnyReplace": false,
       "subclass": "ShockwaveTower",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "liquids",
@@ -14804,6 +16079,11 @@
       "groupAnyReplace": false,
       "subclass": "BaseShield",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -14860,6 +16140,11 @@
       "groupAnyReplace": false,
       "subclass": "BaseShield",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -14918,6 +16203,11 @@
       "chained": true,
       "speed": 0.046,
       "displayedSpeed": 6.5,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "copper",
@@ -14971,6 +16261,11 @@
       "chained": true,
       "speed": 0.0801,
       "displayedSpeed": 10,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "copper",
@@ -15030,6 +16325,11 @@
       "groupAnyReplace": true,
       "subclass": "StackConveyor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "graphite",
@@ -15092,6 +16392,11 @@
       "chained": true,
       "speed": 0.08,
       "displayedSpeed": 10,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "metaglass",
@@ -15154,6 +16459,11 @@
       "speed": 26,
       "capacity": 6,
       "displayedSpeed": 13,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "copper",
@@ -15206,6 +16516,11 @@
       "groupAnyReplace": true,
       "subclass": "BufferedItemBridge",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "copper",
@@ -15261,6 +16576,11 @@
       "groupAnyReplace": true,
       "subclass": "ItemBridge",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -15335,6 +16655,11 @@
       "subclass": "Sorter",
       "chained": false,
       "invert": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "copper",
@@ -15391,6 +16716,11 @@
       "subclass": "Sorter",
       "chained": false,
       "invert": true,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "copper",
@@ -15447,6 +16777,11 @@
       "subclass": "Router",
       "chained": false,
       "speed": 8,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "copper",
@@ -15499,6 +16834,11 @@
       "subclass": "Router",
       "chained": false,
       "speed": 8,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "copper",
@@ -15554,6 +16894,11 @@
       "groupAnyReplace": true,
       "subclass": "OverflowGate",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "speed": 1,
       "invert": false,
       "requirements": [
@@ -15611,6 +16956,11 @@
       "groupAnyReplace": true,
       "subclass": "OverflowGate",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "speed": 1,
       "invert": true,
       "requirements": [
@@ -15668,6 +17018,11 @@
       "groupAnyReplace": true,
       "subclass": "Unloader",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "titanium",
@@ -15723,6 +17078,11 @@
       "groupAnyReplace": false,
       "subclass": "MassDriver",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -15796,6 +17156,11 @@
       "groupAnyReplace": true,
       "subclass": "Duct",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "beryllium",
@@ -15847,6 +17212,11 @@
       "groupAnyReplace": true,
       "subclass": "Duct",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "beryllium",
@@ -15902,6 +17272,11 @@
       "groupAnyReplace": true,
       "subclass": "DuctRouter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "beryllium",
@@ -15953,6 +17328,11 @@
       "groupAnyReplace": true,
       "subclass": "OverflowDuct",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "graphite",
@@ -16008,6 +17388,11 @@
       "groupAnyReplace": true,
       "subclass": "OverflowDuct",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "graphite",
@@ -16064,6 +17449,11 @@
       "groupAnyReplace": true,
       "subclass": "DuctBridge",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "beryllium",
@@ -16115,6 +17505,11 @@
       "groupAnyReplace": true,
       "subclass": "DirectionalUnloader",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "graphite",
@@ -16174,6 +17569,11 @@
       "groupAnyReplace": true,
       "subclass": "StackConveyor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": true,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -16240,6 +17640,11 @@
       "groupAnyReplace": true,
       "subclass": "StackRouter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": true,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -16305,6 +17710,11 @@
       "groupAnyReplace": false,
       "subclass": "UnitCargoLoader",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -16381,6 +17791,11 @@
       "groupAnyReplace": false,
       "subclass": "UnitCargoUnloadPoint",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "silicon",
@@ -16437,6 +17852,11 @@
       "groupAnyReplace": true,
       "subclass": "Pump",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "copper",
@@ -16493,6 +17913,11 @@
       "groupAnyReplace": true,
       "subclass": "Pump",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -16567,6 +17992,11 @@
       "groupAnyReplace": true,
       "subclass": "Pump",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -16645,6 +18075,11 @@
       "groupAnyReplace": true,
       "subclass": "Conduit",
       "chained": true,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "metaglass",
@@ -16697,6 +18132,11 @@
       "groupAnyReplace": true,
       "subclass": "Conduit",
       "chained": true,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "metaglass",
@@ -16754,6 +18194,11 @@
       "groupAnyReplace": true,
       "subclass": "ArmoredConduit",
       "chained": true,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "metaglass",
@@ -16814,6 +18259,11 @@
       "groupAnyReplace": true,
       "subclass": "LiquidRouter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "metaglass",
@@ -16870,6 +18320,11 @@
       "groupAnyReplace": true,
       "subclass": "LiquidRouter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "metaglass",
@@ -16926,6 +18381,11 @@
       "groupAnyReplace": true,
       "subclass": "LiquidRouter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "metaglass",
@@ -16982,6 +18442,11 @@
       "groupAnyReplace": true,
       "subclass": "LiquidJunction",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "metaglass",
@@ -17038,6 +18503,11 @@
       "groupAnyReplace": true,
       "subclass": "LiquidBridge",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "metaglass",
@@ -17094,6 +18564,11 @@
       "groupAnyReplace": true,
       "subclass": "LiquidBridge",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -17168,6 +18643,11 @@
       "groupAnyReplace": true,
       "subclass": "Pump",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "liquid",
@@ -17238,6 +18718,11 @@
       "groupAnyReplace": true,
       "subclass": "ArmoredConduit",
       "chained": true,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "beryllium",
@@ -17290,6 +18775,11 @@
       "groupAnyReplace": true,
       "subclass": "LiquidJunction",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "graphite",
@@ -17346,6 +18836,11 @@
       "groupAnyReplace": true,
       "subclass": "DirectionLiquidBridge",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "graphite",
@@ -17402,6 +18897,11 @@
       "groupAnyReplace": true,
       "subclass": "LiquidRouter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "graphite",
@@ -17458,6 +18958,11 @@
       "groupAnyReplace": true,
       "subclass": "LiquidRouter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "beryllium",
@@ -17514,6 +19019,11 @@
       "groupAnyReplace": true,
       "subclass": "LiquidRouter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "beryllium",
@@ -17570,6 +19080,14 @@
       "groupAnyReplace": false,
       "subclass": "PowerNode",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": false,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "laserRange": 6,
+      "maxNodes": 10,
+      "autolink": true,
       "requirements": [
         {
           "item": "copper",
@@ -17626,6 +19144,14 @@
       "groupAnyReplace": false,
       "subclass": "PowerNode",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": false,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "laserRange": 15,
+      "maxNodes": 15,
+      "autolink": true,
       "requirements": [
         {
           "item": "lead",
@@ -17686,6 +19212,14 @@
       "groupAnyReplace": false,
       "subclass": "PowerNode",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": false,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "laserRange": 40,
+      "maxNodes": 2,
+      "autolink": true,
       "requirements": [
         {
           "item": "lead",
@@ -17749,6 +19283,11 @@
       "groupAnyReplace": false,
       "subclass": "PowerDiode",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": true,
       "requirements": [
         {
           "item": "metaglass",
@@ -17810,6 +19349,11 @@
       "groupAnyReplace": false,
       "subclass": "Battery",
       "chained": false,
+      "outputsPower": true,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -17877,6 +19421,11 @@
       "groupAnyReplace": false,
       "subclass": "Battery",
       "chained": false,
+      "outputsPower": true,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -17949,6 +19498,40 @@
       "groupAnyReplace": false,
       "subclass": "ConsumeGenerator",
       "chained": false,
+      "outputsPower": true,
+      "consumesPower": false,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "powerProduction": 1,
+      "itemDuration": 120,
+      "warmupSpeed": 0.05,
+      "consumes": [
+        {
+          "kind": "itemFilter",
+          "items": [
+            "coal",
+            "spore-pod",
+            "blast-compound",
+            "pyratite"
+          ],
+          "multipliers": {
+            "coal": 1,
+            "spore-pod": 1.15,
+            "blast-compound": 0.4,
+            "pyratite": 1.4
+          },
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "itemExplode",
+          "damage": 4,
+          "threshold": 0.5,
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -18007,6 +19590,12 @@
       "groupAnyReplace": false,
       "subclass": "ThermalGenerator",
       "chained": false,
+      "outputsPower": true,
+      "consumesPower": false,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "powerProduction": 1.8,
       "requirements": [
         {
           "item": "copper",
@@ -18077,11 +19666,43 @@
       "groupAnyReplace": false,
       "subclass": "ConsumeGenerator",
       "chained": false,
+      "outputsPower": true,
+      "consumesPower": false,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "powerProduction": 5.5,
+      "itemDuration": 90,
+      "warmupSpeed": 0.05,
       "consumes": [
         {
           "kind": "liquid",
           "liquid": "water",
           "amount": 0.1,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "itemFilter",
+          "items": [
+            "coal",
+            "spore-pod",
+            "blast-compound",
+            "pyratite"
+          ],
+          "multipliers": {
+            "coal": 1,
+            "spore-pod": 1.15,
+            "blast-compound": 0.4,
+            "pyratite": 1.4
+          },
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "itemExplode",
+          "damage": 4,
+          "threshold": 0.5,
           "optional": false,
           "boost": false
         }
@@ -18152,6 +19773,14 @@
       "groupAnyReplace": false,
       "subclass": "ConsumeGenerator",
       "chained": false,
+      "outputsPower": true,
+      "consumesPower": false,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "powerProduction": 18,
+      "itemDuration": 220,
+      "warmupSpeed": 0.05,
       "consumes": [
         {
           "kind": "items",
@@ -18242,6 +19871,31 @@
       "groupAnyReplace": false,
       "subclass": "ConsumeGenerator",
       "chained": false,
+      "outputsPower": true,
+      "consumesPower": false,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "powerProduction": 4.5,
+      "itemDuration": 840,
+      "warmupSpeed": 0.05,
+      "consumes": [
+        {
+          "kind": "itemFilter",
+          "items": [
+            "thorium",
+            "phase-fabric",
+            "fissile-matter"
+          ],
+          "multipliers": {
+            "thorium": 1,
+            "phase-fabric": 0.6,
+            "fissile-matter": 1.5
+          },
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "lead",
@@ -18312,6 +19966,12 @@
       "groupAnyReplace": false,
       "subclass": "SolarGenerator",
       "chained": false,
+      "outputsPower": true,
+      "consumesPower": false,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "powerProduction": 0.12,
       "requirements": [
         {
           "item": "lead",
@@ -18370,6 +20030,12 @@
       "groupAnyReplace": false,
       "subclass": "SolarGenerator",
       "chained": false,
+      "outputsPower": true,
+      "consumesPower": false,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "powerProduction": 1.6,
       "requirements": [
         {
           "item": "lead",
@@ -18432,6 +20098,12 @@
       "groupAnyReplace": false,
       "subclass": "NuclearReactor",
       "chained": false,
+      "outputsPower": true,
+      "consumesPower": false,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "powerProduction": 15,
       "consumes": [
         {
           "kind": "items",
@@ -18522,6 +20194,12 @@
       "groupAnyReplace": false,
       "subclass": "ImpactReactor",
       "chained": false,
+      "outputsPower": true,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "powerProduction": 130,
       "consumes": [
         {
           "kind": "power",
@@ -18622,6 +20300,11 @@
       "groupAnyReplace": false,
       "subclass": "BeamNode",
       "chained": false,
+      "outputsPower": true,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -18684,6 +20367,11 @@
       "groupAnyReplace": false,
       "subclass": "BeamNode",
       "chained": false,
+      "outputsPower": true,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -18755,6 +20443,14 @@
       "groupAnyReplace": false,
       "subclass": "LongPowerNode",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": false,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "laserRange": 500,
+      "maxNodes": 1,
+      "autolink": false,
       "requirements": [
         {
           "item": "silicon",
@@ -18829,6 +20525,12 @@
       "groupAnyReplace": true,
       "subclass": "ThermalGenerator",
       "chained": false,
+      "outputsPower": true,
+      "consumesPower": false,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "powerProduction": 0.33333334,
       "requirements": [
         {
           "item": "beryllium",
@@ -18883,6 +20585,14 @@
       "groupAnyReplace": false,
       "subclass": "ConsumeGenerator",
       "chained": false,
+      "outputsPower": true,
+      "consumesPower": false,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "powerProduction": 9.166667,
+      "itemDuration": 120,
+      "warmupSpeed": 0.05,
       "consumes": [
         {
           "kind": "liquids",
@@ -18966,6 +20676,14 @@
       "groupAnyReplace": false,
       "subclass": "ConsumeGenerator",
       "chained": false,
+      "outputsPower": true,
+      "consumesPower": false,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "powerProduction": 23.333334,
+      "itemDuration": 120,
+      "warmupSpeed": 0.05,
       "consumes": [
         {
           "kind": "liquids",
@@ -19049,6 +20767,12 @@
       "groupAnyReplace": false,
       "subclass": "VariableReactor",
       "chained": false,
+      "outputsPower": true,
+      "consumesPower": false,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "powerProduction": 300,
       "consumes": [
         {
           "kind": "liquid",
@@ -19129,6 +20853,14 @@
       "groupAnyReplace": false,
       "subclass": "HeaterGenerator",
       "chained": false,
+      "outputsPower": true,
+      "consumesPower": false,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "powerProduction": 140,
+      "itemDuration": 180,
+      "warmupSpeed": 0.05,
       "consumes": [
         {
           "kind": "liquid",
@@ -19227,6 +20959,11 @@
       "groupAnyReplace": false,
       "subclass": "Drill",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "tier": 2,
       "drillTime": 600,
       "hardnessDrillMultiplier": 50,
@@ -19292,6 +21029,11 @@
       "groupAnyReplace": false,
       "subclass": "Drill",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "tier": 3,
       "drillTime": 400,
       "hardnessDrillMultiplier": 50,
@@ -19361,6 +21103,11 @@
       "groupAnyReplace": false,
       "subclass": "Drill",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "tier": 4,
       "drillTime": 280,
       "hardnessDrillMultiplier": 50,
@@ -19446,6 +21193,11 @@
       "groupAnyReplace": false,
       "subclass": "Drill",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "tier": 5,
       "drillTime": 280,
       "hardnessDrillMultiplier": 50,
@@ -19533,6 +21285,11 @@
       "groupAnyReplace": true,
       "subclass": "SolidPump",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -19607,6 +21364,11 @@
       "groupAnyReplace": false,
       "subclass": "AttributeCrafter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 100,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -19694,6 +21456,11 @@
       "groupAnyReplace": true,
       "subclass": "Fracker",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "items",
@@ -19790,6 +21557,11 @@
       "groupAnyReplace": true,
       "subclass": "AttributeCrafter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 120,
       "warmupSpeed": 0.019,
       "outputLiquids": [
@@ -19863,6 +21635,11 @@
       "groupAnyReplace": false,
       "subclass": "WallCrafter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -19928,6 +21705,11 @@
       "groupAnyReplace": false,
       "subclass": "WallCrafter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -20019,6 +21801,11 @@
       "groupAnyReplace": false,
       "subclass": "BeamDrill",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -20087,6 +21874,11 @@
       "groupAnyReplace": false,
       "subclass": "BeamDrill",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -20175,6 +21967,11 @@
       "groupAnyReplace": false,
       "subclass": "BurstDrill",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "tier": 6,
       "drillTime": 720,
       "hardnessDrillMultiplier": 0,
@@ -20271,6 +22068,11 @@
       "groupAnyReplace": false,
       "subclass": "BurstDrill",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "tier": 7,
       "drillTime": 281.25,
       "hardnessDrillMultiplier": 0,
@@ -20367,6 +22169,11 @@
       "groupAnyReplace": true,
       "subclass": "CoreBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "copper",
@@ -20423,6 +22230,11 @@
       "groupAnyReplace": true,
       "subclass": "CoreBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "copper",
@@ -20483,6 +22295,11 @@
       "groupAnyReplace": true,
       "subclass": "CoreBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "copper",
@@ -20547,6 +22364,11 @@
       "groupAnyReplace": true,
       "subclass": "CoreBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "graphite",
@@ -20607,6 +22429,11 @@
       "groupAnyReplace": true,
       "subclass": "CoreBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "silicon",
@@ -20671,6 +22498,11 @@
       "groupAnyReplace": true,
       "subclass": "CoreBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "silicon",
@@ -20738,6 +22570,11 @@
       "groupAnyReplace": true,
       "subclass": "StorageBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "titanium",
@@ -20789,6 +22626,11 @@
       "groupAnyReplace": true,
       "subclass": "StorageBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "titanium",
@@ -20844,6 +22686,11 @@
       "groupAnyReplace": true,
       "subclass": "StorageBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "graphite",
@@ -20899,6 +22746,11 @@
       "groupAnyReplace": true,
       "subclass": "StorageBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "thorium",
@@ -20962,6 +22814,23 @@
       "groupAnyReplace": true,
       "subclass": "ItemTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "consumes": [
+        {
+          "kind": "itemFilter",
+          "items": [
+            "copper",
+            "graphite",
+            "silicon"
+          ],
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -21017,6 +22886,23 @@
       "groupAnyReplace": true,
       "subclass": "ItemTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "consumes": [
+        {
+          "kind": "itemFilter",
+          "items": [
+            "lead",
+            "metaglass",
+            "scrap"
+          ],
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -21076,6 +22962,22 @@
       "groupAnyReplace": true,
       "subclass": "ItemTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "consumes": [
+        {
+          "kind": "itemFilter",
+          "items": [
+            "coal",
+            "pyratite"
+          ],
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -21135,6 +23037,23 @@
       "groupAnyReplace": true,
       "subclass": "ItemTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "consumes": [
+        {
+          "kind": "itemFilter",
+          "items": [
+            "graphite",
+            "silicon",
+            "pyratite"
+          ],
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -21194,6 +23113,11 @@
       "groupAnyReplace": true,
       "subclass": "LiquidTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "copper",
@@ -21257,6 +23181,11 @@
       "groupAnyReplace": true,
       "subclass": "PowerTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -21334,6 +23263,11 @@
       "groupAnyReplace": true,
       "subclass": "PowerTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -21401,6 +23335,11 @@
       "groupAnyReplace": true,
       "subclass": "TractorBeamTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -21474,6 +23413,23 @@
       "groupAnyReplace": true,
       "subclass": "ItemTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "consumes": [
+        {
+          "kind": "itemFilter",
+          "items": [
+            "surge-alloy",
+            "blast-compound",
+            "pyratite"
+          ],
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "graphite",
@@ -21541,6 +23497,25 @@
       "groupAnyReplace": true,
       "subclass": "ItemTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "consumes": [
+        {
+          "kind": "itemFilter",
+          "items": [
+            "copper",
+            "graphite",
+            "thorium",
+            "silicon",
+            "pyratite"
+          ],
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -21603,6 +23578,11 @@
       "groupAnyReplace": true,
       "subclass": "PointDefenseTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -21680,6 +23660,11 @@
       "groupAnyReplace": true,
       "subclass": "LiquidTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "lead",
@@ -21747,6 +23732,22 @@
       "groupAnyReplace": true,
       "subclass": "ItemTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "consumes": [
+        {
+          "kind": "itemFilter",
+          "items": [
+            "titanium",
+            "thorium"
+          ],
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -21810,6 +23811,25 @@
       "groupAnyReplace": true,
       "subclass": "ItemTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "consumes": [
+        {
+          "kind": "itemFilter",
+          "items": [
+            "graphite",
+            "silicon",
+            "plastanium",
+            "blast-compound",
+            "pyratite"
+          ],
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -21873,6 +23893,24 @@
       "groupAnyReplace": true,
       "subclass": "ItemTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "consumes": [
+        {
+          "kind": "itemFilter",
+          "items": [
+            "metaglass",
+            "plastanium",
+            "surge-alloy",
+            "blast-compound"
+          ],
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -21936,12 +23974,25 @@
       "groupAnyReplace": true,
       "subclass": "ItemTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
           "usage": 10,
           "capacity": 0,
           "buffered": false,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "itemFilter",
+          "items": [
+            "surge-alloy"
+          ],
           "optional": false,
           "boost": false
         }
@@ -22017,6 +24068,23 @@
       "groupAnyReplace": true,
       "subclass": "ItemTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "consumes": [
+        {
+          "kind": "itemFilter",
+          "items": [
+            "graphite",
+            "thorium",
+            "pyratite"
+          ],
+          "optional": false,
+          "boost": false
+        }
+      ],
       "requirements": [
         {
           "item": "copper",
@@ -22089,6 +24157,11 @@
       "groupAnyReplace": true,
       "subclass": "LaserTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -22170,6 +24243,11 @@
       "groupAnyReplace": true,
       "subclass": "ItemTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "liquid",
@@ -22177,6 +24255,16 @@
           "amount": 0.25,
           "optional": true,
           "boost": true
+        },
+        {
+          "kind": "itemFilter",
+          "items": [
+            "beryllium",
+            "tungsten",
+            "carbide"
+          ],
+          "optional": false,
+          "boost": false
         }
       ],
       "requirements": [
@@ -22242,6 +24330,11 @@
       "groupAnyReplace": true,
       "subclass": "ItemTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "liquid",
@@ -22249,6 +24342,16 @@
           "amount": 0.25,
           "optional": true,
           "boost": true
+        },
+        {
+          "kind": "itemFilter",
+          "items": [
+            "graphite",
+            "silicon",
+            "oxide"
+          ],
+          "optional": false,
+          "boost": false
         }
       ],
       "requirements": [
@@ -22319,6 +24422,11 @@
       "groupAnyReplace": true,
       "subclass": "ContinuousLiquidTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "silicon",
@@ -22386,6 +24494,11 @@
       "groupAnyReplace": true,
       "subclass": "ItemTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "liquid",
@@ -22398,6 +24511,16 @@
           "kind": "liquid",
           "liquid": "hydrogen",
           "amount": 0.083333336,
+          "optional": false,
+          "boost": false
+        },
+        {
+          "kind": "itemFilter",
+          "items": [
+            "thorium",
+            "oxide",
+            "carbide"
+          ],
           "optional": false,
           "boost": false
         }
@@ -22465,6 +24588,11 @@
       "groupAnyReplace": true,
       "subclass": "ItemTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "liquid",
@@ -22472,6 +24600,17 @@
           "amount": 0.33333334,
           "optional": true,
           "boost": true
+        },
+        {
+          "kind": "itemFilter",
+          "items": [
+            "thorium",
+            "silicon",
+            "surge-alloy",
+            "tungsten"
+          ],
+          "optional": false,
+          "boost": false
         }
       ],
       "requirements": [
@@ -22541,6 +24680,11 @@
       "groupAnyReplace": true,
       "subclass": "PowerTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -22618,6 +24762,11 @@
       "groupAnyReplace": true,
       "subclass": "ContinuousTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "liquid",
@@ -22702,6 +24851,11 @@
       "groupAnyReplace": true,
       "subclass": "ItemTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "liquid",
@@ -22709,6 +24863,16 @@
           "amount": 0.25,
           "optional": true,
           "boost": true
+        },
+        {
+          "kind": "itemFilter",
+          "items": [
+            "phase-fabric",
+            "surge-alloy",
+            "carbide"
+          ],
+          "optional": false,
+          "boost": false
         }
       ],
       "requirements": [
@@ -22782,6 +24946,11 @@
       "groupAnyReplace": true,
       "subclass": "ItemTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "liquid",
@@ -22789,6 +24958,14 @@
           "amount": 0.25,
           "optional": true,
           "boost": true
+        },
+        {
+          "kind": "itemFilter",
+          "items": [
+            "surge-alloy"
+          ],
+          "optional": false,
+          "boost": false
         }
       ],
       "requirements": [
@@ -22862,6 +25039,11 @@
       "groupAnyReplace": true,
       "subclass": "PowerTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -22941,6 +25123,11 @@
       "groupAnyReplace": false,
       "subclass": "UnitFactory",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -23012,6 +25199,11 @@
       "groupAnyReplace": false,
       "subclass": "UnitFactory",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -23083,6 +25275,11 @@
       "groupAnyReplace": false,
       "subclass": "UnitFactory",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -23154,6 +25351,11 @@
       "groupAnyReplace": false,
       "subclass": "Reconstructor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -23240,6 +25442,11 @@
       "groupAnyReplace": false,
       "subclass": "Reconstructor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -23334,6 +25541,11 @@
       "groupAnyReplace": false,
       "subclass": "Reconstructor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -23443,6 +25655,11 @@
       "groupAnyReplace": false,
       "subclass": "Reconstructor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -23554,6 +25771,11 @@
       "groupAnyReplace": true,
       "subclass": "RepairTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -23623,6 +25845,11 @@
       "groupAnyReplace": true,
       "subclass": "RepairTurret",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -23694,6 +25921,11 @@
       "groupAnyReplace": false,
       "subclass": "UnitFactory",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -23761,6 +25993,11 @@
       "groupAnyReplace": false,
       "subclass": "UnitFactory",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -23828,6 +26065,11 @@
       "groupAnyReplace": false,
       "subclass": "UnitFactory",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -23899,6 +26141,11 @@
       "groupAnyReplace": false,
       "subclass": "Reconstructor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -23992,6 +26239,11 @@
       "groupAnyReplace": false,
       "subclass": "Reconstructor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -24089,6 +26341,11 @@
       "groupAnyReplace": false,
       "subclass": "Reconstructor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -24182,6 +26439,11 @@
       "groupAnyReplace": false,
       "subclass": "Reconstructor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -24278,6 +26540,11 @@
       "groupAnyReplace": false,
       "subclass": "UnitAssembler",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -24359,6 +26626,11 @@
       "groupAnyReplace": false,
       "subclass": "UnitAssembler",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -24444,6 +26716,11 @@
       "groupAnyReplace": false,
       "subclass": "UnitAssembler",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -24529,6 +26806,11 @@
       "groupAnyReplace": true,
       "subclass": "UnitAssemblerModule",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -24602,6 +26884,11 @@
       "groupAnyReplace": false,
       "subclass": "RepairTower",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -24678,6 +26965,11 @@
       "groupAnyReplace": true,
       "subclass": "PayloadConveyor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "copper",
@@ -24734,6 +27026,11 @@
       "groupAnyReplace": true,
       "subclass": "PayloadRouter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "copper",
@@ -24789,6 +27086,11 @@
       "groupAnyReplace": true,
       "subclass": "PayloadConveyor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "tungsten",
@@ -24841,6 +27143,11 @@
       "groupAnyReplace": true,
       "subclass": "PayloadRouter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "tungsten",
@@ -24893,6 +27200,11 @@
       "groupAnyReplace": false,
       "subclass": "PayloadMassDriver",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -24963,6 +27275,11 @@
       "groupAnyReplace": false,
       "subclass": "PayloadMassDriver",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -25041,6 +27358,11 @@
       "groupAnyReplace": true,
       "subclass": "PayloadDeconstructor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -25115,6 +27437,11 @@
       "groupAnyReplace": true,
       "subclass": "PayloadDeconstructor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -25190,6 +27517,11 @@
       "groupAnyReplace": true,
       "subclass": "Constructor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -25261,6 +27593,11 @@
       "groupAnyReplace": true,
       "subclass": "Constructor",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -25335,6 +27672,11 @@
       "groupAnyReplace": true,
       "subclass": "PayloadLoader",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -25406,6 +27748,11 @@
       "groupAnyReplace": true,
       "subclass": "PayloadUnloader",
       "chained": false,
+      "outputsPower": true,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -25477,6 +27824,15 @@
       "groupAnyReplace": false,
       "subclass": "PowerSource",
       "chained": false,
+      "outputsPower": true,
+      "consumesPower": false,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "powerProduction": 16666.666,
+      "laserRange": 6,
+      "maxNodes": 100,
+      "autolink": true,
       "requirements": []
     },
     "power-void": {
@@ -25524,6 +27880,11 @@
       "groupAnyReplace": false,
       "subclass": "PowerVoid",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -25580,6 +27941,11 @@
       "groupAnyReplace": true,
       "subclass": "ItemSource",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "itemsPerSecond": 100,
       "requirements": []
     },
@@ -25627,6 +27993,11 @@
       "groupAnyReplace": true,
       "subclass": "ItemVoid",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "liquid-source": {
@@ -25673,6 +28044,11 @@
       "groupAnyReplace": true,
       "subclass": "LiquidSource",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "liquid-void": {
@@ -25719,6 +28095,11 @@
       "groupAnyReplace": true,
       "subclass": "LiquidVoid",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "payload-source": {
@@ -25766,6 +28147,11 @@
       "groupAnyReplace": true,
       "subclass": "PayloadSource",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "payload-void": {
@@ -25813,6 +28199,11 @@
       "groupAnyReplace": true,
       "subclass": "PayloadVoid",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "heat-source": {
@@ -25860,6 +28251,11 @@
       "groupAnyReplace": false,
       "subclass": "HeatProducer",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "craftTime": 80,
       "warmupSpeed": 0.019,
       "requirements": []
@@ -25908,6 +28304,11 @@
       "groupAnyReplace": false,
       "subclass": "LightBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -25978,6 +28379,11 @@
       "groupAnyReplace": false,
       "subclass": "LegacyMechPad",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "legacy-unit-factory": {
@@ -26025,6 +28431,11 @@
       "groupAnyReplace": false,
       "subclass": "LegacyUnitFactory",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "legacy-unit-factory-air": {
@@ -26072,6 +28483,11 @@
       "groupAnyReplace": false,
       "subclass": "LegacyUnitFactory",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "legacy-unit-factory-ground": {
@@ -26119,6 +28535,11 @@
       "groupAnyReplace": false,
       "subclass": "LegacyUnitFactory",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "command-center": {
@@ -26166,6 +28587,11 @@
       "groupAnyReplace": false,
       "subclass": "LegacyCommandCenter",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "launch-pad": {
@@ -26212,6 +28638,11 @@
       "groupAnyReplace": false,
       "subclass": "LaunchPad",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -26285,6 +28716,11 @@
       "groupAnyReplace": false,
       "subclass": "LaunchPad",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "liquid",
@@ -26365,6 +28801,11 @@
       "groupAnyReplace": false,
       "subclass": "LandingPad",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "liquid",
@@ -26433,6 +28874,11 @@
       "groupAnyReplace": false,
       "subclass": "Accelerator",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "power",
@@ -26539,6 +28985,11 @@
       "groupAnyReplace": true,
       "subclass": "MessageBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "copper",
@@ -26594,6 +29045,11 @@
       "groupAnyReplace": true,
       "subclass": "SwitchBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "copper",
@@ -26653,6 +29109,11 @@
       "groupAnyReplace": true,
       "subclass": "LogicBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "copper",
@@ -26716,6 +29177,11 @@
       "groupAnyReplace": true,
       "subclass": "LogicBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "lead",
@@ -26783,6 +29249,11 @@
       "groupAnyReplace": true,
       "subclass": "LogicBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "consumes": [
         {
           "kind": "liquid",
@@ -26856,6 +29327,11 @@
       "groupAnyReplace": true,
       "subclass": "MemoryBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "copper",
@@ -26916,6 +29392,11 @@
       "groupAnyReplace": true,
       "subclass": "MemoryBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "copper",
@@ -26980,6 +29461,11 @@
       "groupAnyReplace": true,
       "subclass": "LogicDisplay",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "lead",
@@ -27040,6 +29526,11 @@
       "groupAnyReplace": true,
       "subclass": "LogicDisplay",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "lead",
@@ -27105,6 +29596,11 @@
       "groupAnyReplace": true,
       "subclass": "TileableLogicDisplay",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "lead",
@@ -27168,6 +29664,11 @@
       "groupAnyReplace": false,
       "subclass": "CanvasBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "silicon",
@@ -27223,6 +29724,11 @@
       "groupAnyReplace": false,
       "subclass": "CanvasBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "silicon",
@@ -27284,6 +29790,11 @@
       "groupAnyReplace": true,
       "subclass": "MessageBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": [
         {
           "item": "graphite",
@@ -27343,6 +29854,11 @@
       "groupAnyReplace": true,
       "subclass": "LogicBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "world-cell": {
@@ -27390,6 +29906,11 @@
       "groupAnyReplace": true,
       "subclass": "MemoryBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "world-message": {
@@ -27438,6 +29959,11 @@
       "groupAnyReplace": true,
       "subclass": "MessageBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     },
     "world-switch": {
@@ -27484,6 +30010,11 @@
       "groupAnyReplace": true,
       "subclass": "SwitchBlock",
       "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
       "requirements": []
     }
   }
