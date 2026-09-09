@@ -20,7 +20,8 @@ import logicIds from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 import {BUILDINGS, ITEMS, UNITS, HOLDERS} from '../src/course/scenes/sensor.js'
 import {VALUES, EMPTINESS, PROCESSOR} from '../src/course/scenes/basics.js'
 import {
-    ARITHMETIC, STEPS, INTEGERS, ROUNDING, PRECISION, LOGIC, NEGATION, BITWISE, SHIFTS
+    ARITHMETIC, STEPS, INTEGERS, ROUNDING, PRECISION, LOGIC, NEGATION, BITWISE, SHIFTS,
+    GEOMETRY, FLOAT, RANDOM, NOISE
 } from '../src/course/scenes/op.js'
 
 const content = createContent(logicIds)
@@ -362,4 +363,100 @@ test('урок «Битовые операции»: дробная часть д
     })
 
     assert.equal(num(processor, 'дробь'), 8)
+})
+
+test('урок «Углы и расстояния»: длина, угол и разница углов', () => {
+    const processor = run(GEOMETRY)
+
+    assert.equal(num(processor, 'расстояние'), 50)
+    assert.equal(num(processor, 'разница'), 20)
+
+    // Числа с хвостом урок называет полностью — их видно в таблице примера
+    assert.equal(num(processor, 'угол'), 53.130008697509766)
+    assert.equal(num(processor, 'высота'), 0.49999999999999994)
+})
+
+test('урок «Углы и расстояния»: у этих операций точность вдвое короче', () => {
+    const processor = run(FLOAT)
+
+    // Корень из двух в полной точности — 1.4142135623730951
+    assert.equal(num(processor, 'диагональ'), 1.4142135381698608)
+
+    // Угол «влево» — не ровно 180: `Angles.angle` считает приближённо
+    assert.equal(num(processor, 'назад'), 179.99989318847656)
+})
+
+test('урок «Углы и расстояния»: обратное смещение меняет угол на 180', () => {
+    const processor = run({
+        ...GEOMETRY,
+        processors: [{
+            ...GEOMETRY.processors[0],
+            program: [
+                'op sub dx 40 12',
+                'op sub dy 45 5',
+                'op len путь dx dy',
+                'op angle туда dx dy',
+                'op angle обратно -28 -40',
+                'op angleDiff разворот туда обратно'
+            ].join('\n')
+        }]
+    })
+
+    assert.equal(num(processor, 'dx'), 28)
+    assert.ok(Math.abs(num(processor, 'путь') - 48.8) < 0.1, num(processor, 'путь'))
+    /*
+     * Не ровно 180, и это ровно то, о чём урок: у `angle` и `angleDiff` точность вдвое
+     * короче обычной, поэтому развороту позволено промахнуться на тысячную.
+     */
+    assert.ok(Math.abs(num(processor, 'разворот') - 180) < 0.001, num(processor, 'разворот'))
+})
+
+test('урок «Случайность и шум»: кубик выпадает от одного до шести', () => {
+    /*
+     * Зерно у нас закреплено, но урок обещает не конкретное число, а границы — их и
+     * проверяем, зато на многих бросках. Проверять выпавшую двойку значило бы закрепить
+     * тестом то, что в игре каждый раз другое.
+     */
+    /*
+     * Тики кратны трём: у микропроцессора две инструкции за тик, а в программе их три,
+     * и только на каждом третьем тике круг заканчивается ровно. Иначе снимок застаёт
+     * программу между `floor` и `add`, когда кубик ещё не собран.
+     */
+    for (let ticks = 3; ticks <= 60; ticks += 3) {
+        const processor = run(RANDOM, ticks)
+
+        const roll = num(processor, 'бросок')
+        const value = num(processor, 'кубик')
+
+        assert.ok(roll >= 0 && roll < 6, `бросок от 0 до 6: ${roll}`)
+        assert.ok(Number.isInteger(value), `грань целая: ${value}`)
+        assert.ok(value >= 1 && value <= 6, `грань от 1 до 6: ${value}`)
+    }
+})
+
+test('урок «Случайность и шум»: два броска подряд дают разные числа', () => {
+    const processor = run({
+        ...RANDOM,
+        processors: [{
+            ...RANDOM.processors[0],
+            program: ['op rand a 1000', 'op rand b 1000'].join('\n')
+        }]
+    })
+
+    assert.notEqual(num(processor, 'a'), num(processor, 'b'))
+})
+
+test('урок «Случайность и шум»: у соседних точек шум почти одинаковый', () => {
+    const processor = run(NOISE)
+
+    const here = num(processor, 'тут')
+    const near = num(processor, 'рядом')
+    const far = num(processor, 'далеко')
+
+    for (const value of [here, near, far]) {
+        assert.ok(value >= -1 && value <= 1, `шум в пределах от −1 до 1: ${value}`)
+    }
+
+    assert.ok(Math.abs(here - near) < 0.01, `соседи близки: ${here} и ${near}`)
+    assert.ok(Math.abs(here - far) > 0.5, `дальняя точка другая: ${here} и ${far}`)
 })

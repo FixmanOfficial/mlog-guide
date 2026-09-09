@@ -156,3 +156,65 @@ export const SHIFTS = {
         ].join('\n')
     }]
 }
+
+/** Урок «Углы и расстояния»: длина, угол, разница углов и синус. */
+export const GEOMETRY = {
+    width: 8, height: 5, floor: 'sand',
+    blocks: [{type: 'micro-processor', x: 2, y: 2}],
+    processors: [{
+        at: [2, 2],
+        links: [],
+        program: [
+            'set dx 30',
+            'set dy 40',
+            'op len расстояние dx dy',
+            'op angle угол dx dy',
+            'op angleDiff разница 350 10',
+            'op sin высота 30'
+        ].join('\n')
+    }]
+}
+
+/** Урок «Углы и расстояния»: два ответа, которые чуть-чуть не те, что в учебнике. */
+export const FLOAT = {
+    width: 8, height: 5, floor: 'sand',
+    blocks: [{type: 'micro-processor', x: 2, y: 2}],
+    processors: [{
+        at: [2, 2],
+        links: [],
+        program: [
+            'op len диагональ 1 1',
+            'op angle назад -5 0'
+        ].join('\n')
+    }]
+}
+
+/** Урок «Случайность и шум»: бросок кубика от одного до шести. */
+export const RANDOM = {
+    width: 8, height: 5, floor: 'sand',
+    blocks: [{type: 'micro-processor', x: 2, y: 2}],
+    processors: [{
+        at: [2, 2],
+        links: [],
+        program: [
+            'op rand бросок 6',
+            'op floor кубик бросок',
+            'op add кубик кубик 1'
+        ].join('\n')
+    }]
+}
+
+/** Урок «Случайность и шум»: соседние точки шума похожи, дальние — нет. */
+export const NOISE = {
+    width: 8, height: 5, floor: 'sand',
+    blocks: [{type: 'micro-processor', x: 2, y: 2}],
+    processors: [{
+        at: [2, 2],
+        links: [],
+        program: [
+            'op noise тут 10 10',
+            'op noise рядом 10.01 10',
+            'op noise далеко 40 10'
+        ].join('\n')
+    }]
+}
