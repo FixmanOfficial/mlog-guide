@@ -31,6 +31,7 @@ import {Hud, HideHint} from './Hud.jsx'
 import {permissions, canEdit} from './permissions.js'
 import {loadProgram, saveProgram, forgetPrograms} from './storage.js'
 
+import {linePlans, breakArea} from '@mlog/core/src/placement.js'
 import {createScene, attachProcessor} from './scene.js'
 import {MessageDialog, MemoryDialog} from './BlockDialogs.jsx'
 import {Variables} from '../game/Variables.jsx'
@@ -150,10 +151,9 @@ export function Sandbox({allow = {}, scene: description = undefined,
     const chooseBlock = (next) => {
         blockRef.current = next
         breakingRef.current = false
+        dragRef.current = null
 
-        if (cursorRef.current !== null) {
-            cursorRef.current = {...cursorRef.current, block: next, breaking: false}
-        }
+        refreshCursor()
 
         setBlock(next)
         setBreaking(false)
@@ -162,10 +162,9 @@ export function Sandbox({allow = {}, scene: description = undefined,
     const toggleBreaking = () => {
         breakingRef.current = !breakingRef.current
         blockRef.current = null
+        dragRef.current = null
 
-        if (cursorRef.current !== null) {
-            cursorRef.current = {...cursorRef.current, block: null, breaking: breakingRef.current}
-        }
+        refreshCursor()
 
         setBreaking(breakingRef.current)
         setBlock(null)
@@ -174,6 +173,14 @@ export function Sandbox({allow = {}, scene: description = undefined,
     const turn = () => {
         rotationRef.current = mod(rotationRef.current + 1, 4)
         setRotation(rotationRef.current)
+    }
+
+    /** Попало ли здание в выделенную область — по своему следу, а не по центру. */
+    const overlaps = (building, area) => {
+        const start = building.sizeOffset
+
+        return building.x + start < area.x + area.width && building.x + start + building.size > area.x
+            && building.y + start < area.y + area.height && building.y + start + building.size > area.y
     }
 
     /** Снос: `world.remove` плюс уборка за процессором, если сносят его. */
@@ -202,11 +209,11 @@ export function Sandbox({allow = {}, scene: description = undefined,
      * своя скорость из спеки и место в списке — иначе поставленный процессор оставался бы
      * картинкой, которую нельзя открыть.
      */
-    const placeBlock = (type, spot) => {
+    const placeBlock = (type, spot, rotation = rotationRef.current) => {
         const scene = stand.current.scene
 
         const building = scene.world.place(type, spot.x, spot.y, {
-            team: scene.world.rules.defaultTeam, rotation: rotationRef.current
+            team: scene.world.rules.defaultTeam, rotation
         })
 
         if (building === null) return null
@@ -250,8 +257,19 @@ export function Sandbox({allow = {}, scene: description = undefined,
     const rotatePlacedRef = useRef(false)
     const configuredRef = useRef(null)
 
-    // Что показывать под курсором: клетка, выбранный блок и режим сноса
+    // Что показывать под курсором: готовые планы построек либо область сноса
     const cursorRef = useRef(null)
+
+    // Клетка под курсором сейчас: от неё считается и призрак, и конец протяжки
+    const spotRef = useRef(null)
+
+
+    /*
+     * Протяжка: клетка, где нажали кнопку, и что тянут — линию построек или область сноса.
+     * Пока она идёт, под курсором рисуется будущее, а мир меняется разом по отпусканию:
+     * в игре до отпускания это ещё не блоки, а планы.
+     */
+    const dragRef = useRef(null)
 
     // Сообщали ли уже, что цели выполнены
     const doneRef = useRef(false)
@@ -337,6 +355,48 @@ export function Sandbox({allow = {}, scene: description = undefined,
     }, [])
 
     /**
+     * Что показать под курсором: линия будущих блоков или область сноса.
+     *
+     * Пока кнопку не зажали, начало линии совпадает с концом, и выходит ровно один блок
+     * в клетке под курсором — отдельной ветки для щелчка поэтому нет.
+     */
+    const cursorFor = (spot) => {
+        if (spot === null || !rights.build) return null
+
+        const drag = dragRef.current
+        const start = drag === null ? spot : drag.start
+
+        if (drag === null ? breakingRef.current : drag.breaking) {
+            return {breaking: true, area: breakArea(start, spot)}
+        }
+
+        if (blockRef.current === null) return null
+
+        return {plans: linePlans(blockRef.current, start, spot, rotationRef.current)}
+    }
+
+    /** Пересчитать призрак под курсором и перерисовать мир. */
+    const refreshCursor = () => {
+        cursorRef.current = cursorFor(spotRef.current)
+        stand.current?.worldView?.draw({configured: configuredRef.current, cursor: cursorRef.current})
+    }
+
+    /** Клетка под указателем, прижатая к краям карты: тянуть можно и мимо холста. */
+    const spotAt = (event) => {
+        const view = stand.current?.worldView
+        if (view === undefined) return null
+
+        const box = view.canvas.getBoundingClientRect()
+        const spot = view.at(event.clientX - box.left, event.clientY - box.top)
+        const world = stand.current.scene.world
+
+        return {
+            x: Math.max(0, Math.min(world.width - 1, spot.x)),
+            y: Math.max(0, Math.min(world.height - 1, spot.y))
+        }
+    }
+
+    /**
      * Колесо над картой.
      *
      * `DesktopInput`: колесо крутит то, что сейчас ставят (`rotation = mod(rotation + tap, 4)`),
@@ -368,6 +428,9 @@ export function Sandbox({allow = {}, scene: description = undefined,
         event.preventDefault()
         rotationRef.current = mod(rotationRef.current + step, 4)
         setRotation(rotationRef.current)
+
+        // Призрак под курсором показывает новый поворот сразу, не дожидаясь движения мышью
+        refreshCursor()
     }
 
     // Мир, процессоры и виды живут вне состояния: перерисовка их не касается
@@ -590,6 +653,92 @@ export function Sandbox({allow = {}, scene: description = undefined,
     }
 
     /**
+     * Нажали кнопку — началась протяжка. Дальше `moveWorld` растит линию, а `releaseWorld`
+     * превращает её в блоки: в игре строят именно так, а одиночный щелчок это её частный случай.
+     */
+    const pressWorld = (event) => {
+        if (!event.isPrimary || !rights.build) return
+        if (event.button !== 0 && event.button !== 2) return
+
+        /*
+         * Правая кнопка делает в игре два дела: `Binding.deselect` снимает выбранный блок,
+         * а `Binding.breakBlock` разбирает. Пока блок выбран, работает первое; как только
+         * выбирать нечего — второе, и тоже протяжкой, областью.
+         */
+        if (event.button === 2 && (blockRef.current !== null || breakingRef.current)) {
+            chooseBlock(null)
+            return
+        }
+
+        const breaking = event.button === 2 || breakingRef.current
+        if (blockRef.current === null && !breaking) return
+
+        const spot = spotAt(event)
+        if (spot === null) return
+
+        // Захват указателя: линию доводят и за краем карты, и мимо окна
+        event.currentTarget.setPointerCapture?.(event.pointerId)
+
+        dragRef.current = {start: spot, breaking}
+        spotRef.current = spot
+
+        refreshCursor()
+    }
+
+    /** Указатель поехал: обновляем и наведённый блок, и призрак линии. */
+    const moveWorld = (event) => {
+        const spot = spotAt(event)
+        if (spot === null) return
+
+        spotRef.current = spot
+        setHover(spot)
+
+        hoveredRef.current = stand.current.scene.world.at(spot.x, spot.y) ?? null
+        setHoveredBuilding(hoveredRef.current)
+
+        refreshCursor()
+    }
+
+    /**
+     * Отпустили: планы становятся блоками. Ставится всё, что встаёт, а негодные места молча
+     * пропускаются — в игре так же: линия конвейеров через стену просто не займёт стену.
+     */
+    const releaseWorld = (event) => {
+        const drag = dragRef.current
+        if (drag === null) return
+
+        event.currentTarget?.releasePointerCapture?.(event.pointerId)
+
+        const start = drag.start
+        const end = spotAt(event) ?? spotRef.current ?? start
+        spotRef.current = end
+
+        const scene = stand.current.scene
+
+        if (drag.breaking) {
+            const area = breakArea(start, end)
+
+            // Список копируется: снос выкидывает здания из того же набора, по которому идём
+            for (const building of [...scene.world.buildings]) {
+                if (overlaps(building, area)) breakBuilding(building)
+            }
+        } else if (blockRef.current !== null) {
+            for (const plan of linePlans(blockRef.current, start, end, rotationRef.current)) {
+                placeBlock(plan.type, plan, plan.rotation)
+            }
+        }
+
+        dragRef.current = null
+        refreshCursor()
+    }
+
+    /** Указатель отобрали (жест системы, вызов) — протяжка пропадает, ничего не ставится. */
+    const cancelWorld = () => {
+        dragRef.current = null
+        refreshCursor()
+    }
+
+    /**
      * Щелчок по миру. По процессору — показать под ним ряд настройки, как в игре: там появляется
      * карандаш, и уже он открывает программу. По тумблеру — переключить: `sensor` это увидит.
      */
@@ -601,19 +750,11 @@ export function Sandbox({allow = {}, scene: description = undefined,
         const spot = worldView.at(event.clientX - box.left, event.clientY - box.top)
         const building = scene.world.at(spot.x, spot.y)
 
-        // Режим сноса: щелчок разбирает то, что под курсором. MobileInput.mode == breaking
-        if (breakingRef.current && rights.build) {
-            breakBuilding(building)
-            worldView.draw({configured: null, cursor: cursorRef.current})
-            return
-        }
-
-        // Выбран блок — щелчок ставит его, как в игре: разбирать настройку уже не нужно
-        if (blockRef.current !== null && rights.build) {
-            placeBlock(blockRef.current, spot)
-            worldView.draw({configured: configuredRef.current, cursor: cursorRef.current})
-            return
-        }
+        /*
+         * Постановка и снос ушли в протяжку — щелчок это её частный случай, линия длиной
+         * в одну клетку. Здесь остаётся только то, что делает щелчок по готовому блоку.
+         */
+        if (rights.build && (breakingRef.current || blockRef.current !== null)) return
 
         if (building === undefined) {
             hideConfig()
@@ -780,54 +921,28 @@ export function Sandbox({allow = {}, scene: description = undefined,
 
                 <div class="sandbox__map">
                     <canvas
-                        class="sandbox__world"
+                        class={rights.build && (block !== null || breaking)
+                            ? 'sandbox__world sandbox__world--building'
+                            : 'sandbox__world'}
                         ref={worldCanvas}
                         onClick={clickWorld}
                         onWheel={wheelWorld}
-                        onMouseMove={(event) => {
-                            const view = stand.current?.worldView
-                            if (view === undefined) return
+                        onPointerDown={pressWorld}
+                        onPointerMove={moveWorld}
+                        onPointerUp={releaseWorld}
+                        onPointerCancel={cancelWorld}
+                        onPointerLeave={() => {
+                            // Протяжку уход курсора не обрывает: указатель захвачен холстом
+                            if (dragRef.current !== null) return
 
-                            const box = view.canvas.getBoundingClientRect()
-                            const spot = view.at(event.clientX - box.left, event.clientY - box.top)
-
-                            setHover(spot)
-                            hoveredRef.current = stand.current.scene.world.at(spot.x, spot.y) ?? null
-                            setHoveredBuilding(hoveredRef.current)
-
-                            cursorRef.current = rights.build
-                                ? {...spot, block: blockRef.current, breaking: breakingRef.current}
-                                : null
-
-                            view.draw({configured: configuredRef.current, cursor: cursorRef.current})
-                        }}
-                        onMouseLeave={() => {
                             setHover(null)
+                            spotRef.current = null
                             hoveredRef.current = null
                             cursorRef.current = null
                             setHoveredBuilding(null)
                         }}
-                        onContextMenu={(event) => {
-                            // Правая кнопка сносит: в игре это тот же жест разбора
-                            event.preventDefault()
-
-                            const {scene, worldView} = stand.current
-                            const box = worldView.canvas.getBoundingClientRect()
-                            const spot = worldView.at(event.clientX - box.left, event.clientY - box.top)
-
-                            const building = scene.world.at(spot.x, spot.y)
-                            if (!rights.build) return
-
-                            // `Binding.deselect` и `Binding.breakBlock` — обе на правой
-                            // кнопке: сперва она снимает выбранный блок, и лишь потом сносит
-                            if (blockRef.current !== null || breakingRef.current) {
-                                chooseBlock(null)
-                                return
-                            }
-
-                            breakBuilding(building)
-                            worldView.draw({configured: null, cursor: cursorRef.current})
-                        }}
+                        // Сносит и снимает выбор сама протяжка, меню же тут только мешает
+                        onContextMenu={(event) => event.preventDefault()}
                     />
 
                     {/* Полоса состояния и сообщения: в игре это верх экрана */}

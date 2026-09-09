@@ -168,6 +168,14 @@
     image-rendering: pixelated;
 }
 
+/*
+ * Пока блок выбран, палец по карте тянет линию построек, а не листает страницу. Без
+ * выбранного блока карта остаётся обычной картинкой, и страница листается как везде.
+ */
+.sandbox__world--building {
+    touch-action: none;
+}
+
 .sandbox__display {
     width: 160px;
     height: 160px;

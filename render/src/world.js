@@ -39,6 +39,14 @@ function rotate(x, y, degrees) {
 /** Vars.tilesize: восемь мировых единиц на тайл. */
 export const TILE_UNITS = 8
 
+/** Попал ли блок в выделенную область — по своему следу, а не по центру. */
+function inside(area, building) {
+    const start = building.sizeOffset
+
+    return building.x + start < area.x + area.width && building.x + start + building.size > area.x
+        && building.y + start < area.y + area.height && building.y + start + building.size > area.y
+}
+
 /** `Vars.itemSize`: предмет на ленте рисуется пятью мировыми единицами. */
 const ITEM_SIZE = 5
 
@@ -245,22 +253,33 @@ export class WorldView {
      *
      * Просто наведение курсора на здание не рисует ничего — уголки на нём были нашей выдумкой.
      */
-    drawCursor({x, y, block = null, breaking = false}) {
+    drawCursor({plans = [], breaking = false, area = null}) {
         if (breaking) {
-            const building = this.world.at(x, y)
-            if (this.world.canBreak?.(building)) this.drawSelected(building, PAL.remove)
+            // Снос протяжкой обводит всё, что попало в область. `drawBreakSelection`
+            for (const building of this.world.buildings) {
+                if (area !== null && !inside(area, building)) continue
+                if (this.world.canBreak?.(building)) this.drawSelected(building, PAL.remove)
+            }
+
             return
         }
 
-        if (block === null) return
+        for (const plan of plans) this.drawPlan(plan)
+    }
 
-        const spec = BLOCK_SPECS[block]
+    /**
+     * Призрак одного будущего блока: спрайт, подмешанный к белому на 0.24 с пульсацией,
+     * а на негодном месте — к `Pal.breakInvalid` на 0.4. Поворот тот же, что будет у блока,
+     * иначе протяжка врёт: конвейер показывался бы вправо, а вставал вниз. `Block.drawPlan`
+     */
+    drawPlan({type, x, y, rotation = 0}) {
+        const spec = BLOCK_SPECS[type]
         if (spec === undefined) return
 
-        const sprite = this.sprite(block)
+        const sprite = this.sprite(type)
         if (sprite === null) return
 
-        const valid = this.world.canPlace?.(block, x, y) ?? true
+        const valid = this.world.canPlace?.(type, x, y) ?? true
 
         /*
          * Mathf.absin(Time.globalTime, 6, 0.28): пульсация от времени мира, а не от часов
@@ -280,11 +299,15 @@ export class WorldView {
         const cx = (x + offset + 0.5) * step
         const cy = (this.world.height - y - offset - 0.5) * step
 
-        const entry = this.blockSprites?.sprites?.[block]
+        const entry = this.blockSprites?.sprites?.[type]
         const width = (entry === undefined ? spec.size * TILE_UNITS : entry.width / SPRITE_SCALE) * this.unit
         const height = (entry === undefined ? spec.size * TILE_UNITS : entry.height / SPRITE_SCALE) * this.unit
 
-        this.context.drawImage(tinted ?? sprite, cx - width / 2, cy - height / 2, width, height)
+        const angle = spec.rotate === true ? rotation * 90 : 0
+
+        this.rotated(cx, cy, angle, () => {
+            this.context.drawImage(tinted ?? sprite, -width / 2, -height / 2, width, height)
+        })
     }
 
     /**

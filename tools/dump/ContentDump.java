@@ -311,6 +311,16 @@ public class ContentDump{
              */
             spec.bool("quickRotate", block.quickRotate);
 
+            /*
+             * Как блок ставится протяжкой. Стена заполняет прямоугольник, конвейер тянется
+             * линией и разворачивается по ходу, а часть блоков поворот линии игнорирует.
+             * InputHandler.iterateLine
+             */
+            spec.bool("conveyorPlacement", block.conveyorPlacement);
+            spec.bool("allowRectanglePlacement", block.allowRectanglePlacement);
+            spec.bool("allowDiagonal", block.allowDiagonal);
+            spec.bool("ignoreLineRotation", block.ignoreLineRotation);
+
             if(block instanceof Conveyor conveyor){
                 spec.number("speed", conveyor.speed);
                 spec.number("displayedSpeed", conveyor.displayedSpeed);

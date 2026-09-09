@@ -39,6 +39,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -86,6 +90,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "overlay",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -130,6 +138,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "remove-ore": {
@@ -169,6 +181,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "overlay",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -213,6 +229,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "build1": {
@@ -250,6 +270,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "build2": {
@@ -287,6 +311,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "build3": {
@@ -324,6 +352,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "build4": {
@@ -361,6 +393,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "build5": {
@@ -398,6 +434,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "build6": {
@@ -435,6 +475,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "build7": {
@@ -472,6 +516,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "build8": {
@@ -509,6 +557,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "build9": {
@@ -546,6 +598,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "build10": {
@@ -583,6 +639,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "build11": {
@@ -620,6 +680,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "build12": {
@@ -657,6 +721,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "build13": {
@@ -694,6 +762,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "build14": {
@@ -731,6 +803,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "build15": {
@@ -768,6 +844,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "build16": {
@@ -805,6 +885,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "deep-water": {
@@ -842,6 +926,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "speedMultiplier": 0.2,
       "dragMultiplier": 1,
@@ -887,6 +975,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "speedMultiplier": 0.5,
       "dragMultiplier": 1,
@@ -932,6 +1024,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "speedMultiplier": 0.5,
       "dragMultiplier": 1,
@@ -977,6 +1073,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "speedMultiplier": 0.18,
       "dragMultiplier": 1,
@@ -1023,6 +1123,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 0.75,
@@ -1070,6 +1174,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 0.8,
@@ -1117,6 +1225,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 0.8,
@@ -1163,6 +1275,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "speedMultiplier": 0.19,
       "dragMultiplier": 1,
@@ -1207,6 +1323,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "speedMultiplier": 0.5,
       "dragMultiplier": 1,
@@ -1251,6 +1371,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "speedMultiplier": 0.19,
       "dragMultiplier": 1,
@@ -1296,6 +1420,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -1341,6 +1469,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -1385,6 +1517,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1431,6 +1567,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1477,6 +1617,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1523,6 +1667,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1569,6 +1717,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1616,6 +1768,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1663,6 +1819,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "itemDrop": "sand",
@@ -1710,6 +1870,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "itemDrop": "sand",
@@ -1757,6 +1921,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1803,6 +1971,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 0.6,
@@ -1848,6 +2020,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1894,6 +2070,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1940,6 +2120,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -1987,6 +2171,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2033,6 +2221,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2079,6 +2271,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2125,6 +2321,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 4,
       "speedMultiplier": 1,
@@ -2171,6 +2371,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2217,6 +2421,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2263,6 +2471,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 4,
       "speedMultiplier": 1,
@@ -2309,6 +2521,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 5,
       "speedMultiplier": 1,
@@ -2355,6 +2571,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 4,
       "speedMultiplier": 1,
@@ -2401,6 +2621,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2447,6 +2671,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 4,
       "speedMultiplier": 1,
@@ -2493,6 +2721,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 4,
       "speedMultiplier": 1,
@@ -2539,6 +2771,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 0.9,
@@ -2585,6 +2821,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "speedMultiplier": 0.3,
       "dragMultiplier": 1,
@@ -2630,6 +2870,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -2677,6 +2921,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -2724,6 +2972,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -2771,6 +3023,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -2818,6 +3074,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -2865,6 +3125,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -2912,6 +3176,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -2959,6 +3227,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -3006,6 +3278,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 2,
       "speedMultiplier": 1,
@@ -3052,6 +3328,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -3097,6 +3377,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -3142,6 +3426,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -3187,6 +3475,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -3232,6 +3524,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -3278,6 +3574,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 0.9,
@@ -3324,6 +3624,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -3370,6 +3674,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -3416,6 +3724,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -3462,6 +3774,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -3506,6 +3822,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -3553,6 +3873,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3593,6 +3917,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3633,6 +3961,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3673,6 +4005,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3713,6 +4049,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3753,6 +4093,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3793,6 +4137,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3833,6 +4181,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3873,6 +4225,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3913,6 +4269,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3953,6 +4313,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -3993,6 +4357,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4033,6 +4401,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4073,6 +4445,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "variants": 3,
       "requirements": []
@@ -4113,6 +4489,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "variants": 4,
       "requirements": []
@@ -4153,6 +4533,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4193,6 +4577,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4234,6 +4622,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "variants": 3,
       "requirements": []
@@ -4274,6 +4666,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4314,6 +4710,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4354,6 +4754,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4394,6 +4798,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -4435,6 +4843,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "requirements": []
     },
@@ -4475,6 +4887,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "requirements": []
     },
@@ -4515,6 +4931,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "requirements": []
     },
@@ -4553,6 +4973,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "white-tree": {
@@ -4590,6 +5014,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "spore-cluster": {
@@ -4627,6 +5055,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -4667,6 +5099,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -4707,6 +5143,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "prop",
       "requirements": []
     },
@@ -4746,6 +5186,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "prop",
       "requirements": []
     },
@@ -4785,6 +5229,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -4825,6 +5273,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -4865,6 +5317,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -4905,6 +5361,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -4945,6 +5405,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -4985,6 +5449,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -5025,6 +5493,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -5065,6 +5537,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -5105,6 +5581,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -5145,6 +5625,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -5184,6 +5668,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -5223,6 +5711,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -5262,6 +5754,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -5301,6 +5797,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -5340,6 +5840,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -5380,6 +5884,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "prop",
       "variants": 2,
       "requirements": []
@@ -5420,6 +5928,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -5460,6 +5972,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "prop",
       "variants": 3,
       "requirements": []
@@ -5500,6 +6016,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "prop",
       "variants": 4,
       "requirements": []
@@ -5539,6 +6059,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5584,6 +6108,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -5630,6 +6158,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5675,6 +6207,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5720,6 +6256,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5765,6 +6305,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5810,6 +6354,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5855,6 +6403,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5900,6 +6452,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5945,6 +6501,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -5990,6 +6550,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -6035,6 +6599,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -6081,6 +6649,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -6120,6 +6692,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6165,6 +6741,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6210,6 +6790,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6255,6 +6839,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6300,6 +6888,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6345,6 +6937,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6390,6 +6986,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6435,6 +7035,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6480,6 +7084,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6525,6 +7133,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6570,6 +7182,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6615,6 +7231,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6660,6 +7280,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6706,6 +7330,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -6746,6 +7374,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -6786,6 +7418,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -6826,6 +7462,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "floor",
       "variants": 3,
       "speedMultiplier": 1,
@@ -6873,6 +7513,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "variants": 2,
       "requirements": []
@@ -6914,6 +7558,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "overlay",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -6960,6 +7608,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "overlay",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -7006,6 +7658,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "overlay",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -7052,6 +7708,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "overlay",
       "speedMultiplier": 1,
       "dragMultiplier": 1,
@@ -7097,6 +7757,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "overlay",
       "variants": 3,
       "speedMultiplier": 1,
@@ -7143,6 +7807,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "overlay",
       "variants": 3,
       "speedMultiplier": 1,
@@ -7190,6 +7858,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "copper",
@@ -7238,6 +7910,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "lead",
@@ -7286,6 +7962,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "scrap",
@@ -7334,6 +8014,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "coal",
@@ -7382,6 +8066,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "titanium",
@@ -7430,6 +8118,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "thorium",
@@ -7478,6 +8170,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "beryllium",
@@ -7526,6 +8222,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "tungsten",
@@ -7574,6 +8274,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "thorium",
@@ -7622,6 +8326,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "thorium",
@@ -7670,6 +8378,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "beryllium",
@@ -7717,6 +8429,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "staticWall",
       "variants": 3,
       "itemDrop": "graphite",
@@ -7759,6 +8475,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "graphite",
@@ -7807,6 +8527,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "kind": "ore",
       "variants": 3,
       "itemDrop": "tungsten",
@@ -7853,6 +8577,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 90,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -7920,6 +8648,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 30,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -8010,6 +8742,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 40,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -8090,6 +8826,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 90,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -8181,6 +8921,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 30,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -8264,6 +9008,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 60,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -8354,6 +9102,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 120,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -8437,6 +9189,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 75,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -8528,6 +9284,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 120,
       "warmupSpeed": 0.019,
       "outputLiquids": [
@@ -8614,6 +9374,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 80,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -8697,6 +9461,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 80,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -8776,6 +9544,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 10,
       "warmupSpeed": 0.019,
       "outputLiquids": [
@@ -8855,6 +9627,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -8918,6 +9694,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -9000,6 +9780,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 20,
       "warmupSpeed": 0.019,
       "outputLiquids": [
@@ -9075,6 +9859,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 40,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -9150,6 +9938,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 30,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -9225,6 +10017,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -9281,6 +10077,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 50,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -9360,6 +10160,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 10,
       "warmupSpeed": 0.019,
       "outputLiquids": [
@@ -9444,6 +10248,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 80,
       "warmupSpeed": 0.019,
       "outputLiquids": [
@@ -9513,6 +10321,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 120,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -9604,6 +10416,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 80,
       "warmupSpeed": 0.019,
       "consumes": [
@@ -9667,6 +10483,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 80,
       "warmupSpeed": 0.019,
       "consumes": [
@@ -9729,6 +10549,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 480,
       "warmupSpeed": 0.019,
       "consumes": [
@@ -9794,6 +10618,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "graphite",
@@ -9840,6 +10668,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "graphite",
@@ -9886,6 +10718,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "graphite",
@@ -9932,6 +10768,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "liquid",
@@ -9984,6 +10824,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 33.75,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -10067,6 +10911,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 120,
       "warmupSpeed": 0.019,
       "outputLiquids": [
@@ -10158,6 +11006,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 45,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -10249,6 +11101,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 20,
       "warmupSpeed": 0.019,
       "outputLiquids": [
@@ -10340,6 +11196,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 30,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -10435,6 +11295,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 600,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -10517,6 +11381,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "copper",
@@ -10559,6 +11427,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "copper",
@@ -10601,6 +11473,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "titanium",
@@ -10643,6 +11519,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "titanium",
@@ -10685,6 +11565,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "metaglass",
@@ -10731,6 +11615,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "metaglass",
@@ -10777,6 +11665,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "thorium",
@@ -10819,6 +11711,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "thorium",
@@ -10861,6 +11757,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "phase-fabric",
@@ -10903,6 +11803,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "phase-fabric",
@@ -10945,6 +11849,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "surge-alloy",
@@ -10987,6 +11895,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "surge-alloy",
@@ -11030,6 +11942,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "titanium",
@@ -11077,6 +11993,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "titanium",
@@ -11123,6 +12043,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "variants": 5,
       "requirements": [
         {
@@ -11166,6 +12090,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "variants": 4,
       "requirements": [
         {
@@ -11209,6 +12137,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "variants": 3,
       "requirements": [
         {
@@ -11252,6 +12184,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "scrap",
@@ -11295,6 +12231,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": false,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "scrap",
@@ -11337,6 +12277,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "beryllium",
@@ -11379,6 +12323,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "beryllium",
@@ -11421,6 +12369,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "tungsten",
@@ -11463,6 +12415,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "tungsten",
@@ -11506,6 +12462,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "silicon",
@@ -11552,6 +12512,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "surge-alloy",
@@ -11598,6 +12562,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "surge-alloy",
@@ -11644,6 +12612,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "thorium",
@@ -11690,6 +12662,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "thorium",
@@ -11737,6 +12713,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -11797,6 +12777,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -11864,6 +12848,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -11939,6 +12927,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -12014,6 +13006,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -12097,6 +13093,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "items",
@@ -12168,6 +13168,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "lead",
@@ -12214,6 +13218,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -12276,6 +13284,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -12343,6 +13355,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -12425,6 +13441,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "liquids",
@@ -12500,6 +13520,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -12547,6 +13571,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -12594,6 +13622,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": true,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "speed": 0.046,
       "displayedSpeed": 6.5,
       "requirements": [
@@ -12638,6 +13670,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": true,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "speed": 0.0801,
       "displayedSpeed": 10,
       "requirements": [
@@ -12690,6 +13726,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": true,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "graphite",
@@ -12741,6 +13781,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": true,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "speed": 0.08,
       "displayedSpeed": 10,
       "requirements": [
@@ -12793,6 +13837,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "copper",
@@ -12836,6 +13884,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": false,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "copper",
@@ -12882,6 +13934,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": false,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -12946,6 +14002,10 @@
       "dumpTime": 5,
       "instantTransfer": true,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "copper",
@@ -12992,6 +14052,10 @@
       "dumpTime": 5,
       "instantTransfer": true,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "copper",
@@ -13038,6 +14102,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "speed": 8,
       "requirements": [
         {
@@ -13081,6 +14149,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "speed": 8,
       "requirements": [
         {
@@ -13128,6 +14200,10 @@
       "dumpTime": 5,
       "instantTransfer": true,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "copper",
@@ -13174,6 +14250,10 @@
       "dumpTime": 5,
       "instantTransfer": true,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "copper",
@@ -13220,6 +14300,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "titanium",
@@ -13266,6 +14350,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -13330,6 +14418,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": true,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "beryllium",
@@ -13372,6 +14464,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": true,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "beryllium",
@@ -13418,6 +14514,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "beryllium",
@@ -13460,6 +14560,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": true,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "graphite",
@@ -13506,6 +14610,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": true,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "graphite",
@@ -13553,6 +14661,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": false,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "beryllium",
@@ -13595,6 +14707,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "graphite",
@@ -13645,6 +14761,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": true,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -13702,6 +14822,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -13758,6 +14882,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -13825,6 +14953,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "silicon",
@@ -13872,6 +15004,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "copper",
@@ -13919,6 +15055,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -13984,6 +15124,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -14053,6 +15197,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": true,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "metaglass",
@@ -14096,6 +15244,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": true,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "metaglass",
@@ -14144,6 +15296,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": true,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "metaglass",
@@ -14195,6 +15351,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "metaglass",
@@ -14242,6 +15402,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "metaglass",
@@ -14289,6 +15453,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "metaglass",
@@ -14336,6 +15504,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "metaglass",
@@ -14383,6 +15555,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": false,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "metaglass",
@@ -14430,6 +15606,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": false,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -14495,6 +15675,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "liquid",
@@ -14556,6 +15740,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": true,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "beryllium",
@@ -14599,6 +15787,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "graphite",
@@ -14646,6 +15838,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": false,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "graphite",
@@ -14693,6 +15889,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "graphite",
@@ -14740,6 +15940,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "beryllium",
@@ -14787,6 +15991,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "beryllium",
@@ -14834,6 +16042,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "copper",
@@ -14881,6 +16093,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "lead",
@@ -14932,6 +16148,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "lead",
@@ -14986,6 +16206,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "metaglass",
@@ -15038,6 +16262,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -15096,6 +16324,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -15159,6 +16391,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "copper",
@@ -15208,6 +16444,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "copper",
@@ -15269,6 +16509,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "liquid",
@@ -15335,6 +16579,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "items",
@@ -15416,6 +16664,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "lead",
@@ -15477,6 +16729,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "lead",
@@ -15526,6 +16782,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "lead",
@@ -15579,6 +16839,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "items",
@@ -15660,6 +16924,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -15751,6 +17019,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": false,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -15804,6 +17076,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": false,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -15866,6 +17142,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "silicon",
@@ -15931,6 +17211,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "beryllium",
@@ -15976,6 +17260,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "liquids",
@@ -16050,6 +17338,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "liquids",
@@ -16124,6 +17416,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "liquid",
@@ -16195,6 +17491,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "liquid",
@@ -16284,6 +17584,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "tier": 2,
       "drillTime": 600,
       "hardnessDrillMultiplier": 50,
@@ -16340,6 +17644,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "tier": 3,
       "drillTime": 400,
       "hardnessDrillMultiplier": 50,
@@ -16400,6 +17708,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "tier": 4,
       "drillTime": 280,
       "hardnessDrillMultiplier": 50,
@@ -16476,6 +17788,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "tier": 5,
       "drillTime": 280,
       "hardnessDrillMultiplier": 50,
@@ -16554,6 +17870,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -16619,6 +17939,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 100,
       "warmupSpeed": 0.019,
       "outputItems": [
@@ -16697,6 +18021,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "items",
@@ -16784,6 +18112,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 120,
       "warmupSpeed": 0.019,
       "outputLiquids": [
@@ -16848,6 +18180,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": true,
       "consumes": [
         {
           "kind": "power",
@@ -16904,6 +18240,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": true,
       "consumes": [
         {
           "kind": "power",
@@ -16986,6 +18326,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": true,
       "consumes": [
         {
           "kind": "power",
@@ -17045,6 +18389,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": true,
       "consumes": [
         {
           "kind": "power",
@@ -17124,6 +18472,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "tier": 6,
       "drillTime": 720,
       "hardnessDrillMultiplier": 0,
@@ -17211,6 +18563,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "tier": 7,
       "drillTime": 281.25,
       "hardnessDrillMultiplier": 0,
@@ -17298,6 +18654,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "copper",
@@ -17345,6 +18705,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "copper",
@@ -17396,6 +18760,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "copper",
@@ -17451,6 +18819,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "graphite",
@@ -17502,6 +18874,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "silicon",
@@ -17557,6 +18933,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "silicon",
@@ -17615,6 +18995,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "titanium",
@@ -17657,6 +19041,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "titanium",
@@ -17703,6 +19091,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "graphite",
@@ -17749,6 +19141,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "thorium",
@@ -17803,6 +19199,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": false,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": true,
       "requirements": [
         {
           "item": "copper",
@@ -17849,6 +19249,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": false,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": true,
       "requirements": [
         {
           "item": "copper",
@@ -17899,6 +19303,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": false,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": true,
       "requirements": [
         {
           "item": "copper",
@@ -17949,6 +19357,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": false,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": true,
       "requirements": [
         {
           "item": "copper",
@@ -17999,6 +19411,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": false,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": true,
       "requirements": [
         {
           "item": "copper",
@@ -18053,6 +19469,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": false,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": true,
       "consumes": [
         {
           "kind": "power",
@@ -18121,6 +19541,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": false,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": true,
       "consumes": [
         {
           "kind": "power",
@@ -18179,6 +19603,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -18243,6 +19671,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": false,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": true,
       "requirements": [
         {
           "item": "graphite",
@@ -18301,6 +19733,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": false,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": true,
       "requirements": [
         {
           "item": "copper",
@@ -18354,6 +19790,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -18422,6 +19862,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": false,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": true,
       "requirements": [
         {
           "item": "lead",
@@ -18480,6 +19924,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": false,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": true,
       "requirements": [
         {
           "item": "copper",
@@ -18534,6 +19982,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": false,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": true,
       "requirements": [
         {
           "item": "copper",
@@ -18588,6 +20040,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": false,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": true,
       "requirements": [
         {
           "item": "copper",
@@ -18642,6 +20098,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": false,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": true,
       "consumes": [
         {
           "kind": "power",
@@ -18714,6 +20174,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": false,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": true,
       "requirements": [
         {
           "item": "copper",
@@ -18777,6 +20241,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": false,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": true,
       "consumes": [
         {
           "kind": "power",
@@ -18849,6 +20317,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": false,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": true,
       "consumes": [
         {
           "kind": "liquid",
@@ -18912,6 +20384,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": false,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": true,
       "consumes": [
         {
           "kind": "liquid",
@@ -18980,6 +20456,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": false,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": true,
       "requirements": [
         {
           "item": "silicon",
@@ -19038,6 +20518,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": false,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": true,
       "consumes": [
         {
           "kind": "liquid",
@@ -19108,6 +20592,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": false,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": true,
       "consumes": [
         {
           "kind": "liquid",
@@ -19175,6 +20663,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": false,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": true,
       "consumes": [
         {
           "kind": "power",
@@ -19243,6 +20735,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": false,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": true,
       "consumes": [
         {
           "kind": "liquid",
@@ -19318,6 +20814,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": false,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": true,
       "consumes": [
         {
           "kind": "liquid",
@@ -19389,6 +20889,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": false,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": true,
       "consumes": [
         {
           "kind": "liquid",
@@ -19460,6 +20964,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": false,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": true,
       "consumes": [
         {
           "kind": "power",
@@ -19530,6 +21038,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -19592,6 +21104,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -19654,6 +21170,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -19716,6 +21236,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -19793,6 +21317,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -19878,6 +21406,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -19978,6 +21510,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -20080,6 +21616,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -20140,6 +21680,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -20202,6 +21746,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -20260,6 +21808,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -20318,6 +21870,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -20380,6 +21936,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -20464,6 +22024,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -20552,6 +22116,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -20636,6 +22204,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -20723,6 +22295,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": false,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -20795,6 +22371,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": false,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -20871,6 +22451,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": false,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -20947,6 +22531,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -21011,6 +22599,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -21078,6 +22670,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "copper",
@@ -21125,6 +22721,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "copper",
@@ -21171,6 +22771,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "tungsten",
@@ -21214,6 +22818,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "tungsten",
@@ -21257,6 +22865,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -21318,6 +22930,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -21387,6 +23003,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -21452,6 +23072,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -21518,6 +23142,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -21580,6 +23208,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -21645,6 +23277,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -21707,6 +23343,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -21769,6 +23409,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "power-void": {
@@ -21807,6 +23451,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -21854,6 +23502,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "item-void": {
@@ -21891,6 +23543,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "liquid-source": {
@@ -21928,6 +23584,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "liquid-void": {
@@ -21965,6 +23625,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "payload-source": {
@@ -22003,6 +23667,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "payload-void": {
@@ -22041,6 +23709,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "heat-source": {
@@ -22079,6 +23751,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "craftTime": 80,
       "warmupSpeed": 0.019,
       "requirements": []
@@ -22118,6 +23794,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -22179,6 +23859,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "legacy-unit-factory": {
@@ -22217,6 +23901,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "legacy-unit-factory-air": {
@@ -22255,6 +23943,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "legacy-unit-factory-ground": {
@@ -22293,6 +23985,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "command-center": {
@@ -22331,6 +24027,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "launch-pad": {
@@ -22368,6 +24068,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -22432,6 +24136,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "liquid",
@@ -22503,6 +24211,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "liquid",
@@ -22562,6 +24274,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "power",
@@ -22659,6 +24375,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "copper",
@@ -22705,6 +24425,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "copper",
@@ -22755,6 +24479,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "copper",
@@ -22809,6 +24537,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "lead",
@@ -22867,6 +24599,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "consumes": [
         {
           "kind": "liquid",
@@ -22931,6 +24667,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "copper",
@@ -22982,6 +24722,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "copper",
@@ -23037,6 +24781,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "lead",
@@ -23088,6 +24836,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "lead",
@@ -23144,6 +24896,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": true,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "lead",
@@ -23198,6 +24954,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "silicon",
@@ -23244,6 +25004,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "silicon",
@@ -23296,6 +25060,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": [
         {
           "item": "graphite",
@@ -23346,6 +25114,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "world-cell": {
@@ -23384,6 +25156,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "world-message": {
@@ -23423,6 +25199,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     },
     "world-switch": {
@@ -23460,6 +25240,10 @@
       "dumpTime": 5,
       "instantTransfer": false,
       "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
       "requirements": []
     }
   }
