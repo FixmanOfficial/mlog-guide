@@ -59,6 +59,31 @@ export function useAnchored(anchor, place, deps = []) {
     return {ref, position}
 }
 
+/**
+ * Держит окно на экране. `LStatement.showSelectTable` ставит меню по центру кнопки, а потом
+ * зовёт `keepInStage` — тот двигает его внутрь экрана, если оно вылезло.
+ *
+ * Порядок прижатия важен: сперва к дальнему краю, потом к ближнему. Наоборот — и меню выше
+ * экрана уезжает верхом за него, а ближний край нужнее: у списка операций верхние ряды
+ * оказывались под шапкой сайта.
+ *
+ * Экран на телефоне — не всё окно: `visualViewport` не считает то, что закрыто панелью
+ * браузера, а `innerHeight` считает.
+ */
+export function keepOnScreen(box, size, {gap = 4} = {}) {
+    const view = globalThis.visualViewport
+    const width = view?.width ?? window.innerWidth
+    const height = view?.height ?? window.innerHeight
+
+    const left = box.left + box.width / 2 - size.width / 2
+    const top = box.top + box.height / 2 - size.height / 2
+
+    return {
+        left: Math.max(gap, Math.min(left, width - size.width - gap)),
+        top: Math.max(gap, Math.min(top, height - size.height - gap))
+    }
+}
+
 /** Стиль положения: пока не посчитано — за экраном, чтобы не мигало на старом месте. */
 export const anchoredStyle = (position) => position === null
     ? {left: '-9999px', top: '-9999px'}

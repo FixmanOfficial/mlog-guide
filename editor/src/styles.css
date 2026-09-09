@@ -171,7 +171,8 @@
 .statement__name,
 .statement__index,
 .popup__item,
-.group__item {
+.group__item,
+.tip {
     -webkit-text-stroke: 4px var(--outline, #3f3f3f);
     paint-order: stroke fill;
 }
@@ -181,7 +182,8 @@
     .statement__name,
     .statement__index,
     .popup__item,
-    .group__item {
+    .group__item,
+    .tip {
         -webkit-text-stroke: 0;
         text-shadow:
             2px 0 0 var(--outline, #3f3f3f), -2px 0 0 var(--outline, #3f3f3f),
@@ -743,10 +745,14 @@
 }
 
 /* Сетка выбора значения: LStatement.showSelectTable кладёт её поверх сцены */
+/*
+ * Меню выбора лежит поверх всего, включая шапку сайта: у неё `z-index` десять, и без запаса
+ * она накрывала верхний ряд кнопок. В игре такое меню тоже перекрывает собой всё.
+ */
 .popup-overlay {
     position: fixed;
     inset: 0;
-    z-index: 20;
+    z-index: 100;
 }
 
 /* Та же таблица, тот же фон: рамка 4 цвета #454545, внутри чёрный. Tex.paneSolid */
@@ -755,7 +761,9 @@
     display: grid;
     gap: 0;
     padding: 4px;
-    max-height: 90vh;
+    /* `getPrefHeight` у таблицы ограничен высотой экрана, а содержимое лежит в `pane` */
+    max-height: calc(100dvh - 8px);
+    max-width: calc(100vw - 8px);
     overflow: auto;
     background: #000;
     border: 4px solid #454545;
@@ -778,8 +786,6 @@
     background: rgba(0, 0, 0, 0.8);
     color: #bfbfbf;
     pointer-events: none;
-    -webkit-text-stroke: 4px var(--outline, #3f3f3f);
-    paint-order: stroke fill;
 }
 
 .popup__item {

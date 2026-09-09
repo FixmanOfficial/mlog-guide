@@ -1,7 +1,7 @@
 import {ENUM_SYMBOLS} from './program.js'
 import {propertyTip} from './tooltips.js'
 import {tipProps, hideTip} from './tip.js'
-import {useAnchored, anchoredStyle} from './anchor.js'
+import {useAnchored, anchoredStyle, keepOnScreen} from './anchor.js'
 
 /**
  * Всплывающий выбор значения — сеткой, а не выпадающим списком.
@@ -21,16 +21,7 @@ export function SelectPopup({
     const symbols = ENUM_SYMBOLS[enumName] ?? {}
 
     // Игра ставит список по центру кнопки и удерживает его в пределах экрана
-    const {ref, position} = useAnchored(anchor, (box, size) => ({
-        left: Math.min(
-            Math.max(4, box.left + box.width / 2 - size.width / 2),
-            window.innerWidth - size.width - 4
-        ),
-        top: Math.min(
-            Math.max(4, box.top + box.height / 2 - size.height / 2),
-            window.innerHeight - size.height - 4
-        )
-    }), [values])
+    const {ref, position} = useAnchored(anchor, (box, size) => keepOnScreen(box, size), [values])
 
     return (
         <div class="popup-overlay" onClick={onClose}>

@@ -6,7 +6,7 @@ import {ENUMS, ENUM_PARAMS} from './program.js'
 import {propertyTip, contentName} from './tooltips.js'
 import {tipProps} from './tip.js'
 import {Icon} from './Icon.jsx'
-import {useAnchored, anchoredStyle} from './anchor.js'
+import {useAnchored, anchoredStyle, keepOnScreen} from './anchor.js'
 
 /**
  * Выбор контента для `sensor` — то самое большое меню.
@@ -34,10 +34,11 @@ export function ContentPopup({current, anchor, onPick, onClose}) {
     const [tab, setTab] = useState('item')
 
     // Меню держится за свою кнопку и переезжает вместе с ней, когда страницу прокручивают
-    const {ref, position} = useAnchored(anchor, (box, size) => ({
-        left: Math.min(Math.max(4, box.left - size.width / 2), window.innerWidth - size.width - 4),
-        top: Math.min(Math.max(4, box.bottom + 4), window.innerHeight - size.height - 4)
-    }), [tab])
+    const {ref, position} = useAnchored(anchor, (box, size) => {
+        // Меню содержимого встаёт под кнопкой, а не по её центру — оттого своя рамка
+        const under = {...box, top: box.bottom + 4 + size.height / 2, height: 0}
+        return keepOnScreen(under, size)
+    }, [tab])
 
     const active = TABS.find(entry => entry.id === tab)
     const names = active.types.flatMap(type =>
