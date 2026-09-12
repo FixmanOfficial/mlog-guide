@@ -920,12 +920,15 @@ test('урок «Пустота: null»: то же строгое сравнен
     assert.equal(obj(processor, 'выбор'), 'ноль')
 })
 
-test('урок «Выбор значения без ветки»: select берёт одно из двух значений', () => {
+test('урок «Выбор значения без ветки»: сравнение отвечает само, а select выбирает значения', () => {
     const processor = run(CHOICE, 0)
     for (let i = 0; i < 4; i++) processor.step()
 
     assert.equal(num(processor, 'медь'), 120)
+
+    // Урок обещает, что единицу и ноль даёт само сравнение, без select
     assert.equal(num(processor, 'хватает'), 1)
+
     assert.equal(obj(processor, 'надпись'), 'хватает')
 
     // Ограничение сверху: меди больше сотни, значит берём сотню
@@ -938,14 +941,15 @@ test('урок «Выбор значения без ветки»: перевёр
         processors: [{
             ...CHOICE.processors[0],
             program: CHOICE.processors[0].program
-                .replace('select хватает greaterThanEq', 'select хватает lessThan')
+                .replace('select надпись greaterThanEq', 'select надпись lessThan')
         }]
     }
 
     const processor = run(flipped, 0)
     for (let i = 0; i < 4; i++) processor.step()
 
-    assert.equal(num(processor, 'хватает'), 0)
+    // Первая половина по-прежнему для «верно», просто «верно» теперь значит другое
+    assert.equal(obj(processor, 'надпись'), 'мало')
 })
 
 /** Сколько кругов программа успевает за секунду с разным хвостом. */

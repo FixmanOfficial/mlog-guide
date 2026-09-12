@@ -39,6 +39,10 @@ function instructionGroups() {
         }))
 }
 
+/** Как инструкция подписана в игре: `Operation`, а не `op`. Опкод — это запись, а не имя. */
+const instructionName = (opcode) =>
+    schema.instructions.find(entry => entry.opcode === opcode)?.name ?? opcode
+
 /**
  * Сайт mlog.guide.
  *
@@ -105,16 +109,16 @@ export default defineConfig({
                             translations: {en: 'Basics'},
                             autogenerate: {directory: 'course/basics'}
                         },
-                        {label: 'set', autogenerate: {directory: 'course/set'}},
-                        {label: 'op', autogenerate: {directory: 'course/op'}},
-                        {label: 'jump', autogenerate: {directory: 'course/jump'}},
-                        {label: 'select', autogenerate: {directory: 'course/select'}},
+                        {label: instructionName('set'), autogenerate: {directory: 'course/set'}},
+                        {label: instructionName('op'), autogenerate: {directory: 'course/op'}},
+                        {label: instructionName('jump'), autogenerate: {directory: 'course/jump'}},
+                        {label: instructionName('select'), autogenerate: {directory: 'course/select'}},
                         {
                             label: 'Ход программы',
                             translations: {en: 'Program flow'},
                             autogenerate: {directory: 'course/flow'}
                         },
-                        {label: 'sensor', autogenerate: {directory: 'course/sensor'}},
+                        {label: instructionName('sensor'), autogenerate: {directory: 'course/sensor'}},
                         {
                             label: 'Продвинутое',
                             translations: {en: 'Advanced'},
