@@ -21,8 +21,28 @@ import {BUILDINGS, ITEMS, UNITS, HOLDERS} from '../src/course/scenes/sensor.js'
 import {VALUES, EMPTINESS, PROCESSOR, EDITOR, WATCH, DEBUG, NAMES, LINKS} from '../src/course/scenes/basics.js'
 import {linkName} from '@mlog/core/src/world.js'
 import {ASSIGN, CONTENT} from '../src/course/scenes/set.js'
-import {BRANCH, LOOP, COUNTER} from '../src/course/scenes/jump.js'
+import {BRANCH, LOOP} from '../src/course/scenes/jump.js'
+import {COUNTER, RELATIVE} from '../src/course/scenes/advanced.js'
 import logicIdsData from '@mlog/core/data/logic-ids.json' with {type: 'json'}
+import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
+
+import {readdirSync, readFileSync, statSync} from 'node:fs'
+import {join} from 'node:path'
+import {fileURLToPath} from 'node:url'
+
+/** Все страницы уроков: тесты ниже читают их текст, а не только сцены. */
+function lessonFiles(directory) {
+    const found = []
+
+    for (const name of readdirSync(directory)) {
+        const path = join(directory, name)
+
+        if (statSync(path).isDirectory()) found.push(...lessonFiles(path))
+        else if (name.endsWith('.mdx')) found.push(path)
+    }
+
+    return found
+}
 import {
     ARITHMETIC, STEPS, INTEGERS, ROUNDING, PRECISION, LOGIC, NEGATION, BITWISE, SHIFTS,
     GEOMETRY, FLOAT, RANDOM, NOISE
@@ -817,7 +837,7 @@ test('урок «Циклы»: задание до десяти даёт 45, а 
     assert.equal(num(broken, 'итог'), 0)
 })
 
-test('урок «@counter»: запись в счётчик пропускает строку', () => {
+test('урок «@counter: переход как значение»: запись в счётчик пропускает строку', () => {
     const processor = run(COUNTER, 0)
     for (let i = 0; i < 3; i++) processor.step()
 
@@ -825,7 +845,33 @@ test('урок «@counter»: запись в счётчик пропускает
     assert.equal(num(processor, 'дошли'), 1)
 })
 
-test('урок «@counter»: таблица строгого сравнения', () => {
+test('таблицы уроков называют знаки так же, как игра', () => {
+    /*
+     * В блоке видно не имя условия, а знак: `===`, а не `strictEqual`. Уроки это выписывают
+     * таблицами, и знаки там должны совпадать со снятыми из игры — иначе читатель будет
+     * искать в списке то, чего там нет.
+     */
+    const symbols = {...schema.enumSymbols.LogicOp, ...schema.enumSymbols.ConditionOp}
+    const dir = fileURLToPath(new URL('../src/content/docs/ru/course/', import.meta.url))
+
+    let checked = 0
+
+    for (const path of lessonFiles(dir)) {
+        const text = readFileSync(path, 'utf8')
+
+        for (const [, name, sign] of text.matchAll(/^\| `(\w+)` \| `([^`]+)` \|/gm)) {
+            if (symbols[name] === undefined) continue
+
+            assert.equal(sign, symbols[name], `${path}: ${name}`)
+            checked++
+        }
+    }
+
+    // Если таблицы переписали, а знаки выпали — тест должен об этом сказать
+    assert.ok(checked >= 25, `проверено пар: ${checked}`)
+})
+
+test('урок «Условие и ветвление»: таблица условий и знаки в блоке', () => {
     /*
      * Урок обещает три строки: `null` против нуля, единица против почти единицы и две
      * одинаковые строки. Проверяется тем же способом, каким это видит читатель, — прыжком.
@@ -854,7 +900,7 @@ test('урок «@counter»: таблица строгого сравнения'
     assert.equal(jumped('strictEqual', '"медь"', '"медь"'), true)
 })
 
-test('урок «@counter»: то же строгое сравнение есть и у op, и у select', () => {
+test('урок «Пустота: null»: то же строгое сравнение есть и у op, и у select', () => {
     /*
      * Урок обещает, что `strictEqual` не принадлежит `jump`: у `op` он кладёт ответ
      * в переменную, у `select` выбирает одно из двух значений.

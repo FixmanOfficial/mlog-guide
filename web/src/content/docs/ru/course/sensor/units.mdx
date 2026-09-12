@@ -65,7 +65,7 @@ import {UNITS} from '../../../../../course/scenes/sensor.js'
 <Card kind="error">
     Проверять надо не «здоровье больше нуля», а сам `@unit`: у погибшего юнита здоровье
     приходит как `null`, и обычное сравнение примет его за ноль. Нужен блок `Operation`
-    со `strictEqual`: слева `@unit`, справа `null`.
+    со `strictEqual` — на кнопке он подписан `===`: слева `@unit`, справа `null`.
 </Card>
 
 <Card kind="recap">

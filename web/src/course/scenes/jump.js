@@ -39,20 +39,3 @@ export const LOOP = {
         ].join('\n')
     }]
 }
-
-/** Урок «@counter, always и strictEqual»: переход записью в счётчик. */
-export const COUNTER = {
-    width: 7, height: 5, floor: 'sand',
-    blocks: [{type: 'micro-processor', x: 3, y: 2}],
-    processors: [{
-        at: [3, 2],
-        links: [],
-        program: [
-            'set куда 3',
-            'set @counter куда',
-            'set пропущено 1',
-            'set дошли 1',
-            'end'
-        ].join('\n')
-    }]
-}

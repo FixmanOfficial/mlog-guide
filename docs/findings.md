@@ -206,6 +206,7 @@
 
 | Деталь | Источник | Тест |
 | --- | --- | --- |
+| **Кнопка операции показывает знак, а не имя перечисления**: `strictEqual` подписан `===`, `notEqual` — `not` (без знака равенства), побитовое «и» — `b-and`, побитовая инверсия — `flip`. Слова при включённом переводе ещё и переводятся («не», «бит-и»), знаки — никогда | `logic/LogicOp.java`, `ConditionOp.java` поле `symbol`, `LStatement.selectTranslate` | ✓ `web/test/course.test.js` |
 | **Поле ввода в v160 выросло**: было 144 на 40, подписанное — 85 в ширину; стало 180 на 40 и 180. Число не лежит ни в одной таблице игры, только литералом в `field()`, поэтому снимается генератором | `logic/LStatement.java` `field`, `fields` | ✓ `editor/test/metrics.test.js` |
 | **У `sensor` поле свойства со своей шириной**: 140 в узкой раскладке, 180 в широкой. Единственное такое поле, появилось в v160.2 | `logic/LStatements.java` `SensorStatement.build` | ✓ `editor/test/metrics.test.js` |
 | **В таблицу переменных не попадают константы**: `if(s.constant) continue`, а константами кладутся `@this`, `@unit`, `@ipt`, `@links` и все имена связей (`putConst` в `LAssembler` и `LogicBlock.updateCode`). Остаются `@counter` и переменные программы, в порядке первого появления; остальное открывает кнопка «Встроенные переменные» в том же окне | `LogicDialog:186,236`, `logic/LAssembler.java` `putConst` | ✓ `web/test/course.test.js` |

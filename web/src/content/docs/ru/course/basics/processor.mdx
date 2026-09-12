@@ -10,6 +10,7 @@ sidebar:
 import {Example} from '../../../../../example/Example.jsx'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
 import {PROCESSOR} from '../../../../../course/scenes/basics.js'
 
 <LessonHead difficulty="easy" lead={frontmatter.lead} />
@@ -60,8 +61,9 @@ import {PROCESSOR} from '../../../../../course/scenes/basics.js'
 В окне переменных есть `@counter` — номер инструкции, которую процессор выполнит следующей.
 Пока достаточно знать, что он там есть: по нему видно, где программа сейчас находится.
 
-Счётчик не только показывает — в него можно писать, и запись в него это переход. Из этого
-вырастает вся работа с ветвлениями, и там о нём будет отдельный разговор.
+Счётчик не только показывает — в него можно писать, и запись в него это переход. Обычно
+переходы пишут инструкцией <Lesson group="jump">`jump`</Lesson>, а счётчику как переменной
+отведён свой урок: <Lesson lesson="advanced/counter">«`@counter`: переход как значение»</Lesson>.
 
 <Card kind="recap">
 - Программа идёт сверху вниз и после последней строки начинается заново.

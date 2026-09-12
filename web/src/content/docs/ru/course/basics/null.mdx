@@ -2,7 +2,7 @@
 title: "Пустота: null"
 description: "Откуда в mlog берётся null, почему он равен нулю в сравнениях и как отличить одно от другого"
 lead: "Значения нет — и это тоже значение. Главный источник молчаливых ошибок в mlog"
-difficulty: easy
+difficulty: medium
 sidebar:
     order: 6
 ---
@@ -15,7 +15,7 @@ import Lesson from '../../../../../course/Lesson.astro'
 import {EMPTINESS} from '../../../../../course/scenes/basics.js'
 
 <LessonHead
-    difficulty="easy"
+    difficulty="medium"
     lead={frontmatter.lead}
     needs={[{lesson: 'basics/values', title: 'Число, объект и текст'}]}
 />
@@ -56,6 +56,10 @@ import {EMPTINESS} from '../../../../../course/scenes/basics.js'
 
 Обычные `equal` и `notEqual` смотрят на число, а число у пустоты — ноль. Строгое сравнение
 смотрит ещё и на вид значения, поэтому только оно видит разницу.
+
+В справочниках и в тексте программы оно называется `strictEqual`, а в блоке подписано
+знаком `===` — искать в списке нужно именно его. Знаки в игре не переводятся, так что
+`===` останется `===` при любом языке.
 
 | Нужно | Чем |
 | --- | --- |

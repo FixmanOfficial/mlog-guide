@@ -21,7 +21,9 @@ export const GROUPS = [
     'set', 'op', 'jump', 'select', 'wait',
     'print', 'read', 'sensor', 'control', 'radar', 'draw', 'lookup',
     'ubind', 'ucontrol', 'uradar', 'ulocate',
-    'world'
+    'world',
+    // «Продвинутое» стоит последним: это не инструкция, а то, что поверх всех
+    'advanced'
 ]
 
 /** Уроки одной группы, в порядке `sidebar.order`. */
