@@ -813,3 +813,21 @@ test('урок «@counter»: таблица строгого сравнения'
     assert.equal(jumped('equal', '"медь"', '"медь"'), true)
     assert.equal(jumped('strictEqual', '"медь"', '"медь"'), true)
 })
+
+test('урок «@counter»: то же строгое сравнение есть и у op, и у select', () => {
+    /*
+     * Урок обещает, что `strictEqual` не принадлежит `jump`: у `op` он кладёт ответ
+     * в переменную, у `select` выбирает одно из двух значений.
+     */
+    const processor = new Processor([
+        'op equal мягко null 0',
+        'op strictEqual строго null 0',
+        'select выбор strictEqual null 0 "пусто" "ноль"'
+    ].join('\n'), {content, globals: content.globals, ipt: 4})
+
+    processor.run(3)
+
+    assert.equal(num(processor, 'мягко'), 1)
+    assert.equal(num(processor, 'строго'), 0)
+    assert.equal(obj(processor, 'выбор'), 'ноль')
+})
