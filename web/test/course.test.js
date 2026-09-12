@@ -18,7 +18,7 @@ import {Processor} from '@mlog/core/src/vm.js'
 import logicIds from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 
 import {BUILDINGS, ITEMS, UNITS, HOLDERS} from '../src/course/scenes/sensor.js'
-import {VALUES, EMPTINESS, PROCESSOR, EDITOR, WATCH} from '../src/course/scenes/basics.js'
+import {VALUES, EMPTINESS, PROCESSOR, EDITOR, WATCH, DEBUG} from '../src/course/scenes/basics.js'
 import {
     ARITHMETIC, STEPS, INTEGERS, ROUNDING, PRECISION, LOGIC, NEGATION, BITWISE, SHIFTS,
     GEOMETRY, FLOAT, RANDOM, NOISE
@@ -523,4 +523,52 @@ test('урок «Окно переменных»: в таблице видны �
     }
 
     assert.equal(processor.get('@this').constant, true)
+})
+
+test('урок «Когда не работает»: первый круг считает верно, а доля остаётся пустой', () => {
+    const processor = run(DEBUG, 0)
+
+    // Четыре шага — ровно один круг: урок просит пройти его руками
+    for (let i = 0; i < 4; i++) processor.step()
+
+    assert.equal(num(processor, 'цель'), 10)
+    assert.equal(num(processor, 'счёт'), 1)
+    assert.equal(num(processor, 'осталось'), 9)
+
+    // Деление на пустую переменную даёт не ноль и не бесконечность, а «ничего»
+    const share = processor.get('доля')
+    assert.equal(share.isobj, true)
+    assert.equal(share.objval, null)
+})
+
+test('урок «Когда не работает»: за секунду счёт уходит за десяток, а осталось — в минус', () => {
+    const processor = run(DEBUG, 60)
+
+    assert.equal(num(processor, 'счёт'), 30)
+    assert.equal(num(processor, 'осталось'), -19)
+    assert.equal(processor.get('доля').objval, null)
+})
+
+test('урок «Когда не работает»: задание чинит половину — доля становится одной десятой', () => {
+    const fixed = {
+        ...DEBUG,
+        processors: [{
+            ...DEBUG.processors[0],
+            program: [
+                'set цель 10',
+                'op add счёт счёт 1',
+                'op sub осталось цель счёт',
+                'op div доля счёт цель'
+            ].join('\n')
+        }]
+    }
+
+    const processor = run(fixed, 0)
+    for (let i = 0; i < 4; i++) processor.step()
+
+    assert.equal(num(processor, 'доля'), 0.1)
+
+    // А круг остаётся сломанным: урок обещает, что доля уедет выше единицы
+    const later = run(fixed, 60)
+    assert.ok(num(later, 'доля') > 1, num(later, 'доля'))
 })
