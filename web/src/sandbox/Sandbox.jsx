@@ -15,7 +15,7 @@ import {Icon} from '@mlog/editor/src/Icon.jsx'
 import {ContentIcon} from '@mlog/editor/src/ContentPopup.jsx'
 import {mod} from '@mlog/core/src/arc.js'
 import {ITEM_ORDER} from '@mlog/core/src/world.js'
-import {localizationEnabled, setLocalization} from '@mlog/editor/src/names.js'
+import {restoreLocalization, setLocalization, useLocalization} from '@mlog/editor/src/names.js'
 import {DisplayView} from '@mlog/render/src/display.js'
 import {WorldView} from '@mlog/render/src/world.js'
 
@@ -120,14 +120,21 @@ export function Sandbox({allow = {}, scene: description = undefined,
 
     const [running, setRunning] = useState(true)
 
-    // Подсветка следующей строки: наша добавка к окну игры, поэтому выключаемая
-    const [highlight, setHighlight] = useState(storedHighlight)
+    /*
+     * Подсветка следующей строки: наша добавка к окну игры, поэтому выключаемая.
+     *
+     * Первая отрисовка идёт со значением по умолчанию, тем же, что на сервере:
+     * запомненное применяется эффектом ниже. Preact при подключении атрибуты
+     * не сверяет, и разойдись первая отрисовка с готовой разметкой — состояние
+     * галочки и вид строк остались бы серверными.
+     */
+    const [highlight, setHighlight] = useState(false)
 
     /*
      * Перевод надписей редактора. Настройка `logiclocalization` из игры: там она включена
      * по умолчанию, поэтому и здесь читатель видит то же, что у себя в игре.
      */
-    const [localized, setLocalized] = useState(localizationEnabled)
+    const localized = useLocalization()
 
     // Клетка под курсором: её показывает HUD под миникартой, как настройка «mouseposition»
     const [hover, setHover] = useState(null)
@@ -448,6 +455,10 @@ export function Sandbox({allow = {}, scene: description = undefined,
         applyEasings()
         applyNinePatches()
         applyMetrics()
+
+        // Запомненные настройки — после подключения, когда расходиться уже не с чем
+        setHighlight(storedHighlight())
+        restoreLocalization()
 
         const scene = createScene(description)
 
@@ -904,11 +915,7 @@ export function Sandbox({allow = {}, scene: description = undefined,
                         <input
                             type="checkbox"
                             checked={localized}
-                            onChange={(event) => {
-                                const on = event.currentTarget.checked
-                                setLocalized(on)
-                                setLocalization(on)
-                            }}
+                            onChange={(event) => setLocalization(event.currentTarget.checked)}
                         />
                         <span>перевод</span>
                     </label>

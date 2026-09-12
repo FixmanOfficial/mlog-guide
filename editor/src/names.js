@@ -19,7 +19,7 @@
 
 import {useEffect, useState} from 'preact/hooks'
 
-import ru from '@mlog/core/data/i18n/ru.json'
+import ru from '@mlog/core/data/i18n/ru.json' with {type: 'json'}
 
 let bundle = ru
 
@@ -42,7 +42,20 @@ function stored() {
     }
 }
 
-let enabled = stored()
+/*
+ * Начинаем с того же значения, что на сервере: там хранилища нет вовсе, и разметка
+ * приходит с включённым переводом. Запомненный выбор применяется после подключения —
+ * `restoreLocalization` из эффекта. Иначе первая отрисовка в браузере разошлась бы
+ * с готовым DOM, а Preact при подключении атрибуты не сверяет: подписи остались бы
+ * серверными навсегда.
+ */
+let enabled = true
+
+/** Применяет запомненный выбор. Зовётся после подключения острова. */
+export function restoreLocalization() {
+    const remembered = stored()
+    if (remembered !== enabled) setLocalization(remembered)
+}
 
 export function localizationEnabled() {
     return enabled

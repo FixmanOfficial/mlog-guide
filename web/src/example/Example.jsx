@@ -20,7 +20,7 @@ import {useEffect, useMemo, useRef, useState} from 'preact/hooks'
 
 import {Editor, fromText, applyEasings, applyMetrics, applyNinePatches} from '@mlog/editor'
 import {Icon} from '@mlog/editor/src/Icon.jsx'
-import {localizationEnabled, setLocalization} from '@mlog/editor/src/names.js'
+import {restoreLocalization, setLocalization, useLocalization} from '@mlog/editor/src/names.js'
 import {WorldView} from '@mlog/render/src/world.js'
 
 // ?url обязателен: иначе Astro пропускает картинку через свой конвейер и отдаёт объект
@@ -152,20 +152,31 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
     // Меню добавления живёт в редакторе, а кнопка к нему в игре стоит в нижнем ряду окна
     const [addOpen, setAddOpen] = useState(false)
 
-    // Подсветка следующей строки: выключается глазом и запоминается на весь сайт
-    const [highlight, setHighlight] = useState(storedHighlight)
+    /*
+     * Подсветка следующей строки: выключается глазом и запоминается на весь сайт.
+     *
+     * Первая отрисовка идёт со значением по умолчанию — тем же, что на сервере, где
+     * хранилища нет. Запомненное применяется ниже, эффектом: Preact при подключении
+     * атрибуты не сверяет, и разойдись первая отрисовка с готовым DOM — рамка осталась
+     * бы нарисованной навсегда, потому что заново эту строку никто бы не отрисовал.
+     */
+    const [highlight, setHighlight] = useState(true)
 
     /*
      * Перевод надписей редактора. В игре это настройка `logiclocalization`, по умолчанию
      * включённая, — значит и здесь по умолчанию включена: читатель видит то же, что у себя.
      */
-    const [localized, setLocalized] = useState(localizationEnabled)
+    const localized = useLocalization()
 
     // Размеры, девятипатчи и кривые интерфейса игры: без них редактор рисуется на глазок
     useEffect(() => {
         applyEasings()
         applyNinePatches()
         applyMetrics()
+
+        // Запомненные настройки — после подключения, когда расходиться уже не с чем
+        setHighlight(storedHighlight())
+        restoreLocalization()
     }, [])
 
     /*
@@ -386,10 +397,7 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
                         ? 'Надписи как в игре: по-русски'
                         : 'Надписи по-английски, как без перевода в игре'}
                     aria-pressed={localized ? 'true' : 'false'}
-                    onClick={() => {
-                        setLocalization(!localized)
-                        setLocalized(!localized)
-                    }}
+                    onClick={() => setLocalization(!localized)}
                 >
                     <Icon name="book" size={20} />
                 </button>
