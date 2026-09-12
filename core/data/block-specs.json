@@ -16118,7 +16118,7 @@
       "core": false,
       "itemCapacity": 10,
       "liquidCapacity": 10,
-      "mapColor": "#928887",
+      "mapColor": "#938887",
       "useColor": true,
       "javaClasses": [
         "BaseShield",
@@ -16201,8 +16201,8 @@
       "groupAnyReplace": true,
       "subclass": "Conveyor",
       "chained": true,
-      "speed": 0.046,
-      "displayedSpeed": 6.5,
+      "speed": 0.035,
+      "displayedSpeed": 5,
       "outputsPower": false,
       "consumesPower": true,
       "connectedPower": true,
@@ -20054,7 +20054,7 @@
     "thorium-reactor": {
       "id": 315,
       "size": 3,
-      "health": 700,
+      "health": 1400,
       "armor": 0,
       "offset": 0,
       "solid": true,
@@ -26103,7 +26103,7 @@
       "offset": 0,
       "solid": true,
       "rotate": true,
-      "configurable": true,
+      "configurable": false,
       "hasItems": true,
       "hasLiquids": true,
       "hasPower": true,
@@ -26201,7 +26201,7 @@
       "offset": 0,
       "solid": true,
       "rotate": true,
-      "configurable": true,
+      "configurable": false,
       "hasItems": true,
       "hasLiquids": true,
       "hasPower": true,
@@ -26303,7 +26303,7 @@
       "offset": 0,
       "solid": true,
       "rotate": true,
-      "configurable": true,
+      "configurable": false,
       "hasItems": true,
       "hasLiquids": true,
       "hasPower": true,
@@ -26401,7 +26401,7 @@
       "offset": 0,
       "solid": true,
       "rotate": true,
-      "configurable": true,
+      "configurable": false,
       "hasItems": true,
       "hasLiquids": true,
       "hasPower": true,
@@ -27293,19 +27293,19 @@
       "requirements": [
         {
           "item": "graphite",
-          "amount": 100
+          "amount": 60
         },
         {
           "item": "silicon",
-          "amount": 200
+          "amount": 150
         },
         {
           "item": "phase-fabric",
-          "amount": 20
+          "amount": 10
         },
         {
           "item": "tungsten",
-          "amount": 200
+          "amount": 120
         },
         {
           "item": "oxide",
@@ -27376,19 +27376,19 @@
       "requirements": [
         {
           "item": "graphite",
-          "amount": 80
+          "amount": 50
         },
         {
           "item": "silicon",
-          "amount": 100
+          "amount": 70
         },
         {
           "item": "beryllium",
-          "amount": 100
+          "amount": 70
         },
         {
           "item": "oxide",
-          "amount": 40
+          "amount": 25
         }
       ]
     },
@@ -27412,7 +27412,7 @@
       "synthetic": true,
       "privileged": false,
       "core": false,
-      "itemCapacity": 250,
+      "itemCapacity": 320,
       "liquidCapacity": 10,
       "mapColor": "#816c6d",
       "useColor": true,
@@ -27601,7 +27601,7 @@
       "consumes": [
         {
           "kind": "power",
-          "usage": 3,
+          "usage": 5,
           "capacity": 0,
           "buffered": false,
           "optional": false,
@@ -28260,8 +28260,59 @@
       "warmupSpeed": 0.019,
       "requirements": []
     },
-    "illuminator": {
+    "target-dummy": {
       "id": 419,
+      "size": 2,
+      "health": 160,
+      "armor": 0,
+      "offset": 4,
+      "solid": false,
+      "rotate": false,
+      "configurable": true,
+      "hasItems": false,
+      "hasLiquids": false,
+      "hasPower": false,
+      "unloadable": true,
+      "breakable": false,
+      "destructible": false,
+      "update": true,
+      "placeableOn": true,
+      "synthetic": true,
+      "privileged": false,
+      "core": false,
+      "itemCapacity": 10,
+      "liquidCapacity": 10,
+      "mapColor": "#af9e9b",
+      "useColor": true,
+      "javaClasses": [
+        "TargetDummy",
+        "Block"
+      ],
+      "category": "defense",
+      "group": "none",
+      "buildVisibility": "sandboxOnly",
+      "canBeBuilt": true,
+      "dumpTime": 5,
+      "instantTransfer": false,
+      "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
+      "replaceable": true,
+      "alwaysReplace": false,
+      "groupAnyReplace": false,
+      "subclass": "TargetDummy",
+      "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "requirements": []
+    },
+    "illuminator": {
+      "id": 420,
       "size": 1,
       "health": 40,
       "armor": 0,
@@ -28335,7 +28386,7 @@
       ]
     },
     "legacy-mech-pad": {
-      "id": 420,
+      "id": 421,
       "size": 1,
       "health": 40,
       "armor": 0,
@@ -28387,58 +28438,6 @@
       "requirements": []
     },
     "legacy-unit-factory": {
-      "id": 421,
-      "size": 1,
-      "health": 40,
-      "armor": 0,
-      "offset": 0,
-      "solid": false,
-      "rotate": false,
-      "configurable": false,
-      "hasItems": true,
-      "hasLiquids": false,
-      "hasPower": true,
-      "unloadable": true,
-      "breakable": false,
-      "destructible": false,
-      "update": true,
-      "placeableOn": true,
-      "synthetic": true,
-      "privileged": false,
-      "core": false,
-      "itemCapacity": 10,
-      "liquidCapacity": 10,
-      "mapColor": "#000000",
-      "useColor": true,
-      "javaClasses": [
-        "LegacyUnitFactory",
-        "LegacyBlock",
-        "Block"
-      ],
-      "category": "distribution",
-      "group": "none",
-      "buildVisibility": "hidden",
-      "canBeBuilt": false,
-      "dumpTime": 5,
-      "instantTransfer": false,
-      "quickRotate": true,
-      "conveyorPlacement": false,
-      "allowRectanglePlacement": false,
-      "allowDiagonal": true,
-      "ignoreLineRotation": false,
-      "replaceable": true,
-      "alwaysReplace": false,
-      "groupAnyReplace": false,
-      "subclass": "LegacyUnitFactory",
-      "chained": false,
-      "outputsPower": false,
-      "consumesPower": true,
-      "connectedPower": true,
-      "conductivePower": false,
-      "insulated": false,
-      "requirements": []
-    },
-    "legacy-unit-factory-air": {
       "id": 422,
       "size": 1,
       "health": 40,
@@ -28490,7 +28489,7 @@
       "insulated": false,
       "requirements": []
     },
-    "legacy-unit-factory-ground": {
+    "legacy-unit-factory-air": {
       "id": 423,
       "size": 1,
       "health": 40,
@@ -28542,8 +28541,60 @@
       "insulated": false,
       "requirements": []
     },
-    "command-center": {
+    "legacy-unit-factory-ground": {
       "id": 424,
+      "size": 1,
+      "health": 40,
+      "armor": 0,
+      "offset": 0,
+      "solid": false,
+      "rotate": false,
+      "configurable": false,
+      "hasItems": true,
+      "hasLiquids": false,
+      "hasPower": true,
+      "unloadable": true,
+      "breakable": false,
+      "destructible": false,
+      "update": true,
+      "placeableOn": true,
+      "synthetic": true,
+      "privileged": false,
+      "core": false,
+      "itemCapacity": 10,
+      "liquidCapacity": 10,
+      "mapColor": "#000000",
+      "useColor": true,
+      "javaClasses": [
+        "LegacyUnitFactory",
+        "LegacyBlock",
+        "Block"
+      ],
+      "category": "distribution",
+      "group": "none",
+      "buildVisibility": "hidden",
+      "canBeBuilt": false,
+      "dumpTime": 5,
+      "instantTransfer": false,
+      "quickRotate": true,
+      "conveyorPlacement": false,
+      "allowRectanglePlacement": false,
+      "allowDiagonal": true,
+      "ignoreLineRotation": false,
+      "replaceable": true,
+      "alwaysReplace": false,
+      "groupAnyReplace": false,
+      "subclass": "LegacyUnitFactory",
+      "chained": false,
+      "outputsPower": false,
+      "consumesPower": true,
+      "connectedPower": true,
+      "conductivePower": false,
+      "insulated": false,
+      "requirements": []
+    },
+    "command-center": {
+      "id": 425,
       "size": 2,
       "health": 160,
       "armor": 0,
@@ -28595,7 +28646,7 @@
       "requirements": []
     },
     "launch-pad": {
-      "id": 425,
+      "id": 426,
       "size": 3,
       "health": 360,
       "armor": 0,
@@ -28673,7 +28724,7 @@
       ]
     },
     "advanced-launch-pad": {
-      "id": 426,
+      "id": 427,
       "size": 4,
       "health": 640,
       "armor": 0,
@@ -28758,7 +28809,7 @@
       ]
     },
     "landing-pad": {
-      "id": 427,
+      "id": 428,
       "size": 4,
       "health": 640,
       "armor": 0,
@@ -28831,7 +28882,7 @@
       ]
     },
     "interplanetary-accelerator": {
-      "id": 428,
+      "id": 429,
       "size": 7,
       "health": 3920,
       "armor": 0,
@@ -28940,7 +28991,7 @@
       ]
     },
     "message": {
-      "id": 429,
+      "id": 430,
       "size": 1,
       "health": 40,
       "armor": 0,
@@ -29002,7 +29053,7 @@
       ]
     },
     "switch": {
-      "id": 430,
+      "id": 431,
       "size": 1,
       "health": 40,
       "armor": 0,
@@ -29062,7 +29113,7 @@
       ]
     },
     "micro-processor": {
-      "id": 431,
+      "id": 432,
       "size": 1,
       "health": 40,
       "armor": 0,
@@ -29130,7 +29181,7 @@
       ]
     },
     "logic-processor": {
-      "id": 432,
+      "id": 433,
       "size": 2,
       "health": 190,
       "armor": 0,
@@ -29202,7 +29253,7 @@
       ]
     },
     "hyper-processor": {
-      "id": 433,
+      "id": 434,
       "size": 3,
       "health": 520,
       "armor": 0,
@@ -29283,7 +29334,7 @@
       ]
     },
     "memory-cell": {
-      "id": 434,
+      "id": 435,
       "size": 1,
       "health": 40,
       "armor": 0,
@@ -29348,7 +29399,7 @@
       ]
     },
     "memory-bank": {
-      "id": 435,
+      "id": 436,
       "size": 2,
       "health": 200,
       "armor": 0,
@@ -29417,7 +29468,7 @@
       ]
     },
     "logic-display": {
-      "id": 436,
+      "id": 437,
       "size": 3,
       "health": 360,
       "armor": 0,
@@ -29482,7 +29533,7 @@
       ]
     },
     "large-logic-display": {
-      "id": 437,
+      "id": 438,
       "size": 6,
       "health": 1800,
       "armor": 0,
@@ -29551,7 +29602,7 @@
       ]
     },
     "tile-logic-display": {
-      "id": 438,
+      "id": 439,
       "size": 1,
       "health": 50,
       "armor": 0,
@@ -29621,7 +29672,7 @@
       ]
     },
     "canvas": {
-      "id": 439,
+      "id": 440,
       "size": 2,
       "health": 255,
       "armor": 0,
@@ -29681,7 +29732,7 @@
       ]
     },
     "large-canvas": {
-      "id": 440,
+      "id": 441,
       "size": 3,
       "health": 665,
       "armor": 0,
@@ -29745,7 +29796,7 @@
       ]
     },
     "reinforced-message": {
-      "id": 441,
+      "id": 442,
       "size": 1,
       "health": 100,
       "armor": 0,
@@ -29807,7 +29858,7 @@
       ]
     },
     "world-processor": {
-      "id": 442,
+      "id": 443,
       "size": 1,
       "health": 40,
       "armor": 0,
@@ -29862,7 +29913,7 @@
       "requirements": []
     },
     "world-cell": {
-      "id": 443,
+      "id": 444,
       "size": 1,
       "health": 40,
       "armor": 0,
@@ -29914,7 +29965,7 @@
       "requirements": []
     },
     "world-message": {
-      "id": 444,
+      "id": 445,
       "size": 1,
       "health": 40,
       "armor": 0,
@@ -29967,7 +30018,7 @@
       "requirements": []
     },
     "world-switch": {
-      "id": 445,
+      "id": 446,
       "size": 1,
       "health": 40,
       "armor": 0,

@@ -145,6 +145,18 @@ export function createContent(data) {
     }
 
     /*
+     * Статусы эффектов: в v160 у каждого появилась константа `@status-<имя>`, и `status`
+     * берёт эффект переменной, а не строкой. Логического идентификатора у них нет —
+     * в таблицу `lookup` статусы не входят. GlobalVars.init, v160
+     */
+    types.status = Object.keys(materials.statuses ?? {})
+        .map(name => new Content('status', name, -1))
+
+    for (const effect of types.status) {
+        constant(`@status-${effect.name}`, effect, true)
+    }
+
+    /*
      * Кроме перечислимых блоков игра кладёт в константы **все** блоки, включая местность:
      * `@sand-floor`, `@ore-copper`, `@stone-wall` — они приходят из `ucontrol getBlock`,
      * и сравнивать результат не с чем, если константы нет. В таблицу `lookup` они при этом

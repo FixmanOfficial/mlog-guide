@@ -11,8 +11,9 @@
     "addColumns"
   ],
   "metrics": {
-    "canvasWidthNarrow": 400,
-    "canvasWidth": 900,
+    "canvasWidthNarrow": 410,
+    "canvasWidthMin": 400,
+    "canvasWidth": 1200,
     "statementSpace": 10,
     "headerHeight": 38,
     "headerPadding": 6,
@@ -34,6 +35,7 @@
     "jumpLane": 40,
     "jumpLaneStepPortrait": 8,
     "jumpLaneStep": 10,
+    "compactWidth": 900,
     "rowsFactor": 1.2,
     "selectCellWidth": 60,
     "selectCellHeight": 38,

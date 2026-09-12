@@ -7,6 +7,8 @@ export const Diagnostic = {
     // Разбор
     MISSING_CLOSING_QUOTE: 'parse.missing-closing-quote',
     STRING_TOO_LONG: 'parse.string-too-long',
+    // `\u` без четырёх шестнадцатеричных цифр: проверка появилась в v160
+    INVALID_ESCAPE: 'parse.invalid-escape',
     TOO_MANY_TOKENS: 'parse.too-many-tokens',
     TOO_MANY_LABELS: 'parse.too-many-labels',
     DUPLICATE_LABEL: 'parse.duplicate-label',

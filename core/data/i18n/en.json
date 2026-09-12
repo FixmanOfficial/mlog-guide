@@ -264,7 +264,8 @@
       "advanced-launch-pad": "Launch Pad",
       "landing-pad": "Landing Pad",
       "tile-logic-display": "Tiled Logic Display",
-      "large-canvas": "Large Canvas"
+      "large-canvas": "Large Canvas",
+      "target-dummy": "Target Dummy"
     },
     "unit": {
       "dagger": "Dagger",
@@ -413,7 +414,7 @@
       "weatherset": "Set the current state of a type of weather.",
       "spawnwave": "Spawn a wave.",
       "explosion": "Create an explosion at a location.",
-      "setrate": "Set processor execution speed in instructions/tick.",
+      "setrate": "Set processor execution speed in instructions/tick.\nCannot surpass maximum execution speed.",
       "fetch": "Lookup units, cores, players or buildings by index.\nIndices start at 0 and end at their returned count.",
       "packcolor": "Pack [0, 1] RGBA components into a single number for drawing or rule-setting.",
       "unpackcolor": "Unpack RGBA components from a color that was packed using Pack Color.",
@@ -608,6 +609,8 @@
       "status.fast.name": "Fast",
       "status.shielded.name": "Shielded",
       "status.disarmed.name": "Disarmed",
+      "status.invincible.name": "Invincible",
+      "status.dynamic.name": "Dynamic",
       "bullet.damage": "[stat]{0}[lightgray] damage",
       "bullet.splashdamage": "[stat]{0}[lightgray] area dmg ~ [stat]{1}[lightgray] tiles",
       "bullet.incendiary": "[stat]incendiary",
@@ -681,7 +684,7 @@
       "buildunit": "[accent]Build Unit: [][lightgray]{0}[]x\n{1}[lightgray]{2}",
       "destroyunits": "[accent]Destroy: [][lightgray]{0}[]x Units",
       "enemiesapproaching": "[accent]Enemies approaching in [lightgray]{0}[]",
-      "enemyescelating": "[accent]Enemy production escalating in [lightgray]{0}[]",
+      "enemyescalating": "[accent]Enemy production escalating in [lightgray]{0}[]",
       "enemyairunits": "[accent]Enemy air unit production begins in [lightgray]{0}[]",
       "enemyunitproduction": "[accent]Enemy unit production begins in [lightgray]{0}[]",
       "destroycore": "[accent]Destroy Enemy Core",

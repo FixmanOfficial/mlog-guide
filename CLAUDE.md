@@ -23,13 +23,13 @@
 
 ## Источник истины
 
-**Mindustry v159.7**, тег зафиксирован. Обновление версии — отдельная осознанная задача, а не
+**Mindustry v160.1**, тег зафиксирован. Обновление версии — отдельная осознанная задача, а не
 «подтянуть последнее».
 
 Исходники не лежат в репозитории. Развернуть локально:
 
 ```bash
-git clone --depth 1 --branch v159.7 --filter=blob:none --sparse https://github.com/Anuken/Mindustry.git
+git clone --depth 1 --branch v160.1 --filter=blob:none --sparse https://github.com/Anuken/Mindustry.git
 git -C Mindustry sparse-checkout set core/src/mindustry/logic core/src/mindustry/world core/src/mindustry/content core/src/mindustry/type core/assets
 ```
 
@@ -86,8 +86,8 @@ tools/   генераторы дампов из исходников игры
 node tools/gen-dump.mjs <путь-к-Mindustry.jar>
 ```
 
-Снимает спеки контента **из запущенной игры**: `core/data/unit-specs.json` (69 юнитов),
-`core/data/block-specs.json` (446 блоков), `core/data/teams.json` и `core/data/materials.json`
+Снимает спеки контента **из запущенной игры**: `core/data/unit-specs.json` (70 юнитов),
+`core/data/block-specs.json` (447 блоков), `core/data/teams.json` и `core/data/materials.json`
 (предметы и жидкости: цвет, твёрдость, стоимость, порядок для бура).
 
 Вместе с блоком снимается его производство: `drillTime` и `tier` у буров, `craftTime`
@@ -128,11 +128,11 @@ node tools/gen-dump.mjs <путь-к-Mindustry.jar>
 
 Нужен JDK 17 или новее (игра собрана под 17, на восьмёрке не запустится) — ищется сам,
 в `JAVA_HOME`, среди установленных Adoptium и в PATH. Jar в репозиторий не кладём, качать
-отсюда: `github.com/Anuken/Mindustry/releases/download/v159.7/Mindustry.jar`, 86 МБ.
+отсюда: `github.com/Anuken/Mindustry/releases/download/v160.1/Mindustry.jar`, 87 МБ.
 Сам дампер — `tools/dump/ContentDump.java`.
 
 **Версию jar проверять перед запуском**: `unzip -p <jar> version.properties` должен показать
-`build=159.7`. Файл с именем `Mindustry.jar` в загрузках может оказаться бетой другой сборки,
+`build=160.1`. Файл с именем `Mindustry.jar` в загрузках может оказаться бетой другой сборки,
 и тогда дамп молча разойдётся с исходниками — у сборки 155 нет блока `large-canvas`, и все
 идентификаторы после него съезжают на единицу.
 
@@ -177,13 +177,13 @@ node tools/gen-instructions.mjs <путь-к-Mindustry>
 ## Библиотека arc
 
 Часть семантики mlog живёт не в Mindustry, а в arc — там `Mathf`, `Angles`, `Rand`, `Simplex`
-и разбор чисел. Игра закрепляет arc хешем коммита в `gradle.properties`, для v159.7 это
-`archash=208a754044`. Пин такой же жёсткий, как у самой игры.
+и разбор чисел. Игра закрепляет arc хешем коммита в `gradle.properties`, для v160.1 это
+`archash=5a9696f1d4`. Пин такой же жёсткий, как у самой игры.
 
 ```bash
 git clone --filter=blob:none --no-checkout --sparse https://github.com/Anuken/Arc.git
 git -C Arc sparse-checkout set arc-core/src/arc/math arc-core/src/arc/util arc-core/src/arc/graphics
-git -C Arc checkout 208a754044
+git -C Arc checkout 5a9696f1d4
 ```
 
 Перенос лежит в `core/src/arc.js`. Трогать его без сверки с исходником нельзя: там всё написано
@@ -193,7 +193,7 @@ git -C Arc checkout 208a754044
 node tools/gen-metrics.mjs <путь-к-Mindustry>
 ```
 
-Снимает размеры интерфейса в `core/data/metrics.json`: 46 чисел из `LCanvas`, `LStatement`,
+Снимает размеры интерфейса в `core/data/metrics.json`: 76 чисел из `LCanvas`, `LStatement`,
 `LogicDialog` и `BaseDialog`. Все они лежат в Java литералами — `height(38)`, `t.margin(6f)`,
 `.size(24f).padRight(6)`. Каждое снимается своим шаблоном с якорем по соседнему коду, и если
 шаблон перестал совпадать, генератор падает с именем размера: при обновлении версии игры это
@@ -258,7 +258,7 @@ node tools/gen-sprites.mjs <путь-к-Mindustry.jar>
 ```
 
 Собирает иконки контента в атлас `editor/assets/content.png` и указатель `core/data/sprites.json`:
-347 предметов, жидкостей, блоков и юнитов. Нужен меню выбора у `sensor` и инструкции `draw image`.
+348 предметов, жидкостей, блоков и юнитов. Нужен меню выбора у `sensor` и инструкции `draw image`.
 
 Иконка в игре — это `UnlockableContent.fullIcon`, и ищется он по цепочке имён, первое из которых
 `<тип>-<имя>-full`: картинка, собранная упаковщиком из слоёв. У дуо это ствол поверх корпуса,
@@ -273,7 +273,7 @@ node tools/gen-blocks.mjs <путь-к-Mindustry.jar>
 ```
 
 Собирает спрайты блоков мира в атлас `render/assets/blocks.png` и указатель
-`core/data/block-sprites.json`: 374 спрайта — всё, что игра разрешает строить, плюс четыре
+`core/data/block-sprites.json`: 379 спрайтов — всё, что игра разрешает строить, плюс четыре
 привилегированных блока, пометки вроде уголков выделения и накладки команд (`<имя>-team`,
 а у команд с палитрой ещё `<имя>-team-<команда>`): без них хранилище и ядро выходят белыми. Отдельно от `gen-sprites.mjs`
 потому, что тот делает иконки и ограничивает их 48 точками, а на карте спрайт рисуется

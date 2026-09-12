@@ -47,20 +47,24 @@ test('дорожки переходов считаются по снятым ч�
 test('числа те же, что были сняты глазами: генератор ничего не сломал', () => {
     assert.equal(METRICS.headerHeight, 38)
     assert.equal(METRICS.statementSpace, 10)
-    assert.equal(METRICS.canvasWidth, 900)
+    // Ширина полотна в v160 стала тянуться по экрану: 410 узкая, от 400 до 1200 широкая
+    assert.equal(METRICS.canvasWidthNarrow, 410)
+    assert.equal(METRICS.canvasWidthMin, 400)
+    assert.equal(METRICS.canvasWidth, 1200)
     assert.equal(METRICS.varsRowHeight, 45)
     assert.equal(METRICS.varsPeriod, 15)
 })
 
 test('переносы внутри строки включаются на той же ширине, что в игре', () => {
     /*
-     * LCanvas.useRows: `Core.graphics.getWidth() < Scl.scl(900f) * 1.2f`. Медиазапрос
+     * LCanvas.isCompact: `Core.graphics.getWidth() < Scl.scl(900f) * 1.2f`. Медиазапрос
      * в CSS не умеет читать переменные, поэтому число там записано литералом — и вот
-     * проверка, что литерал тот же, что снял генератор.
+     * проверка, что литерал тот же, что снял генератор. Порог берётся из `compactWidth`,
+     * а не из ширины полотна: с v160 это разные числа.
      */
     const styles = readFileSync(new URL('../src/styles.css', import.meta.url), 'utf8')
     const query = styles.match(/@media \(min-width: (\d+)px\)/)
 
     assert.notEqual(query, null, 'в стилях есть медиазапрос ширины')
-    assert.equal(Number(query[1]), data.metrics.canvasWidth * data.metrics.rowsFactor)
+    assert.equal(Number(query[1]), data.metrics.compactWidth * data.metrics.rowsFactor)
 })

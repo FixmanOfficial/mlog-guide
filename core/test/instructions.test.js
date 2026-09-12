@@ -14,10 +14,19 @@ import {LACCESS} from '../src/assembler.js'
 const schema = JSON.parse(readFileSync(new URL('../data/instructions.json', import.meta.url), 'utf8'))
 const opcodes = schema.instructions.map(instruction => instruction.opcode)
 
-test('в схеме 53 инструкции: 27 процессорных и 26 мира', () => {
+test('в схеме 53 инструкции: 28 процессорных и 25 мира', () => {
     assert.equal(schema.counts.instructions, 53)
-    assert.equal(schema.counts.processor, 27)
-    assert.equal(schema.counts.world, 26)
+
+    /*
+     * В v160 `setrate` перестал быть привилегированным: обычный процессор теперь тоже может
+     * менять себе скорость, только в пределах своей же `instructionsPerTick`. Оттого
+     * процессорных стало на одну больше, а мировых — на одну меньше.
+     */
+    assert.equal(schema.counts.processor, 28)
+    assert.equal(schema.counts.world, 25)
+
+    const setrate = schema.instructions.find(instruction => instruction.opcode === 'setrate')
+    assert.equal(setrate.privileged, false)
 })
 
 test('закомментированная регистрация комментария не попала в схему', () => {
@@ -68,13 +77,14 @@ test('наследники получают параметры родителя'
     assert.deepEqual(uradar.params.map(p => p.name), radar.params.map(p => p.name))
 })
 
-test('первая версия покрывает двадцать две инструкции', () => {
+test('первая версия покрывает двадцать три инструкции', () => {
     const deferred = new Set(['radar', 'ubind', 'ucontrol', 'uradar', 'ulocate'])
 
     const v1 = schema.instructions.filter(instruction =>
         !instruction.privileged && !deferred.has(instruction.opcode))
 
-    assert.equal(v1.length, 22)
+    // Двадцать две плюс `setrate`, переехавший из мировых в обычные
+    assert.equal(v1.length, 23)
 })
 
 test('подсказка по раскладке либо полна, либо честно помечена', () => {

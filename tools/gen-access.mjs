@@ -108,6 +108,15 @@ function classAccess(source) {
     return {numbers, objects, setters}
 }
 
+/**
+ * Привилегированные свойства: `LAccess.privilegedAccess`. Обычный процессор их не читает —
+ * `sensor` отвечает `null`. Появилось в v160 и касается только камеры.
+ */
+function privilegedNames(source) {
+    const match = source.match(/privilegedAccess\s*=\s*ObjectSet\.with\(([^)]*)\)/)
+    return match === null ? new Set() : new Set(match[1].split(',').map(name => name.trim()))
+}
+
 /** Наборы, которые игра собирает сама: `senseable`, `controls`, `settable`. */
 function parseSets(source) {
     const settable = source.match(/settable\s*=\s*\{([^}]+)\}/)
@@ -154,6 +163,11 @@ function main() {
 
     const properties = parseAccess(access)
     const {settable} = parseSets(access)
+
+    // Камеру обычный процессор не читает: `sensor` отвечает ему `null`. LAccess, v160
+    for (const name of privilegedNames(access)) {
+        if (properties[name] !== undefined) properties[name].privileged = true
+    }
 
     // `@controlled` отвечает не «да/нет», а кем именно: коды лежат в GlobalVars
     const globals = readFileSync(join(gameRoot, 'core/src/mindustry/logic/GlobalVars.java'), 'utf8')

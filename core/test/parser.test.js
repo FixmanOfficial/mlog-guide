@@ -89,3 +89,58 @@ test('нераспознанная строка занимает место в �
 
     assert.equal(instructions.length, 3)
 })
+
+/*
+ * Экранирование в строках и переводы строк — v160. До неё игра знала только перевод
+ * строки, а возврат каретки пропускала особым случаем в разборе.
+ *
+ * Косая черта и кавычка собираются кодами символов: в записи JS они сами требуют
+ * экранирования, и текст теста перестал бы читаться.
+ */
+
+const BS = String.fromCharCode(92)
+const QUOTE = String.fromCharCode(34)
+const NEWLINE = String.fromCharCode(10)
+
+test('строка понимает перевод строки, кавычку и косую черту', () => {
+    const program = 'print ' + QUOTE + 'a' + BS + 'nb' + BS + QUOTE + 'c' + BS + BS + 'd' + QUOTE
+    const processor = new Processor(program)
+
+    processor.step()
+
+    assert.deepEqual(processor.diagnostics, [])
+    assert.equal(processor.textBuffer, 'a' + NEWLINE + 'b' + QUOTE + 'c' + BS + 'd')
+})
+
+test('экранированная кавычка не закрывает строку', () => {
+    const program = 'print ' + QUOTE + 'один' + BS + QUOTE + 'два' + QUOTE
+    const processor = new Processor(program)
+
+    processor.step()
+
+    assert.deepEqual(processor.diagnostics, [])
+    assert.equal(processor.textBuffer, 'один' + QUOTE + 'два')
+})
+
+test('четыре шестнадцатеричные цифры дают символ, а без них — замечание', () => {
+    const good = new Processor('print ' + QUOTE + BS + 'u0416' + QUOTE)
+    good.step()
+
+    assert.deepEqual(good.diagnostics, [])
+    assert.equal(good.textBuffer, 'Ж')
+
+    const bad = new Processor('print ' + QUOTE + BS + 'uZZZZ' + QUOTE)
+    assert.ok(bad.diagnostics.some(entry => entry.code === 'parse.invalid-escape'))
+})
+
+test('возврат каретки считается переводом строки', () => {
+    // Программа, скопированная из-под Windows: раньше разбор спотыкался о неё
+    const processor = new Processor(['set a 1', 'set b 2'].join(String.fromCharCode(13, 10)))
+
+    processor.step()
+    processor.step()
+
+    assert.deepEqual(processor.diagnostics, [])
+    assert.equal(processor.get('a').numval, 1)
+    assert.equal(processor.get('b').numval, 2)
+})

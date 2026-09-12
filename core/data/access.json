@@ -375,6 +375,8 @@
       "params": [],
       "isObj": false,
       "sense": {
+        "block": "number",
+        "building": "number",
         "unitType": "number",
         "unit": "number"
       },
@@ -690,6 +692,7 @@
     "cameraX": {
       "params": [],
       "isObj": false,
+      "privileged": true,
       "sense": {
         "building": "number",
         "unit": "number"
@@ -698,6 +701,7 @@
     "cameraY": {
       "params": [],
       "isObj": false,
+      "privileged": true,
       "sense": {
         "building": "number",
         "unit": "number"
@@ -706,6 +710,7 @@
     "cameraWidth": {
       "params": [],
       "isObj": false,
+      "privileged": true,
       "sense": {
         "building": "number",
         "unit": "number"
@@ -714,6 +719,7 @@
     "cameraHeight": {
       "params": [],
       "isObj": false,
+      "privileged": true,
       "sense": {
         "building": "number",
         "unit": "number"

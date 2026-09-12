@@ -27,6 +27,7 @@ import {
 import {BLOCK_SPECS} from './world.js'
 import {damage as explode} from './damage.js'
 import {ALIGN_NAMES} from './font.js'
+import accessData from '../data/access.json' with {type: 'json'}
 
 // Разбор упакованного цвета нужен и снаружи: дисплей достаёт им байты из `draw col`
 export {unpackColorBits}
@@ -41,6 +42,14 @@ export const KNOWN_INSTRUCTIONS = new Set([
     'sync', 'clientdata', 'getflag', 'setflag', 'setprop', 'playsound', 'playmusic', 'setmarker',
     'makemarker', 'localeprint'
 ])
+
+/**
+ * Свойства, которые читает только мировой процессор. Снято генератором из `LAccess`:
+ * в v160 их четыре, и все про камеру.
+ */
+const PRIVILEGED_ACCESS = new Set(Object.entries(accessData.properties ?? accessData)
+    .filter(([, property]) => property !== null && property.privileged === true)
+    .map(([name]) => name))
 
 /** Константы, не зависящие от контента игры. GlobalVars.java:45-70 */
 function baseGlobals() {
@@ -92,6 +101,45 @@ function baseGlobals() {
  * Канал 0..1 в байт. `Color.rgba8888` умножает во float и **усекает**, а не округляет:
  * половина яркости даёт 127, а не 128.
  */
+/**
+ * Раскрывает экранирование в строковом литерале: перевод строки, кавычку, обратную косую
+ * и `\u` с четырьмя цифрами. До v160 игра знала только первое. LAssembler.unescape
+ */
+export function unescape(text) {
+    if (!text.includes('\\')) return text
+
+    let out = ''
+
+    for (let i = 0; i < text.length; i++) {
+        const char = text[i]
+        const next = text[i + 1]
+
+        if (char === '\\' && next !== undefined) {
+            if (next === 'n') {
+                out += '\n'
+                i++
+                continue
+            }
+
+            if (next === '"' || next === '\\') {
+                out += next
+                i++
+                continue
+            }
+
+            if (next === 'u' && i + 5 < text.length) {
+                out += String.fromCharCode(parseInt(text.slice(i + 2, i + 6), 16))
+                i += 5
+                continue
+            }
+        }
+
+        out += char
+    }
+
+    return out
+}
+
 const channelByte = (value) => Math.trunc(Math.fround(Math.fround(clamp01(Math.fround(value))) * 255))
 
 const clamp01 = (value) => Math.min(1, Math.max(0, value))
@@ -320,15 +368,16 @@ export class Assembler {
         const global = this.globals.get(symbol)
         if (global !== undefined) return global
 
-        let name = symbol.trim()
+        /*
+         * Ни обрезки пробелов, ни замены их на подчёркивание: с v160 значение приходит
+         * из парсера готовым, а чистит его `LStatement.sanitize` при вводе руками.
+         * LAssembler.var
+         */
+        const name = symbol
 
         if (name.length > 1 && name.startsWith('"') && name.endsWith('"')) {
-            // Единственное экранирование, которое игра раскрывает в литерале
-            const text = name.slice(1, -1).split('\\n').join('\n')
-            return this.putConst(`___${name}`, text)
+            return this.putConst(`___${name}`, unescape(name.slice(1, -1)))
         }
-
-        name = name.split(' ').join('_')
 
         const value = this.parseNumber(name)
 
@@ -566,6 +615,15 @@ const builders = {
                         return
                     }
 
+                    /*
+                     * Свойства камеры читает только мировой процессор: с v160 у `LAccess`
+                     * есть признак `privileged`, и обычному `sensor` отвечает null.
+                     */
+                    if (PRIVILEGED_ACCESS.has(name) && !vm.privileged) {
+                        output.setobj(null)
+                        return
+                    }
+
                     output.setnum(object.sense(name))
                     return
                 }
@@ -647,6 +705,10 @@ const builders = {
      * UnitControlI. Ничего не двигает: вешает на юнита LogicAI и пишет в него поля.
      * Каждый вызов продлевает контроль на десять секунд — отсюда привычка держать
      * `ucontrol move` в цикле, а не отдавать команду один раз.
+     *
+     * Две команды контролем не считаются и потому контроллер не заводят: `unbind`
+     * отпускает юнита, а `within` только спрашивает. С v160 они работают и над чужим
+     * юнитом — точнее, над тем, кем управляет не наш процессор. LExecutor.UnitControlI
      */
     ucontrol: (asm, params, line) => {
         const type = params[0] ?? 'move'
@@ -658,6 +720,9 @@ const builders = {
             return null
         }
 
+        // `unbind` и `within` не команды, а обращения: контроль они не берут
+        const takesControl = type !== 'unbind' && type !== 'within'
+
         return {
             run: (vm) => {
                 const unit = unitVar.obj()
@@ -665,17 +730,20 @@ const builders = {
                 if (!unit.spec.logicControllable) return
 
                 // checkLogicAI: контроллер создаётся при первой команде и чистит старое занятие
-                let ai = unit.controller
-                if (ai instanceof LogicAI) {
-                    ai.controller = vm.building
-                } else {
-                    ai = new LogicAI(vm.building)
-                    unit.controller = ai
-                    unit.mineTile = null
-                    unit.clearBuilding()
-                }
+                let ai = unit.controller instanceof LogicAI ? unit.controller : null
 
-                ai.controlTimer = LOGIC_CONTROL_TIMEOUT
+                if (takesControl) {
+                    if (ai !== null) {
+                        ai.controller = vm.building
+                    } else {
+                        ai = new LogicAI(vm.building)
+                        unit.controller = ai
+                        unit.mineTile = null
+                        unit.clearBuilding()
+                    }
+
+                    ai.controlTimer = LOGIC_CONTROL_TIMEOUT
+                }
 
                 const x1 = unconv(values[0].numf())
                 const y1 = unconv(values[1].numf())
@@ -703,7 +771,8 @@ const builders = {
                         break
 
                     case 'unbind':
-                        unit.resetController()
+                        // Сбрасывается только свой контроллер: чужой приказ не отменяется
+                        if (unit.controller instanceof LogicAI) unit.resetController()
                         break
 
                     case 'within':
@@ -948,9 +1017,14 @@ const builders = {
      * ApplyEffectI: вешает эффект состояния на юнита или снимает его. Повторное наложение
      * не складывается, а продлевает: берётся большее из оставшегося и нового времени.
      */
+    /*
+     * ApplyEffectI. С v160 эффект приходит переменной, а не строкой: в поле пишут
+     * `@status-burning`, и это такая же константа контента, как `@copper`. Оттого
+     * и проверка другая — не «есть ли такой эффект в описи», а «объект ли это эффекта».
+     */
     status: (asm, params) => {
         const clear = (params[0] ?? 'false') === 'true'
-        const effect = params[1] ?? 'wet'
+        const effect = asm.var(params[1] ?? '@status-wet')
         const target = asm.var(params[2] ?? '@unit')
         const duration = asm.var(params[3] ?? '10')
 
@@ -959,10 +1033,13 @@ const builders = {
                 if (!vm.privileged) return
 
                 const unit = target.obj()
-                if (!(unit instanceof Unit)) return
+                const status = effect.obj()
 
-                if (clear) unit.unapply(effect)
-                else unit.apply(effect, duration.num() * 60)
+                if (!(unit instanceof Unit)) return
+                if (status === null || status.contentType !== 'status') return
+
+                if (clear) unit.unapply(status.name)
+                else unit.apply(status.name, duration.num() * 60)
             }
         }
     },
@@ -1380,14 +1457,23 @@ const builders = {
     },
 
     /** SetRateI: скорость процессора, но не выше предела его блока. */
+    /*
+     * SetRateI. С v160 инструкция перестала быть привилегированной: её может исполнить
+     * и обычный процессор, только предел у него свой — `instructionsPerTick` вместо
+     * `maxInstructionsPerTick` у мирового.
+     */
     setrate: (asm, params) => {
         const amount = asm.var(params[0] ?? '10')
 
         return {
             run: (vm) => {
-                if (!vm.privileged) return
+                const spec = vm.building?.spec
+                if (spec === undefined) return
 
-                const limit = vm.building?.spec?.maxInstructionsPerTick ?? vm.ipt
+                const limit = vm.privileged
+                    ? spec.maxInstructionsPerTick ?? spec.ipt
+                    : spec.ipt
+
                 vm.ipt = Math.min(Math.max(amount.numi(), 1), limit)
                 vm.bindEnvironment()
             }

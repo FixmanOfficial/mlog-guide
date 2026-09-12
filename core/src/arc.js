@@ -310,6 +310,9 @@ export function parseLong(text, radix, start, end) {
         const digit = digitValue(text[i++], radix)
         if (digit === null) return null
 
+        // Проверка переполнения до умножения: без неё длинное число тихо заворачивалось
+        if (result < limit / base) return null
+
         result *= base
         if (result < limit + BigInt(digit)) return null
         result -= BigInt(digit)
@@ -334,9 +337,12 @@ function digitValue(char, radix) {
  * Strings.parseDouble. Отличается от привычного разбора чисел так, что это заметно в mlog:
  *
  *  - хвостовые F, f и точка отбрасываются, поэтому 5f и 5. это числа;
- *  - дробная часть проверяется раньше экспоненты, поэтому 1.5e3 числом НЕ является
- *    и становится именем переменной;
- *  - переполнение даёт не бесконечность, а отказ разбора.
+ *  - переполнение даёт не бесконечность, а отказ разбора;
+ *  - две точки, две буквы e или точка после e — не число, а имя переменной.
+ *
+ * В v159.7 дробь с экспонентой числом не была: `1.5e3` разбирался дробной веткой, экспонента
+ * оставалась в хвосте и разбор падал. В v160 ветки соединили — теперь это 1500, а вместе
+ * с ними поменялся и порядок умножения дроби: сперва она собирается целым, потом делится.
  */
 export function parseDouble(value) {
     const length = value.length
@@ -356,38 +362,69 @@ export function parseDouble(value) {
         sign = -1
     }
 
+    // Один минус без цифр — не число
+    if (start >= end) return NaN
+
     let dot = -1
     let exponent = -1
+    let dots = 0
+    let exponents = 0
 
     for (let i = start; i < end; i++) {
         const char = value[i]
-        if (char === '.') dot = i
-        if (char === 'e' || char === 'E') exponent = i
+
+        if (char === '.') {
+            dot = i
+            dots++
+        }
+
+        if (char === 'e' || char === 'E') {
+            exponent = i
+            exponents++
+        }
+    }
+
+    if (dots > 1 || exponents > 1) return NaN
+    if (dot !== -1 && exponent !== -1 && dot > exponent) return NaN
+
+    // Мантисса кончается там, где начинается экспонента
+    const mantissaEnd = exponent !== -1 ? exponent : end
+
+    let power = 0
+    if (exponent !== -1) {
+        if (exponent + 1 >= end) return NaN
+
+        const parsedPower = parseLong(value, 10, exponent + 1, end)
+        if (parsedPower === null) return NaN
+
+        power = Number(parsedPower)
     }
 
     if (dot !== -1 && dot < end) {
         const whole = start === dot ? 0n : parseLong(value, 10, start, dot)
         if (whole === null) return NaN
 
-        const decimals = parseLong(value, 10, dot + 1, end)
+        const digits = mantissaEnd - (dot + 1)
+
+        // «5.» и «5.e3»: точка есть, а дробной части нет
+        if (digits === 0) return Number(whole) * Math.pow(10, power) * sign
+
+        const decimals = parseLong(value, 10, dot + 1, mantissaEnd)
         if (decimals === null || decimals < 0n) return NaN
 
-        const fraction = Number(decimals) / Math.pow(10, end - dot - 1)
-        const wholeNumber = Number(whole)
-
-        // Math.copySign(fraction, whole): у положительного нуля знак тоже положительный
-        const signed = wholeNumber < 0 ? -fraction : fraction
-        return (wholeNumber + signed) * sign
+        /*
+         * Дробь собирается целым числом и только потом делится — так в v160. Прежний способ
+         * (целое плюс дробь) округлял иначе, и у длинных дробей ответы расходились.
+         */
+        const scaled = Number(whole * BigInt(Math.pow(10, digits)) + decimals)
+        return (scaled / Math.pow(10, digits)) * Math.pow(10, power) * sign
     }
 
     if (exponent !== -1) {
         const whole = parseLong(value, 10, start, exponent)
         if (whole === null) return NaN
 
-        const power = parseLong(value, 10, exponent + 1, end)
-        if (power === null) return NaN
-
-        return Number(whole) * Math.pow(10, Number(power)) * sign
+        return Number(whole) * Math.pow(10, power) * sign
     }
 
     const parsed = parseLong(value, 10, start, end)

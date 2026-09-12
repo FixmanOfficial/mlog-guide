@@ -24,8 +24,13 @@ const UI = 'core/src/mindustry/ui'
  */
 const RECIPES = [
     // --- полотно и строка инструкции: LCanvas ---
-    {file: `${LOGIC}/LCanvas.java`, names: ['canvasWidthNarrow', 'canvasWidth'],
-        pattern: /targetWidth\s*=\s*useRows\(\)\s*\?\s*(\d+)f\s*:\s*(\d+)f/},
+    /*
+     * Ширина полотна. В v160 она перестала быть парой чисел: узкая осталась постоянной,
+     * а широкая считается от ширины экрана и зажимается между двумя пределами
+     * (`LCanvas.getTargetWidth`). Снимаются все три числа, а формулу повторяет страница.
+     */
+    {file: `${LOGIC}/LCanvas.java`, names: ['canvasWidthNarrow', 'canvasWidthMin', 'canvasWidth'],
+        pattern: /isCompact\(\)\s*\?\s*(\d+)f\s*:\s*Mathf\.clamp\([^;]*?(\d+)f,\s*(\d+)f\)/s},
     {file: `${LOGIC}/LCanvas.java`, names: ['statementSpace'],
         pattern: /float space\s*=\s*Scl\.scl\((\d+)f\)/},
     {file: `${LOGIC}/LCanvas.java`, names: ['headerHeight'],
@@ -33,11 +38,11 @@ const RECIPES = [
     {file: `${LOGIC}/LCanvas.java`, names: ['headerPadding'],
         pattern: /t\.margin\((\d+)f\);\s*\n\s*t\.touchable/},
     {file: `${LOGIC}/LCanvas.java`, names: ['namePadding'],
-        pattern: /add\(st\.name\(\)\)[^;]*?\.padRight\((\d+)\)/s},
+        pattern: /add\(st\.localizedName\(\)\)[^;]*?\.padRight\((\d+)\)/s},
     {file: `${LOGIC}/LCanvas.java`, names: ['buttonSize', 'buttonGap'],
         pattern: /button\(Icon\.add[^;]*?\.size\((\d+)f\)\.padRight\((\d+)\)/s},
     {file: `${LOGIC}/LCanvas.java`, names: ['bodyPadding', 'bodyPaddingTop'],
-        pattern: /\}\)\.pad\((\d+)\)\.padTop\((\d+)\)\.left\(\)\.grow\(\);/},
+        pattern: /add\(t\)\.pad\((\d+)\)\.padTop\((\d+)\)\.left\(\)\.grow\(\);/},
     {file: `${LOGIC}/LCanvas.java`, names: ['bodyMarginLeft'],
         pattern: /t\.marginLeft\((\d+)\);\s*\n\s*t\.setColor/},
     {file: `${LOGIC}/LCanvas.java`, names: ['statementMarginBottom'],
@@ -54,8 +59,13 @@ const RECIPES = [
         pattern: /Lines\.stroke\(Scl\.scl\((\d+)f\), button\.color\);/},
     {file: `${LOGIC}/LCanvas.java`, names: ['jumpLanePortrait', 'jumpLane', 'jumpLaneStepPortrait', 'jumpLaneStep'],
         pattern: /Scl\.scl\(Core\.graphics\.isPortrait\(\) \? (\d+)f : (\d+)f\) \+ Scl\.scl\(Core\.graphics\.isPortrait\(\) \? (\d+)f : (\d+)f\) \* \(float\) predHeight/},
-    {file: `${LOGIC}/LCanvas.java`, names: ['rowsFactor'],
-        pattern: /Core\.graphics\.getWidth\(\) < Scl\.scl\(900f\) \* ([\d.]+)f/},
+    /*
+     * Порог узкой раскладки: `isCompact`. До v160 это число совпадало с широкой шириной
+     * полотна, и мы брали его оттуда; теперь полотно тянется до 1200, а порог остался
+     * своим, и снимать его нужно отдельно.
+     */
+    {file: `${LOGIC}/LCanvas.java`, names: ['compactWidth', 'rowsFactor'],
+        pattern: /Core\.graphics\.getWidth\(\) < Scl\.scl\((\d+)f\) \* ([\d.]+)f/},
 
     // --- поля и меню выбора: LStatement ---
     {file: `${LOGIC}/LStatement.java`, names: ['selectCellWidth', 'selectCellHeight'],

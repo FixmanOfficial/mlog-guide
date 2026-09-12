@@ -25,11 +25,24 @@ const PARAM_ALIASES = {
 }
 
 const isLineBreak = (char) => char === '\n' || char === ';'
+
+/** Сколько байт занимает символ в записи игры. См. ByteBufferOutput.writeUTF */
+function utf8Size(char) {
+    const code = char.charCodeAt(0)
+    return code !== 0 && code <= 0x7f ? 1 : code <= 0x7ff ? 2 : 3
+}
 const isSpace = (char) => char === ' ' || char === '\t'
+
+/** Хвостовые шестнадцатеричные цифры экранирования `\uXXXX`. LParser.isHex */
+const isHex = (char) => char !== undefined && /[0-9a-fA-F]/.test(char)
 
 class Parser {
     constructor(text) {
-        this.chars = text
+        /*
+         * Возврат каретки приравнивается к переводу строки прямо на входе: программа,
+         * скопированная из-под Windows, раньше разбиралась через раз. LParser:28
+         */
+        this.chars = text.split('\r').join('\n')
         this.pos = 0
         this.line = 0
         this.statements = []
@@ -47,13 +60,41 @@ class Parser {
         while (this.pos < this.chars.length && this.chars[this.pos++] !== '\n') { /* до конца строки */ }
     }
 
-    /** Читает строковый литерал вместе с кавычками. Перевод строки внутри — ошибка. */
+    /**
+     * Читает строковый литерал вместе с кавычками. Перевод строки внутри — ошибка.
+     *
+     * Экранирование парсер не раскрывает, а только пропускает: в поле блока должен попасть
+     * тот же текст, что был в программе, иначе запись обратно испортила бы её. Раскрывает
+     * его ассемблер. LParser.string
+     */
     readString() {
         const from = this.pos
         let utf8Length = 0
 
         while (++this.pos < this.chars.length) {
             const char = this.chars[this.pos]
+            const next = this.chars[this.pos + 1]
+
+            // \n, \" и \\ пропускаются парой: закрывающей кавычкой такая кавычка не считается
+            if (char === '\\' && (next === 'n' || next === '"' || next === '\\')) {
+                utf8Length += utf8Size(next)
+                this.pos++
+                continue
+            }
+
+            // \uXXXX: четыре шестнадцатеричные цифры, иначе ошибка
+            if (char === '\\' && next === 'u') {
+                const digits = [2, 3, 4, 5].map(offset => this.chars[this.pos + offset])
+
+                if (!digits.every(isHex)) {
+                    this.report(Diagnostic.INVALID_ESCAPE)
+                    return this.chars.slice(from, this.pos)
+                }
+
+                utf8Length += utf8Size(String.fromCharCode(parseInt(digits.join(''), 16)))
+                this.pos += 5
+                continue
+            }
 
             if (char === '\n') {
                 this.report(Diagnostic.MISSING_CLOSING_QUOTE)
@@ -61,8 +102,7 @@ class Parser {
             }
             if (char === '"') break
 
-            const code = char.charCodeAt(0)
-            utf8Length += code !== 0 && code <= 0x7f ? 1 : code <= 0x7ff ? 2 : 3
+            utf8Length += utf8Size(char)
         }
 
         if (this.pos >= this.chars.length || this.chars[this.pos] !== '"') {

@@ -4,9 +4,9 @@
   "note": "Файл сгенерирован. Порядок параметров совпадает с порядком объявления полей — именно его использует сериализация игры. layoutHint снят из build(Table) и полон не везде: при complete=false редактор строит строку сам, по списку параметров.",
   "counts": {
     "instructions": 53,
-    "processor": 27,
-    "world": 26,
-    "completeLayoutHints": 16,
+    "processor": 28,
+    "world": 25,
+    "completeLayoutHints": 17,
     "hidden": 2
   },
   "categories": {
@@ -270,6 +270,7 @@
       "lighting",
       "canGameOver",
       "ambientLight",
+      "unitLight",
       "solarMultiplier",
       "dragMultiplier",
       "ban",
@@ -294,9 +295,13 @@
       "mission"
     ],
     "CutsceneAction": [
+      "active",
       "pan",
       "zoom",
-      "stop"
+      "stop",
+      "shake",
+      "getHud",
+      "setHud"
     ],
     "FetchType": [
       "unit",
@@ -312,6 +317,7 @@
       "remove",
       "world",
       "minimap",
+      "light",
       "autoscale",
       "pos",
       "endPos",
@@ -508,13 +514,16 @@
     "LMarkerControl": {
       "remove": [],
       "world": [
-        "true/false"
+        "truefalse"
       ],
       "minimap": [
-        "true/false"
+        "truefalse"
+      ],
+      "light": [
+        "truefalse"
       ],
       "autoscale": [
-        "true/false"
+        "truefalse"
       ],
       "pos": [
         "x",
@@ -719,10 +728,6 @@
         "complete": true,
         "items": [
           {
-            "kind": "label",
-            "text": " read "
-          },
-          {
             "kind": "field",
             "param": "output"
           },
@@ -733,13 +738,6 @@
           {
             "kind": "field",
             "param": "target"
-          },
-          {
-            "kind": "row"
-          },
-          {
-            "kind": "label",
-            "text": " at "
           },
           {
             "kind": "field",
@@ -777,27 +775,12 @@
         "complete": true,
         "items": [
           {
-            "kind": "label",
-            "text": " write "
-          },
-          {
             "kind": "field",
             "param": "input"
           },
           {
-            "kind": "label",
-            "text": " to "
-          },
-          {
             "kind": "field",
             "param": "target"
-          },
-          {
-            "kind": "row"
-          },
-          {
-            "kind": "label",
-            "text": " at "
           },
           {
             "kind": "field",
@@ -861,9 +844,6 @@
             "enum": "GraphicsType"
           },
           {
-            "kind": "row"
-          },
-          {
             "kind": "label",
             "text": "r"
           },
@@ -910,9 +890,6 @@
           {
             "kind": "field",
             "param": "p1"
-          },
-          {
-            "kind": "row"
           },
           {
             "kind": "label",
@@ -947,9 +924,6 @@
             "param": "y"
           },
           {
-            "kind": "row"
-          },
-          {
             "kind": "label",
             "text": "x2"
           },
@@ -980,9 +954,6 @@
           {
             "kind": "field",
             "param": "y"
-          },
-          {
-            "kind": "row"
           },
           {
             "kind": "label",
@@ -1017,9 +988,6 @@
             "param": "y"
           },
           {
-            "kind": "row"
-          },
-          {
             "kind": "label",
             "text": "sides"
           },
@@ -1034,9 +1002,6 @@
           {
             "kind": "field",
             "param": "p2"
-          },
-          {
-            "kind": "row"
           },
           {
             "kind": "label",
@@ -1063,9 +1028,6 @@
             "param": "y"
           },
           {
-            "kind": "row"
-          },
-          {
             "kind": "label",
             "text": "x2"
           },
@@ -1080,9 +1042,6 @@
           {
             "kind": "field",
             "param": "p2"
-          },
-          {
-            "kind": "row"
           },
           {
             "kind": "label",
@@ -1117,9 +1076,6 @@
             "param": "y"
           },
           {
-            "kind": "row"
-          },
-          {
             "kind": "label",
             "text": "image"
           },
@@ -1134,9 +1090,6 @@
           {
             "kind": "field",
             "param": "p2"
-          },
-          {
-            "kind": "row"
           },
           {
             "kind": "label",
@@ -1161,9 +1114,6 @@
           {
             "kind": "field",
             "param": "y"
-          },
-          {
-            "kind": "row"
           },
           {
             "kind": "label",
@@ -1191,7 +1141,7 @@
           },
           {
             "kind": "label",
-            "text": "degrees"
+            "text": "angle"
           },
           {
             "kind": "field",
@@ -1244,10 +1194,6 @@
         "complete": false,
         "items": [
           {
-            "kind": "label",
-            "text": " char "
-          },
-          {
             "kind": "field",
             "param": "value"
           }
@@ -1298,10 +1244,6 @@
         "complete": true,
         "items": [
           {
-            "kind": "label",
-            "text": " to "
-          },
-          {
             "kind": "field",
             "param": "target"
           }
@@ -1326,10 +1268,6 @@
       "layoutHint": {
         "complete": true,
         "items": [
-          {
-            "kind": "label",
-            "text": " to "
-          },
           {
             "kind": "field",
             "param": "target"
@@ -1366,7 +1304,7 @@
           },
           {
             "kind": "label",
-            "text": " = link# "
+            "text": " = "
           },
           {
             "kind": "field",
@@ -1420,28 +1358,14 @@
         "complete": false,
         "items": [
           {
-            "kind": "label",
-            "text": " set "
-          },
-          {
             "kind": "select",
             "param": "type",
             "enum": "LAccess",
             "subset": "controls"
           },
           {
-            "kind": "label",
-            "text": " of "
-          },
-          {
             "kind": "field",
             "param": "target"
-          },
-          {
-            "kind": "row"
-          },
-          {
-            "kind": "row"
           }
         ]
       }
@@ -1500,30 +1424,28 @@
         "items": [
           {
             "kind": "label",
-            "text": " from "
-          },
-          {
-            "kind": "row"
-          },
-          {
-            "kind": "row"
+            "text": " = "
           },
           {
             "kind": "label",
-            "text": " order "
+            "text": "from"
+          },
+          {
+            "kind": "field",
+            "param": "radar"
           },
           {
             "kind": "label",
-            "text": " sort "
+            "text": "order"
+          },
+          {
+            "kind": "field",
+            "param": "sortOrder"
           },
           {
             "kind": "select",
             "param": "sort",
             "enum": "RadarSort"
-          },
-          {
-            "kind": "label",
-            "text": " output "
           }
         ]
       }
@@ -1565,15 +1487,8 @@
             "text": " = "
           },
           {
-            "kind": "row"
-          },
-          {
             "kind": "field",
             "param": "type"
-          },
-          {
-            "kind": "label",
-            "text": " in "
           },
           {
             "kind": "field",
@@ -1667,9 +1582,6 @@
             "param": "a"
           },
           {
-            "kind": "row"
-          },
-          {
             "kind": "field",
             "param": "a"
           },
@@ -1730,22 +1642,11 @@
           },
           {
             "kind": "label",
-            "text": " = if "
-          },
-          {
-            "kind": "row"
-          },
-          {
-            "kind": "label",
-            "text": "then "
+            "text": " = "
           },
           {
             "kind": "field",
             "param": "a"
-          },
-          {
-            "kind": "label",
-            "text": " else "
           },
           {
             "kind": "field",
@@ -1775,10 +1676,6 @@
           {
             "kind": "field",
             "param": "value"
-          },
-          {
-            "kind": "label",
-            "text": " sec"
           }
         ]
       }
@@ -1825,13 +1722,6 @@
       "layoutHint": {
         "complete": false,
         "items": [
-          {
-            "kind": "label",
-            "text": " = lookup "
-          },
-          {
-            "kind": "row"
-          },
           {
             "kind": "select",
             "param": "type",
@@ -1885,10 +1775,7 @@
         "items": [
           {
             "kind": "label",
-            "text": " = pack "
-          },
-          {
-            "kind": "row"
+            "text": " = "
           }
         ]
       }
@@ -1932,11 +1819,8 @@
         "complete": false,
         "items": [
           {
-            "kind": "row"
-          },
-          {
             "kind": "label",
-            "text": " = unpack "
+            "text": " = "
           }
         ]
       }
@@ -1988,12 +1872,7 @@
       ],
       "layoutHint": {
         "complete": false,
-        "items": [
-          {
-            "kind": "label",
-            "text": "if "
-          }
-        ]
+        "items": []
       }
     },
     {
@@ -2014,10 +1893,6 @@
       "layoutHint": {
         "complete": false,
         "items": [
-          {
-            "kind": "label",
-            "text": " type "
-          },
           {
             "kind": "field",
             "param": "type"
@@ -2068,18 +1943,7 @@
       ],
       "layoutHint": {
         "complete": false,
-        "items": [
-          {
-            "kind": "label",
-            "text": " "
-          },
-          {
-            "kind": "row"
-          },
-          {
-            "kind": "row"
-          }
-        ]
+        "items": []
       }
     },
     {
@@ -2136,30 +2000,28 @@
         "items": [
           {
             "kind": "label",
-            "text": " from "
-          },
-          {
-            "kind": "row"
-          },
-          {
-            "kind": "row"
+            "text": " = "
           },
           {
             "kind": "label",
-            "text": " order "
+            "text": "from"
+          },
+          {
+            "kind": "field",
+            "param": "radar"
           },
           {
             "kind": "label",
-            "text": " sort "
+            "text": "order"
+          },
+          {
+            "kind": "field",
+            "param": "sortOrder"
           },
           {
             "kind": "select",
             "param": "sort",
             "enum": "RadarSort"
-          },
-          {
-            "kind": "label",
-            "text": " output "
           }
         ]
       }
@@ -2219,20 +2081,9 @@
         "complete": false,
         "items": [
           {
-            "kind": "label",
-            "text": " find "
-          },
-          {
             "kind": "select",
             "param": "locate",
             "enum": "LLocate"
-          },
-          {
-            "kind": "row"
-          },
-          {
-            "kind": "label",
-            "text": " group "
           },
           {
             "kind": "select",
@@ -2241,34 +2092,52 @@
             "subset": "allLogic"
           },
           {
-            "kind": "row"
+            "kind": "label",
+            "text": "enemy"
+          },
+          {
+            "kind": "field",
+            "param": "enemy"
           },
           {
             "kind": "label",
-            "text": " enemy "
+            "text": "ore"
+          },
+          {
+            "kind": "field",
+            "param": "ore"
           },
           {
             "kind": "label",
-            "text": " ore "
+            "text": "outX"
+          },
+          {
+            "kind": "field",
+            "param": "outX"
           },
           {
             "kind": "label",
-            "text": " outX "
+            "text": "outY"
+          },
+          {
+            "kind": "field",
+            "param": "outY"
           },
           {
             "kind": "label",
-            "text": " outY "
+            "text": "found"
           },
           {
-            "kind": "row"
-          },
-          {
-            "kind": "label",
-            "text": " found "
+            "kind": "field",
+            "param": "outFound"
           },
           {
             "kind": "label",
-            "text": " building "
+            "text": "building"
+          },
+          {
+            "kind": "field",
+            "param": "outBuild"
           }
         ]
       }
@@ -2340,9 +2209,6 @@
           {
             "kind": "field",
             "param": "team"
-          },
-          {
-            "kind": "row"
           },
           {
             "kind": "label",
@@ -2423,10 +2289,7 @@
         "items": [
           {
             "kind": "label",
-            "text": " = get "
-          },
-          {
-            "kind": "row"
+            "text": " ="
           },
           {
             "kind": "select",
@@ -2435,11 +2298,19 @@
           },
           {
             "kind": "label",
-            "text": " at "
+            "text": "x"
+          },
+          {
+            "kind": "field",
+            "param": "x"
           },
           {
             "kind": "label",
-            "text": ", "
+            "text": "y"
+          },
+          {
+            "kind": "field",
+            "param": "y"
           }
         ]
       }
@@ -2494,43 +2365,50 @@
         "complete": false,
         "items": [
           {
-            "kind": "label",
-            "text": "set"
-          },
-          {
             "kind": "select",
             "param": "layer",
             "enum": "TileLayer",
             "subset": "settable"
           },
           {
-            "kind": "row"
+            "kind": "label",
+            "text": "x"
+          },
+          {
+            "kind": "field",
+            "param": "x"
           },
           {
             "kind": "label",
-            "text": " at "
+            "text": "y"
+          },
+          {
+            "kind": "field",
+            "param": "y"
           },
           {
             "kind": "label",
-            "text": ", "
+            "text": "block"
           },
           {
-            "kind": "row"
-          },
-          {
-            "kind": "label",
-            "text": " to "
-          },
-          {
-            "kind": "row"
+            "kind": "field",
+            "param": "block"
           },
           {
             "kind": "label",
-            "text": "team "
+            "text": "team"
+          },
+          {
+            "kind": "field",
+            "param": "team"
           },
           {
             "kind": "label",
-            "text": " rotation "
+            "text": "rotation"
+          },
+          {
+            "kind": "field",
+            "param": "rotation"
           }
         ]
       }
@@ -2585,26 +2463,35 @@
         "items": [
           {
             "kind": "label",
-            "text": " = spawn "
+            "text": "-spawn"
+          },
+          {
+            "kind": "label",
+            "text": "type"
           },
           {
             "kind": "field",
             "param": "type"
           },
           {
-            "kind": "row"
+            "kind": "label",
+            "text": "x"
+          },
+          {
+            "kind": "field",
+            "param": "x"
           },
           {
             "kind": "label",
-            "text": " at "
+            "text": "y"
+          },
+          {
+            "kind": "field",
+            "param": "y"
           },
           {
             "kind": "label",
-            "text": ", "
-          },
-          {
-            "kind": "label",
-            "text": "team "
+            "text": "team"
           },
           {
             "kind": "field",
@@ -2612,14 +2499,19 @@
           },
           {
             "kind": "label",
-            "text": " rot "
+            "text": "angle"
           },
           {
-            "kind": "row"
+            "kind": "field",
+            "param": "rotation"
           },
           {
             "kind": "label",
-            "text": "effect "
+            "text": "effect"
+          },
+          {
+            "kind": "field",
+            "param": "effect"
           }
         ]
       }
@@ -2704,10 +2596,7 @@
         "items": [
           {
             "kind": "label",
-            "text": " = bullet "
-          },
-          {
-            "kind": "row"
+            "text": "-bullet"
           },
           {
             "kind": "label",
@@ -2724,9 +2613,6 @@
           {
             "kind": "field",
             "param": "index"
-          },
-          {
-            "kind": "row"
           },
           {
             "kind": "label",
@@ -2761,9 +2647,6 @@
             "param": "team"
           },
           {
-            "kind": "row"
-          },
-          {
             "kind": "label",
             "text": "owner"
           },
@@ -2794,9 +2677,6 @@
           {
             "kind": "field",
             "param": "lifeScl"
-          },
-          {
-            "kind": "row"
           },
           {
             "kind": "label",
@@ -2834,7 +2714,7 @@
         {
           "name": "effect",
           "type": "value",
-          "default": "wet"
+          "default": "@status-wet"
         },
         {
           "name": "unit",
@@ -2851,15 +2731,24 @@
         "complete": false,
         "items": [
           {
-            "kind": "row"
+            "kind": "field",
+            "param": "effect"
           },
           {
             "kind": "label",
-            "text": " for "
+            "text": "target"
+          },
+          {
+            "kind": "field",
+            "param": "unit"
           },
           {
             "kind": "label",
-            "text": " sec"
+            "text": "seconds"
+          },
+          {
+            "kind": "field",
+            "param": "duration"
           }
         ]
       }
@@ -2893,10 +2782,7 @@
           },
           {
             "kind": "label",
-            "text": " = weather "
-          },
-          {
-            "kind": "row"
+            "text": " = "
           },
           {
             "kind": "field",
@@ -2929,16 +2815,16 @@
         "complete": false,
         "items": [
           {
-            "kind": "label",
-            "text": " set weather "
-          },
-          {
             "kind": "field",
             "param": "weather"
           },
           {
             "kind": "label",
-            "text": " state "
+            "text": "state"
+          },
+          {
+            "kind": "field",
+            "param": "state"
           }
         ]
       }
@@ -2969,19 +2855,31 @@
         }
       ],
       "layoutHint": {
-        "complete": false,
+        "complete": true,
         "items": [
           {
             "kind": "label",
-            "text": "natural "
+            "text": "natural"
+          },
+          {
+            "kind": "field",
+            "param": "natural"
           },
           {
             "kind": "label",
-            "text": "x "
+            "text": "x"
+          },
+          {
+            "kind": "field",
+            "param": "x"
           },
           {
             "kind": "label",
-            "text": " y "
+            "text": "y"
+          },
+          {
+            "kind": "field",
+            "param": "y"
           }
         ]
       }
@@ -3040,9 +2938,6 @@
             "text": " = "
           },
           {
-            "kind": "row"
-          },
-          {
             "kind": "label",
             "text": "x"
           },
@@ -3057,9 +2952,6 @@
           {
             "kind": "field",
             "param": "p2"
-          },
-          {
-            "kind": "row"
           },
           {
             "kind": "label",
@@ -3090,15 +2982,8 @@
             "text": " = "
           },
           {
-            "kind": "row"
-          },
-          {
             "kind": "field",
             "param": "value"
-          },
-          {
-            "kind": "label",
-            "text": " block/unit "
           },
           {
             "kind": "label",
@@ -3147,18 +3032,19 @@
           },
           {
             "kind": "label",
-            "text": " for "
+            "text": "duration"
+          },
+          {
+            "kind": "field",
+            "param": "duration"
           },
           {
             "kind": "label",
-            "text": " sec "
+            "text": "success"
           },
           {
-            "kind": "row"
-          },
-          {
-            "kind": "label",
-            "text": " success "
+            "kind": "field",
+            "param": "outSuccess"
           }
         ]
       }
@@ -3209,22 +3095,67 @@
           },
           {
             "kind": "label",
-            "text": " x "
+            "text": "result"
+          },
+          {
+            "kind": "field",
+            "param": "p1"
           },
           {
             "kind": "label",
-            "text": " y "
+            "text": "x"
           },
           {
-            "kind": "row"
-          },
-          {
-            "kind": "label",
-            "text": " speed "
+            "kind": "field",
+            "param": "p1"
           },
           {
             "kind": "label",
-            "text": " level "
+            "text": "y"
+          },
+          {
+            "kind": "field",
+            "param": "p2"
+          },
+          {
+            "kind": "label",
+            "text": "speed"
+          },
+          {
+            "kind": "field",
+            "param": "p3"
+          },
+          {
+            "kind": "label",
+            "text": "level"
+          },
+          {
+            "kind": "field",
+            "param": "p1"
+          },
+          {
+            "kind": "label",
+            "text": "amount"
+          },
+          {
+            "kind": "field",
+            "param": "p1"
+          },
+          {
+            "kind": "label",
+            "text": "duration"
+          },
+          {
+            "kind": "field",
+            "param": "p2"
+          },
+          {
+            "kind": "label",
+            "text": "shown"
+          },
+          {
+            "kind": "field",
+            "param": "p1"
           }
         ]
       }
@@ -3273,9 +3204,6 @@
         "complete": false,
         "items": [
           {
-            "kind": "row"
-          },
-          {
             "kind": "label",
             "text": "x"
           },
@@ -3292,18 +3220,12 @@
             "param": "y"
           },
           {
-            "kind": "row"
-          },
-          {
             "kind": "label",
             "text": "color"
           },
           {
             "kind": "field",
             "param": "color"
-          },
-          {
-            "kind": "row"
           },
           {
             "kind": "label",
@@ -3391,9 +3313,6 @@
             "param": "x"
           },
           {
-            "kind": "row"
-          },
-          {
             "kind": "label",
             "text": "y"
           },
@@ -3426,9 +3345,6 @@
             "param": "air"
           },
           {
-            "kind": "row"
-          },
-          {
             "kind": "label",
             "text": "ground"
           },
@@ -3458,8 +3374,8 @@
     {
       "opcode": "setrate",
       "name": "Set Rate",
-      "category": "world",
-      "privileged": true,
+      "category": "control",
+      "privileged": false,
       "hidden": false,
       "nonPrivileged": false,
       "invalid": false,
@@ -3533,9 +3449,6 @@
             "enum": "FetchType"
           },
           {
-            "kind": "row"
-          },
-          {
             "kind": "label",
             "text": "team"
           },
@@ -3548,21 +3461,12 @@
             "text": " # "
           },
           {
-            "kind": "row"
-          },
-          {
-            "kind": "row"
-          },
-          {
             "kind": "label",
             "text": "block"
           },
           {
             "kind": "field",
             "param": "extra"
-          },
-          {
-            "kind": "row"
           },
           {
             "kind": "label",
@@ -3663,7 +3567,7 @@
         "items": [
           {
             "kind": "label",
-            "text": " = flag "
+            "text": " = "
           }
         ]
       }
@@ -3727,30 +3631,12 @@
         "complete": false,
         "items": [
           {
-            "kind": "label",
-            "text": " set "
-          },
-          {
             "kind": "field",
             "param": "type"
           },
           {
-            "kind": "row"
-          },
-          {
-            "kind": "label",
-            "text": " of "
-          },
-          {
             "kind": "field",
             "param": "of"
-          },
-          {
-            "kind": "row"
-          },
-          {
-            "kind": "label",
-            "text": " to "
           },
           {
             "kind": "field",
@@ -3813,14 +3699,24 @@
         "complete": false,
         "items": [
           {
-            "kind": "row"
-          },
-          {
             "kind": "field",
             "param": "id"
           },
           {
-            "kind": "row"
+            "kind": "label",
+            "text": "x"
+          },
+          {
+            "kind": "field",
+            "param": "x"
+          },
+          {
+            "kind": "label",
+            "text": "y"
+          },
+          {
+            "kind": "field",
+            "param": "y"
           }
         ]
       }
@@ -3907,19 +3803,9 @@
         "complete": false,
         "items": [
           {
-            "kind": "label",
-            "text": "set"
-          },
-          {
             "kind": "select",
             "param": "type",
             "enum": "LMarkerControl"
-          },
-          {
-            "kind": "row"
-          },
-          {
-            "kind": "row"
           }
         ]
       }
@@ -3963,10 +3849,28 @@
         "complete": false,
         "items": [
           {
-            "kind": "row"
+            "kind": "label",
+            "text": "id"
           },
           {
-            "kind": "row"
+            "kind": "field",
+            "param": "id"
+          },
+          {
+            "kind": "label",
+            "text": "x"
+          },
+          {
+            "kind": "field",
+            "param": "x"
+          },
+          {
+            "kind": "label",
+            "text": "y"
+          },
+          {
+            "kind": "field",
+            "param": "y"
           }
         ]
       }

@@ -3,7 +3,7 @@
   "source": "core/assets/logicids.dat",
   "note": "Индекс в массиве и есть логический идентификатор. Файл сгенерирован, править вручную нельзя.",
   "counts": {
-    "block": 261,
+    "block": 262,
     "unit": 56,
     "item": 20,
     "liquid": 11
@@ -270,7 +270,8 @@
       "advanced-launch-pad",
       "landing-pad",
       "tile-logic-display",
-      "large-canvas"
+      "large-canvas",
+      "target-dummy"
     ],
     "unit": [
       "dagger",

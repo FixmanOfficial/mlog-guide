@@ -665,7 +665,8 @@ test('эффект состояния держится по времени и п
     // `stop` после наложения: иначе процессор вешал бы эффект заново каждый круг
     const processor = new Processor([
         'fetch unit цель @sharded 0 @dagger',
-        'status false freezing цель 2',
+        // С v160 эффект пишется константой контента, а не именем: `@status-freezing`
+        'status false @status-freezing цель 2',
         'stop'
     ].join('\n'), {world, content, globals: content.globals, building, team: 1, ipt: 8})
 

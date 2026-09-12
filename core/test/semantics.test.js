@@ -10,6 +10,12 @@ import {Processor} from '../src/vm.js'
 import {assemble} from '../src/assembler.js'
 import {parse, MAX_TOKENS, MAX_LABELS, MAX_INSTRUCTIONS} from '../src/parser.js'
 import {LVar} from '../src/lvar.js'
+import {World} from '../src/world.js'
+import {createContent} from '../src/content.js'
+import {readFileSync} from 'node:fs'
+
+const logicIds = JSON.parse(readFileSync(new URL('../data/logic-ids.json', import.meta.url), 'utf8'))
+const content = createContent(logicIds)
 
 const run = (code, steps = 16) => {
     const processor = new Processor(code)
@@ -166,4 +172,73 @@ test('диагностика несёт номер строки и данные,
     assert.equal(diagnostic.instruction, 'sett')
     // Ядро не отдаёт готовых строк для пользователя: их собирает сайт
     assert.equal(Object.values(diagnostic).some(value => typeof value === 'string' && value.includes(' ')), false)
+})
+
+/*
+ * Правки v160.1. Каждая — отдельное поведение, которое до обновления было другим.
+ */
+
+test('камеру обычный процессор не читает', () => {
+    const world = new World({width: 12, height: 12, content})
+    const building = world.place('micro-processor', 3, 3)
+
+    const processor = new Processor('sensor c @this @cameraX',
+        {world, content, globals: content.globals, building})
+
+    processor.run(4)
+
+    /*
+     * `LAccess.privilegedAccess`, v160: обычному процессору камера отвечает null. У мирового
+     * она отвечала бы числом, но самой камеры в модели нет вовсе — см. `docs/parity.md`.
+     */
+    assert.equal(processor.get('c').isobj, true)
+    assert.equal(processor.get('c').objval, null)
+})
+
+test('setrate доступен обычному процессору, но в пределах своей скорости', () => {
+    const world = new World({width: 12, height: 12, content})
+    const building = world.place('micro-processor', 3, 3)
+
+    /*
+     * У микропроцессора две инструкции за тик, и больше двух он себе не поставит.
+     * До v160 инструкция была привилегированной и обычному процессору не давалась вовсе.
+     */
+    const processor = new Processor('setrate 25',
+        {world, content, globals: content.globals, building, ipt: building.spec.ipt})
+
+    processor.run(4)
+
+    assert.deepEqual(processor.diagnostics, [])
+    assert.equal(processor.ipt, 2)
+})
+
+test('статус накладывается константой контента, а не строкой', () => {
+    const world = new World({width: 16, height: 16, content})
+
+    // Инструкция привилегированная, а привилегии процессору даёт его блок
+    const building = world.place('world-processor', 3, 3)
+    const unit = world.spawn('dagger', 8, 8, 1)
+
+    const processor = new Processor([
+        'ubind @dagger',
+        'status false @status-burning @unit 10',
+        'stop'
+    ].join('\n'), {world, content, globals: content.globals, building, team: 1})
+
+    processor.run(8)
+
+    assert.deepEqual(processor.diagnostics, [])
+    assert.equal(unit.hasEffect('burning'), true)
+
+    // Имя строкой больше не принимается: это не эффект, а обычная пустая переменная
+    const other = world.spawn('dagger', 10, 10, 1)
+
+    const old = new Processor([
+        'ubind @dagger',
+        'status false burning @unit 10',
+        'stop'
+    ].join('\n'), {world, content, globals: content.globals, building, team: 1})
+
+    old.run(8)
+    assert.equal(other.hasEffect('burning'), false)
 })

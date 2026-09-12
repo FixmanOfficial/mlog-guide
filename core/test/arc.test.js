@@ -46,22 +46,45 @@ test('хвостовые f и точка отбрасываются при ра�
     assert.equal(parseDouble('5.'), 5)
 })
 
-test('дробь с экспонентой числом НЕ является', () => {
-    // Дробная часть проверяется раньше экспоненты, и разбор "5e3" как целого проваливается
-    assert.ok(Number.isNaN(parseDouble('1.5e3')))
+test('дробь с экспонентой стала числом в v160', () => {
+    /*
+     * До v160 дробная ветка разбора не знала про экспоненту: `1.5e3` уходил в неё целиком,
+     * разбор хвоста падал, и число становилось именем переменной. В `Strings.parseDouble`
+     * ветки соединили, и теперь это полторы тысячи.
+     */
+    assert.equal(parseDouble('1.5e3'), 1500)
+    assert.equal(parseDouble('1.5e-3'), 0.0015)
 
-    // А целое с экспонентой разбирается нормально
+    // Целое с экспонентой разбиралось и раньше
     assert.equal(parseDouble('1e3'), 1000)
     assert.equal(parseDouble('1e-3'), 0.001)
 })
 
-test('дробь с экспонентой становится именем переменной, а не числом', () => {
+test('число с двумя точками или двумя e числом не считается', () => {
+    // Проверки, которых до v160 не было вовсе: тогда лишние точки просто игнорировались
+    assert.ok(Number.isNaN(parseDouble('1.2.3')))
+    assert.ok(Number.isNaN(parseDouble('1e2e3')))
+
+    // Точка после экспоненты тоже запрещена, и пустая экспонента
+    assert.ok(Number.isNaN(parseDouble('1e2.5')))
+    assert.ok(Number.isNaN(parseDouble('1e')))
+
+    // Один минус без цифр — не число
+    assert.ok(Number.isNaN(parseDouble('-')))
+})
+
+test('дробь с экспонентой в программе теперь число, а не переменная', () => {
     const processor = new Processor('set a 1.5e3')
     processor.step()
 
-    // Значение осталось объектом null: справа оказалась пустая переменная
-    assert.equal(processor.get('a').isobj, true)
-    assert.ok(processor.get('1.5e3') !== undefined)
+    assert.equal(processor.get('a').isobj, false)
+    assert.equal(processor.get('a').numval, 1500)
+})
+
+test('точка без дробной части складывается с экспонентой', () => {
+    // `digits == 0` в parseDouble: «5.» это пять, а «5.e3» — пять тысяч
+    assert.equal(parseDouble('5.'), 5)
+    assert.equal(parseDouble('5.e3'), 5000)
 })
 
 test('переполнение при разборе числа даёт отказ, а не бесконечность', () => {
