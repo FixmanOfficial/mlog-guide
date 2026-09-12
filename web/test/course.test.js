@@ -18,7 +18,7 @@ import {Processor} from '@mlog/core/src/vm.js'
 import logicIds from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 
 import {BUILDINGS, ITEMS, UNITS, HOLDERS} from '../src/course/scenes/sensor.js'
-import {VALUES, EMPTINESS, PROCESSOR} from '../src/course/scenes/basics.js'
+import {VALUES, EMPTINESS, PROCESSOR, EDITOR} from '../src/course/scenes/basics.js'
 import {
     ARITHMETIC, STEPS, INTEGERS, ROUNDING, PRECISION, LOGIC, NEGATION, BITWISE, SHIFTS,
     GEOMETRY, FLOAT, RANDOM, NOISE
@@ -459,4 +459,37 @@ test('урок «Случайность и шум»: у соседних точ�
 
     assert.ok(Math.abs(here - near) < 0.01, `соседи близки: ${here} и ${near}`)
     assert.ok(Math.abs(here - far) > 0.5, `дальняя точка другая: ${here} и ${far}`)
+})
+
+test('урок «Как писать в игре»: порядок строк и есть порядок выполнения', () => {
+    const processor = run(EDITOR)
+
+    assert.equal(num(processor, 'запас'), 10)
+    assert.equal(num(processor, 'удвоено'), 20)
+    assert.equal(num(processor, 'итог'), 25)
+})
+
+test('урок «Как писать в игре»: переставленные строки дают пятёрку на первом круге', () => {
+    const swapped = {
+        ...EDITOR,
+        processors: [{
+            ...EDITOR.processors[0],
+            program: [
+                'set запас 10',
+                'op add итог удвоено 5',
+                'op mul удвоено запас 2'
+            ].join(String.fromCharCode(10))
+        }]
+    }
+
+    // Задание урока: на втором шаге — пятёрка, потому что `удвоено` ещё пусто
+    const first = run(swapped, 0)
+    first.step()
+    first.step()
+
+    assert.equal(num(first, 'итог'), 5)
+
+    // А на втором круге уже двадцать пять: программа идёт по кругу
+    const later = run(swapped, 20)
+    assert.equal(num(later, 'итог'), 25)
 })

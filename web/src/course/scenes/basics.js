@@ -58,3 +58,18 @@ export const PROCESSOR = {
     }]
 }
 
+
+/** Урок «Как писать в игре»: три строки, которые читатель переставляет и правит руками. */
+export const EDITOR = {
+    width: 7, height: 5, floor: 'sand',
+    blocks: [{type: 'micro-processor', x: 3, y: 2}],
+    processors: [{
+        at: [3, 2],
+        links: [],
+        program: [
+            'set запас 10',
+            'op mul удвоено запас 2',
+            'op add итог удвоено 5'
+        ].join('\n')
+    }]
+}
