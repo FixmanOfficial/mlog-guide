@@ -22,11 +22,8 @@ import {readEntries, readFile} from './zip.mjs'
 /** Тег исходников. Пин такой же жёсткий, как у самой игры. */
 export const GAME_VERSION = 'v160.2'
 
-/**
- * Сборка jar, из которой снят контент. Между v160.1 и v160.2 контент не менялся
- * ни на строку — в `core/assets` разошлись только переводы на венгерский и китайский.
- */
-export const CONTENT_VERSION = 'v160.1'
+/** Сборка jar, из которой снят контент. */
+export const CONTENT_VERSION = 'v160.2'
 
 /** `gradle.properties`: игра закрепляет arc хешем коммита. */
 export const ARC_HASH = '68a04fab6e'

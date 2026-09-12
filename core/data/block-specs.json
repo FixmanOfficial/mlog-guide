@@ -1,5 +1,5 @@
 {
-  "gameVersion": "v160.1",
+  "gameVersion": "v160.2",
   "source": "ContentLoader.init() в самой игре, tools/dump/ContentDump.java",
   "note": "Файл сгенерирован, править вручную нельзя. Здоровье снято после Block.init(), где оно выводится из размера и состава.",
   "blocks": {
