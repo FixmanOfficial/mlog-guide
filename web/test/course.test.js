@@ -18,7 +18,8 @@ import {Processor} from '@mlog/core/src/vm.js'
 import logicIds from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 
 import {BUILDINGS, ITEMS, UNITS, HOLDERS} from '../src/course/scenes/sensor.js'
-import {VALUES, EMPTINESS, PROCESSOR, EDITOR, WATCH, DEBUG} from '../src/course/scenes/basics.js'
+import {VALUES, EMPTINESS, PROCESSOR, EDITOR, WATCH, DEBUG, NAMES, LINKS} from '../src/course/scenes/basics.js'
+import {linkName} from '@mlog/core/src/world.js'
 import {
     ARITHMETIC, STEPS, INTEGERS, ROUNDING, PRECISION, LOGIC, NEGATION, BITWISE, SHIFTS,
     GEOMETRY, FLOAT, RANDOM, NOISE
@@ -571,4 +572,49 @@ test('урок «Когда не работает»: задание чинит �
     // А круг остаётся сломанным: урок обещает, что доля уедет выше единицы
     const later = run(fixed, 60)
     assert.ok(num(later, 'доля') > 1, num(later, 'доля'))
+})
+
+test('урок «Переменные и имена»: регистр разводит переменные, а занятое имя не принимает запись', () => {
+    const processor = run(NAMES)
+
+    assert.equal(num(processor, 'запас'), 100)
+    assert.equal(num(processor, 'Запас'), 5)
+    assert.equal(num(processor, 'итог'), 105)
+
+    // `set @copper 7` не делает ничего: имя занято игрой, и в таблице его не видно
+    assert.equal(processor.get('@copper'), undefined)
+
+    const shown = [...processor.vars.values()].filter(variable => !variable.constant)
+    assert.deepEqual(shown.map(variable => variable.name),
+        ['@counter', 'запас', 'Запас', 'итог'])
+})
+
+test('урок «Связи и getlink»: два подключённых блока, третий номер пуст', () => {
+    const processor = run(LINKS)
+
+    assert.equal(num(processor, 'сколько'), 2)
+
+    // `getlink` отдаёт здание, а не число: в таблице у него тип building
+    assert.equal(obj(processor, 'первый').name, 'container1')
+    assert.equal(obj(processor, 'второй').name, 'cell1')
+
+    // Номер вне диапазона — не ошибка, а пустота
+    assert.equal(obj(processor, 'третий'), null)
+
+    assert.equal(num(processor, 'медь'), 80)
+})
+
+test('урок «Связи и getlink»: имена связей из таблицы урока', () => {
+    // LogicBlock.getLinkName: последняя часть через дефис, а `large` и числа отбрасываются
+    const table = {
+        container: 'container',
+        'memory-cell': 'cell',
+        'power-node': 'node',
+        'titanium-conveyor': 'conveyor',
+        'large-logic-display': 'display'
+    }
+
+    for (const [block, name] of Object.entries(table)) {
+        assert.equal(linkName(block), name, block)
+    }
 })

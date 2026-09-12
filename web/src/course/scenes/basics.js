@@ -116,3 +116,51 @@ export const DEBUG = {
         ].join('\n')
     }]
 }
+
+/**
+ * Урок «Переменные и имена»: регистр имени и попытка записать в занятое имя.
+ *
+ * `запас` и `Запас` — две разные переменные, а `set @copper 7` не делает ничего: имя занято
+ * игрой, и присваивание в константу проходит мимо. В таблице его не видно вовсе — константы
+ * туда не попадают.
+ */
+export const NAMES = {
+    width: 7, height: 5, floor: 'sand',
+    blocks: [{type: 'micro-processor', x: 3, y: 2}],
+    processors: [{
+        at: [3, 2],
+        links: [],
+        program: [
+            'set запас 100',
+            'set Запас 5',
+            'op add итог запас Запас',
+            'set @copper 7'
+        ].join('\n')
+    }]
+}
+
+/**
+ * Урок «Связи и getlink»: два связанных блока и перебор связей по номеру.
+ *
+ * Контейнер и ячейка памяти подключены к процессору, поэтому у них есть имена — `container1`
+ * и `cell1`. `@links` знает, сколько их, а `getlink` достаёт здание по номеру, начиная с нуля.
+ */
+export const LINKS = {
+    width: 12, height: 7, floor: 'sand',
+    blocks: [
+        {type: 'micro-processor', x: 2, y: 3},
+        {type: 'container', x: 6, y: 4, items: {copper: 80}},
+        {type: 'memory-cell', x: 6, y: 1}
+    ],
+    processors: [{
+        at: [2, 3],
+        links: ['container1', 'cell1'],
+        program: [
+            'set сколько @links',
+            'getlink первый 0',
+            'getlink второй 1',
+            'getlink третий 2',
+            'sensor медь container1 @copper'
+        ].join('\n')
+    }]
+}
