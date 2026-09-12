@@ -111,7 +111,47 @@ test('урок «Число, объект и null»: null считается н�
     assert.equal(num(processor, 'объектПлюсОдин'), 2)
 })
 
-test('урок «Предметы и null»: у типа блока предметом запрашивают цену', () => {
+test('урок «Пустота: null»: откуда он берётся', () => {
+    /*
+     * Таблица урока обещает шесть источников пустоты. Четыре из них проверяются прямо
+     * здесь, остальные два — в уроках про связи и про юнитов.
+     */
+    const processor = new Processor([
+        'op div делениеНаНоль 1 0',
+        'op sqrt кореньИзМинуса -1',
+        'op log логарифмНуля 0',
+        'lookup item запредельныйПредмет 99',
+        'read изПамяти cell1 999'
+    ].join('\n'), {content, globals: content.globals, ipt: 8})
+
+    processor.run(5)
+
+    for (const name of ['делениеНаНоль', 'кореньИзМинуса', 'логарифмНуля', 'запредельныйПредмет']) {
+        const value = processor.get(name)
+        assert.equal(value.isobj, true, name)
+        assert.equal(value.objval, null, name)
+    }
+})
+
+test('урок «Число, объект и текст»: строка в арифметике тоже единица', () => {
+    const processor = run({
+        ...VALUES,
+        processors: [{
+            ...VALUES.processors[0],
+            program: [
+                'set текст "медь"',
+                'set предмет @copper',
+                'op add изТекста текст 1',
+                'op add изПредмета предмет 1'
+            ].join('\n')
+        }]
+    })
+
+    assert.equal(num(processor, 'изТекста'), 2)
+    assert.equal(num(processor, 'изПредмета'), 2)
+})
+
+test('урок «Предметы и пустой ответ»: у типа блока предметом запрашивают цену', () => {
     const processor = run({
         ...ITEMS,
         processors: [{

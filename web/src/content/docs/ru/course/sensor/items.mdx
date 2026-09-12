@@ -1,5 +1,5 @@
 ---
-title: Предметы и null
+title: Предметы и пустой ответ
 description: Как узнать, сколько в блоке конкретного предмета, и чем ноль отличается от null
 lead: Сколько в блоке меди — и чем «предмета нет» отличается от «запрос неприменим»
 difficulty: medium
@@ -18,7 +18,7 @@ import {ITEMS} from '../../../../../course/scenes/sensor.js'
     lead={frontmatter.lead}
     needs={[
         {lesson: 'sensor/buildings', title: 'sensor: свойства зданий'},
-        {lesson: 'basics/values', title: 'Число, объект и null'}
+        {lesson: 'basics/null', title: 'Пустота: null'}
     ]}
 />
 
@@ -39,7 +39,7 @@ import {ITEMS} from '../../../../../course/scenes/sensor.js'
 <Card kind="error">
     В обычном сравнении `null` равен нулю, поэтому проверка «меди не осталось» срабатывает
     заодно на «блока нет» и «свойство не то». Что с этим делать — в уроке
-    [«Число, объект и null»](/ru/course/basics/values/).
+    [«Пустота: null»](/ru/course/basics/null/).
 </Card>
 
 ## Первый предмет — объект

@@ -21,7 +21,7 @@ export const VALUES = {
     }]
 }
 
-/** Тот же урок, вторая половина: `null` в сравнениях и в арифметике. */
+/** Урок «Пустота: null»: пустота в сравнениях и в арифметике. */
 export const EMPTINESS = {
     width: 6, height: 4, floor: 'sand',
     blocks: [{type: 'micro-processor', x: 2, y: 2}],
