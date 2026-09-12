@@ -21,6 +21,7 @@ import {BUILDINGS, ITEMS, UNITS, HOLDERS} from '../src/course/scenes/sensor.js'
 import {VALUES, EMPTINESS, PROCESSOR, EDITOR, WATCH, DEBUG, NAMES, LINKS} from '../src/course/scenes/basics.js'
 import {linkName} from '@mlog/core/src/world.js'
 import {ASSIGN, CONTENT} from '../src/course/scenes/set.js'
+import {BRANCH, LOOP, COUNTER} from '../src/course/scenes/jump.js'
 import logicIdsData from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 import {
     ARITHMETIC, STEPS, INTEGERS, ROUNDING, PRECISION, LOGIC, NEGATION, BITWISE, SHIFTS,
@@ -690,4 +691,125 @@ test('урок «Константы контента»: сколько в игр
     assert.equal(logicIdsData.counts.liquid, 11)
     assert.equal(logicIdsData.counts.block, 262)
     assert.equal(logicIdsData.counts.unit, 56)
+})
+
+test('урок «Условие и ветвление»: ложное условие ведёт в первую ветку', () => {
+    const processor = run(BRANCH, 0)
+    for (let i = 0; i < 4; i++) processor.step()
+
+    assert.equal(num(processor, 'запас'), 7)
+    assert.equal(num(processor, 'мало'), 1)
+})
+
+test('урок «Условие и ветвление»: задание с двенадцатью уводит во вторую ветку', () => {
+    const twelve = {
+        ...BRANCH,
+        processors: [{
+            ...BRANCH.processors[0],
+            program: BRANCH.processors[0].program.replace('set запас 7', 'set запас 12')
+        }]
+    }
+
+    const processor = run(twelve, 0)
+    for (let i = 0; i < 3; i++) processor.step()
+
+    assert.equal(num(processor, 'мало'), 0)
+})
+
+test('урок «Циклы»: семнадцать шагов дают сумму от нуля до четырёх', () => {
+    const processor = run(LOOP, 0)
+    for (let i = 0; i < 17; i++) processor.step()
+
+    assert.equal(num(processor, 'итог'), 10)
+    assert.equal(num(processor, 'счёт'), 5)
+})
+
+test('урок «Циклы»: круг занимает девять тактов микропроцессора', () => {
+    const {world, processors} = buildScene(LOOP, {content})
+
+    for (const entry of processors) {
+        entry.building.processor = new Processor(entry.program, {
+            links: entry.links, world, content, globals: content.globals,
+            ipt: entry.building.spec.ipt, building: entry.building, team: entry.building.team
+        })
+    }
+
+    world.processors = processors.map(entry => entry.building.processor)
+    const processor = processors[0].building.processor
+
+    let done = null
+    for (let tick = 0; tick < 60 && done === null; tick++) {
+        world.step()
+        if (num(processor, 'итог') === 10 && num(processor, 'счёт') === 5) done = Math.trunc(world.tick)
+    }
+
+    assert.equal(done, 9)
+})
+
+test('урок «Циклы»: задание до десяти даёт 45, а сдвинутая стрелка оставляет ноль', () => {
+    const variant = (program) => ({...LOOP, processors: [{...LOOP.processors[0], program}]})
+
+    const toTen = variant([
+        'set счёт 0',
+        'set итог 0',
+        'op add итог итог счёт',
+        'op add счёт счёт 1',
+        'jump 2 lessThan счёт 10',
+        'end'
+    ].join('\n'))
+
+    const long = run(toTen, 0)
+    for (let i = 0; i < 32; i++) long.step()
+    assert.equal(num(long, 'итог'), 45)
+
+    // Стрелка переехала ниже сложения: тело выпало из круга
+    const moved = variant([
+        'set счёт 0',
+        'set итог 0',
+        'op add итог итог счёт',
+        'op add счёт счёт 1',
+        'jump 3 lessThan счёт 5',
+        'end'
+    ].join('\n'))
+
+    const broken = run(moved, 0)
+    for (let i = 0; i < 17; i++) broken.step()
+    assert.equal(num(broken, 'итог'), 0)
+})
+
+test('урок «@counter»: запись в счётчик пропускает строку', () => {
+    const processor = run(COUNTER, 0)
+    for (let i = 0; i < 3; i++) processor.step()
+
+    assert.equal(obj(processor, 'пропущено'), null)
+    assert.equal(num(processor, 'дошли'), 1)
+})
+
+test('урок «@counter»: таблица строгого сравнения', () => {
+    /*
+     * Урок обещает три строки: `null` против нуля, единица против почти единицы и две
+     * одинаковые строки. Проверяется тем же способом, каким это видит читатель, — прыжком.
+     */
+    const jumped = (condition, a, b) => {
+        const processor = new Processor([
+            `jump 3 ${condition} ${a} ${b}`,
+            'set ответ 0',
+            'end',
+            'set ответ 1'
+        ].join('\n'), {content, globals: content.globals, ipt: 4})
+
+        processor.step()
+        processor.step()
+
+        return num(processor, 'ответ') === 1
+    }
+
+    assert.equal(jumped('equal', 'null', '0'), true)
+    assert.equal(jumped('strictEqual', 'null', '0'), false)
+
+    assert.equal(jumped('equal', '1', '1.0000001'), true)
+    assert.equal(jumped('strictEqual', '1', '1.0000001'), false)
+
+    assert.equal(jumped('equal', '"медь"', '"медь"'), true)
+    assert.equal(jumped('strictEqual', '"медь"', '"медь"'), true)
 })

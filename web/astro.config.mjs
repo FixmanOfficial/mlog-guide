@@ -107,6 +107,7 @@ export default defineConfig({
                         },
                         {label: 'set', autogenerate: {directory: 'course/set'}},
                         {label: 'op', autogenerate: {directory: 'course/op'}},
+                        {label: 'jump', autogenerate: {directory: 'course/jump'}},
                         {label: 'sensor', autogenerate: {directory: 'course/sensor'}}
                     ]
                 },
