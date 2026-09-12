@@ -23,7 +23,7 @@ import {LOGIC, NEGATION} from '../../../../../course/scenes/op.js'
 тоже число: **1, если верно, и 0, если нет**. Его можно положить в переменную, сложить
 с другим, передать дальше — он ничем не отличается от обычного числа.
 
-<Example client:only="preact" scene={LOGIC} />
+<Example client:load scene={LOGIC} />
 
 Меди 40, предел 100. Первое сравнение отвечает единицей, второе нулём.
 
@@ -59,7 +59,7 @@ import {LOGIC, NEGATION} from '../../../../../course/scenes/op.js'
 
 Самая частая ловушка группы. `op not` — это **побитовая инверсия**, а не логическое «нет»:
 
-<Example client:only="preact" scene={NEGATION} />
+<Example client:load scene={NEGATION} />
 
 `not 1` даёт −2, а вовсе не 0. Что при этом происходит с битами — в уроке
 [«Битовые операции»](/ru/course/op/bitwise/), а здесь важно другое: для отрицания эта

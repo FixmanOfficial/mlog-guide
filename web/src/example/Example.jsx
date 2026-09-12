@@ -16,7 +16,7 @@
  * кнопка «добавить». Задание урока в том и состоит, чтобы что-то в них поменять.
  */
 
-import {useEffect, useRef, useState} from 'preact/hooks'
+import {useEffect, useMemo, useRef, useState} from 'preact/hooks'
 
 import {Editor, fromText, applyEasings, applyMetrics, applyNinePatches} from '@mlog/editor'
 import {Icon} from '@mlog/editor/src/Icon.jsx'
@@ -137,7 +137,6 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
     buffer = false}) {
     const canvas = useRef(null)
     const vars = useRef(null)
-    const stand = useRef(null)
 
     // Пересборка: «сначала» — это заново собранная сцена и заново собранный редактор
     const [generation, setGeneration] = useState(0)
@@ -169,7 +168,19 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
         applyMetrics()
     }, [])
 
-    useEffect(() => {
+    /*
+     * Сцена собирается при отрисовке, а не в эффекте.
+     *
+     * Так страница приходит уже с окном процессора и таблицей переменных внутри: раньше
+     * на их месте была пустота, которая заполнялась после загрузки скриптов, и на телефоне
+     * текст успевал прыгнуть. Сборка чистая — ни холста, ни документа она не касается,
+     * поэтому та же разметка собирается и на сервере.
+     *
+     * Зависимость одна, `generation`: это кнопка «сначала». Текст программы читается при
+     * сборке, а дальше его подменяет отдельный эффект — как в игре, где программу загружают
+     * в уже стоящий блок.
+     */
+    const stand = useMemo(() => {
         const scene = createScene(description)
 
         // Первый процессор берёт текст из редактора: правка переживает и «пуск», и «шаг»
@@ -179,12 +190,24 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
 
         for (let i = 0; i < tick; i++) scene.world.step()
 
-        stand.current = {scene, view: null}
+        return {scene, view: null}
+    }, [generation])
+
+    // Холст и картинки — уже после отрисовки: на сервере ни того, ни другого нет
+    useEffect(() => {
+        const {scene} = stand
 
         if (world) {
-            // Первый размер на глазок: переменные ещё не нарисованы, мерить нечего
-            const tile = clampTile(Math.floor((canvas.current.parentElement?.clientWidth ?? 0) / 2
-                / scene.world.width))
+            /*
+             * Размер сразу настоящий: таблица переменных приходит вместе со страницей,
+             * поэтому мерить есть что — и карта не успевает дёрнуться с «примерного»
+             * размера на посчитанный.
+             */
+            const stage = canvas.current.parentElement
+            const tile = fitTile({
+                stage: stage?.clientWidth ?? 0,
+                varsHeight: vars.current?.scrollHeight ?? 0
+            }, scene.world)
 
             const images = [atlasUrl, blocksUrl, unitsUrl, terrainUrl].map(url => {
                 const image = new Image()
@@ -203,7 +226,7 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
                 displays: new Map()
             })
 
-            stand.current.view = view
+            stand.view = view
 
             // decode вместо события load: картинка из кеша успевает загрузиться раньше подписки
             const draw = () => view.draw({configured: null, cursor: null})
@@ -229,7 +252,7 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
         if (stage === null || stage === undefined) return
 
         const fit = () => {
-            const {view, scene} = stand.current
+            const {view, scene} = stand
             if (view === null || view === undefined) return
 
             const tile = fitTile({
@@ -265,7 +288,7 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
     useEffect(() => {
         if (!ready) return
 
-        const {scene, view} = stand.current
+        const {scene, view} = stand
         const entry = scene.processors[0]
         if (entry === undefined) return
 
@@ -282,7 +305,7 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
         let last = performance.now()
 
         const step = (time) => {
-            const {scene, view} = stand.current
+            const {scene, view} = stand
             const delta = Math.min((time - last) / 1000 * 60, MAX_DELTA)
             last = time
 
@@ -297,11 +320,11 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
         return () => cancelAnimationFrame(frame)
     }, [running, ready])
 
-    const processor = ready ? stand.current.scene.processors[0]?.building.processor ?? null : null
+    const processor = stand.scene.processors[0]?.building.processor ?? null
 
     const single = () => {
         processor?.step()
-        stand.current.view?.draw({configured: null, cursor: null})
+        stand.view?.draw({configured: null, cursor: null})
         setBeat(beat => beat + 1)
     }
 
@@ -372,7 +395,7 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
                 </button>
 
                 <span class="example__tick">
-                    тик {ready ? Math.trunc(stand.current.scene.world.tick) : 0}
+                    тик {Math.trunc(stand.scene.world.tick)}
                 </span>
             </div>
 
@@ -391,7 +414,18 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
 
                 {/* Карта слева, переменные справа: сначала смотрят на мир, потом на числа */}
                 <div class="example__stage">
-                    {world ? <canvas class="example__world" ref={canvas} /> : null}
+                    {/*
+                      * Форма мира задаётся сразу: до загрузки скриптов холст пуст
+                      * и размера у него нет, а место под карту занять уже нужно —
+                      * иначе текст под примером прыгает, когда карта появляется.
+                      */}
+                    {world ? (
+                        <canvas
+                            class="example__world"
+                            ref={canvas}
+                            style={{aspectRatio: `${description.width} / ${description.height}`}}
+                        />
+                    ) : null}
 
                     {processor === null ? null : (
                         <div class="example__vars" ref={vars}>

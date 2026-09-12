@@ -19,7 +19,7 @@ import {PROCESSOR} from '../../../../../course/scenes/basics.js'
 Так работает почти всё, что пишут на mlog: это не сценарий, который отработал и закончился,
 а бесконечный круг.
 
-<Example client:only="preact" scene={PROCESSOR} world={false} />
+<Example client:load scene={PROCESSOR} world={false} />
 
 Нажимайте «шаг»: рамка проходит обе строки и возвращается наверх, а `кругов` каждый раз
 прибавляется на единицу.

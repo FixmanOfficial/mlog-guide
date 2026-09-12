@@ -24,7 +24,7 @@ import {GEOMETRY, FLOAT} from '../../../../../course/scenes/op.js'
 сторону**. Далеко — это `len`, в какую сторону — `angle`. Обе работают не с точками,
 а со смещением: сколько вправо и сколько вверх.
 
-<Example client:only="preact" scene={GEOMETRY} />
+<Example client:load scene={GEOMETRY} />
 
 | Операция | Что считает | Ответ |
 | --- | --- | --- |
@@ -56,7 +56,7 @@ import {GEOMETRY, FLOAT} from '../../../../../course/scenes/op.js'
 
 ## Ответы чуть-чуть не такие, как в учебнике
 
-<Example client:only="preact" scene={FLOAT} />
+<Example client:load scene={FLOAT} />
 
 Диагональ единичного квадрата — это √2, то есть 1.4142135623730951. mlog отвечает
 1.4142135381698608. Угол «влево» — это 180, а mlog отвечает 179.99989.
