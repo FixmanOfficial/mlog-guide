@@ -66,6 +66,24 @@ test('поле ввода берёт размер из таблицы, а не �
     assert.equal(data.metrics.sensorFieldCompactWidth, 140)
 })
 
+test('меню добавления не уезжает за край узкого экрана', () => {
+    /*
+     * В игре кнопка ровно 130, и три штуки помещаются всегда: единица интерфейса там крупнее
+     * точки экрана. У нас единица — пиксель CSS, и на телефоне 3 x 130 плюс поля уже не
+     * влезают: окно становилось прокручиваемым вбок. Колонка ужимается, но шире игровой
+     * не становится, поэтому в шаблоне сетки стоит minmax, а у кнопки — max-width.
+     */
+    const styles = readFileSync(new URL('../src/styles.css', import.meta.url), 'utf8')
+
+    assert.ok(styles.includes('repeat(var(--m-add-columns, 3), minmax(0, var(--m-add-button-width, 130px)))'),
+        'колонки меню добавления умеют сжиматься')
+    assert.ok(styles.includes('max-width: var(--m-add-button-width, 130px)'),
+        'кнопка не шире игровой')
+
+    assert.equal(data.metrics.addButtonWidth, 130)
+    assert.equal(data.metrics.addColumns, 3)
+})
+
 test('числа те же, что были сняты глазами: генератор ничего не сломал', () => {
     assert.equal(METRICS.headerHeight, 38)
     assert.equal(METRICS.statementSpace, 10)
