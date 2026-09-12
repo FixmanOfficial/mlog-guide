@@ -23,6 +23,8 @@ import {linkName} from '@mlog/core/src/world.js'
 import {ASSIGN, CONTENT} from '../src/course/scenes/set.js'
 import {BRANCH, LOOP} from '../src/course/scenes/jump.js'
 import {COUNTER, RELATIVE} from '../src/course/scenes/advanced.js'
+import {CHOICE} from '../src/course/scenes/select.js'
+import {TICKS, STOPPED, RHYTHM} from '../src/course/scenes/flow.js'
 import logicIdsData from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
 
@@ -916,4 +918,109 @@ test('урок «Пустота: null»: то же строгое сравнен
     assert.equal(num(processor, 'мягко'), 1)
     assert.equal(num(processor, 'строго'), 0)
     assert.equal(obj(processor, 'выбор'), 'ноль')
+})
+
+test('урок «Выбор значения без ветки»: select берёт одно из двух значений', () => {
+    const processor = run(CHOICE, 0)
+    for (let i = 0; i < 4; i++) processor.step()
+
+    assert.equal(num(processor, 'медь'), 120)
+    assert.equal(num(processor, 'хватает'), 1)
+    assert.equal(obj(processor, 'надпись'), 'хватает')
+
+    // Ограничение сверху: меди больше сотни, значит берём сотню
+    assert.equal(num(processor, 'сколькоБрать'), 100)
+})
+
+test('урок «Выбор значения без ветки»: перевёрнутое условие меняет ответ, а не порядок значений', () => {
+    const flipped = {
+        ...CHOICE,
+        processors: [{
+            ...CHOICE.processors[0],
+            program: CHOICE.processors[0].program
+                .replace('select хватает greaterThanEq', 'select хватает lessThan')
+        }]
+    }
+
+    const processor = run(flipped, 0)
+    for (let i = 0; i < 4; i++) processor.step()
+
+    assert.equal(num(processor, 'хватает'), 0)
+})
+
+/** Сколько кругов программа успевает за секунду с разным хвостом. */
+function roundsPerSecond(tail, type = 'hyper-processor') {
+    const description = {
+        width: 7, height: 5, floor: 'sand',
+        blocks: [{type, x: 3, y: 2}],
+        processors: [{
+            at: [3, 2],
+            links: [],
+            program: ['op add кругов кругов 1', ...tail].join('\n')
+        }]
+    }
+
+    const {world, processors} = buildScene(description, {content})
+
+    for (const entry of processors) {
+        entry.building.processor = new Processor(entry.program, {
+            links: entry.links, world, content, globals: content.globals,
+            ipt: entry.building.spec.ipt, building: entry.building, team: entry.building.team
+        })
+    }
+
+    world.processors = processors.map(entry => entry.building.processor)
+    for (let tick = 0; tick < 60; tick++) world.step()
+
+    return num(processors[0].building.processor, 'кругов')
+}
+
+test('урок «wait, end и stop»: таблица кругов за секунду', () => {
+    // Числа из таблицы урока, гиперпроцессор: 25 инструкций за такт
+    assert.equal(roundsPerSecond([]), 1475)
+    assert.equal(roundsPerSecond(['end']), 738)
+    assert.equal(roundsPerSecond(['wait 0']), 59)
+    assert.equal(roundsPerSecond(['wait 0.5']), 2)
+    assert.equal(roundsPerSecond(['stop']), 1)
+})
+
+test('урок «wait, end и stop»: wait отмеряет секунду, stop не пускает дальше', () => {
+    const {world, processors} = buildScene(TICKS, {content})
+
+    for (const entry of processors) {
+        entry.building.processor = new Processor(entry.program, {
+            links: entry.links, world, content, globals: content.globals,
+            ipt: entry.building.spec.ipt, building: entry.building, team: entry.building.team
+        })
+    }
+
+    world.processors = processors.map(entry => entry.building.processor)
+    for (let tick = 0; tick < 120; tick++) world.step()
+
+    assert.equal(num(processors[0].building.processor, 'кругов'), 2)
+
+    // А за stop программа не уходит ни разу
+    const stopped = run(STOPPED, 120)
+    assert.equal(num(stopped, 'кругов'), 1)
+    assert.equal(obj(stopped, 'послеСтопа'), null)
+})
+
+test('урок «Ритм программы»: два круга в секунду и вдесятеро быстрее без половины', () => {
+    const half = run(RHYTHM, 60)
+    assert.equal(num(half, 'проверок'), 2)
+    assert.equal(num(half, 'медь'), 120)
+
+    const faster = {
+        ...RHYTHM,
+        processors: [{
+            ...RHYTHM.processors[0],
+            program: RHYTHM.processors[0].program.replace('wait 0.5', 'wait 0.1')
+        }]
+    }
+
+    /*
+     * Не десять: ожидание копит время по такту, и круг выходит в шесть тактов плюс
+     * такт на саму программу — девять кругов за секунду.
+     */
+    assert.equal(num(run(faster, 60), 'проверок'), 9)
 })

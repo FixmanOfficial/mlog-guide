@@ -108,6 +108,12 @@ export default defineConfig({
                         {label: 'set', autogenerate: {directory: 'course/set'}},
                         {label: 'op', autogenerate: {directory: 'course/op'}},
                         {label: 'jump', autogenerate: {directory: 'course/jump'}},
+                        {label: 'select', autogenerate: {directory: 'course/select'}},
+                        {
+                            label: 'Ход программы',
+                            translations: {en: 'Program flow'},
+                            autogenerate: {directory: 'course/flow'}
+                        },
                         {label: 'sensor', autogenerate: {directory: 'course/sensor'}},
                         {
                             label: 'Продвинутое',

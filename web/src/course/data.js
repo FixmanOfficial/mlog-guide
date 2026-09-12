@@ -18,7 +18,7 @@ import {getCollection} from 'astro:content'
  */
 export const GROUPS = [
     'basics',
-    'set', 'op', 'jump', 'select', 'wait',
+    'set', 'op', 'jump', 'select', 'flow',
     'print', 'read', 'sensor', 'control', 'radar', 'draw', 'lookup',
     'ubind', 'ucontrol', 'uradar', 'ulocate',
     'world',
