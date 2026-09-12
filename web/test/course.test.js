@@ -18,7 +18,7 @@ import {Processor} from '@mlog/core/src/vm.js'
 import logicIds from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 
 import {BUILDINGS, ITEMS, UNITS, HOLDERS} from '../src/course/scenes/sensor.js'
-import {VALUES, EMPTINESS, PROCESSOR, EDITOR} from '../src/course/scenes/basics.js'
+import {VALUES, EMPTINESS, PROCESSOR, EDITOR, WATCH} from '../src/course/scenes/basics.js'
 import {
     ARITHMETIC, STEPS, INTEGERS, ROUNDING, PRECISION, LOGIC, NEGATION, BITWISE, SHIFTS,
     GEOMETRY, FLOAT, RANDOM, NOISE
@@ -492,4 +492,35 @@ test('урок «Как писать в игре»: переставленные
     // А на втором круге уже двадцать пять: программа идёт по кругу
     const later = run(swapped, 20)
     assert.equal(num(later, 'итог'), 25)
+})
+
+test('урок «Окно переменных»: опечатка в имени даёт null, ноль и пятёрку', () => {
+    const processor = run(WATCH)
+
+    assert.equal(num(processor, 'запас'), 10)
+
+    // Имени, которого не присваивали, достаётся своя переменная с null
+    const typo = processor.get('запс')
+    assert.equal(typo.isobj, true)
+    assert.equal(typo.objval, null)
+
+    // null в арифметике считается нулём, и урок называет оба числа
+    assert.equal(num(processor, 'удвоено'), 0)
+    assert.equal(num(processor, 'итог'), 5)
+})
+
+test('урок «Окно переменных»: в таблице видны только неконстанты, первым @counter', () => {
+    const processor = run(WATCH)
+    const shown = [...processor.vars.values()].filter(variable => !variable.constant)
+
+    // Урок обещает порядок: сначала `@counter`, потом свои по первому появлению
+    assert.deepEqual(shown.map(variable => variable.name),
+        ['@counter', 'запас', 'удвоено', 'запс', 'итог'])
+
+    // И обещает, что константы туда не попадают: `LogicDialog`, `if(s.constant) continue`
+    for (const [name, variable] of processor.vars) {
+        assert.equal(variable.constant, !shown.includes(variable), name)
+    }
+
+    assert.equal(processor.get('@this').constant, true)
 })
