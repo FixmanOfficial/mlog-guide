@@ -73,6 +73,12 @@ export default defineConfig({
                 en: {label: 'English', lang: 'en'}
             },
             customCss: ['./src/sandbox/sandbox.css'],
+
+            /*
+             * Меню отдано своему компоненту: он дописывает ссылкам уроков сложность,
+             * а всё остальное рисует Starlight как обычно.
+             */
+            components: {Sidebar: './src/overrides/Sidebar.astro'},
             sidebar: [
                 {label: 'Песочница', translations: {en: 'Sandbox'}, link: 'sandbox'},
                 /*

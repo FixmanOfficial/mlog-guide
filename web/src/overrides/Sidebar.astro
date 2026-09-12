@@ -1,0 +1,54 @@
+---
+/**
+ * Боковое меню со сложностью уроков.
+ *
+ * Кружок сложности стоял в списке уроков и в шапке урока, а в меню — нет: меню собирает
+ * Starlight, и про наше поле `difficulty` оно не знает. Между тем выбирают урок чаще всего
+ * именно из меню, и там кружок нужнее всего.
+ *
+ * Готовое меню не переписывается: Starlight разрешает повесить на ссылку свои атрибуты
+ * (`entry.attrs` уезжает прямо в `<a>`), и здесь дереву меню дописывается `data-level`.
+ * Цвет ставит CSS, а берётся он из той же палитры игры, что и кружок в списке, — руками
+ * в стилях ничего не продублировано.
+ */
+
+import Default from '@astrojs/starlight/components/Sidebar.astro'
+import {getCollection} from 'astro:content'
+
+import {LEVELS} from '../course/levels.js'
+
+const pages = await getCollection('docs')
+
+/** Адрес страницы в том же виде, в каком его пишет меню: с ведущей и конечной косой. */
+const address = (slug) => `/${slug.replace(/\/index$/, '')}/`
+
+const levels = new Map(pages
+    .filter(page => page.data.difficulty !== undefined)
+    .map(page => [address(page.slug), page.data.difficulty]))
+
+/** Дописывает сложность ссылкам меню, не трогая всё остальное. */
+function decorate(entries) {
+    return entries.map(entry => {
+        if (entry.type !== 'link') return {...entry, entries: decorate(entry.entries)}
+
+        const difficulty = levels.get(entry.href)
+        if (difficulty === undefined) return entry
+
+        return {...entry, attrs: {...entry.attrs, 'data-level': difficulty}}
+    })
+}
+
+/* Цвета уровней уезжают прямо в правила: в CSS их дублировать нельзя, они из палитры игры */
+const rules = [
+    // Кружок перед названием урока — тот же, что в списке уроков: 8 точек, цвет из Pal
+    'a[data-level] { display: flex; align-items: center; gap: 8px; }',
+    'a[data-level]::before { content: ""; flex: none; width: 8px; height: 8px;'
+        + ' border-radius: 50%; background: var(--dot); }',
+    ...Object.entries(LEVELS).map(([name, level]) =>
+        `a[data-level="${name}"] { --dot: ${level.color}; }`)
+].join(String.fromCharCode(10))
+---
+
+<Default {...Astro.props} sidebar={decorate(Astro.props.sidebar)} />
+
+<style is:global set:html={rules}></style>
