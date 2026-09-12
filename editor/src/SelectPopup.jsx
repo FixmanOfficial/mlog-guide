@@ -1,6 +1,7 @@
 import {ENUM_SYMBOLS} from './program.js'
 import {propertyTip} from './tooltips.js'
 import {tipProps, hideTip} from './tip.js'
+import {enumLabel, useLocalization} from './names.js'
 import {useAnchored, anchoredStyle, keepOnScreen} from './anchor.js'
 
 /**
@@ -19,6 +20,9 @@ export function SelectPopup({
     anchor, onPick, onClose
 }) {
     const symbols = ENUM_SYMBOLS[enumName] ?? {}
+
+    // Перерисовать список, если перевод переключили, пока он открыт
+    useLocalization()
 
     // Игра ставит список по центру кнопки и удерживает его в пределах экрана
     const {ref, position} = useAnchored(anchor, (box, size) => keepOnScreen(box, size), [values])
@@ -42,7 +46,7 @@ export function SelectPopup({
                         {...tipProps(propertyTip(value))}
                         onClick={() => { hideTip(); onPick(value) }}
                     >
-                        {symbols[value] ?? value}
+                        {enumLabel(enumName, symbols[value] ?? value)}
                     </button>
                 ))}
             </div>

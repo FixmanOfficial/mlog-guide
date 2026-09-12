@@ -20,6 +20,7 @@ import {useEffect, useRef, useState} from 'preact/hooks'
 
 import {Editor, fromText, applyEasings, applyMetrics, applyNinePatches} from '@mlog/editor'
 import {Icon} from '@mlog/editor/src/Icon.jsx'
+import {localizationEnabled, setLocalization} from '@mlog/editor/src/names.js'
 import {WorldView} from '@mlog/render/src/world.js'
 
 // ?url обязателен: иначе Astro пропускает картинку через свой конвейер и отдаёт объект
@@ -154,6 +155,12 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
 
     // Подсветка следующей строки: выключается глазом и запоминается на весь сайт
     const [highlight, setHighlight] = useState(storedHighlight)
+
+    /*
+     * Перевод надписей редактора. В игре это настройка `logiclocalization`, по умолчанию
+     * включённая, — значит и здесь по умолчанию включена: читатель видит то же, что у себя.
+     */
+    const [localized, setLocalized] = useState(localizationEnabled)
 
     // Размеры, девятипатчи и кривые интерфейса игры: без них редактор рисуется на глазок
     useEffect(() => {
@@ -348,6 +355,20 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
                     }}
                 >
                     <Icon name={highlight ? 'eye' : 'eye-off'} size={20} />
+                </button>
+
+                <button
+                    class="game-button example__button"
+                    title={localized
+                        ? 'Надписи как в игре: по-русски'
+                        : 'Надписи по-английски, как без перевода в игре'}
+                    aria-pressed={localized ? 'true' : 'false'}
+                    onClick={() => {
+                        setLocalization(!localized)
+                        setLocalized(!localized)
+                    }}
+                >
+                    <Icon name="book" size={20} />
                 </button>
 
                 <span class="example__tick">

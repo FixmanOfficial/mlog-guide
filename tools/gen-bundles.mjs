@@ -69,6 +69,26 @@ function collectNames(props, prefix, names) {
 }
 
 /**
+ * Значения перечислений: ключи вида `<перечисление>.label.<значение>`, оба в нижнем
+ * регистре. Раскладываются по перечислениям, чтобы искать двумя шагами.
+ */
+function collectLabels(props) {
+    const out = {}
+
+    for (const [key, value] of props) {
+        const match = key.match(/^([a-z]+)\.label\.(.+)$/)
+        if (match === null) continue
+
+        const [, enumName, name] = match
+
+        out[enumName] ??= {}
+        out[enumName][name] = value
+    }
+
+    return out
+}
+
+/**
  * Подсказки к подписям параметров: ключи вида `<инструкция>.<подпись>`.
  *
  * Общей приставки у них нет, зато есть список инструкций — по нему и отбираются. Ключи
@@ -172,7 +192,19 @@ function main() {
              * и текста подписи (`LStatement.param`), поэтому у них нет общей приставки:
              * `radar.from`, `control.of`, `sensor.in`. Собираются по списку инструкций.
              */
-            params: collectParams(props, opcodes)
+            params: collectParams(props, opcodes),
+
+            /*
+             * Перевод самого редактора, появившийся в v160: названия инструкций
+             * (`instruction.unitbind`), подписи и слова-операции (`name.token.in`,
+             * `name.token.and`) и значения перечислений (`laccess.label.totalitems`).
+             *
+             * Ключ названия — имя класса без «Statement» в нижнем регистре, а не опкод:
+             * у `ubind` это `unitbind`. LStatement.statementKey
+             */
+            names: collectByPrefix(props, 'instruction.'),
+            tokens: collectByPrefix(props, 'name.token.'),
+            labels: collectLabels(props)
         }
 
         // Цели карты и метки: названия видов и строки, которыми игра пишет условие
@@ -213,7 +245,9 @@ function main() {
             `${target.padEnd(24)} контент ${String(translated).padStart(3)}/${total} (${percent}%), ` +
             `категорий ${Object.keys(logic.categories).length}, ` +
             `инструкций ${Object.keys(logic.instructions).length}, ` +
-            `свойств ${Object.keys(logic.properties).length}, ` +
+            `свойств ${Object.keys(logic.properties).length}, `
+            + `названий ${Object.keys(logic.names).length}, `
+            + `слов ${Object.keys(logic.tokens).length}, ` +
             `встроенных переменных ${Object.keys(logic.globals).length}, ` +
             `целей ${Object.keys(objectives.objectives).length}`
         )

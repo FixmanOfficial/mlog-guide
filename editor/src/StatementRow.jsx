@@ -5,6 +5,7 @@ import {describeBody, CUSTOM_BODIES, DRAW_DEFAULTS} from './bodies.js'
 import {categoryColor, headerTextColor, displayName} from './theme.js'
 import {instructionTip, propertyTip, paramTip} from './tooltips.js'
 import {tipProps, hideTip} from './tip.js'
+import {statementName, tokenName, enumLabel, useLocalization} from './names.js'
 import {SelectPopup} from './SelectPopup.jsx'
 import {Icon} from './Icon.jsx'
 import {ContentButton} from './ContentButton.jsx'
@@ -31,9 +32,14 @@ export function StatementRow({
     // У перехода в заголовке видна его цель. В игре это буквально строка " -> " из двух
     // знаков ASCII, а не стрелка Unicode. LStatements.JumpStatement.build
     const destination = statement.opcode === 'jump' ? targetIndex(statements, statement) : -1
-    const title = destination >= 0
-        ? `${displayName(statement.opcode)} -> ${destination}`
-        : displayName(statement.opcode)
+    /*
+     * Название переводится, если перевод включён, — как `localizedName` в игре. Подписка
+     * нужна затем, чтобы строка перерисовалась, когда тумблер щёлкнули на другой строке.
+     */
+    useLocalization()
+
+    const name = statementName(displayName(statement.opcode))
+    const title = destination >= 0 ? `${name} -> ${destination}` : name
 
     return (
         <div
@@ -97,7 +103,7 @@ function renderDescribed(statement, definition, onParam) {
                     key={`label${position}`}
                     {...tipProps(paramTip(statement.opcode, item.label.trim()))}
                 >
-                    {item.label}
+                    {tokenName(item.label)}
                 </span>
             )
         }
@@ -165,7 +171,7 @@ function renderGeneric(definition, statement, onParam) {
                         key={`label${position}`}
                         {...tipProps(paramTip(statement.opcode, item.text.trim()))}
                     >
-                        {item.text}
+                        {tokenName(item.text)}
                     </span>
                 )
             }
@@ -182,7 +188,7 @@ function renderGeneric(definition, statement, onParam) {
         .map(entry => (
             <span class="pair" key={entry.param.name}>
                 <span class="label" {...tipProps(paramTip(statement.opcode, entry.label))}>
-                    {entry.label}
+                    {tokenName(entry.label)}
                 </span>
                 {renderParam(entry.param, statement, onParam)}
             </span>
@@ -246,7 +252,8 @@ function EnumButton({param, statement, onParam, values, width, columns, cellWidt
                 {...tipProps(propertyTip(value))}
                 onClick={() => { hideTip(); setOpen(!open) }}
             >
-                {symbols[value] ?? value}
+                {/* Переводится не имя значения, а его знак: у операций это `and`, а не `land` */}
+                {enumLabel(param.enum, symbols[value] ?? value)}
             </button>
 
             {open && (

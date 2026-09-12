@@ -5,6 +5,7 @@ import sprites from '@mlog/core/data/sprites.json'
 import {ENUMS, ENUM_PARAMS} from './program.js'
 import {propertyTip, contentName} from './tooltips.js'
 import {tipProps} from './tip.js'
+import {enumLabel, useLocalization} from './names.js'
 import {Icon} from './Icon.jsx'
 import {useAnchored, anchoredStyle, keepOnScreen} from './anchor.js'
 
@@ -32,6 +33,9 @@ const PROPERTIES = ENUMS.LAccess.filter(value => (ENUM_PARAMS.LAccess[value] ?? 
 
 export function ContentPopup({current, anchor, onPick, onClose}) {
     const [tab, setTab] = useState('item')
+
+    // Имена свойств в этом меню игра переводит, а в поле блока остаётся `@totalItems`
+    useLocalization()
 
     // Меню держится за свою кнопку и переезжает вместе с ней, когда страницу прокручивают
     const {ref, position} = useAnchored(anchor, (box, size) => {
@@ -74,7 +78,7 @@ export function ContentPopup({current, anchor, onPick, onClose}) {
                                 {...tipProps(propertyTip(name))}
                                 onClick={() => onPick(`@${name}`)}
                             >
-                                {name}
+                                {enumLabel('LAccess', name)}
                             </button>
                         ))}
                     </div>

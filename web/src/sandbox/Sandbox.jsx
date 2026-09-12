@@ -15,6 +15,7 @@ import {Icon} from '@mlog/editor/src/Icon.jsx'
 import {ContentIcon} from '@mlog/editor/src/ContentPopup.jsx'
 import {mod} from '@mlog/core/src/arc.js'
 import {ITEM_ORDER} from '@mlog/core/src/world.js'
+import {localizationEnabled, setLocalization} from '@mlog/editor/src/names.js'
 import {DisplayView} from '@mlog/render/src/display.js'
 import {WorldView} from '@mlog/render/src/world.js'
 
@@ -121,6 +122,12 @@ export function Sandbox({allow = {}, scene: description = undefined,
 
     // Подсветка следующей строки: наша добавка к окну игры, поэтому выключаемая
     const [highlight, setHighlight] = useState(storedHighlight)
+
+    /*
+     * Перевод надписей редактора. Настройка `logiclocalization` из игры: там она включена
+     * по умолчанию, поэтому и здесь читатель видит то же, что у себя в игре.
+     */
+    const [localized, setLocalized] = useState(localizationEnabled)
 
     // Клетка под курсором: её показывает HUD под миникартой, как настройка «mouseposition»
     const [hover, setHover] = useState(null)
@@ -889,6 +896,22 @@ export function Sandbox({allow = {}, scene: description = undefined,
                             <Icon name={hudShown ? 'eye-off' : 'eye'} size={20} />
                         </button>
                     )}
+
+                    <label
+                        class="sandbox__toggle"
+                        title="Надписи в блоках как в игре: с переводом или по-английски"
+                    >
+                        <input
+                            type="checkbox"
+                            checked={localized}
+                            onChange={(event) => {
+                                const on = event.currentTarget.checked
+                                setLocalized(on)
+                                setLocalization(on)
+                            }}
+                        />
+                        <span>перевод</span>
+                    </label>
 
                     <label class="sandbox__toggle" title="Подсвечивать строку, которую процессор выполнит следующей">
                         <input
