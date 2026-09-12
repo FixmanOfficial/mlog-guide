@@ -20,6 +20,8 @@ import logicIds from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 import {BUILDINGS, ITEMS, UNITS, HOLDERS} from '../src/course/scenes/sensor.js'
 import {VALUES, EMPTINESS, PROCESSOR, EDITOR, WATCH, DEBUG, NAMES, LINKS} from '../src/course/scenes/basics.js'
 import {linkName} from '@mlog/core/src/world.js'
+import {ASSIGN, CONTENT} from '../src/course/scenes/set.js'
+import logicIdsData from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 import {
     ARITHMETIC, STEPS, INTEGERS, ROUNDING, PRECISION, LOGIC, NEGATION, BITWISE, SHIFTS,
     GEOMETRY, FLOAT, RANDOM, NOISE
@@ -617,4 +619,75 @@ test('урок «Связи и getlink»: имена связей из табл�
     for (const [block, name] of Object.entries(table)) {
         assert.equal(linkName(block), name, block)
     }
+})
+
+test('урок «Присваивание и копирование»: копия остаётся с прежним значением', () => {
+    const processor = run(ASSIGN, 0)
+
+    // Урок просит четыре шага — ровно один круг
+    for (let i = 0; i < 4; i++) processor.step()
+
+    assert.equal(num(processor, 'запас'), 99)
+    assert.equal(num(processor, 'копия'), 5)
+    assert.equal(obj(processor, 'текст'), 'медь')
+})
+
+test('урок «Присваивание и копирование»: задание меняет строки местами', () => {
+    const swapped = {
+        ...ASSIGN,
+        processors: [{
+            ...ASSIGN.processors[0],
+            program: [
+                'set запас 5',
+                'set текст "медь"',
+                'set запас 99',
+                'set копия запас'
+            ].join('\n')
+        }]
+    }
+
+    const processor = run(swapped, 0)
+    for (let i = 0; i < 4; i++) processor.step()
+
+    assert.equal(num(processor, 'копия'), 99)
+})
+
+test('урок «Константы контента»: вещи ложатся в переменные, а sensor берёт свойство оттуда же', () => {
+    const processor = run(CONTENT)
+
+    assert.equal(obj(processor, 'предмет').name, 'copper')
+    assert.equal(obj(processor, 'блок').name, 'router')
+    assert.equal(obj(processor, 'юнит').name, 'poly')
+
+    // `@this` — само здание процессора, а не число
+    assert.equal(obj(processor, 'сам').name, 'processor1')
+
+    assert.equal(num(processor, 'сколько'), 120)
+})
+
+test('урок «Константы контента»: задание меняет предмет и свойство', () => {
+    const variant = (first, property) => ({
+        ...CONTENT,
+        processors: [{
+            ...CONTENT.processors[0],
+            program: [
+                `set предмет ${first}`,
+                'set блок @router',
+                'set юнит @poly',
+                'set сам @this',
+                `sensor сколько container1 ${property}`
+            ].join('\n')
+        }]
+    })
+
+    assert.equal(num(run(variant('@lead', 'предмет')), 'сколько'), 40)
+    assert.equal(num(run(variant('@copper', '@totalItems')), 'сколько'), 160)
+})
+
+test('урок «Константы контента»: сколько в игре вещей', () => {
+    // Таблица урока: числа берутся из снятой описи, а не из головы
+    assert.equal(logicIdsData.counts.item, 20)
+    assert.equal(logicIdsData.counts.liquid, 11)
+    assert.equal(logicIdsData.counts.block, 262)
+    assert.equal(logicIdsData.counts.unit, 56)
 })

@@ -105,6 +105,7 @@ export default defineConfig({
                             translations: {en: 'Basics'},
                             autogenerate: {directory: 'course/basics'}
                         },
+                        {label: 'set', autogenerate: {directory: 'course/set'}},
                         {label: 'op', autogenerate: {directory: 'course/op'}},
                         {label: 'sensor', autogenerate: {directory: 'course/sensor'}}
                     ]
