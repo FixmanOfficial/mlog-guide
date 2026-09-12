@@ -2,9 +2,15 @@ import {defineConfig} from 'astro/config'
 import starlight from '@astrojs/starlight'
 import preact from '@astrojs/preact'
 
+import {existsSync} from 'node:fs'
+import {join} from 'node:path'
+import {fileURLToPath} from 'node:url'
+
 import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
 import ru from '@mlog/core/data/i18n/ru.json' with {type: 'json'}
 import en from '@mlog/core/data/i18n/en.json' with {type: 'json'}
+
+import {PARTS, partGroups} from './src/course/parts.js'
 
 /**
  * Инструкции в боковом меню — категориями и в свёрнутом виде.
@@ -37,6 +43,43 @@ function instructionGroups() {
                 link: `reference/instructions/${entry.opcode}`
             }))
         }))
+}
+
+/**
+ * Курс в меню: части — категории игры, внутри группы, внутри уроки.
+ *
+ * Строится из `src/course/parts.js` — того же описания, по которому собрана страница
+ * «Все уроки»: структура курса записана один раз. Группы, в которых ещё нет папки с уроками,
+ * пропускаются: `autogenerate` падает на несуществующем каталоге, да и показывать читателю
+ * пустую категорию незачем.
+ */
+function courseParts() {
+    const lessons = fileURLToPath(new URL('src/content/docs/ru/course/', import.meta.url))
+
+    return PARTS
+        .map(part => {
+            const groups = partGroups(part)
+                .filter(group => existsSync(join(lessons, group.id)))
+                .map(group => ({
+                    label: group.opcode === undefined
+                        ? group.title
+                        : instructionName(group.opcode),
+                    translations: group.en === undefined ? undefined : {en: group.en},
+                    autogenerate: {directory: `course/${group.id}`}
+                }))
+
+            if (groups.length === 0) return null
+
+            // Часть-тема — это одна группа, и второго уровня ей не нужно
+            if (part.category === undefined) return groups[0]
+
+            return {
+                label: ru.logic.categories[part.category] ?? part.category,
+                translations: {en: en.logic.categories[part.category] ?? part.category},
+                items: groups
+            }
+        })
+        .filter(part => part !== null)
 }
 
 /** Как инструкция подписана в игре: `Operation`, а не `op`. Опкод — это запись, а не имя. */
@@ -104,26 +147,7 @@ export default defineConfig({
                             translations: {en: 'All lessons'},
                             link: 'course'
                         },
-                        {
-                            label: 'Основы',
-                            translations: {en: 'Basics'},
-                            autogenerate: {directory: 'course/basics'}
-                        },
-                        {label: instructionName('set'), autogenerate: {directory: 'course/set'}},
-                        {label: instructionName('op'), autogenerate: {directory: 'course/op'}},
-                        {label: instructionName('jump'), autogenerate: {directory: 'course/jump'}},
-                        {label: instructionName('select'), autogenerate: {directory: 'course/select'}},
-                        {
-                            label: 'Ход программы',
-                            translations: {en: 'Program flow'},
-                            autogenerate: {directory: 'course/flow'}
-                        },
-                        {label: instructionName('sensor'), autogenerate: {directory: 'course/sensor'}},
-                        {
-                            label: 'Продвинутое',
-                            translations: {en: 'Advanced'},
-                            autogenerate: {directory: 'course/advanced'}
-                        }
+                        ...courseParts()
                     ]
                 },
                 {

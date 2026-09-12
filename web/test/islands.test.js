@@ -18,6 +18,8 @@ import {readdirSync, readFileSync, statSync} from 'node:fs'
 import {join} from 'node:path'
 import {fileURLToPath} from 'node:url'
 
+import {GROUPS} from '../src/course/parts.js'
+
 const ROOT = fileURLToPath(new URL('../src/content/docs/', import.meta.url))
 
 function pages(directory) {
@@ -40,4 +42,23 @@ test('острова страниц отрисовываются заранее,
         assert.ok(!text.includes('client:only'),
             `${path}: остров с client:only оставляет на странице пустое место`)
     }
+})
+
+test('каждая группа уроков лежит в какой-нибудь части курса', () => {
+    /*
+     * Части курса — категории игры, и описаны они один раз, в `src/course/parts.js`:
+     * оттуда строится и меню, и страница «Все уроки». Забытая папка выпадет из обоих сразу
+     * и молча, поэтому тут сверяется, что описание покрывает то, что написано.
+     */
+    const folders = readdirSync(ROOT + 'ru/course', {withFileTypes: true})
+        .filter(entry => entry.isDirectory())
+        .map(entry => entry.name)
+
+    for (const folder of folders) {
+        assert.ok(GROUPS.includes(folder),
+            `папка ${folder} не описана в src/course/parts.js`)
+    }
+
+    // И наоборот: в описании не должно быть выдуманных имён с уроками
+    assert.ok(folders.length > 0, 'уроки нашлись')
 })

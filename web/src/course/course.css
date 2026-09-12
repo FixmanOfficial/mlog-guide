@@ -235,3 +235,26 @@
 .lesson-head__needs {
     color: var(--sl-color-gray-3);
 }
+
+/*
+ * Часть курса — категория игры. Заголовок подписан её цветом: тем же, каким игра красит
+ * шапку строки инструкции, — чтобы «Управление блоками» в курсе и в меню «Добавить»
+ * читались как одно и то же место.
+ */
+.part {
+    margin-top: 2.5rem;
+}
+
+.part__name {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.part__name::before {
+    content: '';
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 2px;
+    background: var(--category, currentColor);
+}

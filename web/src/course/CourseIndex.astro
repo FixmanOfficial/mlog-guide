@@ -1,37 +1,51 @@
 ---
 /**
- * Список курса: группы, а в каждой уроки с кружком сложности.
+ * Список курса: части, в них группы, в группах уроки с кружком сложности.
  *
- * Группа — это инструкция. Пришедший за юнитами открывает `ucontrol` и читает её, а не
- * проходит курс по порядку; поэтому группы независимы, а что нужно знать заранее, каждая
- * пишет у себя вверху.
+ * Части — это категории самой игры, те же, что в меню «Добавить»: читатель уже знает,
+ * что `sensor` живёт в «Управлении блоками», и искать его будет там же. «Основы»
+ * и «Продвинутое» стоят по краям отдельными частями — они не про инструкции.
+ *
+ * Группы независимы: пришедший за юнитами открывает нужную и читает её, а не проходит
+ * курс по порядку; что нужно знать заранее, каждая пишет у себя вверху.
  */
 
-import {courseGroups} from './data.js'
+import ru from '@mlog/core/data/i18n/ru.json'
+import en from '@mlog/core/data/i18n/en.json'
+import {CATEGORY_COLORS} from '@mlog/editor/src/theme.js'
+
+import {courseParts} from './data.js'
 import {LEVELS, LEVEL_ORDER} from './levels.js'
 import LessonList from './LessonList.astro'
 import './course.css'
 
 const {locale = 'ru'} = Astro.props
 
-const groups = await courseGroups(locale)
+/** Названия категорий берём из переводов игры: в меню «Добавить» они ровно такие. */
+const bundle = locale === 'ru' ? ru : en
+const categoryName = (key) => bundle.logic?.categories?.[key] ?? key
+
+const parts = await courseParts(locale, categoryName)
 
 const TEXT = {
     ru: {
-        intro: 'Курс разбирает язык по инструкциям: группа — инструкция, урок — одна её грань. '
-            + 'Группы независимы: за юнитами можно идти сразу в них, а что нужно знать заранее, '
-            + 'написано в начале каждой.',
+        intro: 'Курс разложен по тем же частям, что и меню «Добавить» в игре: группа — '
+            + 'инструкция, урок — одна её грань. Группы независимы: за юнитами можно идти '
+            + 'сразу в них, а что нужно знать заранее, написано в начале каждой.',
         legend: 'Сложность'
     },
     en: {
-        intro: 'The course goes instruction by instruction: a group is an instruction, a lesson '
-            + 'is one facet of it. Groups are independent — go straight to the unit ones; each '
-            + 'says up front what you need to know first.',
+        intro: 'The course follows the same parts as the in-game «Add» menu: a group is an '
+            + 'instruction, a lesson is one facet of it. Groups are independent — go straight '
+            + 'to the unit ones; each says up front what you need to know first.',
         legend: 'Difficulty'
     }
 }
 
 const text = TEXT[locale] ?? TEXT.en
+
+/** Цвет категории — тот же, что у шапки строки инструкции в блоке. */
+const color = (key) => key === null ? undefined : `--category: ${CATEGORY_COLORS[key]}`
 ---
 
 <p class="ref-lead">{text.intro}</p>
@@ -48,12 +62,24 @@ const text = TEXT[locale] ?? TEXT.en
     ))}
 </div>
 
-{groups.map(group => (
-    <section class="group">
-        <h2 id={group.name}>
-            <a class="group__name" href={group.href}>{group.title}</a>
+{parts.map(part => (
+    <section class="part" style={color(part.category)}>
+        <h2 id={part.name} class={part.category === null ? undefined : 'part__name'}>
+            {part.groups.length === 1 && part.groups[0].title === null
+                ? <a class="group__name" href={part.groups[0].href}>{part.title}</a>
+                : part.title}
         </h2>
-        {group.lead === null ? null : <p class="group__lead">{group.lead}</p>}
-        <LessonList locale={locale} group={group.name} />
+
+        {part.groups.map(group => (
+            <>
+                {group.title === null ? null : (
+                    <h3 id={group.name}>
+                        <a class="group__name" href={group.href}>{group.title}</a>
+                    </h3>
+                )}
+                {group.lead === null ? null : <p class="group__lead">{group.lead}</p>}
+                <LessonList locale={locale} group={group.name} />
+            </>
+        ))}
     </section>
 ))}

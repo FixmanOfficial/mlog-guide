@@ -1,30 +1,24 @@
 /**
  * Уроки курса из коллекции страниц.
  *
- * Курс разложен по папкам: `<локаль>/course/<инструкция>/<урок>`. Группа — это инструкция,
+ * Курс разложен по папкам: `<локаль>/course/<группа>/<урок>`. Группа — это инструкция,
  * и папка называется её именем: имена инструкций не переводятся, поэтому и адрес у группы
- * одинаковый на всех языках.
+ * одинаковый на всех языках. Там, где под одним именем разбирают семейство инструкций,
+ * группа называется темой — `flow`, «Ход программы».
  *
- * Порядок уроков внутри группы — `sidebar.order` в шапке страницы; порядок самих групп
+ * Сами группы разложены по **категориям игры**: тем же, что читатель видит в меню
+ * «Добавить» и в справочнике. Плоским списком групп к концу курса вышло бы восемнадцать
+ * пунктов подряд, а категорий всегда шесть, и они читателю уже знакомы.
+ *
+ * Порядок уроков внутри группы — `sidebar.order` в шапке страницы; порядок частей и групп
  * задан здесь: он смысловой, а не алфавитный.
  */
 
 import {getCollection} from 'astro:content'
 
-/**
- * Порядок групп: от того, без чего не собрать ни одной программы, к тому, что нужно
- * не всем. Групп в списке больше, чем написано, — ненаписанные просто не показываются:
- * недоделанный курс не нужно показывать читателю, план живёт в `docs/todo.md`.
- */
-export const GROUPS = [
-    'basics',
-    'set', 'op', 'jump', 'select', 'flow',
-    'print', 'read', 'sensor', 'control', 'radar', 'draw', 'lookup',
-    'ubind', 'ucontrol', 'uradar', 'ulocate',
-    'world',
-    // «Продвинутое» стоит последним: это не инструкция, а то, что поверх всех
-    'advanced'
-]
+import {GROUPS, PARTS, partGroups} from './parts.js'
+
+export {GROUPS, PARTS} from './parts.js'
 
 /** Уроки одной группы, в порядке `sidebar.order`. */
 export async function groupLessons(locale, group) {
@@ -74,4 +68,34 @@ export async function courseGroups(locale) {
     }
 
     return groups
+}
+
+/**
+ * Курс частями: у части либо своя группа («Основы»), либо категория игры с группами внутри.
+ *
+ * Пустые части выпадают: пока в категории не написано ни одного урока, показывать её
+ * незачем.
+ */
+export async function courseParts(locale, categoryName = (key) => key) {
+    const groups = await courseGroups(locale)
+    const found = new Map(groups.map(group => [group.name, group]))
+    const parts = []
+
+    for (const part of PARTS) {
+        const inside = partGroups(part)
+            .map(group => found.get(group.id))
+            .filter(group => group !== undefined)
+
+        if (inside.length === 0) continue
+
+        parts.push({
+            name: part.category ?? part.group.id,
+            title: part.category === undefined ? inside[0].title : categoryName(part.category),
+            category: part.category ?? null,
+            // У части из одной своей группы заголовок и есть эта группа: второй раз не повторяем
+            groups: part.category === undefined ? [{...inside[0], title: null}] : inside
+        })
+    }
+
+    return parts
 }
