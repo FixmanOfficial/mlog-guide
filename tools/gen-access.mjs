@@ -17,8 +17,7 @@
 
 import {readdirSync, readFileSync, writeFileSync} from 'node:fs'
 import {basename, join, resolve} from 'node:path'
-
-const GAME_VERSION = 'v159.7'
+import {GAME_VERSION} from './version.mjs'
 
 /**
  * Кто отвечает на `sensor`. Ключ — как это называется в справочнике, значение — где искать.

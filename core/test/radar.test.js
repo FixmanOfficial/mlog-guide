@@ -330,6 +330,31 @@ test('процессор мира ставит блоки, красит пол �
     assert.equal(processor.get('блок').obj().name, 'router')
 })
 
+test('setblock усекает дробные координаты, а не округляет их', () => {
+    const world = new World({width: 20, height: 20, content, floor: 'stone'})
+    const building = world.add('world-processor', {x: 1, y: 1})
+
+    /*
+     * До v160.2 координаты проходили через `Mathf.round`, и блок с 8.6 вставал на девятый
+     * тайл. В v160.2 остался `numi()` — приведение к int, то есть усечение к нулю.
+     * LExecutor.SetBlockI, v160.2
+     */
+    const processor = new Processor([
+        'setblock block @router 8.6 8.6 @sharded 0',
+        'setblock floor @sand-floor 3.9 2.2 @sharded 0'
+    ].join('\n'), {world, content, globals: content.globals, building, team: 1, ipt: 4})
+
+    building.processor = processor
+    world.addProcessor(processor)
+    processor.run(4)
+
+    assert.equal(world.at(9, 9) ?? null, null)
+    assert.equal(world.at(8, 8)?.type, 'router')
+
+    assert.equal(world.floorAt(4, 2), 'stone')
+    assert.equal(world.floorAt(3, 2), 'sand-floor')
+})
+
 test('обычному процессору инструкции мира не подчиняются', () => {
     const world = new World({width: 20, height: 20, content, floor: 'stone'})
     const building = world.add('micro-processor', {x: 1, y: 1})

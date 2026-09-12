@@ -1,6 +1,6 @@
 {
   "locale": "en",
-  "gameVersion": "v159.7",
+  "gameVersion": "v160.2",
   "source": "core/assets/bundles/bundle.properties",
   "note": "Файл сгенерирован из бандлов игры, править вручную нельзя. Разметка вида [accent]...[] оставлена как есть.",
   "content": {

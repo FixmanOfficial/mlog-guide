@@ -17,6 +17,7 @@ import {writeFileSync} from 'node:fs'
 import {openAtlas} from './atlas.mjs'
 import {pack} from './pack.mjs'
 import {UNIT_SPECS} from '../core/src/unit.js'
+import {CONTENT_VERSION} from './version.mjs'
 
 /** Ширина атласа. Самый широкий спрайт — токсопид, 400 точек. */
 const WIDTH = 1024
@@ -53,7 +54,7 @@ function main() {
     writeFileSync('render/assets/units.png', png)
 
     writeFileSync('core/data/unit-sprites.json', JSON.stringify({
-        gameVersion: 'v159.7',
+        gameVersion: CONTENT_VERSION,
         source: 'sprites/sprites.aatls из Mindustry.jar',
         note: 'Файл сгенерирован, править вручную нельзя. Спрайты сняты из упакованного атласа '
             + 'игры, то есть уже с запечённой обводкой. Записи вида «имя-cell» — накладка, '

@@ -266,8 +266,8 @@
  */
 .field,
 .select {
-    width: 144px;
-    height: 40px;
+    width: var(--m-field-width, 180px);
+    height: var(--m-field-height, 40px);
     box-sizing: border-box;
     padding: 4px 6px 0;
     border: none;
@@ -279,12 +279,20 @@
 
 .pair .field,
 .pair .select {
-    width: 85px;
+    width: var(--m-labeled-field-width, 180px);
 }
 
 /* Подпись поля: padLeft 10, поле padRight 10 */
 .pair {
-    padding: 0 10px;
+    padding: 0 var(--m-label-pad-left, 10px);
+}
+
+/*
+ * Поле свойства у sensor — единственное со своей шириной: 140 в узкой раскладке, 180
+ * в широкой. Появилось в v160.2. LStatements.SensorStatement.build
+ */
+.editor {
+    --sensor-field: var(--m-sensor-field-compact-width, 140px);
 }
 
 .field:focus,
@@ -681,6 +689,10 @@
 @media (min-width: 1080px) {
     .break {
         display: none;
+    }
+
+    .editor {
+        --sensor-field: var(--m-sensor-field-width, 180px);
     }
 }
 

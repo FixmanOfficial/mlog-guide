@@ -15,6 +15,7 @@
 
 import {readFileSync, writeFileSync} from 'node:fs'
 import {join, resolve} from 'node:path'
+import {GAME_VERSION} from './version.mjs'
 
 const byte = (value) => Math.round(value * 255).toString(16).padStart(2, '0')
 
@@ -76,7 +77,7 @@ function main() {
     const colors = parse(body)
 
     writeFileSync('core/data/pal.json', JSON.stringify({
-        gameVersion: 'v159.7',
+        gameVersion: GAME_VERSION,
         source: 'core/src/mindustry/graphics/Pal.java',
         note: 'Файл сгенерирован, править вручную нельзя. Значения в формате #rrggbb, '
             + 'альфа дописывается только если она не полная.',

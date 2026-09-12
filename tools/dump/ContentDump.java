@@ -57,12 +57,14 @@ import mindustry.world.meta.BuildVisibility;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Выгружает спеки контента из самой игры.
@@ -78,7 +80,25 @@ import java.util.List;
  */
 public class ContentDump{
     /** Версия игры, из которой сняты данные. Проверяется на совпадение с ожидаемой. */
-    static final String VERSION = "v159.7";
+    static final String VERSION = jarVersion();
+
+    /**
+     * Версия берётся из самого jar — `version.properties` лежит в его корне, и дампер
+     * читает его из своего же classpath. Константой её держать нельзя: строка в исходнике
+     * не мешает запустить дампер с чужой сборкой, а расхождение всплывёт много позже.
+     */
+    static String jarVersion(){
+        try(InputStream stream = ContentDump.class.getResourceAsStream("/version.properties")){
+            if(stream == null) return "unknown";
+
+            Properties properties = new Properties();
+            properties.load(stream);
+
+            return "v" + properties.getProperty("build", "unknown");
+        }catch(Exception error){
+            return "unknown";
+        }
+    }
 
     public static void main(String[] args) throws Exception{
         if(args.length < 5){

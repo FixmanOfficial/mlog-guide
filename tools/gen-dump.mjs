@@ -15,7 +15,7 @@
  * в JAVA_HOME, среди установленных Adoptium и в PATH.
  *
  * Скачать jar (86 МБ, в репозиторий не кладём):
- *   https://github.com/Anuken/Mindustry/releases/download/v159.7/Mindustry.jar
+ *   https://github.com/Anuken/Mindustry/releases/download/<версия>/Mindustry.jar
  */
 
 import {execFileSync} from 'node:child_process'
@@ -24,10 +24,8 @@ import {tmpdir} from 'node:os'
 import {join, resolve} from 'node:path'
 
 import {decodePng} from './png.mjs'
+import {CONTENT_VERSION, checkJar} from './version.mjs'
 import {readEntries, readFile} from './zip.mjs'
-
-/** Версия, под которую написан дампер. Совпадает с закреплённой в CLAUDE.md. */
-const VERSION = 'v159.7'
 
 const MIN_JAVA = 17
 const separator = process.platform === 'win32' ? ';' : ':'
@@ -112,9 +110,16 @@ function main() {
     if (jar === undefined || !existsSync(jar)) {
         console.error('Укажите путь к Mindustry.jar нужной версии:')
         console.error('  node tools/gen-dump.mjs <путь-к-Mindustry.jar>')
-        console.error(`  скачать: https://github.com/Anuken/Mindustry/releases/download/${VERSION}/Mindustry.jar`)
+        console.error(`  скачать: https://github.com/Anuken/Mindustry/releases/download/${CONTENT_VERSION}/Mindustry.jar`)
         process.exit(1)
     }
+
+    /*
+     * Версия проверяется до запуска и по самому jar: `version.properties` внутри него.
+     * Раньше сверялись две константы — в дампере и здесь, — и поймать чужую сборку это
+     * не могло в принципе.
+     */
+    console.log(`jar: ${checkJar(jar)}`)
 
     const jdk = findJdk()
 
@@ -152,7 +157,10 @@ function main() {
         ]) {
             const data = JSON.parse(readFileSync(from, 'utf8'))
 
-            if (data.gameVersion !== VERSION) throw new Error(`jar не той версии: ${data.gameVersion}`)
+            // Дампер подписывает выгрузку версией из самого jar — сверяем с закреплённой
+            if (data.gameVersion !== CONTENT_VERSION) {
+                throw new Error(`дамп снят с версии ${data.gameVersion}, а нужна ${CONTENT_VERSION}`)
+            }
 
             // Цвет блока на карте лежит не в коде, а картинкой: ContentLoader.loadColors
             // читает пиксель с номером блока из первой строки block_colors.png

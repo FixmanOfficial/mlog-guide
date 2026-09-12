@@ -1,5 +1,5 @@
 {
-  "gameVersion": "v159.7",
+  "gameVersion": "v160.1",
   "source": "sprites/sprites.aatls из Mindustry.jar, UnlockableContent.loadIcon",
   "note": "Файл сгенерирован, править вручную нельзя. Иконки сняты готовыми из атласа игры и уменьшены до 48 точек по большей стороне с сохранением пропорций.",
   "atlas": "editor/assets/content.png",

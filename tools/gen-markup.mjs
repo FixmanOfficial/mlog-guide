@@ -19,11 +19,7 @@
 
 import {readFileSync, writeFileSync} from 'node:fs'
 import {join, resolve} from 'node:path'
-
-const GAME_VERSION = 'v159.7'
-
-/** gradle.properties: игра закрепляет arc хешем коммита. */
-const ARC_HASH = '208a754044'
+import {GAME_VERSION, ARC_HASH} from './version.mjs'
 
 const hex = (value) => `#${value.toString(16).padStart(6, '0')}`
 

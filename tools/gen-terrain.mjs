@@ -18,6 +18,7 @@ import {writeFileSync} from 'node:fs'
 import {openAtlas} from './atlas.mjs'
 import {pack} from './pack.mjs'
 import {BLOCK_SPECS} from '../core/src/world.js'
+import {CONTENT_VERSION} from './version.mjs'
 
 /** Ширина атласа. */
 const WIDTH = 1024
@@ -64,7 +65,7 @@ function main() {
     writeFileSync('render/assets/terrain.png', png)
 
     writeFileSync('core/data/terrain-sprites.json', JSON.stringify({
-        gameVersion: 'v159.7',
+        gameVersion: CONTENT_VERSION,
         source: 'sprites/sprites.aatls из Mindustry.jar',
         note: 'Файл сгенерирован, править вручную нельзя. Плитки лежат по 32 пикселя, листы '
             + 'краёв — по 96: три на три плитки, как их режет Floor.load.',

@@ -16,6 +16,7 @@
 
 import {readFileSync, writeFileSync} from 'node:fs'
 import {join, resolve} from 'node:path'
+import {GAME_VERSION} from './version.mjs'
 
 /** Тело метода `init()`: от объявления до закрывающей скобки того же уровня. */
 function initBody(source) {
@@ -81,7 +82,7 @@ function main() {
     const sections = entries.filter(entry => entry.name.startsWith('section')).length
 
     const output = {
-        gameVersion: 'v159.7',
+        gameVersion: GAME_VERSION,
         source: 'core/src/mindustry/logic/GlobalVars.java',
         note: 'Файл сгенерирован, править вручную нельзя. Порядок тот же, что в окне игры; '
             + 'строки sectionX — заголовки разделов, описания лежат в i18n под ключами lglobal.',

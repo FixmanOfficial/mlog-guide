@@ -1400,7 +1400,12 @@ const builders = {
             run: (vm) => {
                 if (!vm.privileged || vm.world === null) return
 
-                const [tx, ty] = [Math.round(x.num()), Math.round(y.num())]
+                /*
+                 * Усечение, а не округление: в v160.2 `Mathf.round(x.numf())` заменили
+                 * на `x.numi()`. У соседнего `getblock` осталось округление — с этой
+                 * версии две инструкции считают координаты по-разному.
+                 */
+                const [tx, ty] = [x.numi(), y.numi()]
                 const content = block.obj()
 
                 if (!vm.world.inside(tx, ty) || content?.contentType !== 'block') return

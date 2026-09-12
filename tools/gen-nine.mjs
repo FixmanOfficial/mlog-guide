@@ -15,6 +15,7 @@ import {readFileSync, writeFileSync} from 'node:fs'
 import {join, resolve} from 'node:path'
 
 import {decodePng} from './png.mjs'
+import {GAME_VERSION} from './version.mjs'
 
 /** Спрайты, по которым сверстан интерфейс. */
 const WANTED = [
@@ -89,7 +90,7 @@ function main() {
     }
 
     writeFileSync('core/data/nine-patches.json', JSON.stringify({
-        gameVersion: 'v159.7',
+        gameVersion: GAME_VERSION,
         source: 'core/assets-raw/sprites/ui',
         note: 'Файл сгенерирован, править вручную нельзя. border — толщина рамки в пикселях, '
             + 'cut — насколько срезан угол, fillAlpha — прозрачность заливки.',

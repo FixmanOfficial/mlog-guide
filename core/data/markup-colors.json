@@ -1,6 +1,6 @@
 {
-  "gameVersion": "v159.7",
-  "arcHash": "208a754044",
+  "gameVersion": "v160.2",
+  "arcHash": "68a04fab6e",
   "source": "arc/graphics/Color.java, arc/graphics/Colors.java, mindustry/core/UI.java",
   "note": "Файл сгенерирован, править вручную нельзя. Имена — те, что встречаются в тексте игры в квадратных скобках: [accent], [lightgray], [stat].",
   "colors": {

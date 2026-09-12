@@ -210,11 +210,17 @@ function renderParam(param, statement, onParam) {
     return <Field param={param} statement={statement} onParam={onParam} />
 }
 
+/**
+ * Ширина поля: число — пиксели, строка — запись CSS. Строкой она приходит там, где число
+ * зависит от раскладки: у `sensor` поле свойства узкое на узком экране.
+ */
+const size = (width) => typeof width === 'number' ? `${width}px` : width
+
 function Field({param, statement, onParam, width}) {
     return (
         <input
             class="field"
-            style={width === undefined ? undefined : {width: `${width}px`}}
+            style={width === undefined ? undefined : {width: size(width)}}
             value={statement.params[param.name] ?? ''}
             spellcheck={false}
             onInput={(event) => onParam(param.name, event.currentTarget.value)}

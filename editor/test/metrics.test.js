@@ -28,6 +28,8 @@ test('в таблице есть всё, на что опирается вёрс
         'dialogButtonWidth', 'dialogButtonHeight', 'closeButtonWidth',
         'editButtonWidth', 'editButtonHeight',
         'varsRowHeight', 'varsStub', 'varsValueWidth', 'varsTypeMinWidth', 'varsPeriod',
+        'fieldWidth', 'fieldHeight', 'labeledFieldWidth', 'labelPadLeft',
+        'sensorFieldWidth', 'sensorFieldCompactWidth',
         'scrollMargin', 'scrollSpeed', 'jumpStroke', 'jumpLane', 'jumpLaneStep'
     ]
 
@@ -42,6 +44,26 @@ test('дорожки переходов считаются по снятым ч�
     assert.equal(LANE_STEP.wide, METRICS.jumpLaneStep)
     assert.equal(LANE_BASE.narrow, METRICS.jumpLanePortrait)
     assert.equal(STROKE, METRICS.jumpStroke)
+})
+
+test('поле ввода берёт размер из таблицы, а не из литерала в стилях', () => {
+    /*
+     * В v160 поле выросло со 144 до 180, а подписанное — с 85 до 180, и переезд этого
+     * не заметил: числа лежали в CSS руками. Теперь в стилях стоит переменная, и вот
+     * проверка, что она там, а число приходит от генератора.
+     */
+    const styles = readFileSync(new URL('../src/styles.css', import.meta.url), 'utf8')
+
+    assert.ok(styles.includes('width: var(--m-field-width, 180px)'), 'поле ссылается на метрику')
+    assert.ok(styles.includes('width: var(--m-labeled-field-width, 180px)'),
+        'подписанное поле ссылается на метрику')
+
+    assert.equal(data.metrics.fieldWidth, 180)
+    assert.equal(data.metrics.labeledFieldWidth, 180)
+
+    // Поле свойства у sensor с v160.2 знает про узкую раскладку
+    assert.equal(data.metrics.sensorFieldWidth, 180)
+    assert.equal(data.metrics.sensorFieldCompactWidth, 140)
 })
 
 test('числа те же, что были сняты глазами: генератор ничего не сломал', () => {

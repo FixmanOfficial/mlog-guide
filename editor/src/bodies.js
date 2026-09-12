@@ -112,7 +112,7 @@ const LAYOUTS = {
     /** LStatements.DrawStatement.rebuild */
     draw: (statement) => {
         const type = statement.params.type
-        const items = [{enum: 'type', values: ENUMS.GraphicsType, width: 90, columns: 2, cell: 100}]
+        const items = [{enum: 'type', values: ENUMS.GraphicsType, width: 120, columns: 2, cell: 120}]
 
         // Перенос ставится после кнопки для всех видов, кроме stroke
         if (type !== 'stroke') items.push(lineBreak)
@@ -137,7 +137,7 @@ const LAYOUTS = {
 
         const items = [
             label(' set '),
-            {enum: 'type', values: CONTROL_VALUES, width: 90, columns: 2, cell: 100},
+            {enum: 'type', values: CONTROL_VALUES, width: 110, columns: 2, cell: 110},
             label(' of '),
             field('target')
         ]
@@ -177,21 +177,23 @@ const LAYOUTS = {
      */
     sensor: () => [
         field('to'), label(' = '), lineBreak,
-        field('type'), {content: 'type'},
+        field('type', 'var(--sensor-field)'), {content: 'type'},
         label(' in '), field('from')
     ],
 
     /** LStatements.PrintCharStatement.build: поле и карандаш с таблицей ASCII */
-    printchar: () => [label(' char '), field('value', 144), {pencil: 'char', param: 'value'}]
+    printchar: () => [label(' char '), field('value'), {pencil: 'char', param: 'value'}]
 }
 
 /**
  * Общая часть условия у jump и select — LStatements.JumpStatement.addOp.
- * При условии `always` поля сравнения пропадают, а кнопка расширяется с 48 до 80.
+ * При условии `always` поля сравнения пропадают, а кнопка расширяется с 48 до 90:
+ * в v160 она подросла вместе с таблицей выбора — три столбца по 95.
  */
 function condition(statement, name, first, second) {
     const always = statement.params[name] === 'always'
-    const button = {enum: name, values: ENUMS.ConditionOp, width: always ? 80 : 48}
+    const button = {enum: name, values: ENUMS.ConditionOp,
+        width: always ? 90 : 48, columns: 3, cell: 95}
 
     return always ? [button] : [field(first), button, field(second)]
 }

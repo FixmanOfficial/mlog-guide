@@ -23,13 +23,13 @@
 
 ## Источник истины
 
-**Mindustry v160.1**, тег зафиксирован. Обновление версии — отдельная осознанная задача, а не
+**Mindustry v160.2**, тег зафиксирован. Обновление версии — отдельная осознанная задача, а не
 «подтянуть последнее».
 
 Исходники не лежат в репозитории. Развернуть локально:
 
 ```bash
-git clone --depth 1 --branch v160.1 --filter=blob:none --sparse https://github.com/Anuken/Mindustry.git
+git clone --depth 1 --branch v160.2 --filter=blob:none --sparse https://github.com/Anuken/Mindustry.git
 git -C Mindustry sparse-checkout set core/src/mindustry/logic core/src/mindustry/world core/src/mindustry/content core/src/mindustry/type core/assets
 ```
 
@@ -131,10 +131,24 @@ node tools/gen-dump.mjs <путь-к-Mindustry.jar>
 отсюда: `github.com/Anuken/Mindustry/releases/download/v160.1/Mindustry.jar`, 87 МБ.
 Сам дампер — `tools/dump/ContentDump.java`.
 
-**Версию jar проверять перед запуском**: `unzip -p <jar> version.properties` должен показать
-`build=160.1`. Файл с именем `Mindustry.jar` в загрузках может оказаться бетой другой сборки,
+**Версию jar генератор проверяет сам**: читает `version.properties` из архива и падает, если
+сборка не та. Файл с именем `Mindustry.jar` в загрузках легко оказывается бетой другой сборки,
 и тогда дамп молча разойдётся с исходниками — у сборки 155 нет блока `large-canvas`, и все
 идентификаторы после него съезжают на единицу.
+
+### Две версии вместо одной
+
+Версии закреплены в `tools/version.mjs`, и их две:
+
+| Константа | Что подписывает | Сейчас |
+| --- | --- | --- |
+| `GAME_VERSION` | всё, что снято с исходников: раскладки, схемы, палитры, переводы | v160.2 |
+| `CONTENT_VERSION` | всё, что снято с jar: спеки контента, атласы, шрифт | v160.1 |
+
+Обычно они совпадают. Расходятся, когда в новой сборке контент не менялся вовсе: между v160.1
+и v160.2 в `core/src/mindustry/content` и `core/assets` разошлись только переводы на венгерский
+и китайский, и качать jar заново незачем. Проверять это руками — диффом по этим каталогам, —
+а не на глаз.
 
 ```bash
 node tools/gen-content.mjs <путь-к-Mindustry>
@@ -177,13 +191,13 @@ node tools/gen-instructions.mjs <путь-к-Mindustry>
 ## Библиотека arc
 
 Часть семантики mlog живёт не в Mindustry, а в arc — там `Mathf`, `Angles`, `Rand`, `Simplex`
-и разбор чисел. Игра закрепляет arc хешем коммита в `gradle.properties`, для v160.1 это
-`archash=5a9696f1d4`. Пин такой же жёсткий, как у самой игры.
+и разбор чисел. Игра закрепляет arc хешем коммита в `gradle.properties`, для v160.2 это
+`archash=68a04fab6e`. Пин такой же жёсткий, как у самой игры.
 
 ```bash
 git clone --filter=blob:none --no-checkout --sparse https://github.com/Anuken/Arc.git
 git -C Arc sparse-checkout set arc-core/src/arc/math arc-core/src/arc/util arc-core/src/arc/graphics
-git -C Arc checkout 5a9696f1d4
+git -C Arc checkout 68a04fab6e
 ```
 
 Перенос лежит в `core/src/arc.js`. Трогать его без сверки с исходником нельзя: там всё написано
@@ -193,7 +207,7 @@ git -C Arc checkout 5a9696f1d4
 node tools/gen-metrics.mjs <путь-к-Mindustry>
 ```
 
-Снимает размеры интерфейса в `core/data/metrics.json`: 76 чисел из `LCanvas`, `LStatement`,
+Снимает размеры интерфейса в `core/data/metrics.json`: 86 чисел из `LCanvas`, `LStatement`,
 `LogicDialog` и `BaseDialog`. Все они лежат в Java литералами — `height(38)`, `t.margin(6f)`,
 `.size(24f).padRight(6)`. Каждое снимается своим шаблоном с якорем по соседнему коду, и если
 шаблон перестал совпадать, генератор падает с именем размера: при обновлении версии игры это

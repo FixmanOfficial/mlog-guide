@@ -16,8 +16,7 @@
 
 import {readFileSync, writeFileSync} from 'node:fs'
 import {join, resolve} from 'node:path'
-
-const GAME_VERSION = 'v159.7'
+import {GAME_VERSION} from './version.mjs'
 
 /** Разбирает оглавление файла шрифта. */
 function tables(buffer) {

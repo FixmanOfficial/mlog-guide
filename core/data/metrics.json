@@ -1,5 +1,5 @@
 {
-  "gameVersion": "v159.7",
+  "gameVersion": "v160.2",
   "source": "core/src/mindustry/logic, core/src/mindustry/ui",
   "note": "Файл сгенерирован, править вручную нельзя. Все значения — литералы из исходников, снятые шаблонами с якорем по соседнему коду.",
   "counts": [
@@ -37,6 +37,16 @@
     "jumpLaneStep": 10,
     "compactWidth": 900,
     "rowsFactor": 1.2,
+    "fieldWidth": 180,
+    "fieldHeight": 40,
+    "fieldPad": 2,
+    "labeledFieldWidth": 180,
+    "labelPadLeft": 10,
+    "labeledFieldPadRight": 10,
+    "compactFieldPadRight": 4,
+    "compactLabelPadRight": 12,
+    "sensorFieldCompactWidth": 140,
+    "sensorFieldWidth": 180,
     "selectCellWidth": 60,
     "selectCellHeight": 38,
     "selectColumns": 4,

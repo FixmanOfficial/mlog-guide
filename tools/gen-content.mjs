@@ -18,8 +18,7 @@
 
 import {readFileSync, writeFileSync} from 'node:fs'
 import {join, resolve} from 'node:path'
-
-const GAME_VERSION = 'v159.7'
+import {GAME_VERSION} from './version.mjs'
 
 // Порядок обязателен: файл читается последовательно, GlobalVars.java:26
 const CONTENT_TYPES = ['block', 'unit', 'item', 'liquid']

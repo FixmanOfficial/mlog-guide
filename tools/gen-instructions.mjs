@@ -15,8 +15,7 @@
 
 import {readFileSync, writeFileSync, existsSync} from 'node:fs'
 import {join, resolve} from 'node:path'
-
-const GAME_VERSION = 'v159.7'
+import {GAME_VERSION} from './version.mjs'
 
 /** Перечисления лежат не только в logic/: GraphicsType живёт внутри блока дисплея. */
 const ENUM_LOCATIONS = {

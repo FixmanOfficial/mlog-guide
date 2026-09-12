@@ -14,6 +14,7 @@
 
 import {readFileSync, writeFileSync} from 'node:fs'
 import {join, resolve} from 'node:path'
+import {GAME_VERSION} from './version.mjs'
 
 const LOGIC = 'core/src/mindustry/logic'
 const UI = 'core/src/mindustry/ui'
@@ -68,6 +69,30 @@ const RECIPES = [
         pattern: /Core\.graphics\.getWidth\(\) < Scl\.scl\((\d+)f\) \* ([\d.]+)f/},
 
     // --- поля и меню выбора: LStatement ---
+    /*
+     * Поле ввода. В v160 оно выросло со 144 до 180, а подписанное — с 85 до тех же 180,
+     * и наша вёрстка этого не заметила: числа лежали в CSS литералами. Теперь их снимает
+     * генератор, и следующее такое изменение молча не пройдёт.
+     */
+    {file: `${LOGIC}/LStatement.java`, names: ['fieldWidth', 'fieldHeight', 'fieldPad'],
+        pattern: /Styles\.nodeField[^;]*?\.size\((\d+)f,\s*(\d+)f\)\.pad\((\d+)f\)/s},
+    {file: `${LOGIC}/LStatement.java`, names: ['labeledFieldWidth'],
+        pattern: /float width = (\d+)f;\s*String text = bundle\(desc\);/s},
+    {file: `${LOGIC}/LStatement.java`, names: ['labelPadLeft', 'labeledFieldPadRight'],
+        pattern: /sub\.add\(text\)\.padLeft\((\d+)\)[^;]*;\s*return field\(sub, value, setter\)\.width\(width\)\.padRight\((\d+)\)/s},
+    /*
+     * Узкая раскладка ставит подпись не перед полем, а после него — `nameAfterField`.
+     * Отступы у неё свои: 4 у поля, 12 у подписи.
+     */
+    {file: `${LOGIC}/LStatement.java`, names: ['compactFieldPadRight', 'compactLabelPadRight'],
+        pattern: /field\(sub, value, setter\)\.width\(width\)\.padRight\((\d+)f\)\.left\(\);\s*sub\.add\(text\)\.padRight\((\d+)f\)/s},
+    /*
+     * Поле свойства у `sensor` — единственное со своей шириной: в v160.2 ему задали
+     * 140 в узкой раскладке и 180 в широкой. LStatements.SensorStatement.build
+     */
+    {file: `${LOGIC}/LStatements.java`, names: ['sensorFieldCompactWidth', 'sensorFieldWidth'],
+        pattern: /tfield = field\(table, type, str -> type = str\)\.width\(LCanvas\.isCompact\(\) \? (\d+)f : (\d+)f\)/},
+
     {file: `${LOGIC}/LStatement.java`, names: ['selectCellWidth', 'selectCellHeight'],
         pattern: /t\.defaults\(\)\.size\((\d+)f,\s*(\d+)f\);\s*\n\s*\n?\s*for\(T p : values\)/},
     {file: `${LOGIC}/LStatement.java`, names: ['selectColumns'], count: true,
@@ -202,7 +227,7 @@ function main() {
     }
 
     writeFileSync('core/data/metrics.json', JSON.stringify({
-        gameVersion: 'v159.7',
+        gameVersion: GAME_VERSION,
         source: 'core/src/mindustry/logic, core/src/mindustry/ui',
         note: 'Файл сгенерирован, править вручную нельзя. Все значения — литералы из исходников, '
             + 'снятые шаблонами с якорем по соседнему коду.',

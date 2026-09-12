@@ -19,6 +19,7 @@ import {openAtlas} from './atlas.mjs'
 import {pack} from './pack.mjs'
 import {BLOCK_SPECS} from '../core/src/world.js'
 import teams from '../core/data/teams.json' with {type: 'json'}
+import {CONTENT_VERSION} from './version.mjs'
 
 /**
  * Ширина атласа. Спрайты идут в родном разрешении, и самый крупный — ядро-цитадель,
@@ -144,7 +145,7 @@ function main() {
     writeFileSync('render/assets/blocks.png', png)
 
     writeFileSync('core/data/block-sprites.json', JSON.stringify({
-        gameVersion: 'v159.7',
+        gameVersion: CONTENT_VERSION,
         source: 'sprites/sprites.aatls из Mindustry.jar',
         note: 'Файл сгенерирован, править вручную нельзя. Спрайты лежат в своём разрешении: '
             + 'сторона блока в тайлах, умноженная на 32.',

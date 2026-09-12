@@ -21,8 +21,7 @@ import {mkdirSync, readFileSync, writeFileSync} from 'node:fs'
 import {openAtlas} from './atlas.mjs'
 import {pack} from './pack.mjs'
 import {resize} from './png.mjs'
-
-const GAME_VERSION = 'v159.7'
+import {CONTENT_VERSION} from './version.mjs'
 
 /** Ширина атласа. */
 const WIDTH = 1024
@@ -99,7 +98,7 @@ function main() {
     }
 
     writeFileSync('core/data/sprites.json', JSON.stringify({
-        gameVersion: GAME_VERSION,
+        gameVersion: CONTENT_VERSION,
         source: 'sprites/sprites.aatls из Mindustry.jar, UnlockableContent.loadIcon',
         note: 'Файл сгенерирован, править вручную нельзя. Иконки сняты готовыми из атласа игры '
             + `и уменьшены до ${LIMIT} точек по большей стороне с сохранением пропорций.`,
