@@ -140,6 +140,23 @@ export function assignLanes(jumps) {
     return normalized
 }
 
+/**
+ * Ширина поля справа от кода, чтобы стрелки в него поместились целиком: самая дальняя дорожка
+ * плюс линия с обводкой по обе стороны.
+ *
+ * В игре такого расчёта нет — там поле даёт центровка столбца инструкций в панели
+ * (`LCanvas.rebuild`), и стрелке всегда есть куда лечь. На странице ширину задаёт статья,
+ * поэтому место под стрелки отмеряется, а не выделяется с запасом.
+ */
+export function gutterWidth(jumps, narrow = false) {
+    if (jumps.length === 0) return EMPTY_GUTTER
+
+    return Math.max(...jumps.map(jump => laneOffset(jump.lane, narrow))) + STROKE * 2
+}
+
+/** Отступ справа, когда переходов нет вовсе: столько же, сколько с других сторон. */
+export const EMPTY_GUTTER = 8
+
 /** Отступ стрелки от кода на этой дорожке. */
 export const laneOffset = (lane, narrow = false) =>
     (narrow ? LANE_BASE.narrow : LANE_BASE.wide) + (narrow ? LANE_STEP.narrow : LANE_STEP.wide) * lane

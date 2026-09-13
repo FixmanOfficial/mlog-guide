@@ -6,7 +6,10 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 
-import {assignLanes, curvePoints, laneOffset, LANE_BASE, LANE_STEP} from '../src/jumps.js'
+import {
+    assignLanes, curvePoints, gutterWidth, laneOffset,
+    EMPTY_GUTTER, LANE_BASE, LANE_STEP, STROKE
+} from '../src/jumps.js'
 
 const lanes = (jumps) => assignLanes(jumps).map(jump => jump.lane)
 
@@ -56,6 +59,20 @@ test('отступ дорожки растёт с шагом из игры', () 
     assert.equal(laneOffset(0), LANE_BASE.wide)
     assert.equal(laneOffset(2), LANE_BASE.wide + LANE_STEP.wide * 2)
     assert.equal(laneOffset(0, true), LANE_BASE.narrow)
+})
+
+test('поле справа отмеряется по самой дальней дорожке', () => {
+    const jumps = assignLanes([{from: 6, to: 0}, {from: 4, to: 2}])
+    const widest = Math.max(...jumps.map(jump => laneOffset(jump.lane)))
+
+    // Полотно стрелок и поле под него — одно и то же число: иначе дальняя стрелка обрежется
+    assert.equal(gutterWidth(jumps), widest + STROKE * 2)
+    assert.ok(gutterWidth(jumps) > gutterWidth([{lane: 0}]))
+    assert.equal(gutterWidth([{lane: 0}], true), LANE_BASE.narrow + STROKE * 2)
+})
+
+test('без переходов поле справа не нужно', () => {
+    assert.equal(gutterWidth([]), EMPTY_GUTTER)
 })
 
 test('длинный переход рисуется трапецией из четырёх точек', () => {

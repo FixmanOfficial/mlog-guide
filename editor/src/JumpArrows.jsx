@@ -1,6 +1,6 @@
 import {useState, useLayoutEffect} from 'preact/hooks'
 
-import {assignLanes, curvePoints, laneOffset, STROKE} from './jumps.js'
+import {assignLanes, curvePoints, gutterWidth} from './jumps.js'
 import {targetIndex} from './program.js'
 import {JUMP_COLOR, OUTLINE_COLOR, OUTLINE_WIDTH} from './theme.js'
 import {NODE, nodePoints} from './JumpNode.jsx'
@@ -53,7 +53,20 @@ export function JumpArrows({statements, containerRef, selecting = null, hovered 
                 }
             })
 
-            setRows({centers, starts, width: base.width, height: base.height})
+            /*
+             * `space` — ширина всего редактора вместе с полями, а не списка. Она не зависит
+             * от поля под стрелки, которое ставится ниже, поэтому раскладка не может
+             * заколебаться: узкая она или широкая, решается один раз.
+             */
+            const editor = container.parentElement ?? container
+
+            setRows({
+                centers,
+                starts,
+                width: base.width,
+                height: base.height,
+                space: editor.clientWidth
+            })
         }
 
         measure()
@@ -62,8 +75,6 @@ export function JumpArrows({statements, containerRef, selecting = null, hovered 
         observer.observe(container)
         return () => observer.disconnect()
     }, [statements, containerRef])
-
-    if (rows.centers === undefined || rows.centers.length === 0) return null
 
     const selectingIndex = selecting === null
         ? -1
@@ -79,18 +90,27 @@ export function JumpArrows({statements, containerRef, selecting = null, hovered 
         }))
         .filter(jump => Number.isInteger(jump.to) && jump.to >= 0 && jump.to < statements.length))
 
+    const narrow = (rows.space ?? rows.width ?? 0) < 600
+
+    /*
+     * Поле справа под стрелки. Считается той же меркой, что и ширина полотна, — иначе
+     * самая дальняя стрелка обрезалась бы краем примера.
+     */
+    const gutter = gutterWidth(jumps, narrow)
+
+    useLayoutEffect(() => {
+        const editor = containerRef.current?.parentElement
+        if (editor === null || editor === undefined) return
+
+        editor.style.setProperty('--jump-gutter', `${gutter}px`)
+        return () => editor.style.removeProperty('--jump-gutter')
+    }, [containerRef, gutter])
+
+    if (rows.centers === undefined || rows.centers.length === 0) return null
     if (jumps.length === 0) return null
 
-    const narrow = rows.width < 600
-    const widest = Math.max(...jumps.map(jump => laneOffset(jump.lane, narrow)))
-
     return (
-        <svg
-            class="jumps"
-            width={widest + STROKE * 2}
-            height={rows.height}
-            style={{left: `${rows.width}px`}}
-        >
+        <svg class="jumps" width={gutter} height={rows.height}>
             {jumps.map(jump => {
                 const start = rows.starts[jump.from]
                 const y2 = rows.centers[jump.to]
