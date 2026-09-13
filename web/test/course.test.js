@@ -104,10 +104,10 @@ test('урок «Как работает процессор»: скорость 
 
     /*
      * Две инструкции за такт при программе из двух инструкций — круг в такт, то есть около
-     * шестидесяти кругов в секунду. Ровно шестьдесят не выходит: накопитель начинается
-     * с нуля, и первый круг достаётся не полностью. Урок так и говорит — «около».
+     * шестидесяти итераций в секунду. Ровно шестьдесят не выходит: накопитель начинается
+     * с нуля, и первая итерация достаётся не полностью. Урок так и говорит — «около».
      */
-    assert.ok(Math.abs(num(processor, 'кругов') - 60) <= 1, num(processor, 'кругов'))
+    assert.ok(Math.abs(num(processor, 'итераций') - 60) <= 1, num(processor, 'итераций'))
 })
 
 test('урок «Как работает процессор»: счётчик обходит две строки и уходит за последнюю', () => {
@@ -564,7 +564,7 @@ test('урок «Как писать в игре»: переставленные
 
     assert.equal(num(first, 'итог'), 5)
 
-    // А на втором круге уже двадцать пять: программа идёт по кругу
+    // А на втором круге уже двадцать пять: программа выполняется в бесконечном цикле
     const later = run(swapped, 20)
     assert.equal(num(later, 'итог'), 25)
 })
@@ -600,7 +600,7 @@ test('урок «Окно переменных»: в таблице видны �
     assert.equal(processor.get('@this').constant, true)
 })
 
-test('урок «Когда не работает»: первый круг считает верно, а доля остаётся пустой', () => {
+test('урок «Когда не работает»: первая итерация считает верно, а доля остаётся пустой', () => {
     const processor = run(DEBUG, 0)
 
     // Четыре шага — ровно один круг: урок просит пройти его руками
@@ -961,7 +961,7 @@ test('урок «Выбор значения без ветки»: перевёр
     assert.equal(obj(processor, 'надпись'), 'мало')
 })
 
-/** Сколько кругов программа успевает за секунду с разным хвостом. */
+/** Сколько итераций программа успевает за секунду с разным хвостом. */
 function roundsPerSecond(tail, type = 'hyper-processor') {
     const description = {
         width: 7, height: 5, floor: 'sand',
@@ -969,7 +969,7 @@ function roundsPerSecond(tail, type = 'hyper-processor') {
         processors: [{
             at: [3, 2],
             links: [],
-            program: ['op add кругов кругов 1', ...tail].join('\n')
+            program: ['op add итераций итераций 1', ...tail].join('\n')
         }]
     }
 
@@ -985,10 +985,10 @@ function roundsPerSecond(tail, type = 'hyper-processor') {
     world.processors = processors.map(entry => entry.building.processor)
     for (let tick = 0; tick < 60; tick++) world.step()
 
-    return num(processors[0].building.processor, 'кругов')
+    return num(processors[0].building.processor, 'итераций')
 }
 
-test('уроки про wait, end и stop: таблица кругов за секунду', () => {
+test('уроки про wait, end и stop: таблица итераций за секунду', () => {
     // Числа из таблицы урока, гиперпроцессор: 25 инструкций за такт
     assert.equal(roundsPerSecond([]), 1475)
     assert.equal(roundsPerSecond(['end']), 738)
@@ -1003,7 +1003,7 @@ test('урок «End»: круг обрывается, а строка под en
     // Урок просит четыре шага: это два круга по две инструкции
     for (let i = 0; i < 4; i++) processor.step()
 
-    assert.equal(num(processor, 'кругов'), 2)
+    assert.equal(num(processor, 'итераций'), 2)
     assert.equal(obj(processor, 'после'), null)
 })
 
@@ -1020,11 +1020,11 @@ test('уроки про wait и stop: секунда отмеряется, за 
     world.processors = processors.map(entry => entry.building.processor)
     for (let tick = 0; tick < 120; tick++) world.step()
 
-    assert.equal(num(processors[0].building.processor, 'кругов'), 2)
+    assert.equal(num(processors[0].building.processor, 'итераций'), 2)
 
     // А за stop программа не уходит ни разу
     const stopped = run(STOPPED, 120)
-    assert.equal(num(stopped, 'кругов'), 1)
+    assert.equal(num(stopped, 'итераций'), 1)
     assert.equal(obj(stopped, 'послеСтопа'), null)
 })
 
@@ -1043,7 +1043,7 @@ test('урок «Ритм программы»: два круга в секун�
 
     /*
      * Не десять: ожидание копит время по такту, и круг выходит в шесть тактов плюс
-     * такт на саму программу — девять кругов за секунду.
+     * такт на саму программу — девять итераций за секунду.
      */
     assert.equal(num(run(faster, 60), 'проверок'), 9)
 })
@@ -1084,7 +1084,7 @@ test('урок «Что во что печатается»: здание печ�
 })
 
 test('урок «Что во что печатается»: задание про тип блока и про треть', () => {
-    // Шагов ровно столько, сколько строк: лишний шаг пошёл бы на второй круг
+    // Шагов ровно столько, сколько строк: лишний шаг пошёл бы на вторая итерация
     const variant = (program, steps) => {
         const processor = run({...PIECES, processors: [{...PIECES.processors[0], program}]}, 0)
         for (let i = 0; i < steps; i++) processor.step()
@@ -1130,10 +1130,10 @@ test('урок «Print Flush»: буфер уходит в блок сообще
     assert.equal(message.message, 'меди: 120')
 })
 
-test('урок «Print Flush»: сброс выше печати отстаёт на круг', () => {
+test('урок «Print Flush»: сброс выше печати отстаёт на итерацию', () => {
     /*
      * Скрытая ошибка из урока: `printflush` первой строкой выглядит работающим, потому что
-     * программа идёт по кругу. Первый круг при этом отдаёт пустоту, а дальше в блоке всегда
+     * программа выполняется в бесконечном цикле. Первый круг при этом отдаёт пустоту, а дальше в блоке всегда
      * надпись прошлого круга.
      */
     const wrong = {
@@ -1246,7 +1246,7 @@ test('урок «Print Char»: у здания иконки нет, а у его
 
 test('урок «Ритм программы»: таймер на @time срабатывает раз в секунду', () => {
     /*
-     * Ритм отмеряется временем, а не числом кругов: `@time` — игровое время
+     * Ритм отмеряется временем, а не числом итераций: `@time` — игровое время
      * в миллисекундах, и «раз в секунду» остаётся разом в секунду при любой длине
      * программы и любом процессоре.
      */
@@ -1268,7 +1268,7 @@ test('урок «Ритм программы»: таймер на @time сраб
     assert.equal(num(processor, 'медь'), 120)
 
     // Круг при этом крутится на полной скорости: десятки проходов в секунду
-    assert.ok(num(processor, 'кругов') > 150, num(processor, 'кругов'))
+    assert.ok(num(processor, 'итераций') > 150, num(processor, 'итераций'))
 })
 
 /** Сцена целиком: уроки про память проверяют не только переменные, но и саму ячейку. */
@@ -1334,9 +1334,9 @@ test('урок «Запись в ячейку»: счётчик живёт в п
     // wait 0.5 — два круга в секунду; за две секунды их четыре
     const {processor, cell, message} = stage(STORE, 120)
 
-    assert.equal(num(processor, 'кругов'), 4)
+    assert.equal(num(processor, 'итераций'), 4)
     assert.equal(cell.memory[0], 4)
-    assert.equal(message, 'кругов: 4')
+    assert.equal(message, 'итераций: 4')
 })
 
 test('урок «Запись в ячейку»: задание про запись за границей', () => {
@@ -1344,14 +1344,14 @@ test('урок «Запись в ячейку»: задание про запи�
         ...STORE,
         processors: [{
             ...STORE.processors[0],
-            program: STORE.processors[0].program.replace('write кругов cell1 0', 'write кругов cell1 64')
+            program: STORE.processors[0].program.replace('write итераций cell1 0', 'write итераций cell1 64')
         }]
     }
 
     const {cell, message} = stage(lost, 120)
 
     // Читается всегда нулевое место, а запись уходит в никуда — счётчик замирает на единице
-    assert.equal(message, 'кругов: 1')
+    assert.equal(message, 'итераций: 1')
     assert.ok(cell.memory.every(value => value === 0))
 })
 
@@ -1410,13 +1410,13 @@ test('урок «Общая память»: задания про чужой а�
 test('урок «Переменные другого процессора»: сосед отдаёт и переменную, и связь', () => {
     const {processor, message} = stage(NEIGHBOUR, 60)
 
-    // Верхний считает круги с паузой 0.25 — за секунду их четыре
-    assert.equal(num(processor, 'кругов'), 4)
+    // Верхний считает итерации с паузой 0.25 — за секунду их четыре
+    assert.equal(num(processor, 'итераций'), 4)
 
     // Своей связи со складом у читающего нет: здание взято у соседа по имени его связи
     assert.equal(obj(processor, 'чужойСклад').type, 'container')
     assert.equal(num(processor, 'медь'), 120)
-    assert.equal(message, 'кругов 4, меди 120')
+    assert.equal(message, 'итераций 4, меди 120')
 })
 
 test('урок «Переменные другого процессора»: задания про чужое имя и номер связи', () => {
@@ -1429,11 +1429,11 @@ test('урок «Переменные другого процессора»: з�
     })
 
     // Нет ни переменной, ни связи с таким именем — и имя не кончается цифрой
-    assert.equal(stage(variant('"кругов"', '"круги"'), 60).message, 'кругов null, меди 120')
+    assert.equal(stage(variant('"итераций"', '"круги"'), 60).message, 'итераций null, меди 120')
 
     // Связь по номеру ноль — та же самая, а под первым номером у соседа ничего нет
-    assert.equal(stage(variant('"container1"', '0'), 60).message, 'кругов 4, меди 120')
-    assert.equal(stage(variant('"container1"', '1'), 60).message, 'кругов 4, меди null')
+    assert.equal(stage(variant('"container1"', '0'), 60).message, 'итераций 4, меди 120')
+    assert.equal(stage(variant('"container1"', '1'), 60).message, 'итераций 4, меди null')
 })
 
 test('урок «Знак из строки»: строка разбирается по знакам и собирается обратно', () => {

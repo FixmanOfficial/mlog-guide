@@ -26,7 +26,7 @@ export const TEMPLATE = {
     }]
 }
 
-/** Урок «Символы и иконки»: знак по коду и знак предмета. */
+/** Урок «Символы и иконки»: символ по коду и символ предмета. */
 export const CHARS = {
     width: 12, height: 7, floor: 'sand',
     blocks: [
