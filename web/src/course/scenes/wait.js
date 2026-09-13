@@ -70,3 +70,28 @@ export const RHYTHM = {
         ].join('\n')
     }]
 }
+
+/**
+ * Урок «Ритм программы», второй пример: медленная часть отмеряется временем.
+ *
+ * `@time` — игровое время в миллисекундах. Программа помнит срок и до него крутится
+ * вхолостую: за секунду круг проходит под шестьдесят раз, а `sensor` срабатывает один.
+ */
+export const TIMER = {
+    width: 11, height: 6, floor: 'sand',
+    blocks: [
+        {type: 'micro-processor', x: 2, y: 2},
+        {type: 'container', x: 7, y: 3, items: {copper: 120}}
+    ],
+    processors: [{
+        at: [2, 2],
+        links: ['container1'],
+        program: [
+            'op add кругов кругов 1',
+            'jump 0 lessThan @time срок',
+            'op add срок @time 1000',
+            'sensor медь container1 @copper',
+            'op add проверок проверок 1'
+        ].join('\n')
+    }]
+}

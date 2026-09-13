@@ -24,7 +24,7 @@ import {ASSIGN, CONTENT} from '../src/course/scenes/set.js'
 import {BRANCH, LOOP} from '../src/course/scenes/jump.js'
 import {COUNTER, RELATIVE} from '../src/course/scenes/advanced.js'
 import {CHOICE} from '../src/course/scenes/select.js'
-import {TICKS, STOPPED, ENDING, RHYTHM} from '../src/course/scenes/wait.js'
+import {TICKS, STOPPED, ENDING, RHYTHM, TIMER} from '../src/course/scenes/wait.js'
 import {BUFFER, PIECES, FLUSH} from '../src/course/scenes/print.js'
 import {TEMPLATE, CHARS} from '../src/course/scenes/format.js'
 import iconTable from '@mlog/core/data/icons.json' with {type: 'json'}
@@ -1236,4 +1236,31 @@ test('урок «Print Char»: у здания иконки нет, а у его
 
     assert.equal(variant('@container'), String.fromCharCode(iconTable.content.container))
     assert.equal(variant('container1'), '')
+})
+
+test('урок «Ритм программы»: таймер на @time срабатывает раз в секунду', () => {
+    /*
+     * Ритм отмеряется временем, а не числом кругов: `@time` — игровое время
+     * в миллисекундах, и «раз в секунду» остаётся разом в секунду при любой длине
+     * программы и любом процессоре.
+     */
+    const {world, processors} = buildScene(TIMER, {content})
+
+    for (const entry of processors) {
+        entry.building.processor = new Processor(entry.program, {
+            links: entry.links, world, content, globals: content.globals,
+            ipt: entry.building.spec.ipt, building: entry.building, team: entry.building.team
+        })
+    }
+
+    world.processors = processors.map(entry => entry.building.processor)
+    const processor = processors[0].building.processor
+
+    for (let tick = 0; tick < 180; tick++) world.step()
+
+    assert.equal(num(processor, 'проверок'), 3)
+    assert.equal(num(processor, 'медь'), 120)
+
+    // Круг при этом крутится на полной скорости: десятки проходов в секунду
+    assert.ok(num(processor, 'кругов') > 150, num(processor, 'кругов'))
 })
