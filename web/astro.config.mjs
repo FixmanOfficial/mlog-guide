@@ -10,7 +10,7 @@ import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
 import ru from '@mlog/core/data/i18n/ru.json' with {type: 'json'}
 import en from '@mlog/core/data/i18n/en.json' with {type: 'json'}
 
-import {PARTS, partGroups} from './src/course/parts.js'
+import {PARTS} from './src/course/parts.js'
 
 /**
  * Инструкции в боковом меню — категориями и в свёрнутом виде.
@@ -56,40 +56,55 @@ function instructionGroups() {
 function courseParts() {
     const lessons = fileURLToPath(new URL('src/content/docs/ru/course/', import.meta.url))
 
+    const groupItem = (group) => {
+        const label = group.opcode === undefined ? group.title : instructionName(group.opcode)
+        const translations = group.en === undefined ? undefined : {en: group.en}
+
+        /*
+         * Группа из одного урока — это сам урок: у `end` и `stop` разговора на два урока
+         * нет, и раскрывающийся список с единственным «Обзором» был бы издевательством.
+         * Ссылка ведёт прямо на страницу.
+         */
+        const alone = readdirSync(join(lessons, group.id))
+            .filter(name => name.endsWith('.mdx')).length === 1
+
+        return alone
+            ? {label, translations, link: `course/${group.id}`}
+            : {label, translations, autogenerate: {directory: `course/${group.id}`}}
+    }
+
+    /** Категория с написанными группами внутри, или null, если писать ещё нечего. */
+    const categoryItem = (entry) => {
+        const groups = entry.groups
+            .filter(group => existsSync(join(lessons, group.id)))
+            .map(groupItem)
+
+        if (groups.length === 0) return null
+
+        return {
+            label: ru.logic.categories[entry.category] ?? entry.category,
+            translations: {en: en.logic.categories[entry.category] ?? entry.category},
+            items: groups
+        }
+    }
+
     return PARTS
         .map(part => {
-            const groups = partGroups(part)
-                .filter(group => existsSync(join(lessons, group.id)))
-                .map(group => {
-                    const label = group.opcode === undefined
-                        ? group.title
-                        : instructionName(group.opcode)
-
-                    const translations = group.en === undefined ? undefined : {en: group.en}
-
-                    /*
-                     * Группа из одного урока — это сам урок: у `end` и `stop` разговора
-                     * на два урока нет, и раскрывающийся список с единственным «Обзором»
-                     * был бы издевательством. Ссылка ведёт прямо на страницу.
-                     */
-                    const alone = readdirSync(join(lessons, group.id))
-                        .filter(name => name.endsWith('.mdx')).length === 1
-
-                    return alone
-                        ? {label, translations, link: `course/${group.id}`}
-                        : {label, translations, autogenerate: {directory: `course/${group.id}`}}
-                })
-
-            if (groups.length === 0) return null
-
-            // Часть-тема — это одна группа, и второго уровня ей не нужно
-            if (part.category === undefined) return groups[0]
-
-            return {
-                label: ru.logic.categories[part.category] ?? part.category,
-                translations: {en: en.logic.categories[part.category] ?? part.category},
-                items: groups
+            // Часть-тема — это одна группа, и уровней внутри ей не нужно
+            if (part.categories === undefined) {
+                return existsSync(join(lessons, part.group.id)) ? groupItem(part.group) : null
             }
+
+            const categories = part.categories.map(categoryItem).filter(entry => entry !== null)
+            if (categories.length === 0) return null
+
+            /*
+             * Одна категория — её имя не повторяет имени части: «Мировой процессор» и «Мир»
+             * это одно и то же, и вкладывать одно в другое незачем.
+             */
+            const items = categories.length === 1 ? categories[0].items : categories
+
+            return {label: part.title, translations: {en: part.en}, items}
         })
         .filter(part => part !== null)
 }

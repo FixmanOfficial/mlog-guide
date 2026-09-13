@@ -37,6 +37,30 @@ test('чтение за границей памяти даёт не ноль, а
     assert.equal(result.objval, null)
 })
 
+test('ячейка хранит объект объектом, а не единицей', () => {
+    /*
+     * `MemoryBlock.write` кладёт объект в `objectMemory`, а число в `numberMemory`
+     * с меткой `sentinel`; `read` отдаёт то, что лежало. Положенное следом число
+     * вытесняет объект.
+     */
+    const content = createContent(logicIds)
+    const world = new World()
+    const cell = world.add('memory-cell')
+
+    const processor = new Processor([
+        'write @copper cell1 0',
+        'read result cell1 0',
+        'write 7 cell1 0',
+        'read again cell1 0'
+    ].join('\n'), {world, links: [cell], content, globals: content.globals})
+
+    world.addProcessor(processor)
+    processor.run(4)
+
+    assert.equal(processor.get('result').objval.name, 'copper')
+    assert.equal(processor.num('again'), 7)
+})
+
 test('запись за границей памяти молча игнорируется', () => {
     const {processor, links} = setup('write 42 cell1 999')
     processor.run(1)

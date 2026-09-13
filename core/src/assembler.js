@@ -505,7 +505,10 @@ const builders = {
                 const object = target.obj()
 
                 if (object !== null && typeof object.read === 'function') {
-                    output.setnum(object.read(position.num() | 0))
+                    // Ячейка хранит и числа, и объекты, и отдаёт что положили. MemoryBlock.read
+                    const stored = object.read(position.numi())
+                    if (typeof stored === 'number') output.setnum(stored)
+                    else output.setobj(stored ?? null)
                 } else if (Array.isArray(object)) {
                     // Список: так читается @queries, который наполняет `query`
                     const index = position.num() | 0
@@ -529,9 +532,10 @@ const builders = {
         return {
             run: () => {
                 const object = target.obj()
-                if (object !== null && typeof object.write === 'function') {
-                    object.write(position.num() | 0, value.num())
-                }
+                if (object === null || typeof object.write !== 'function') return
+
+                // Объект кладётся объектом, число числом — MemoryBlock.write различает их
+                object.write(position.numi(), value.isobj ? value.objval : value.numval)
             }
         }
     },

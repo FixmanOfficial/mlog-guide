@@ -635,11 +635,29 @@ export const ITEM_ORDER = Object.entries(materials.items)
 /** LVar.bool: порог 1e-5. Здесь он же, чтобы control вёл себя как в игре. */
 const truthy = (value) => typeof value === 'number' ? Math.abs(value) >= 0.00001 : value !== null
 
-/** Ячейка и банк памяти. Чтение за границами даёт NaN, а не ноль. MemoryBlock.java */
+/**
+ * Ячейка и банк памяти. MemoryBlock.java
+ *
+ * Хранит не только числа: `write` кладёт объект как объект (`objectMemory`), а число как
+ * число (`numberMemory`), и `read` отдаёт обратно то же самое. В игре это два массива
+ * и метка `sentinel`, потому что в Java они разных типов; в JS хватает одного массива.
+ *
+ * Чтение за границей даёт **пустое значение, а не ноль** — в `MemoryBlock.read` это
+ * написано отдельным комментарием.
+ */
 export class MemoryBuilding extends Building {
-    constructor(world, type, options) {
+    constructor(world, type, options = {}) {
         super(world, type, options)
-        this.memory = new Float64Array(this.spec.memoryCapacity ?? 64)
+
+        this.memory = new Array(this.spec.memoryCapacity ?? 64).fill(0)
+
+        // Карта может прийти с заполненной ячейкой: её содержимое лежит в сохранении
+        const preset = options.memory ?? []
+        for (let address = 0; address < preset.length && address < this.memory.length; address++) {
+            this.memory[address] = preset[address]
+        }
+
+        this.preset = preset
     }
 
     sense(property) {
@@ -650,10 +668,13 @@ export class MemoryBuilding extends Building {
     reset() {
         super.reset()
         this.memory.fill(0)
+        for (let address = 0; address < this.preset.length && address < this.memory.length; address++) {
+            this.memory[address] = this.preset[address]
+        }
     }
 
     read(address) {
-        return address < 0 || address >= this.memory.length ? NaN : this.memory[address]
+        return address < 0 || address >= this.memory.length ? null : this.memory[address]
     }
 
     write(address, value) {

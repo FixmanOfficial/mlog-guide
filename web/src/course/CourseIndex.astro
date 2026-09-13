@@ -1,10 +1,12 @@
 ---
 /**
- * Список курса: части, в них группы, в группах уроки с кружком сложности.
+ * Список курса: части, в них категории игры, в категориях группы, в группах уроки
+ * с кружком сложности.
  *
- * Части — это категории самой игры, те же, что в меню «Добавить»: читатель уже знает,
- * что `sensor` живёт в «Управлении блоками», и искать его будет там же. «Основы»
- * и «Продвинутое» стоят по краям отдельными частями — они не про инструкции.
+ * Часть отвечает на «чем я занят»: язык, логический процессор, мировой, приёмы поверх
+ * инструкций. Категория — та же, что в меню «Добавить»: читатель уже знает, что `sensor`
+ * живёт в «Управлении блоками», и искать его будет там же. Раскладка описана один раз,
+ * в `parts.js`.
  *
  * Группы независимы: пришедший за юнитами открывает нужную и читает её, а не проходит
  * курс по порядку; что нужно знать заранее, каждая пишет у себя вверху.
@@ -29,15 +31,18 @@ const parts = await courseParts(locale, categoryName)
 
 const TEXT = {
     ru: {
-        intro: 'Курс разложен по тем же частям, что и меню «Добавить» в игре: группа — '
+        intro: 'Курс разложен по тому, чем вы заняты: язык, логический процессор, мировой '
+            + 'и приёмы поверх инструкций. Внутри — категории и группы из самой игры: группа — '
             + 'инструкция, урок — одна её грань. Группы независимы: за юнитами можно идти '
             + 'сразу в них, а что нужно знать заранее, написано в начале каждой.',
         legend: 'Сложность'
     },
     en: {
-        intro: 'The course follows the same parts as the in-game «Add» menu: a group is an '
-            + 'instruction, a lesson is one facet of it. Groups are independent — go straight '
-            + 'to the unit ones; each says up front what you need to know first.',
+        intro: 'The course is split by what you are doing: the language, the logic processor, '
+            + 'the world processor, and the techniques on top. Inside are the same categories '
+            + 'and groups the game itself uses: a group is an instruction, a lesson is one '
+            + 'facet of it. Groups are independent — go straight to the unit ones; each says '
+            + 'up front what you need to know first.',
         legend: 'Difficulty'
     }
 }
@@ -63,23 +68,31 @@ const color = (key) => key === null ? undefined : `--category: ${CATEGORY_COLORS
 </div>
 
 {parts.map(part => (
-    <section class="part" style={color(part.category)}>
-        <h2 id={part.name} class={part.category === null ? undefined : 'part__name'}>
-            {part.groups.length === 1 && part.groups[0].title === null
-                ? <a class="group__name" href={part.groups[0].href}>{part.title}</a>
-                : part.title}
+    <section class="part">
+        <h2 id={part.name}>
+            {part.href === null
+                ? part.title
+                : <a class="group__name" href={part.href}>{part.title}</a>}
         </h2>
 
-        {part.groups.map(group => (
-            <>
-                {group.title === null ? null : (
-                    <h3 id={group.name}>
-                        <a class="group__name" href={group.href}>{group.title}</a>
-                    </h3>
+        {part.sections.map(section => (
+            <div class="part__category" style={color(section.category)}>
+                {section.title === null ? null : (
+                    <h3 id={section.name} class="part__name">{section.title}</h3>
                 )}
-                {group.lead === null ? null : <p class="group__lead">{group.lead}</p>}
-                <LessonList locale={locale} group={group.name} />
-            </>
+
+                {section.groups.map(group => (
+                    <>
+                        {group.title === null ? null : (
+                            <h4 id={group.name}>
+                                <a class="group__name" href={group.href}>{group.title}</a>
+                            </h4>
+                        )}
+                        {group.lead === null ? null : <p class="group__lead">{group.lead}</p>}
+                        <LessonList locale={locale} group={group.name} />
+                    </>
+                ))}
+            </div>
         ))}
     </section>
 ))}

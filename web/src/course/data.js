@@ -16,7 +16,7 @@
 
 import {getCollection} from 'astro:content'
 
-import {GROUPS, PARTS, partGroups} from './parts.js'
+import {GROUPS, PARTS} from './parts.js'
 
 export {GROUPS, PARTS} from './parts.js'
 
@@ -92,10 +92,10 @@ export async function courseGroups(locale) {
 }
 
 /**
- * Курс частями: у части либо своя группа («Основы»), либо категория игры с группами внутри.
+ * Курс частями: у части либо своя группа («Основы»), либо категории игры, а в них группы.
  *
- * Пустые части выпадают: пока в категории не написано ни одного урока, показывать её
- * незачем.
+ * Пустое выпадает на каждом уровне: пока в категории не написано ни одного урока, показывать
+ * её незачем, а часть без единой написанной категории не показывается вовсе.
  */
 export async function courseParts(locale, categoryName = (key) => key) {
     const groups = await courseGroups(locale)
@@ -103,18 +103,49 @@ export async function courseParts(locale, categoryName = (key) => key) {
     const parts = []
 
     for (const part of PARTS) {
-        const inside = partGroups(part)
-            .map(group => found.get(group.id))
-            .filter(group => group !== undefined)
+        /*
+         * Часть-тема: заголовком служит сама группа, и внутри у неё ничего не повторяется.
+         * Так устроены «Основы» и «Продвинутое».
+         */
+        if (part.categories === undefined) {
+            const group = found.get(part.group.id)
+            if (group === undefined) continue
 
-        if (inside.length === 0) continue
+            parts.push({
+                name: part.group.id,
+                title: group.title,
+                href: group.href,
+                sections: [{
+                    name: part.group.id,
+                    title: null,
+                    category: null,
+                    groups: [{...group, title: null}]
+                }]
+            })
+            continue
+        }
+
+        const sections = part.categories
+            .map(entry => ({
+                name: entry.category,
+                title: categoryName(entry.category),
+                category: entry.category,
+                groups: entry.groups
+                    .map(group => found.get(group.id))
+                    .filter(group => group !== undefined)
+            }))
+            .filter(section => section.groups.length > 0)
+
+        if (sections.length === 0) continue
+
+        // Единственная категория не подписывается: её имя повторило бы имя части
+        if (sections.length === 1) sections[0].title = null
 
         parts.push({
-            name: part.category ?? part.group.id,
-            title: part.category === undefined ? inside[0].title : categoryName(part.category),
-            category: part.category ?? null,
-            // У части из одной своей группы заголовок и есть эта группа: второй раз не повторяем
-            groups: part.category === undefined ? [{...inside[0], title: null}] : inside
+            name: part.id,
+            title: locale === 'ru' ? part.title : part.en ?? part.title,
+            href: null,
+            sections
         })
     }
 
