@@ -68,6 +68,112 @@ test('запись за границей памяти молча игнорир�
     assert.ok(links[0].memory.every(value => value === 0))
 })
 
+/**
+ * Процессор как `LReadable`: сосед читается по имени переменной.
+ *
+ * `LogicBlock.LogicBuild.read/write`. Собирается вручную, потому что нужен второй процессор
+ * со своей программой, а `setup` делает один.
+ */
+function pair(first, second) {
+    const world = new World()
+    const a = world.add('micro-processor', {x: 1, y: 1})
+    const b = world.add('micro-processor', {x: 5, y: 1})
+    const cell = world.add('memory-cell', {x: 8, y: 1})
+
+    a.processor = new Processor(first, {links: [b], world, building: a})
+    b.processor = new Processor(second, {links: [cell], world, building: b})
+
+    world.addProcessor(a.processor)
+    world.addProcessor(b.processor)
+
+    return {world, a: a.processor, b: b.processor, blocks: {a, b}, cell}
+}
+
+test('read достаёт переменную соседнего процессора по имени', () => {
+    const {world, a} = pair('read чужое processor2 "счёт"', 'set счёт 42')
+
+    // Сосед должен успеть выставить переменную: первый круг читает пустоту
+    for (let i = 0; i < 6; i++) world.step()
+
+    assert.equal(a.num('чужое'), 42)
+})
+
+test('нет такой переменной — отдаётся связь соседа с этим именем', () => {
+    /*
+     * `optionalLink`: имя связи всегда кончается цифрой, и по нему у соседа ищется здание.
+     * Своей связи с ячейкой у читающего при этом нет вовсе.
+     */
+    const {world, a, cell} = pair([
+        'read ячейка processor2 "cell1"',
+        'read ниЧего processor2 "склад"'
+    ].join('\n'), 'set счёт 42')
+
+    for (let i = 0; i < 6; i++) world.step()
+
+    assert.equal(a.get('ячейка').objval, cell)
+    assert.equal(a.get('ниЧего').objval, null)
+})
+
+test('адрес числом отдаёт связь соседа по номеру', () => {
+    const {world, a, cell} = pair([
+        'read первая processor2 0',
+        'read второй processor2 1'
+    ].join('\n'), 'set счёт 42')
+
+    for (let i = 0; i < 6; i++) world.step()
+
+    assert.equal(a.get('первая').objval, cell)
+    assert.equal(a.get('второй').objval, null)
+})
+
+test('write кладёт значение в переменную соседа, но не заводит новую', () => {
+    // У соседа программа из одного круга: иначе он затирал бы записанное своим же `set`
+    const {world, b} = pair([
+        'write 99 processor2 "принято"',
+        'write 7 processor2 "новая"'
+    ].join('\n'), 'set принято 0\nstop')
+
+    for (let i = 0; i < 6; i++) world.step()
+
+    assert.equal(b.num('принято'), 99)
+    assert.equal(b.get('новая'), undefined)
+})
+
+test('константы закрыты: их не переписать у соседа и не подменить чтением', () => {
+    /*
+     * `LogicBuild.write` проверяет `at.constant`, а `read` — `output.constant`: копирование
+     * переменной в константу не происходит вовсе. Проверяется прямо по этому уговору:
+     * константы вроде `@pi` живут в общей таблице, а не среди переменных программы.
+     */
+    const {world, b, blocks} = pair('stop', 'set счёт 42')
+
+    for (let i = 0; i < 4; i++) world.step()
+
+    // Чтение в константу отказывается «ничего не делать», а в обычную переменную идёт
+    assert.equal(blocks.b.read('счёт', null, {constant: true}), undefined)
+    assert.equal(blocks.b.read('счёт', null, {constant: false}), 42)
+
+    // Связь по имени в константу положить можно: в игре проверка стоит только на копировании
+    assert.equal(blocks.b.read('cell1', null, {constant: true})?.type, 'memory-cell')
+
+    b.get('счёт').constant = true
+    blocks.b.write('счёт', 7)
+    assert.equal(b.num('счёт'), 42)
+})
+
+test('через @this процессор читает собственную переменную и свои связи', () => {
+    const {world, a} = pair([
+        'set своё 8',
+        'read копия @this "своё"',
+        'read связь @this 0'
+    ].join('\n'), 'stop')
+
+    for (let i = 0; i < 6; i++) world.step()
+
+    assert.equal(a.num('копия'), 8)
+    assert.equal(a.get('связь').objval.type, 'micro-processor')
+})
+
 test('print собирает буфер, printflush отдаёт его в блок сообщений', () => {
     const {processor, links} = setup('print "заряд "\nprint 63\nprintflush message1')
     processor.run(3)

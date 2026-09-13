@@ -674,12 +674,76 @@ export class MemoryBuilding extends Building {
     }
 
     read(address) {
+        if (typeof address !== 'number') return null
         return address < 0 || address >= this.memory.length ? null : this.memory[address]
     }
 
     write(address, value) {
+        if (typeof address !== 'number') return
         if (address < 0 || address >= this.memory.length) return
         this.memory[address] = value
+    }
+}
+
+/**
+ * Логический процессор как блок. LogicBlock.LogicBuild
+ *
+ * Он тоже читается и пишется — и это не память, а его собственные переменные:
+ *
+ *  - адрес строкой — имя переменной у соседа. Нет такой переменной — отдаётся его **связь**
+ *    с этим именем (`optionalLink`), и потому `read блок процессор1 "cell1"` достаёт ячейку,
+ *    подключённую к соседу, а не к нам;
+ *  - адрес числом — связь соседа по номеру, как `getlink` у него самого;
+ *  - запись работает только по имени и только по существующей непостоянной переменной:
+ *    завести соседу новую нельзя, испортить константу — тоже.
+ *
+ * Привилегированный блок закрыт: мировой процессор читается только мировым. Команду не
+ * проверяем — в песочнице она одна. `readable(exec)`
+ */
+export class LogicBuilding extends Building {
+    read(address, reader = null, output = null) {
+        const processor = this.processor
+        if (processor === undefined || processor === null) return null
+        if (this.spec.privileged && reader?.privileged !== true) return null
+
+        if (typeof address === 'string') {
+            const variable = processor.get(address)
+            if (variable === undefined) return this.linkNamed(address)
+
+            // Копировать переменную в константу нельзя, а связь по имени положить можно
+            if (output !== null && output.constant) return undefined
+
+            return variable.isobj ? variable.objval : variable.numval
+        }
+
+        return processor.links[address] ?? null
+    }
+
+    write(address, value, writer = null) {
+        if (typeof address !== 'string') return
+
+        const processor = this.processor
+        if (processor === undefined || processor === null) return
+        if (this.spec.privileged && writer?.privileged !== true) return
+
+        const variable = processor.get(address)
+        if (variable === undefined || variable.constant) return
+
+        if (typeof value === 'number') variable.setnum(value)
+        else variable.setobj(value)
+    }
+
+    /**
+     * Связь по её имени. В игре перед поиском стоит быстрая проверка: имя связи всегда
+     * кончается цифрой, и без неё в карту связей лезть незачем. `optionalLink`
+     */
+    linkNamed(name) {
+        if (name.length === 0) return null
+
+        const last = name[name.length - 1]
+        if (last < '0' || last > '9') return null
+
+        return this.processor.links.find(building => building.name === name) ?? null
     }
 }
 
@@ -855,6 +919,7 @@ export class DoorBuilding extends Building {
  * хранилище и оба усиленных.
  */
 const BUILDERS = {
+    LogicBlock: LogicBuilding,
     MemoryBlock: MemoryBuilding,
     LogicDisplay: DisplayBuilding,
     MessageBlock: MessageBuilding,

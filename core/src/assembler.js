@@ -327,6 +327,17 @@ function printValue(variable) {
     return javaDoubleToString(variable.numval)
 }
 
+/**
+ * Адрес для `read` и `write`: строка остаётся строкой, всё прочее становится целым числом.
+ *
+ * Кому что значит адрес, решает сам блок: у памяти это номер места, у процессора — имя
+ * переменной. В игре `LReadable.read` получает переменную целиком и разбирается сам;
+ * здесь до блока доходит уже её содержимое. LogicBlock.LogicBuild.read
+ */
+const readAddress = (position) => position.isobj && typeof position.objval === 'string'
+    ? position.objval
+    : position.numi()
+
 export class Assembler {
     /**
      * @param options.globals дополнительные константы: @copper, @router и прочий контент игры
@@ -494,19 +505,26 @@ const builders = {
         }
     },
 
-    // EndI ставит счётчик за последнюю инструкцию, а не в ноль: на ноль его вернёт следующий шаг
     read: (asm, params) => {
         const output = asm.var(params[0] ?? 'result')
         const target = asm.var(params[1] ?? 'cell1')
         const position = asm.var(params[2] ?? '0')
 
         return {
-            run: () => {
+            run: (vm) => {
                 const object = target.obj()
 
                 if (object !== null && typeof object.read === 'function') {
-                    // Ячейка хранит и числа, и объекты, и отдаёт что положили. MemoryBlock.read
-                    const stored = object.read(position.numi())
+                    /*
+                     * Читается не только память: процессор отдаёт переменную по имени, а любой
+                     * `LReadable` сам решает, что значит адрес. Поэтому адрес идёт как есть —
+                     * строкой или числом, — а не приведённым к целому. LExecutor.ReadI
+                     *
+                     * `undefined` в ответ означает «ничего не делать»: так процессор отказывает
+                     * в копировании переменной в константу.
+                     */
+                    const stored = object.read(readAddress(position), vm, output)
+                    if (stored === undefined) return
                     if (typeof stored === 'number') output.setnum(stored)
                     else output.setobj(stored ?? null)
                 } else if (Array.isArray(object)) {
@@ -530,12 +548,12 @@ const builders = {
         const position = asm.var(params[2] ?? '0')
 
         return {
-            run: () => {
+            run: (vm) => {
                 const object = target.obj()
                 if (object === null || typeof object.write !== 'function') return
 
                 // Объект кладётся объектом, число числом — MemoryBlock.write различает их
-                object.write(position.numi(), value.isobj ? value.objval : value.numval)
+                object.write(readAddress(position), value.isobj ? value.objval : value.numval, vm)
             }
         }
     },
