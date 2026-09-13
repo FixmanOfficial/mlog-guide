@@ -22,7 +22,7 @@ import {VALUES, EMPTINESS, PROCESSOR, EDITOR, WATCH, DEBUG, NAMES, LINKS} from '
 import {linkName} from '@mlog/core/src/world.js'
 import {ASSIGN, CONTENT} from '../src/course/scenes/set.js'
 import {BRANCH, LOOP} from '../src/course/scenes/jump.js'
-import {COUNTER, RELATIVE} from '../src/course/scenes/advanced.js'
+import {COUNTER, RELATIVE, PRECISE} from '../src/course/scenes/advanced.js'
 import {CHOICE} from '../src/course/scenes/select.js'
 import {TICKS, STOPPED, ENDING, RHYTHM, TIMER} from '../src/course/scenes/wait.js'
 import {BUFFER, PIECES, FLUSH} from '../src/course/scenes/print.js'
@@ -1706,4 +1706,19 @@ test('урок «Стрельба»: shootp ведёт цель с упрежд�
 
     // Флара под обстрелом: 70 здоровья против девяти за попадание
     assert.ok(world.units[0].health < 70, world.units[0].health)
+})
+
+test('урок «Число внутри»: младший бит теряется за 2 в 53-й', () => {
+    const processor = run(PRECISE, 40)
+
+    // 2⁵² плюс единица — честное число: значащих битов хватает
+    assert.equal(num(processor, 'сОдной'), Math.pow(2, 52) + 1)
+
+    // 2⁵³ плюс единица — уже нет: остаётся ровно 2⁵³
+    assert.equal(num(processor, 'безЕдиницы'), Math.pow(2, 53))
+    assert.equal(num(processor, 'проверка'), 0)
+
+    // Дроби хранятся приближённо, и урок называет обе цифры вслух
+    assert.equal(num(processor, 'дробь'), 0.30000000000000004)
+    assert.ok(Math.abs(num(processor, 'ошибка') - 5.551115123125783e-17) < 1e-30)
 })
