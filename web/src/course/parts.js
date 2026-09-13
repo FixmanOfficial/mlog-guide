@@ -32,6 +32,12 @@ const ORDER = new Map(schema.instructions.map((entry, index) => [entry.opcode, i
 const categoryOf = (opcode) =>
     schema.instructions.find(entry => entry.opcode === opcode)?.category ?? 'unknown'
 
+/**
+ * Место группы в категории: у инструкции — её место в меню «Добавить», у группы без
+ * инструкции — своё число. Введение части стоит первым, поэтому у него минус единица.
+ */
+const place = (group) => group.order ?? ORDER.get(group.opcode) ?? Infinity
+
 /** Порядок категорий — объявление `LCategory.all`. */
 const CATEGORIES = Object.keys(schema.categories)
 
@@ -53,44 +59,26 @@ function byCategory(groups) {
         .sort(([first], [second]) => CATEGORIES.indexOf(first) - CATEGORIES.indexOf(second))
         .map(([category, inside]) => ({
             category,
-            groups: inside.sort((a, b) =>
-                (ORDER.get(a.opcode) ?? Infinity) - (ORDER.get(b.opcode) ?? Infinity))
+            groups: inside.sort((a, b) => place(a) - place(b))
         }))
 }
 
-/** Группы логического процессора: папка уроков и инструкция, по которой она названа. */
-const LOGIC = [
-    {id: 'set', opcode: 'set'},
-    {id: 'op', opcode: 'op'},
-    {id: 'select', opcode: 'select'},
-    {id: 'lookup', opcode: 'lookup'},
+/**
+ * Группа на каждую инструкцию — список берётся из схемы целиком.
+ *
+ * Своего списка здесь нет намеренно: **у каждой инструкции своя группа**, и папка уроков
+ * называется её опкодом. Стоит игре завести новую инструкцию — она появится в курсе сама,
+ * пустой группой, и это правильнее, чем молча её потерять.
+ *
+ * Выпадает одна: `noop` помечена в схеме как `invalid` — это не инструкция, а пустая строка,
+ * которую редактор подставляет вместо незнакомой.
+ */
+const groupsOf = (categories) => schema.instructions
+    .filter(entry => categories.includes(entry.category) && entry.invalid !== true)
+    .map(entry => ({id: entry.opcode, opcode: entry.opcode}))
 
-    {id: 'jump', opcode: 'jump'},
-    {id: 'wait', opcode: 'wait'},
-    {id: 'end', opcode: 'end'},
-    {id: 'stop', opcode: 'stop'},
-
-    {id: 'print', opcode: 'print'},
-    {id: 'format', opcode: 'format'},
-    {id: 'printchar', opcode: 'printchar'},
-    {id: 'printflush', opcode: 'printflush'},
-    {id: 'read', opcode: 'read'},
-    {id: 'write', opcode: 'write'},
-    {id: 'draw', opcode: 'draw'},
-    {id: 'drawflush', opcode: 'drawflush'},
-
-    {id: 'sensor', opcode: 'sensor'},
-    {id: 'control', opcode: 'control'},
-    {id: 'radar', opcode: 'radar'},
-
-    {id: 'ubind', opcode: 'ubind'},
-    {id: 'ucontrol', opcode: 'ucontrol'},
-    {id: 'uradar', opcode: 'uradar'},
-    {id: 'ulocate', opcode: 'ulocate'}
-]
-
-/** Мировые инструкции разбирает одна группа: их два десятка, и поодиночке они не живут. */
-const WORLD = [{id: 'world', title: 'Мир', en: 'World', category: 'world'}]
+/** Категории логического процессора — все, кроме мировой. */
+const LOGIC_CATEGORIES = ['io', 'block', 'operation', 'control', 'unit']
 
 export const PARTS = [
     {group: {id: 'basics', title: 'Основы', en: 'Basics'}},
@@ -99,14 +87,22 @@ export const PARTS = [
         id: 'logic',
         title: 'Логический процессор',
         en: 'Logic processor',
-        categories: byCategory(LOGIC)
+        categories: byCategory(groupsOf(LOGIC_CATEGORIES))
     },
 
     {
         id: 'world-processor',
         title: 'Мировой процессор',
         en: 'World processor',
-        categories: byCategory(WORLD)
+        categories: byCategory([
+            /*
+             * Введение части: оно не про инструкцию, а про сам блок — откуда он берётся
+             * и чем отличается. Без него читатель попадает сразу в `setrule` и не понимает,
+             * почему у него это не работает.
+             */
+            {id: 'world-intro', title: 'Что это такое', en: 'What it is', category: 'world', order: -1},
+            ...groupsOf(['world'])
+        ])
     },
 
     {group: {id: 'advanced', title: 'Продвинутое', en: 'Advanced'}}
