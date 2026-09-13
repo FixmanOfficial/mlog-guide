@@ -21,6 +21,7 @@ import {useEffect, useMemo, useRef, useState} from 'preact/hooks'
 import {Editor, fromText, applyEasings, applyMetrics, applyNinePatches} from '@mlog/editor'
 import {Icon} from '@mlog/editor/src/Icon.jsx'
 import {restoreLocalization, setLocalization, useLocalization} from '@mlog/editor/src/names.js'
+import {DisplayView} from '@mlog/render/src/display.js'
 import {WorldView} from '@mlog/render/src/world.js'
 
 // ?url обязателен: иначе Astro пропускает картинку через свой конвейер и отдаёт объект
@@ -33,6 +34,7 @@ import blockSprites from '@mlog/core/data/block-sprites.json'
 import unitSprites from '@mlog/core/data/unit-sprites.json'
 import terrainSprites from '@mlog/core/data/terrain-sprites.json'
 import teams from '@mlog/core/data/teams.json'
+import logicFontUrl from '@mlog/render/assets/logic.ttf'
 
 import {createScene, attachProcessor} from '../sandbox/scene.js'
 import {Variables} from '../game/Variables.jsx'
@@ -83,6 +85,20 @@ function fitTile({stage, varsHeight}, world) {
 }
 
 /** Потолок разового скачка времени, как в игре: `Vars.maxDeltaClient`. */
+/**
+ * Перерисовка стенда: сначала дисплей, потом карта.
+ *
+ * Порядок важен: мир берёт картинку дисплея готовой, и рисуй он первым — на карте остался бы
+ * прошлый кадр.
+ */
+function redraw(stand) {
+    if (stand.display !== null && stand.display !== undefined) {
+        stand.displayView?.draw(stand.display)
+    }
+
+    stand.view?.draw({configured: null, cursor: null})
+}
+
 const MAX_DELTA = 4
 
 /**
@@ -201,7 +217,7 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
 
         for (let i = 0; i < tick; i++) scene.world.step()
 
-        return {scene, view: null}
+        return {scene, view: null, display: null, displayView: null}
     }, [generation])
 
     // Холст и картинки — уже после отрисовки: на сервере ни того, ни другого нет
@@ -228,19 +244,40 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
 
             const [atlas, blocks, units, terrain] = images
 
+            /*
+             * Дисплей на карте рисует не мир, а отдельный холст: у него свои пиксели и свой
+             * порядок команд. Мир получает готовую картинку и кладёт её на место блока —
+             * так же, как это устроено в песочнице.
+             */
+            const display = scene.world.buildings
+                .find(building => building.spec.displaySize !== undefined) ?? null
+
+            const displayView = display === null ? null : new DisplayView(
+                document.createElement('canvas'),
+                {size: display.spec.displaySize, pixelRatio: 4, atlas, sprites})
+
             const view = new WorldView(canvas.current, {
                 world: scene.world,
                 tile,
                 blocks, blockSprites, units, unitSprites, terrain, terrainSprites,
                 teams, atlas, sprites,
                 font: 'Mindustry',
-                displays: new Map()
+                displays: displayView === null ? new Map() : new Map([[display, displayView.canvas]])
             })
 
             stand.view = view
+            stand.display = display
+            stand.displayView = displayView
+
+            // Шрифт дисплея грузит страница: рендер только называет семейство
+            if (displayView !== null) {
+                const font = new FontFace('MlogLogic', `url(${logicFontUrl})`)
+                document.fonts.add(font)
+                font.load().then(() => redraw(stand), () => {})
+            }
 
             // decode вместо события load: картинка из кеша успевает загрузиться раньше подписки
-            const draw = () => view.draw({configured: null, cursor: null})
+            const draw = () => redraw(stand)
             for (const image of images) image.decode().then(draw, () => {})
             draw()
         }
@@ -275,7 +312,7 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
 
             view.tile = tile
             view.resize()
-            view.draw({configured: null, cursor: null})
+            redraw(stand)
         }
 
         fit()
@@ -299,12 +336,12 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
     useEffect(() => {
         if (!ready) return
 
-        const {scene, view} = stand
+        const {scene} = stand
         const entry = scene.processors[0]
         if (entry === undefined) return
 
         attachProcessor(scene, entry, program)
-        view?.draw({configured: null, cursor: null})
+        redraw(stand)
         setBeat(beat => beat + 1)
     }, [program, ready])
 
@@ -316,12 +353,12 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
         let last = performance.now()
 
         const step = (time) => {
-            const {scene, view} = stand
+            const {scene} = stand
             const delta = Math.min((time - last) / 1000 * 60, MAX_DELTA)
             last = time
 
             scene.world.step(delta)
-            view?.draw({configured: null, cursor: null})
+            redraw(stand)
             setBeat(beat => beat + 1)
 
             frame = requestAnimationFrame(step)
@@ -335,7 +372,7 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
 
     const single = () => {
         processor?.step()
-        stand.view?.draw({configured: null, cursor: null})
+        redraw(stand)
         setBeat(beat => beat + 1)
     }
 

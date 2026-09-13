@@ -30,6 +30,9 @@ import {TEMPLATE, CHARS} from '../src/course/scenes/format.js'
 import {
     CELLS, BOUNDS, STORE, OBJECTS, SHARED, NEIGHBOUR, LETTERS, COMMAND
 } from '../src/course/scenes/memory.js'
+import {
+    FIRST, FORGOTTEN, SHAPES, COLORS, TEXT, TRANSFORM, OVERFLOW, TWO
+} from '../src/course/scenes/draw.js'
 import iconTable from '@mlog/core/data/icons.json' with {type: 'json'}
 import logicIdsData from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
@@ -1493,4 +1496,110 @@ test('карточки уроков пользуются только теми �
             assert.ok(known.has(kind), `${file}: роли ${kind} у Card нет`)
         }
     }
+})
+
+/** Команды, дошедшие до дисплея: уроки группы Draw считают именно их. */
+function drawn(description, ticks = 60) {
+    const {world, processor} = stage(description, ticks)
+    const displays = world.buildings.filter(building => building.spec.displaySize !== undefined)
+
+    const kinds = {}
+    for (const command of displays[0].commands) kinds[command.type] = (kinds[command.type] ?? 0) + 1
+
+    return {processor, displays, commands: displays[0].commands, kinds}
+}
+
+test('урок «Первый рисунок»: три команды доходят до дисплея, а без drawflush — ни одной', () => {
+    const {commands, kinds} = drawn(FIRST)
+
+    assert.equal(commands.length, 3)
+    assert.deepEqual(kinds, {clear: 1, color: 1, rect: 1})
+
+    // Прямоугольник задан углом и размерами, а не двумя углами
+    const rect = commands.find(command => command.type === 'rect')
+    assert.deepEqual([rect.x, rect.y, rect.p1, rect.p2], [20, 20, 60, 40])
+
+    assert.equal(drawn(FORGOTTEN).commands.length, 0)
+})
+
+test('урок «Фигуры и линии»: на дисплее все шесть фигур', () => {
+    const {kinds} = drawn(SHAPES)
+
+    assert.deepEqual(kinds, {
+        clear: 1, color: 2, rect: 1, lineRect: 1, stroke: 1, line: 1,
+        poly: 1, linePoly: 1, triangle: 1
+    })
+})
+
+test('урок «Цвет и прозрачность»: col превращается в обычный color', () => {
+    const {kinds, commands} = drawn(COLORS)
+
+    // `draw col` уходит в буфер командой color: распаковка происходит ещё у процессора
+    assert.deepEqual(kinds, {clear: 1, color: 3, rect: 3})
+
+    // packcolor 0.2 0.5 1 0.6 — доли от единицы, а в команде уже байты
+    const last = commands.filter(command => command.type === 'color').at(-1)
+    assert.deepEqual([last.x, last.y, last.p1, last.p2], [51, 127, 255, 153])
+})
+
+test('урок «Текст и картинки»: буква — команда, а кириллица не рисуется вовсе', () => {
+    const {kinds} = drawn(TEXT)
+
+    // «Cu: 120» — шесть знаков с глифами: пробела в шрифте дисплея нет
+    assert.deepEqual(kinds, {clear: 1, color: 1, print: 6, image: 1})
+
+    const cyrillic = {
+        ...TEXT,
+        processors: [{
+            ...TEXT.processors[0],
+            program: TEXT.processors[0].program.replace('print "Cu: "', 'print "Медь: "')
+        }]
+    }
+
+    // От «Медь: 120» остаются двоеточие и три цифры: русские буквы пропущены
+    assert.equal(drawn(cyrillic).kinds.print, 4)
+})
+
+test('урок «Сдвиг, поворот, масштаб»: преобразования уходят в буфер отдельными командами', () => {
+    const {kinds} = drawn(TRANSFORM)
+
+    assert.deepEqual(kinds, {
+        clear: 1, color: 2, rect: 3, translate: 1, rotate: 1, reset: 1
+    })
+})
+
+test('урок «Draw Flush»: за раз уходит не больше 256 команд', () => {
+    const {processor, commands, kinds} = drawn(OVERFLOW, 400)
+
+    assert.equal(commands.length, 256)
+    assert.equal(kinds.rect, 254)
+
+    // Программа при этом прошла все триста кругов и ничего не заметила
+    assert.equal(num(processor, 'номер'), 300)
+    assert.equal(num(processor, 'команд'), 256)
+})
+
+test('урок «Draw Flush»: задание про двести клеток', () => {
+    const smaller = {
+        ...OVERFLOW,
+        processors: [{
+            ...OVERFLOW.processors[0],
+            program: OVERFLOW.processors[0].program
+                .replace('jump 2 lessThan номер 300', 'jump 2 lessThan номер 200')
+        }]
+    }
+
+    assert.equal(num(drawn(smaller, 400).processor, 'команд'), 202)
+})
+
+test('урок «Draw Flush»: каждому дисплею своя пачка команд', () => {
+    const {displays} = drawn(TWO)
+
+    assert.equal(displays[0].commands.length, 1)
+    assert.equal(displays[1].commands.length, 1)
+
+    // Цвета заливки разные: второй дисплей получил свою команду, а не повтор первой
+    assert.notDeepEqual(
+        [displays[0].commands[0].x, displays[0].commands[0].y],
+        [displays[1].commands[0].x, displays[1].commands[0].y])
 })
