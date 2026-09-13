@@ -204,6 +204,9 @@ export class WorldView {
         // Юниты идут поверх зданий: в игре у них слой 60 против 30 у блоков
         for (const unit of this.world.units ?? []) this.drawUnit(unit)
 
+        // Текст блока сообщений: в игре он часть выделения, то есть рисуется поверх блоков
+        for (const building of this.world.buildings) this.drawMessage(building)
+
         // Метки идут поверх всего: слой по умолчанию у них Layer.overlayUI
         this.drawMarkers()
 
@@ -980,6 +983,71 @@ export class WorldView {
         }
 
         context.fill('evenodd')
+    }
+
+    /**
+     * Текст блока сообщений под блоком. `MessageBlock.drawSelect`: шрифт в четверть,
+     * перенос по 90 единицам, тёмная подложка с отступом в единицу, пустой блок пишет
+     * «<пусто>» серым.
+     *
+     * В игре это часть выделения — текст виден, когда на блок наведён курсор. У нас он виден
+     * всегда: в примерах курсора нет вовсе, а без надписи половина уроков про печать
+     * показывала бы пустой блок. Строка про это есть в `docs/parity.md`.
+     */
+    drawMessage(building) {
+        if (building.message === undefined) return
+
+        const context = this.context
+        const [cx, cy] = this.place(building)
+
+        const height = FONT_SIZE * 0.25 * this.unit
+        const wrap = 90 * this.unit
+        const offset = this.unit
+
+        context.font = `${height}px "${this.font}", system-ui, sans-serif`
+        context.textBaseline = 'top'
+        context.textAlign = 'left'
+
+        const empty = building.message.length === 0
+        const lines = empty ? ['<пусто>'] : this.wrapText(building.message, wrap)
+        const width = Math.max(...lines.map(line => context.measureText(line).width))
+
+        // Подложка: Draw.color(0, 0, 0, 0.2) под всей раскладкой, с отступом в единицу
+        const top = cy + (building.size * TILE_UNITS / 2) * this.unit + offset
+        const box = lines.length * height
+
+        context.fillStyle = 'rgba(0, 0, 0, 0.2)'
+        context.fillRect(cx - width / 2 - offset, top - offset, width + offset * 2, box + offset * 2)
+
+        context.fillStyle = empty ? '#bfbfbf' : '#ffffff'
+        lines.forEach((line, index) => context.fillText(line, cx - width / 2, top + index * height))
+
+        context.textBaseline = 'alphabetic'
+    }
+
+    /** Перенос по словам в заданную ширину; переводы строки в тексте сохраняются. */
+    wrapText(text, width) {
+        const context = this.context
+        const lines = []
+
+        for (const paragraph of text.split('\n')) {
+            let line = ''
+
+            for (const word of paragraph.split(' ')) {
+                const next = line === '' ? word : `${line} ${word}`
+
+                if (context.measureText(next).width <= width || line === '') {
+                    line = next
+                } else {
+                    lines.push(line)
+                    line = word
+                }
+            }
+
+            lines.push(line)
+        }
+
+        return lines
     }
 
     /** Имя связи над зданием. В игре это `Block.drawPlaceText` шрифтом с обводкой. */

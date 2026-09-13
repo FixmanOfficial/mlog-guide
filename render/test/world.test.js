@@ -237,3 +237,46 @@ test('поворот блока считается по-игровому, а н�
     const still = world.add('router', {x: 4, y: 4})
     assert.equal(it.blockAngle(still), 0)
 })
+
+test('текст блока сообщений рисуется под блоком и переносится по словам', () => {
+    /*
+     * `MessageBlock.drawSelect`: шрифт в четверть, перенос по 90 единицам, подложка
+     * с отступом в единицу, пустой блок пишет «<пусто>» серым. В игре это часть выделения,
+     * у нас видно всегда — строка про это есть в `docs/parity.md`.
+     */
+    const world = new World({width: 10, height: 10})
+    const message = world.add('message', {x: 4, y: 4})
+
+    const drawn = []
+    const canvas = {
+        style: {},
+        getContext: () => ({
+            imageSmoothingEnabled: true,
+            // Ширина считается по знакам: настоящего шрифта в ноде нет
+            measureText: (line) => ({width: line.length * 6}),
+            fillText: (line, x, y) => drawn.push({line, x, y}),
+            fillRect: () => {},
+            setTransform: () => {},
+            save: () => {},
+            restore: () => {},
+            beginPath: () => {},
+            fill: () => {},
+            drawImage: () => {}
+        })
+    }
+
+    const view = new WorldView(canvas, {world, tile: 32})
+
+    // Пустой блок подписан «<пусто>»
+    view.drawMessage(message)
+    assert.equal(drawn[0].line, '<пусто>')
+
+    // Длинная строка разбивается по словам, а не режется посередине слова
+    const wide = view.wrapText('меди в контейнере ровно сто двадцать штук', 60)
+    assert.ok(wide.length > 1, 'строка перенеслась')
+    assert.ok(wide.every(line => !line.startsWith(' ') && !line.endsWith(' ')), 'без висячих пробелов')
+    assert.equal(wide.join(' '), 'меди в контейнере ровно сто двадцать штук')
+
+    // Перевод строки в тексте сохраняется
+    assert.deepEqual(view.wrapText('раз' + '\n' + 'два', 90 * view.unit), ['раз', 'два'])
+})

@@ -1121,3 +1121,47 @@ test('урок «Print Flush»: буфер уходит в блок сообще
     const message = world.buildings.find(building => building.type === 'message')
     assert.equal(message.message, 'меди: 120')
 })
+
+test('урок «Print Flush»: сброс выше печати отстаёт на круг', () => {
+    /*
+     * Скрытая ошибка из урока: `printflush` первой строкой выглядит работающим, потому что
+     * программа идёт по кругу. Первый круг при этом отдаёт пустоту, а дальше в блоке всегда
+     * надпись прошлого круга.
+     */
+    const wrong = {
+        ...FLUSH,
+        processors: [{
+            ...FLUSH.processors[0],
+            program: [
+                'printflush message1',
+                'sensor медь container1 @copper',
+                'print "меди: "',
+                'print медь'
+            ].join('\n')
+        }]
+    }
+
+    const {world, processors} = buildScene(wrong, {content})
+
+    for (const entry of processors) {
+        entry.building.processor = new Processor(entry.program, {
+            links: entry.links, world, content, globals: content.globals,
+            ipt: entry.building.spec.ipt, building: entry.building, team: entry.building.team
+        })
+    }
+
+    world.processors = processors.map(entry => entry.building.processor)
+    const processor = processors[0].building.processor
+    const message = world.buildings.find(building => building.type === 'message')
+
+    // Первый круг: сброс отдал пустоту, надпись набралась уже после него
+    for (let i = 0; i < 4; i++) processor.step()
+
+    assert.equal(message.message, '')
+    assert.equal(processor.textBuffer, 'меди: 120')
+
+    // Второй круг: в блоке появилось то, что набрали в первом
+    for (let i = 0; i < 4; i++) processor.step()
+
+    assert.equal(message.message, 'меди: 120')
+})
