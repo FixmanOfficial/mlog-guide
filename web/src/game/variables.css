@@ -61,9 +61,28 @@
     width: var(--m-vars-value-width, 140px);
     margin-right: var(--m-vars-pad, 4px);
     color: #ffffff;
-    overflow-wrap: anywhere;
     line-height: 1.1;
     animation: vars-flash 0.2s linear;
+
+    /*
+     * Длинное значение можно прокрутить вбок — в игре не так.
+     *
+     * Там метка переносится по словам внутри тех же 140 и упирается в высоту строки:
+     * длинный текстовый буфер просто обрезается, и увидеть его целиком нельзя никак.
+     * На странице курса это мешает: половина уроков про печать смотрит именно в эту ячейку.
+     *
+     * `pan-x` оставляет странице вертикальную прокрутку: палец, ведущий вниз, листает
+     * страницу, а не дёргает ячейку.
+     */
+    white-space: pre;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
+    scrollbar-width: none;
+}
+
+.vars__value::-webkit-scrollbar {
+    display: none;
 }
 
 /* Actions.color(Pal.accent), затем к белому за 0.2 секунды */

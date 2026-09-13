@@ -27,6 +27,14 @@ const LONG_PRESS_MS = 430
 let node = null
 let timer = null
 
+/**
+ * За чем следит открытая подсказка: сам элемент и точка внутри него, у которой стояла плашка.
+ *
+ * В игре подсказка живёт в той же сцене, что и строка, и уезжает вместе с ней. У нас страница
+ * прокручивается сама по себе, и плашка с `position: fixed` оставалась висеть посреди экрана.
+ */
+let anchored = null
+
 /** Плашка. Заводится при первой подсказке, дальше переиспользуется. */
 function element() {
     if (node !== null) return node
@@ -36,21 +44,30 @@ function element() {
     node.hidden = true
     document.body.appendChild(node)
 
+    // Подписка ставится здесь, а не при загрузке модуля: на сервере окна нет вовсе
+    window.addEventListener('scroll', follow, true)
+    window.addEventListener('resize', follow)
+
     return node
 }
 
-/**
- * Показать подсказку у точки. `Tooltip.setContainerPosition`: плашка ставится выше точки,
- * а если не влезает — ниже, и в обоих случаях прижимается к экрану отступом `edgeDistance`.
- */
-export function showTip(text, x, y) {
-    if (!text) return
+/** Двигает открытую подсказку за её строкой; ушла строка с экрана — убирает вовсе. */
+function follow() {
+    if (anchored === null || node === null || node.hidden) return
 
+    const box = anchored.element.getBoundingClientRect()
+
+    if (box.bottom < 0 || box.top > window.innerHeight) {
+        hideTip()
+        return
+    }
+
+    place(box.left + anchored.dx, box.top + anchored.dy)
+}
+
+/** Ставит плашку у точки. `Tooltip.setContainerPosition`: выше точки, а если не влезает — ниже. */
+function place(x, y) {
     const tip = element()
-
-    tip.textContent = text
-    tip.hidden = false
-
     const box = tip.getBoundingClientRect()
 
     let left = x + OFFSET_X
@@ -65,12 +82,34 @@ export function showTip(text, x, y) {
     tip.style.top = `${top}px`
 }
 
+/**
+ * Показать подсказку у точки. `Tooltip.setContainerPosition`: плашка ставится выше точки,
+ * а если не влезает — ниже, и в обоих случаях прижимается к экрану отступом `edgeDistance`.
+ */
+export function showTip(text, x, y, element_ = null) {
+    if (!text) return
+
+    const tip = element()
+
+    tip.textContent = text
+    tip.hidden = false
+
+    // Запоминаем, за чем следить: плашка должна уехать вместе со строкой
+    anchored = element_ === null ? null : (() => {
+        const box = element_.getBoundingClientRect()
+        return {element: element_, dx: x - box.left, dy: y - box.top}
+    })()
+
+    place(x, y)
+}
+
 export function hideTip() {
     if (timer !== null) {
         clearTimeout(timer)
         timer = null
     }
 
+    anchored = null
     if (node !== null) node.hidden = true
 }
 
@@ -85,15 +124,18 @@ export function tipProps(text) {
     if (!text) return {}
 
     return {
-        onMouseEnter: (event) => showTip(text, event.clientX, event.clientY),
-        onMouseMove: (event) => showTip(text, event.clientX, event.clientY),
+        onMouseEnter: (event) => showTip(text, event.clientX, event.clientY, event.currentTarget),
+        onMouseMove: (event) => showTip(text, event.clientX, event.clientY, event.currentTarget),
         onMouseLeave: hideTip,
 
         onPointerDown: (event) => {
             if (event.pointerType === 'mouse') return
 
             hideTip()
-            timer = setTimeout(() => showTip(text, event.clientX, event.clientY), LONG_PRESS_MS)
+
+            // currentTarget к моменту таймера уже пуст: событие к тому времени отработало
+            const {currentTarget: target, clientX: x, clientY: y} = event
+            timer = setTimeout(() => showTip(text, x, y, target), LONG_PRESS_MS)
         },
 
         // На телефоне подсказка держится, пока держат палец. Tooltip.touchUp

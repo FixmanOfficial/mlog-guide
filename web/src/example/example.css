@@ -108,13 +108,25 @@
     grid-auto-rows: 32px;
 }
 
-/* Значение теперь резиновое, и длинному тексту нужен предел, а не вылет за край */
+/*
+ * Значение резиновое, а длинный текст прокручивается вбок.
+ *
+ * Раньше он обрезался многоточием, и в уроках про печать это било больнее всего: буфер там
+ * и есть то, на что смотрят. Прокрутка — наша добавка, в игре метка переносится по словам
+ * и упирается в высоту строки.
+ */
 .example__vars .vars__value {
     width: auto;
     min-width: 0;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
+    white-space: pre;
+    scrollbar-width: none;
+}
+
+.example__vars .vars__value::-webkit-scrollbar {
+    display: none;
 }
 
 .example__world {
