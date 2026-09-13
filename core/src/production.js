@@ -37,6 +37,12 @@ export class DrillBuilding extends Building {
         this.progress = 0
         this.warmup = 0
 
+        /*
+         * Сколько бур уже крутился. `Drill.timeDrilled` растёт на прогрев за тик, и по нему
+         * рендер поворачивает сверло: без него бур на карте выглядит выключенным.
+         */
+        this.timeDrilled = 0
+
         this.countOre()
     }
 
@@ -134,6 +140,9 @@ export class DrillBuilding extends Building {
         }
 
         this.warmup = approachDelta(this.warmup, speed, this.spec.warmupSpeed, delta)
+
+        // Drill.updateTile: `timeDrilled += warmup * delta()`
+        this.timeDrilled += this.warmup * delta
         this.progress += delta * this.dominantItems * speed * this.warmup
 
         if (this.progress >= delay) {

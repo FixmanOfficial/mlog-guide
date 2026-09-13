@@ -513,6 +513,10 @@ public class ContentDump{
             }
 
             if(block instanceof Drill drill){
+                // Скорость вращения сверла и накладки: рендер рисует бур ими. Drill.draw
+                spec.number("rotateSpeed", drill.rotateSpeed);
+                spec.bool("drawRim", drill.drawRim);
+                spec.bool("drawMineItem", drill.drawMineItem);
                 spec.number("tier", drill.tier);
                 spec.number("drillTime", drill.drillTime);
                 spec.number("hardnessDrillMultiplier", drill.hardnessDrillMultiplier);

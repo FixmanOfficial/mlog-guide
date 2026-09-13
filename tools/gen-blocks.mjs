@@ -82,6 +82,9 @@ const PALETTE_TEAMS = Object.entries(teams.teams)
     .filter(([, team]) => Array.isArray(team.palette) && team.palette.length > 0)
     .map(([name]) => name)
 
+/** Накладки и подвижные части, которые игра грузит отдельными регионами. */
+const PARTS = ['base', 'preview', 'rotator', 'top', 'rim', 'item', 'heat']
+
 function main() {
     const atlas = openAtlas(process.argv[2])
 
@@ -137,6 +140,36 @@ function main() {
             const overlay = atlas.cut(`${name}-${suffix}`)
             if (overlay !== null) found.push({name: `${name}-${suffix}`, image: overlay})
         }
+
+        /*
+         * Подвижные и накладные части блока. Без них блок выглядит не собой:
+         *
+         *  - `-base` у турели — опорная плита, поверх которой крутится сама турель
+         *    (`DrawTurret.load`); без неё турель висит в воздухе;
+         *  - `-rotator` и `-top` у бура — вращающееся сверло и крышка (`Drill.draw`);
+         *  - `-rim` — тёплый ободок у бура, который его рисует;
+         *  - `-item` — пятнышко добываемого предмета, красится его цветом.
+         */
+        for (const part of PARTS) {
+            const piece = atlas.cut(`${name}-${part}`)
+            if (piece !== null) found.push({name: `${name}-${part}`, image: piece})
+        }
+    }
+
+    /*
+     * Запасная картинка предмета у бура: `@Load(value = "@-item", fallback = "drill-item-@size")`.
+     * Своей у большинства буров нет, и берётся общая по стороне блока.
+     */
+    for (let size = 1; size <= 4; size++) {
+        const piece = atlas.cut(`drill-item-${size}`)
+        if (piece !== null) found.push({name: `drill-item-${size}`, image: piece})
+
+        /*
+         * Опорная плита турели: `DrawTurret.load` ищет `<имя>-base`, а не найдя — общую
+         * `block-<сторона>`. Без неё турель висит над полом.
+         */
+        const plate = atlas.cut(`block-${size}`)
+        if (plate !== null) found.push({name: `block-${size}`, image: plate})
     }
 
     if (found.length === 0) throw new Error('не нашлось ни одного спрайта блока')

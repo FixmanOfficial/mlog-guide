@@ -519,6 +519,13 @@ export class WorldView {
         // Сортировщик и источник показывают настройку под своим спрайтом. Sorter.draw
         if (building.configItem !== undefined) this.drawConfigItem(building, cx, cy, side)
 
+        // Турель: плита, а поверх неё повёрнутая турель. DrawTurret.draw
+        if (building.turret !== undefined) {
+            this.drawTurret(building, cx, cy)
+            this.drawTeamTop(building, cx, cy)
+            return
+        }
+
         const icon = this.sprite(open ? 'door-open' : building.type)
 
         if (icon === null) {
@@ -530,6 +537,9 @@ export class WorldView {
                 context.drawImage(icon, -drawn / 2, -drawnHeight / 2, drawn, drawnHeight)
             })
         }
+
+        // Бур: вращающееся сверло, крышка и пятнышко добываемого предмета. Drill.draw
+        if (building.timeDrilled !== undefined) this.drawDrillParts(building, cx, cy)
 
         this.drawTeamTop(building, cx, cy)
         this.drawLineItems(building, cx, cy)
@@ -549,6 +559,74 @@ export class WorldView {
             const screen = building.spec.displaySize * SCALE_FACTOR / SPRITE_SCALE * this.unit
             context.drawImage(picture, cx - screen / 2, cy - screen / 2, screen, screen)
         }
+    }
+
+    /**
+     * Турель. `DrawTurret.draw`
+     *
+     * Сначала опорная плита — `<имя>-base`, а если её нет, общая `block-<сторона>`, — потом
+     * сама турель, повёрнутая на `rotation - 90`. Тело берётся из `<имя>-preview`: это
+     * собранная картинка со стволами, которой игра рисует и предпросмотр, и иконку.
+     */
+    drawTurret(building, cx, cy) {
+        const context = this.context
+        const base = this.sprite(`${building.type}-base`) ?? this.sprite(`block-${building.size}`)
+
+        if (base !== null) {
+            const side = building.size * this.tile * this.ratio
+            context.drawImage(base, cx - side / 2, cy - side / 2, side, side)
+        }
+
+        const name = this.blockSprites?.sprites?.[`${building.type}-preview`] !== undefined
+            ? `${building.type}-preview`
+            : building.type
+
+        const body = this.sprite(name)
+        if (body === null) return
+
+        const entry = this.blockSprites?.sprites?.[name]
+        const width = entry.width / SPRITE_SCALE * this.unit
+        const height = entry.height / SPRITE_SCALE * this.unit
+
+        this.rotated(cx, cy, building.rotation - 90, () => {
+            context.drawImage(body, -width / 2, -height / 2, width, height)
+        })
+    }
+
+    /**
+     * Подвижные части бура. `Drill.draw`
+     *
+     * Сверло крутится от `timeDrilled * rotateSpeed`, крышка лежит поверх неподвижно,
+     * а пятнышко предмета красится его цветом — по нему на карте видно, что бур добывает.
+     */
+    drawDrillParts(building, cx, cy) {
+        const context = this.context
+        const side = building.size * this.tile * this.ratio
+
+        const rotator = this.sprite(`${building.type}-rotator`)
+        if (rotator !== null) {
+            const angle = building.timeDrilled * (building.spec.rotateSpeed ?? 2)
+            this.rotated(cx, cy, -angle, () => {
+                context.drawImage(rotator, -side / 2, -side / 2, side, side)
+            })
+        }
+
+        const top = this.sprite(`${building.type}-top`)
+        if (top !== null) context.drawImage(top, cx - side / 2, cy - side / 2, side, side)
+
+        const item = building.dominantItem ?? building.ore
+        if (item === null || item === undefined) return
+
+        const color = MATERIALS.items?.[item]?.color
+        if (color === undefined) return
+
+        // `sprite` умеет красить сам: тем же способом рисуется накладка команды
+        const tinted = this.sprite(`${building.type}-item`) === null
+            ? this.sprite(`drill-item-${building.size}`, color)
+            : this.sprite(`${building.type}-item`, color)
+
+        if (tinted === null) return
+        context.drawImage(tinted, cx - side / 2, cy - side / 2, side, side)
     }
 
     /**
