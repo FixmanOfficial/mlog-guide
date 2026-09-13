@@ -15,6 +15,7 @@ import {randomSeed, packPoint, sin, degRad, PI} from '@mlog/core/src/arc.js'
 import {BLOCK_SPECS} from '@mlog/core/src/world.js'
 import {LABEL_BACKGROUND, LABEL_OUTLINE, ALIGN} from '@mlog/core/src/markers.js'
 import MATERIALS from '@mlog/core/data/materials.json' with {type: 'json'}
+import icons from '@mlog/core/data/icons.json' with {type: 'json'}
 
 /**
  * Geometry.d8 — восемь соседей по кругу, начиная с правого. Порядок важен: игра перебирает
@@ -39,6 +40,14 @@ function rotate(x, y, degrees) {
 
 /** Vars.tilesize: восемь мировых единиц на тайл. */
 export const TILE_UNITS = 8
+
+/**
+ * Знак контента обратно в имя: `UI.formatIcons` подменяет такие знаки картинками, и в тексте
+ * блока сообщений их надо рисовать, а не пытаться вывести шрифтом — глифа для них нет нигде,
+ * игра собирает картинку из атласа при запуске.
+ */
+const CONTENT_BY_ICON = new Map(
+    Object.entries(icons.content).map(([name, code]) => [String.fromCharCode(code), name]))
 
 /** Попал ли блок в выделенную область — по своему следу, а не по центру. */
 function inside(area, building) {
@@ -1010,7 +1019,7 @@ export class WorldView {
 
         const empty = building.message.length === 0
         const lines = empty ? ['<пусто>'] : this.wrapText(building.message, wrap)
-        const width = Math.max(...lines.map(line => context.measureText(line).width))
+        const width = Math.max(...lines.map(line => this.lineWidth(line, height)))
 
         // Подложка: Draw.color(0, 0, 0, 0.2) под всей раскладкой, с отступом в единицу
         const top = cy + (building.size * TILE_UNITS / 2) * this.unit + offset
@@ -1020,9 +1029,79 @@ export class WorldView {
         context.fillRect(cx - width / 2 - offset, top - offset, width + offset * 2, box + offset * 2)
 
         context.fillStyle = empty ? '#bfbfbf' : '#ffffff'
-        lines.forEach((line, index) => context.fillText(line, cx - width / 2, top + index * height))
+
+        lines.forEach((line, index) => {
+            this.drawTextWithIcons(line, cx - width / 2, top + index * height, height)
+        })
 
         context.textBaseline = 'alphabetic'
+    }
+
+    /**
+     * Строка, в которой знаки контента заменены картинками. `UI.formatIcons` делает то же
+     * самое: находит такой знак и рисует на его месте иконку размером со строку.
+     */
+    drawTextWithIcons(line, x, y, height) {
+        const context = this.context
+        let left = x
+
+        for (const piece of this.pieces(line)) {
+            if (piece.icon === undefined) {
+                context.fillText(piece.text, left, y)
+                left += context.measureText(piece.text).width
+                continue
+            }
+
+            const sprite = this.contentSprite(piece.icon)
+            if (sprite !== null) context.drawImage(sprite, left, y, height, height)
+
+            left += height
+        }
+    }
+
+    /** Ширина строки с учётом того, что знак контента занимает квадрат в высоту строки. */
+    lineWidth(line, height) {
+        return this.pieces(line).reduce((width, piece) => width + (piece.icon === undefined
+            ? this.context.measureText(piece.text).width
+            : height), 0)
+    }
+
+    /** Разбор строки на куски текста и знаки контента между ними. */
+    pieces(line) {
+        const out = []
+        let text = ''
+
+        for (const char of line) {
+            const name = CONTENT_BY_ICON.get(char)
+
+            if (name === undefined) {
+                text += char
+                continue
+            }
+
+            if (text !== '') out.push({text})
+            out.push({icon: name})
+            text = ''
+        }
+
+        if (text !== '') out.push({text})
+
+        return out
+    }
+
+    /** Иконка контента из атласа: предмет, жидкость, блок или юнит — где найдётся. */
+    contentSprite(name) {
+        const index = this.sprites?.index
+        if (index === undefined || this.atlas === null) return null
+
+        for (const kind of ['item', 'liquid', 'block', 'unit']) {
+            const entry = index[kind]?.[name]
+            if (entry === undefined) continue
+
+            return this.cut(`${kind}:${name}`, this.atlas, entry.x, entry.y, entry.width, entry.height)
+        }
+
+        return null
     }
 
     /** Перенос по словам в заданную ширину; переводы строки в тексте сохраняются. */

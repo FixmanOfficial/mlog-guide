@@ -10,6 +10,12 @@
  * Значит для сайта не нужны никакие картинки: достаточно подключить тот же шрифт и выводить
  * символ по коду.
  *
+ * Вторая таблица — знаки контента (`content`). Это другое: предмету, блоку и юниту игра тоже
+ * выдаёт код символа, но глифа в шрифте нет — картинку для него собирают при запуске
+ * из атласа (`Fonts.registerIcon`). Коды лежат отдельным файлом `icons/icons.properties`
+ * строками вида `63544=copper|item-copper-ui`, и нужны они логике: `printchar @copper`
+ * дописывает в текстовый буфер ровно такой знак.
+ *
  * Использование:
  *   node tools/gen-icons.mjs <путь-к-Mindustry>
  */
@@ -108,6 +114,27 @@ function charToGlyph(buffer, cmap) {
     return mapping
 }
 
+
+/**
+ * Знаки контента из `icons/icons.properties`: строка `63544=copper|item-copper-ui`.
+ *
+ * Берётся первое имя до вертикальной черты — под ним контент знает сам себя
+ * (`UnlockableContent.emojiChar` спрашивает `Fonts.getUnicode(name)`).
+ */
+function contentIcons(root) {
+    const file = join(root, 'core/assets/icons/icons.properties')
+    const table = {}
+
+    for (const line of readFileSync(file, 'utf8').split('\n')) {
+        const match = /^(\d+)=([^|\s]+)/.exec(line.trim())
+        if (match === null) continue
+
+        table[match[2]] = Number(match[1])
+    }
+
+    return table
+}
+
 function main() {
     const gameRoot = resolve(process.argv[2] ?? '../Mindustry')
     const source = join(gameRoot, 'core/assets/fonts/icon.ttf')
@@ -144,20 +171,24 @@ function main() {
         icons[name] = code
     }
 
+    const content = contentIcons(gameRoot)
+
     const output = {
         gameVersion: GAME_VERSION,
-        source: 'core/assets/fonts/icon.ttf',
+        source: 'core/assets/fonts/icon.ttf, core/assets/icons/icons.properties',
         note: 'Файл сгенерирован. Иконки — глифы шрифта игры; имя берётся из таблицы post, код из cmap. ' +
-            'Чтобы нарисовать иконку, подключите тот же шрифт и выведите символ по коду.',
+            'Чтобы нарисовать иконку, подключите тот же шрифт и выведите символ по коду. ' + 'Таблица content — знаки предметов, блоков и юнитов: глифа в шрифте у них нет, картинку игра собирает из атласа.',
         count: Object.keys(icons).length,
-        icons
+        contentCount: Object.keys(content).length,
+        icons,
+        content
     }
 
     const target = 'core/data/icons.json'
     writeFileSync(target, JSON.stringify(output, null, 2) + '\n')
 
     console.log(`${target} — из ${source}`)
-    console.log(`  иконок ${output.count}`)
+    console.log(`  иконок ${output.count}, знаков контента ${output.contentCount}`)
 
     const wanted = ['add', 'copy', 'cancel', 'pencil', 'pencilSmall', 'trash', 'settings']
     for (const name of wanted) {

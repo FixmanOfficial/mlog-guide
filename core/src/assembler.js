@@ -28,6 +28,13 @@ import {BLOCK_SPECS} from './world.js'
 import {damage as explode} from './damage.js'
 import {ALIGN_NAMES} from './font.js'
 import accessData from '../data/access.json' with {type: 'json'}
+import icons from '../data/icons.json' with {type: 'json'}
+
+/**
+ * Знаки контента: `printchar @copper` дописывает в буфер именно такой символ.
+ * Снимает таблицу `tools/gen-icons.mjs` из `icons/icons.properties`.
+ */
+const CONTENT_ICONS = icons.content
 
 // Разбор упакованного цвета нужен и снаружи: дисплей достаёт им байты из `draw col`
 export {unpackColorBits}
@@ -539,7 +546,22 @@ const builders = {
 
         return {
             run: (vm) => {
-                if (value.isobj) return
+                /*
+                 * У предмета, жидкости, блока и юнита есть свой знак: игра держит его
+                 * в `icons/icons.properties` и рисует картинкой из атласа
+                 * (`Fonts.registerIcon`). Всё прочее — команда, здание, строка, пустота —
+                 * не `UnlockableContent`, и инструкция молча ничего не делает.
+                 * LExecutor.PrintCharI, UnlockableContent.emojiChar
+                 */
+                if (value.isobj) {
+                    const object = value.objval
+                    if (object === null || object.contentType === undefined) return
+
+                    const code = CONTENT_ICONS[object.name]
+                    if (code !== undefined) vm.appendText(String.fromCharCode(code))
+                    return
+                }
+
                 vm.appendText(String.fromCharCode(Math.floor(value.numval)))
             }
         }

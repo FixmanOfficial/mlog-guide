@@ -7,6 +7,7 @@ import {Processor} from '../src/vm.js'
 import {createContent} from '../src/content.js'
 
 const logicIds = JSON.parse(readFileSync(new URL('../data/logic-ids.json', import.meta.url), 'utf8'))
+const icons = JSON.parse(readFileSync(new URL('../data/icons.json', import.meta.url), 'utf8'))
 
 /** Собирает мир с набором блоков и процессор, подключённый ко всем сразу. */
 function setup(code, types = ['memory-cell', 'message', 'large-logic-display', 'switch']) {
@@ -71,6 +72,32 @@ test('format без подходящего места не делает ниче
     processor.run(3)
 
     assert.equal(links[1].message, 'без мест')
+})
+
+test('printchar пишет знак по коду, а контенту — его иконку', () => {
+    /*
+     * `PrintCharI`: число это код UTF-16 с усечением вниз, `UnlockableContent` даёт свой
+     * знак (`emojiChar`), а всё остальное пропускается. Коды знаков снимает
+     * `tools/gen-icons.mjs` из `icons/icons.properties`.
+     */
+    const content = createContent(logicIds)
+    const world = new World()
+    const cell = world.add('memory-cell')
+
+    const processor = new Processor([
+        'printchar 65',
+        'printchar 66.9',
+        'printchar @copper',
+        'printchar cell1',
+        'printchar "текст"',
+        'printchar null'
+    ].join('\n'), {world, links: [cell], content, globals: content.globals})
+
+    world.addProcessor(processor)
+    processor.run(6)
+
+    assert.equal(processor.textBuffer,
+        'AB' + String.fromCharCode(icons.content.copper))
 })
 
 test('print показывает у здания тип блока, а не имя связи', () => {

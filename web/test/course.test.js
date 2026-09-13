@@ -26,6 +26,8 @@ import {COUNTER, RELATIVE} from '../src/course/scenes/advanced.js'
 import {CHOICE} from '../src/course/scenes/select.js'
 import {TICKS, STOPPED, ENDING, RHYTHM} from '../src/course/scenes/wait.js'
 import {BUFFER, PIECES, FLUSH} from '../src/course/scenes/print.js'
+import {TEMPLATE, CHARS} from '../src/course/scenes/format.js'
+import iconTable from '@mlog/core/data/icons.json' with {type: 'json'}
 import logicIdsData from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
 
@@ -1164,4 +1166,74 @@ test('урок «Print Flush»: сброс выше печати отстаёт 
     for (let i = 0; i < 4; i++) processor.step()
 
     assert.equal(message.message, 'меди: 120')
+})
+
+/** Собирает сцену, делает шаги и отдаёт буфер вместе с блоком сообщений. */
+function printed(description, steps) {
+    const {world, processors} = buildScene(description, {content})
+
+    for (const entry of processors) {
+        entry.building.processor = new Processor(entry.program, {
+            links: entry.links, world, content, globals: content.globals,
+            ipt: entry.building.spec.ipt, building: entry.building, team: entry.building.team
+        })
+    }
+
+    world.processors = processors.map(entry => entry.building.processor)
+    const processor = processors[0].building.processor
+
+    for (let i = 0; i < steps; i++) processor.step()
+
+    return {
+        buffer: processor.textBuffer,
+        message: world.buildings.find(building => building.type === 'message').message
+    }
+}
+
+test('урок «Format»: шаблон заполняется по номерам мест', () => {
+    const {buffer, message} = printed(TEMPLATE, 5)
+
+    assert.equal(message, 'меди 120 из 300')
+    assert.equal(buffer, '')
+})
+
+test('урок «Format»: задания про порядок номеров и про пропавшее место', () => {
+    const variant = (template) => printed({
+        ...TEMPLATE,
+        processors: [{
+            ...TEMPLATE.processors[0],
+            program: [
+                'sensor медь container1 @copper',
+                `print "${template}"`,
+                'format медь',
+                'format 300'
+            ].join('\n')
+        }]
+    }, 4).buffer
+
+    // Номер решает, куда что встанет, а не порядок в строке
+    assert.equal(variant('осталось {1} из {0}'), 'осталось 300 из 120')
+
+    // Места не осталось — второй format промолчал
+    assert.equal(variant('меди {0} из '), 'меди 120 из ')
+})
+
+test('урок «Print Char»: знак по коду и иконка предмета', () => {
+    const {message} = printed(CHARS, 7)
+
+    const copper = String.fromCharCode(iconTable.content.copper)
+    assert.equal(message, `${copper} 120 ${String.fromCharCode(8593)}`)
+})
+
+test('урок «Print Char»: у здания иконки нет, а у его типа есть', () => {
+    const variant = (value) => printed({
+        ...CHARS,
+        processors: [{
+            ...CHARS.processors[0],
+            program: [`printchar ${value}`, 'printflush message1'].join('\n')
+        }]
+    }, 2).message
+
+    assert.equal(variant('@container'), String.fromCharCode(iconTable.content.container))
+    assert.equal(variant('container1'), '')
 })
