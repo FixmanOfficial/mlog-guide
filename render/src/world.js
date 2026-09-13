@@ -185,6 +185,23 @@ export class WorldView {
      * У блока с чётной стороной центр приходится на угол тайла: `Block.offset` в игре
      * прибавляет половину тайла именно к таким. Без этого процессор 2 на 2 съезжает с сетки.
      */
+    /**
+     * Точка мира на холсте.
+     *
+     * Мировая единица ноль — это **середина** нулевого тайла: в игре `Tile.worldx()` равен
+     * `x * 8`, и центр тайла 12 приходится ровно на 96. Сетка холста при этом начинается
+     * с угла тайла, поэтому к переводу добавляется полтайла — без него юниты, пули и метки
+     * рисуются на пол-клетки левее и ниже блоков.
+     */
+    worldPoint(x, y) {
+        const step = this.tile * this.ratio
+
+        return [
+            (x / TILE_UNITS + 0.5) * step,
+            (this.world.height - y / TILE_UNITS - 0.5) * step
+        ]
+    }
+
     place(building) {
         const step = this.tile * this.ratio
 
@@ -824,12 +841,7 @@ export class WorldView {
 
     /** Точка юнита на холсте, со сдвигом в мировых единицах. */
     unitPlace(unit, dx = 0, dy = 0) {
-        const step = this.tile * this.ratio
-
-        return [
-            (unit.x + dx) / TILE_UNITS * step,
-            (this.world.height - (unit.y + dy) / TILE_UNITS) * step
-        ]
+        return this.worldPoint(unit.x + dx, unit.y + dy)
     }
 
     /** Поворот вокруг точки: угол задаётся как в игре, против часовой. */
@@ -1094,8 +1106,7 @@ export class WorldView {
      */
     drawBullet(bullet) {
         const step = this.tile * this.ratio
-        const x = bullet.x / TILE_UNITS * step
-        const y = (this.world.height - bullet.y / TILE_UNITS) * step
+        const [x, y] = this.worldPoint(bullet.x, bullet.y)
 
         const length = Math.max(bullet.type.hitSize ?? 4, 2) / TILE_UNITS * step
         const width = Math.max(length / 3, 1)
@@ -1343,7 +1354,7 @@ export class WorldView {
 
     /** Мировые единицы метки в пиксели холста. */
     markerPlace(x, y) {
-        return [x * this.unit, (this.world.height * TILE_UNITS - y) * this.unit]
+        return this.worldPoint(x, y)
     }
 
     /**
