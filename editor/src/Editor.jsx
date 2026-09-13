@@ -38,6 +38,7 @@ export function Editor({initial = [], onChange, counter = null, addOpen = false,
     const [drag, setDrag] = useState(null)
     const listRef = useRef(null)
     const dragState = useRef(null)
+    const pickState = useRef(null)
     const scrollFrame = useRef(0)
 
     const update = useCallback((next) => {
@@ -98,24 +99,34 @@ export function Editor({initial = [], onChange, counter = null, addOpen = false,
     }
 
     /**
-     * Пока строку держат у края, страница едет сама, а строка остаётся под пальцем.
+     * Пока палец держат у края, страница едет сама, а то, что он тащит, остаётся под ним.
      *
      * Прокрутка не рождает событий указателя, поэтому положение пересчитывается кадром:
      * иначе палец стоит на месте, текст уезжает, а строка остаётся висеть где была.
+     *
+     * Жеста два, и едут они одинаково: `LCanvas.act` смотрит только на то, что экран вообще
+     * нажат (`Core.input.isTouched`), — строку тащат или цель перехода, ему всё равно.
      */
     const startScrolling = () => {
         if (scrollFrame.current !== 0) return
 
         const tick = () => {
-            const state = dragState.current
+            const drag = dragState.current
+            const pick = pickState.current
 
-            if (state === null) {
+            if (drag === null && pick === null) {
                 scrollFrame.current = 0
                 return
             }
 
-            maybeScroll(state)
-            applyDrag(state)
+            if (drag !== null) {
+                maybeScroll(drag)
+                applyDrag(drag)
+            } else {
+                maybeScroll(pick)
+                // Строки уехали из-под неподвижного пальца — под ним теперь другая
+                setHovered(rowAt(pick.pointerX, pick.pointerY))
+            }
 
             scrollFrame.current = requestAnimationFrame(tick)
         }
@@ -166,6 +177,14 @@ export function Editor({initial = [], onChange, counter = null, addOpen = false,
 
     const onPointerMove = (event) => {
         if (selecting !== null) {
+            const pick = pickState.current
+
+            if (pick !== null) {
+                pick.pointerX = event.clientX
+                pick.pointerY = event.clientY
+                maybeScroll(pick)
+            }
+
             setHovered(rowUnder(event))
             return
         }
@@ -206,6 +225,14 @@ export function Editor({initial = [], onChange, counter = null, addOpen = false,
      * бросить её там, где палец пропал, было бы неожиданностью.
      */
     const onPointerCancel = () => {
+        if (pickState.current !== null) {
+            pickState.current = null
+            stopScrolling()
+            setSelecting(null)
+            setHovered(null)
+            return
+        }
+
         if (dragState.current === null) return
 
         dragState.current = null
@@ -224,22 +251,39 @@ export function Editor({initial = [], onChange, counter = null, addOpen = false,
         update(operations.setTarget(statements, statement.id, null))
         setSelecting(statement.id)
         setHovered(null)
+
+        /*
+         * Цель бывает и за краем экрана: у страницы урока прокручивается не полотно, а она
+         * сама, и без этого до дальней строки было не дотянуться вовсе.
+         */
+        pickState.current = {
+            scroller: scrollerFor(listRef.current),
+            pointerX: event.clientX,
+            pointerY: event.clientY,
+            lastScroll: 0
+        }
+
         capture(event)
+        startScrolling()
         event.stopPropagation()
     }
 
-    const rowUnder = (event) => {
+    const rowAt = (x, y) => {
         const rows = [...listRef.current.querySelectorAll('.statement')]
         const index = rows.findIndex(row => {
             const box = row.getBoundingClientRect()
-            return event.clientY >= box.top && event.clientY <= box.bottom
-                && event.clientX >= box.left && event.clientX <= box.right
+            return y >= box.top && y <= box.bottom && x >= box.left && x <= box.right
         })
 
         return index === -1 ? null : index
     }
 
+    const rowUnder = (event) => rowAt(event.clientX, event.clientY)
+
     const finishTarget = (event) => {
+        pickState.current = null
+        stopScrolling()
+
         const index = rowUnder(event)
         const own = statements.findIndex(statement => statement.id === selecting)
 

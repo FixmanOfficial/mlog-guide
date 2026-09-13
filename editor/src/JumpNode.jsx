@@ -10,6 +10,13 @@
  * с остриём посередине высоты. Вместе — 16 на 24 в спрайте 32×32.
  *
  * При размере отрисовки 30 это даёт 15 на 22.5, из которых 5.625 приходится на основание.
+ *
+ * **Обводки у спрайта нет:** все непрозрачные пиксели белые, до единого. Поэтому и узел,
+ * и наконечник у цели рисуются заливкой без контура.
+ *
+ * Внутри своей рамки форма прижата вправо: слева от неё 13 пустых столбцов из 32, справа 3.
+ * Кнопка в игре — `ImageButton` размером 30, картинка растягивается на всю кнопку, так что
+ * узел сидит не по центру, а в 2.8 от правого края.
  */
 
 const SPRITE = {size: 32, left: 13, right: 29, top: 4, bottom: 28, base: 19}
@@ -20,7 +27,10 @@ const scale = 30 / SPRITE.size
 export const NODE = {
     width: (SPRITE.right - SPRITE.left) * scale,
     height: (SPRITE.bottom - SPRITE.top) * scale,
-    base: (SPRITE.base - SPRITE.left) * scale
+    base: (SPRITE.base - SPRITE.left) * scale,
+
+    /** Пустое поле справа от формы внутри рамки спрайта. */
+    inset: (SPRITE.size - SPRITE.right) * scale
 }
 
 /**
@@ -41,7 +51,7 @@ export function nodePoints(width = NODE.width, height = NODE.height, base = NODE
     ]
 }
 
-export function JumpNode({flipped = false, color = '#ffffff', outline = '#3f3f3f'}) {
+export function JumpNode({flipped = false, color = '#ffffff'}) {
     const points = nodePoints(NODE.width, NODE.height, NODE.base, flipped)
 
     return (
@@ -51,13 +61,7 @@ export function JumpNode({flipped = false, color = '#ffffff', outline = '#3f3f3f
             height={NODE.height}
             viewBox={`0 0 ${NODE.width} ${NODE.height}`}
         >
-            <polygon
-                points={points.map(([x, y]) => `${x},${y}`).join(' ')}
-                fill={color}
-                stroke={outline}
-                stroke-width="2"
-                stroke-linejoin="miter"
-            />
+            <polygon points={points.map(([x, y]) => `${x},${y}`).join(' ')} fill={color} />
         </svg>
     )
 }

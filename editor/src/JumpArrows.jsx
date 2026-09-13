@@ -2,7 +2,7 @@ import {useState, useLayoutEffect, useRef} from 'preact/hooks'
 
 import {assignLanes, curvePoints, gutterWidth, STROKE} from './jumps.js'
 import {targetIndex} from './program.js'
-import {JUMP_COLOR, OUTLINE_COLOR, OUTLINE_WIDTH} from './theme.js'
+import {JUMP_COLOR} from './theme.js'
 import {NODE, nodePoints} from './JumpNode.jsx'
 
 /**
@@ -134,14 +134,14 @@ export function JumpArrows({statements, containerRef, selecting = null, hovered 
 
                 return (
                     <g key={`${jump.from}-${jump.to}`}>
-                        {/* Тёмная подложка даёт обводку, как у спрайтов игры */}
-                        <polyline points={line} fill="none" stroke={OUTLINE_COLOR}
-                            stroke-width={STROKE + OUTLINE_WIDTH * 2} stroke-linejoin="miter" />
+                        {/*
+                          * Линия и наконечник рисуются без обводки: в игре это `Lines.stroke(4)`
+                          * цветом кнопки и спрайт `logic-node`, у которого все непрозрачные
+                          * пиксели белые. LCanvas.JumpCurve.drawCurve
+                          */}
                         <polyline points={line} fill="none" stroke={JUMP_COLOR}
                             stroke-width={STROKE} stroke-linejoin="miter" />
-                        {/* Наконечник у точки входа, повёрнут к коду — Tex.logicNode в игре */}
-                        <polygon points={head} fill={JUMP_COLOR}
-                            stroke={OUTLINE_COLOR} stroke-width={OUTLINE_WIDTH} stroke-linejoin="miter" />
+                        <polygon points={head} fill={JUMP_COLOR} />
                     </g>
                 )
             })}

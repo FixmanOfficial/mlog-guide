@@ -735,12 +735,23 @@
  * logic-node, просто у цели он зеркальный. Размер 30, прижата вправо, отступ слева -8.
  * LStatements.JumpStatement.build
  */
+/*
+ * Узел перехода. `padRight(-8f)` в игре выносит кнопку за правый край тела строки — с учётом
+ * рамки и отступа тела она заканчивается вровень с краем строки, и стрелка уходит наружу,
+ * а не ложится поверх инструкций. LStatements:953
+ *
+ * Внутри кнопки форма прижата вправо, как в спрайте: картинка растягивается на всю кнопку,
+ * а пустое поле справа от формы — 2.8 из 30.
+ */
 .jump-target {
     width: 30px;
     height: 30px;
     display: grid;
-    place-items: center;
-    margin-left: -8px;
+    align-items: center;
+    justify-items: end;
+    padding: 0 2.8px 0 0;
+    box-sizing: border-box;
+    margin-right: -8px;
     border: none;
     background: transparent;
     cursor: pointer;
