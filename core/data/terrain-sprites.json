@@ -1,5 +1,5 @@
 {
-  "gameVersion": "v160.2",
+  "gameVersion": "v160.3",
   "source": "sprites/sprites.aatls из Mindustry.jar",
   "note": "Файл сгенерирован, править вручную нельзя. Плитки лежат по 32 пикселя, листы краёв — по 96: три на три плитки, как их режет Floor.load.",
   "atlas": "render/assets/terrain.png",

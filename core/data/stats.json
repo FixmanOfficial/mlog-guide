@@ -1,5 +1,5 @@
 {
-  "gameVersion": "v160.2",
+  "gameVersion": "v160.3",
   "source": "публичные поля контента, отражение по ContentDump.java",
   "note": "Файл сгенерирован, править вручную нельзя. Здесь всё, что игра держит числом или флагом, включая то, что мы не моделируем.",
   "stats": {
@@ -88120,7 +88120,7 @@
         "targetable": false,
         "attacks": false,
         "suppressable": false,
-        "canOverdrive": true,
+        "canOverdrive": false,
         "outlineColor": "#404049",
         "outlineIcon": false,
         "outlineRadius": 4,

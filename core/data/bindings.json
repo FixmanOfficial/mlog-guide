@@ -1,5 +1,5 @@
 {
-  "gameVersion": "v160.2",
+  "gameVersion": "v160.3",
   "source": "core/src/mindustry/input/Binding.java",
   "note": "Файл сгенерирован, править вручную нельзя. Имя привязки — ключ строки в бандлах (`keybind.<имя>.name`), а без клавиши идут те, что игра оставила непривязанными.",
   "bindings": {

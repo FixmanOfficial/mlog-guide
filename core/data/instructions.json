@@ -1,5 +1,5 @@
 {
-  "gameVersion": "v160.2",
+  "gameVersion": "v160.3",
   "source": "core/src/mindustry/logic/LStatements.java",
   "note": "Файл сгенерирован. Порядок параметров совпадает с порядком объявления полей — именно его использует сериализация игры. layoutHint снят из build(Table) и полон не везде: при complete=false редактор строит строку сам, по списку параметров.",
   "counts": {

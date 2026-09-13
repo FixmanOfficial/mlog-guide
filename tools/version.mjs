@@ -20,10 +20,10 @@
 import {readEntries, readFile} from './zip.mjs'
 
 /** Тег исходников. Пин такой же жёсткий, как у самой игры. */
-export const GAME_VERSION = 'v160.2'
+export const GAME_VERSION = 'v160.3'
 
 /** Сборка jar, из которой снят контент. */
-export const CONTENT_VERSION = 'v160.2'
+export const CONTENT_VERSION = 'v160.3'
 
 /** `gradle.properties`: игра закрепляет arc хешем коммита. */
 export const ARC_HASH = '68a04fab6e'

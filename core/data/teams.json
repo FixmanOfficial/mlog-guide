@@ -1,5 +1,5 @@
 {
-  "gameVersion": "v160.2",
+  "gameVersion": "v160.3",
   "source": "game/Team.java через ContentDump",
   "note": "Файл сгенерирован, править вручную нельзя.",
   "teams": {
