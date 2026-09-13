@@ -704,9 +704,16 @@ const builders = {
         const values = [2, 3, 4, 5].map(i => asm.var(params[i] ?? '0'))
 
         return {
-            run: () => {
+            run: (vm) => {
                 const object = target.obj()
                 if (object === null || typeof object.control !== 'function') return
+
+                /*
+                 * Управлять можно только тем, с чем процессор связан: `ControlI` проверяет
+                 * `exec.build.validLink(b)`. Здание, добытое радаром или вынутое из ячейки
+                 * памяти, командам не подчинится — связи с ним нет.
+                 */
+                if (!vm.privileged && !vm.links.includes(object)) return
 
                 // Объектные свойства передают объект, остальные — число. ControlI
                 const first = OBJECT_CONTROLS.has(property) && values[0].isobj

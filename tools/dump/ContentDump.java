@@ -240,6 +240,13 @@ public class ContentDump{
             spec.bool("solid", block.solid);
             spec.bool("rotate", block.rotate);
             spec.bool("configurable", block.configurable);
+            /*
+             * Настраивается ли блок логикой. Поле выводится в `Block.init()`: поднимается,
+             * когда среди настроек блока есть настройка контентом — предметом, жидкостью,
+             * типом юнита. Именно его проверяет `control config`. Block.java:1482-1488
+             */
+            spec.bool("logicConfigurable", block.logicConfigurable);
+            spec.bool("configSenseable", block.configSenseable());
             spec.bool("hasItems", block.hasItems);
             spec.bool("hasLiquids", block.hasLiquids);
             spec.bool("hasPower", block.hasPower);

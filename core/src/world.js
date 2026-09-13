@@ -312,7 +312,15 @@ export class Building {
     senseObject(property) {
         // Тип здания — объект контента, тот же, что константа `@container`. BuildingComp:2137
         if (property === 'type') return this.world?.content?.find?.(this.type) ?? null
-        if (property === 'config') return this.config
+
+        /*
+         * Настройка отдаётся не всякая: `configSenseable()` поднят только у блоков,
+         * которые настраиваются контентом — предметом, жидкостью, типом юнита.
+         * У остальных `@config` это пустота. BuildingComp:2140
+         */
+        if (property === 'config') {
+            return this.spec.configSenseable === true ? this.configItem ?? null : null
+        }
 
         // Первый предмет — тот, что раньше положили и он ещё не кончился
         if (property === 'firstItem') {
@@ -323,15 +331,39 @@ export class Building {
         return NOT_SENSED
     }
 
+    /**
+     * Настройка блока: предмет у сортировщика, тип юнита у завода.
+     *
+     * У большинства зданий её нет, и поле пустует; те, у кого настройка есть, подменяют
+     * эти две строки своим полем — `configItem` у сортировщика и источника предметов.
+     */
+    get configItem() {
+        return this.config
+    }
+
+    set configItem(value) {
+        this.config = value
+    }
+
     control(property, p1) {
         if (property === 'enabled') {
             this.enabled = truthy(p1)
             return true
         }
+
+        /*
+         * `control config` меняет настройку только у блоков, которые игра считает
+         * настраиваемыми логикой (`logicConfigurable` — есть настройка контентом),
+         * и только объектом: число не настраивает ничего. BuildingComp:2165-2171
+         */
         if (property === 'config') {
-            this.config = p1
+            if (this.spec.logicConfigurable !== true) return false
+            if (typeof p1 !== 'object' || p1 === null) return false
+
+            this.configItem = p1
             return true
         }
+
         return false
     }
 

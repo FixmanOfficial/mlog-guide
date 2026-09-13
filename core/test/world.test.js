@@ -6,6 +6,9 @@ import {World, DOOR_TOGGLE_DELAY, DOOR_TAP_DELAY, BLOCK_SPECS} from '../src/worl
 import {Processor} from '../src/vm.js'
 import {createContent} from '../src/content.js'
 
+// Сортировщик — из `distribution.js`: без него мир соберёт его обычным зданием
+import '../src/distribution.js'
+
 const logicIds = JSON.parse(readFileSync(new URL('../data/logic-ids.json', import.meta.url), 'utf8'))
 const icons = JSON.parse(readFileSync(new URL('../data/icons.json', import.meta.url), 'utf8'))
 
@@ -295,6 +298,68 @@ test('control переключает блок, sensor это видит', () => 
 
     assert.equal(links[3].enabled, false)
     assert.equal(processor.num('result'), 0)
+})
+
+test('control config меняет настройку сортировщика, но только объектом', () => {
+    /*
+     * `BuildingComp.control(LAccess, Object, …)`: настройка меняется у блоков с поднятым
+     * `logicConfigurable` и только объектом — число не настраивает ничего.
+     */
+    const content = createContent(logicIds)
+    const world = new World({content})
+    const sorter = world.add('sorter', {x: 1, y: 1})
+
+    const processor = new Processor([
+        'control config sorter1 @copper',
+        'sensor настройка sorter1 @config'
+    ].join('\n'), {world, links: [sorter], content, globals: content.globals})
+
+    world.addProcessor(processor)
+    processor.run(2)
+
+    assert.equal(sorter.sortItem.name, 'copper')
+    assert.equal(processor.get('настройка').objval.name, 'copper')
+
+    // Числом настройка не меняется: ветка `type.isObj && p1.isobj` до блока не доходит
+    const byNumber = new Processor('control config sorter1 3', {world, links: [sorter], content})
+    world.addProcessor(byNumber)
+    byNumber.run(1)
+
+    assert.equal(sorter.sortItem.name, 'copper')
+})
+
+test('настройка есть не у всякого блока, и @config у прочих пуст', () => {
+    const content = createContent(logicIds)
+    const world = new World({content})
+    const container = world.add('container', {x: 1, y: 1})
+
+    const processor = new Processor([
+        'control config container1 @copper',
+        'sensor настройка container1 @config'
+    ].join('\n'), {world, links: [container], content, globals: content.globals})
+
+    world.addProcessor(processor)
+    processor.run(2)
+
+    // `logicConfigurable` у контейнера нет, `configSenseable` тоже
+    assert.equal(processor.get('настройка').objval, null)
+})
+
+test('control слушается только связанных блоков', () => {
+    /*
+     * `ControlI`: команда доходит, если `exec.build.validLink(b)`. Здание, добытое мимо
+     * связей — радаром, из памяти, через соседний процессор, — командам не подчиняется.
+     */
+    const world = new World()
+    const door = world.add('door', {x: 1, y: 1})
+    const processor = new Processor('control enabled block1 0', {world, links: []})
+
+    // Кладём дверь в переменную мимо связей
+    processor.get('block1').setobj(door)
+    world.addProcessor(processor)
+    processor.run(1)
+
+    assert.equal(door.enabled, true)
 })
 
 test('дверь не переключается чаще таймера', () => {

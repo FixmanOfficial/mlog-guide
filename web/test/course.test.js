@@ -33,6 +33,7 @@ import {
 import {
     FIRST, FORGOTTEN, SHAPES, COLORS, TEXT, TRANSFORM, OVERFLOW, TWO
 } from '../src/course/scenes/draw.js'
+import {ENABLED, CONFIG, UNLINKED} from '../src/course/scenes/control.js'
 import iconTable from '@mlog/core/data/icons.json' with {type: 'json'}
 import logicIdsData from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
@@ -1606,4 +1607,60 @@ test('урок «Draw Flush»: каждому дисплею своя пачка
     assert.notDeepEqual(
         [displays[0].commands[0].x, displays[0].commands[0].y],
         [displays[1].commands[0].x, displays[1].commands[0].y])
+})
+
+test('урок «Включить и выключить»: бур стоит, пока меди хватает', () => {
+    const {processor, world} = stage(ENABLED, 120)
+
+    assert.equal(num(processor, 'медь'), 60)
+    assert.equal(num(processor, 'мало'), 1)
+    assert.equal(num(processor, 'работает'), 1)
+
+    // Задание урока: с порогом 10 бур не включится вовсе
+    const strict = {
+        ...ENABLED,
+        processors: [{
+            ...ENABLED.processors[0],
+            program: ENABLED.processors[0].program.replace('op lessThan мало медь 100', 'op lessThan мало медь 10')
+        }]
+    }
+
+    const off = stage(strict, 120)
+    assert.equal(num(off.processor, 'работает'), 0)
+    assert.equal(off.world.get('drill1').enabled, false)
+    assert.equal(world.get('drill1').enabled, true)
+})
+
+test('урок «Настройка блока»: сортировщик встаёт на тот предмет, которого меньше', () => {
+    const {processor, world} = stage(CONFIG, 60)
+
+    assert.equal(obj(processor, 'предмет').name, 'lead')
+    assert.equal(obj(processor, 'настройка').name, 'lead')
+    assert.equal(world.get('sorter1').sortItem.name, 'lead')
+})
+
+test('урок «Настройка блока»: числом настройка не меняется', () => {
+    const byNumber = {
+        ...CONFIG,
+        processors: [{
+            ...CONFIG.processors[0],
+            program: CONFIG.processors[0].program
+                .replace('control config sorter1 предмет', 'control config sorter1 3')
+        }]
+    }
+
+    const {processor, world} = stage(byNumber, 60)
+
+    assert.equal(world.get('sorter1').sortItem, null)
+    assert.equal(obj(processor, 'настройка'), null)
+})
+
+test('урок «Включить и выключить»: несвязанный блок команду не выполняет', () => {
+    const {processor, world} = stage(UNLINKED, 60)
+
+    // Здание добыто у соседнего процессора: sensor его читает, control до него не доходит
+    assert.equal(obj(processor, 'чужой').type, 'mechanical-drill')
+    assert.equal(num(processor, 'свойРаботает'), 0)
+    assert.equal(num(processor, 'чужойРаботает'), 1)
+    assert.equal(world.get('drill2').enabled, true)
 })
