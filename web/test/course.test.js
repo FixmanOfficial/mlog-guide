@@ -34,6 +34,8 @@ import {
     FIRST, FORGOTTEN, SHAPES, COLORS, TEXT, TRANSFORM, OVERFLOW, TWO
 } from '../src/course/scenes/draw.js'
 import {ENABLED, CONFIG, UNLINKED, SHOOT, SHOOTP} from '../src/course/scenes/control.js'
+import {LOOP as LINK_LOOP, BEYOND} from '../src/course/scenes/getlink.js'
+import {FIND, SORT, CACHE} from '../src/course/scenes/radar.js'
 import iconTable from '@mlog/core/data/icons.json' with {type: 'json'}
 import logicIdsData from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
@@ -1273,7 +1275,8 @@ test('урок «Ритм программы»: таймер на @time сраб
 })
 
 /** Сцена целиком: уроки про память проверяют не только переменные, но и саму ячейку. */
-function stage(description, ticks = 20) {
+/** Собранная сцена без единого тика: нужна тем тестам, что смотрят на ход времени. */
+function build(description) {
     const {world, processors} = buildScene(description, {content})
 
     for (const entry of processors) {
@@ -1284,6 +1287,12 @@ function stage(description, ticks = 20) {
     }
 
     world.processors = processors.map(entry => entry.building.processor)
+    return {world, processors}
+}
+
+function stage(description, ticks = 20) {
+    const {world, processors} = build(description)
+
     for (let i = 0; i < ticks; i++) world.step()
 
     return {
@@ -1721,4 +1730,93 @@ test('урок «Число внутри»: младший бит теряетс
     // Дроби хранятся приближённо, и урок называет обе цифры вслух
     assert.equal(num(processor, 'дробь'), 0.30000000000000004)
     assert.ok(Math.abs(num(processor, 'ошибка') - 5.551115123125783e-17) < 1e-30)
+})
+
+test('урок «Связи по номеру»: обход печатает все три связи', () => {
+    const {message} = stage(LINK_LOOP, 60)
+    assert.equal(message, 'container memory-cell message ')
+
+    // Задание: с пределом 5 в буфер уходят две пустоты
+    const longer = {
+        ...LINK_LOOP,
+        processors: [{
+            ...LINK_LOOP.processors[0],
+            program: LINK_LOOP.processors[0].program
+                .replace('jump 0 lessThan номер @links', 'jump 0 lessThan номер 5')
+        }]
+    }
+
+    assert.equal(stage(longer, 60).message, 'container memory-cell message null null ')
+})
+
+test('урок «Связи по номеру»: за последней связью пустота, дробный номер усекается', () => {
+    const {processor} = stage(BEYOND, 20)
+
+    assert.equal(num(processor, 'сколько'), 2)
+    assert.equal(obj(processor, 'первый').type, 'container')
+    assert.equal(obj(processor, 'второй').type, 'memory-cell')
+    assert.equal(obj(processor, 'третий'), null)
+
+    // 1.9 — это связь номер 1
+    assert.equal(obj(processor, 'дробный').type, 'memory-cell')
+})
+
+test('урок «Найти юнита»: фильтры складываются логическим И', () => {
+    const {processor, message} = stage(FIND, 60)
+
+    assert.equal(obj(processor, 'ближний').type, 'dagger')
+    assert.equal(obj(processor, 'летящий').type, 'flare')
+    assert.equal(obj(processor, 'свой').type, 'poly')
+    assert.equal(message, 'dagger flare poly')
+
+    const variant = (from, to) => ({
+        ...FIND,
+        processors: [{...FIND.processors[0], program: FIND.processors[0].program.replace(from, to)}]
+    })
+
+    // Задания урока: наземный чужой это кинжал, а летающих союзников нет вовсе
+    const ground = stage(variant('radar enemy any any distance duo1 1 ближний',
+        'radar enemy ground any distance duo1 1 ближний'), 60)
+    assert.equal(obj(ground.processor, 'ближний').type, 'dagger')
+
+    // Поли летает, наземных союзников на карте нет
+    const none = stage(variant('radar ally any any distance duo1 1 свой',
+        'radar ally ground any distance duo1 1 свой'), 60)
+    assert.equal(obj(none.processor, 'свой'), null)
+})
+
+test('урок «Сортировка и кеш»: порядок переворачивает выбор', () => {
+    const {processor} = stage(SORT, 60)
+
+    assert.equal(obj(processor, 'ближний').type, 'dagger')
+    assert.equal(obj(processor, 'дальний').type, 'flare')
+    assert.equal(obj(processor, 'живучий').type, 'dagger')
+    assert.equal(obj(processor, 'слабый').type, 'flare')
+
+    assert.equal(num(processor, 'ближнееЗдоровье'), 150)
+    assert.equal(num(processor, 'слабоеЗдоровье'), 70)
+})
+
+test('урок «Сортировка и кеш»: мёртвая цель держится до пересчёта', () => {
+    const {world, processors} = build(CACHE)
+    const processor = processors[0].building.processor
+
+    let died = null
+    let forgotten = null
+
+    for (let tick = 0; tick < 300; tick++) {
+        world.step()
+
+        const target = processor.get('цель')?.objval
+        if (died === null && target !== null && target !== undefined && target.dead) died = tick
+        if (died !== null && forgotten === null && (target === null || target === undefined)) {
+            forgotten = tick
+        }
+    }
+
+    assert.ok(died !== null, 'флара должна погибнуть')
+    assert.ok(forgotten !== null, 'радар должен забыть покойника')
+
+    // Пересчёт раз в 30 тиков: между смертью и забвением проходит меньше полусекунды
+    assert.ok(forgotten - died <= 30, `прошло ${forgotten - died} тиков`)
 })
