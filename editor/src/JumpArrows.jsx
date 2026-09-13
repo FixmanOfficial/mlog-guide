@@ -1,6 +1,6 @@
-import {useState, useLayoutEffect} from 'preact/hooks'
+import {useState, useLayoutEffect, useRef} from 'preact/hooks'
 
-import {assignLanes, curvePoints, gutterWidth} from './jumps.js'
+import {assignLanes, curvePoints, gutterWidth, STROKE} from './jumps.js'
 import {targetIndex} from './program.js'
 import {JUMP_COLOR, OUTLINE_COLOR, OUTLINE_WIDTH} from './theme.js'
 import {NODE, nodePoints} from './JumpNode.jsx'
@@ -95,8 +95,20 @@ export function JumpArrows({statements, containerRef, selecting = null, hovered 
     /*
      * Поле справа под стрелки. Считается той же меркой, что и ширина полотна, — иначе
      * самая дальняя стрелка обрезалась бы краем примера.
+     *
+     * Ширина строк от него не пляшет. У программы с переходом поле есть всегда, даже пока
+     * цель не выбрана, — иначе строки менялись бы в ширине от того, задана она или нет.
+     * А пока цель перетаскивают, поле ещё и не сужается: в игре нажатие сбрасывает старую
+     * цель, стрелок на миг не остаётся вовсе, и всё поехало бы прямо под пальцем.
      */
-    const gutter = gutterWidth(jumps, narrow)
+    const least = statements.some(statement => statement.opcode === 'jump')
+        ? gutterWidth([{lane: 0}], narrow)
+        : gutterWidth([], narrow)
+
+    const held = useRef(least)
+    const gutter = Math.max(least, gutterWidth(jumps, narrow), selecting === null ? 0 : held.current)
+
+    if (selecting === null) held.current = gutter
 
     useLayoutEffect(() => {
         const editor = containerRef.current?.parentElement
