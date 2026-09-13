@@ -1475,3 +1475,22 @@ test('урок «Переменные соседа»: задания про оп
     // Ритм задаёт тот, кто командует
     assert.equal(stage(variant('wait 1', 'wait 0.25'), 180).message, 'сделано 12')
 })
+
+test('карточки уроков пользуются только теми ролями, что есть у Card', () => {
+    /*
+     * Незнакомая роль не падает, а молча становится «Скрытой ошибкой»: `KINDS[kind] ?? error`.
+     * Так весь курс однажды и оказался в красных рамках — заметка была написана `kind="note"`,
+     * а роли с таким именем не существовало.
+     */
+    const lessons = fileURLToPath(new URL('../src/content/docs/ru/course/', import.meta.url))
+    const card = readFileSync(fileURLToPath(new URL('../src/course/Card.astro', import.meta.url)), 'utf8')
+    const known = new Set([...card.matchAll(/^\s{4}(\w+): \{color:/gm)].map(match => match[1]))
+
+    assert.ok(known.size >= 4, [...known].join(' '))
+
+    for (const file of lessonFiles(lessons)) {
+        for (const [, kind] of readFileSync(file, 'utf8').matchAll(/<Card kind="(\w+)"/g)) {
+            assert.ok(known.has(kind), `${file}: роли ${kind} у Card нет`)
+        }
+    }
+})
