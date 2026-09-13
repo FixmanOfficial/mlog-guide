@@ -2,7 +2,7 @@ import {defineConfig} from 'astro/config'
 import starlight from '@astrojs/starlight'
 import preact from '@astrojs/preact'
 
-import {existsSync, readdirSync} from 'node:fs'
+import {existsSync} from 'node:fs'
 import {join} from 'node:path'
 import {fileURLToPath} from 'node:url'
 
@@ -56,22 +56,16 @@ function instructionGroups() {
 function courseParts() {
     const lessons = fileURLToPath(new URL('src/content/docs/ru/course/', import.meta.url))
 
-    const groupItem = (group) => {
-        const label = group.opcode === undefined ? group.title : instructionName(group.opcode)
-        const translations = group.en === undefined ? undefined : {en: group.en}
-
-        /*
-         * Группа из одного урока — это сам урок: у `end` и `stop` разговора на два урока
-         * нет, и раскрывающийся список с единственным «Обзором» был бы издевательством.
-         * Ссылка ведёт прямо на страницу.
-         */
-        const alone = readdirSync(join(lessons, group.id))
-            .filter(name => name.endsWith('.mdx')).length === 1
-
-        return alone
-            ? {label, translations, link: `course/${group.id}`}
-            : {label, translations, autogenerate: {directory: `course/${group.id}`}}
-    }
+    /*
+     * Группа раскрывается всегда, даже если урок в ней один. Список, где половина пунктов
+     * раскрывается, а половина ведёт прямо на страницу, читается как сломанный — а «Stop»
+     * и «End» такие же инструкции, как остальные, и в меню игры стоят с ними в ряд.
+     */
+    const groupItem = (group) => ({
+        label: group.opcode === undefined ? group.title : instructionName(group.opcode),
+        translations: group.en === undefined ? undefined : {en: group.en},
+        autogenerate: {directory: `course/${group.id}`}
+    })
 
     /** Категория с написанными группами внутри, или null, если писать ещё нечего. */
     const categoryItem = (entry) => {
