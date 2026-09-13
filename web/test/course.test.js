@@ -27,6 +27,7 @@ import {CHOICE} from '../src/course/scenes/select.js'
 import {TICKS, STOPPED, ENDING, RHYTHM, TIMER} from '../src/course/scenes/wait.js'
 import {BUFFER, PIECES, FLUSH} from '../src/course/scenes/print.js'
 import {TEMPLATE, CHARS} from '../src/course/scenes/format.js'
+import {CELLS, BOUNDS, STORE, OBJECTS, SHARED} from '../src/course/scenes/memory.js'
 import iconTable from '@mlog/core/data/icons.json' with {type: 'json'}
 import logicIdsData from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
@@ -1263,4 +1264,140 @@ test('урок «Ритм программы»: таймер на @time сраб
 
     // Круг при этом крутится на полной скорости: десятки проходов в секунду
     assert.ok(num(processor, 'кругов') > 150, num(processor, 'кругов'))
+})
+
+/** Сцена целиком: уроки про память проверяют не только переменные, но и саму ячейку. */
+function stage(description, ticks = 20) {
+    const {world, processors} = buildScene(description, {content})
+
+    for (const entry of processors) {
+        entry.building.processor = new Processor(entry.program, {
+            links: entry.links, world, content, globals: content.globals,
+            ipt: entry.building.spec.ipt, building: entry.building, team: entry.building.team
+        })
+    }
+
+    world.processors = processors.map(entry => entry.building.processor)
+    for (let i = 0; i < ticks; i++) world.step()
+
+    return {
+        world,
+        processor: processors[0].building.processor,
+        cell: world.buildings.find(building => building.type === 'memory-cell'),
+        message: world.buildings.find(building => building.type === 'message')?.message
+    }
+}
+
+test('урок «Read»: числа достаются из ячейки по адресам', () => {
+    const {processor, message} = stage(CELLS)
+
+    assert.equal(num(processor, 'запас'), 40)
+    assert.equal(num(processor, 'расход'), 12)
+    assert.equal(num(processor, 'предел'), 300)
+    assert.equal(message, 'запас 40 из 300')
+})
+
+test('урок «Read»: адрес усекается, за границей лежит пустота', () => {
+    const {processor} = stage(BOUNDS)
+
+    // 1.9 — это место 1, а не 2: MemoryBlock берёт адрес через numi()
+    assert.equal(num(processor, 'дробный'), 12)
+
+    // Место внутри ячейки, но пустое — ноль; за границей и по отрицательному адресу — null
+    assert.equal(num(processor, 'пустое'), 0)
+    assert.equal(obj(processor, 'заГраницей'), null)
+    assert.equal(processor.get('заГраницей').isobj, true)
+    assert.equal(obj(processor, 'отрицательный'), null)
+    assert.equal(processor.get('отрицательный').isobj, true)
+
+    assert.equal(num(processor, 'мест'), 64)
+})
+
+test('урок «Read»: задание про адрес за границей', () => {
+    const far = {
+        ...CELLS,
+        processors: [{
+            ...CELLS.processors[0],
+            program: CELLS.processors[0].program.replace('read запас cell1 0', 'read запас cell1 100')
+        }]
+    }
+
+    assert.equal(stage(far).message, 'запас null из 300')
+})
+
+test('урок «Запись в ячейку»: счётчик живёт в памяти, а не в переменной', () => {
+    // wait 0.5 — два круга в секунду; за две секунды их четыре
+    const {processor, cell, message} = stage(STORE, 120)
+
+    assert.equal(num(processor, 'кругов'), 4)
+    assert.equal(cell.memory[0], 4)
+    assert.equal(message, 'кругов: 4')
+})
+
+test('урок «Запись в ячейку»: задание про запись за границей', () => {
+    const lost = {
+        ...STORE,
+        processors: [{
+            ...STORE.processors[0],
+            program: STORE.processors[0].program.replace('write кругов cell1 0', 'write кругов cell1 64')
+        }]
+    }
+
+    const {cell, message} = stage(lost, 120)
+
+    // Читается всегда нулевое место, а запись уходит в никуда — счётчик замирает на единице
+    assert.equal(message, 'кругов: 1')
+    assert.ok(cell.memory.every(value => value === 0))
+})
+
+test('урок «Объект в ячейке»: предмет и здание лежат собой, а не номером', () => {
+    const {processor, cell, message} = stage(OBJECTS)
+
+    assert.equal(obj(processor, 'предмет').name, 'copper')
+    assert.equal(obj(processor, 'склад').type, 'container')
+    assert.equal(num(processor, 'сколько'), 120)
+    assert.equal(message, 'copper: 120')
+
+    // В самой ячейке лежат те же объекты, а не числа
+    assert.equal(cell.memory[0].name, 'copper')
+    assert.equal(cell.memory[1].type, 'container')
+})
+
+test('урок «Объект в ячейке»: задания дают обещанные ответы', () => {
+    const variant = (from, to) => ({
+        ...OBJECTS,
+        processors: [{
+            ...OBJECTS.processors[0],
+            program: OBJECTS.processors[0].program.replace(from, to)
+        }]
+    })
+
+    assert.equal(stage(variant('write @copper cell1 0', 'write @lead cell1 0')).message, 'lead: 0')
+    // У процессора нет склада вовсе, поэтому вопрос к нему даёт пустоту, а не ноль
+    assert.equal(stage(variant('write container1 cell1 1', 'write @this cell1 1')).message, 'copper: null')
+})
+
+test('урок «Общая память»: один процессор кладёт, другой берёт', () => {
+    const {cell, message} = stage(SHARED)
+
+    assert.equal(cell.memory[0], 120)
+    assert.equal(message, 'на складе 120')
+})
+
+test('урок «Общая память»: задания про чужой адрес и про пустую запись', () => {
+    const writer = (program) => ({
+        ...SHARED,
+        processors: [{...SHARED.processors[0], program}, SHARED.processors[1]]
+    })
+
+    const elsewhere = writer([
+        'sensor медь container1 @copper',
+        'write медь cell1 1'
+    ].join('\n'))
+
+    assert.equal(stage(elsewhere).message, 'на складе 0')
+
+    // Без sensor переменная пуста, и в ячейку уходит пустота — не ноль
+    const empty = writer('write медь cell1 0')
+    assert.equal(stage(empty).message, 'на складе null')
 })
