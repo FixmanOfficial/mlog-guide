@@ -24,7 +24,7 @@ import {ASSIGN, CONTENT} from '../src/course/scenes/set.js'
 import {BRANCH, LOOP} from '../src/course/scenes/jump.js'
 import {COUNTER, RELATIVE} from '../src/course/scenes/advanced.js'
 import {CHOICE} from '../src/course/scenes/select.js'
-import {TICKS, STOPPED, RHYTHM} from '../src/course/scenes/flow.js'
+import {TICKS, STOPPED, ENDING, RHYTHM} from '../src/course/scenes/wait.js'
 import logicIdsData from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
 
@@ -979,7 +979,7 @@ function roundsPerSecond(tail, type = 'hyper-processor') {
     return num(processors[0].building.processor, 'кругов')
 }
 
-test('урок «wait, end и stop»: таблица кругов за секунду', () => {
+test('уроки про wait, end и stop: таблица кругов за секунду', () => {
     // Числа из таблицы урока, гиперпроцессор: 25 инструкций за такт
     assert.equal(roundsPerSecond([]), 1475)
     assert.equal(roundsPerSecond(['end']), 738)
@@ -988,7 +988,17 @@ test('урок «wait, end и stop»: таблица кругов за секу�
     assert.equal(roundsPerSecond(['stop']), 1)
 })
 
-test('урок «wait, end и stop»: wait отмеряет секунду, stop не пускает дальше', () => {
+test('урок «End»: круг обрывается, а строка под end недостижима', () => {
+    const processor = run(ENDING, 0)
+
+    // Урок просит четыре шага: это два круга по две инструкции
+    for (let i = 0; i < 4; i++) processor.step()
+
+    assert.equal(num(processor, 'кругов'), 2)
+    assert.equal(obj(processor, 'после'), null)
+})
+
+test('уроки про wait и stop: секунда отмеряется, за stop программа не уходит', () => {
     const {world, processors} = buildScene(TICKS, {content})
 
     for (const entry of processors) {

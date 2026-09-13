@@ -40,17 +40,38 @@ export async function groupLessons(locale, group) {
         }))
 }
 
+/**
+ * Урок группы, у которой урок один: им служит сама страница группы.
+ *
+ * У `end` и `stop` разговора на два урока нет, и заводить ради этого «Обзор» плюс
+ * единственный урок — издевательство над читателем. Признак такой страницы — сложность
+ * в шапке: обзоры её не ставят.
+ */
+function singleLesson(page, locale, group) {
+    if (page === undefined || page.data.difficulty === undefined) return []
+
+    return [{
+        slug: page.slug,
+        href: `/${locale}/course/${group}/`,
+        title: page.data.title,
+        lead: page.data.lead ?? null,
+        difficulty: page.data.difficulty
+    }]
+}
+
 /** Все группы, у которых есть хоть один урок, в порядке `GROUPS`. */
 export async function courseGroups(locale) {
     const groups = []
 
     for (const group of GROUPS) {
-        const lessons = await groupLessons(locale, group)
-        if (lessons.length === 0) continue
-
         const page = (await getCollection('docs'))
             .find(entry => entry.slug === `${locale}/course/${group}`
                 || entry.slug === `${locale}/course/${group}/index`)
+
+        const lessons = (await groupLessons(locale, group))
+            .concat(singleLesson(page, locale, group))
+
+        if (lessons.length === 0) continue
 
         groups.push({
             name: group,

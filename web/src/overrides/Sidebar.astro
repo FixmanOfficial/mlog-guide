@@ -31,7 +31,8 @@ function decorate(entries) {
     return entries.map(entry => {
         if (entry.type !== 'link') return {...entry, entries: decorate(entry.entries)}
 
-        const difficulty = levels.get(entry.href)
+        // Ссылка из конфига приходит без косой на конце, а страница из коллекции — с косой
+        const difficulty = levels.get(entry.href.endsWith('/') ? entry.href : `${entry.href}/`)
         if (difficulty === undefined) return entry
 
         return {...entry, attrs: {...entry.attrs, 'data-level': difficulty}}

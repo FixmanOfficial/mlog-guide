@@ -37,7 +37,9 @@ export const PARTS = [
         category: 'control',
         groups: [
             {id: 'jump', opcode: 'jump'},
-            {id: 'flow', title: 'Ход программы', en: 'Program flow'}
+            {id: 'wait', opcode: 'wait'},
+            {id: 'end', opcode: 'end'},
+            {id: 'stop', opcode: 'stop'}
         ]
     },
 

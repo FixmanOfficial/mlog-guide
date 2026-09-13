@@ -2,7 +2,7 @@ import {defineConfig} from 'astro/config'
 import starlight from '@astrojs/starlight'
 import preact from '@astrojs/preact'
 
-import {existsSync} from 'node:fs'
+import {existsSync, readdirSync} from 'node:fs'
 import {join} from 'node:path'
 import {fileURLToPath} from 'node:url'
 
@@ -60,13 +60,25 @@ function courseParts() {
         .map(part => {
             const groups = partGroups(part)
                 .filter(group => existsSync(join(lessons, group.id)))
-                .map(group => ({
-                    label: group.opcode === undefined
+                .map(group => {
+                    const label = group.opcode === undefined
                         ? group.title
-                        : instructionName(group.opcode),
-                    translations: group.en === undefined ? undefined : {en: group.en},
-                    autogenerate: {directory: `course/${group.id}`}
-                }))
+                        : instructionName(group.opcode)
+
+                    const translations = group.en === undefined ? undefined : {en: group.en}
+
+                    /*
+                     * Группа из одного урока — это сам урок: у `end` и `stop` разговора
+                     * на два урока нет, и раскрывающийся список с единственным «Обзором»
+                     * был бы издевательством. Ссылка ведёт прямо на страницу.
+                     */
+                    const alone = readdirSync(join(lessons, group.id))
+                        .filter(name => name.endsWith('.mdx')).length === 1
+
+                    return alone
+                        ? {label, translations, link: `course/${group.id}`}
+                        : {label, translations, autogenerate: {directory: `course/${group.id}`}}
+                })
 
             if (groups.length === 0) return null
 
