@@ -43,12 +43,21 @@ export const PARTS = [
         ]
     },
 
+    /*
+     * Порядок чтения, а не порядок в меню игры: сначала текст целиком (набрать, подставить,
+     * отдать), потом память, потом рисование.
+     */
     {
         category: 'io',
         groups: [
-            {id: 'print', title: 'Печать', en: 'Printing'},
-            {id: 'read', title: 'Память', en: 'Memory'},
-            {id: 'draw', title: 'Дисплей', en: 'Display'}
+            {id: 'print', opcode: 'print'},
+            {id: 'format', opcode: 'format'},
+            {id: 'printchar', opcode: 'printchar'},
+            {id: 'printflush', opcode: 'printflush'},
+            {id: 'read', opcode: 'read'},
+            {id: 'write', opcode: 'write'},
+            {id: 'draw', opcode: 'draw'},
+            {id: 'drawflush', opcode: 'drawflush'}
         ]
     },
 

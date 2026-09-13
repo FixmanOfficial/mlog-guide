@@ -25,6 +25,7 @@ import {BRANCH, LOOP} from '../src/course/scenes/jump.js'
 import {COUNTER, RELATIVE} from '../src/course/scenes/advanced.js'
 import {CHOICE} from '../src/course/scenes/select.js'
 import {TICKS, STOPPED, ENDING, RHYTHM} from '../src/course/scenes/wait.js'
+import {BUFFER, PIECES, FLUSH} from '../src/course/scenes/print.js'
 import logicIdsData from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
 
@@ -1037,4 +1038,86 @@ test('урок «Ритм программы»: два круга в секун�
      * такт на саму программу — девять кругов за секунду.
      */
     assert.equal(num(run(faster, 60), 'проверок'), 9)
+})
+
+test('урок «Текстовый буфер»: куски склеиваются в порядке выполнения', () => {
+    const processor = run(BUFFER, 0)
+    for (let i = 0; i < 5; i++) processor.step()
+
+    assert.equal(processor.textBuffer, 'меди: 120 из 300')
+})
+
+test('урок «Текстовый буфер»: задание с переставленными строками', () => {
+    const swapped = {
+        ...BUFFER,
+        processors: [{
+            ...BUFFER.processors[0],
+            program: [
+                'sensor медь container1 @copper',
+                'print медь',
+                'print "меди: "',
+                'print " из "',
+                'print 300'
+            ].join('\n')
+        }]
+    }
+
+    const processor = run(swapped, 0)
+    for (let i = 0; i < 5; i++) processor.step()
+
+    assert.equal(processor.textBuffer, '120меди:  из 300')
+})
+
+test('урок «Что во что печатается»: здание печатается типом, пустота — словом', () => {
+    const processor = run(PIECES, 0)
+    for (let i = 0; i < 7; i++) processor.step()
+
+    assert.equal(processor.textBuffer, 'copper container null 0.5')
+})
+
+test('урок «Что во что печатается»: задание про тип блока и про треть', () => {
+    // Шагов ровно столько, сколько строк: лишний шаг пошёл бы на второй круг
+    const variant = (program, steps) => {
+        const processor = run({...PIECES, processors: [{...PIECES.processors[0], program}]}, 0)
+        for (let i = 0; i < steps; i++) processor.step()
+        return processor.textBuffer
+    }
+
+    // Здание и его тип печатаются одинаково
+    assert.equal(variant([
+        'print @copper',
+        'print " "',
+        'print @container',
+        'print " "',
+        'print пусто',
+        'print " "',
+        'print 0.5'
+    ].join('\n'), 7), 'copper container null 0.5')
+
+    // А непорезанная дробь печатается целиком
+    assert.equal(variant([
+        'op div треть 1 3',
+        'print треть'
+    ].join('\n'), 2), '0.3333333333333333')
+})
+
+test('урок «Print Flush»: буфер уходит в блок сообщений и чистится', () => {
+    const {world, processors} = buildScene(FLUSH, {content})
+
+    for (const entry of processors) {
+        entry.building.processor = new Processor(entry.program, {
+            links: entry.links, world, content, globals: content.globals,
+            ipt: entry.building.spec.ipt, building: entry.building, team: entry.building.team
+        })
+    }
+
+    world.processors = processors.map(entry => entry.building.processor)
+    const processor = processors[0].building.processor
+
+    for (let i = 0; i < 4; i++) processor.step()
+
+    assert.equal(processor.textBuffer, '')
+
+    const message = world.buildings.find(building => building.type === 'message')
+    assert.equal(message.message, 'меди: 120')
 })

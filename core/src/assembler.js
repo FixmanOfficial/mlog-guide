@@ -299,6 +299,15 @@ function printValue(variable) {
         if (object === null) return 'null'
         if (typeof object === 'string') return object
         if (object.access !== undefined) return object.access
+
+        /*
+         * Здание и юнит печатаются **типом**, а не именем: `print container1` даёт
+         * `container`, а не имя связи. В игре это `build.block.name` и `unit.type.name`;
+         * у нас у обоих тип лежит в `type`, а `name` — это имя связи, которого в игре
+         * у здания нет вовсе. LExecutor.PrintI.toString
+         */
+        if (object.spec !== undefined && typeof object.type === 'string') return object.type
+
         if (object.name !== undefined) return object.name
         return '[object]'
     }

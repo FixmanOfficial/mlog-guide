@@ -73,6 +73,23 @@ test('format без подходящего места не делает ниче
     assert.equal(links[1].message, 'без мест')
 })
 
+test('print показывает у здания тип блока, а не имя связи', () => {
+    /*
+     * `PrintI.toString` печатает `build.block.name`, а имени связи в игре у здания нет
+     * вовсе: оно принадлежит процессору, а не блоку. Поэтому `print container1` даёт
+     * `container`. LExecutor.PrintI.toString
+     */
+    const {processor} = setup([
+        'print cell1',
+        'print " "',
+        'print message1'
+    ].join('\n'), ['memory-cell', 'message'])
+
+    processor.run(3)
+
+    assert.equal(processor.textBuffer, 'memory-cell message')
+})
+
 test('printflush чистит буфер даже когда цель не подходит', () => {
     const {processor} = setup('print "текст"\nprintflush cell1')
     processor.run(2)
