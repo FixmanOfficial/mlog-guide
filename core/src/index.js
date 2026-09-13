@@ -11,6 +11,7 @@ export {
     ConveyorBuilding, RouterBuilding, JunctionBuilding, SorterBuilding, OverflowGateBuilding
 } from './distribution.js'
 export {ItemSourceBuilding, ItemVoidBuilding} from './sandbox.js'
+export {TurretBuilding, Bullet, LOGIC_CONTROL_COOLDOWN} from './turret.js'
 export {PowerGraph, PowerModule, GeneratorBuilding, PowerNodeBuilding} from './power.js'
 export {World, Building, BLOCK_SPECS} from './world.js'
 export {NOT_SENSED} from './sense.js'

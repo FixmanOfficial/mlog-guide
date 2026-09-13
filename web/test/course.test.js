@@ -33,7 +33,7 @@ import {
 import {
     FIRST, FORGOTTEN, SHAPES, COLORS, TEXT, TRANSFORM, OVERFLOW, TWO
 } from '../src/course/scenes/draw.js'
-import {ENABLED, CONFIG, UNLINKED} from '../src/course/scenes/control.js'
+import {ENABLED, CONFIG, UNLINKED, SHOOT, SHOOTP} from '../src/course/scenes/control.js'
 import iconTable from '@mlog/core/data/icons.json' with {type: 'json'}
 import logicIdsData from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
@@ -1663,4 +1663,47 @@ test('урок «Включить и выключить»: несвязанны�
     assert.equal(num(processor, 'свойРаботает'), 0)
     assert.equal(num(processor, 'чужойРаботает'), 1)
     assert.equal(world.get('drill2').enabled, true)
+})
+
+test('урок «Стрельба»: турель разворачивается и бьёт по точке', () => {
+    const {processor, world} = stage(SHOOT, 120)
+
+    // Цель ровно справа: ствол доворачивается до нуля градусов
+    assert.ok(Math.abs(num(processor, 'поворот')) < 1, num(processor, 'поворот'))
+    assert.equal(num(processor, 'стреляет'), 1)
+
+    // Десять кусков меди — двадцать единиц боезапаса, и часть уже потрачена
+    assert.ok(num(processor, 'патронов') < 20, num(processor, 'патронов'))
+
+    const enemy = world.units[0]
+    assert.ok(enemy.health < 150, enemy.health)
+})
+
+test('урок «Стрельба»: без последнего поля турель только целится', () => {
+    const aiming = {
+        ...SHOOT,
+        processors: [{
+            ...SHOOT.processors[0],
+            program: SHOOT.processors[0].program.replace('control shoot duo1 13 4 1', 'control shoot duo1 13 4 0')
+        }]
+    }
+
+    const {processor, world} = stage(aiming, 120)
+
+    assert.equal(num(processor, 'стреляет'), 0)
+    assert.equal(num(processor, 'патронов'), 20)
+    assert.equal(world.units[0].health, 150)
+
+    // Развернуться при этом успела
+    assert.ok(Math.abs(num(processor, 'поворот')) < 1, num(processor, 'поворот'))
+})
+
+test('урок «Стрельба»: shootp ведёт цель с упреждением', () => {
+    const {processor, world} = stage(SHOOTP, 120)
+
+    assert.equal(obj(processor, 'цель').type, 'flare')
+    assert.equal(num(processor, 'стреляет'), 1)
+
+    // Флара под обстрелом: 70 здоровья против девяти за попадание
+    assert.ok(world.units[0].health < 70, world.units[0].health)
 })

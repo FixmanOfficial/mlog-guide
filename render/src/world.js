@@ -16,6 +16,7 @@ import {BLOCK_SPECS} from '@mlog/core/src/world.js'
 import {LABEL_BACKGROUND, LABEL_OUTLINE, ALIGN} from '@mlog/core/src/markers.js'
 import MATERIALS from '@mlog/core/data/materials.json' with {type: 'json'}
 import icons from '@mlog/core/data/icons.json' with {type: 'json'}
+import pal from '@mlog/core/data/pal.json' with {type: 'json'}
 
 /**
  * Geometry.d8 — восемь соседей по кругу, начиная с правого. Порядок важен: игра перебирает
@@ -40,6 +41,9 @@ function rotate(x, y, degrees) {
 
 /** Vars.tilesize: восемь мировых единиц на тайл. */
 export const TILE_UNITS = 8
+
+/** Цвет обычной пули. `Pal.bulletYellow` — им рисуются стандартные снаряды. */
+const BULLET_COLOR = pal.colors.bulletYellow
 
 /**
  * Знак контента обратно в имя: `UI.formatIcons` подменяет такие знаки картинками, и в тексте
@@ -212,6 +216,9 @@ export class WorldView {
 
         // Юниты идут поверх зданий: в игре у них слой 60 против 30 у блоков
         for (const unit of this.world.units ?? []) this.drawUnit(unit)
+
+        // Пули идут над юнитами: в игре у них слой 100 против 60
+        for (const bullet of this.world.bullets ?? []) this.drawBullet(bullet)
 
         // Текст блока сообщений: в игре он часть выделения, то есть рисуется поверх блоков
         for (const building of this.world.buildings) this.drawMessage(building)
@@ -1003,6 +1010,24 @@ export class WorldView {
      * всегда: в примерах курсора нет вовсе, а без надписи половина уроков про печать
      * показывала бы пустой блок. Строка про это есть в `docs/parity.md`.
      */
+    /**
+     * Пуля. Спрайта у неё нет: обычная пуля в игре рисуется `Fill.rect` цветом типа, и мы
+     * делаем то же — короткая полоска вдоль полёта, длиной в свой `hitSize`.
+     */
+    drawBullet(bullet) {
+        const step = this.tile * this.ratio
+        const x = bullet.x / TILE_UNITS * step
+        const y = (this.world.height - bullet.y / TILE_UNITS) * step
+
+        const length = Math.max(bullet.type.hitSize ?? 4, 2) / TILE_UNITS * step
+        const width = Math.max(length / 3, 1)
+
+        this.rotated(x, y, bullet.angle, () => {
+            this.context.fillStyle = BULLET_COLOR
+            this.context.fillRect(-length / 2, -width / 2, length, width)
+        })
+    }
+
     drawMessage(building) {
         if (building.message === undefined) return
 

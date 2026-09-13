@@ -43,6 +43,9 @@ import mindustry.world.blocks.power.PowerGenerator;
 import mindustry.world.blocks.power.PowerNode;
 import mindustry.world.blocks.sandbox.ItemSource;
 import mindustry.world.blocks.sandbox.PowerSource;
+import mindustry.entities.bullet.BulletType;
+import mindustry.world.blocks.defense.turrets.ItemTurret;
+import mindustry.world.blocks.defense.turrets.Turret;
 import mindustry.world.blocks.production.Drill;
 import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.consumers.Consume;
@@ -310,9 +313,71 @@ public class ContentDump{
                 spec.number("maxInstructionsPerTick", logic.maxInstructionsPerTick);
             }
 
-            // Дальность турели: сама турель не моделируется, но `radar` смотрит именно на неё
             if(block instanceof BaseTurret turret){
                 spec.number("range", turret.range);
+            }
+
+            /*
+             * Турель целиком: как быстро крутится, как часто стреляет, чем стреляет.
+             *
+             * Патроны у `ItemTurret` — таблица «предмет → пуля», и одно без другого
+             * бесполезно: сколько выстрелов даёт медь, решает `ammoMultiplier` пули,
+             * а сколько живёт сама пуля — её скорость и время жизни.
+             */
+            if(block instanceof Turret turret){
+                Json t = new Json();
+
+                t.number("reload", turret.reload);
+                t.number("rotateSpeed", turret.rotateSpeed);
+                t.number("shootCone", turret.shootCone);
+                t.number("shootX", turret.shootX);
+                t.number("shootY", turret.shootY);
+                t.number("maxAmmo", turret.maxAmmo);
+                t.number("ammoPerShot", turret.ammoPerShot);
+                t.number("targetInterval", turret.targetInterval);
+                t.number("newTargetInterval", turret.newTargetInterval);
+                t.number("minRange", turret.minRange);
+                t.number("inaccuracy", turret.inaccuracy);
+                t.bool("targetAir", turret.targetAir);
+                t.bool("targetGround", turret.targetGround);
+                t.bool("targetBlocks", turret.targetBlocks);
+                t.bool("predictTarget", turret.predictTarget);
+                t.bool("alwaysShooting", turret.alwaysShooting);
+                t.bool("consumeAmmoOnce", turret.consumeAmmoOnce);
+                t.number("shots", turret.shoot == null ? 1 : turret.shoot.shots);
+                t.number("shotDelay", turret.shoot == null ? 0 : turret.shoot.shotDelay);
+
+                if(block instanceof ItemTurret it){
+                    Json ammo = new Json();
+
+                    for(var entry : it.ammoTypes){
+                        Json bullet = new Json();
+                        BulletType type = entry.value;
+
+                        bullet.number("damage", type.damage);
+                        bullet.number("speed", type.speed);
+                        bullet.number("lifetime", type.lifetime);
+                        bullet.number("range", type.range);
+                        bullet.number("ammoMultiplier", type.ammoMultiplier);
+                        bullet.number("reloadMultiplier", type.reloadMultiplier);
+                        bullet.number("rangeChange", type.rangeChange);
+                        bullet.number("splashDamage", type.splashDamage);
+                        bullet.number("splashDamageRadius", type.splashDamageRadius);
+                        bullet.number("pierceCap", type.pierceCap);
+                        bullet.number("homingPower", type.homingPower);
+                        bullet.number("hitSize", type.hitSize);
+                        bullet.bool("pierce", type.pierce);
+                        bullet.bool("collidesAir", type.collidesAir);
+                        bullet.bool("collidesGround", type.collidesGround);
+                        bullet.bool("collidesTeam", type.collidesTeam);
+
+                        ammo.raw(entry.key.name, bullet.object());
+                    }
+
+                    t.raw("ammo", ammo.object());
+                }
+
+                spec.raw("turret", t.object());
             }
 
             if(block instanceof MemoryBlock memory){

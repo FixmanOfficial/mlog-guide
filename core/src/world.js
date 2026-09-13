@@ -1010,6 +1010,12 @@ export class World {
         this.buildings = []
         this.processors = []
         this.units = []
+
+        /*
+         * Пули в полёте. Живут они недолго и считаются отдельным списком, а не через здания:
+         * стреляет турель, а летит пуля сама по себе — как `Bullet` в игре.
+         */
+        this.bullets = []
         this.linkCounters = new Map()
         this.nextUnitId = 0
 
@@ -1041,6 +1047,12 @@ export class World {
 
         // Открытый контент. Дерева технологий у нас нет, а `ResearchObjective` его читает
         this.unlocked = new Set()
+    }
+
+    /** Пуля в полёте. Складывается в общий список и живёт до попадания или до срока. */
+    addBullet(bullet) {
+        this.bullets.push(bullet)
+        return bullet
     }
 
     inside(x, y) {
@@ -1389,6 +1401,12 @@ export class World {
 
         for (const unit of this.units) unit.update(delta)
 
+        // Пули летят вместе с юнитами: и те, и другие в игре обновляются как сущности
+        for (const bullet of this.bullets) bullet.update(delta)
+        if (this.bullets.some(bullet => bullet.dead)) {
+            this.bullets = this.bullets.filter(bullet => !bullet.dead)
+        }
+
         /*
          * Энергия считается до зданий: сеть раздаёт покрытие, `updateConsumption` переводит
          * его в полезность, и только потом здание работает — с той скоростью, на которую
@@ -1426,6 +1444,7 @@ export class World {
         this.rules.reset()
         this.stats.reset()
         this.objectives.reset()
+        this.bullets = []
         for (const unit of this.units) unit.reset()
         for (const building of this.buildings) building.reset()
         for (const processor of this.processors) processor.reset()

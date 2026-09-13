@@ -84,3 +84,50 @@ export const UNLINKED = {
         }
     ]
 }
+
+/**
+ * Урок «Стрельба»: турель под управлением логики.
+ *
+ * Дуо заряжено медью и связано с процессором; враг стоит справа. Команда логики уводит турель
+ * из-под собственного прицела на две секунды — ровно столько живёт `logicControlTime`.
+ */
+export const SHOOT = {
+    width: 18, height: 9, floor: 'sand',
+    blocks: [
+        {type: 'micro-processor', x: 1, y: 4},
+        {type: 'duo', x: 5, y: 4, ammo: {copper: 10}},
+        {type: 'container', x: 5, y: 1, items: {copper: 40}}
+    ],
+    units: [{type: 'dagger', x: 13, y: 4, team: 2}],
+    processors: [{
+        at: [1, 4],
+        links: ['duo1', 'container1'],
+        program: [
+            'control shoot duo1 13 4 1',
+            'sensor стреляет duo1 @shooting',
+            'sensor патронов duo1 @ammo',
+            'sensor поворот duo1 @rotation'
+        ].join('\n')
+    }]
+}
+
+/** Тот же урок: стрельба по юниту с упреждением. */
+export const SHOOTP = {
+    width: 18, height: 9, floor: 'sand',
+    blocks: [
+        {type: 'micro-processor', x: 1, y: 4},
+        {type: 'duo', x: 5, y: 4, ammo: {copper: 10}}
+    ],
+    units: [{type: 'flare', x: 13, y: 7, team: 2}],
+    processors: [{
+        at: [1, 4],
+        links: ['duo1'],
+        program: [
+            'radar enemy any any distance duo1 1 цель',
+            'control shootp duo1 цель 1',
+            'sensor стреляет duo1 @shooting',
+            'sensor патронов duo1 @ammo'
+        ].join('\n')
+    }]
+}
+
