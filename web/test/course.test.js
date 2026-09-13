@@ -1571,11 +1571,15 @@ test('урок «Сдвиг, поворот, масштаб»: преобраз�
 test('урок «Draw Flush»: за раз уходит не больше 256 команд', () => {
     const {processor, commands, kinds} = drawn(OVERFLOW, 400)
 
+    /*
+     * Клеток в сетке ровно 256 — столько же, сколько мест в буфере. Два места заняли
+     * `clear` и `color`, поэтому до дисплея дошли 254 клетки, и двух не хватает глазом.
+     */
     assert.equal(commands.length, 256)
     assert.equal(kinds.rect, 254)
 
-    // Программа при этом прошла все триста кругов и ничего не заметила
-    assert.equal(num(processor, 'номер'), 300)
+    // Программа при этом прошла все круги и ничего не заметила
+    assert.equal(num(processor, 'номер'), 256)
     assert.equal(num(processor, 'команд'), 256)
 })
 
@@ -1585,7 +1589,7 @@ test('урок «Draw Flush»: задание про двести клеток',
         processors: [{
             ...OVERFLOW.processors[0],
             program: OVERFLOW.processors[0].program
-                .replace('jump 2 lessThan номер 300', 'jump 2 lessThan номер 200')
+                .replace('jump 2 lessThan номер 256', 'jump 2 lessThan номер 200')
         }]
     }
 

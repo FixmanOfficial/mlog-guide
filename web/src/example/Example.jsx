@@ -92,9 +92,7 @@ function fitTile({stage, varsHeight}, world) {
  * прошлый кадр.
  */
 function redraw(stand) {
-    if (stand.display !== null && stand.display !== undefined) {
-        stand.displayView?.draw(stand.display)
-    }
+    for (const {building, view} of stand.displays ?? []) view.draw(building)
 
     stand.view?.draw({configured: null, cursor: null})
 }
@@ -217,7 +215,7 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
 
         for (let i = 0; i < tick; i++) scene.world.step()
 
-        return {scene, view: null, display: null, displayView: null}
+        return {scene, view: null, displays: []}
     }, [generation])
 
     // Холст и картинки — уже после отрисовки: на сервере ни того, ни другого нет
@@ -248,13 +246,17 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
              * Дисплей на карте рисует не мир, а отдельный холст: у него свои пиксели и свой
              * порядок команд. Мир получает готовую картинку и кладёт её на место блока —
              * так же, как это устроено в песочнице.
+             *
+             * Холст заводится **каждому** дисплею сцены: их бывает и два, и у каждого своя
+             * картинка — на этом стоит целый урок про `drawflush`.
              */
-            const display = scene.world.buildings
-                .find(building => building.spec.displaySize !== undefined) ?? null
-
-            const displayView = display === null ? null : new DisplayView(
-                document.createElement('canvas'),
-                {size: display.spec.displaySize, pixelRatio: 4, atlas, sprites})
+            const displays = scene.world.buildings
+                .filter(building => building.spec.displaySize !== undefined)
+                .map(building => ({
+                    building,
+                    view: new DisplayView(document.createElement('canvas'),
+                        {size: building.spec.displaySize, pixelRatio: 4, atlas, sprites})
+                }))
 
             const view = new WorldView(canvas.current, {
                 world: scene.world,
@@ -262,15 +264,14 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
                 blocks, blockSprites, units, unitSprites, terrain, terrainSprites,
                 teams, atlas, sprites,
                 font: 'Mindustry',
-                displays: displayView === null ? new Map() : new Map([[display, displayView.canvas]])
+                displays: new Map(displays.map(({building, view}) => [building, view.canvas]))
             })
 
             stand.view = view
-            stand.display = display
-            stand.displayView = displayView
+            stand.displays = displays
 
             // Шрифт дисплея грузит страница: рендер только называет семейство
-            if (displayView !== null) {
+            if (displays.length > 0) {
                 const font = new FontFace('MlogLogic', `url(${logicFontUrl})`)
                 document.fonts.add(font)
                 font.load().then(() => redraw(stand), () => {})
