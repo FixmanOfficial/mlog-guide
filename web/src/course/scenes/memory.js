@@ -151,3 +151,108 @@ export const SHARED = {
         }
     ]
 }
+
+/**
+ * Урок «Переменные другого процессора»: сосед читается по имени переменной.
+ *
+ * Верхний процессор считает круги у себя, нижний достаёт его счётчик и печатает — ни ячейки,
+ * ни уговора об адресах. Заодно берётся связь соседа по имени: своей связи со складом
+ * у нижнего нет вовсе.
+ */
+export const NEIGHBOUR = {
+    width: 14, height: 8, floor: 'sand',
+    blocks: [
+        {type: 'micro-processor', x: 2, y: 5},
+        {type: 'micro-processor', x: 2, y: 2},
+        {type: 'container', x: 10, y: 5, items: {copper: 120}},
+        {type: 'message', x: 10, y: 1}
+    ],
+    processors: [
+        {
+            at: [2, 2],
+            links: ['processor1', 'message1'],
+            program: [
+                'read кругов processor1 "кругов"',
+                'read чужойСклад processor1 "container1"',
+                'sensor медь чужойСклад @copper',
+                'print "кругов "',
+                'print кругов',
+                'print ", меди "',
+                'print медь',
+                'printflush message1'
+            ].join('\n')
+        },
+        {
+            at: [2, 5],
+            links: ['container1'],
+            program: [
+                'op add кругов кругов 1',
+                'wait 0.25'
+            ].join('\n')
+        }
+    ]
+}
+
+/**
+ * Урок «Знак из строки»: строка разбирается по знакам.
+ *
+ * `read` у строки отдаёт код знака по номеру, а `printchar` собирает их обратно — в буфере
+ * получается та же строка, только пройденная посимвольно.
+ */
+export const LETTERS = {
+    width: 12, height: 7, floor: 'sand',
+    blocks: [
+        {type: 'micro-processor', x: 2, y: 3},
+        {type: 'message', x: 8, y: 2}
+    ],
+    processors: [{
+        at: [2, 3],
+        links: ['message1'],
+        program: [
+            'read код "mlog" номер',
+            'printchar код',
+            'op add номер номер 1',
+            'jump 0 lessThan номер 4',
+            'printflush message1',
+            'stop'
+        ].join('\n')
+    }]
+}
+
+/**
+ * Урок «Переменные соседа»: команда пишется прямо в переменную соседа.
+ *
+ * Нижний процессор ставит верхнему `нужен` в единицу, тот по ней включает работу и сам же
+ * сбрасывает признак обратно — так выглядит уговор «писать к себе, читать у других»,
+ * нарушенный ради одной короткой команды.
+ */
+export const COMMAND = {
+    width: 14, height: 8, floor: 'sand',
+    blocks: [
+        {type: 'micro-processor', x: 2, y: 5},
+        {type: 'micro-processor', x: 2, y: 2},
+        {type: 'message', x: 10, y: 3}
+    ],
+    processors: [
+        {
+            at: [2, 2],
+            links: ['processor1'],
+            program: [
+                'write 1 processor1 "нужен"',
+                'wait 1'
+            ].join('\n')
+        },
+        {
+            at: [2, 5],
+            links: ['message1'],
+            program: [
+                'jump 0 equal нужен 0',
+                'op add сделано сделано 1',
+                'set нужен 0',
+                'print "сделано "',
+                'print сделано',
+                'printflush message1'
+            ].join('\n')
+        }
+    ]
+}

@@ -27,7 +27,9 @@ import {CHOICE} from '../src/course/scenes/select.js'
 import {TICKS, STOPPED, ENDING, RHYTHM, TIMER} from '../src/course/scenes/wait.js'
 import {BUFFER, PIECES, FLUSH} from '../src/course/scenes/print.js'
 import {TEMPLATE, CHARS} from '../src/course/scenes/format.js'
-import {CELLS, BOUNDS, STORE, OBJECTS, SHARED} from '../src/course/scenes/memory.js'
+import {
+    CELLS, BOUNDS, STORE, OBJECTS, SHARED, NEIGHBOUR, LETTERS, COMMAND
+} from '../src/course/scenes/memory.js'
 import iconTable from '@mlog/core/data/icons.json' with {type: 'json'}
 import logicIdsData from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
@@ -1288,7 +1290,7 @@ function stage(description, ticks = 20) {
     }
 }
 
-test('урок «Read»: числа достаются из ячейки по адресам', () => {
+test('урок «Ячейка памяти»: числа достаются по адресам', () => {
     const {processor, message} = stage(CELLS)
 
     assert.equal(num(processor, 'запас'), 40)
@@ -1297,7 +1299,7 @@ test('урок «Read»: числа достаются из ячейки по а
     assert.equal(message, 'запас 40 из 300')
 })
 
-test('урок «Read»: адрес усекается, за границей лежит пустота', () => {
+test('урок «Ячейка памяти»: адрес усекается, за границей лежит пустота', () => {
     const {processor} = stage(BOUNDS)
 
     // 1.9 — это место 1, а не 2: MemoryBlock берёт адрес через numi()
@@ -1313,7 +1315,7 @@ test('урок «Read»: адрес усекается, за границей л
     assert.equal(num(processor, 'мест'), 64)
 })
 
-test('урок «Read»: задание про адрес за границей', () => {
+test('урок «Ячейка памяти»: задание про адрес за границей', () => {
     const far = {
         ...CELLS,
         processors: [{
@@ -1400,4 +1402,76 @@ test('урок «Общая память»: задания про чужой а�
     // Без sensor переменная пуста, и в ячейку уходит пустота — не ноль
     const empty = writer('write медь cell1 0')
     assert.equal(stage(empty).message, 'на складе null')
+})
+
+test('урок «Переменные другого процессора»: сосед отдаёт и переменную, и связь', () => {
+    const {processor, message} = stage(NEIGHBOUR, 60)
+
+    // Верхний считает круги с паузой 0.25 — за секунду их четыре
+    assert.equal(num(processor, 'кругов'), 4)
+
+    // Своей связи со складом у читающего нет: здание взято у соседа по имени его связи
+    assert.equal(obj(processor, 'чужойСклад').type, 'container')
+    assert.equal(num(processor, 'медь'), 120)
+    assert.equal(message, 'кругов 4, меди 120')
+})
+
+test('урок «Переменные другого процессора»: задания про чужое имя и номер связи', () => {
+    const variant = (from, to) => ({
+        ...NEIGHBOUR,
+        processors: [
+            {...NEIGHBOUR.processors[0], program: NEIGHBOUR.processors[0].program.replace(from, to)},
+            NEIGHBOUR.processors[1]
+        ]
+    })
+
+    // Нет ни переменной, ни связи с таким именем — и имя не кончается цифрой
+    assert.equal(stage(variant('"кругов"', '"круги"'), 60).message, 'кругов null, меди 120')
+
+    // Связь по номеру ноль — та же самая, а под первым номером у соседа ничего нет
+    assert.equal(stage(variant('"container1"', '0'), 60).message, 'кругов 4, меди 120')
+    assert.equal(stage(variant('"container1"', '1'), 60).message, 'кругов 4, меди null')
+})
+
+test('урок «Знак из строки»: строка разбирается по знакам и собирается обратно', () => {
+    assert.equal(stage(LETTERS, 40).message, 'mlog')
+
+    const variant = (program) => ({
+        ...LETTERS,
+        processors: [{...LETTERS.processors[0], program}]
+    })
+
+    // Код первой буквы: m это 109
+    const first = stage(variant('read код "mlog" 0\nstop'), 10)
+    assert.equal(num(first.processor, 'код'), 109)
+
+    // Задания: кириллица читается так же, а лишние знаки печатать нечем
+    const longer = LETTERS.processors[0].program
+        .replace('read код "mlog" номер', 'read код "привет" номер')
+        .replace('jump 0 lessThan номер 4', 'jump 0 lessThan номер 6')
+
+    assert.equal(stage(variant(longer), 60).message, 'привет')
+    assert.equal(stage(variant(LETTERS.processors[0].program
+        .replace('jump 0 lessThan номер 4', 'jump 0 lessThan номер 6')), 60).message, 'mlog')
+})
+
+test('урок «Переменные соседа»: команда пишется в переменную, а гасит её хозяин', () => {
+    // Команда раз в секунду: за три секунды работа сделана трижды
+    assert.equal(stage(COMMAND, 180).message, 'сделано 3')
+})
+
+test('урок «Переменные соседа»: задания про опечатку в имени и про ритм', () => {
+    const variant = (from, to) => ({
+        ...COMMAND,
+        processors: [
+            {...COMMAND.processors[0], program: COMMAND.processors[0].program.replace(from, to)},
+            COMMAND.processors[1]
+        ]
+    })
+
+    // Новой переменной запись не заводит: работа не начинается вовсе
+    assert.equal(stage(variant('"нужен"', '"нужно"'), 180).message, '')
+
+    // Ритм задаёт тот, кто командует
+    assert.equal(stage(variant('wait 1', 'wait 0.25'), 180).message, 'сделано 12')
 })
