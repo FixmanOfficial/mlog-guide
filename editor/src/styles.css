@@ -305,6 +305,14 @@
  * Карандаш рядом с полем: кнопка 40 на 40 со значком, стиль `Styles.logict` — прозрачный фон
  * и цвет строки. Отрицательный отступ слева из `fieldAlignSelect` прижимает её к полю.
  */
+/*
+ * Карандаш у поля — белый, хотя кнопка добавлена с `.color(table.color)`.
+ *
+ * Цвет строки достаётся собственному фону кнопки (`up = underlineWhite`, та самая
+ * полоска под полем), а вложенной картинке — нет: `Group.drawChildren` передаёт детям
+ * только прозрачность, и `Image(Icon.pencilSmall)` рисуется своим белым.
+ * arc/scene/Group.java:55-70, ui/Styles.java `logict`
+ */
 .pencil {
     width: var(--m-pencil-size, 40px);
     height: var(--m-pencil-size, 40px);
@@ -314,7 +322,7 @@
     margin-left: -10px;
     background: none;
     border: none;
-    color: var(--category);
+    color: var(--text);
     cursor: pointer;
 }
 
@@ -875,11 +883,7 @@
  * Меню выбора контента у sensor. В игре это отдельная таблица с иконками по 40 пикселей,
  * по шесть в ряд. LStatements.SensorStatement.build
  */
-/*
- * Карандаш у поля свойства. Цвет — строки, а не белый: в игре кнопка добавлена
- * с `.color(table.color)`, то есть значок умножается на цвет категории. Точно так же
- * сделан карандаш у `printchar` и выбор выравнивания. LStatements:627,309
- */
+/* Карандаш у поля свойства: тот же белый значок, что и у `printchar` */
 .content-button {
     width: 40px;
     height: 40px;
@@ -888,7 +892,7 @@
     margin-left: -10px;
     border: none;
     background: transparent;
-    color: var(--category);
+    color: var(--text);
     cursor: pointer;
 }
 
