@@ -192,3 +192,24 @@ export const CREW = {
         }
     ]
 }
+
+/** Урок «Тонкости языка»: допуск, пустота вместо NaN и сравнение объектов. */
+export const EDGE = {
+    width: 12, height: 7, floor: 'sand',
+    blocks: [{type: 'micro-processor', x: 2, y: 3}],
+    processors: [{
+        at: [2, 3],
+        links: [],
+        program: [
+            'op add почти 0.1 0.2',
+            'op equal сДопуском почти 0.3',
+            'op strictEqual строго почти 0.3',
+            'op div наНоль 5 0',
+            'op equal пустоеРавноНулю null 0',
+            'op strictEqual пустоеСтрого null 0',
+            'op equal медьРавнаМеди @copper @copper',
+            'op equal медьРавнаСвинцу @copper @lead',
+            'stop'
+        ].join('\n')
+    }]
+}

@@ -23,7 +23,7 @@ import {linkName} from '@mlog/core/src/world.js'
 import {ASSIGN, CONTENT} from '../src/course/scenes/set.js'
 import {BRANCH, LOOP} from '../src/course/scenes/jump.js'
 import {
-    COUNTER, RELATIVE, PRECISE, LABELS, CLOCK, TIMER as DEADLINE, COST, PACKED, CREW
+    COUNTER, RELATIVE, PRECISE, LABELS, CLOCK, TIMER as DEADLINE, COST, PACKED, CREW, EDGE
 } from '../src/course/scenes/advanced.js'
 import {CHOICE} from '../src/course/scenes/select.js'
 import {TICKS, STOPPED, ENDING, RHYTHM, TIMER} from '../src/course/scenes/wait.js'
@@ -2396,4 +2396,21 @@ test('урок «Несколько процессоров»: сосед чит�
     const {message} = stage(CREW, 60)
 
     assert.equal(message, 'всего 65')
+})
+
+test('урок «Тонкости языка»: допуск, пустота вместо NaN и тождество объектов', () => {
+    const {processor} = stage(EDGE, 20)
+
+    // equal с допуском в одну миллионную, strictEqual — точно
+    assert.equal(num(processor, 'сДопуском'), 1)
+    assert.equal(num(processor, 'строго'), 0)
+
+    // LVar.setnum: негодное число превращает переменную в пустоту
+    assert.equal(obj(processor, 'наНоль'), null)
+
+    assert.equal(num(processor, 'пустоеРавноНулю'), 1)
+    assert.equal(num(processor, 'пустоеСтрого'), 0)
+
+    assert.equal(num(processor, 'медьРавнаМеди'), 1)
+    assert.equal(num(processor, 'медьРавнаСвинцу'), 0)
 })
