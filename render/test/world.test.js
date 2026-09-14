@@ -280,3 +280,53 @@ test('текст блока сообщений рисуется под блок�
     // Перевод строки в тексте сохраняется
     assert.deepEqual(view.wrapText('раз' + '\n' + 'два', 90 * view.unit), ['раз', 'два'])
 })
+
+test('луч добычи тянется от юнита к рудной клетке', () => {
+    /*
+     * `UnitType.drawMiningBeam`: полоса `minelaser` от точки впереди юнита до центра
+     * клетки. Луч рисуется отдельно от корпуса, поэтому проверяется прямо по вызовам
+     * холста — картинка ложится повёрнутой, и от неё важны длина и место.
+     */
+    const world = new World({width: 16, height: 10, floor: 'sand-floor'})
+    world.setOverlay(9, 4, 'ore-copper')
+
+    const unit = world.spawn('mono', {x: 6, y: 4, team: 1})
+    unit.rotation = 0
+
+    const drawn = []
+    const canvas = {
+        style: {},
+        getContext: () => ({
+            imageSmoothingEnabled: true,
+            save: () => {}, restore: () => {},
+            translate: (x, y) => drawn.push({move: [x, y]}),
+            rotate: (angle) => drawn.push({turn: angle}),
+            drawImage: (image, x, y, width, height) => drawn.push({image, x, y, width, height})
+        })
+    }
+
+    const map = new WorldView(canvas, {world, tile: 8, blockSprites})
+
+    // Спрайты живут в атласе, которого в ноде нет: подменяется только вырезка
+    map.sprite = (name) => ({name})
+
+    // Не копает — луча нет вовсе
+    map.drawMining(unit)
+    assert.equal(drawn.length, 0)
+
+    unit.mineTile = {x: 9, y: 4}
+    map.drawMining(unit)
+
+    const beam = drawn.find(entry => entry.image?.name === 'minelaser')
+    assert.ok(beam !== undefined, 'полоса луча нарисована')
+
+    // Толщина — `Lines.stroke(12 * scale)` при масштабе 0.75, в пикселях холста
+    assert.equal(beam.height, 12 * 0.75 * map.unit)
+
+    // Длина: три тайла между юнитом и клеткой, минус отступ впереди и концы луча
+    const tiles = beam.width / map.unit / TILE_UNITS
+    assert.ok(tiles > 2 && tiles < 3, `длина луча ${tiles} тайла`)
+
+    // На каждом конце по кружку
+    assert.equal(drawn.filter(entry => entry.image?.name === 'minelaser-end').length, 2)
+})

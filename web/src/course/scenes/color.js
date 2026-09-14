@@ -9,7 +9,7 @@
 
 /** Общая карта: процессор, дисплей и табло. */
 const stand = (program) => ({
-    width: 15, height: 9, floor: 'sand',
+    width: 15, height: 9, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 1, y: 4},
         {type: 'large-logic-display', x: 6, y: 4},

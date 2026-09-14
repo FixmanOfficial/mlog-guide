@@ -7,7 +7,7 @@
 
 /** Урок «Условие и ветвление»: одна проверка и две дороги. */
 export const BRANCH = {
-    width: 7, height: 5, floor: 'sand',
+    width: 7, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 3, y: 2}],
     processors: [{
         at: [3, 2],
@@ -24,7 +24,7 @@ export const BRANCH = {
 
 /** Урок «Циклы»: складывает числа от нуля до четырёх и останавливается. */
 export const LOOP = {
-    width: 7, height: 5, floor: 'sand',
+    width: 7, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 3, y: 2}],
     processors: [{
         at: [3, 2],

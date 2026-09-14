@@ -19,7 +19,8 @@ import {GAME_VERSION} from './version.mjs'
 
 /** Перечисления лежат не только в logic/: GraphicsType живёт внутри блока дисплея. */
 const ENUM_LOCATIONS = {
-    GraphicsType: 'core/src/mindustry/world/blocks/logic/LogicDisplay.java'
+    GraphicsType: 'core/src/mindustry/world/blocks/logic/LogicDisplay.java',
+    BlockFlag: 'core/src/mindustry/world/meta/BlockFlag.java'
 }
 
 const enumPath = (root, name) =>

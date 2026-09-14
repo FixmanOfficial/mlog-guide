@@ -587,6 +587,16 @@ Mindustry закрепляет arc хешем коммита в `gradle.properti
 | Обводка есть не у всего текста. Кнопки сетки выбора набраны `Fonts.outline` (`Styles.logicTogglet`), а поля ввода и кнопка операции — обычным `Fonts.def` (`Styles.nodeField`, `Styles.logict`), и обводки у них нет | `ui/Styles.java:166-173,200-208,411-421` | — |
 | Фон поля ввода — `underlineWhite`, то есть подчёркивание, тонированное цветом строки. Есть и `invalidBackground = underlineRed` для непринятого значения | `ui/Styles.java:411-418` | — |
 
+## Добыча юнитом
+
+| Деталь | Источник | Тест |
+| --- | --- | --- |
+| **Юнит не летит к руде.** `ucontrol mine` ставит `mineTile` только если клетка уже в пределах `mineRange` (70 мировых единиц, 8.75 тайла), иначе она молча обнуляется. `LogicAI.updateMovement` про добычу не знает вовсе, а `MinerComp.update` никуда не двигает: копают с места | `logic/LExecutor.java:397-402`, `ai/types/LogicAI.java:66-99`, `entities/comp/MinerComp.java:67-122` | ✓ `unit.test.js` |
+| Одна единица за `50 + твёрдость * 15` тиков, делённые на `mineSpeed` юнита и множитель правил. У моно это 26 тиков на медь — **вшестеро быстрее механического бура** на четырёх рудных клетках | `entities/comp/MinerComp.java:88-96`, `world/blocks/production/Drill.java` | ✓ `production.test.js` |
+| Одну и ту же клетку копают сколько угодно юнитов разом: замка на тайле нет | `entities/comp/MinerComp.java:67-122` | ✓ `unit.test.js` |
+| Копается не только руда: `Tile.drop()` отдаёт `itemDrop` наложения, а если его нет — самого пола. Песок (`sand-floor`, `darksand`) роняет песок и юниту, и буру | `world/Tile.java`, `entities/comp/MinerComp.java:37-46` | ✓ `production.test.js` |
+| Луч добычи идёт от точки впереди юнита (`mineBeamOffset`, по умолчанию `hitSize / 2`) до центра клетки с качанием на восьмую тайла. Ширина полосы `12 * 0.75` мировых единиц, концы — кружки `minelaser-end`, отодвинутые на `8 * 0.75 * Draw.scl` | `type/UnitType.java:1599-1629`, `graphics/Drawf.java:521-541` | ✓ `world.test.js` (render) |
+
 ## Спрайты редактора
 
 Размеры сняты разбором самих файлов из `core/assets-raw/sprites/ui/`. На глаз их не подберёшь:

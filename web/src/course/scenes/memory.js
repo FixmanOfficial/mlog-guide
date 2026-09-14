@@ -14,7 +14,7 @@
  * В ячейке 64 места, заняты первые три; остальные нули, а за шестьдесят четвёртым — пусто.
  */
 export const CELLS = {
-    width: 12, height: 7, floor: 'sand',
+    width: 12, height: 7, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 2, y: 3},
         {type: 'memory-cell', x: 6, y: 4, memory: [40, 12, 300]},
@@ -43,7 +43,7 @@ export const CELLS = {
  * отдаёт не ноль, а пустое значение: `MemoryBlock.read` говорит об этом отдельной строкой.
  */
 export const BOUNDS = {
-    width: 12, height: 7, floor: 'sand',
+    width: 12, height: 7, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 2, y: 3},
         {type: 'memory-cell', x: 6, y: 4, memory: [40, 12, 300]}
@@ -63,7 +63,7 @@ export const BOUNDS = {
 
 /** Урок «Запись в ячейку»: счётчик живёт в памяти, а не в переменной. */
 export const STORE = {
-    width: 12, height: 7, floor: 'sand',
+    width: 12, height: 7, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 2, y: 3},
         {type: 'memory-cell', x: 6, y: 4},
@@ -91,7 +91,7 @@ export const STORE = {
  * собой — его можно печатать, сравнивать и отдавать инструкциям.
  */
 export const OBJECTS = {
-    width: 13, height: 7, floor: 'sand',
+    width: 13, height: 7, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 2, y: 3},
         {type: 'memory-cell', x: 6, y: 4},
@@ -122,7 +122,7 @@ export const OBJECTS = {
  * у каждого свои: общее у них только то, что оба подключены к одной ячейке.
  */
 export const SHARED = {
-    width: 14, height: 8, floor: 'sand',
+    width: 14, height: 8, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 2, y: 5},
         {type: 'micro-processor', x: 2, y: 2},
@@ -160,7 +160,7 @@ export const SHARED = {
  * у нижнего нет вовсе.
  */
 export const NEIGHBOUR = {
-    width: 14, height: 8, floor: 'sand',
+    width: 14, height: 8, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 2, y: 5},
         {type: 'micro-processor', x: 2, y: 2},
@@ -200,7 +200,7 @@ export const NEIGHBOUR = {
  * получается та же строка, только пройденная посимвольно.
  */
 export const LETTERS = {
-    width: 12, height: 7, floor: 'sand',
+    width: 12, height: 7, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 2, y: 3},
         {type: 'message', x: 8, y: 2}
@@ -227,7 +227,7 @@ export const LETTERS = {
  * нарушенный ради одной короткой команды.
  */
 export const COMMAND = {
-    width: 14, height: 8, floor: 'sand',
+    width: 14, height: 8, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 2, y: 5},
         {type: 'micro-processor', x: 2, y: 2},

@@ -176,6 +176,14 @@ public class ContentDump{
             unit.bool("mineFloor", type.mineFloor);
             unit.bool("mineWalls", type.mineWalls);
             unit.bool("mineHardnessScaling", type.mineHardnessScaling);
+
+            /*
+             * Луч добычи: `UnitType.drawMiningBeam` тянет его от точки впереди юнита
+             * до рудной клетки. Отступ по умолчанию выводится в `init()` из размера
+             * корпуса (`mineBeamOffset = hitSize / 2`), и в полях класса его нет.
+             */
+            unit.bool("drawMineBeam", type.drawMineBeam);
+            unit.number("mineBeamOffset", type.mineBeamOffset);
             unit.number("buildSpeed", type.buildSpeed);
 
             unit.bool("flying", type.flying);

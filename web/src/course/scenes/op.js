@@ -12,7 +12,7 @@
 
 /** Урок «Арифметика»: четыре действия над двумя числами. */
 export const ARITHMETIC = {
-    width: 8, height: 5, floor: 'sand',
+    width: 8, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 2, y: 2}],
     processors: [{
         at: [2, 2],
@@ -30,7 +30,7 @@ export const ARITHMETIC = {
 
 /** Урок «Арифметика»: одна операция в строке, поэтому скобки разворачиваются в две строки. */
 export const STEPS = {
-    width: 8, height: 5, floor: 'sand',
+    width: 8, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 2, y: 2}],
     processors: [{
         at: [2, 2],
@@ -46,7 +46,7 @@ export const STEPS = {
 
 /** Урок «Целые и точность»: деление нацело и остаток, в том числе от отрицательного. */
 export const INTEGERS = {
-    width: 8, height: 5, floor: 'sand',
+    width: 8, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 2, y: 2}],
     processors: [{
         at: [2, 2],
@@ -64,7 +64,7 @@ export const INTEGERS = {
 
 /** Урок «Целые и точность»: три округления одного и того же числа. */
 export const ROUNDING = {
-    width: 8, height: 5, floor: 'sand',
+    width: 8, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 2, y: 2}],
     processors: [{
         at: [2, 2],
@@ -79,7 +79,7 @@ export const ROUNDING = {
 
 /** Урок «Целые и точность»: сумма долей и два способа сравнить её с ожидаемым. */
 export const PRECISION = {
-    width: 8, height: 5, floor: 'sand',
+    width: 8, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 2, y: 2}],
     processors: [{
         at: [2, 2],
@@ -94,7 +94,7 @@ export const PRECISION = {
 
 /** Урок «Сравнения и логика»: два условия про запас меди и их соединение. */
 export const LOGIC = {
-    width: 8, height: 5, floor: 'sand',
+    width: 8, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 2, y: 2}],
     processors: [{
         at: [2, 2],
@@ -112,7 +112,7 @@ export const LOGIC = {
 
 /** Урок «Сравнения и логика»: `not` не отрицание, а инверсия битов. */
 export const NEGATION = {
-    width: 8, height: 5, floor: 'sand',
+    width: 8, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 2, y: 2}],
     processors: [{
         at: [2, 2],
@@ -126,7 +126,7 @@ export const NEGATION = {
 
 /** Урок «Битовые операции»: три операции над 12 и 10 и два сдвига. */
 export const BITWISE = {
-    width: 8, height: 5, floor: 'sand',
+    width: 8, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 2, y: 2}],
     processors: [{
         at: [2, 2],
@@ -144,7 +144,7 @@ export const BITWISE = {
 
 /** Урок «Битовые операции»: три ответа, которых никто не ждёт. */
 export const SHIFTS = {
-    width: 8, height: 5, floor: 'sand',
+    width: 8, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 2, y: 2}],
     processors: [{
         at: [2, 2],
@@ -159,7 +159,7 @@ export const SHIFTS = {
 
 /** Урок «Углы и расстояния»: длина, угол, разница углов и синус. */
 export const GEOMETRY = {
-    width: 8, height: 5, floor: 'sand',
+    width: 8, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 2, y: 2}],
     processors: [{
         at: [2, 2],
@@ -177,7 +177,7 @@ export const GEOMETRY = {
 
 /** Урок «Углы и расстояния»: два ответа, которые чуть-чуть не те, что в учебнике. */
 export const FLOAT = {
-    width: 8, height: 5, floor: 'sand',
+    width: 8, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 2, y: 2}],
     processors: [{
         at: [2, 2],
@@ -191,7 +191,7 @@ export const FLOAT = {
 
 /** Урок «Случайность и шум»: бросок кубика от одного до шести. */
 export const RANDOM = {
-    width: 8, height: 5, floor: 'sand',
+    width: 8, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 2, y: 2}],
     processors: [{
         at: [2, 2],
@@ -206,7 +206,7 @@ export const RANDOM = {
 
 /** Урок «Случайность и шум»: соседние точки шума похожи, дальние — нет. */
 export const NOISE = {
-    width: 8, height: 5, floor: 'sand',
+    width: 8, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 2, y: 2}],
     processors: [{
         at: [2, 2],

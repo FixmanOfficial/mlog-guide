@@ -19,7 +19,7 @@ import '../src/sandbox.js'
 const logicIds = JSON.parse(readFileSync(new URL('../data/logic-ids.json', import.meta.url), 'utf8'))
 const content = createContent(logicIds)
 
-const world = (options = {}) => new World({width: 20, height: 10, content, floor: 'sand', ...options})
+const world = (options = {}) => new World({width: 20, height: 10, content, floor: 'sand-floor', ...options})
 
 /** Кладёт на ленту всё, что она готова принять, и крутит мир. */
 function feed(scene, belt, source, ticks) {

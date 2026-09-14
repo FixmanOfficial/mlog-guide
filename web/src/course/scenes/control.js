@@ -9,8 +9,8 @@
 
 /** Урок «Включить и выключить»: бур работает, пока на складе мало меди. */
 export const ENABLED = {
-    width: 14, height: 9, floor: 'sand',
-    terrain: [{floor: 'sand', ore: 'ore-copper', rect: [3, 2, 4, 4]}],
+    width: 14, height: 9, floor: 'sand-floor',
+    terrain: [{floor: 'sand-floor', ore: 'ore-copper', rect: [3, 2, 4, 4]}],
     blocks: [
         {type: 'micro-processor', x: 1, y: 6},
         {type: 'mechanical-drill', x: 4, y: 3},
@@ -30,7 +30,7 @@ export const ENABLED = {
 
 /** Урок «Настройка блока»: сортировщику назначают предмет. */
 export const CONFIG = {
-    width: 14, height: 9, floor: 'sand',
+    width: 14, height: 9, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 1, y: 6},
         {type: 'sorter', x: 6, y: 4},
@@ -57,8 +57,8 @@ export const CONFIG = {
  * связи с ним у нас нет.
  */
 export const UNLINKED = {
-    width: 16, height: 9, floor: 'sand',
-    terrain: [{floor: 'sand', ore: 'ore-copper', rect: [3, 2, 8, 4]}],
+    width: 16, height: 9, floor: 'sand-floor',
+    terrain: [{floor: 'sand-floor', ore: 'ore-copper', rect: [3, 2, 8, 4]}],
     blocks: [
         {type: 'micro-processor', x: 1, y: 6},
         {type: 'micro-processor', x: 1, y: 2},
@@ -92,7 +92,7 @@ export const UNLINKED = {
  * из-под собственного прицела на две секунды — ровно столько живёт `logicControlTime`.
  */
 export const SHOOT = {
-    width: 18, height: 9, floor: 'sand',
+    width: 18, height: 9, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 1, y: 4},
         {type: 'duo', x: 5, y: 4, ammo: {copper: 10}},
@@ -113,7 +113,7 @@ export const SHOOT = {
 
 /** Тот же урок: стрельба по юниту с упреждением. */
 export const SHOOTP = {
-    width: 18, height: 9, floor: 'sand',
+    width: 18, height: 9, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 1, y: 4},
         {type: 'duo', x: 5, y: 4, ammo: {copper: 10}}

@@ -12,6 +12,7 @@
 
 import {polyPoints, polyRing, polyArc, arcSlice, lineQuad, rectBorders} from './geometry.js'
 import {randomSeed, packPoint, sin, degRad, PI} from '@mlog/core/src/arc.js'
+import {unconv} from '@mlog/core/src/unit.js'
 import {BLOCK_SPECS} from '@mlog/core/src/world.js'
 import {LABEL_BACKGROUND, LABEL_OUTLINE, ALIGN} from '@mlog/core/src/markers.js'
 import MATERIALS from '@mlog/core/data/materials.json' with {type: 'json'}
@@ -63,6 +64,12 @@ function inside(area, building) {
 
 /** `PowerNode.laserScale`: луч рисуется вчетверо тоньше своего спрайта. */
 const LASER_SCALE = 0.25
+
+/** `UnitType.drawMiningBeam` зовёт `Drawf.laser` с масштабом 0.75. */
+const LASER_SCALE_MINE = 0.75
+
+/** `Color.lightGray` из arc: в палитре игры его нет, он общий цвет библиотеки. */
+const LIGHT_GRAY = '#bfbfbf'
 
 /** Смешение двух цветов долей, как `Color.lerp`. */
 function mixColors(from, to, amount) {
@@ -837,6 +844,78 @@ export class WorldView {
             const cell = this.unitSprite(`${unit.type}-cell`, this.teamColor(unit.team))
             if (cell !== null) this.blit(cell)
         })
+
+        this.drawMining(unit)
+    }
+
+    /**
+     * Луч добычи. `UnitType.drawMiningBeam`
+     *
+     * Луч идёт не от центра юнита, а от точки впереди: отступ `mineBeamOffset` (у обычных
+     * юнитов это половина корпуса) плюс дыхание `Mathf.absin(Time.time, 1.1, 0.5)`.
+     * Второй конец качается над клеткой на восьмую тайла, по своей частоте на каждую ось —
+     * от этого луч не выглядит приклеенным.
+     *
+     * Ширина и концы — из `Drawf.laser`: полоса `minelaser` толщиной `12 * 0.75` мировых
+     * единиц и по кружку `minelaser-end` на каждом конце, отодвинутых вдоль луча
+     * на `8 * 0.75 * Draw.scl`.
+     */
+    drawMining(unit) {
+        if (unit.mineTile === null || unit.spec.drawMineBeam === false) return
+
+        const time = this.world.tick
+        const focus = unit.spec.mineBeamOffset + (sin(time / 1.1) * 0.5 + 0.5) / 2
+
+        const from = rotate(focus, 0, unit.rotation)
+        const [x1, y1] = this.unitPlace(unit, from[0], from[1])
+
+        // Mathf.sin(Time.time + 48, scl, tilesize / 8)
+        const [x2, y2] = this.worldPoint(
+            unconv(unit.mineTile.x) + sin((time + 48) / 12),
+            unconv(unit.mineTile.y) + sin((time + 48) / 14))
+
+        /*
+         * Color.lightGray → белый, вспышка в треть яркости. Доля округляется до восьмушки:
+         * перекрашенный кусок атласа кладётся в кеш по цвету, и плавная шкала растила бы
+         * его новым холстом на каждом кадре. На глаз ступеньки не видно — это яркость.
+         */
+        const bright = Math.round((0.7 + (sin(time / 0.5) * 0.3 + 0.3) / 2) * 8) / 8
+        const color = mixColors(LIGHT_GRAY, '#ffffff', bright)
+
+        const cap = this.sprite('minelaser-end', color)
+        const beam = this.sprite('minelaser', color)
+        if (beam === null) return
+
+        const angle = Math.atan2(y2 - y1, x2 - x1)
+
+        // `Drawf.laser`: концы отодвигаются на `8 * scale * Draw.scl`, а Draw.scl — та же
+        // четверть, что и у спрайтов: картинки в игре нарисованы вчетверо крупнее
+        const shift = 8 * LASER_SCALE_MINE / SPRITE_SCALE * this.unit
+        const [vx, vy] = [Math.cos(angle) * shift, Math.sin(angle) * shift]
+
+        const context = this.context
+        const side = 72 * LASER_SCALE_MINE / SPRITE_SCALE * this.unit
+
+        // А вот толщина линии в `Lines.stroke` уже в мировых единицах, без четверти
+        const thickness = 12 * LASER_SCALE_MINE * this.unit
+
+        if (cap !== null) {
+            for (const [x, y, turn] of [[x1, y1, angle + Math.PI], [x2, y2, angle]]) {
+                context.save()
+                context.translate(x, y)
+                context.rotate(turn)
+                context.drawImage(cap, -side / 2, -side / 2, side, side)
+                context.restore()
+            }
+        }
+
+        const length = Math.hypot(x2 - vx - (x1 + vx), y2 - vy - (y1 + vy))
+
+        context.save()
+        context.translate(x1 + vx, y1 + vy)
+        context.rotate(angle)
+        context.drawImage(beam, 0, -thickness / 2, length, thickness)
+        context.restore()
     }
 
     /** Точка юнита на холсте, со сдвигом в мировых единицах. */

@@ -245,6 +245,26 @@
       "spawn",
       "damaged"
     ],
+    "BlockFlag": [
+      "core",
+      "storage",
+      "generator",
+      "turret",
+      "factory",
+      "repair",
+      "battery",
+      "reactor",
+      "extinguisher",
+      "drill",
+      "shield",
+      "launchPad",
+      "unitCargoUnloadPoint",
+      "unitAssembler",
+      "hasFogRadius",
+      "steamVent",
+      "blockRepair",
+      "synced"
+    ],
     "QueryShape": [
       "circle",
       "rect"
@@ -2073,7 +2093,20 @@
         {
           "name": "flag",
           "type": "BlockFlag",
-          "default": "core"
+          "default": "core",
+          "enum": "BlockFlag",
+          "options": [
+            "core",
+            "storage",
+            "generator",
+            "turret",
+            "factory",
+            "repair",
+            "battery",
+            "reactor",
+            "drill",
+            "shield"
+          ]
         },
         {
           "name": "enemy",

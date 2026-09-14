@@ -8,10 +8,10 @@
 
 /** Урок «Где лежит руда»: ближайшая медь и добыча по найденным координатам. */
 export const ORE = {
-    width: 18, height: 11, floor: 'sand',
+    width: 18, height: 11, floor: 'sand-floor',
     terrain: [
-        {floor: 'sand', ore: 'ore-copper', rect: [12, 7, 2, 2]},
-        {floor: 'sand', ore: 'ore-lead', rect: [4, 2, 2, 2]}
+        {floor: 'sand-floor', ore: 'ore-copper', rect: [12, 7, 2, 2]},
+        {floor: 'sand-floor', ore: 'ore-lead', rect: [4, 2, 2, 2]}
     ],
     blocks: [{type: 'micro-processor', x: 1, y: 5}],
     units: [{type: 'mono', x: 8, y: 5}],
@@ -30,10 +30,10 @@ export const ORE = {
 
 /** Тот же урок: свинец лежит в другой стороне, и поиск отдаёт его координаты. */
 export const LEAD = {
-    width: 18, height: 11, floor: 'sand',
+    width: 18, height: 11, floor: 'sand-floor',
     terrain: [
-        {floor: 'sand', ore: 'ore-copper', rect: [12, 7, 2, 2]},
-        {floor: 'sand', ore: 'ore-lead', rect: [4, 2, 2, 2]}
+        {floor: 'sand-floor', ore: 'ore-copper', rect: [12, 7, 2, 2]},
+        {floor: 'sand-floor', ore: 'ore-lead', rect: [4, 2, 2, 2]}
     ],
     blocks: [{type: 'micro-processor', x: 1, y: 5}],
     units: [{type: 'mono', x: 8, y: 5}],
@@ -51,7 +51,7 @@ export const LEAD = {
 
 /** Урок «Здания по метке»: ближайшая вражеская турель и своё ядро. */
 export const BUILDINGS = {
-    width: 22, height: 12, floor: 'sand',
+    width: 22, height: 12, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 1, y: 6},
         {type: 'duo', x: 6, y: 6, ammo: {copper: 10}},
@@ -74,7 +74,7 @@ export const BUILDINGS = {
 
 /** Урок «Что отдаёт поиск»: подбитое здание находится только после урона. */
 export const DAMAGED = {
-    width: 20, height: 11, floor: 'sand',
+    width: 20, height: 11, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 1, y: 5},
         {type: 'duo', x: 8, y: 5, health: 60, ammo: {copper: 10}},

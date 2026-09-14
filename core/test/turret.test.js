@@ -20,7 +20,7 @@ const content = createContent(logicIds)
 
 /** Мир с турелью, врагом и процессором, связанным с турелью. */
 function stand(program, {ammo = 5, enemyTile = 12, type = 'duo'} = {}) {
-    const world = new World({width: 40, height: 20, content, floor: 'sand'})
+    const world = new World({width: 40, height: 20, content, floor: 'sand-floor'})
     const turret = world.add(type, {x: 5, y: 5, ammo: {copper: ammo}})
 
     const enemy = world.spawn('dagger', {x: enemyTile, y: 5, team: 2})
@@ -36,7 +36,7 @@ function stand(program, {ammo = 5, enemyTile = 12, type = 'duo'} = {}) {
 
 test('патроны копятся стопкой, и наверху лежит последний подвезённый', () => {
     // ItemTurret.handleItem: медь даёт 2 единицы, графит 4, и запись всплывает наверх
-    const world = new World({width: 10, height: 10, content, floor: 'sand'})
+    const world = new World({width: 10, height: 10, content, floor: 'sand-floor'})
     const turret = world.add('duo', {x: 2, y: 2})
 
     turret.handleItem(turret, 'copper')
@@ -51,7 +51,7 @@ test('патроны копятся стопкой, и наверху лежит
 })
 
 test('лишний патрон турель не принимает', () => {
-    const world = new World({width: 10, height: 10, content, floor: 'sand'})
+    const world = new World({width: 10, height: 10, content, floor: 'sand-floor'})
     const turret = world.add('duo', {x: 2, y: 2})
 
     // maxAmmo 30, медь по 2 за предмет — пятнадцать предметов заполняют турель целиком

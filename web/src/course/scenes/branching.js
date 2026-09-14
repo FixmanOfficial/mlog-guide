@@ -9,7 +9,7 @@
 
 /** Ранний выход: две проверки в начале отсекают случаи, когда работать не надо. */
 export const GUARD = {
-    width: 7, height: 5, floor: 'sand',
+    width: 7, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 3, y: 2}],
     processors: [{
         at: [3, 2],
@@ -30,7 +30,7 @@ export const GUARD = {
 
 /** Выход из цикла: перебор ячейки прекращается на первом непустом месте. */
 export const BREAK = {
-    width: 12, height: 7, floor: 'sand',
+    width: 12, height: 7, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 2, y: 3},
         {type: 'memory-cell', x: 7, y: 3, memory: [0, 0, 0, 42]}
@@ -54,7 +54,7 @@ export const BREAK = {
 
 /** Пропуск шага: в сумму идут только чётные числа, остальные цикл проматывает. */
 export const SKIP = {
-    width: 7, height: 5, floor: 'sand',
+    width: 7, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 3, y: 2}],
     processors: [{
         at: [3, 2],

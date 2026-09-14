@@ -8,7 +8,7 @@
 
 /** Карта с тремя поли своей команды. */
 const three = (program, extra = {}) => ({
-    width: 14, height: 9, floor: 'sand',
+    width: 14, height: 9, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 2, y: 4}],
     units: [
         {type: 'poly', x: 6, y: 6},
@@ -62,7 +62,7 @@ export const REMEMBER = three([
 
 /** Тот же урок: юнит гибнет от чужой турели, а переменная о нём помнит. */
 export const LOST = {
-    width: 18, height: 10, floor: 'sand',
+    width: 18, height: 10, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 2, y: 5},
         {type: 'duo', x: 14, y: 5, team: 2, ammo: {copper: 10}}
@@ -84,7 +84,7 @@ export const LOST = {
 
 /** Урок «Чужие юниты»: кинжал есть, но он вражеский — привязки не будет. */
 export const FOREIGN = {
-    width: 14, height: 9, floor: 'sand',
+    width: 14, height: 9, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 2, y: 4}],
     units: [
         {type: 'poly', x: 6, y: 5},

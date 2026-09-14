@@ -58,6 +58,13 @@ const STATES = ['switch-on', 'door-open']
 const MARKS = ['block-select', 'cross-full']
 
 /**
+ * Луч добычи. `UnitType.drawMiningBeam` тянет `Drawf.laser` от юнита к рудной клетке:
+ * растянутая полоса `minelaser` и по кружку `minelaser-end` на каждом конце. Без них
+ * копающий юнит выглядит просто висящим над рудой.
+ */
+const BEAMS = ['minelaser', 'minelaser-end']
+
+/**
  * Конвейеры рисуются не одним спрайтом, а таблицей: пять видов соединения на четыре кадра
  * хода ленты. Вид выбирается по соседям (`Autotiler.buildBlending`), кадр — по времени
  * и скорости (`Conveyor.draw`). Без этой таблицы лента на повороте остаётся прямой,
@@ -90,7 +97,7 @@ function main() {
 
     const found = []
 
-    for (const name of [...BLOCKS, ...STATES, ...MARKS]) {
+    for (const name of [...BLOCKS, ...STATES, ...MARKS, ...BEAMS]) {
         /*
          * Цельного спрайта есть не у всех, и игра для каждого случая держит своё имя:
          *

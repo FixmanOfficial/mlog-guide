@@ -994,7 +994,7 @@ test('урок «Выбор значения без ветки»: перевёр
 /** Сколько итераций программа успевает за секунду с разным хвостом. */
 function roundsPerSecond(tail, type = 'hyper-processor') {
     const description = {
-        width: 7, height: 5, floor: 'sand',
+        width: 7, height: 5, floor: 'sand-floor',
         blocks: [{type, x: 3, y: 2}],
         processors: [{
             at: [3, 2],
@@ -1866,7 +1866,17 @@ test('контент в уроках назван так же, как в игр�
         ['банка памяти', 'блока памяти'],
         ['тумблер', 'переключатель (switch)'],
         ['мачта', 'силовой узел (power-node)'],
-        ['мачты', 'силового узла']
+        ['мачты', 'силового узла'],
+
+        /*
+         * «партия» — слово из настолок, в Mindustry его нет ни в интерфейсе, ни в переводе.
+         * Игра говорит «игра» и «игровое правило» (`lst.setrule`, `save.mode`), а флаг
+         * из `setflag` там «глобальный флаг» (`lst.setflag`).
+         */
+        [/парти[июеяй]/, 'игра, а флаг из setflag — глобальный'],
+
+        // «лом» — это `item.scrap.name` = «Металлолом», целиком
+        [/(^|[^а-яё])лом([^а-яё]|$)/, 'металлолом']
     ]
 
     const lessons = fileURLToPath(new URL('../src/content/docs/ru/course/', import.meta.url))
@@ -1875,7 +1885,8 @@ test('контент в уроках назван так же, как в игр�
         const text = readFileSync(file, 'utf8').toLowerCase()
 
         for (const [bad, right] of wrong) {
-            assert.ok(!text.includes(bad), `${file}: «${bad}» — в игре это ${right}`)
+            const found = typeof bad === 'string' ? text.includes(bad) : bad.test(text)
+            assert.ok(!found, `${file}: «${bad}» — в игре это ${right}`)
         }
     }
 })
@@ -2247,7 +2258,7 @@ test('урок «Цвет одним числом»: 0-255 в packcolor приж
      * а цвет меди числами 0-255 превращается в белый. Обе проверяются здесь.
      */
     const scene = {
-        width: 7, height: 5, floor: 'sand',
+        width: 7, height: 5, floor: 'sand-floor',
         blocks: [{type: 'micro-processor', x: 3, y: 2}],
         processors: [{
             at: [3, 2],
@@ -2289,7 +2300,7 @@ test('урок «Сообщение игроку»: занятый экран о
     assert.equal(world.message.text, 'Волна на подходе')
 })
 
-test('урок «Правила партии»: unitMineSpeed ускоряет добычу', () => {
+test('урок «Правила игры»: unitMineSpeed ускоряет добычу', () => {
     const {processor} = stage(RULES, 300)
 
     // Без правила моно набирает двадцать за десять секунд, с четырёхкратным — за пять
@@ -2297,7 +2308,7 @@ test('урок «Правила партии»: unitMineSpeed ускоряет �
     assert.ok(num(stage(RULES, 120).processor, 'груз') >= 12)
 })
 
-test('урок «Правила партии»: unitHealth делит урон, а предел не меняет', () => {
+test('урок «Правила игры»: unitHealth делит урон, а предел не меняет', () => {
     const {processor} = stage(TOUGH, 400)
 
     assert.equal(num(processor, 'предел'), 70, 'правило не поднимает @maxHealth')
@@ -2524,7 +2535,7 @@ test('урок «Общая память»: задания к примеру д�
 test('урок «Целые и точность»: задание про ящики считается как обещано', () => {
     // 100 на 30 — три ящика и десять в остатке; −100 на 30 — минус четыре и минус десять
     const scene = {
-        width: 7, height: 5, floor: 'sand',
+        width: 7, height: 5, floor: 'sand-floor',
         blocks: [{type: 'micro-processor', x: 3, y: 2}],
         processors: [{
             at: [3, 2],
@@ -2614,7 +2625,7 @@ test('урок «Настройка блока»: список настраив�
 
 test('урок «Предметы и пустой ответ»: у типа блока спрашивают цену, а не запас', () => {
     const scene = {
-        width: 12, height: 8, floor: 'sand',
+        width: 12, height: 8, floor: 'sand-floor',
         blocks: [
             {type: 'micro-processor', x: 2, y: 2},
             {type: 'vault', x: 7, y: 4, items: {copper: 220, graphite: 15}}
@@ -2726,7 +2737,7 @@ test('урок «Случайность и шум»: округление вни
      * где единица выпадает вдвое чаще. Проверяется распределением на трёх тысячах бросков.
      */
     const scene = {
-        width: 7, height: 5, floor: 'sand',
+        width: 7, height: 5, floor: 'sand-floor',
         blocks: [{type: 'micro-processor', x: 3, y: 2}],
         processors: [{
             at: [3, 2],
@@ -2757,7 +2768,7 @@ test('урок «Случайность и шум»: округление вни
 
 test('урок «Битовые операции»: за 53 битами теряются младшие разряды', () => {
     const scene = {
-        width: 7, height: 5, floor: 'sand',
+        width: 7, height: 5, floor: 'sand-floor',
         blocks: [{type: 'micro-processor', x: 3, y: 2}],
         processors: [{
             at: [3, 2],

@@ -8,7 +8,7 @@
 
 /** Урок «Свойства зданий»: контейнер с медью и свинцом рядом с процессором. */
 export const BUILDINGS = {
-    width: 10, height: 6, floor: 'sand',
+    width: 10, height: 6, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 2, y: 2},
         {type: 'container', x: 6, y: 3, items: {copper: 120, lead: 40}}
@@ -27,7 +27,7 @@ export const BUILDINGS = {
 
 /** Урок «Предметы и null»: хранилище, в котором есть медь, нет кремния и не бывает воды. */
 export const ITEMS = {
-    width: 11, height: 6, floor: 'sand',
+    width: 11, height: 6, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 2, y: 2},
         {type: 'vault', x: 7, y: 3, items: {copper: 220, graphite: 15}}
@@ -46,7 +46,7 @@ export const ITEMS = {
 
 /** Урок «Свойства юнитов»: один поли, взятый `ubind`. */
 export const UNITS = {
-    width: 14, height: 8, floor: 'sand',
+    width: 14, height: 8, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 2, y: 2}],
     units: [{type: 'poly', x: 8, y: 5}],
     processors: [{
@@ -65,7 +65,7 @@ export const UNITS = {
 
 /** Урок «Свойство есть не у каждого»: подбитая турель, маршрутизатор и ячейка памяти. */
 export const HOLDERS = {
-    width: 13, height: 7, floor: 'sand',
+    width: 13, height: 7, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 2, y: 2},
         {type: 'duo', x: 6, y: 4, health: 120},

@@ -6,7 +6,7 @@
 
 /** Урок «`@counter`: переход как значение»: запись числа в счётчик. */
 export const COUNTER = {
-    width: 7, height: 5, floor: 'sand',
+    width: 7, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 3, y: 2}],
     processors: [{
         at: [3, 2],
@@ -28,7 +28,7 @@ export const COUNTER = {
  * прибавка 2 пропускает ровно две строки, а не одну.
  */
 export const RELATIVE = {
-    width: 7, height: 5, floor: 'sand',
+    width: 7, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 3, y: 2}],
     processors: [{
         at: [3, 2],
@@ -50,7 +50,7 @@ export const RELATIVE = {
  * потому что мантисса двойной точности хранит 53 значащих бита.
  */
 export const PRECISE = {
-    width: 7, height: 5, floor: 'sand',
+    width: 7, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 3, y: 2}],
     processors: [{
         at: [3, 2],
@@ -71,7 +71,7 @@ export const PRECISE = {
 
 /** Урок «Метки»: та же программа, записанная метками вместо номеров. */
 export const LABELS = {
-    width: 7, height: 5, floor: 'sand',
+    width: 7, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 3, y: 2}],
     processors: [{
         at: [3, 2],
@@ -89,7 +89,7 @@ export const LABELS = {
 
 /** Урок «Время»: три часа показывают одно и то же время в разных единицах. */
 export const CLOCK = {
-    width: 12, height: 7, floor: 'sand',
+    width: 12, height: 7, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 2, y: 3}],
     processors: [{
         at: [2, 3],
@@ -106,7 +106,7 @@ export const CLOCK = {
 
 /** Тот же урок: таймер на сроке — «раз в две секунды» без `wait`. */
 export const TIMER = {
-    width: 12, height: 7, floor: 'sand',
+    width: 12, height: 7, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 2, y: 3}],
     processors: [{
         at: [2, 3],
@@ -124,7 +124,7 @@ export const TIMER = {
 
 /** Урок «Сколько стоит инструкция»: круг из трёх строк на скорости 25. */
 export const COST = {
-    width: 12, height: 7, floor: 'sand',
+    width: 12, height: 7, floor: 'sand-floor',
     blocks: [{type: 'hyper-processor', x: 2, y: 3}],
     processors: [{
         at: [2, 3],
@@ -139,7 +139,7 @@ export const COST = {
 
 /** Урок «Упаковка данных»: два числа в одном — и обратно. */
 export const PACKED = {
-    width: 12, height: 7, floor: 'sand',
+    width: 12, height: 7, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 2, y: 3}],
     processors: [{
         at: [2, 3],
@@ -158,7 +158,7 @@ export const PACKED = {
 
 /** Урок «Несколько процессоров»: разделение труда через ячейку памяти. */
 export const CREW = {
-    width: 18, height: 10, floor: 'sand',
+    width: 18, height: 10, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 2, y: 7},
         {type: 'micro-processor', x: 2, y: 3},
@@ -195,7 +195,7 @@ export const CREW = {
 
 /** Урок «Тонкости языка»: допуск, пустота вместо NaN и сравнение объектов. */
 export const EDGE = {
-    width: 12, height: 7, floor: 'sand',
+    width: 12, height: 7, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 2, y: 3}],
     processors: [{
         at: [2, 3],

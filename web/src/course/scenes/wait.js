@@ -7,7 +7,7 @@
 
 /** Урок «Пауза в секундах»: круг раз в секунду вместо круга каждый тик. */
 export const TICKS = {
-    width: 7, height: 5, floor: 'sand',
+    width: 7, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 3, y: 2}],
     processors: [{
         at: [3, 2],
@@ -25,7 +25,7 @@ export const TICKS = {
  * Четыре шага — это два круга: в итерации две инструкции, а `после` так и остаётся пустым.
  */
 export const ENDING = {
-    width: 7, height: 5, floor: 'sand',
+    width: 7, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 3, y: 2}],
     processors: [{
         at: [3, 2],
@@ -40,7 +40,7 @@ export const ENDING = {
 
 /** Урок «Stop»: процессор останавливается насовсем. */
 export const STOPPED = {
-    width: 7, height: 5, floor: 'sand',
+    width: 7, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 3, y: 2}],
     processors: [{
         at: [3, 2],
@@ -55,7 +55,7 @@ export const STOPPED = {
 
 /** Урок «Ритм программы»: раз в полсекунды. */
 export const RHYTHM = {
-    width: 11, height: 6, floor: 'sand',
+    width: 11, height: 6, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 2, y: 2},
         {type: 'container', x: 7, y: 3, items: {copper: 120}}
@@ -78,7 +78,7 @@ export const RHYTHM = {
  * вхолостую: за секунду итерация проходит под шестьдесят раз, а `sensor` срабатывает один.
  */
 export const TIMER = {
-    width: 11, height: 6, floor: 'sand',
+    width: 11, height: 6, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 2, y: 2},
         {type: 'container', x: 7, y: 3, items: {copper: 120}}

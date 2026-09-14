@@ -10,7 +10,7 @@
 
 /** Урок «Найти юнита»: три фильтра складываются логическим И. */
 export const FIND = {
-    width: 20, height: 11, floor: 'sand',
+    width: 20, height: 11, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 1, y: 5},
         {type: 'duo', x: 6, y: 5},
@@ -46,7 +46,7 @@ export const FIND = {
  * живучий» — это один юнит, а «дальний» и «самый слабый» — другой.
  */
 export const SORT = {
-    width: 20, height: 11, floor: 'sand',
+    width: 20, height: 11, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 1, y: 5},
         {type: 'duo', x: 6, y: 5}
@@ -77,7 +77,7 @@ export const SORT = {
  * покойника: пересчёт у него не каждую итерацию, а раз в полсекунды.
  */
 export const CACHE = {
-    width: 24, height: 11, floor: 'sand',
+    width: 24, height: 11, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 1, y: 5},
         {type: 'duo', x: 6, y: 5, ammo: {copper: 20}}

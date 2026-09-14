@@ -7,7 +7,7 @@
 
 /** Урок «Присваивание и копирование»: копия не следит за оригиналом. */
 export const ASSIGN = {
-    width: 7, height: 5, floor: 'sand',
+    width: 7, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 3, y: 2}],
     processors: [{
         at: [3, 2],
@@ -27,7 +27,7 @@ export const ASSIGN = {
  * из переменной: для `sensor` нет разницы, откуда пришёл `@copper`.
  */
 export const CONTENT = {
-    width: 11, height: 6, floor: 'sand',
+    width: 11, height: 6, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 2, y: 2},
         {type: 'container', x: 7, y: 3, items: {copper: 120, lead: 40}}

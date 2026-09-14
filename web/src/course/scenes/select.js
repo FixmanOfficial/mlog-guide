@@ -12,7 +12,7 @@
  * и ограничение числа сверху.
  */
 export const CHOICE = {
-    width: 11, height: 6, floor: 'sand',
+    width: 11, height: 6, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 2, y: 2},
         {type: 'container', x: 7, y: 3, items: {copper: 120}}

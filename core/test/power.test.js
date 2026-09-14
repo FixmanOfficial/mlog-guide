@@ -20,7 +20,7 @@ import '../src/sandbox.js'
 const logicIds = JSON.parse(readFileSync(new URL('../data/logic-ids.json', import.meta.url), 'utf8'))
 const content = createContent(logicIds)
 
-const world = (options = {}) => new World({width: 30, height: 20, content, floor: 'sand', ...options})
+const world = (options = {}) => new World({width: 30, height: 20, content, floor: 'sand-floor', ...options})
 
 test('соседние блоки с энергией — одна сеть', () => {
     const scene = world()

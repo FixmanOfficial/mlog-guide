@@ -528,3 +528,55 @@ test('within продлевает управление, если контрол�
     asking.run(4)
     assert.equal(ai.controlTimer, LOGIC_CONTROL_TIMEOUT, 'срок обновился')
 })
+
+test('копают с места: команда не двигает юнита и не достаёт дальше mineRange', () => {
+    /*
+     * `LExecutor` ставит `mineTile` только через `validMine`, а тот считает расстояние.
+     * `LogicAI.updateMovement` про добычу не знает вовсе: до руды юнита ведут отдельной
+     * командой движения, а не сама `mine`.
+     */
+    const world = new World({width: 32, height: 12, content, floor: 'stone'})
+    const building = world.add('micro-processor', {x: 1, y: 6})
+
+    world.setOverlay(10, 6, 'ore-copper')
+    world.setOverlay(28, 6, 'ore-copper')
+
+    const near = world.spawn('mono', {x: 8, y: 6})
+    const far = world.spawn('mono', {x: 8, y: 6})
+
+    const processor = new Processor([
+        'ubind @mono',
+        'ucontrol mine 10 6 0 0 0',
+        'ubind @mono',
+        'ucontrol mine 28 6 0 0 0'
+    ].join('\n'), {world, content, globals: content.globals, team: 1, building})
+
+    building.processor = processor
+    world.addProcessor(processor)
+
+    // Микропроцессор берёт две инструкции за тик — на все четыре строки нужно два тика
+    world.steps(2)
+
+    // Клетка в 2 тайлах — копает; в 20 тайлах — команда ничего не сделала
+    assert.notEqual(near.mineTile, null)
+    assert.equal(far.mineTile, null)
+
+    const was = near.x
+    world.steps(120)
+
+    assert.equal(near.x, was, 'юнит остался на месте')
+    assert.ok(near.itemAmount > 0, 'но клетку копает')
+})
+
+test('одну клетку копают сколько угодно юнитов разом', () => {
+    // Замка на тайле нет: в `MinerComp.update` про других копателей ничего не сказано
+    const world = new World({width: 16, height: 10, content, floor: 'stone'})
+    world.setOverlay(8, 5, 'ore-copper')
+
+    const crew = [0, 1, 2].map(() => world.spawn('mono', {x: 7, y: 5}))
+    for (const unit of crew) unit.mineTile = {x: 8, y: 5}
+
+    world.steps(60)
+
+    for (const unit of crew) assert.ok(unit.itemAmount >= 2, `набрал ${unit.itemAmount}`)
+})

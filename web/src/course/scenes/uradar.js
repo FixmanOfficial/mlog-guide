@@ -7,7 +7,7 @@
 
 /** Урок «Поиск от юнита»: ближний и дальний враг вокруг кинжала. */
 export const SEEK = {
-    width: 20, height: 12, floor: 'sand',
+    width: 20, height: 12, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 1, y: 6}],
     units: [
         {type: 'dagger', x: 6, y: 6},
@@ -30,7 +30,7 @@ export const SEEK = {
 
 /** Тот же урок: свои ищутся так же, а сам себя юнит не находит. */
 export const ALLY = {
-    width: 20, height: 12, floor: 'sand',
+    width: 20, height: 12, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 1, y: 6}],
     units: [
         {type: 'dagger', x: 6, y: 6},

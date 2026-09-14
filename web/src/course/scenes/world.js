@@ -10,7 +10,7 @@
 
 /** Урок «Что это такое»: мировой ставит блок, обычный — нет. */
 export const PRIVILEGE = {
-    width: 16, height: 10, floor: 'sand',
+    width: 16, height: 10, floor: 'sand-floor',
     blocks: [
         {type: 'world-processor', x: 2, y: 7},
         {type: 'micro-processor', x: 2, y: 2}
@@ -40,7 +40,7 @@ export const PRIVILEGE = {
 
 /** Тот же урок: предел скорости у мирового процессора — тысяча инструкций за тик. */
 export const FAST = {
-    width: 12, height: 8, floor: 'sand',
+    width: 12, height: 8, floor: 'sand-floor',
     blocks: [{type: 'world-processor', x: 2, y: 4}],
     processors: [{
         at: [2, 4],
@@ -56,10 +56,10 @@ export const FAST = {
 
 /** Урок «Что стоит в клетке»: четыре слоя одной и той же карты. */
 export const LAYERS = {
-    width: 16, height: 10, floor: 'sand',
+    width: 16, height: 10, floor: 'sand-floor',
     terrain: [
         {floor: 'metal-floor', rect: [6, 4, 2, 2]},
-        {floor: 'sand', ore: 'ore-copper', rect: [9, 4, 2, 2]},
+        {floor: 'sand-floor', ore: 'ore-copper', rect: [9, 4, 2, 2]},
         {wall: 'stone-wall', rect: [12, 4, 1, 2]}
     ],
     blocks: [
@@ -84,7 +84,7 @@ export const LAYERS = {
 
 /** Урок «Поставить и снести»: три слоя ставятся и убираются. */
 export const PAINT = {
-    width: 16, height: 10, floor: 'sand',
+    width: 16, height: 10, floor: 'sand-floor',
     blocks: [
         {type: 'world-processor', x: 2, y: 7},
         {type: 'router', x: 12, y: 4}
@@ -108,7 +108,7 @@ export const PAINT = {
 
 /** Тот же урок: дробные координаты усекаются у `setblock` и округляются у `getblock`. */
 export const ROUNDING = {
-    width: 14, height: 9, floor: 'sand',
+    width: 14, height: 9, floor: 'sand-floor',
     blocks: [{type: 'world-processor', x: 2, y: 6}],
     processors: [{
         at: [2, 6],
@@ -124,7 +124,7 @@ export const ROUNDING = {
 
 /** Урок «Сообщение игроку»: объявление держится три секунды, а программа ждёт своей очереди. */
 export const TALK = {
-    width: 14, height: 9, floor: 'sand',
+    width: 14, height: 9, floor: 'sand-floor',
     blocks: [{type: 'world-processor', x: 2, y: 4}],
     processors: [{
         at: [2, 4],
@@ -140,7 +140,7 @@ export const TALK = {
 
 /** Тот же урок: со своей переменной отказ виден сразу, и программа не ждёт. */
 export const BUSY = {
-    width: 14, height: 9, floor: 'sand',
+    width: 14, height: 9, floor: 'sand-floor',
     blocks: [{type: 'world-processor', x: 2, y: 4}],
     processors: [{
         at: [2, 4],
@@ -155,10 +155,10 @@ export const BUSY = {
     }]
 }
 
-/** Урок «Правила партии»: добыча вчетверо быстрее — правило видно на глаз. */
+/** Урок «Правила игры»: добыча вчетверо быстрее — правило видно на глаз. */
 export const RULES = {
-    width: 16, height: 10, floor: 'sand',
-    terrain: [{floor: 'sand', ore: 'ore-copper', rect: [8, 4, 2, 2]}],
+    width: 16, height: 10, floor: 'sand-floor',
+    terrain: [{floor: 'sand-floor', ore: 'ore-copper', rect: [8, 4, 2, 2]}],
     blocks: [{type: 'world-processor', x: 2, y: 5}],
     units: [{type: 'mono', x: 8, y: 5}],
     processors: [{
@@ -175,7 +175,7 @@ export const RULES = {
 
 /** Тот же урок: правило `unitHealth` не поднимает здоровье, а делит урон. */
 export const TOUGH = {
-    width: 20, height: 10, floor: 'sand',
+    width: 20, height: 10, floor: 'sand-floor',
     blocks: [
         {type: 'world-processor', x: 2, y: 5},
         {type: 'duo', x: 16, y: 5, team: 2, ammo: {copper: 10}}
@@ -193,9 +193,9 @@ export const TOUGH = {
     }]
 }
 
-/** Урок «Флаги партии»: два процессора говорят через флаг. */
+/** Урок «Глобальные флаги»: два процессора говорят через флаг. */
 export const FLAGS = {
-    width: 16, height: 10, floor: 'sand',
+    width: 16, height: 10, floor: 'sand-floor',
     blocks: [
         {type: 'world-processor', x: 2, y: 7},
         {type: 'world-processor', x: 2, y: 3},
@@ -229,7 +229,7 @@ export const FLAGS = {
 
 /** Урок «Свойства напрямую»: `setprop` правит здоровье, команду и запасы мимо всякой физики. */
 export const PROPS = {
-    width: 16, height: 10, floor: 'sand',
+    width: 16, height: 10, floor: 'sand-floor',
     blocks: [
         {type: 'world-processor', x: 2, y: 5},
         {type: 'container', x: 8, y: 5},
@@ -254,7 +254,7 @@ export const PROPS = {
 
 /** Урок «Всё, что есть у команды»: перебор юнитов и зданий через `fetch`. */
 export const FETCH = {
-    width: 18, height: 11, floor: 'sand',
+    width: 18, height: 11, floor: 'sand-floor',
     blocks: [
         {type: 'world-processor', x: 2, y: 5},
         {type: 'core-shard', x: 7, y: 5, items: {copper: 200}},
@@ -285,7 +285,7 @@ export const FETCH = {
 
 /** Урок «Взрыв»: удар по площади там, где никакой турели нет. */
 export const BOOM = {
-    width: 18, height: 11, floor: 'sand',
+    width: 18, height: 11, floor: 'sand-floor',
     blocks: [{type: 'world-processor', x: 2, y: 5}],
     units: [
         {type: 'dagger', x: 10, y: 5, team: 2},
@@ -306,7 +306,7 @@ export const BOOM = {
 
 /** Урок «Метки на карте»: три метки разных видов появляются и живут своей жизнью. */
 export const MARKERS = {
-    width: 18, height: 11, floor: 'sand',
+    width: 18, height: 11, floor: 'sand-floor',
     blocks: [{type: 'world-processor', x: 2, y: 5}],
     processors: [{
         at: [2, 5],
@@ -328,7 +328,7 @@ export const MARKERS = {
 
 /** Урок «Текст по ключу»: словарь карты вместо строк в программе. */
 export const LOCALE = {
-    width: 16, height: 9, floor: 'sand',
+    width: 16, height: 9, floor: 'sand-floor',
     locales: {
         'задача.бур': 'Постройте бур',
         'задача.готово': 'Задача выполнена'
@@ -353,7 +353,7 @@ export const LOCALE = {
 
 /** Урок «Погода»: мировой включает дождь через две секунды и сам же его видит. */
 export const WEATHER = {
-    width: 16, height: 10, floor: 'sand',
+    width: 16, height: 10, floor: 'sand-floor',
     blocks: [
         {type: 'world-processor', x: 2, y: 5},
         {type: 'message', x: 11, y: 5}
@@ -376,7 +376,7 @@ export const WEATHER = {
 
 /** Урок «Пуля из ниоткуда»: выстрел без турели, раз в секунду. */
 export const SHOT = {
-    width: 20, height: 11, floor: 'sand',
+    width: 20, height: 11, floor: 'sand-floor',
     blocks: [{type: 'world-processor', x: 2, y: 5}],
     units: [{type: 'dagger', x: 14, y: 5, team: 2}],
     processors: [{

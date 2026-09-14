@@ -10,7 +10,7 @@
 
 /** Общая карта: процессор слева, дисплей справа. */
 const stand = (program, {type = 'micro-processor'} = {}) => ({
-    width: 13, height: 9, floor: 'sand',
+    width: 13, height: 9, floor: 'sand-floor',
     blocks: [
         {type, x: 1, y: 4},
         {type: 'large-logic-display', x: 7, y: 4}
@@ -123,7 +123,7 @@ export const OVERFLOW = stand([
 
 /** Тот же урок: два дисплея, и каждому своя пачка команд. */
 export const TWO = {
-    width: 18, height: 9, floor: 'sand',
+    width: 18, height: 9, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 1, y: 4},
         {type: 'large-logic-display', x: 5, y: 4},

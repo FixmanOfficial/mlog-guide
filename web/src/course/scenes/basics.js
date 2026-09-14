@@ -7,7 +7,7 @@
 
 /** Урок «Число, объект и null»: три вида значений и что с ними делает арифметика. */
 export const VALUES = {
-    width: 6, height: 4, floor: 'sand',
+    width: 6, height: 4, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 2, y: 2}],
     processors: [{
         at: [2, 2],
@@ -23,7 +23,7 @@ export const VALUES = {
 
 /** Урок «Пустота: null»: пустота в сравнениях и в арифметике. */
 export const EMPTINESS = {
-    width: 6, height: 4, floor: 'sand',
+    width: 6, height: 4, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 2, y: 2}],
     processors: [{
         at: [2, 2],
@@ -46,7 +46,7 @@ export const EMPTINESS = {
  * что счётчик прибавляется не по кадру экрана, а по тику игры.
  */
 export const PROCESSOR = {
-    width: 7, height: 5, floor: 'sand',
+    width: 7, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 3, y: 2}],
     processors: [{
         at: [3, 2],
@@ -61,7 +61,7 @@ export const PROCESSOR = {
 
 /** Урок «Как писать в игре»: три строки, которые читатель переставляет и правит руками. */
 export const EDITOR = {
-    width: 7, height: 5, floor: 'sand',
+    width: 7, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 3, y: 2}],
     processors: [{
         at: [3, 2],
@@ -82,7 +82,7 @@ export const EDITOR = {
  * досчитает не то. Видно это только в таблице переменных, ради чего сцена и нужна.
  */
 export const WATCH = {
-    width: 7, height: 5, floor: 'sand',
+    width: 7, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 3, y: 2}],
     processors: [{
         at: [3, 2],
@@ -103,7 +103,7 @@ export const WATCH = {
  * Обе видны только в таблице переменных: сама программа ни на что не жалуется.
  */
 export const DEBUG = {
-    width: 7, height: 5, floor: 'sand',
+    width: 7, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 3, y: 2}],
     processors: [{
         at: [3, 2],
@@ -125,7 +125,7 @@ export const DEBUG = {
  * туда не попадают.
  */
 export const NAMES = {
-    width: 7, height: 5, floor: 'sand',
+    width: 7, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 3, y: 2}],
     processors: [{
         at: [3, 2],
@@ -146,7 +146,7 @@ export const NAMES = {
  * и `cell1`. `@links` знает, сколько их, а `getlink` достаёт здание по номеру, начиная с нуля.
  */
 export const LINKS = {
-    width: 12, height: 7, floor: 'sand',
+    width: 12, height: 7, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 2, y: 3},
         {type: 'container', x: 6, y: 4, items: {copper: 80}},

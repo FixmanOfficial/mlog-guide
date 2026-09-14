@@ -7,7 +7,7 @@
 
 /** Урок «Связи по номеру»: обход всех связей с печатью того, что подключено. */
 export const LOOP = {
-    width: 14, height: 9, floor: 'sand',
+    width: 14, height: 9, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 1, y: 4},
         {type: 'container', x: 5, y: 5, items: {copper: 40}},
@@ -31,7 +31,7 @@ export const LOOP = {
 
 /** Тот же урок: за последней связью лежит пустота, а не ошибка. */
 export const BEYOND = {
-    width: 12, height: 8, floor: 'sand',
+    width: 12, height: 8, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 1, y: 4},
         {type: 'container', x: 5, y: 4, items: {copper: 40}},

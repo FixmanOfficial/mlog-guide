@@ -7,7 +7,7 @@
 
 /** Общая карта: один процессор и табло. */
 const stand = (program, type) => ({
-    width: 11, height: 7, floor: 'sand',
+    width: 11, height: 7, floor: 'sand-floor',
     blocks: [
         {type, x: 2, y: 3},
         {type: 'message', x: 8, y: 3}

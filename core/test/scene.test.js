@@ -93,7 +93,7 @@ test('местность описывается и картинкой, и пря
     const picture = buildScene({
         width: 6, height: 4,
         terrain: {
-            legend: {'.': {floor: 'sand'}, 'о': {floor: 'sand', ore: 'ore-copper'}},
+            legend: {'.': {floor: 'sand-floor'}, 'о': {floor: 'sand-floor', ore: 'ore-copper'}},
             rows: [
                 '......',
                 '..оо..',
@@ -109,7 +109,7 @@ test('местность описывается и картинкой, и пря
 
     const rects = buildScene({
         width: 8, height: 6,
-        terrain: [{floor: 'sand', ore: 'ore-copper', rect: [3, 2, 2, 3]}]
+        terrain: [{floor: 'sand-floor', ore: 'ore-copper', rect: [3, 2, 2, 3]}]
     }, {content}).world
 
     assert.equal(rects.overlayAt(3, 2), 'ore-copper')

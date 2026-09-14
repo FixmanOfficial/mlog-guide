@@ -376,3 +376,20 @@ test('урок может сузить меню до нескольких инс
     // Ограничение не отменяет остальных правил: мировые всё так же прячутся у обычного
     assert.deepEqual(available({allow: ['setblock', 'set']}).map(item => item.opcode), ['set'])
 })
+
+test('метка здания у ulocate — меню, а не поле ввода', () => {
+    /*
+     * `UnitLocateStatement.build` открывает `showSelect(b, BlockFlag.allLogic, ...)`, то есть
+     * группа выбирается кнопкой из десяти значений. Перечисление живёт в `world/meta`, а не
+     * в `logic/`, и пока генератор туда не заглядывал, параметр молча приезжал полем ввода.
+     */
+    const flag = INSTRUCTIONS.get('ulocate').params.find(param => param.name === 'flag')
+
+    assert.equal(flag.enum, 'BlockFlag')
+    assert.deepEqual(flag.options,
+        ['core', 'storage', 'generator', 'turret', 'factory', 'repair', 'battery', 'reactor', 'drill', 'shield'])
+
+    // Служебные метки в меню не попадают: они есть у перечисления, но не у `allLogic`
+    assert.ok(ENUMS.BlockFlag.includes('launchPad'))
+    assert.ok(!flag.options.includes('launchPad'))
+})

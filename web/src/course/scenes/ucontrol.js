@@ -8,7 +8,7 @@
 
 /** Урок «Движение»: поли летит через всю карту и остаётся у цели. */
 export const MOVE = {
-    width: 20, height: 10, floor: 'sand',
+    width: 20, height: 10, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 1, y: 4}],
     units: [{type: 'poly', x: 3, y: 4}],
     processors: [{
@@ -25,7 +25,7 @@ export const MOVE = {
 
 /** Тот же урок: команда «стоять» гасит движение на месте. */
 export const HALT = {
-    width: 20, height: 10, floor: 'sand',
+    width: 20, height: 10, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 1, y: 4}],
     units: [{type: 'poly', x: 3, y: 4}],
     processors: [{
@@ -44,7 +44,7 @@ export const HALT = {
 
 /** Урок «Прибытие»: `within` отвечает, дошёл ли юнит. */
 export const ARRIVED = {
-    width: 20, height: 10, floor: 'sand',
+    width: 20, height: 10, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 1, y: 4}],
     units: [{type: 'poly', x: 3, y: 4}],
     processors: [{
@@ -61,7 +61,7 @@ export const ARRIVED = {
 
 /** Урок «Предметы»: поли берёт медь со склада и везёт её в другой. */
 export const CARRY = {
-    width: 18, height: 10, floor: 'sand',
+    width: 18, height: 10, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 1, y: 4},
         {type: 'container', x: 5, y: 4, items: {copper: 100}},
@@ -83,7 +83,7 @@ export const CARRY = {
 
 /** Урок «Флаг»: юниты делятся по меткам, и метку видно через sensor. */
 export const FLAG = {
-    width: 16, height: 10, floor: 'sand',
+    width: 16, height: 10, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 1, y: 5}],
     units: [
         {type: 'poly', x: 5, y: 4},
@@ -108,8 +108,8 @@ export const FLAG = {
 
 /** Урок «Добыча»: моно копает медь из руды под собой. */
 export const MINE = {
-    width: 16, height: 10, floor: 'sand',
-    terrain: [{floor: 'sand', ore: 'ore-copper', rect: [8, 3, 3, 3]}],
+    width: 16, height: 10, floor: 'sand-floor',
+    terrain: [{floor: 'sand-floor', ore: 'ore-copper', rect: [8, 3, 3, 3]}],
     blocks: [{type: 'micro-processor', x: 1, y: 4}],
     units: [{type: 'mono', x: 6, y: 4}],
     processors: [{
@@ -127,7 +127,7 @@ export const MINE = {
 
 /** Тот же урок: полный рейс — набрать на одном складе и отвезти на другой. */
 export const FERRY = {
-    width: 20, height: 10, floor: 'sand',
+    width: 20, height: 10, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 1, y: 4},
         {type: 'container', x: 5, y: 4, items: {copper: 90}},

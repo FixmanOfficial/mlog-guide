@@ -6,7 +6,7 @@
 
 /** Урок «Подстановка в шаблон»: один шаблон и два значения по местам. */
 export const TEMPLATE = {
-    width: 12, height: 7, floor: 'sand',
+    width: 12, height: 7, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 2, y: 3},
         {type: 'container', x: 6, y: 4, items: {copper: 120}},
@@ -28,7 +28,7 @@ export const TEMPLATE = {
 
 /** Урок «Символы и иконки»: символ по коду и символ предмета. */
 export const CHARS = {
-    width: 12, height: 7, floor: 'sand',
+    width: 12, height: 7, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 2, y: 3},
         {type: 'container', x: 6, y: 4, items: {copper: 120}},

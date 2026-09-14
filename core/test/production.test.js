@@ -19,9 +19,9 @@ import '../src/production.js'
 const logicIds = JSON.parse(readFileSync(new URL('../data/logic-ids.json', import.meta.url), 'utf8'))
 const content = createContent(logicIds)
 
-/** Мир с песком и рудой там, где просят. */
-function setup({ore = [], width = 16, height = 10} = {}) {
-    const world = new World({width, height, content, floor: 'sand'})
+/** Мир с камнем и рудой там, где просят: камень сам по себе ничего не роняет. */
+function setup({ore = [], width = 16, height = 10, floor = 'stone'} = {}) {
+    const world = new World({width, height, content, floor})
     for (const [x, y, type = 'ore-copper'] of ore) world.setOverlay(x, y, type)
 
     return world
@@ -58,6 +58,15 @@ test('бур не берёт руду не по зубам', () => {
     better.countOre()
 
     assert.equal(better.dominantItem, 'titanium')
+})
+
+test('пол под буром тоже руда, если он что-то роняет', () => {
+    // Tile.drop(): нет наложения — считается itemDrop самого пола. У песка это песок
+    const world = setup({floor: 'sand-floor'})
+    const drill = world.add('mechanical-drill', {x: 3, y: 3})
+
+    assert.equal(drill.dominantItem, 'sand')
+    assert.equal(drill.dominantItems, 4)
 })
 
 test('время на предмет считается по твёрдости, а скорость — по числу клеток', () => {

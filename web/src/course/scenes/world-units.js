@@ -7,7 +7,7 @@
 
 /** Урок «Поиск по области»: круг, прямоугольник и отбор по команде. */
 export const AREA = {
-    width: 20, height: 12, floor: 'sand',
+    width: 20, height: 12, floor: 'sand-floor',
     blocks: [{type: 'world-processor', x: 1, y: 6}],
     units: [
         {type: 'dagger', x: 8, y: 6},
@@ -34,7 +34,7 @@ export const AREA = {
 
 /** Урок «Создать юнита»: отряд появляется из ниоткуда, пока их не станет трое. */
 export const SPAWN = {
-    width: 18, height: 11, floor: 'sand',
+    width: 18, height: 11, floor: 'sand-floor',
     blocks: [{type: 'world-processor', x: 1, y: 5}],
     units: [],
     processors: [{
@@ -54,7 +54,7 @@ export const SPAWN = {
 
 /** Урок «Эффекты»: горение съедает здоровье кинжала. */
 export const BURN = {
-    width: 16, height: 10, floor: 'sand',
+    width: 16, height: 10, floor: 'sand-floor',
     blocks: [{type: 'world-processor', x: 1, y: 5}],
     units: [{type: 'dagger', x: 8, y: 5}],
     processors: [{
@@ -73,7 +73,7 @@ export const BURN = {
 
 /** Тот же урок: `unmoving` держит юнита на месте, сколько ему ни командуй. */
 export const FROZEN = {
-    width: 22, height: 10, floor: 'sand',
+    width: 22, height: 10, floor: 'sand-floor',
     blocks: [{type: 'world-processor', x: 1, y: 5}],
     units: [
         {type: 'dagger', x: 3, y: 7},

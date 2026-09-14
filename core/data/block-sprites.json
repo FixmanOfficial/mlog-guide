@@ -1512,1622 +1512,1634 @@
       "width": 96,
       "height": 96
     },
-    "scatter-preview": {
+    "minelaser-end": {
       "x": 785,
+      "y": 2051,
+      "width": 72,
+      "height": 72
+    },
+    "scatter-preview": {
+      "x": 859,
       "y": 2051,
       "width": 66,
       "height": 66
     },
     "wave": {
-      "x": 853,
+      "x": 927,
       "y": 2051,
       "width": 66,
       "height": 66
     },
     "lancer": {
-      "x": 921,
+      "x": 995,
       "y": 2051,
       "width": 66,
       "height": 66
     },
     "parallax": {
-      "x": 989,
+      "x": 1063,
       "y": 2051,
       "width": 66,
       "height": 66
     },
     "swarmer": {
-      "x": 1057,
+      "x": 1131,
       "y": 2051,
       "width": 66,
       "height": 66
     },
     "salvo": {
-      "x": 1125,
+      "x": 1199,
       "y": 2051,
       "width": 66,
       "height": 66
     },
     "salvo-preview": {
-      "x": 1193,
+      "x": 1267,
       "y": 2051,
       "width": 66,
       "height": 66
     },
     "segment": {
-      "x": 1261,
+      "x": 1335,
       "y": 2051,
       "width": 66,
       "height": 66
     },
     "repair-turret": {
-      "x": 1329,
+      "x": 1403,
       "y": 2051,
       "width": 66,
       "height": 66
     },
     "graphite-press": {
-      "x": 1397,
+      "x": 1471,
       "y": 2051,
       "width": 64,
       "height": 64
     },
     "silicon-smelter": {
-      "x": 1463,
+      "x": 1537,
       "y": 2051,
       "width": 64,
       "height": 64
     },
     "silicon-smelter-top": {
-      "x": 1529,
+      "x": 1603,
       "y": 2051,
       "width": 64,
       "height": 64
     },
     "kiln": {
-      "x": 1595,
+      "x": 1669,
       "y": 2051,
       "width": 64,
       "height": 64
     },
     "kiln-top": {
-      "x": 1661,
+      "x": 1735,
       "y": 2051,
       "width": 64,
       "height": 64
     },
     "plastanium-compressor": {
-      "x": 1727,
+      "x": 1801,
       "y": 2051,
       "width": 64,
       "height": 64
     },
     "plastanium-compressor-top": {
-      "x": 1793,
+      "x": 1867,
       "y": 2051,
       "width": 64,
       "height": 64
     },
     "phase-weaver": {
-      "x": 1859,
+      "x": 1933,
       "y": 2051,
       "width": 64,
       "height": 64
     },
     "cryofluid-mixer": {
-      "x": 1925,
-      "y": 2051,
+      "x": 1,
+      "y": 2149,
       "width": 64,
       "height": 64
     },
     "pyratite-mixer": {
-      "x": 1,
+      "x": 67,
       "y": 2149,
       "width": 64,
       "height": 64
     },
     "blast-mixer": {
-      "x": 67,
+      "x": 133,
       "y": 2149,
       "width": 64,
       "height": 64
     },
     "separator": {
-      "x": 133,
+      "x": 199,
       "y": 2149,
       "width": 64,
       "height": 64
     },
     "spore-press": {
-      "x": 199,
+      "x": 265,
       "y": 2149,
       "width": 64,
       "height": 64
     },
     "spore-press-top": {
-      "x": 265,
+      "x": 331,
       "y": 2149,
       "width": 64,
       "height": 64
     },
     "coal-centrifuge": {
-      "x": 331,
+      "x": 397,
       "y": 2149,
       "width": 64,
       "height": 64
     },
     "electric-heater": {
-      "x": 397,
+      "x": 463,
       "y": 2149,
       "width": 64,
       "height": 64
     },
     "electric-heater-heat": {
-      "x": 463,
+      "x": 529,
       "y": 2149,
       "width": 64,
       "height": 64
     },
     "phase-heater": {
-      "x": 529,
+      "x": 595,
       "y": 2149,
       "width": 64,
       "height": 64
     },
     "phase-heater-heat": {
-      "x": 595,
+      "x": 661,
       "y": 2149,
       "width": 64,
       "height": 64
     },
     "small-heat-redirector": {
-      "x": 661,
+      "x": 727,
       "y": 2149,
       "width": 64,
       "height": 64
     },
     "small-heat-redirector-heat": {
-      "x": 727,
+      "x": 793,
       "y": 2149,
       "width": 64,
       "height": 64
     },
     "copper-wall-large": {
-      "x": 793,
+      "x": 859,
       "y": 2149,
       "width": 64,
       "height": 64
     },
     "titanium-wall-large": {
-      "x": 859,
+      "x": 925,
       "y": 2149,
       "width": 64,
       "height": 64
     },
     "plastanium-wall-large": {
-      "x": 925,
+      "x": 991,
       "y": 2149,
       "width": 64,
       "height": 64
     },
     "thorium-wall-large": {
-      "x": 991,
+      "x": 1057,
       "y": 2149,
       "width": 64,
       "height": 64
     },
     "phase-wall-large": {
-      "x": 1057,
+      "x": 1123,
       "y": 2149,
       "width": 64,
       "height": 64
     },
     "surge-wall-large": {
-      "x": 1123,
+      "x": 1189,
       "y": 2149,
       "width": 64,
       "height": 64
     },
     "door-large": {
-      "x": 1189,
+      "x": 1255,
       "y": 2149,
       "width": 64,
       "height": 64
     },
     "scrap-wall-large": {
-      "x": 1255,
+      "x": 1321,
       "y": 2149,
       "width": 64,
       "height": 64
     },
     "beryllium-wall-large": {
-      "x": 1321,
+      "x": 1387,
       "y": 2149,
       "width": 64,
       "height": 64
     },
     "tungsten-wall-large": {
-      "x": 1387,
+      "x": 1453,
       "y": 2149,
       "width": 64,
       "height": 64
     },
     "blast-door": {
-      "x": 1453,
+      "x": 1519,
       "y": 2149,
       "width": 64,
       "height": 64
     },
     "reinforced-surge-wall-large": {
-      "x": 1519,
+      "x": 1585,
       "y": 2149,
       "width": 64,
       "height": 64
     },
     "carbide-wall-large": {
-      "x": 1585,
+      "x": 1651,
       "y": 2149,
       "width": 64,
       "height": 64
     },
     "shielded-wall": {
-      "x": 1651,
+      "x": 1717,
       "y": 2149,
       "width": 64,
       "height": 64
     },
     "mend-projector": {
-      "x": 1717,
+      "x": 1783,
       "y": 2149,
       "width": 64,
       "height": 64
     },
     "mend-projector-top": {
-      "x": 1783,
+      "x": 1849,
       "y": 2149,
       "width": 64,
       "height": 64
     },
     "overdrive-projector": {
-      "x": 1849,
+      "x": 1915,
       "y": 2149,
       "width": 64,
       "height": 64
     },
     "overdrive-projector-top": {
-      "x": 1915,
+      "x": 1981,
       "y": 2149,
       "width": 64,
       "height": 64
     },
     "distributor": {
-      "x": 1981,
-      "y": 2149,
+      "x": 1,
+      "y": 2215,
       "width": 64,
       "height": 64
     },
     "unit-cargo-unload-point": {
-      "x": 1,
+      "x": 67,
       "y": 2215,
       "width": 64,
       "height": 64
     },
     "unit-cargo-unload-point-top": {
-      "x": 67,
+      "x": 133,
       "y": 2215,
       "width": 64,
       "height": 64
     },
     "rotary-pump": {
-      "x": 133,
+      "x": 199,
       "y": 2215,
       "width": 64,
       "height": 64
     },
     "liquid-container": {
-      "x": 199,
+      "x": 265,
       "y": 2215,
       "width": 64,
       "height": 64
     },
     "reinforced-pump": {
-      "x": 265,
+      "x": 331,
       "y": 2215,
       "width": 64,
       "height": 64
     },
     "reinforced-liquid-container": {
-      "x": 331,
+      "x": 397,
       "y": 2215,
       "width": 64,
       "height": 64
     },
     "power-node-large": {
-      "x": 397,
+      "x": 463,
       "y": 2215,
       "width": 64,
       "height": 64
     },
     "surge-tower": {
-      "x": 463,
+      "x": 529,
       "y": 2215,
       "width": 64,
       "height": 64
     },
     "thermal-generator": {
-      "x": 529,
+      "x": 595,
       "y": 2215,
       "width": 64,
       "height": 64
     },
     "steam-generator": {
-      "x": 595,
+      "x": 661,
       "y": 2215,
       "width": 64,
       "height": 64
     },
     "steam-generator-top": {
-      "x": 661,
+      "x": 727,
       "y": 2215,
       "width": 64,
       "height": 64
     },
     "rtg-generator": {
-      "x": 727,
+      "x": 793,
       "y": 2215,
       "width": 64,
       "height": 64
     },
     "mechanical-drill": {
-      "x": 793,
+      "x": 859,
       "y": 2215,
       "width": 64,
       "height": 64
     },
     "mechanical-drill-rotator": {
-      "x": 859,
+      "x": 925,
       "y": 2215,
       "width": 64,
       "height": 64
     },
     "mechanical-drill-top": {
-      "x": 925,
+      "x": 991,
       "y": 2215,
       "width": 64,
       "height": 64
     },
     "pneumatic-drill": {
-      "x": 991,
+      "x": 1057,
       "y": 2215,
       "width": 64,
       "height": 64
     },
     "pneumatic-drill-rotator": {
-      "x": 1057,
+      "x": 1123,
       "y": 2215,
       "width": 64,
       "height": 64
     },
     "pneumatic-drill-top": {
-      "x": 1123,
+      "x": 1189,
       "y": 2215,
       "width": 64,
       "height": 64
     },
     "water-extractor": {
-      "x": 1189,
+      "x": 1255,
       "y": 2215,
       "width": 64,
       "height": 64
     },
     "water-extractor-rotator": {
-      "x": 1255,
+      "x": 1321,
       "y": 2215,
       "width": 64,
       "height": 64
     },
     "water-extractor-top": {
-      "x": 1321,
+      "x": 1387,
       "y": 2215,
       "width": 64,
       "height": 64
     },
     "cultivator": {
-      "x": 1387,
+      "x": 1453,
       "y": 2215,
       "width": 64,
       "height": 64
     },
     "cultivator-top": {
-      "x": 1453,
+      "x": 1519,
       "y": 2215,
       "width": 64,
       "height": 64
     },
     "cliff-crusher": {
-      "x": 1519,
-      "y": 2215,
-      "width": 64,
-      "height": 64
-    },
-    "cliff-crusher-rotator": {
       "x": 1585,
       "y": 2215,
       "width": 64,
       "height": 64
     },
-    "cliff-crusher-top": {
+    "cliff-crusher-rotator": {
       "x": 1651,
       "y": 2215,
       "width": 64,
       "height": 64
     },
-    "large-cliff-crusher-rotator": {
+    "cliff-crusher-top": {
       "x": 1717,
       "y": 2215,
       "width": 64,
       "height": 64
     },
-    "plasma-bore": {
+    "large-cliff-crusher-rotator": {
       "x": 1783,
       "y": 2215,
       "width": 64,
       "height": 64
     },
-    "plasma-bore-top": {
+    "plasma-bore": {
       "x": 1849,
       "y": 2215,
       "width": 64,
       "height": 64
     },
-    "container": {
+    "plasma-bore-top": {
       "x": 1915,
       "y": 2215,
       "width": 64,
       "height": 64
     },
-    "container-team": {
+    "container": {
       "x": 1981,
       "y": 2215,
       "width": 64,
       "height": 64
     },
-    "container-team-sharded": {
+    "container-team": {
       "x": 1,
       "y": 2281,
       "width": 64,
       "height": 64
     },
-    "container-team-crux": {
+    "container-team-sharded": {
       "x": 67,
       "y": 2281,
       "width": 64,
       "height": 64
     },
-    "container-team-malis": {
+    "container-team-crux": {
       "x": 133,
       "y": 2281,
       "width": 64,
       "height": 64
     },
-    "reinforced-container": {
+    "container-team-malis": {
       "x": 199,
       "y": 2281,
       "width": 64,
       "height": 64
     },
-    "reinforced-container-team": {
+    "reinforced-container": {
       "x": 265,
       "y": 2281,
       "width": 64,
       "height": 64
     },
-    "reinforced-container-team-sharded": {
+    "reinforced-container-team": {
       "x": 331,
       "y": 2281,
       "width": 64,
       "height": 64
     },
-    "reinforced-container-team-crux": {
+    "reinforced-container-team-sharded": {
       "x": 397,
       "y": 2281,
       "width": 64,
       "height": 64
     },
-    "reinforced-container-team-malis": {
+    "reinforced-container-team-crux": {
       "x": 463,
       "y": 2281,
       "width": 64,
       "height": 64
     },
-    "scatter": {
+    "reinforced-container-team-malis": {
       "x": 529,
       "y": 2281,
       "width": 64,
       "height": 64
     },
-    "wave-top": {
+    "scatter": {
       "x": 595,
       "y": 2281,
       "width": 64,
       "height": 64
     },
-    "lancer-heat": {
+    "wave-top": {
       "x": 661,
       "y": 2281,
       "width": 64,
       "height": 64
     },
-    "unit-repair-tower": {
+    "lancer-heat": {
       "x": 727,
       "y": 2281,
       "width": 64,
       "height": 64
     },
-    "target-dummy": {
+    "unit-repair-tower": {
       "x": 793,
       "y": 2281,
       "width": 64,
       "height": 64
     },
-    "target-dummy-team": {
+    "target-dummy": {
       "x": 859,
       "y": 2281,
       "width": 64,
       "height": 64
     },
-    "target-dummy-team-sharded": {
+    "target-dummy-team": {
       "x": 925,
       "y": 2281,
       "width": 64,
       "height": 64
     },
-    "target-dummy-team-crux": {
+    "target-dummy-team-sharded": {
       "x": 991,
       "y": 2281,
       "width": 64,
       "height": 64
     },
-    "target-dummy-team-malis": {
+    "target-dummy-team-crux": {
       "x": 1057,
       "y": 2281,
       "width": 64,
       "height": 64
     },
-    "target-dummy-preview": {
+    "target-dummy-team-malis": {
       "x": 1123,
       "y": 2281,
       "width": 64,
       "height": 64
     },
-    "logic-processor": {
+    "target-dummy-preview": {
       "x": 1189,
       "y": 2281,
       "width": 64,
       "height": 64
     },
-    "memory-bank": {
+    "logic-processor": {
       "x": 1255,
       "y": 2281,
       "width": 64,
       "height": 64
     },
-    "canvas": {
+    "memory-bank": {
       "x": 1321,
       "y": 2281,
       "width": 64,
       "height": 64
     },
-    "drill-item-2": {
+    "canvas": {
       "x": 1387,
       "y": 2281,
       "width": 64,
       "height": 64
     },
-    "block-2": {
+    "drill-item-2": {
       "x": 1453,
       "y": 2281,
       "width": 64,
       "height": 64
     },
-    "radar": {
+    "block-2": {
       "x": 1519,
       "y": 2281,
-      "width": 34,
-      "height": 34
+      "width": 64,
+      "height": 64
     },
-    "duo-preview": {
-      "x": 1555,
+    "minelaser": {
+      "x": 1585,
       "y": 2281,
-      "width": 34,
-      "height": 34
+      "width": 4,
+      "height": 48
     },
-    "scorch": {
+    "radar": {
       "x": 1591,
       "y": 2281,
       "width": 34,
       "height": 34
     },
-    "hail": {
+    "duo-preview": {
       "x": 1627,
       "y": 2281,
       "width": 34,
       "height": 34
     },
-    "arc": {
+    "scorch": {
       "x": 1663,
       "y": 2281,
       "width": 34,
       "height": 34
     },
-    "repair-point": {
+    "hail": {
       "x": 1699,
       "y": 2281,
       "width": 34,
       "height": 34
     },
-    "melter": {
+    "arc": {
       "x": 1735,
+      "y": 2281,
+      "width": 34,
+      "height": 34
+    },
+    "repair-point": {
+      "x": 1771,
+      "y": 2281,
+      "width": 34,
+      "height": 34
+    },
+    "melter": {
+      "x": 1807,
       "y": 2281,
       "width": 32,
       "height": 32
     },
     "pulverizer": {
-      "x": 1769,
+      "x": 1841,
       "y": 2281,
       "width": 32,
       "height": 32
     },
     "pulverizer-rotator": {
-      "x": 1803,
+      "x": 1875,
       "y": 2281,
       "width": 32,
       "height": 32
     },
     "pulverizer-top": {
-      "x": 1837,
+      "x": 1909,
       "y": 2281,
       "width": 32,
       "height": 32
     },
     "incinerator": {
-      "x": 1871,
+      "x": 1943,
       "y": 2281,
       "width": 32,
       "height": 32
     },
     "slag-incinerator": {
-      "x": 1905,
+      "x": 1977,
       "y": 2281,
       "width": 32,
       "height": 32
     },
     "slag-incinerator-top": {
-      "x": 1939,
+      "x": 2011,
       "y": 2281,
       "width": 32,
       "height": 32
     },
     "copper-wall": {
-      "x": 1973,
-      "y": 2281,
+      "x": 1,
+      "y": 2347,
       "width": 32,
       "height": 32
     },
     "titanium-wall": {
-      "x": 2007,
-      "y": 2281,
+      "x": 35,
+      "y": 2347,
       "width": 32,
       "height": 32
     },
     "plastanium-wall": {
-      "x": 1,
+      "x": 69,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "thorium-wall": {
-      "x": 35,
+      "x": 103,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "phase-wall": {
-      "x": 69,
+      "x": 137,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "surge-wall": {
-      "x": 103,
+      "x": 171,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "door": {
-      "x": 137,
+      "x": 205,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "scrap-wall": {
-      "x": 171,
+      "x": 239,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "beryllium-wall": {
-      "x": 205,
+      "x": 273,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "tungsten-wall": {
-      "x": 239,
+      "x": 307,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "reinforced-surge-wall": {
-      "x": 273,
+      "x": 341,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "carbide-wall": {
-      "x": 307,
+      "x": 375,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "mender": {
-      "x": 341,
+      "x": 409,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "mender-top": {
-      "x": 375,
+      "x": 443,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "shock-mine": {
-      "x": 409,
+      "x": 477,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "radar-base": {
-      "x": 443,
+      "x": 511,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "conveyor": {
-      "x": 477,
+      "x": 545,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "conveyor-0-0": {
-      "x": 511,
+      "x": 579,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "conveyor-0-1": {
-      "x": 545,
+      "x": 613,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "conveyor-0-2": {
-      "x": 579,
+      "x": 647,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "conveyor-0-3": {
-      "x": 613,
+      "x": 681,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "conveyor-1-0": {
-      "x": 647,
+      "x": 715,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "conveyor-1-1": {
-      "x": 681,
+      "x": 749,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "conveyor-1-2": {
-      "x": 715,
+      "x": 783,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "conveyor-1-3": {
-      "x": 749,
+      "x": 817,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "conveyor-2-0": {
-      "x": 783,
+      "x": 851,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "conveyor-2-1": {
-      "x": 817,
+      "x": 885,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "conveyor-2-2": {
-      "x": 851,
+      "x": 919,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "conveyor-2-3": {
-      "x": 885,
+      "x": 953,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "conveyor-3-0": {
-      "x": 919,
+      "x": 987,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "conveyor-3-1": {
-      "x": 953,
+      "x": 1021,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "conveyor-3-2": {
-      "x": 987,
+      "x": 1055,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "conveyor-3-3": {
-      "x": 1021,
+      "x": 1089,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "conveyor-4-0": {
-      "x": 1055,
+      "x": 1123,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "conveyor-4-1": {
-      "x": 1089,
+      "x": 1157,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "conveyor-4-2": {
-      "x": 1123,
+      "x": 1191,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "conveyor-4-3": {
-      "x": 1157,
+      "x": 1225,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "titanium-conveyor": {
-      "x": 1191,
+      "x": 1259,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "titanium-conveyor-0-0": {
-      "x": 1225,
+      "x": 1293,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "titanium-conveyor-0-1": {
-      "x": 1259,
+      "x": 1327,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "titanium-conveyor-0-2": {
-      "x": 1293,
+      "x": 1361,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "titanium-conveyor-0-3": {
-      "x": 1327,
+      "x": 1395,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "titanium-conveyor-1-0": {
-      "x": 1361,
+      "x": 1429,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "titanium-conveyor-1-1": {
-      "x": 1395,
+      "x": 1463,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "titanium-conveyor-1-2": {
-      "x": 1429,
+      "x": 1497,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "titanium-conveyor-1-3": {
-      "x": 1463,
+      "x": 1531,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "titanium-conveyor-2-0": {
-      "x": 1497,
+      "x": 1565,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "titanium-conveyor-2-1": {
-      "x": 1531,
+      "x": 1599,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "titanium-conveyor-2-2": {
-      "x": 1565,
+      "x": 1633,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "titanium-conveyor-2-3": {
-      "x": 1599,
+      "x": 1667,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "titanium-conveyor-3-0": {
-      "x": 1633,
+      "x": 1701,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "titanium-conveyor-3-1": {
-      "x": 1667,
+      "x": 1735,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "titanium-conveyor-3-2": {
-      "x": 1701,
+      "x": 1769,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "titanium-conveyor-3-3": {
-      "x": 1735,
+      "x": 1803,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "titanium-conveyor-4-0": {
-      "x": 1769,
+      "x": 1837,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "titanium-conveyor-4-1": {
-      "x": 1803,
+      "x": 1871,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "titanium-conveyor-4-2": {
-      "x": 1837,
+      "x": 1905,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "titanium-conveyor-4-3": {
-      "x": 1871,
+      "x": 1939,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "plastanium-conveyor": {
-      "x": 1905,
+      "x": 1973,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "armored-conveyor": {
-      "x": 1939,
+      "x": 2007,
       "y": 2347,
       "width": 32,
       "height": 32
     },
     "armored-conveyor-0-0": {
-      "x": 1973,
-      "y": 2347,
+      "x": 1,
+      "y": 2381,
       "width": 32,
       "height": 32
     },
     "armored-conveyor-0-1": {
-      "x": 2007,
-      "y": 2347,
+      "x": 35,
+      "y": 2381,
       "width": 32,
       "height": 32
     },
     "armored-conveyor-0-2": {
-      "x": 1,
+      "x": 69,
       "y": 2381,
       "width": 32,
       "height": 32
     },
     "armored-conveyor-0-3": {
-      "x": 35,
+      "x": 103,
       "y": 2381,
       "width": 32,
       "height": 32
     },
     "armored-conveyor-1-0": {
-      "x": 69,
+      "x": 137,
       "y": 2381,
       "width": 32,
       "height": 32
     },
     "armored-conveyor-1-1": {
-      "x": 103,
+      "x": 171,
       "y": 2381,
       "width": 32,
       "height": 32
     },
     "armored-conveyor-1-2": {
-      "x": 137,
+      "x": 205,
       "y": 2381,
       "width": 32,
       "height": 32
     },
     "armored-conveyor-1-3": {
-      "x": 171,
+      "x": 239,
       "y": 2381,
       "width": 32,
       "height": 32
     },
     "armored-conveyor-2-0": {
-      "x": 205,
+      "x": 273,
       "y": 2381,
       "width": 32,
       "height": 32
     },
     "armored-conveyor-2-1": {
-      "x": 239,
+      "x": 307,
       "y": 2381,
       "width": 32,
       "height": 32
     },
     "armored-conveyor-2-2": {
-      "x": 273,
+      "x": 341,
       "y": 2381,
       "width": 32,
       "height": 32
     },
     "armored-conveyor-2-3": {
-      "x": 307,
+      "x": 375,
       "y": 2381,
       "width": 32,
       "height": 32
     },
     "armored-conveyor-3-0": {
-      "x": 341,
+      "x": 409,
       "y": 2381,
       "width": 32,
       "height": 32
     },
     "armored-conveyor-3-1": {
-      "x": 375,
+      "x": 443,
       "y": 2381,
       "width": 32,
       "height": 32
     },
     "armored-conveyor-3-2": {
-      "x": 409,
+      "x": 477,
       "y": 2381,
       "width": 32,
       "height": 32
     },
     "armored-conveyor-3-3": {
-      "x": 443,
+      "x": 511,
       "y": 2381,
       "width": 32,
       "height": 32
     },
     "armored-conveyor-4-0": {
-      "x": 477,
+      "x": 545,
       "y": 2381,
       "width": 32,
       "height": 32
     },
     "armored-conveyor-4-1": {
-      "x": 511,
+      "x": 579,
       "y": 2381,
       "width": 32,
       "height": 32
     },
     "armored-conveyor-4-2": {
-      "x": 545,
+      "x": 613,
       "y": 2381,
       "width": 32,
       "height": 32
     },
     "armored-conveyor-4-3": {
-      "x": 579,
+      "x": 647,
       "y": 2381,
       "width": 32,
       "height": 32
     },
     "junction": {
-      "x": 613,
+      "x": 681,
       "y": 2381,
       "width": 32,
       "height": 32
     },
     "bridge-conveyor": {
-      "x": 647,
+      "x": 715,
       "y": 2381,
       "width": 32,
       "height": 32
     },
     "phase-conveyor": {
-      "x": 681,
+      "x": 749,
       "y": 2381,
       "width": 32,
       "height": 32
     },
     "sorter": {
-      "x": 715,
+      "x": 783,
       "y": 2381,
       "width": 32,
       "height": 32
     },
     "inverted-sorter": {
-      "x": 749,
+      "x": 817,
       "y": 2381,
       "width": 32,
       "height": 32
     },
     "router": {
-      "x": 783,
+      "x": 851,
       "y": 2381,
       "width": 32,
       "height": 32
     },
     "overflow-gate": {
-      "x": 817,
+      "x": 885,
       "y": 2381,
       "width": 32,
       "height": 32
     },
     "underflow-gate": {
-      "x": 851,
+      "x": 919,
       "y": 2381,
       "width": 32,
       "height": 32
     },
     "unloader": {
-      "x": 885,
+      "x": 953,
       "y": 2381,
       "width": 32,
       "height": 32
     },
     "duct": {
-      "x": 919,
+      "x": 987,
       "y": 2381,
       "width": 32,
       "height": 32
     },
     "armored-duct": {
-      "x": 953,
+      "x": 1021,
       "y": 2381,
       "width": 32,
       "height": 32
     },
     "duct-router": {
-      "x": 987,
+      "x": 1055,
       "y": 2381,
       "width": 32,
       "height": 32
     },
     "duct-router-top": {
-      "x": 1021,
-      "y": 2381,
-      "width": 32,
-      "height": 32
-    },
-    "overflow-duct": {
-      "x": 1055,
-      "y": 2381,
-      "width": 32,
-      "height": 32
-    },
-    "overflow-duct-top": {
       "x": 1089,
       "y": 2381,
       "width": 32,
       "height": 32
     },
-    "underflow-duct": {
+    "overflow-duct": {
       "x": 1123,
       "y": 2381,
       "width": 32,
       "height": 32
     },
-    "underflow-duct-top": {
+    "overflow-duct-top": {
       "x": 1157,
       "y": 2381,
       "width": 32,
       "height": 32
     },
-    "duct-bridge": {
+    "underflow-duct": {
       "x": 1191,
       "y": 2381,
       "width": 32,
       "height": 32
     },
-    "duct-unloader": {
+    "underflow-duct-top": {
       "x": 1225,
       "y": 2381,
       "width": 32,
       "height": 32
     },
-    "duct-unloader-top": {
+    "duct-bridge": {
       "x": 1259,
       "y": 2381,
       "width": 32,
       "height": 32
     },
-    "surge-conveyor": {
+    "duct-unloader": {
       "x": 1293,
       "y": 2381,
       "width": 32,
       "height": 32
     },
-    "surge-router": {
+    "duct-unloader-top": {
       "x": 1327,
       "y": 2381,
       "width": 32,
       "height": 32
     },
-    "surge-router-top": {
+    "surge-conveyor": {
       "x": 1361,
       "y": 2381,
       "width": 32,
       "height": 32
     },
-    "mechanical-pump": {
+    "surge-router": {
       "x": 1395,
       "y": 2381,
       "width": 32,
       "height": 32
     },
-    "conduit": {
+    "surge-router-top": {
       "x": 1429,
       "y": 2381,
       "width": 32,
       "height": 32
     },
-    "pulse-conduit": {
+    "mechanical-pump": {
       "x": 1463,
       "y": 2381,
       "width": 32,
       "height": 32
     },
-    "plated-conduit": {
+    "conduit": {
       "x": 1497,
       "y": 2381,
       "width": 32,
       "height": 32
     },
-    "liquid-router": {
+    "pulse-conduit": {
       "x": 1531,
       "y": 2381,
       "width": 32,
       "height": 32
     },
-    "liquid-junction": {
+    "plated-conduit": {
       "x": 1565,
       "y": 2381,
       "width": 32,
       "height": 32
     },
-    "bridge-conduit": {
+    "liquid-router": {
       "x": 1599,
       "y": 2381,
       "width": 32,
       "height": 32
     },
-    "phase-conduit": {
+    "liquid-junction": {
       "x": 1633,
       "y": 2381,
       "width": 32,
       "height": 32
     },
-    "reinforced-conduit": {
+    "bridge-conduit": {
       "x": 1667,
       "y": 2381,
       "width": 32,
       "height": 32
     },
-    "reinforced-liquid-junction": {
+    "phase-conduit": {
       "x": 1701,
       "y": 2381,
       "width": 32,
       "height": 32
     },
-    "reinforced-bridge-conduit": {
+    "reinforced-conduit": {
       "x": 1735,
       "y": 2381,
       "width": 32,
       "height": 32
     },
-    "reinforced-liquid-router": {
+    "reinforced-liquid-junction": {
       "x": 1769,
       "y": 2381,
       "width": 32,
       "height": 32
     },
-    "power-node": {
+    "reinforced-bridge-conduit": {
       "x": 1803,
       "y": 2381,
       "width": 32,
       "height": 32
     },
-    "diode": {
+    "reinforced-liquid-router": {
       "x": 1837,
       "y": 2381,
       "width": 32,
       "height": 32
     },
-    "battery": {
+    "power-node": {
       "x": 1871,
       "y": 2381,
       "width": 32,
       "height": 32
     },
-    "battery-top": {
+    "diode": {
       "x": 1905,
       "y": 2381,
       "width": 32,
       "height": 32
     },
-    "combustion-generator": {
+    "battery": {
       "x": 1939,
       "y": 2381,
       "width": 32,
       "height": 32
     },
-    "combustion-generator-top": {
+    "battery-top": {
       "x": 1973,
       "y": 2381,
       "width": 32,
       "height": 32
     },
-    "rtg-generator-top": {
+    "combustion-generator": {
       "x": 2007,
       "y": 2381,
       "width": 32,
       "height": 32
     },
-    "solar-panel": {
+    "combustion-generator-top": {
       "x": 1,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "beam-node": {
+    "rtg-generator-top": {
       "x": 35,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "duo": {
+    "solar-panel": {
       "x": 69,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "scorch-heat": {
+    "beam-node": {
       "x": 103,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "hail-heat": {
+    "duo": {
       "x": 137,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "arc-heat": {
+    "scorch-heat": {
       "x": 171,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "repair-point-base": {
+    "hail-heat": {
       "x": 205,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "power-source": {
+    "arc-heat": {
       "x": 239,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "power-void": {
+    "repair-point-base": {
       "x": 273,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "item-source": {
+    "power-source": {
       "x": 307,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "item-void": {
+    "power-void": {
       "x": 341,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "liquid-source": {
+    "item-source": {
       "x": 375,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "liquid-void": {
+    "item-void": {
       "x": 409,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "heat-source": {
+    "liquid-source": {
       "x": 443,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "heat-source-heat": {
+    "liquid-void": {
       "x": 477,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "illuminator": {
+    "heat-source": {
       "x": 511,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "illuminator-top": {
+    "heat-source-heat": {
       "x": 545,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "message": {
+    "illuminator": {
       "x": 579,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "switch": {
+    "illuminator-top": {
       "x": 613,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "micro-processor": {
+    "message": {
       "x": 647,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "memory-cell": {
+    "switch": {
       "x": 681,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "tile-logic-display": {
+    "micro-processor": {
       "x": 715,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "reinforced-message": {
+    "memory-cell": {
       "x": 749,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "world-processor": {
+    "tile-logic-display": {
       "x": 783,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "world-cell": {
+    "reinforced-message": {
       "x": 817,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "world-message": {
+    "world-processor": {
       "x": 851,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "world-switch": {
+    "world-cell": {
       "x": 885,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "switch-on": {
+    "world-message": {
       "x": 919,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "door-open": {
+    "world-switch": {
       "x": 953,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "block-select": {
+    "switch-on": {
       "x": 987,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "cross-full": {
+    "door-open": {
       "x": 1021,
       "y": 2415,
       "width": 32,
       "height": 32
     },
-    "block-1": {
+    "block-select": {
       "x": 1055,
+      "y": 2415,
+      "width": 32,
+      "height": 32
+    },
+    "cross-full": {
+      "x": 1089,
+      "y": 2415,
+      "width": 32,
+      "height": 32
+    },
+    "block-1": {
+      "x": 1123,
       "y": 2415,
       "width": 32,
       "height": 32

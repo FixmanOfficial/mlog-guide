@@ -9,7 +9,7 @@
 
 /** Урок «Контент по номеру»: четыре таблицы, границы и обратный перевод через `@id`. */
 export const TABLE = {
-    width: 9, height: 6, floor: 'sand',
+    width: 9, height: 6, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 4, y: 2}],
     processors: [{
         at: [4, 2],
@@ -35,7 +35,7 @@ export const TABLE = {
  * Без `lookup` пришлось бы выписывать двадцать констант руками.
  */
 export const SCAN = {
-    width: 13, height: 8, floor: 'sand',
+    width: 13, height: 8, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 1, y: 4},
         {type: 'container', x: 5, y: 4, items: {copper: 40, lead: 25, graphite: 60}},

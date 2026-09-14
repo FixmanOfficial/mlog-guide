@@ -8,7 +8,7 @@
 
 /** Урок «Текстовый буфер»: что попадает в буфер и в каком виде. */
 export const BUFFER = {
-    width: 11, height: 6, floor: 'sand',
+    width: 11, height: 6, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 2, y: 2},
         {type: 'container', x: 7, y: 3, items: {copper: 120}}
@@ -28,7 +28,7 @@ export const BUFFER = {
 
 /** Тот же урок: во что печатаются не-числа. */
 export const PIECES = {
-    width: 11, height: 6, floor: 'sand',
+    width: 11, height: 6, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 2, y: 2},
         {type: 'container', x: 7, y: 3, items: {copper: 120}}
@@ -50,7 +50,7 @@ export const PIECES = {
 
 /** Урок «Куда уходит буфер»: печать в блок сообщений. */
 export const FLUSH = {
-    width: 12, height: 7, floor: 'sand',
+    width: 12, height: 7, floor: 'sand-floor',
     blocks: [
         {type: 'micro-processor', x: 2, y: 3},
         {type: 'container', x: 6, y: 4, items: {copper: 120}},
