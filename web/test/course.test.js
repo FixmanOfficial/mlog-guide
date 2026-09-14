@@ -52,7 +52,7 @@ import {
 } from '../src/course/scenes/ulocate.js'
 import {
     PRIVILEGE, FAST, LAYERS, PAINT, ROUNDING as TILE_ROUNDING, TALK, BUSY, RULES, TOUGH
-, FLAGS, PROPS, FETCH, BOOM
+, FLAGS, PROPS, FETCH, BOOM, MARKERS
 } from '../src/course/scenes/world.js'
 import {AREA, SPAWN as SPAWN_SQUAD, BURN, FROZEN} from '../src/course/scenes/world-units.js'
 import iconTable from '@mlog/core/data/icons.json' with {type: 'json'}
@@ -2325,4 +2325,19 @@ test('урок «Взрыв в точке»: своих не задевает, �
     // Один кинжал стоял в точке взрыва, второй — в углу карты
     assert.equal(num(processor, 'врагов'), 1)
     assert.equal(world.units.length, 1)
+})
+
+test('урок «Метки на карте»: три метки ставятся и настраиваются', () => {
+    const {world} = stage(MARKERS, 60)
+
+    const all = world.markers.all()
+    assert.equal(all.length, 3)
+
+    const shape = all.find(marker => marker.type === 'shape')
+    assert.equal(shape.props.color, '#ff5555')
+    assert.equal(shape.props.radius, 20)
+
+    // Текст метке отдают из буфера печати, как и блоку сообщений
+    const text = all.find(marker => marker.type === 'text')
+    assert.equal(text.props.text, 'Строить здесь')
 })

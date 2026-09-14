@@ -303,3 +303,25 @@ export const BOOM = {
         ].join('\n')
     }]
 }
+
+/** Урок «Метки на карте»: три метки разных видов появляются и живут своей жизнью. */
+export const MARKERS = {
+    width: 18, height: 11, floor: 'sand',
+    blocks: [{type: 'world-processor', x: 2, y: 5}],
+    processors: [{
+        at: [2, 5],
+        links: [],
+        program: [
+            'jump 9 notEqual поставили 0',
+            'makemarker shape 1 8 7 1',
+            'setmarker color 1 %ff5555 0 0',
+            'setmarker radius 1 20 0 0',
+            'makemarker text 2 8 3 1',
+            'print "Строить здесь"',
+            'setmarker flushText 2 0 0 0',
+            'makemarker line 3 4 5 1',
+            'set поставили 1',
+            'setmarker rotation 1 @time 0 0'
+        ].join('\n')
+    }]
+}
