@@ -2641,3 +2641,81 @@ test('урок «Предметы и пустой ответ»: у типа бл
     assert.equal(num(processor, 'ценаТитана'), 250)
     assert.equal(num(processor, 'ценаСвинца'), 0)
 })
+
+test('урок «Константы контента»: числа в таблице — длины таблиц игры', () => {
+    assert.equal(logicIdsData.types.item.length, 20)
+    assert.equal(logicIdsData.types.liquid.length, 11)
+    assert.equal(logicIdsData.types.block.length, 262)
+    assert.equal(logicIdsData.types.unit.length, 56)
+})
+
+test('урок «Выбор значения без ветки»: задания к примеру дают обещанное', () => {
+    const variant = (program) => {
+        const {processor} = stage({
+            ...CHOICE,
+            processors: [{...CHOICE.processors[0], program}]
+        }, 30)
+
+        return {надпись: obj(processor, 'надпись'), брать: num(processor, 'сколькоБрать')}
+    }
+
+    const base = CHOICE.processors[0].program
+
+    assert.deepEqual(variant(base), {надпись: 'хватает', брать: 100})
+
+    // Перевёрнутое условие меняет смысл половин, а не их порядок
+    assert.deepEqual(variant(base.replace('select надпись greaterThanEq', 'select надпись lessThan')),
+        {надпись: 'мало', брать: 100})
+
+    // Обе половины могут быть одним и тем же значением
+    assert.deepEqual(
+        variant(base.replace('select сколькоБрать lessThan медь 100 медь 100',
+            'select сколькоБрать lessThan медь 100 медь медь')),
+        {надпись: 'хватает', брать: 120}
+    )
+})
+
+test('урок «Циклы»: задание про десятку даёт сумму 45', () => {
+    /*
+     * Итог виден в конце прохода, а программа тут же начинает заново — поэтому смотрим
+     * на наибольшее значение за время наблюдения, а не на случайный кадр.
+     */
+    const peak = (program) => {
+        const {world, processors} = build({
+            ...LOOP,
+            processors: [{...LOOP.processors[0], program}]
+        })
+
+        const processor = processors[0].building.processor
+        let max = 0
+
+        for (let tick = 0; tick < 120; tick++) {
+            world.step()
+            max = Math.max(max, processor.get('итог')?.numval ?? 0)
+        }
+
+        return max
+    }
+
+    const base = LOOP.processors[0].program
+
+    assert.equal(peak(base), 10)
+    assert.equal(peak(base.replace('счёт 5', 'счёт 10')), 45)
+})
+
+test('урок «Связи по номеру»: задания к примеру дают обещанные надписи', () => {
+    const variant = (program) => stage({
+        ...LINK_LOOP,
+        processors: [{...LINK_LOOP.processors[0], program}]
+    }, 60).message
+
+    const base = LINK_LOOP.processors[0].program
+
+    // За последней связью идёт пустота, и печатается она словом
+    assert.equal(variant(base.replace('номер @links', 'номер 5')),
+        'container memory-cell message null null ')
+
+    // Без пробела надпись слипается: сам он в буфер не попадает
+    const noSpace = base.split('\n').filter(line => line.trim() !== 'print " "').join('\n')
+    assert.equal(variant(noSpace), 'containermemory-cellmessage')
+})
