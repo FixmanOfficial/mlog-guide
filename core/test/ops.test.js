@@ -33,6 +33,17 @@ test('битовые операции работают в 64 битах', () => 
     // ~0 = -1 в дополнительном коде
     assert.equal(run('op not result 0 0').num('result'), -1)
     assert.equal(run('op shl result 1 40').num('result'), 1099511627776)
+
+    // Java считает сдвиг long по остатку от деления на 64: 64 — это тот же ноль
+    assert.equal(run('op shl result 1 64').num('result'), 1)
+    assert.equal(run('op shl result 1 65').num('result'), 2)
+
+    /*
+     * Обратно результат возвращается двойной точностью, и всё, что не влезло в 53 бита,
+     * округляется — теряются младшие. Урок про упаковку обещает именно это.
+     */
+    assert.equal(run('op or result 9007199254740992 1').num('result'), 9007199254740992)
+    assert.equal(run('op and result 9007199254740993 1').num('result'), 0)
 })
 
 test('тригонометрия считается в градусах', () => {

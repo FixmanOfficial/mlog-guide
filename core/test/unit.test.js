@@ -609,3 +609,29 @@ test('ulocate ore считает рудой и пол, который что-т�
     assert.notEqual(processor.get('песокX').num() === 1 && processor.get('песокY').num() === 1, true)
     assert.ok(unit !== null)
 })
+
+test('привязка к объекту не двигает счётчик перебора', () => {
+    /*
+     * `UnitBindI` сдвигает `binds` только в ветке типа. Привязка к юниту-объекту счётчик
+     * не трогает вовсе — на этом стоит заметка урока «Держать одного юнита».
+     */
+    const {world, processor} = setup([
+        'ubind @poly',
+        'set мой @unit',
+        'ubind мой',
+        'ubind мой',
+        'ubind мой'
+    ].join('\n'))
+
+    const crew = [0, 1, 2].map(index => world.spawn('poly', {x: index + 1, y: 1}))
+
+    processor.run(5)
+    assert.equal(processor.get('@unit').obj(), crew[0])
+
+    // Счётчик так и стоит на единице: следующая привязка по типу даёт второго
+    const next = new Processor('ubind @poly', {world, content, globals: content.globals, team: 1})
+    next.binds = processor.binds
+    next.run(1)
+
+    assert.equal(next.get('@unit').obj(), crew[1])
+})

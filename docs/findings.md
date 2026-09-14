@@ -587,6 +587,15 @@ Mindustry закрепляет arc хешем коммита в `gradle.properti
 | Обводка есть не у всего текста. Кнопки сетки выбора набраны `Fonts.outline` (`Styles.logicTogglet`), а поля ввода и кнопка операции — обычным `Fonts.def` (`Styles.nodeField`, `Styles.logict`), и обводки у них нет | `ui/Styles.java:166-173,200-208,411-421` | — |
 | Фон поля ввода — `underlineWhite`, то есть подчёркивание, тонированное цветом строки. Есть и `invalidBackground = underlineRed` для непринятого значения | `ui/Styles.java:411-418` | — |
 
+## Управление юнитом
+
+| Деталь | Источник | Тест |
+| --- | --- | --- |
+| **Привязка к юниту-объекту счётчик перебора не двигает.** `exec.binds[type.id]++` стоит только в ветке типа; `ubind мой` просто кладёт юнита в `@unit` | `logic/LExecutor.java:186-205` | ✓ `unit.test.js` |
+| `sensor @dead` у **пустоты** отдаёт единицу, а не пустоту: `SenseI` проверяет этот случай раньше всего остального. Все прочие свойства у пустоты остаются пустотой | `logic/LExecutor.java:683-689` | ✓ `course.test.js` |
+| Юнита под **игроком** или под **приказом** логика не получает вовсе: `checkLogicAI` спрашивает `unit.controller().isLogicControllable()`, а `PlayerComp` отвечает `false`, `CommandAI` — `!hasCommand()`. `ubind` при этом срабатывает как обычно | `logic/LExecutor.java:322`, `entities/comp/PlayerComp.java:174`, `ai/types/CommandAI.java:108` | — (игроков и приказов в модели нет) |
+| `@controller` у неуправляемого логикой юнита отдаёт **самого юнита**, а не пустоту | `entities/comp/UnitComp.java:321` | ✓ `course.test.js` |
+
 ## Правила игры
 
 | Деталь | Источник | Тест |
