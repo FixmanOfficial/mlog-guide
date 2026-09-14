@@ -729,14 +729,28 @@ export class MemoryBuilding extends Building {
  *  - запись работает только по имени и только по существующей непостоянной переменной:
  *    завести соседу новую нельзя, испортить константу — тоже.
  *
- * Привилегированный блок закрыт: мировой процессор читается только мировым. Команду не
- * проверяем — в песочнице она одна. `readable(exec)`
+ * Кому отвечать, решает `readable(exec)`: блок должен быть цел, а читатель — либо
+ * привилегированным, либо своей команды и не через привилегированный блок. Запись
+ * спрашивает ровно то же самое (`writable`).
  */
 export class LogicBuilding extends Building {
+    /**
+     * `LogicBuild.readable`: мировой читает всех, остальные — только своих и не мировых.
+     *
+     * Без читателя (прямой вызов из движка или из теста) ограничений нет: в игре читателем
+     * всегда выступает исполнитель инструкции, а внутренние обращения проверять не у кого.
+     */
+    opensTo(other) {
+        if (other === null || other === undefined) return true
+        if (other.privileged === true) return true
+
+        return !this.spec.privileged && this.team === other.team
+    }
+
     read(address, reader = null, output = null) {
         const processor = this.processor
         if (processor === undefined || processor === null) return null
-        if (this.spec.privileged && reader?.privileged !== true) return null
+        if (!this.opensTo(reader)) return null
 
         if (typeof address === 'string') {
             const variable = processor.get(address)
@@ -756,7 +770,7 @@ export class LogicBuilding extends Building {
 
         const processor = this.processor
         if (processor === undefined || processor === null) return
-        if (this.spec.privileged && writer?.privileged !== true) return
+        if (!this.opensTo(writer)) return
 
         const variable = processor.get(address)
         if (variable === undefined || variable.constant) return

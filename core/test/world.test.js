@@ -729,3 +729,34 @@ test('команда — объект с номером, цветом и име�
     // Цвет упакован так же, как у `packcolor`: крошечное число с байтами внутри
     assert.ok(processor.num('цвет') > 0 && processor.num('цвет') < 1e-300)
 })
+
+test('чужой процессор не читается и не пишется: проверка стоит в самом блоке', () => {
+    /*
+     * `LogicBuild.readable`: цел, и либо читатель привилегированный, либо блок своей
+     * команды и не привилегированный. `writable` спрашивает ровно то же.
+     */
+    const content = createContent(logicIds)
+    const world = new World({width: 16, height: 16, content})
+
+    const mine = world.add('micro-processor', {x: 2, y: 2})
+    const enemy = world.add('micro-processor', {x: 6, y: 2, team: 2})
+
+    const theirs = new Processor('set секрет 42', {world, content, globals: content.globals, building: enemy, team: 2})
+    enemy.processor = theirs
+    world.addProcessor(theirs)
+
+    const reader = new Processor([
+        'read чужое block1 "секрет"',
+        'write 7 block1 "секрет"',
+        'read чужоеСнова block1 "секрет"',
+        'stop'
+    ].join('\n'), {world, content, globals: content.globals, building: mine, team: 1, links: [enemy]})
+
+    mine.processor = reader
+    world.addProcessor(reader)
+    world.steps(8)
+
+    assert.equal(reader.get('чужое').obj(), null, 'чужую переменную не прочитать')
+    assert.equal(theirs.num('секрет'), 42, 'и не переписать')
+    assert.equal(reader.get('чужоеСнова').obj(), null)
+})
