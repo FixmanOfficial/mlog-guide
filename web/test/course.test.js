@@ -38,6 +38,8 @@ import {LOOP as LINK_LOOP, BEYOND} from '../src/course/scenes/getlink.js'
 import {FIND, SORT, CACHE} from '../src/course/scenes/radar.js'
 import {TABLE as LOOKUP_TABLE, SCAN as LOOKUP_SCAN} from '../src/course/scenes/lookup.js'
 import {PACK, CHOICE as COLOR_CHOICE, UNPACK} from '../src/course/scenes/color.js'
+import {FULL as RATE_FULL, SLOW as RATE_SLOW, CEILING as RATE_CEILING} from '../src/course/scenes/rate.js'
+import {GUARD, BREAK as LOOP_BREAK, SKIP} from '../src/course/scenes/branching.js'
 import iconTable from '@mlog/core/data/icons.json' with {type: 'json'}
 import logicIdsData from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
@@ -1908,4 +1910,44 @@ test('урок «Разбор цвета»: каналы меди в 0–255', (
 
     assert.equal(message, 'медь: 217 157 115')
     assert.equal(num(processor, 'прозр'), 1)
+})
+
+test('урок «Скорость процессора»: гиперпроцессор на полном ходу и на единице', () => {
+    const full = stage(RATE_FULL, 60)
+    assert.equal(num(full.processor, 'скорость'), 25)
+    assert.equal(num(full.processor, 'итераций'), 295)
+
+    const slow = stage(RATE_SLOW, 60)
+    assert.equal(num(slow.processor, 'скорость'), 1)
+    assert.equal(num(slow.processor, 'итераций'), 14)
+})
+
+test('урок «Скорость процессора»: обычный процессор выше своего предела не поднять', () => {
+    // SetRateI прижимает число к [1, block.instructionsPerTick] — у микропроцессора это 2
+    const {processor} = stage(RATE_CEILING, 20)
+
+    assert.equal(num(processor, 'скорость'), 2)
+})
+
+test('урок «Вложенные условия и ранний выход»: охрана пропускает работу', () => {
+    const {processor} = stage(GUARD, 40)
+
+    // Обе проверки пройдены: работа выполнена, запас уменьшился на выданное
+    assert.equal(num(processor, 'сделано'), 1)
+    assert.equal(num(processor, 'запас'), 35)
+})
+
+test('урок «Вложенные условия и ранний выход»: цикл выходит на первой находке', () => {
+    const {processor} = stage(LOOP_BREAK, 120)
+
+    assert.equal(num(processor, 'найдено'), 3)
+    assert.equal(num(processor, 'значение'), 42)
+})
+
+test('урок «Вложенные условия и ранний выход»: пропуск шага складывает только чётные', () => {
+    const {processor} = stage(SKIP, 120)
+
+    // 0 + 2 + 4 + 6 + 8
+    assert.equal(num(processor, 'итог'), 20)
+    assert.equal(num(processor, 'счёт'), 10)
 })
