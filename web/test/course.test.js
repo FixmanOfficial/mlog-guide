@@ -46,6 +46,7 @@ import {
 import {
     MOVE, HALT, ARRIVED, CARRY, FERRY, FLAG, MINE
 } from '../src/course/scenes/ucontrol.js'
+import {SEEK, ALLY} from '../src/course/scenes/uradar.js'
 import iconTable from '@mlog/core/data/icons.json' with {type: 'json'}
 import logicIdsData from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
@@ -2062,4 +2063,21 @@ test('урок «Добыча»: моно копает медь, пока не �
     assert.equal(num(processor, 'копает'), 1)
     assert.equal(obj(processor, 'чего').name, 'copper')
     assert.equal(num(processor, 'груз'), 20)
+})
+
+test('урок «Поиск от юнита»: ближний и дальний враг вокруг кинжала', () => {
+    const {processor} = stage(SEEK, 90)
+
+    assert.equal(num(processor, 'xБлижнего'), 9)
+    assert.equal(num(processor, 'xДальнего'), 14)
+
+    // Дальность кинжала — 146 мировых единиц, то есть 18.25 клетки
+    assert.equal(num(processor, 'дальность'), 18.25)
+})
+
+test('урок «Поиск от юнита»: себя юнит не находит', () => {
+    const {processor} = stage(ALLY, 90)
+
+    assert.equal(obj(processor, 'ктоЭто').name, 'poly')
+    assert.equal(obj(processor, 'яСам').name, 'dagger')
 })
