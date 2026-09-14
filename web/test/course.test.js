@@ -2519,3 +2519,29 @@ test('урок «Общая память»: задания к примеру д�
     // Убрали sensor — в ячейку каждую итерацию уезжает пустота
     assert.equal(variant('write медь cell1 0'), 'на складе null')
 })
+
+test('урок «Целые и точность»: задание про ящики считается как обещано', () => {
+    // 100 на 30 — три ящика и десять в остатке; −100 на 30 — минус четыре и минус десять
+    const scene = {
+        width: 7, height: 5, floor: 'sand',
+        blocks: [{type: 'micro-processor', x: 3, y: 2}],
+        processors: [{
+            at: [3, 2],
+            links: [],
+            program: [
+                'op idiv ящики 100 30',
+                'op mod остаток 100 30',
+                'op idiv ящикиМинус -100 30',
+                'op mod остатокМинус -100 30',
+                'stop'
+            ].join('\n')
+        }]
+    }
+
+    const {processor} = stage(scene, 20)
+
+    assert.equal(num(processor, 'ящики'), 3)
+    assert.equal(num(processor, 'остаток'), 10)
+    assert.equal(num(processor, 'ящикиМинус'), -4)
+    assert.equal(num(processor, 'остатокМинус'), -10)
+})
