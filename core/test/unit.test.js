@@ -447,3 +447,38 @@ test('коды @controlled лежат в константах, как в игр�
     assert.equal(processor.num('игрок'), 2)
     assert.equal(processor.num('команда'), 3)
 })
+
+test('срок управления снимает контроллер, но не отменяет начатое', () => {
+    /*
+     * `LogicAI.updateMovement`: когда `controlTimer` вышел, юнит получает свой обычный
+     * разум обратно. Движение на этом кончается — вести юнита больше некому, — а вот
+     * добыча и флаг живут в самом юните и таймер переживают.
+     */
+    const {world, processor} = setup([
+        'ubind @mono',
+        'ucontrol flag 7 0 0 0 0',
+        'ucontrol mine 9 6 0 0 0',
+        'stop'
+    ].join('\n'))
+
+    world.setOverlay(9, 6, 'ore-copper')
+    const mono = world.spawn('mono', {x: 9, y: 6})
+
+    world.steps(20)
+    assert.ok(mono.controller instanceof LogicAI)
+    assert.notEqual(mono.mineTile, null)
+
+    /*
+     * Программа давно остановилась: через 600 тиков контроль истекает. Груз по дороге
+     * приходится выкидывать — с полным трюмом добыча прекращается сама, и проверка
+     * поймала бы не то.
+     */
+    for (let i = 0; i < LOGIC_CONTROL_TIMEOUT + 30; i++) {
+        world.step()
+        mono.itemAmount = 0
+    }
+
+    assert.equal(mono.controller instanceof LogicAI, false, 'контроллер снят')
+    assert.notEqual(mono.mineTile, null, 'а копать юнит не перестал')
+    assert.equal(mono.flag, 7, 'и флаг при нём')
+})
