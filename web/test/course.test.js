@@ -2719,3 +2719,38 @@ test('урок «Связи по номеру»: задания к пример�
     const noSpace = base.split('\n').filter(line => line.trim() !== 'print " "').join('\n')
     assert.equal(variant(noSpace), 'containermemory-cellmessage')
 })
+
+test('урок «Случайность и шум»: округление вниз честнее округления к ближайшему', () => {
+    /*
+     * Задание урока: `rand 2` с `floor` даёт честную монетку, а с `round` — три исхода,
+     * где единица выпадает вдвое чаще. Проверяется распределением на трёх тысячах бросков.
+     */
+    const scene = {
+        width: 7, height: 5, floor: 'sand',
+        blocks: [{type: 'micro-processor', x: 3, y: 2}],
+        processors: [{
+            at: [3, 2],
+            links: [],
+            program: ['op rand бросок 2', 'op floor вниз бросок', 'op round ближний бросок'].join('\n')
+        }]
+    }
+
+    const {processors} = build(scene)
+    const processor = processors[0].building.processor
+
+    const вниз = {}
+    const ближний = {}
+
+    for (let i = 0; i < 3000; i++) {
+        processor.run(3)
+        вниз[processor.num('вниз')] = (вниз[processor.num('вниз')] ?? 0) + 1
+        ближний[processor.num('ближний')] = (ближний[processor.num('ближний')] ?? 0) + 1
+    }
+
+    assert.deepEqual(Object.keys(вниз).sort(), ['0', '1'], 'floor даёт две стороны')
+    assert.deepEqual(Object.keys(ближний).sort(), ['0', '1', '2'], 'round даёт три')
+
+    // Единица у round собирает вдвое больше: промежуток от 0.5 до 1.5
+    assert.ok(ближний['1'] > ближний['0'] * 1.5)
+    assert.ok(ближний['1'] > ближний['2'] * 1.5)
+})
