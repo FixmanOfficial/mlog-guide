@@ -43,6 +43,9 @@ import {GUARD, BREAK as LOOP_BREAK, SKIP} from '../src/course/scenes/branching.j
 import {
     CYCLE, WATCH as BOUND, NONE as NO_UNITS, REMEMBER, LOST, FOREIGN
 } from '../src/course/scenes/ubind.js'
+import {
+    MOVE, HALT, ARRIVED, CARRY, FERRY, FLAG, MINE
+} from '../src/course/scenes/ucontrol.js'
 import iconTable from '@mlog/core/data/icons.json' with {type: 'json'}
 import logicIdsData from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
@@ -2005,4 +2008,58 @@ test('урок «Чужие юниты»: ubind не берёт вражеско
 
     assert.equal(obj(processor, 'чужой'), null)
     assert.notEqual(obj(processor, 'свой'), null)
+})
+
+test('урок «Движение и остановка»: юнит приходит в точку, но не ровно в неё', () => {
+    const {processor} = stage(MOVE, 300)
+
+    const x = num(processor, 'x')
+
+    assert.ok(Math.abs(x - 16) < 0.5, `юнит встал на ${x}`)
+    assert.notEqual(x, 16, 'ровно в точку юнит не встаёт: разгон, инерция и трение')
+    assert.ok(Math.abs(num(processor, 'y') - 4) < 0.5)
+})
+
+test('урок «Движение и остановка»: после stop юнит пролетает дальше цели', () => {
+    const {processor} = stage(HALT, 300)
+
+    // Команда отдаётся на десятой клетке, а останавливается юнит за шестнадцатой
+    assert.ok(num(processor, 'x') > 16, num(processor, 'x'))
+})
+
+test('урок «Прибытие»: within отвечает нулём в пути и единицей у цели', () => {
+    assert.equal(num(stage(ARRIVED, 20).processor, 'прибыл'), 0)
+    assert.equal(num(stage(ARRIVED, 120).processor, 'прибыл'), 1)
+})
+
+test('урок «Предметы»: юнит набирает полный трюм и склад пустеет', () => {
+    const {processor} = stage(CARRY, 300)
+
+    // У поли тридцать мест — больше он не возьмёт, сколько ни командуй
+    assert.equal(num(processor, 'груз'), 30)
+    assert.equal(obj(processor, 'чего').name, 'copper')
+    assert.equal(num(processor, 'вСкладе'), 70)
+})
+
+test('урок «Предметы»: перевозчик делает три рейса и опустошает склад', () => {
+    const {processor} = stage(FERRY, 900)
+
+    assert.equal(num(processor, 'привезено'), 90)
+    assert.equal(num(processor, 'груз'), 0)
+})
+
+test('урок «Флаг»: метки раздаются по одной и больше не меняются', () => {
+    const {processor} = stage(FLAG, 120)
+
+    // Трое поли получили 1, 2 и 3; помеченных программа пролистывает
+    assert.equal(num(processor, 'последний'), 3)
+    assert.ok(num(processor, 'помечено') > 0)
+})
+
+test('урок «Добыча»: моно копает медь, пока не наберёт свои двадцать', () => {
+    const {processor} = stage(MINE, 600)
+
+    assert.equal(num(processor, 'копает'), 1)
+    assert.equal(obj(processor, 'чего').name, 'copper')
+    assert.equal(num(processor, 'груз'), 20)
 })

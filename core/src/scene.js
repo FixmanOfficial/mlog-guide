@@ -85,10 +85,45 @@ function buildObjective({kind, markers = [], ...data}) {
 }
 
 /**
- * Раскладывает местность по картинке. Первая строка — верхний ряд карты, поэтому `y`
- * считается снизу: так строки в описании читаются в том же порядке, в каком видны на экране.
+ * Раскладывает местность: картинкой или прямоугольниками.
+ *
+ * Картинка (`{legend, rows}`) удобна, когда важен рисунок — пятно руды неправильной формы,
+ * стены по краям. Прямоугольники (`[{floor, ore, wall, rect: [x, y, ширина, высота]}]`)
+ * удобнее, когда нужна просто площадка под бур.
+ *
+ * Форму выбирает описание сцены, а не автор движка: раньше принималась только картинка,
+ * и список прямоугольников молча не рисовал ничего — бур в примере стоял на песке.
  */
-function paintTerrain(world, {legend = {}, rows = []}) {
+function paintTerrain(world, terrain) {
+    if (Array.isArray(terrain)) return paintRects(world, terrain)
+
+    return paintPicture(world, terrain)
+}
+
+/** Прямоугольниками: `rect` — это `[x, y, ширина, высота]`, считая от левого нижнего угла. */
+function paintRects(world, areas) {
+    for (const {rect = [0, 0, world.width, world.height], ...cell} of areas) {
+        const [left, bottom, width, height] = rect
+
+        for (let y = bottom; y < bottom + height; y++) {
+            for (let x = left; x < left + width; x++) {
+                if (!world.inside(x, y)) continue
+
+                if (cell.floor !== undefined) world.setFloor(x, y, cell.floor)
+                if (cell.ore !== undefined) world.setOverlay(x, y, cell.ore)
+                if (cell.wall !== undefined) world.setWall(x, y, cell.wall)
+            }
+        }
+    }
+
+    return world
+}
+
+/**
+ * Картинкой. Первая строка — верхний ряд карты, поэтому `y` считается снизу: так строки
+ * в описании читаются в том же порядке, в каком видны на экране.
+ */
+function paintPicture(world, {legend = {}, rows = []}) {
     rows.forEach((row, index) => {
         const y = world.height - 1 - index
 

@@ -88,3 +88,32 @@ test('ссылка на несуществующую связь — ошибка
         processors: [{at: [1, 1], links: ['cell1']}]
     }, {content}), /Нет блока со связью cell1/)
 })
+
+test('местность описывается и картинкой, и прямоугольниками', () => {
+    const picture = buildScene({
+        width: 6, height: 4,
+        terrain: {
+            legend: {'.': {floor: 'sand'}, 'о': {floor: 'sand', ore: 'ore-copper'}},
+            rows: [
+                '......',
+                '..оо..',
+                '......',
+                '......'
+            ]
+        }
+    }, {content}).world
+
+    // Первая строка описания — верхний ряд карты
+    assert.equal(picture.overlayAt(2, 2), 'ore-copper')
+    assert.equal(picture.overlayAt(2, 0), null)
+
+    const rects = buildScene({
+        width: 8, height: 6,
+        terrain: [{floor: 'sand', ore: 'ore-copper', rect: [3, 2, 2, 3]}]
+    }, {content}).world
+
+    assert.equal(rects.overlayAt(3, 2), 'ore-copper')
+    assert.equal(rects.overlayAt(4, 4), 'ore-copper')
+    assert.equal(rects.overlayAt(5, 2), null, 'ширина считается от левого края, а не до него')
+    assert.equal(rects.overlayAt(3, 5), null)
+})
