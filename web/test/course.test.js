@@ -2097,6 +2097,44 @@ test('урок «Добыча»: моно копает медь, пока не �
     assert.equal(num(processor, 'груз'), 20)
 })
 
+test('урок «Добыча»: задание с клеткой 5 4 даёт песок, а не пустоту', () => {
+    /*
+     * Пол `sand-floor` роняет песок (`Tile.drop()` берёт `itemDrop` пола, когда наложения
+     * нет), и для добычи это такая же руда. Урок обещает в задании именно `sand`.
+     */
+    const sand = {
+        ...MINE,
+        processors: [{
+            ...MINE.processors[0],
+            program: MINE.processors[0].program.replace('ucontrol mine 9 4', 'ucontrol mine 5 4')
+        }]
+    }
+
+    const {processor} = stage(sand, 600)
+
+    assert.equal(num(processor, 'копает'), 1)
+    assert.equal(obj(processor, 'чего').name, 'sand')
+})
+
+test('урок «Добыча»: дальше восьми с половиной тайлов команда не работает', () => {
+    // `validMine` считает расстояние до клетки: `mineRange` у всех копателей 70 единиц
+    const far = {
+        ...MINE,
+        processors: [{
+            ...MINE.processors[0],
+            program: MINE.processors[0].program.replace('ucontrol mine 9 4', 'ucontrol mine 15 4')
+        }]
+    }
+
+    const {processor, world} = stage(far, 300)
+
+    assert.equal(num(processor, 'копает'), 0)
+    assert.equal(num(processor, 'груз'), 0)
+
+    // И юнит при этом не сдвинулся: подлетать к руде команда не умеет
+    assert.equal(world.units[0].x, 6 * 8)
+})
+
 test('урок «Поиск от юнита»: ближний и дальний враг вокруг кинжала', () => {
     const {processor} = stage(SEEK, 90)
 
@@ -2238,7 +2276,7 @@ test('урок «Создать юнита»: появление останав�
 })
 
 test('урок «Эффекты»: горение снимает сто здоровья за десять секунд', () => {
-    // 0.167 урона в тик — это ровно десять в секунду
+    // 0.167 урона в тик — 10.02 в секунду, сотня за десять
     const {processor} = stage(BURN, 660)
 
     assert.equal(num(processor, 'предел'), 150)
@@ -2303,9 +2341,37 @@ test('урок «Сообщение игроку»: занятый экран о
 test('урок «Правила игры»: unitMineSpeed ускоряет добычу', () => {
     const {processor} = stage(RULES, 300)
 
-    // Без правила моно набирает двадцать за десять секунд, с четырёхкратным — за пять
+    // Без правила моно набирает двадцать за девять секунд, с четырёхкратным — за две с чем-то
     assert.equal(num(processor, 'груз'), 20)
-    assert.ok(num(stage(RULES, 120).processor, 'груз') >= 12)
+    assert.ok(num(stage(RULES, 150).processor, 'груз') >= 20)
+})
+
+test('урок «Правила игры»: множителю нужна команда, иначе он уходит заброшенным', () => {
+    /*
+     * `SetRuleI` берёт команду из третьего поля. Ноль — это команда с номером ноль,
+     * а не «поле не заполнено», и урок про это предупреждает отдельной карточкой.
+     */
+    const variant = (program) => stage({
+        ...RULES,
+        processors: [{...RULES.processors[0], program}]
+    }, 150)
+
+    const base = RULES.processors[0].program
+
+    assert.equal(num(variant(base).processor, 'груз'), 20)
+    assert.ok(num(variant(base.replace('@sharded', '0')).processor, 'груз') < 10,
+        'без своей команды правило до моно не доходит')
+})
+
+test('урок «Правила игры»: задание с 0.25 даёт пять единиц за десять секунд', () => {
+    const slow = RULES.processors[0].program.replace('unitMineSpeed 4', 'unitMineSpeed 0.25')
+
+    const {processor} = stage({
+        ...RULES,
+        processors: [{...RULES.processors[0], program: slow}]
+    }, 600)
+
+    assert.equal(num(processor, 'груз'), 5)
 })
 
 test('урок «Правила игры»: unitHealth делит урон, а предел не меняет', () => {
@@ -2836,13 +2902,27 @@ test('урок «Эффекты»: замедленный кинжал отст�
         return [num(processor, 'xСкованного'), num(processor, 'xСвободного')]
     }
 
-    // К третьей секунде обычный уже у цели, а замедленный ещё на полпути
-    const [slowed, plain] = at(200)
-    assert.ok(plain > 14, plain)
-    assert.ok(slowed < 9, slowed)
+    // К третьей секунде замедленный у седьмой клетки, обычный — у четырнадцатой
+    const [slowed, plain] = at(180)
+    assert.ok(plain > 13 && plain < 15, plain)
+    assert.ok(slowed > 6 && slowed < 8, slowed)
 
-    // Но и он доезжает — просто позже
-    assert.ok(at(600)[0] > 15)
+    // К десятой доезжают оба, и отставание сходится до клетки
+    const [late, first] = at(600)
+    assert.ok(first - late < 2, `отстал на ${first - late}`)
+})
+
+test('урок «Эффекты»: задание с плавлением кинжала не оставляет', () => {
+    // 0.3 за тик — 18 в секунду: полутора сотен хватает секунд на восемь, а срок десять
+    const melting = stage({
+        ...BURN,
+        processors: [{
+            ...BURN.processors[0],
+            program: BURN.processors[0].program.replace('@status-burning', '@status-melting')
+        }]
+    }, 900)
+
+    assert.equal(obj(melting.processor, 'здоровье'), null, 'кинжал погиб, и спрашивать не у кого')
 })
 
 test('урок «Время»: с equal таймер срабатывает каждую итерацию, а не молчит', () => {

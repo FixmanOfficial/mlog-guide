@@ -196,6 +196,16 @@ export default defineConfig({
                             label: 'Свойства sensor',
                             translations: {en: 'Sensor properties'},
                             link: 'reference/properties'
+                        },
+                        {
+                            label: 'Эффекты состояния',
+                            translations: {en: 'Status effects'},
+                            link: 'reference/statuses'
+                        },
+                        {
+                            label: 'Правила игры',
+                            translations: {en: 'Game rules'},
+                            link: 'reference/rules'
                         }
                     ]
                 }

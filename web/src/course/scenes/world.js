@@ -165,7 +165,7 @@ export const RULES = {
         at: [2, 5],
         links: [],
         program: [
-            'setrule unitMineSpeed 4 0 0 0 0',
+            'setrule unitMineSpeed 4 @sharded 0 0 0',
             'ubind @mono',
             'ucontrol mine 8 4 0 0 0',
             'sensor груз @unit @totalItems'
@@ -185,7 +185,7 @@ export const TOUGH = {
         at: [2, 5],
         links: [],
         program: [
-            'setrule unitHealth 4 0 0 0 0',
+            'setrule unitHealth 4 @sharded 0 0 0',
             'ubind @flare',
             'sensor здоровье @unit @health',
             'sensor предел @unit @maxHealth'

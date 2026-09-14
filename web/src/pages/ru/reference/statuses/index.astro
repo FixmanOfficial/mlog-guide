@@ -1,0 +1,10 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
+import StatusesPage from '../../../../reference/StatusesPage.astro'
+---
+<StarlightPage frontmatter={{
+    title: 'Эффекты состояния',
+    description: 'Что накладывает status: урон, множители и сроки'
+}}>
+    <StatusesPage locale="ru" />
+</StarlightPage>

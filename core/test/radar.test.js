@@ -476,11 +476,13 @@ test('флаги целей поднимаются и читаются', () => {
     assert.equal(world.rules.flag('готово'), true)
 })
 
-test('правила партии доходят до юнитов: урон, добыча и трение', () => {
+test('правила игры доходят до юнитов: урон, добыча и трение', () => {
     /*
      * `Rules.unitHealth` не поднимает здоровье, а делит урон; `unitMineSpeed` умножает
      * скорость добычи; `dragMultiplier` идёт в трение. Раньше `setrule` эти числа только
      * записывал, и урок про правила нечего было бы показать.
+     *
+     * Первые два множителя принадлежат команде, а не миру: `Rules.teams`.
      */
     const world = new World({width: 20, height: 20, content})
     const dagger = world.spawn('dagger', {x: 5, y: 5})
@@ -489,7 +491,7 @@ test('правила партии доходят до юнитов: урон, д
     dagger.damage(20)
     const plain = before - dagger.health
 
-    world.rules.set('unitHealth', 2)
+    world.rules.setTeamRule(dagger.team, 'unitHealth', 2)
 
     const middle = dagger.health
     dagger.damage(20)
@@ -501,7 +503,7 @@ test('правила партии доходят до юнитов: урон, д
     // Добыча: правило умножает скорость, а не сокращает срок
     const world2 = new World({width: 20, height: 20, content})
     world2.setOverlay(5, 5, 'ore-copper')
-    world2.rules.set('unitMineSpeed', 4)
+    world2.rules.setTeamRule(1, 'unitMineSpeed', 4)
 
     const mono = world2.spawn('mono', {x: 5, y: 5})
     mono.mineTile = {x: 5, y: 5}
@@ -1149,4 +1151,42 @@ test('цвет разбирается и с решёткой, и без неё',
     // Раньше `packColorHex` резал первый символ, и без решётки терялась первая цифра
     assert.equal(unpackColorBits(packColorHex('#84f491'))[0], unpackColorBits(packColorHex('84f491'))[0])
     assert.equal(Math.round(unpackColorBits(packColorHex('84f491'))[0] * 255), 0x84)
+})
+
+test('множители правил принадлежат команде, а не миру', () => {
+    /*
+     * `SetRuleI` берёт команду из третьего поля (`p1.team()`) и, если там не команда,
+     * не делает ровно ничего. В редакторе игры поле подписано «of», и по умолчанию
+     * там стоит `@sharded` — ноль там означал бы заброшенных.
+     */
+    const world = new World({width: 20, height: 20, content})
+    const building = world.add('world-processor', {x: 1, y: 1})
+
+    const mine = world.spawn('mono', {x: 5, y: 5, team: 1})
+    const enemy = world.spawn('mono', {x: 7, y: 5, team: 2})
+
+    const processor = new Processor([
+        'setrule unitHealth 4 @sharded 0 0 0',
+        'setrule unitMineSpeed 8 0 0 0 0'
+    ].join('\n'), {world, content, globals: content.globals, team: 1, building, privileged: true})
+
+    building.processor = processor
+    world.addProcessor(processor)
+    world.steps(2)
+
+    // Своим досталось, чужим нет
+    assert.equal(world.rules.teamRule(1, 'unitHealth'), 4)
+    assert.equal(world.rules.teamRule(2, 'unitHealth'), 1)
+
+    // А добыча ушла заброшенным: ноль — это команда 0, а не «поле не заполнено»
+    assert.equal(world.rules.teamRule(0, 'unitMineSpeed'), 8)
+    assert.equal(world.rules.teamRule(1, 'unitMineSpeed'), 1)
+
+    const before = mine.health
+    mine.damage(40)
+    assert.equal(before - mine.health, 10, 'своему юниту урон поделился на четыре')
+
+    const was = enemy.health
+    enemy.damage(40)
+    assert.equal(was - enemy.health, 40, 'чужому — нет')
 })

@@ -56,6 +56,49 @@ export const STRINGS = {
         blocksCount: (count) => `только у ${count} ${blocks(count)}`,
         blocksOwn: (count) => `свой ответ у ${count} ${blocks(count)}`,
         seeProperties: 'Какие бывают свойства и у кого читаются — в таблице свойств sensor.',
+        rules: 'Правила игры',
+        rulesTitle: 'Правила игры',
+        rulesIntro: 'Что меняет setrule и как это правило принимает значение: числом, '
+            + 'выключателем, контентом или областью. Десяти множителям нужна ещё и команда '
+            + 'в третьем поле — без неё строка не делает ничего',
+        rule: 'Правило',
+        takes: 'Как принимает',
+        ofTeam: 'нужна команда',
+        wholeOnly: 'только целое',
+        atLeast: (value) => `не меньше ${value}`,
+        between: (from, to) => `от ${from} до ${to}`,
+        ruleKinds: {
+            number: 'число',
+            flag: 'да/нет',
+            content: 'блок или юнит',
+            area: 'четыре числа'
+        },
+        scales: {
+            seconds: 'в секундах',
+            tiles: 'в клетках'
+        },
+        statuses: 'Эффекты',
+        statusesTitle: 'Эффекты состояния',
+        statusesIntro: 'Всё, что накладывает инструкция status: сколько жжёт, что замедляет '
+            + 'и что держится насовсем. Числа сняты из самой игры — списком она их нигде '
+            + 'не показывает',
+        effect: 'Эффект',
+        damagePerSecond: 'Урон в секунду',
+        changes: 'Что меняет',
+        endless: 'без предела',
+        permanent: 'держится насовсем',
+        disarm: 'не даёт стрелять',
+        everySeconds: (amount, seconds) => `${amount} урона раз в ${seconds} с`,
+        heals: (amount) => `лечит ${amount}`,
+        reactive: 'status его не наложит: только реакцией',
+        factors: {
+            speed: 'скорость',
+            health: 'живучесть',
+            damage: 'урон',
+            reload: 'перезарядка',
+            build: 'стройка',
+            drag: 'трение'
+        },
         noValue: 'null',
         holders: {
             block: 'тип блока',
@@ -113,6 +156,49 @@ export const STRINGS = {
         blocksCount: (count) => `only on ${count} block${count === 1 ? '' : 's'}`,
         blocksOwn: (count) => `answered differently by ${count} block${count === 1 ? '' : 's'}`,
         seeProperties: 'Which properties exist and what answers them — in the sensor property table.',
+        rules: 'Game rules',
+        rulesTitle: 'Game rules',
+        rulesIntro: 'What setrule changes and how each rule takes its value: a number, '
+            + 'a switch, a content item or an area. Ten multipliers also need a team in the '
+            + 'third field — without it the line does nothing',
+        rule: 'Rule',
+        takes: 'Takes',
+        ofTeam: 'needs a team',
+        wholeOnly: 'whole numbers only',
+        atLeast: (value) => `at least ${value}`,
+        between: (from, to) => `from ${from} to ${to}`,
+        ruleKinds: {
+            number: 'number',
+            flag: 'on/off',
+            content: 'block or unit',
+            area: 'four numbers'
+        },
+        scales: {
+            seconds: 'in seconds',
+            tiles: 'in tiles'
+        },
+        statuses: 'Status effects',
+        statusesTitle: 'Status effects',
+        statusesIntro: 'Everything the status instruction can apply: what burns, what slows '
+            + 'down and what stays forever. The numbers come from the game itself — it never '
+            + 'shows them as a list',
+        effect: 'Effect',
+        damagePerSecond: 'Damage per second',
+        changes: 'What it changes',
+        endless: 'no limit',
+        permanent: 'stays forever',
+        disarm: 'cannot shoot',
+        everySeconds: (amount, seconds) => `${amount} damage every ${seconds}s`,
+        heals: (amount) => `heals ${amount}`,
+        reactive: 'status cannot apply it: only as a reaction',
+        factors: {
+            speed: 'speed',
+            health: 'health',
+            damage: 'damage',
+            reload: 'reload',
+            build: 'build speed',
+            drag: 'drag'
+        },
         noValue: 'null',
         holders: {
             block: 'block type',

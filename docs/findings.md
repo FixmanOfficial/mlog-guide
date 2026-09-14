@@ -587,6 +587,14 @@ Mindustry закрепляет arc хешем коммита в `gradle.properti
 | Обводка есть не у всего текста. Кнопки сетки выбора набраны `Fonts.outline` (`Styles.logicTogglet`), а поля ввода и кнопка операции — обычным `Fonts.def` (`Styles.nodeField`, `Styles.logict`), и обводки у них нет | `ui/Styles.java:166-173,200-208,411-421` | — |
 | Фон поля ввода — `underlineWhite`, то есть подчёркивание, тонированное цветом строки. Есть и `invalidBackground = underlineRed` для непринятого значения | `ui/Styles.java:411-418` | — |
 
+## Правила игры
+
+| Деталь | Источник | Тест |
+| --- | --- | --- |
+| **Десять правил принадлежат команде, а не миру.** `buildSpeed`, `unitHealth`, `unitBuildSpeed`, `unitMineSpeed`, `unitCost`, `unitDamage`, `blockHealth`, `blockDamage`, `rtsMinWeight`, `rtsMinSquad` пишутся в `team.rules()`, а команда берётся из третьего поля (`p1.team()`). Не команда — строка не делает **ничего**. Ноль при этом команда: заброшенные | `logic/LExecutor.java:1837-1854`, `logic/LVar.java:42-50` | ✓ `radar.test.js` |
+| Редактор подставляет в это поле `@sharded`, когда там стоит ноль, и подписывает его «of» | `logic/LStatements.java:1654-1662` | — |
+| Значения зажимаются каждое по-своему: живучесть не ниже 0.001 (иначе деление даёт бесконечность), скорость стройки от 0.001 до 50, `rtsMinSquad` округляется до целого | `logic/LExecutor.java:1842-1851` | ✓ `radar.test.js` |
+
 ## Добыча юнитом
 
 | Деталь | Источник | Тест |

@@ -580,3 +580,32 @@ test('одну клетку копают сколько угодно юнито�
 
     for (const unit of crew) assert.ok(unit.itemAmount >= 2, `набрал ${unit.itemAmount}`)
 })
+
+test('ulocate ore считает рудой и пол, который что-то роняет', () => {
+    /*
+     * Указатель игры строится по `tile.drop()`, а тот берёт `itemDrop` наложения, а если
+     * его нет — самого пола. Песчаный пол попадает в список песка наравне с наложением.
+     */
+    const world = new World({width: 16, height: 10, content, floor: 'sand-floor'})
+    const building = world.add('micro-processor', {x: 1, y: 1})
+    const unit = world.spawn('mono', {x: 8, y: 5})
+
+    const processor = new Processor([
+        'ubind @mono',
+        'ulocate ore core true @sand песокX песокY естьПесок здание'
+    ].join('\n'), {world, content, globals: content.globals, team: 1, building})
+
+    building.processor = processor
+    world.addProcessor(processor)
+    world.steps(2)
+
+    assert.equal(processor.get('естьПесок').num(), 1)
+
+    // Ближайшая клетка — та, на которой юнит и стоит
+    assert.equal(processor.get('песокX').num(), 8)
+    assert.equal(processor.get('песокY').num(), 5)
+
+    // А занятая зданием клетка в счёт не идёт: `findClosestOre` берёт только пустые
+    assert.notEqual(processor.get('песокX').num() === 1 && processor.get('песокY').num() === 1, true)
+    assert.ok(unit !== null)
+})

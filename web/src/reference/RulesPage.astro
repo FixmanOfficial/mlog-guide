@@ -1,0 +1,66 @@
+---
+/**
+ * Таблица игровых правил — тех, что меняет `setrule`.
+ *
+ * Главное, чего не видно в уроке: правило принимает значение по-разному. Одни читаются
+ * как «да/нет», другие переводятся из секунд и клеток, десять множителей требуют команду
+ * в третьем поле, а `ban` берёт не число, а контент. Всё это — `SetRuleI`, не мнение.
+ */
+
+import {rules} from './rules.js'
+import {GAME_VERSION} from './data.js'
+import {strings} from './strings.js'
+import './reference.css'
+
+const {locale} = Astro.props
+
+const text = strings(locale)
+const list = rules(locale)
+
+const limitLabel = (limits) => {
+    if (limits === null) return null
+    if (limits.integer === true) return text.wholeOnly
+
+    const from = limits.min === undefined ? null : limits.min
+    const to = limits.max === undefined ? null : limits.max
+
+    if (from === null && to === null) return null
+    if (to === null) return text.atLeast(from)
+
+    return text.between(from, to)
+}
+---
+
+<p class="ref-lead">{text.rulesIntro} ({GAME_VERSION}).</p>
+
+<table class="ref-table ref-table--rules">
+    <thead>
+        <tr>
+            <th>{text.rule}</th>
+            <th>{text.takes}</th>
+            <th>{text.description}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {list.map(row => (
+            <tr id={row.name}>
+                <td><code>{row.name}</code></td>
+                <td>
+                    <div class="ref-holders">
+                        <span class="ref-holder">{text.ruleKinds[row.kind]}</span>
+                        {row.scale === null ? null : (
+                            <span class="ref-holder">{text.scales[row.scale]}</span>
+                        )}
+                        {row.team ? <span class="ref-holder ref-holder--partial">{text.ofTeam}</span> : null}
+                        {limitLabel(row.limits) === null ? null : (
+                            <span class="ref-holder">{limitLabel(row.limits)}</span>
+                        )}
+                    </div>
+                </td>
+                <td>{row.description ?? ''}</td>
+            </tr>
+        ))}
+    </tbody>
+</table>
+
+<p class="ref-lead">{text.sourceNote(GAME_VERSION)}</p>

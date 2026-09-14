@@ -64,6 +64,28 @@ export const DEFAULT_RULES = {
 }
 
 /**
+ * Множители, которые в игре принадлежат не миру, а **команде**: `Rules.teams` — это
+ * `TeamRule` на каждую сторону, и `setrule` для них берёт команду из третьего поля.
+ * В редакторе игры оно так и подписано — «of», и по умолчанию там стоит `@sharded`.
+ *
+ * Здесь же лежат зажимы из `SetRuleI`: живучесть не опускается ниже тысячной, чтобы
+ * деление на неё не давало бесконечность, а скорость стройки сверху ограничена полусотней.
+ * LExecutor.SetRuleI:1837-1854
+ */
+export const TEAM_RULES = {
+    buildSpeed: {value: 1, min: 0.001, max: 50},
+    unitHealth: {value: 1, min: 0.001},
+    unitBuildSpeed: {value: 1, min: 0, max: 50},
+    unitMineSpeed: {value: 1, min: 0},
+    unitCost: {value: 1, min: 0},
+    unitDamage: {value: 1, min: 0},
+    blockHealth: {value: 1, min: 0.001},
+    blockDamage: {value: 1, min: 0},
+    rtsMinWeight: {value: 1},
+    rtsMinSquad: {value: 1, integer: true}
+}
+
+/**
  * Правила мира. Значения хранятся как есть — процессор мира их и читает, и пишет,
  * а моделируем мы пока не все: `waveSpacing` без волн ни на что не влияет, но соврать
  * в ответе на `fetch` или на чтение хуже, чем сохранить число.
@@ -89,6 +111,9 @@ export class Rules {
         /** Запрещённые к постройке блоки и юниты: `setrule ban` и `unban`. */
         this.banned = new Set()
 
+        /** `Rules.teams`: множители каждой команды. Номер команды — ключ. */
+        this.teams = new Map()
+
         this.initial = {values: {...this.values}}
     }
 
@@ -98,6 +123,28 @@ export class Rules {
 
     set(name, value) {
         this.values[name] = value
+        return this
+    }
+
+    /** Множитель команды: своё значение, если его ставили, иначе общее по умолчанию. */
+    teamRule(team, name) {
+        return this.teams.get(team)?.[name] ?? TEAM_RULES[name].value
+    }
+
+    /** `SetRuleI`: значение зажимается по правилам самой игры, каждое по-своему. */
+    setTeamRule(team, name, value) {
+        const limits = TEAM_RULES[name]
+        if (limits === undefined) return this
+
+        let result = value
+        if (limits.min !== undefined) result = Math.max(result, limits.min)
+        if (limits.max !== undefined) result = Math.min(result, limits.max)
+        if (limits.integer === true) result = Math.trunc(result)
+
+        const own = this.teams.get(team) ?? {}
+        own[name] = result
+        this.teams.set(team, own)
+
         return this
     }
 
@@ -116,6 +163,7 @@ export class Rules {
         this.values = {...this.initial.values}
         this.objectiveFlags.clear()
         this.banned.clear()
+        this.teams.clear()
         this.mapArea = null
         return this
     }

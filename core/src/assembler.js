@@ -27,6 +27,7 @@ import {
 import {BLOCK_SPECS} from './world.js'
 import {Bullet} from './turret.js'
 import {damage as explode} from './damage.js'
+import {TEAM_RULES} from './rules.js'
 import {ALIGN_NAMES} from './font.js'
 import accessData from '../data/access.json' with {type: 'json'}
 import icons from '../data/icons.json' with {type: 'json'}
@@ -264,6 +265,12 @@ function checkLogicAI(vm, unit, control) {
 /**
  * Ближайшая клетка с нужной рудой. В игре для этого есть указатель (`indexer`),
  * у нас мир маленький и обход честный.
+ *
+ * Рудой считается то же, что и при добыче: `Tile.drop()` отдаёт `itemDrop` наложения,
+ * а когда наложения нет — самого пола. Поэтому `ulocate ore @sand` находит песчаный пол,
+ * хотя руды на нём не нарисовано. Указатель игры строится по тому же `tile.drop()`.
+ *
+ * Занятая клетка не годится: `findClosestOre` берёт только те, где `tile.block() == air`.
  */
 function findOre(vm, unit, item) {
     if (item?.contentType !== 'item') return null
@@ -274,7 +281,11 @@ function findOre(vm, unit, item) {
     for (let y = 0; y < vm.world.height; y++) {
         for (let x = 0; x < vm.world.width; x++) {
             const overlay = vm.world.overlayAt(x, y)
-            if (BLOCK_SPECS[overlay]?.itemDrop !== item.name) continue
+            const drop = BLOCK_SPECS[overlay]?.itemDrop
+                ?? BLOCK_SPECS[vm.world.floorAt(x, y)]?.itemDrop
+
+            if (drop !== item.name) continue
+            if (vm.world.blockAt(x, y) !== 'air') continue
 
             const away = unit.dst2(unconv(x), unconv(y))
             if (away >= distance) continue
@@ -1667,6 +1678,24 @@ const builders = {
                 run: (vm) => {
                     if (vm.world === null) return
                     vm.world.rules.mapArea = corners.map(corner => corner.numi())
+                }
+            }
+        }
+
+        /*
+         * Десять множителей принадлежат не миру, а команде: `SetRuleI` берёт её из `p1`
+         * и, если там не команда, не делает ровно ничего. В редакторе игры это поле
+         * подписано «of» и по умолчанию там `@sharded`, а не ноль.
+         */
+        if (TEAM_RULES[rule] !== undefined) {
+            return {
+                run: (vm) => {
+                    if (vm.world === null) return
+
+                    const side = teamOf(corners[0])
+                    if (side === null) return
+
+                    vm.world.rules.setTeamRule(side, rule, value.num())
                 }
             }
         }

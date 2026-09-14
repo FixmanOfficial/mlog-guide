@@ -1,0 +1,82 @@
+---
+/**
+ * Таблица эффектов состояния — тех, что кладёт на юнита инструкция `status`.
+ *
+ * Игра нигде не показывает их списком: эффект виден только значком над юнитом, а числа
+ * лежат в `content/StatusEffects.java`. Поэтому таблица собирается из выгрузки
+ * (`gen-dump.mjs`), а не переписывается руками — иначе разойдётся на первом обновлении.
+ */
+
+import {effects} from './statuses.js'
+import {GAME_VERSION} from './data.js'
+import {strings} from './strings.js'
+import './reference.css'
+
+const {locale} = Astro.props
+
+const text = strings(locale)
+const rows = effects(locale)
+
+/** Множитель словами: 0.6 — «60% скорости», 1.4 — «+40% урона», 0 — «совсем нет». */
+function factorLabel(factor) {
+    const {key, value} = factor
+
+    if (value === null) return `${text.factors[key]}: ${text.endless}`
+    if (value === 0) return `${text.factors[key]}: 0`
+
+    const percent = Math.round(Math.abs(value - 1) * 100)
+    const sign = value > 1 ? '+' : '−'
+
+    return `${text.factors[key]}: ${sign}${percent}%`
+}
+---
+
+<p class="ref-lead">{text.statusesIntro} ({GAME_VERSION}).</p>
+
+<table class="ref-table ref-table--statuses">
+    <thead>
+        <tr>
+            <th>{text.effect}</th>
+            <th>{text.damagePerSecond}</th>
+            <th>{text.changes}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {rows.map(row => (
+            <tr id={row.name}>
+                <td>
+                    <code>@status-{row.name}</code>
+                    <div class="ref-status__name">
+                        <span class="ref-status__dot" style={`--dot: ${row.color}`}></span>
+                        {row.title}
+                    </div>
+                </td>
+                <td>
+                    {row.damage === null ? null : (
+                        <span>{row.damage > 0 ? row.damage : text.heals(-row.damage)}</span>
+                    )}
+                    {row.interval === null ? null : (
+                        <span>{text.everySeconds(row.interval.amount, row.interval.seconds)}</span>
+                    )}
+                    {row.damage === null && row.interval === null ? <span class="ref-status__none">—</span> : null}
+                </td>
+                <td>
+                    <div class="ref-holders">
+                        {row.factors.map(factor => (
+                            <span class="ref-holder">{factorLabel(factor)}</span>
+                        ))}
+                        {row.disarm ? <span class="ref-holder">{text.disarm}</span> : null}
+                        {row.reactive ? (
+                            <span class="ref-holder ref-holder--partial">{text.reactive}</span>
+                        ) : null}
+                        {row.permanent ? <span class="ref-holder ref-holder--partial">{text.permanent}</span> : null}
+                        {row.factors.length === 0 && !row.disarm && !row.permanent && !row.reactive
+                            ? <span class="ref-status__none">—</span> : null}
+                    </div>
+                </td>
+            </tr>
+        ))}
+    </tbody>
+</table>
+
+<p class="ref-lead">{text.sourceNote(GAME_VERSION)}</p>

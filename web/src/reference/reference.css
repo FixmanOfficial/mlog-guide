@@ -232,3 +232,31 @@
     color: var(--sl-color-gray-3);
     font-size: var(--sl-text-sm);
 }
+
+/* Эффекты состояния: имя с кружком цвета, каким игра рисует значок над юнитом */
+.ref-table--statuses td:first-child {
+    width: 30%;
+}
+
+.ref-table--statuses td:nth-child(2) {
+    width: 20%;
+}
+
+.ref-status__name {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.2rem;
+    color: var(--sl-color-gray-2);
+}
+
+.ref-status__dot {
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 50%;
+    background: var(--dot);
+}
+
+.ref-status__none {
+    color: var(--sl-color-gray-3);
+}

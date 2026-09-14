@@ -155,7 +155,7 @@ export class Building {
     damage(amount) {
         if (this.health <= 0) return this
 
-        const multiplier = this.world?.rules.get('blockHealth') ?? 1
+        const multiplier = this.world?.rules.teamRule(this.team, 'blockHealth') ?? 1
         this.health -= multiplier === 0 ? this.health + 1 : amount / multiplier
 
         if (this.health <= 0) this.destroy()

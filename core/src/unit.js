@@ -542,7 +542,7 @@ export class Unit {
      * ShieldComp.damage
      */
     healthRule() {
-        const value = this.world?.rules?.get('unitHealth') ?? 1
+        const value = this.world?.rules?.teamRule(this.team, 'unitHealth') ?? 1
         return value > 0 ? value : 1
     }
 
@@ -675,7 +675,7 @@ export class Unit {
         const item = this.mineResult(this.mineTile)
 
         // `MinerComp.update`: скорость добычи умножается на правило партии
-        const rule = this.world?.rules?.get('unitMineSpeed') ?? 1
+        const rule = this.world?.rules?.teamRule(this.team, 'unitMineSpeed') ?? 1
         this.mineTimer = f(this.mineTimer + f(delta * f(this.spec.mineSpeed * rule)))
 
         const hardness = materials.items[item]?.hardness ?? 0

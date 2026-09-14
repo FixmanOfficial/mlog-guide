@@ -1,0 +1,10 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
+import StatusesPage from '../../../../reference/StatusesPage.astro'
+---
+<StarlightPage frontmatter={{
+    title: 'Status effects',
+    description: 'What status applies: damage, multipliers and duration'
+}}>
+    <StatusesPage locale="en" />
+</StarlightPage>

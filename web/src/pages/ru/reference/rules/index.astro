@@ -1,0 +1,10 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro'
+import RulesPage from '../../../../reference/RulesPage.astro'
+---
+<StarlightPage frontmatter={{
+    title: 'Правила игры',
+    description: 'Все правила setrule: что принимают и что меняют'
+}}>
+    <RulesPage locale="ru" />
+</StarlightPage>
