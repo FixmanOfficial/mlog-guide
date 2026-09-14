@@ -130,9 +130,9 @@ export const COST = {
         at: [2, 3],
         links: [],
         program: [
-            'op add кругов кругов 1',
+            'op add итераций итераций 1',
             'set скорость @ipt',
-            'op div кругаЗаТик кругов @tick'
+            'op div итерацийЗаТик итераций @tick'
         ].join('\n')
     }]
 }

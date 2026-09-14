@@ -61,6 +61,7 @@ import iconTable from '@mlog/core/data/icons.json' with {type: 'json'}
 import logicIdsData from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
 import blockSpecs from '@mlog/core/data/block-specs.json' with {type: 'json'}
+import pal from '@mlog/core/data/pal.json' with {type: 'json'}
 
 import {readdirSync, readFileSync, statSync} from 'node:fs'
 import {join} from 'node:path'
@@ -1854,6 +1855,10 @@ test('контент в уроках назван так же, как в игр�
      * Список ловит те ошибки, которые уже случались, и пополняется по мере находок.
      */
     const wrong = [
+        // «круг» вместо «итерации» — упрощённое слово, которого нет ни в одном языке
+        ['круг за кругом', 'итерация за итерацией'],
+        ['кругов за тик', 'итераций за тик'],
+        ['каждый круг', 'каждую итерацию'],
         ['флар', 'вспышка (flare)'],
         ['дуо', 'двойная турель (duo)'],
         ['банк памяти', 'блок памяти (memory-bank)'],
@@ -2385,8 +2390,9 @@ test('урок «Сколько стоит инструкция»: кругов 
 
     assert.equal(num(processor, 'скорость'), 25)
 
-    // Три строки при скорости 25 — восемь с третью круга за тик
-    assert.ok(Math.abs(num(processor, 'кругаЗаТик') - 25 / 3) < 0.2, num(processor, 'кругаЗаТик'))
+    // Три строки при скорости 25 — восемь с третью итерации за тик
+    assert.ok(Math.abs(num(processor, 'итерацийЗаТик') - 25 / 3) < 0.2,
+        num(processor, 'итерацийЗаТик'))
 })
 
 test('урок «Упаковка данных»: два числа в одном и обратно', () => {
@@ -2462,4 +2468,20 @@ test('урок «Связи и getlink»: дальность связи — из
     assert.equal(tiles('micro-processor'), 10)
     assert.equal(tiles('logic-processor'), 22)
     assert.equal(tiles('hyper-processor'), 42)
+})
+
+test('урок «Как писать в игре»: цвета категорий — из палитры игры', () => {
+    /*
+     * Урок называет цвета словами, и слова эти должны сходиться с палитрой: серо-розовый
+     * у ввода-вывода, кирпичный у блоков, сиреневый у операций, бирюзовый у управления,
+     * песочный у юнитов, синий у мировых.
+     */
+    const color = (category) => pal.colors[schema.categories[category].color]
+
+    assert.equal(color('io'), '#a08a8a')
+    assert.equal(color('block'), '#d4816b')
+    assert.equal(color('operation'), '#877bad')
+    assert.equal(color('control'), '#6bb2b2')
+    assert.equal(color('unit'), '#c7b59d')
+    assert.equal(color('world'), '#6b84d4')
 })
