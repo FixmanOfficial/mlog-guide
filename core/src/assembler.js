@@ -25,6 +25,7 @@ import {
     CTRL_PROCESSOR, CTRL_PLAYER, CTRL_COMMAND, conv, unconv
 } from './unit.js'
 import {BLOCK_SPECS} from './world.js'
+import {Bullet} from './turret.js'
 import {damage as explode} from './damage.js'
 import {ALIGN_NAMES} from './font.js'
 import accessData from '../data/access.json' with {type: 'json'}
@@ -1485,6 +1486,66 @@ const builders = {
 
                 const text = vm.world?.locales?.get(name)
                 if (typeof text === 'string') vm.appendText(text)
+            }
+        }
+    },
+
+    /**
+     * SpawnBulletI: выстрел без стрелка. Тип пули берётся у того, кто её обычно пускает:
+     * у турели — по предмету-патрону, как в `ItemTurret.ammoTypes`.
+     *
+     * Оружие юнитов в модели не разобрано (в выгрузке у типа только число стволов),
+     * поэтому пуля «от юнита» не создаётся: см. `docs/parity.md`.
+     */
+    bullet: (asm, params) => {
+        const output = asm.var(params[0] ?? 'result')
+        const from = asm.var(params[1] ?? '@dagger')
+        const weapon = asm.var(params[2] ?? '0')
+        const x = asm.var(params[3] ?? '0')
+        const y = asm.var(params[4] ?? '0')
+        const rotation = asm.var(params[5] ?? '0')
+        const team = asm.var(params[6] ?? 'null')
+        const owner = asm.var(params[7] ?? 'null')
+        const damage = asm.var(params[8] ?? '-1')
+        const velocityScl = asm.var(params[9] ?? '1')
+        const lifeScl = asm.var(params[10] ?? '1')
+
+        return {
+            run: (vm) => {
+                if (!vm.privileged || vm.world === null) return output.setobj(null)
+
+                const source = from.obj()
+                const ammo = BLOCK_SPECS[source?.name]?.turret?.ammo
+                const item = weapon.obj()
+
+                const base = ammo?.[item?.name]
+                if (base === undefined) return output.setobj(null)
+
+                const holder = owner.obj()
+
+                // Команда берётся у владельца, если её не назвали; ничья — последний вариант
+                const side = teamOf(team)
+                    ?? (holder !== null && holder.team !== undefined ? holder.team : 0)
+
+                const hurt = damage.num()
+                const type = {
+                    ...base,
+                    speed: base.speed * velocityScl.num(),
+                    lifetime: base.lifetime * lifeScl.num(),
+                    damage: hurt >= 0 ? hurt : base.damage
+                }
+
+                const shot = new Bullet(vm.world, {
+                    x: unconv(x.num()),
+                    y: unconv(y.num()),
+                    angle: rotation.num(),
+                    type,
+                    team: side,
+                    owner: holder
+                })
+
+                vm.world.addBullet(shot)
+                output.setobj(shot)
             }
         }
     },

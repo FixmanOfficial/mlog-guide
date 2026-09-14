@@ -620,6 +620,46 @@ test('setprop правит свойства напрямую, мимо всяк�
     assert.equal(container.items.get('copper'), 25)
 })
 
+test('bullet пускает пулю патроном турели, а обычному процессору не даётся', () => {
+    /*
+     * `SpawnBulletI`: тип пули берётся у того, кто её обычно пускает. У турели с предметными
+     * патронами это `ammoTypes.get(item)` — графит у дуо бьёт на 18.
+     */
+    const world = new World({width: 24, height: 12, content})
+    const privileged = world.add('world-processor', {x: 1, y: 1})
+    const target = world.spawn('dagger', {x: 12, y: 6, team: 2})
+
+    const processor = new Processor([
+        'bullet пуля @duo @graphite 4 6 0 @sharded null -1 1 1 0 0',
+        'stop'
+    ].join('\n'), {world, content, globals: content.globals, building: privileged, team: 1, ipt: 8})
+
+    privileged.processor = processor
+    world.addProcessor(processor)
+    processor.run(4)
+
+    assert.equal(world.bullets.length, 1)
+
+    const before = target.health
+    world.steps(200)
+
+    assert.ok(target.health < before, 'пуля долетела и ударила')
+
+    // Обычному процессору инструкция не даётся, как и прочие мировые
+    const plain = world.add('micro-processor', {x: 4, y: 4})
+    const simple = new Processor([
+        'bullet пуля @duo @graphite 4 6 0 @sharded null -1 1 1 0 0',
+        'stop'
+    ].join('\n'), {world, content, globals: content.globals, building: plain, team: 1})
+
+    plain.processor = simple
+    world.addProcessor(simple)
+    simple.run(4)
+
+    assert.equal(world.bullets.length, 0)
+    assert.equal(simple.get('пуля').obj(), null)
+})
+
 test('погода включается и выключается, и обычному процессору она не даётся', () => {
     /*
      * `SetWeatherI` привилегированная, `SenseWeatherI` — нет: видеть погоду может любой

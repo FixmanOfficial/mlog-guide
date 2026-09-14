@@ -373,3 +373,21 @@ export const WEATHER = {
         ].join('\n')
     }]
 }
+
+/** Урок «Пуля из ниоткуда»: выстрел без турели, раз в секунду. */
+export const SHOT = {
+    width: 20, height: 11, floor: 'sand',
+    blocks: [{type: 'world-processor', x: 2, y: 5}],
+    units: [{type: 'dagger', x: 14, y: 5, team: 2}],
+    processors: [{
+        at: [2, 5],
+        links: [],
+        program: [
+            'jump 5 lessThan @second срок',
+            'op add срок @second 1',
+            'bullet пуля @duo @graphite 5 5 0 @sharded null -1 1 1 0 0',
+            'op add выстрелов выстрелов 1',
+            'end'
+        ].join('\n')
+    }]
+}

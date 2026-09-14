@@ -44,6 +44,7 @@ import {FOREIGN} from '../../../../../course/scenes/ubind.js'
 | Что | Чем |
 | --- | --- |
 | найти ближайшего | <Lesson lesson="radar/find">`radar`</Lesson> от здания, `uradar` от своего юнита |
+| перебрать всех | <Lesson lesson="fetch">`fetch`</Lesson> по команде, <Lesson lesson="query">`query`</Lesson> по области — обе у мирового процессора |
 | прочитать свойства | `sensor` — здоровье, координаты, тип, команда |
 | выстрелить по нему | <Lesson lesson="control/shoot">`control shootp`</Lesson> у турели |
 | навести своего юнита | `ucontrol targetp` — цель указывают своему, а не чужому |
@@ -78,8 +79,9 @@ jump 10 equal чей крукс
 в переменной, и управляет им как своим — на этом держится половина сценариев в кампании.
 
 Но и у него перебор по типу идёт по своей команде: чтобы дотянуться до врага, юнита сначала
-надо найти радаром или <Lesson lesson="query">`query`</Lesson>, а потом привязаться
-к объекту.
+надо **найти объектом** — радаром, <Lesson lesson="query">`query`</Lesson> по области или
+<Lesson lesson="fetch">`fetch`</Lesson> по номеру в чужой команде, — и только потом
+привязываться.
 </Card>
 
 <Card kind="recap">

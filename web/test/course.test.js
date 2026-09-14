@@ -54,7 +54,7 @@ import {
 } from '../src/course/scenes/ulocate.js'
 import {
     PRIVILEGE, FAST, LAYERS, PAINT, ROUNDING as TILE_ROUNDING, TALK, BUSY, RULES, TOUGH
-, FLAGS, PROPS, FETCH, BOOM, MARKERS, LOCALE, WEATHER
+, FLAGS, PROPS, FETCH, BOOM, MARKERS, LOCALE, WEATHER, SHOT
 } from '../src/course/scenes/world.js'
 import {AREA, SPAWN as SPAWN_SQUAD, BURN, FROZEN} from '../src/course/scenes/world-units.js'
 import iconTable from '@mlog/core/data/icons.json' with {type: 'json'}
@@ -2422,4 +2422,14 @@ test('урок «Погода»: дождь включается на второ
 
     assert.equal(message, 'дождь: 1')
     assert.ok(world.weather.has('rain'))
+})
+
+test('урок «Пуля из ниоткуда»: выстрелы по сроку добивают кинжала', () => {
+    // Раз в секунду по графитовой пуле: 18 урона при 150 здоровья
+    const early = stage(SHOT, 120)
+    assert.equal(num(early.processor, 'выстрелов'), 2)
+    assert.equal(early.world.units[0].health, 114)
+
+    const late = stage(SHOT, 700)
+    assert.equal(late.world.units.length, 0, 'кинжал не пережил дюжину выстрелов')
 })
