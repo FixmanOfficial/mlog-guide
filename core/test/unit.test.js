@@ -482,3 +482,49 @@ test('срок управления снимает контроллер, но н
     assert.notEqual(mono.mineTile, null, 'а копать юнит не перестал')
     assert.equal(mono.flag, 7, 'и флаг при нём')
 })
+
+test('within продлевает управление, если контроллер уже есть, и не заводит его сам', () => {
+    /*
+     * UnitControlI: `within` и `unbind` не создают контроллера (`control` там ложно),
+     * но найденному обновляют срок — `if(ai != null) ai.controlTimer = logicControlTimeout`.
+     */
+    const {world, processor} = setup([
+        'ubind @poly',
+        'ucontrol within 5 5 3 близко 0',
+        'stop'
+    ].join('\n'))
+
+    const poly = world.spawn('poly', {x: 5, y: 5})
+
+    world.steps(4)
+    assert.equal(poly.controller, null, 'сам по себе within контроллера не заводит')
+    assert.equal(processor.num('близко'), 1)
+
+    // А после команды — продлевает: срок возвращается к полному
+    const {world: second, processor: commander} = setup([
+        'ubind @poly',
+        'ucontrol move 9 9 0 0 0',
+        'stop'
+    ].join('\n'))
+
+    const controlled = second.spawn('poly', {x: 5, y: 5})
+    second.steps(4)
+
+    const ai = controlled.controller
+    assert.ok(ai instanceof LogicAI)
+
+    ai.controlTimer = 10
+    commander.reset()
+
+    const asking = new Processor([
+        'ubind @poly',
+        'ucontrol within 5 5 3 близко 0',
+        'stop'
+    ].join('\n'), {
+        world: second, content, globals: content.globals,
+        team: 1, building: second.add('micro-processor', {x: 9, y: 1})
+    })
+
+    asking.run(4)
+    assert.equal(ai.controlTimer, LOGIC_CONTROL_TIMEOUT, 'срок обновился')
+})

@@ -927,7 +927,12 @@ const builders = {
                 if (unit.team !== vm.team && !vm.privileged) return
                 if (!unit.spec.logicControllable) return
 
-                if (takesControl) ai.controlTimer = LOGIC_CONTROL_TIMEOUT
+                /*
+                 * Срок продлевает любая команда, у которой нашёлся контроллер, — в том числе
+                 * `within` и `unbind`: они его не заводят, но уже заведённому обновляют.
+                 * `if(ai != null) ai.controlTimer = logicControlTimeout` в UnitControlI
+                 */
+                if (ai !== null) ai.controlTimer = LOGIC_CONTROL_TIMEOUT
 
                 const x1 = unconv(values[0].numf())
                 const y1 = unconv(values[1].numf())
