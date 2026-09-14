@@ -2485,3 +2485,37 @@ test('урок «Как писать в игре»: цвета категори�
     assert.equal(color('unit'), '#c7b59d')
     assert.equal(color('world'), '#6b84d4')
 })
+
+test('урок «Символ из строки»: задания к примеру дают то, что обещано', () => {
+    /*
+     * Урок просит поменять строку и границу цикла. Проверяем оба варианта: кириллица
+     * читается так же, а лишние шаги ничего не портят — `printchar` пустоту пропускает.
+     */
+    const base = LETTERS.processors[0].program
+
+    const variant = (program) => stage({
+        ...LETTERS,
+        processors: [{...LETTERS.processors[0], program}]
+    }, 60).message
+
+    assert.equal(variant(base), 'mlog')
+    assert.equal(variant(base.replace('"mlog"', '"привет"').replace('номер 4', 'номер 6')), 'привет')
+    assert.equal(variant(base.replace('номер 4', 'номер 6')), 'mlog')
+})
+
+test('урок «Общая память»: задания к примеру дают обещанное', () => {
+    const variant = (program) => stage({
+        ...SHARED,
+        processors: [{...SHARED.processors[0], program}, SHARED.processors[1]]
+    }, 90).message
+
+    const base = SHARED.processors[0].program
+
+    assert.equal(variant(base), 'на складе 120')
+
+    // Записали не туда — читатель видит пустое место, то есть ноль
+    assert.equal(variant(base.replace('cell1 0', 'cell1 1')), 'на складе 0')
+
+    // Убрали sensor — в ячейку каждую итерацию уезжает пустота
+    assert.equal(variant('write медь cell1 0'), 'на складе null')
+})
