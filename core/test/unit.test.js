@@ -55,6 +55,29 @@ test('ubind не берёт юнита чужой команды', () => {
     assert.equal(processor.get('@unit').obj(), null)
 })
 
+test('мировой процессор привязывается к юниту чужой команды по объекту', () => {
+    /*
+     * LExecutor.UnitBindI: `u.team == exec.team || exec.privileged`. Обычному процессору
+     * чужой юнит по-прежнему не даётся, а мировому — даётся, и только по объекту:
+     * перебор по типу и у него идёт по своей команде.
+     */
+    const world = new World({content})
+    const enemy = world.spawn('poly', {x: 4, y: 4, team: 2})
+
+    const privileged = world.add('world-processor')
+    const worldProcessor = new Processor('ubind цель\nstop',
+        {world, content, globals: content.globals, team: 1, building: privileged})
+
+    worldProcessor.get('цель').setconst(enemy)
+    worldProcessor.run(2)
+    assert.equal(worldProcessor.get('@unit').obj(), enemy)
+
+    const {processor} = setup('ubind цель\nstop')
+    processor.get('цель').setconst(enemy)
+    processor.run(2)
+    assert.equal(processor.get('@unit').obj(), null)
+})
+
 test('ucontrol move не двигает юнита, а вешает контроллер и пишет в него цель', () => {
     const {world, processor} = setup('ubind @poly\nucontrol move 10 20 0 0 0')
     const unit = world.spawn('poly', {x: 1, y: 1})

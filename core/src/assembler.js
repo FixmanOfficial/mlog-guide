@@ -751,8 +751,12 @@ const builders = {
                     return
                 }
 
-                // Привязка к конкретному юниту: только своей команды и только управляемому
-                if (object instanceof Unit && object.team === vm.team && object.spec.logicControllable) {
+                /*
+                 * Привязка к конкретному юниту: своей команды и только управляемого.
+                 * Мировому процессору команда не важна — `u.team == exec.team || exec.privileged`.
+                 */
+                if (object instanceof Unit && (object.team === vm.team || vm.privileged)
+                    && object.spec.logicControllable) {
                     return unit.setconst(object)
                 }
 

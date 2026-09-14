@@ -40,6 +40,9 @@ import {TABLE as LOOKUP_TABLE, SCAN as LOOKUP_SCAN} from '../src/course/scenes/l
 import {PACK, CHOICE as COLOR_CHOICE, UNPACK} from '../src/course/scenes/color.js'
 import {FULL as RATE_FULL, SLOW as RATE_SLOW, CEILING as RATE_CEILING} from '../src/course/scenes/rate.js'
 import {GUARD, BREAK as LOOP_BREAK, SKIP} from '../src/course/scenes/branching.js'
+import {
+    CYCLE, WATCH as BOUND, NONE as NO_UNITS, REMEMBER, LOST, FOREIGN
+} from '../src/course/scenes/ubind.js'
 import iconTable from '@mlog/core/data/icons.json' with {type: 'json'}
 import logicIdsData from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
@@ -1950,4 +1953,56 @@ test('урок «Вложенные условия и ранний выход»:
     // 0 + 2 + 4 + 6 + 8
     assert.equal(num(processor, 'итог'), 20)
     assert.equal(num(processor, 'счёт'), 10)
+})
+
+test('урок «Привязка по типу»: четыре привязки обходят трёх поли по кругу', () => {
+    const {processor} = stage(CYCLE, 40)
+
+    const first = obj(processor, 'первый')
+    const second = obj(processor, 'второй')
+    const third = obj(processor, 'третий')
+
+    assert.notEqual(first, null)
+    assert.notEqual(first, second)
+    assert.notEqual(second, third)
+
+    // Счётчик берётся по модулю длины списка — четвёртая привязка возвращает первого
+    assert.equal(obj(processor, 'четвёртый'), first)
+})
+
+test('урок «Привязка по типу»: у привязанного юнита читаются свойства', () => {
+    const {processor} = stage(BOUND, 40)
+
+    assert.equal(obj(processor, 'тип').name, 'poly')
+    assert.equal(num(processor, 'здоровье'), 400)
+})
+
+test('урок «Привязка по типу»: юнитов такого типа нет — @unit пуст', () => {
+    const {processor} = stage(NO_UNITS, 20)
+
+    assert.equal(obj(processor, 'пусто'), null)
+
+    // sensor у пустоты отвечает нулём, а не ошибкой — об этом урок и предупреждает
+    assert.equal(num(processor, 'здоровье'), 0)
+})
+
+test('урок «Привязка к юниту»: запомненный юнит возвращается по объекту', () => {
+    const {processor} = stage(REMEMBER, 40)
+
+    assert.equal(num(processor, 'тотЖе'), 1)
+})
+
+test('урок «Привязка к юниту»: гибель выбивает юнита из перебора, но не из переменной', () => {
+    const {processor} = stage(LOST, 400)
+
+    // Чужая двойная турель добивает вспышку примерно за три секунды
+    assert.equal(num(processor, 'мёртв'), 1)
+    assert.equal(num(processor, 'живых'), 1)
+})
+
+test('урок «Чужие юниты»: ubind не берёт вражеского юнита', () => {
+    const {processor} = stage(FOREIGN, 40)
+
+    assert.equal(obj(processor, 'чужой'), null)
+    assert.notEqual(obj(processor, 'свой'), null)
 })
