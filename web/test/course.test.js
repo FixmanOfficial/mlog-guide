@@ -22,7 +22,9 @@ import {VALUES, EMPTINESS, PROCESSOR, EDITOR, WATCH, DEBUG, NAMES, LINKS} from '
 import {linkName} from '@mlog/core/src/world.js'
 import {ASSIGN, CONTENT} from '../src/course/scenes/set.js'
 import {BRANCH, LOOP} from '../src/course/scenes/jump.js'
-import {COUNTER, RELATIVE, PRECISE} from '../src/course/scenes/advanced.js'
+import {
+    COUNTER, RELATIVE, PRECISE, LABELS, CLOCK, TIMER as DEADLINE, COST
+} from '../src/course/scenes/advanced.js'
 import {CHOICE} from '../src/course/scenes/select.js'
 import {TICKS, STOPPED, ENDING, RHYTHM, TIMER} from '../src/course/scenes/wait.js'
 import {BUFFER, PIECES, FLUSH} from '../src/course/scenes/print.js'
@@ -2347,4 +2349,37 @@ test('урок «Текст по ключу»: словарь карты печ�
 
     // Между разделителями пусто: ключа «задача.нетТакого» в словаре нет
     assert.equal(message, 'Постройте бур — ?')
+})
+
+test('урок «Метки»: переход по имени работает и в нашем разборе', () => {
+    const {processor} = stage(LABELS, 40)
+
+    // Метка не занимает строки: цикл проходит ровно пять раз
+    assert.equal(num(processor, 'счёт'), 5)
+    assert.equal(num(processor, 'готово'), 1)
+})
+
+test('урок «Время»: четыре часа показывают одно время в разных единицах', () => {
+    const {processor} = stage(CLOCK, 120)
+
+    assert.equal(num(processor, 'тики'), 120)
+    assert.ok(Math.abs(num(processor, 'секунды') - 2) < 0.05)
+    assert.ok(Math.abs(num(processor, 'минуты') - 2 / 60) < 0.01)
+    assert.ok(Math.abs(num(processor, 'миллисекунды') - 2000) < 30)
+})
+
+test('урок «Время»: таймер на сроке срабатывает раз в две секунды', () => {
+    const {processor} = stage(DEADLINE, 600)
+
+    assert.equal(num(processor, 'сработало'), 5)
+    assert.ok(num(processor, 'холостых') > 100, 'между срабатываниями кругов много')
+})
+
+test('урок «Сколько стоит инструкция»: кругов за тик — это @ipt на длину программы', () => {
+    const {processor} = stage(COST, 300)
+
+    assert.equal(num(processor, 'скорость'), 25)
+
+    // Три строки при скорости 25 — восемь с третью круга за тик
+    assert.ok(Math.abs(num(processor, 'кругаЗаТик') - 25 / 3) < 0.2, num(processor, 'кругаЗаТик'))
 })
