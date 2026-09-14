@@ -40,6 +40,13 @@ test('цвет теряет младший бит альфы', () => {
     // Color.toFloatBits гасит бит 24 маской 0xfeffffff
     assert.deepEqual(packedColor(255, 128, 0, 255), {r: 255, g: 128, b: 0, a: 254})
     assert.deepEqual(packedColor(0, 0, 0, 128), {r: 0, g: 0, b: 0, a: 128})
+
+    /*
+     * Канал больше 255 не обрезается, а перетекает в соседний: `Color.toFloatBits` просто
+     * складывает байты. Об этом говорит урок «Цвет и прозрачность», и это его проверка.
+     */
+    assert.deepEqual(packedColor(300, 0, 0, 255), {r: 44, g: 1, b: 0, a: 254})
+    assert.deepEqual(packedColor(256, 0, 0, 255), {r: 0, g: 1, b: 0, a: 254})
 })
 
 test('линия вылезает за концы на половину толщины', () => {
