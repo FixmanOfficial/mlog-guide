@@ -52,7 +52,7 @@ import {
 } from '../src/course/scenes/ulocate.js'
 import {
     PRIVILEGE, FAST, LAYERS, PAINT, ROUNDING as TILE_ROUNDING, TALK, BUSY, RULES, TOUGH
-, FLAGS, PROPS
+, FLAGS, PROPS, FETCH, BOOM
 } from '../src/course/scenes/world.js'
 import {AREA, SPAWN as SPAWN_SQUAD, BURN, FROZEN} from '../src/course/scenes/world-units.js'
 import iconTable from '@mlog/core/data/icons.json' with {type: 'json'}
@@ -2305,4 +2305,24 @@ test('урок «Свойства напрямую»: здоровье, запа
 
     // `sensor @team` отдаёт номер: кинжал перешёл к круксу
     assert.equal(num(processor, 'чейКинжал'), 2)
+})
+
+test('урок «Всё, что есть у команды»: счётчики и отбор по типу', () => {
+    const {processor} = stage(FETCH, 40)
+
+    assert.equal(num(processor, 'своихЮнитов'), 2)
+    assert.equal(num(processor, 'своихЗданий'), 4)
+    assert.equal(num(processor, 'турелей'), 2)
+    assert.equal(num(processor, 'чужихЮнитов'), 1)
+
+    assert.equal(num(processor, 'медьВЯдре'), 200)
+    assert.equal(obj(processor, 'типПервого').name, 'poly')
+})
+
+test('урок «Взрыв в точке»: своих не задевает, дальних не добивает', () => {
+    const {world, processor} = stage(BOOM, 40)
+
+    // Один кинжал стоял в точке взрыва, второй — в углу карты
+    assert.equal(num(processor, 'врагов'), 1)
+    assert.equal(world.units.length, 1)
 })

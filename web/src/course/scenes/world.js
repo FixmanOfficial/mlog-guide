@@ -251,3 +251,55 @@ export const PROPS = {
         ].join('\n')
     }]
 }
+
+/** Урок «Всё, что есть у команды»: перебор юнитов и зданий через `fetch`. */
+export const FETCH = {
+    width: 18, height: 11, floor: 'sand',
+    blocks: [
+        {type: 'world-processor', x: 2, y: 5},
+        {type: 'core-shard', x: 7, y: 5, items: {copper: 200}},
+        {type: 'duo', x: 12, y: 7, ammo: {copper: 10}},
+        {type: 'duo', x: 12, y: 3, ammo: {copper: 10}}
+    ],
+    units: [
+        {type: 'poly', x: 10, y: 9},
+        {type: 'poly', x: 14, y: 9},
+        {type: 'dagger', x: 15, y: 2, team: 2}
+    ],
+    processors: [{
+        at: [2, 5],
+        links: [],
+        program: [
+            'fetch unitCount своихЮнитов @sharded 0 0',
+            'fetch buildCount своихЗданий @sharded 0 0',
+            'fetch buildCount турелей @sharded 0 @duo',
+            'fetch unitCount чужихЮнитов @crux 0 0',
+            'fetch core ядро @sharded 0 0',
+            'sensor медьВЯдре ядро @copper',
+            'fetch unit первыйЮнит @sharded 0 0',
+            'sensor типПервого первыйЮнит @type',
+            'stop'
+        ].join('\n')
+    }]
+}
+
+/** Урок «Взрыв»: удар по площади там, где никакой турели нет. */
+export const BOOM = {
+    width: 18, height: 11, floor: 'sand',
+    blocks: [{type: 'world-processor', x: 2, y: 5}],
+    units: [
+        {type: 'dagger', x: 10, y: 5, team: 2},
+        {type: 'dagger', x: 15, y: 9, team: 2}
+    ],
+    processors: [{
+        at: [2, 5],
+        links: [],
+        program: [
+            'jump 3 notEqual взорвали 0',
+            'explosion @sharded 10 5 3 200 1 1 0 0',
+            'set взорвали 1',
+            'fetch unitCount врагов @crux 0 0',
+            'stop'
+        ].join('\n')
+    }]
+}
