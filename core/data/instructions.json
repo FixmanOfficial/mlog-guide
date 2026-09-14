@@ -9,6 +9,11 @@
     "completeLayoutHints": 17,
     "hidden": 2
   },
+  "selectDefaults": {
+    "columns": 4,
+    "cellWidth": 60,
+    "cellHeight": 38
+  },
   "categories": {
     "unknown": {
       "color": "darkishGray",
@@ -841,7 +846,10 @@
           {
             "kind": "select",
             "param": "type",
-            "enum": "GraphicsType"
+            "enum": "GraphicsType",
+            "columns": 2,
+            "cellWidth": 120,
+            "cellHeight": 50
           },
           {
             "kind": "label",
@@ -1361,7 +1369,10 @@
             "kind": "select",
             "param": "type",
             "enum": "LAccess",
-            "subset": "controls"
+            "subset": "controls",
+            "columns": 2,
+            "cellWidth": 110,
+            "cellHeight": 50
           },
           {
             "kind": "field",
@@ -1445,7 +1456,10 @@
           {
             "kind": "select",
             "param": "sort",
-            "enum": "RadarSort"
+            "enum": "RadarSort",
+            "columns": 2,
+            "cellWidth": 100,
+            "cellHeight": 50
           }
         ]
       }
@@ -1726,7 +1740,10 @@
             "kind": "select",
             "param": "type",
             "enum": "GlobalVars",
-            "subset": "lookableContent"
+            "subset": "lookableContent",
+            "columns": 4,
+            "cellWidth": 60,
+            "cellHeight": 38
           },
           {
             "kind": "label",
@@ -1943,7 +1960,16 @@
       ],
       "layoutHint": {
         "complete": false,
-        "items": []
+        "items": [
+          {
+            "kind": "select",
+            "param": "type",
+            "enum": "LUnitControl",
+            "columns": 2,
+            "cellWidth": 120,
+            "cellHeight": 50
+          }
+        ]
       }
     },
     {
@@ -2021,7 +2047,10 @@
           {
             "kind": "select",
             "param": "sort",
-            "enum": "RadarSort"
+            "enum": "RadarSort",
+            "columns": 2,
+            "cellWidth": 100,
+            "cellHeight": 50
           }
         ]
       }
@@ -2083,13 +2112,19 @@
           {
             "kind": "select",
             "param": "locate",
-            "enum": "LLocate"
+            "enum": "LLocate",
+            "columns": 2,
+            "cellWidth": 110,
+            "cellHeight": 50
           },
           {
             "kind": "select",
             "param": "flag",
             "enum": "BlockFlag",
-            "subset": "allLogic"
+            "subset": "allLogic",
+            "columns": 2,
+            "cellWidth": 120,
+            "cellHeight": 50
           },
           {
             "kind": "label",
@@ -2200,7 +2235,10 @@
             "kind": "select",
             "param": "type",
             "enum": "QueryType",
-            "subset": "queryable"
+            "subset": "queryable",
+            "columns": 4,
+            "cellWidth": 100,
+            "cellHeight": 38
           },
           {
             "kind": "label",
@@ -2294,7 +2332,10 @@
           {
             "kind": "select",
             "param": "layer",
-            "enum": "TileLayer"
+            "enum": "TileLayer",
+            "columns": 4,
+            "cellWidth": 60,
+            "cellHeight": 38
           },
           {
             "kind": "label",
@@ -2368,7 +2409,10 @@
             "kind": "select",
             "param": "layer",
             "enum": "TileLayer",
-            "subset": "settable"
+            "subset": "settable",
+            "columns": 4,
+            "cellWidth": 60,
+            "cellHeight": 38
           },
           {
             "kind": "label",
@@ -2931,7 +2975,10 @@
           {
             "kind": "select",
             "param": "rule",
-            "enum": "LogicRule"
+            "enum": "LogicRule",
+            "columns": 2,
+            "cellWidth": 150,
+            "cellHeight": 38
           },
           {
             "kind": "label",
@@ -3028,7 +3075,10 @@
           {
             "kind": "select",
             "param": "type",
-            "enum": "MessageType"
+            "enum": "MessageType",
+            "columns": 2,
+            "cellWidth": 150,
+            "cellHeight": 38
           },
           {
             "kind": "label",
@@ -3091,7 +3141,10 @@
           {
             "kind": "select",
             "param": "action",
-            "enum": "CutsceneAction"
+            "enum": "CutsceneAction",
+            "columns": 3,
+            "cellWidth": 120,
+            "cellHeight": 40
           },
           {
             "kind": "label",
@@ -3446,7 +3499,10 @@
           {
             "kind": "select",
             "param": "type",
-            "enum": "FetchType"
+            "enum": "FetchType",
+            "columns": 2,
+            "cellWidth": 150,
+            "cellHeight": 38
           },
           {
             "kind": "label",
@@ -3809,7 +3865,10 @@
           {
             "kind": "select",
             "param": "type",
-            "enum": "LMarkerControl"
+            "enum": "LMarkerControl",
+            "columns": 3,
+            "cellWidth": 140,
+            "cellHeight": 50
           }
         ]
       }
@@ -3852,6 +3911,15 @@
       "layoutHint": {
         "complete": false,
         "items": [
+          {
+            "kind": "select",
+            "param": "type",
+            "enum": "MapObjectives",
+            "subset": "allMarkerTypeNames",
+            "columns": 2,
+            "cellWidth": 160,
+            "cellHeight": 50
+          },
           {
             "kind": "label",
             "text": "id"

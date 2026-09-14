@@ -3,20 +3,27 @@ import {propertyTip} from './tooltips.js'
 import {tipProps, hideTip} from './tip.js'
 import {enumLabel, useLocalization} from './names.js'
 import {useAnchored, anchoredStyle, keepOnScreen} from './anchor.js'
+import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
 
 /**
  * Всплывающий выбор значения — сеткой, а не выпадающим списком.
  *
  * Игра показывает значения перечисления таблицей кнопок рядом с той, по которой нажали
- * (`LStatement.showSelect` и `showSelectTable`): по умолчанию 4 в ряд, кнопки 60×38,
- * у операций — 64 в ширину. Выбранное подсвечено акцентом.
+ * (`LStatement.showSelect` и `showSelectTable`). Размеры у каждой инструкции свои и сняты
+ * генератором: у `ucontrol` это два столбца по 120, у условия три по 95, у остальных
+ * умолчание. Выбранное подсвечено акцентом.
  *
  * Список закрывается нажатием мимо: в игре для этого поверх сцены кладётся невидимый
  * перехватчик касаний.
  */
+/** Умолчания меню — снятые из игры, а не выбранные нами: `LStatement.showSelect` */
+const DEFAULTS = schema.selectDefaults
+
 export function SelectPopup({
     values, current, enumName,
-    columns = 4, cellWidth = 60, cellHeight = 38,
+    columns = DEFAULTS.columns,
+    cellWidth = DEFAULTS.cellWidth,
+    cellHeight = DEFAULTS.cellHeight,
     anchor, onPick, onClose
 }) {
     const symbols = ENUM_SYMBOLS[enumName] ?? {}

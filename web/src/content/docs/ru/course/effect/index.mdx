@@ -1,0 +1,80 @@
+---
+title: Effect
+description: "Как нарисовать на карте вспышку, дым, искры или взрыв — визуальный эффект без всяких последствий"
+lead: "Три десятка готовых эффектов игры: взрыв, дым, искры, след. Красиво и совершенно безвредно"
+difficulty: medium
+sidebar:
+    order: 0
+    label: Эффект на карте
+---
+
+import LessonHead from '../../../../../course/LessonHead.astro'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import '../../../../../example/example.css'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'world-intro', title: 'Что такое мировой процессор'},
+        {lesson: 'packcolor', title: 'Цвет одним числом'}
+    ]}
+/>
+
+```
+effect explosion 10 10 4 %ffaaff 0
+```
+
+| Поле | Что в нём |
+| --- | --- |
+| первое | какой эффект |
+| второе и третье | точка в клетках |
+| четвёртое | размер **или** поворот — смотря что понимает эффект |
+| пятое | цвет |
+| шестое | дополнительные данные: у `blockFall` это падающий блок |
+
+## Эффект ничего не делает
+
+Это чистая картинка: ни урона, ни толчка, ни изменения карты. Взрыв, нарисованный
+`effect explosion`, никого не заденет — для урона есть
+<Lesson lesson="explosion">`explosion`</Lesson>, и путать их легко.
+
+## Какие бывают
+
+| Группа | Эффекты |
+| --- | --- |
+| предупреждения | `warn`, `cross` |
+| стройка | `placeBlock`, `placeBlockSpark`, `breakBlock`, `breakProp`, `blockFall` |
+| выстрелы | `shootSmall`, `shootBig`, `sparkShoot`, `sparkShootBig` |
+| дым | `smokeSmall`, `smokeBig`, `smokeColor`, `smokeSquare`, `smokeSquareBig`, `smokeCloud`, `smokePuff` |
+| попадания | `hit`, `hitSquare`, `spark`, `sparkBig` |
+| взрывы | `explosion`, `sparkExplosion`, `crossExplosion`, `wave` |
+| прочее | `spawn`, `trail`, `vapor`, `drill`, `drillBig`, `lightBlock`, `bubble` |
+
+Не каждый эффект понимает каждое поле: одни красятся, другие нет; одни растут в размере,
+другие поворачиваются. Лишнее просто не действует — как и у
+<Lesson lesson="setmarker">`setmarker`</Lesson>.
+
+<Card kind="note">
+Размер игра ограничивает тысячей: эффект на полкарты никому не нужен, а нарисовать его
+дорого. У эффектов, которые вместо размера берут поворот, этого ограничения нет.
+</Card>
+
+<Card kind="error">
+**Эффект — расход на отрисовку, а не на логику.** Программа, зовущая `effect` каждую
+итерацию, за секунду нарисует сотни вспышек и посадит игру у всех, кто это видит.
+Эффекты отмеряют по сроку, как и всё прочее зрелищное.
+</Card>
+
+<Card kind="error">
+В песочнице курса эффектов нет: рисование мира здесь своё и частиц игры не знает. Поэтому
+у этого урока нет примера.
+</Card>
+
+<Card kind="recap">
+- `effect вид x y размер цвет данные` рисует готовый эффект игры.
+- Никаких последствий у него нет — это только картинка.
+- Часть эффектов красится, часть поворачивается, лишние поля игнорируются.
+- Размер ограничен тысячей.
+</Card>

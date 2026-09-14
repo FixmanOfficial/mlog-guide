@@ -9,6 +9,7 @@ import assert from 'node:assert/strict'
 import {readFileSync} from 'node:fs'
 
 import data from '@mlog/core/data/metrics.json' with {type: 'json'}
+import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
 
 import {METRICS} from '../src/theme.js'
 import {LANE_BASE, LANE_STEP, STROKE} from '../src/jumps.js'
@@ -107,4 +108,29 @@ test('переносы внутри строки включаются на то�
 
     assert.notEqual(query, null, 'в стилях есть медиазапрос ширины')
     assert.equal(Number(query[1]), data.metrics.compactWidth * data.metrics.rowsFactor)
+})
+
+test('размеры меню выбора сняты из игры, а не выбраны нами', () => {
+    /*
+     * `LStatement.showSelect`: умолчание — четыре кнопки в ряд по 60 на 38, а у отдельных
+     * инструкций свои числа прямо в вызове. Раньше редактор рисовал всё умолчанием,
+     * и длинные имена команд `ucontrol` не влезали в кнопку.
+     */
+    assert.deepEqual(schema.selectDefaults, {columns: 4, cellWidth: 60, cellHeight: 38})
+
+    const select = (opcode, param) => schema.instructions
+        .find(entry => entry.opcode === opcode).layoutHint.items
+        .find(item => item.kind === 'select' && item.param === param)
+
+    assert.deepEqual(select('ucontrol', 'type'), {
+        kind: 'select', param: 'type', enum: 'LUnitControl',
+        columns: 2, cellWidth: 120, cellHeight: 50
+    })
+
+    // У части инструкций задана только ширина: высота тогда остаётся умолчанием
+    assert.equal(select('query', 'type').cellWidth, 100)
+    assert.equal(select('query', 'type').cellHeight, 38)
+
+    assert.equal(select('setmarker', 'type').columns, 3)
+    assert.equal(select('setmarker', 'type').cellWidth, 140)
 })

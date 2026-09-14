@@ -331,6 +331,101 @@ function parseSubsets(text, name) {
     return subsets
 }
 
+/*
+ * Умолчания меню выбора — из самого `LStatement`, а не из головы: короткая форма
+ * `showSelect(b, values, current, getter)` зовёт длинную с четырьмя колонками,
+ * а размер кнопки задан строкой `t.defaults().size(60f, 38f)`.
+ *
+ * Числа снимаются, а не вписываются, по той же причине, что и остальные размеры: поедут
+ * в игре — поедут и здесь, а не разойдутся молча.
+ */
+let SELECT_COLUMNS = 0
+let SELECT_WIDTH = 0
+let SELECT_HEIGHT = 0
+
+function readSelectDefaults(gameRoot) {
+    const path = join(gameRoot, 'core/src/mindustry/logic/LStatement.java')
+    const source = stripComments(readFileSync(path, 'utf8'))
+
+    const columns = /showSelect\(\s*\w+\s*,\s*\w+\s*,\s*\w+\s*,\s*\w+\s*,\s*(\d+)\s*,/.exec(source)
+    const size = /defaults\(\)\.size\(\s*([\d.]+)f?\s*,\s*([\d.]+)f?\s*\)/.exec(source)
+
+    if (columns === null) throw new Error('в LStatement.java не нашлось число колонок меню')
+    if (size === null) throw new Error('в LStatement.java не нашёлся размер кнопки меню')
+
+    SELECT_COLUMNS = Number(columns[1])
+    SELECT_WIDTH = Number(size[1])
+    SELECT_HEIGHT = Number(size[2])
+}
+
+/** Аргументы вызова верхнего уровня: от позиции сразу за скобкой до парной закрывающей. */
+function callArgs(text, from) {
+    const args = []
+    let depth = 0
+    let start = from
+
+    for (let i = from; i < text.length; i++) {
+        const char = text[i]
+
+        if (char === '(' || char === '{' || char === '[') depth++
+        else if (char === ')' || char === '}' || char === ']') {
+            if (depth === 0 && char === ')') {
+                args.push(text.slice(start, i).trim())
+                return args
+            }
+            depth--
+        } else if (char === ',' && depth === 0) {
+            args.push(text.slice(start, i).trim())
+            start = i + 1
+        }
+    }
+
+    return null
+}
+
+/**
+ * Разбор `showSelect(кнопка, значения, текущее, установщик[, колонок, размер])`.
+ *
+ * Размеры кнопок в меню у каждой инструкции свои, и заданы они прямо в вызове:
+ * `2, cell -> cell.size(120, 50)` у `ucontrol`, `3, c -> c.width(95f)` у условия.
+ * Умолчания — в самом `LStatement.showSelect`: четыре в ряд, кнопка 60 на 38.
+ *
+ * Значения бывают не списком, а отбором: `Structs.filter(LUnitControl.class,
+ * LUnitControl.all, …)` — из такого выражения берётся последнее `Перечисление.поле`,
+ * кроме `.class`.
+ */
+function parseSelect(text, from) {
+    const args = callArgs(text, from)
+    if (args === null || args.length < 3) return null
+
+    /*
+     * Первое `Перечисление.поле`, кроме `.class`: у `ucontrol` значения приходят отбором
+     * `Structs.filter(LUnitControl.class, LUnitControl.all, …)`, и дальше в лямбде
+     * попадаются чужие точки вроде `state.rules`.
+     */
+    const values = [...args[1].matchAll(/(\w+)\.(\w+)\b(?!\s*\()/g)]
+        .find(([, , field]) => field !== 'class')
+
+    if (values === undefined) return null
+
+    const [, enumType, enumSubset] = values
+    const columns = args.length > 4 ? Number.parseInt(args[4], 10) : SELECT_COLUMNS
+    const sizer = args[5] ?? ''
+
+    const size = /\.size\(\s*([\d.]+)f?\s*,\s*([\d.]+)f?\s*\)/.exec(sizer)
+    const width = /\.width\(\s*([\d.]+)f?\s*\)/.exec(sizer)
+
+    return {
+        kind: 'select',
+        param: args[2],
+        enum: enumType,
+        ...(enumSubset === 'all' ? {} : {subset: enumSubset}),
+        columns: Number.isFinite(columns) ? columns : SELECT_COLUMNS,
+        cellWidth: Number(size?.[1] ?? width?.[1] ?? SELECT_WIDTH),
+        cellHeight: Number(size?.[2] ?? SELECT_HEIGHT)
+    }
+}
+
 function parseLayout(classBody) {
     let body = methodBody(classBody, 'public void build(Table table)')
     if (body === null) return null
@@ -343,23 +438,19 @@ function parseLayout(classBody) {
     const clean = stripComments(body)
     const layout = []
 
-    const token = /(?:table|t)\.add\(\s*"([^"]*)"\s*\)|(?:^|[^\w.])field\(\s*\w+\s*,\s*(\w+)|fields\(\s*\w+\s*,\s*"([^"]*)"\s*,\s*(\w+)|(?:^|[^\w.])row\(\s*\w+\s*\)|showSelect\(\s*\w+\s*,\s*(\w+)\.(\w+)\s*,\s*(\w+)/g
+    const token = /(?:table|t)\.add\(\s*"([^"]*)"\s*\)|(?:^|[^\w.])field\(\s*\w+\s*,\s*(\w+)|fields\(\s*\w+\s*,\s*"([^"]*)"\s*,\s*(\w+)|(?:^|[^\w.])row\(\s*\w+\s*\)|showSelect\(/g
 
     for (const match of clean.matchAll(token)) {
-        const [, label, fieldName, fieldsLabel, fieldsName, enumType, enumSubset, enumParam] = match
+        const [, label, fieldName, fieldsLabel, fieldsName] = match
 
         if (label !== undefined) layout.push({kind: 'label', text: label})
         else if (fieldName !== undefined) layout.push({kind: 'field', param: fieldName})
         else if (fieldsName !== undefined) {
             layout.push({kind: 'label', text: fieldsLabel})
             layout.push({kind: 'field', param: fieldsName})
-        } else if (enumParam !== undefined) {
-            // Меню открывается не всегда по полному списку: у `setblock` это TileLayer.settable,
-            // где слоя building нет — здание нельзя поставить, его создаёт блок
-            layout.push({
-                kind: 'select', param: enumParam, enum: enumType,
-                ...(enumSubset === 'all' ? {} : {subset: enumSubset})
-            })
+        } else if (match[0].endsWith('showSelect(')) {
+            const select = parseSelect(clean, match.index + match[0].length)
+            if (select !== null) layout.push(select)
         }
         else layout.push({kind: 'row'})
     }
@@ -405,8 +496,9 @@ function main() {
     let text
     try {
         text = readFileSync(source, 'utf8')
-    } catch {
-        console.error(`Не найден ${source}`)
+        readSelectDefaults(gameRoot)
+    } catch (failure) {
+        console.error(failure.message ?? `Не найден ${source}`)
         console.error('Как развернуть исходники — см. CLAUDE.md')
         process.exit(1)
     }
@@ -527,6 +619,16 @@ function main() {
             world: instructions.filter(instruction => instruction.privileged).length,
             completeLayoutHints: instructions.filter(instruction => instruction.layoutHint?.complete).length,
             hidden: instructions.filter(instruction => instruction.hidden || instruction.invalid).length
+        },
+        /*
+         * Умолчания меню выбора: четыре в ряд, кнопка 60 на 38. Сняты из `LStatement`,
+         * а не вписаны, — по ним редактор рисует те меню, размеры которых игра
+         * не задаёт отдельно.
+         */
+        selectDefaults: {
+            columns: SELECT_COLUMNS,
+            cellWidth: SELECT_WIDTH,
+            cellHeight: SELECT_HEIGHT
         },
         // Категории: порядок объявления, он же порядок в окне игры
         categories,

@@ -157,6 +157,22 @@ function renderDescribed(statement, definition, onParam) {
     })
 }
 
+/**
+ * Размеры меню выбора у этого параметра — из снятой схемы.
+ *
+ * В игре они заданы прямо в вызове `showSelect`, и у каждой инструкции свои: у `ucontrol`
+ * это два столбца по 120, у условия три по 95, у остальных умолчание — четыре по 60.
+ * Раньше здесь всюду стояло умолчание, и длинные имена команд не влезали в кнопку.
+ */
+function selectLayout(definition, name) {
+    const found = (definition.layoutHint?.items ?? [])
+        .find(item => item.kind === 'select' && item.param === name)
+
+    return found === undefined
+        ? {}
+        : {columns: found.columns, cellWidth: found.cellWidth, cellHeight: found.cellHeight}
+}
+
 /** Инструкции без своей раскладки: подсказка из игры, иначе поля подряд с подписями. */
 function renderGeneric(definition, statement, onParam) {
     const hint = definition.layoutHint
@@ -190,12 +206,12 @@ function renderGeneric(definition, statement, onParam) {
                 <span class="label" {...tipProps(paramTip(statement.opcode, entry.label))}>
                     {tokenName(entry.label)}
                 </span>
-                {renderParam(entry.param, statement, onParam)}
+                {renderParam(entry.param, statement, onParam, definition)}
             </span>
         ))
 }
 
-function renderParam(param, statement, onParam) {
+function renderParam(param, statement, onParam, definition) {
     if (param.enum !== undefined && ENUMS[param.enum] !== undefined) {
         /*
          * Меню открывается не всегда по полному перечислению: у `setblock` игра показывает
@@ -204,7 +220,15 @@ function renderParam(param, statement, onParam) {
          */
         const values = param.options ?? (param.enum === 'LAccess' ? SENSEABLE : ENUMS[param.enum])
 
-        return <EnumButton param={param} statement={statement} onParam={onParam} values={values} />
+        return (
+            <EnumButton
+                param={param}
+                statement={statement}
+                onParam={onParam}
+                values={values}
+                {...selectLayout(definition, param.name)}
+            />
+        )
     }
 
     return <Field param={param} statement={statement} onParam={onParam} />
@@ -229,7 +253,7 @@ function Field({param, statement, onParam, width}) {
 }
 
 /** Кнопка со значением перечисления: нажатие открывает сетку выбора, как в игре. */
-function EnumButton({param, statement, onParam, values, width, columns, cellWidth}) {
+function EnumButton({param, statement, onParam, values, width, columns, cellWidth, cellHeight}) {
     const anchor = useRef(null)
     const [open, setOpen] = useState(false)
 
@@ -269,6 +293,7 @@ function EnumButton({param, statement, onParam, values, width, columns, cellWidt
                     enumName={param.enum}
                     columns={columns}
                     cellWidth={cellWidth}
+                    cellHeight={cellHeight}
                     anchor={anchor}
                     onPick={pick}
                     onClose={() => setOpen(false)}
