@@ -760,3 +760,33 @@ test('чужой процессор не читается и не пишется
     assert.equal(theirs.num('секрет'), 42, 'и не переписать')
     assert.equal(reader.get('чужоеСнова').obj(), null)
 })
+
+test('порог истинности — одна стотысячная, и он же решает у control', () => {
+    /*
+     * `LVar.bool`: число истинно, если по модулю не меньше 0.00001; объект — если он есть.
+     * Об этом говорят уроки про условия и про включение блоков.
+     */
+    const content = createContent(logicIds)
+    const world = new World({width: 12, height: 12, content})
+
+    const building = world.add('micro-processor')
+    const door = world.place('switch', 5, 5)
+
+    const processor = new Processor([
+        'control enabled switch1 0.000009 0 0 0',
+        'sensor мало switch1 @enabled',
+        'control enabled switch1 0.00002 0 0 0',
+        'sensor много switch1 @enabled',
+        'control enabled switch1 null 0 0 0',
+        'sensor пусто switch1 @enabled',
+        'stop'
+    ].join('\n'), {world, content, globals: content.globals, building, team: 1, links: [door]})
+
+    building.processor = processor
+    world.addProcessor(processor)
+    processor.run(14)
+
+    assert.equal(processor.num('мало'), 0, 'ближе стотысячной к нулю — ложь')
+    assert.equal(processor.num('много'), 1)
+    assert.equal(processor.num('пусто'), 0, 'пустота ложна')
+})

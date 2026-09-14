@@ -2546,3 +2546,41 @@ test('урок «Целые и точность»: задание про ящи�
     assert.equal(num(processor, 'ящикиМинус'), -4)
     assert.equal(num(processor, 'остатокМинус'), -10)
 })
+
+test('урок «Подстановка в шаблон»: задания к примеру дают обещанное', () => {
+    const variant = (program) => stage({
+        ...TEMPLATE,
+        processors: [{...TEMPLATE.processors[0], program}]
+    }, 60).message
+
+    const base = TEMPLATE.processors[0].program
+
+    assert.equal(variant(base), 'меди 120 из 300')
+
+    // Номера решают порядок подстановки, а не расположение в строке
+    assert.equal(variant(base.replace('меди {0} из {1}', 'осталось {1} из {0}')),
+        'осталось 300 из 120')
+
+    // Нет места — значение молча теряется
+    assert.equal(variant(base.replace('меди {0} из {1}', 'меди {0} из')), 'меди 120 из')
+})
+
+test('урок «Буфер команд»: задания к примеру дают обещанные числа', () => {
+    const variant = (program) => {
+        const {processor, world} = stage({
+            ...OVERFLOW,
+            processors: [{...OVERFLOW.processors[0], program}]
+        }, 120)
+
+        const display = world.buildings.find(building => building.type === 'large-logic-display')
+        return {команд: num(processor, 'команд'), вДисплее: display.commands.length}
+    }
+
+    const base = OVERFLOW.processors[0].program
+
+    // 254 клетки плюс clear и color — ровно предел, ничего не теряется
+    assert.deepEqual(variant(base.replace('номер 256', 'номер 254')), {команд: 256, вДисплее: 256})
+
+    // Двести клеток — двести два места
+    assert.deepEqual(variant(base.replace('номер 256', 'номер 200')), {команд: 202, вДисплее: 202})
+})
