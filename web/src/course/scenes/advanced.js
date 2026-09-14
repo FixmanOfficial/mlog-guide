@@ -136,3 +136,59 @@ export const COST = {
         ].join('\n')
     }]
 }
+
+/** Урок «Упаковка данных»: два числа в одном — и обратно. */
+export const PACKED = {
+    width: 12, height: 7, floor: 'sand',
+    blocks: [{type: 'micro-processor', x: 2, y: 3}],
+    processors: [{
+        at: [2, 3],
+        links: [],
+        program: [
+            'set x 37',
+            'set y 12',
+            'op mul упаковано x 1000',
+            'op add упаковано упаковано y',
+            'op idiv обратноX упаковано 1000',
+            'op mod обратноY упаковано 1000',
+            'stop'
+        ].join('\n')
+    }]
+}
+
+/** Урок «Несколько процессоров»: разделение труда через ячейку памяти. */
+export const CREW = {
+    width: 18, height: 10, floor: 'sand',
+    blocks: [
+        {type: 'micro-processor', x: 2, y: 7},
+        {type: 'micro-processor', x: 2, y: 3},
+        {type: 'memory-cell', x: 8, y: 5},
+        {type: 'container', x: 13, y: 5, items: {copper: 40, lead: 25}},
+        {type: 'message', x: 16, y: 5}
+    ],
+    processors: [
+        {
+            at: [2, 7],
+            links: ['cell1', 'container1'],
+            program: [
+                'sensor меди container1 @copper',
+                'sensor свинца container1 @lead',
+                'write меди cell1 0',
+                'write свинца cell1 1',
+                'op add снимков снимков 1'
+            ].join('\n')
+        },
+        {
+            at: [2, 3],
+            links: ['cell1', 'message1'],
+            program: [
+                'read меди cell1 0',
+                'read свинца cell1 1',
+                'op add всего меди свинца',
+                'print "всего "',
+                'print всего',
+                'printflush message1'
+            ].join('\n')
+        }
+    ]
+}

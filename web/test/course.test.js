@@ -23,7 +23,7 @@ import {linkName} from '@mlog/core/src/world.js'
 import {ASSIGN, CONTENT} from '../src/course/scenes/set.js'
 import {BRANCH, LOOP} from '../src/course/scenes/jump.js'
 import {
-    COUNTER, RELATIVE, PRECISE, LABELS, CLOCK, TIMER as DEADLINE, COST
+    COUNTER, RELATIVE, PRECISE, LABELS, CLOCK, TIMER as DEADLINE, COST, PACKED, CREW
 } from '../src/course/scenes/advanced.js'
 import {CHOICE} from '../src/course/scenes/select.js'
 import {TICKS, STOPPED, ENDING, RHYTHM, TIMER} from '../src/course/scenes/wait.js'
@@ -2382,4 +2382,18 @@ test('урок «Сколько стоит инструкция»: кругов 
 
     // Три строки при скорости 25 — восемь с третью круга за тик
     assert.ok(Math.abs(num(processor, 'кругаЗаТик') - 25 / 3) < 0.2, num(processor, 'кругаЗаТик'))
+})
+
+test('урок «Упаковка данных»: два числа в одном и обратно', () => {
+    const {processor} = stage(PACKED, 20)
+
+    assert.equal(num(processor, 'упаковано'), 37012)
+    assert.equal(num(processor, 'обратноX'), 37)
+    assert.equal(num(processor, 'обратноY'), 12)
+})
+
+test('урок «Несколько процессоров»: сосед читает то, что записал первый', () => {
+    const {message} = stage(CREW, 60)
+
+    assert.equal(message, 'всего 65')
 })
