@@ -37,6 +37,7 @@ import {ENABLED, CONFIG, UNLINKED, SHOOT, SHOOTP} from '../src/course/scenes/con
 import {LOOP as LINK_LOOP, BEYOND} from '../src/course/scenes/getlink.js'
 import {FIND, SORT, CACHE} from '../src/course/scenes/radar.js'
 import {TABLE as LOOKUP_TABLE, SCAN as LOOKUP_SCAN} from '../src/course/scenes/lookup.js'
+import {PACK, CHOICE as COLOR_CHOICE, UNPACK} from '../src/course/scenes/color.js'
 import iconTable from '@mlog/core/data/icons.json' with {type: 'json'}
 import logicIdsData from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
@@ -1877,4 +1878,34 @@ test('урок «Контент по номеру»: перебор находи
     assert.equal(obj(processor, 'чего').name, 'graphite')
     assert.equal(num(processor, 'лучшее'), 60)
     assert.equal(message, 'graphite: 60')
+})
+
+test('урок «Цвет одним числом»: упакованный цвет — крошечное число и печатается нулём', () => {
+    const {processor, message} = stage(PACK, 60)
+
+    /*
+     * `packcolor` кладёт байты цвета внутрь числа (Color.toDoubleBits), поэтому значение
+     * выходит денормальным — порядка 1e-314. Урок так и говорит: считать с ним нельзя.
+     */
+    const red = num(processor, 'красный')
+    assert.ok(red > 0 && red < 1e-300, red)
+    assert.notEqual(num(processor, 'голубой'), red)
+
+    // PrintI печатает целую часть, если число к ней близко: 1e-314 — это «0»
+    assert.equal(message, '0')
+})
+
+test('урок «Цвет одним числом»: select выбирает готовый цвет как обычное значение', () => {
+    const {processor} = stage(COLOR_CHOICE, 60)
+
+    // запас 30 меньше 50 — значит тревожный
+    assert.equal(num(processor, 'цвет'), num(processor, 'тревога'))
+    assert.notEqual(num(processor, 'цвет'), num(processor, 'покой'))
+})
+
+test('урок «Разбор цвета»: каналы меди в 0–255', () => {
+    const {processor, message} = stage(UNPACK, 60)
+
+    assert.equal(message, 'медь: 217 157 115')
+    assert.equal(num(processor, 'прозр'), 1)
 })
