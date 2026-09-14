@@ -50,7 +50,9 @@ import {SEEK, ALLY} from '../src/course/scenes/uradar.js'
 import {
     ORE, LEAD, BUILDINGS as FLAGGED, DAMAGED
 } from '../src/course/scenes/ulocate.js'
-import {PRIVILEGE, FAST} from '../src/course/scenes/world.js'
+import {
+    PRIVILEGE, FAST, LAYERS, PAINT, ROUNDING as TILE_ROUNDING
+} from '../src/course/scenes/world.js'
 import iconTable from '@mlog/core/data/icons.json' with {type: 'json'}
 import logicIdsData from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
@@ -2157,4 +2159,37 @@ test('все двадцать пять инструкций мира приви�
 
     assert.equal(world.length, 25)
     assert.deepEqual(world.map(entry => entry.opcode), privileged.map(entry => entry.opcode))
+})
+
+test('урок «Что стоит в клетке»: четыре слоя отвечают каждый о своём', () => {
+    const {processor} = stage(LAYERS, 40)
+
+    assert.equal(obj(processor, 'пол').name, 'metal-floor')
+    assert.equal(obj(processor, 'руда').name, 'ore-copper')
+    assert.equal(obj(processor, 'стена').name, 'stone-wall')
+    assert.equal(obj(processor, 'блок').name, 'router')
+
+    // `building` отдаёт саму постройку, а не тип блока
+    assert.equal(obj(processor, 'здание').name, 'router1')
+
+    // Пустая клетка — это `@air`, а не пустота
+    assert.equal(obj(processor, 'пусто').name, 'air')
+    assert.equal(obj(processor, 'безРуды').name, 'air')
+})
+
+test('урок «Поставить и снести»: три слоя ставятся, а @air сносит', () => {
+    const {processor} = stage(PAINT, 40)
+
+    assert.equal(obj(processor, 'пол').name, 'metal-floor')
+    assert.equal(obj(processor, 'руда').name, 'ore-titanium')
+    assert.equal(obj(processor, 'стена').name, 'copper-wall')
+    assert.equal(obj(processor, 'снесли').name, 'air')
+})
+
+test('урок «Поставить и снести»: setblock усекает, getblock округляет', () => {
+    const {processor} = stage(TILE_ROUNDING, 40)
+
+    // Одни и те же 7.9 и 4.9: стена встала на 7 4, а прочиталась клетка 8 5
+    assert.equal(obj(processor, 'гдеПоставили').name, 'copper-wall')
+    assert.equal(obj(processor, 'поТемЖеЧислам').name, 'air')
 })
