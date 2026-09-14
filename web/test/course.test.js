@@ -47,6 +47,9 @@ import {
     MOVE, HALT, ARRIVED, CARRY, FERRY, FLAG, MINE
 } from '../src/course/scenes/ucontrol.js'
 import {SEEK, ALLY} from '../src/course/scenes/uradar.js'
+import {
+    ORE, LEAD, BUILDINGS as FLAGGED, DAMAGED
+} from '../src/course/scenes/ulocate.js'
 import iconTable from '@mlog/core/data/icons.json' with {type: 'json'}
 import logicIdsData from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
@@ -2080,4 +2083,48 @@ test('урок «Поиск от юнита»: себя юнит не наход
 
     assert.equal(obj(processor, 'ктоЭто').name, 'poly')
     assert.equal(obj(processor, 'яСам').name, 'dagger')
+})
+
+test('урок «Где лежит руда»: поиск отдаёт ближайшую клетку и добыча идёт по ней', () => {
+    const {processor} = stage(ORE, 300)
+
+    assert.equal(num(processor, 'нашлось'), 1)
+    assert.equal(num(processor, 'рудаX'), 12)
+    assert.equal(num(processor, 'рудаY'), 7)
+
+    // У руды здания нет, восьмое поле остаётся пустым
+    assert.equal(obj(processor, 'здание'), null)
+
+    assert.equal(obj(processor, 'чего').name, 'copper')
+    assert.ok(num(processor, 'груз') > 0)
+})
+
+test('урок «Где лежит руда»: свинец ищется от юнита, титана на карте нет', () => {
+    const {processor} = stage(LEAD, 60)
+
+    assert.equal(num(processor, 'рудаX'), 5)
+    assert.equal(num(processor, 'рудаY'), 3)
+    assert.equal(num(processor, 'титанЕсть'), 0)
+})
+
+test('урок «Здания по метке»: своя и чужая турель ищутся одной инструкцией', () => {
+    const {processor} = stage(FLAGGED, 60)
+
+    assert.equal(num(processor, 'врагX'), 18)
+    assert.notEqual(obj(processor, 'вражья'), null)
+
+    assert.equal(num(processor, 'свояX'), 6)
+    assert.notEqual(obj(processor, 'своя'), null)
+
+    // Контейнер 2×2: центр приходится на угол клетки, отсюда половинка
+    assert.equal(num(processor, 'складX'), 10.5)
+})
+
+test('урок «Подбитые здания»: damaged находит именно подбитое', () => {
+    const {processor} = stage(DAMAGED, 60)
+
+    assert.equal(num(processor, 'нашлось'), 1)
+    assert.equal(num(processor, 'битыйX'), 8)
+    assert.equal(num(processor, 'здоровье'), 60)
+    assert.equal(num(processor, 'предел'), 250)
 })
