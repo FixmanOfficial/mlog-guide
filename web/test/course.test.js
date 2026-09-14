@@ -50,6 +50,7 @@ import {SEEK, ALLY} from '../src/course/scenes/uradar.js'
 import {
     ORE, LEAD, BUILDINGS as FLAGGED, DAMAGED
 } from '../src/course/scenes/ulocate.js'
+import {PRIVILEGE, FAST} from '../src/course/scenes/world.js'
 import iconTable from '@mlog/core/data/icons.json' with {type: 'json'}
 import logicIdsData from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
@@ -2127,4 +2128,33 @@ test('урок «Подбитые здания»: damaged находит име�
     assert.equal(num(processor, 'битыйX'), 8)
     assert.equal(num(processor, 'здоровье'), 60)
     assert.equal(num(processor, 'предел'), 250)
+})
+
+test('урок «Что такое мировой процессор»: одна и та же строка работает только у мирового', () => {
+    const {world, processor} = stage(PRIVILEGE, 40)
+
+    assert.equal(world.at(8, 7)?.type, 'router', 'мировой процессор ставит блок')
+    assert.equal(world.at(8, 2), undefined, 'обычный ту же строку молча пропускает')
+
+    assert.equal(obj(processor, 'поставил').name, 'router')
+    assert.equal(num(processor, 'скорость'), 8)
+})
+
+test('урок «Что такое мировой процессор»: setrate поднимает его до тысячи', () => {
+    const {processor} = stage(FAST, 40)
+
+    assert.equal(num(processor, 'обычная'), 8)
+    assert.equal(num(processor, 'разогнанная'), 1000)
+})
+
+test('все двадцать пять инструкций мира привилегированные', () => {
+    /*
+     * Урок «Что такое мировой процессор» называет это число вслух, и оно же задаёт
+     * состав части курса: категория `world` и список привилегированных совпадают.
+     */
+    const world = schema.instructions.filter(entry => entry.category === 'world')
+    const privileged = schema.instructions.filter(entry => entry.privileged)
+
+    assert.equal(world.length, 25)
+    assert.deepEqual(world.map(entry => entry.opcode), privileged.map(entry => entry.opcode))
 })
