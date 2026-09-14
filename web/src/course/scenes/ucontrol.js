@@ -150,3 +150,103 @@ export const FERRY = {
         ].join('\n')
     }]
 }
+
+/**
+ * Урок «Кто управляет юнитом»: двое смотрят на одного поли, командует только один.
+ *
+ * Второй процессор нарочно ничего не командует — только спрашивает. `ubind` управления
+ * не берёт, поэтому он видит чужую власть со стороны: `@controller` отдаёт не его блок.
+ */
+export const OWNER = {
+    width: 20, height: 12, floor: 'sand-floor',
+    blocks: [
+        {type: 'micro-processor', x: 2, y: 8},
+        {type: 'micro-processor', x: 2, y: 3}
+    ],
+    units: [{type: 'poly', x: 8, y: 6}],
+    processors: [
+        {
+            at: [2, 8],
+            links: [],
+            program: [
+                'ubind @poly',
+                'ucontrol move 16 6 0 0 0',
+                'sensor кто @unit @controller',
+                'op equal мой кто @this'
+            ].join('\n')
+        },
+        {
+            at: [2, 3],
+            links: [],
+            program: [
+                'ubind @poly',
+                'sensor кто @unit @controller',
+                'op equal мой кто @this',
+                'sensor кем @unit @controlled'
+            ].join('\n')
+        }
+    ]
+}
+
+/**
+ * Тот же урок: второй процессор перехватывает юнита, потому что тоже командует.
+ *
+ * Оба зовут `ucontrol`, и власть достаётся тому, чья команда прошла последней. Юнит
+ * при этом мечется между двумя целями — обычная беда отряда без меток.
+ */
+export const STOLEN = {
+    width: 20, height: 12, floor: 'sand-floor',
+    blocks: [
+        {type: 'micro-processor', x: 2, y: 8},
+        {type: 'micro-processor', x: 2, y: 3}
+    ],
+    units: [{type: 'poly', x: 10, y: 6}],
+    processors: [
+        {
+            at: [2, 8],
+            links: [],
+            program: [
+                'ubind @poly',
+                'ucontrol move 18 10 0 0 0',
+                'sensor кто @unit @controller',
+                'op equal мой кто @this'
+            ].join('\n')
+        },
+        {
+            at: [2, 3],
+            links: [],
+            program: [
+                'ubind @poly',
+                'ucontrol move 18 2 0 0 0',
+                'sensor кто @unit @controller',
+                'op equal мой кто @this'
+            ].join('\n')
+        }
+    ]
+}
+
+/**
+ * Тот же урок: одна команда — и процессор отпускает юнита сам.
+ *
+ * Команда отдаётся один раз, дальше программа только спрашивает. Через десять секунд
+ * срок управления выходит, `@controlled` возвращается к нулю, а `@controller` снова
+ * показывает самого юнита — то есть «сам себе хозяин».
+ */
+export const FORGET = {
+    width: 20, height: 12, floor: 'sand-floor',
+    blocks: [{type: 'micro-processor', x: 2, y: 6}],
+    units: [{type: 'poly', x: 8, y: 6}],
+    processors: [{
+        at: [2, 6],
+        links: [],
+        program: [
+            'ubind @poly',
+            'jump 3 notEqual отдал 0',
+            'ucontrol move 16 6 0 0 0',
+            'set отдал 1',
+            'sensor кем @unit @controlled',
+            'sensor кто @unit @controller',
+            'op equal мой кто @this'
+        ].join('\n')
+    }]
+}

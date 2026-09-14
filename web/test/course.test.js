@@ -43,10 +43,10 @@ import {PACK, CHOICE as COLOR_CHOICE, UNPACK} from '../src/course/scenes/color.j
 import {FULL as RATE_FULL, SLOW as RATE_SLOW, CEILING as RATE_CEILING} from '../src/course/scenes/rate.js'
 import {GUARD, BREAK as LOOP_BREAK, SKIP} from '../src/course/scenes/branching.js'
 import {
-    CYCLE, WATCH as BOUND, NONE as NO_UNITS, REMEMBER, LOST, FOREIGN
+    CYCLE, WATCH as BOUND, NONE as NO_UNITS, REMEMBER, LOST, FOREIGN, KEEP, EVERY
 } from '../src/course/scenes/ubind.js'
 import {
-    MOVE, HALT, ARRIVED, CARRY, FERRY, FLAG, MINE
+    MOVE, HALT, ARRIVED, CARRY, FERRY, FLAG, MINE, OWNER, STOLEN, FORGET
 } from '../src/course/scenes/ucontrol.js'
 import {SEEK, ALLY} from '../src/course/scenes/uradar.js'
 import {
@@ -2951,4 +2951,78 @@ test('урок «Контент по номеру»: перебор жидкос
 
     // Жидкостей у контейнера нет вовсе: sensor отвечает пустотой, и лучшего не находится
     assert.equal(message, 'null: null')
+})
+
+test('урок «Кто управляет юнитом»: власть видна обоим, а достаётся командующему', () => {
+    /*
+     * `@controller` отдаёт блок, который ведёт юнита, а неуправляемому — его самого.
+     * Наблюдатель при этом остаётся наблюдателем: `ubind` управления не берёт.
+     */
+    const {world, processors} = build(OWNER)
+    for (let i = 0; i < 120; i++) world.step()
+
+    const [owner, watcher] = processors.map(entry => entry.building.processor)
+
+    assert.equal(num(owner, 'мой'), 1, 'командующий видит себя')
+    assert.equal(num(watcher, 'мой'), 0, 'наблюдатель — нет')
+    assert.equal(num(watcher, 'кем'), 1, '@controlled отвечает @ctrlProcessor')
+})
+
+test('урок «Кто управляет юнитом»: команда отбирает юнита у соседа', () => {
+    const {world, processors} = build(STOLEN)
+    for (let i = 0; i < 200; i++) world.step()
+
+    const owns = processors.map(entry => num(entry.building.processor, 'мой'))
+
+    // Ровно один хозяин: перехват не делится
+    assert.deepEqual(owns.slice().sort(), [0, 1])
+})
+
+test('урок «Кто управляет юнитом»: через десять секунд без команд юнит сам себе хозяин', () => {
+    const at = (ticks) => {
+        const {world, processors} = build(FORGET)
+        for (let i = 0; i < ticks; i++) world.step()
+
+        const processor = processors[0].building.processor
+        return {kind: num(processor, 'кем'), mine: num(processor, 'мой')}
+    }
+
+    // Пока срок идёт, юнит числится за процессором
+    assert.deepEqual(at(300), {kind: 1, mine: 1})
+
+    // А после шестисот тиков от единственной команды — уже нет
+    assert.deepEqual(at(700), {kind: 0, mine: 0})
+})
+
+test('урок «Держать одного юнита»: проверка вместо привязки держит одного', () => {
+    /*
+     * Урок обещает два числа: с проверкой `привязок` остаётся единицей на сотню итераций,
+     * без неё — догоняет счётчик итераций, и юнит меняется почти каждую.
+     */
+    const kept = stage(KEEP, 300).processor
+    const every = stage(EVERY, 300).processor
+
+    assert.ok(num(kept, 'итераций') > 50, num(kept, 'итераций'))
+    assert.equal(num(kept, 'привязок'), 1)
+    assert.equal(num(kept, 'смен'), 1, 'юнит сменился один раз — на первой привязке')
+
+    assert.equal(num(every, 'привязок'), num(every, 'итераций'))
+    assert.equal(num(every, 'смен'), num(every, 'итераций') - 1)
+})
+
+test('урок «Держать одного юнита»: sensor @dead у пустоты отвечает единицей', () => {
+    /*
+     * `SenseI` проверяет это отдельной веткой до всего остального — на том и держится
+     * проверка из урока: одна строка ловит и «погиб», и «юнита ещё не брали».
+     */
+    const processor = new Processor([
+        'set пусто null',
+        'sensor мёртв пусто @dead',
+        'sensor здоровье пусто @health'
+    ].join('\n'), {content, globals: content.globals})
+
+    processor.run(10)
+
+    assert.equal(processor.get('мёртв').num(), 1)
+    assert.equal(processor.get('здоровье').obj(), null, 'а остальные свойства — пустота')
 })
