@@ -52,7 +52,7 @@ import {
 } from '../src/course/scenes/ulocate.js'
 import {
     PRIVILEGE, FAST, LAYERS, PAINT, ROUNDING as TILE_ROUNDING, TALK, BUSY, RULES, TOUGH
-, FLAGS, PROPS, FETCH, BOOM, MARKERS
+, FLAGS, PROPS, FETCH, BOOM, MARKERS, LOCALE
 } from '../src/course/scenes/world.js'
 import {AREA, SPAWN as SPAWN_SQUAD, BURN, FROZEN} from '../src/course/scenes/world-units.js'
 import iconTable from '@mlog/core/data/icons.json' with {type: 'json'}
@@ -2340,4 +2340,11 @@ test('урок «Метки на карте»: три метки ставятс�
     // Текст метке отдают из буфера печати, как и блоку сообщений
     const text = all.find(marker => marker.type === 'text')
     assert.equal(text.props.text, 'Строить здесь')
+})
+
+test('урок «Текст по ключу»: словарь карты печатается, а незнакомый ключ молчит', () => {
+    const {message} = stage(LOCALE, 40)
+
+    // Между разделителями пусто: ключа «задача.нетТакого» в словаре нет
+    assert.equal(message, 'Постройте бур — ?')
 })

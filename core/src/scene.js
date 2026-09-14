@@ -153,12 +153,15 @@ export function buildScene(description, {content = null} = {}) {
     const {
         width = 20, height = 11, floor = 'stone',
         rules = {}, terrain = null, blocks = [], units = [],
-        processors = [], objectives = []
+        processors = [], objectives = [], locales = {}
     } = description
 
     const world = new World({width, height, content, floor})
 
     for (const [rule, value] of Object.entries(rules)) world.rules.set(rule, value)
+
+    // Словарь карты: его читает `localeprint`, и лежит он в самой карте, а не в игре
+    for (const [key, text] of Object.entries(locales)) world.locales.set(key, text)
     if (terrain !== null) paintTerrain(world, terrain)
 
     for (const {type, x, y, items = {}, ...options} of blocks) {

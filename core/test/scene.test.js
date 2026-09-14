@@ -117,3 +117,13 @@ test('местность описывается и картинкой, и пря
     assert.equal(rects.overlayAt(5, 2), null, 'ширина считается от левого края, а не до него')
     assert.equal(rects.overlayAt(3, 5), null)
 })
+
+test('словарь карты приходит из описания сцены', () => {
+    // `localeprint` читает его же: без словаря инструкция молчит, а не печатает ключ
+    const {world} = buildScene({
+        width: 6, height: 6,
+        locales: {'подсказка': 'Постройте бур'}
+    }, {content})
+
+    assert.equal(world.locales.get('подсказка'), 'Постройте бур')
+})

@@ -325,3 +325,28 @@ export const MARKERS = {
         ].join('\n')
     }]
 }
+
+/** Урок «Текст по ключу»: словарь карты вместо строк в программе. */
+export const LOCALE = {
+    width: 16, height: 9, floor: 'sand',
+    locales: {
+        'задача.бур': 'Постройте бур',
+        'задача.готово': 'Задача выполнена'
+    },
+    blocks: [
+        {type: 'world-processor', x: 2, y: 4},
+        {type: 'message', x: 11, y: 4}
+    ],
+    processors: [{
+        at: [2, 4],
+        links: ['message1'],
+        program: [
+            'localeprint "задача.бур"',
+            'print " — "',
+            'localeprint "задача.нетТакого"',
+            'print "?"',
+            'printflush message1',
+            'stop'
+        ].join('\n')
+    }]
+}
