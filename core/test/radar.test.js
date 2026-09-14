@@ -476,6 +476,49 @@ test('флаги целей поднимаются и читаются', () => {
     assert.equal(world.rules.flag('готово'), true)
 })
 
+test('правила партии доходят до юнитов: урон, добыча и трение', () => {
+    /*
+     * `Rules.unitHealth` не поднимает здоровье, а делит урон; `unitMineSpeed` умножает
+     * скорость добычи; `dragMultiplier` идёт в трение. Раньше `setrule` эти числа только
+     * записывал, и урок про правила нечего было бы показать.
+     */
+    const world = new World({width: 20, height: 20, content})
+    const dagger = world.spawn('dagger', {x: 5, y: 5})
+
+    const before = dagger.health
+    dagger.damage(20)
+    const plain = before - dagger.health
+
+    world.rules.set('unitHealth', 2)
+
+    const middle = dagger.health
+    dagger.damage(20)
+    const halved = middle - dagger.health
+
+    assert.ok(Math.abs(halved - plain / 2) < 0.001,
+        `при unitHealth 2 тот же удар снимает вдвое меньше: ${plain} против ${halved}`)
+
+    // Добыча: правило умножает скорость, а не сокращает срок
+    const world2 = new World({width: 20, height: 20, content})
+    world2.setOverlay(5, 5, 'ore-copper')
+    world2.rules.set('unitMineSpeed', 4)
+
+    const mono = world2.spawn('mono', {x: 5, y: 5})
+    mono.mineTile = {x: 5, y: 5}
+    world2.steps(30)
+
+    assert.ok(mono.itemAmount > 0, 'с четырёхкратной добычей руда идёт уже через полсекунды')
+
+    // Трение: правило множит его вместе с полом и эффектами
+    const world3 = new World({width: 20, height: 20, content})
+    world3.rules.set('dragMultiplier', 3)
+
+    const flare = world3.spawn('flare', {x: 5, y: 5})
+    world3.steps(1)
+
+    assert.ok(Math.abs(flare.drag - flare.spec.drag * 3) < 0.0001, flare.drag)
+})
+
 test('setrule переводит секунды в тики, а тайлы в мировые единицы', () => {
     const world = new World({width: 10, height: 10, content})
     const building = world.add('world-processor', {x: 1, y: 1})
@@ -674,6 +717,40 @@ test('message отдаёт текст миру, а занятому экрану
     world.tick += 3 * 60
     processor.run(2)
     assert.equal(processor.num('успех'), 1)
+})
+
+test('@wait в поле ответа задерживает message, а своя переменная — нет', () => {
+    /*
+     * FlushMessageI: приёмник по умолчанию — `@wait`, и занятый экран тогда не отдаёт ноль,
+     * а откатывает счётчик и уступает тик. Так инструкция вела себя до появления поля.
+     */
+    const world = new World({width: 10, height: 10, content})
+    const building = world.add('world-processor', {x: 1, y: 1})
+
+    const processor = new Processor([
+        'print "первое"',
+        'message announce 3 @wait',
+        'set дошли 1'
+    ].join('\n'), {world, content, globals: content.globals, building, team: 1, ipt: 8})
+
+    building.processor = processor
+    world.addProcessor(processor)
+    processor.run(3)
+
+    assert.equal(world.message.text, 'первое')
+    assert.equal(processor.num('дошли'), 1)
+
+    // Экран занят: программа встаёт на этой строке, а не бежит дальше с нулём
+    processor.reset()
+    processor.run(3)
+
+    assert.equal(processor.num('дошли'), 0, 'после занятого экрана строка не пройдена')
+    assert.equal(processor.textBuffer, 'первое', 'буфер остался при программе')
+
+    // Место освободилось — программа идёт дальше сама
+    world.tick += 3 * 60
+    processor.run(3)
+    assert.equal(processor.num('дошли'), 1)
 })
 
 test('message mission пишет задачу в правила и никого не ждёт', () => {

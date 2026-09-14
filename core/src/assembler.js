@@ -485,6 +485,13 @@ export class Assembler {
         // @queries появляется только у процессора мира: LExecutor.load кладёт его
         // при `builder.privileged`. У обычного процессора это просто имя переменной
         this.putConst('@queries', null)
+
+        /*
+         * `@wait` заведена обычным `put`, поэтому в окне встроенных переменных её нет,
+         * а в программах она работает. Это стандартный приёмник ответа у `message`:
+         * пока экран занят, программа на нём ждёт. GlobalVars.init, LStatements
+         */
+        this.putConst('@wait', null)
     }
 
     putVar(name) {
@@ -1348,7 +1355,16 @@ const builders = {
     message: (asm, params) => {
         const type = params[0] ?? 'notify'
         const duration = asm.var(params[1] ?? '1')
-        const success = asm.var(params[2] ?? 'result')
+
+        /*
+         * Приёмник ответа по умолчанию — `@wait`, и это не просто имя: пока он стоит
+         * в поле, занятый экран не отдаёт ноль, а **задерживает программу** до следующего
+         * тика. Так инструкция вела себя до появления поля, и совместимость сохранена
+         * именно через это имя. FlushMessageI
+         */
+        const target = params[2] ?? '@wait'
+        const success = asm.var(target)
+        const blocking = target === '@wait'
 
         return {
             run: (vm) => {
@@ -1363,7 +1379,13 @@ const builders = {
                     return
                 }
 
-                if (vm.world.messageBusy(type)) return void success.setnum(0)
+                if (vm.world.messageBusy(type)) {
+                    if (!blocking) return void success.setnum(0)
+
+                    vm.counter.numval--
+                    vm.yield = true
+                    return
+                }
 
                 vm.world.showMessage(type, vm.textBuffer, duration.num())
                 vm.textBuffer = ''

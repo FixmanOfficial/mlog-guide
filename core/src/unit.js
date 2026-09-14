@@ -530,10 +530,20 @@ export class Unit {
     damagePierce(amount) {
         if (this.dead) return this
 
-        this.health -= amount / this.multipliers.health
+        this.health -= amount / this.multipliers.health / this.healthRule()
         if (this.health <= 0) this.kill()
 
         return this
+    }
+
+    /**
+     * `Rules.unitHealth`: правило партии не поднимает здоровье, а **делит урон**. Число
+     * в `@health` от него не меняется — меняется, насколько его хватает.
+     * ShieldComp.damage
+     */
+    healthRule() {
+        const value = this.world?.rules?.get('unitHealth') ?? 1
+        return value > 0 ? value : 1
     }
 
     /**
@@ -543,7 +553,7 @@ export class Unit {
     damage(amount) {
         if (this.dead) return this
 
-        this.health -= applyArmor(amount, this.spec.armor) / this.multipliers.health
+        this.health -= applyArmor(amount, this.spec.armor) / this.multipliers.health / this.healthRule()
         if (this.health <= 0) this.kill()
 
         return this
@@ -663,7 +673,10 @@ export class Unit {
         }
 
         const item = this.mineResult(this.mineTile)
-        this.mineTimer = f(this.mineTimer + f(delta * this.spec.mineSpeed))
+
+        // `MinerComp.update`: скорость добычи умножается на правило партии
+        const rule = this.world?.rules?.get('unitMineSpeed') ?? 1
+        this.mineTimer = f(this.mineTimer + f(delta * f(this.spec.mineSpeed * rule)))
 
         const hardness = materials.items[item]?.hardness ?? 0
         const needed = MINE_BASE_TIME + (this.spec.mineHardnessScaling ? hardness * MINE_HARDNESS_TIME : MINE_HARDNESS_TIME)
@@ -703,7 +716,10 @@ export class Unit {
         // Трение тоже зависит от пола, и считается оно уже после переноса: в игре
         // UnitComp.update идёт после VelComp.update
         const floor = this.isGrounded() ? this.floorOn() : null
-        this.drag = f(f(this.spec.drag * (floor?.dragMultiplier ?? 1)) * this.multipliers.drag)
+        const dragRule = this.world?.rules?.get('dragMultiplier') ?? 1
+
+        this.drag = f(f(f(this.spec.drag * (floor?.dragMultiplier ?? 1)) * this.multipliers.drag)
+            * dragRule)
 
         if (this.controller !== null) this.controller.update(this, delta)
     }

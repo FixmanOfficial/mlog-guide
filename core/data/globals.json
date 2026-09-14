@@ -150,6 +150,26 @@
     {
       "name": "@liquidCount",
       "privileged": false
+    },
+    {
+      "name": "@wait",
+      "privileged": true,
+      "hidden": true
+    },
+    {
+      "name": "@ctrlProcessor",
+      "privileged": false,
+      "hidden": true
+    },
+    {
+      "name": "@ctrlPlayer",
+      "privileged": false,
+      "hidden": true
+    },
+    {
+      "name": "@ctrlCommand",
+      "privileged": false,
+      "hidden": true
     }
   ]
 }

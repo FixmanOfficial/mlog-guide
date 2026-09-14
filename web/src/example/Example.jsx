@@ -371,6 +371,16 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
 
     const processor = stand.scene.processors[0]?.building.processor ?? null
 
+    /*
+     * Сообщение, которое сейчас висит на экране. Срок считается в тиках мира, как в игре:
+     * своё время у примера не идёт, когда он на паузе.
+     */
+    const message = stand.scene.world.message
+    const shown = message !== null && message !== undefined
+        && stand.scene.world.tick - message.at < message.duration * 60
+        ? message
+        : null
+
     const single = () => {
         processor?.step()
         redraw(stand)
@@ -466,11 +476,25 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
                       * иначе текст под примером прыгает, когда карта появляется.
                       */}
                     {world ? (
-                        <canvas
-                            class="example__world"
-                            ref={canvas}
-                            style={{aspectRatio: `${description.width} / ${description.height}`}}
-                        />
+                        <div class="example__map">
+                            <canvas
+                                class="example__world"
+                                ref={canvas}
+                                style={{aspectRatio: `${description.width} / ${description.height}`}}
+                            />
+
+                            {/*
+                              * Сообщения мира (`message`) в игре показывает интерфейс, а не карта.
+                              * Своего интерфейса у примера нет, поэтому объявление рисуется
+                              * поверх карты — иначе уроки про мировой процессор говорили бы
+                              * о том, чего на экране не видно.
+                              */}
+                            {shown === null ? null : (
+                                <div class={`example__message example__message--${shown.type}`}>
+                                    {shown.text}
+                                </div>
+                            )}
+                        </div>
                     ) : null}
 
                     {processor === null ? null : (

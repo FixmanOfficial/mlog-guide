@@ -51,7 +51,7 @@ import {
     ORE, LEAD, BUILDINGS as FLAGGED, DAMAGED
 } from '../src/course/scenes/ulocate.js'
 import {
-    PRIVILEGE, FAST, LAYERS, PAINT, ROUNDING as TILE_ROUNDING
+    PRIVILEGE, FAST, LAYERS, PAINT, ROUNDING as TILE_ROUNDING, TALK, BUSY, RULES, TOUGH
 } from '../src/course/scenes/world.js'
 import {AREA, SPAWN as SPAWN_SQUAD, BURN, FROZEN} from '../src/course/scenes/world-units.js'
 import iconTable from '@mlog/core/data/icons.json' with {type: 'json'}
@@ -2225,4 +2225,67 @@ test('урок «Эффекты»: unmoving держит юнита на мес�
 
     assert.equal(num(processor, 'xСкованного'), 3)
     assert.ok(num(processor, 'xСвободного') > 17, num(processor, 'xСвободного'))
+})
+
+test('урок «Цвет одним числом»: 0-255 в packcolor прижимаются к единице', () => {
+    /*
+     * Урок утверждает две вещи: `255 0 0 255` случайно даёт тот же красный, что и `1 0 0 1`,
+     * а цвет меди числами 0-255 превращается в белый. Обе проверяются здесь.
+     */
+    const scene = {
+        width: 7, height: 5, floor: 'sand',
+        blocks: [{type: 'micro-processor', x: 3, y: 2}],
+        processors: [{
+            at: [3, 2],
+            links: [],
+            program: [
+                'packcolor долями 1 0 0 1',
+                'packcolor байтами 255 0 0 255',
+                'packcolor медьБайтами 217 157 115 255',
+                'unpackcolor кр зел син проз медьБайтами',
+                'stop'
+            ].join('\n')
+        }]
+    }
+
+    const {processor} = stage(scene, 20)
+
+    assert.equal(num(processor, 'байтами'), num(processor, 'долями'))
+    assert.deepEqual(
+        ['кр', 'зел', 'син', 'проз'].map(name => num(processor, name)),
+        [1, 1, 1, 1]
+    )
+})
+
+test('урок «Сообщение игроку»: @wait держит программу на строке сообщения', () => {
+    // Объявление висит три секунды, и показов ровно столько, сколько раз оно сменилось
+    assert.equal(num(stage(TALK, 30).processor, 'показов'), 1)
+    assert.equal(num(stage(TALK, 190).processor, 'показов'), 2)
+
+    const {world} = stage(TALK, 190)
+    assert.equal(world.message.text, 'Держите оборону!', 'текст не слипается от повторов')
+})
+
+test('урок «Сообщение игроку»: занятый экран отвечает нулём, а буфер остаётся', () => {
+    const {processor, world} = stage(BUSY, 40)
+
+    assert.equal(num(processor, 'первое'), 1)
+    assert.equal(num(processor, 'второе'), 0)
+    assert.equal(processor.textBuffer, 'И ещё одна')
+    assert.equal(world.message.text, 'Волна на подходе')
+})
+
+test('урок «Правила партии»: unitMineSpeed ускоряет добычу', () => {
+    const {processor} = stage(RULES, 300)
+
+    // Без правила моно набирает двадцать за десять секунд, с четырёхкратным — за пять
+    assert.equal(num(processor, 'груз'), 20)
+    assert.ok(num(stage(RULES, 120).processor, 'груз') >= 12)
+})
+
+test('урок «Правила партии»: unitHealth делит урон, а предел не меняет', () => {
+    const {processor} = stage(TOUGH, 400)
+
+    assert.equal(num(processor, 'предел'), 70, 'правило не поднимает @maxHealth')
+    assert.ok(num(processor, 'здоровье') > 0, 'вспышка переживает обстрел')
 })

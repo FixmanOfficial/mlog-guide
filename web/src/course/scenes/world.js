@@ -121,3 +121,74 @@ export const ROUNDING = {
         ].join('\n')
     }]
 }
+
+/** Урок «Сообщение игроку»: объявление держится три секунды, а программа ждёт своей очереди. */
+export const TALK = {
+    width: 14, height: 9, floor: 'sand',
+    blocks: [{type: 'world-processor', x: 2, y: 4}],
+    processors: [{
+        at: [2, 4],
+        links: [],
+        program: [
+            'print "Держите оборону!"',
+            'message announce 3 @wait',
+            'op add показов показов 1',
+            'end'
+        ].join('\n')
+    }]
+}
+
+/** Тот же урок: со своей переменной отказ виден сразу, и программа не ждёт. */
+export const BUSY = {
+    width: 14, height: 9, floor: 'sand',
+    blocks: [{type: 'world-processor', x: 2, y: 4}],
+    processors: [{
+        at: [2, 4],
+        links: [],
+        program: [
+            'print "Волна на подходе"',
+            'message announce 5 первое',
+            'print "И ещё одна"',
+            'message announce 5 второе',
+            'stop'
+        ].join('\n')
+    }]
+}
+
+/** Урок «Правила партии»: добыча вчетверо быстрее — правило видно на глаз. */
+export const RULES = {
+    width: 16, height: 10, floor: 'sand',
+    terrain: [{floor: 'sand', ore: 'ore-copper', rect: [8, 4, 2, 2]}],
+    blocks: [{type: 'world-processor', x: 2, y: 5}],
+    units: [{type: 'mono', x: 8, y: 5}],
+    processors: [{
+        at: [2, 5],
+        links: [],
+        program: [
+            'setrule unitMineSpeed 4 0 0 0 0',
+            'ubind @mono',
+            'ucontrol mine 8 4 0 0 0',
+            'sensor груз @unit @totalItems'
+        ].join('\n')
+    }]
+}
+
+/** Тот же урок: правило `unitHealth` не поднимает здоровье, а делит урон. */
+export const TOUGH = {
+    width: 20, height: 10, floor: 'sand',
+    blocks: [
+        {type: 'world-processor', x: 2, y: 5},
+        {type: 'duo', x: 16, y: 5, team: 2, ammo: {copper: 10}}
+    ],
+    units: [{type: 'flare', x: 10, y: 5}],
+    processors: [{
+        at: [2, 5],
+        links: [],
+        program: [
+            'setrule unitHealth 4 0 0 0 0',
+            'ubind @flare',
+            'sensor здоровье @unit @health',
+            'sensor предел @unit @maxHealth'
+        ].join('\n')
+    }]
+}

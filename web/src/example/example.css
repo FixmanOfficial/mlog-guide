@@ -149,3 +149,48 @@
     width: auto;
     height: auto;
 }
+
+/*
+ * Карта с наложенным сообщением. Оболочка нужна только ради положения: холст остаётся
+ * ровно таким же, каким был, а объявление ложится поверх него.
+ */
+.example__map {
+    position: relative;
+    display: flex;
+    align-self: stretch;
+}
+
+/*
+ * Объявление мирового процессора. В игре у него своё место на экране и свой стиль;
+ * здесь важно другое — чтобы было видно, что сообщение пришло, и какое.
+ */
+.example__message {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 90%;
+    padding: 6px 10px;
+    font-family: 'Mindustry', system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.2;
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    white-space: pre-wrap;
+    pointer-events: none;
+}
+
+/* Объявление висит посередине, уведомление и всплывающая подсказка — сверху и снизу */
+.example__message--announce {
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+}
+
+.example__message--notify {
+    top: 8px;
+}
+
+.example__message--toast {
+    bottom: 8px;
+}
