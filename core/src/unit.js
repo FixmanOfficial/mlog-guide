@@ -87,6 +87,15 @@ export class LogicAI {
         this.controlTimer = LOGIC_CONTROL_TIMEOUT
         this.targetTimer = 0
         this.controller = controller
+
+        /*
+         * Кеш поиска у `uradar` и `ulocate` живёт не в самой инструкции, а здесь.
+         * `radars` — набор инструкций, уже посчитавших цель в текущем окне: набор
+         * очищается вместе с `targetTimer`, то есть раз в 40 тиков. `execCache` держит
+         * найденное между пересчётами. LogicAI.checkTargetTimer
+         */
+        this.radars = new Set()
+        this.execCache = new Map()
         this.boost = false
         this.shoot = false
         this.aimControl = 'stop'
@@ -127,10 +136,25 @@ export class LogicAI {
         unit.movePref(vec, delta)
     }
 
+    /**
+     * Первый ли это пересчёт цели в текущем окне. `LogicAI.checkTargetTimer`: набор
+     * инструкций чистится раз в 40 тиков, и первая за окно попытка возвращает истину.
+     */
+    checkTargetTimer(key) {
+        if (this.radars.has(key)) return false
+
+        this.radars.add(key)
+        return true
+    }
+
     /** LogicAI.updateMovement, вызывается раз в тик после физики. */
     update(unit, delta = 1) {
-        if (this.targetTimer > 0) this.targetTimer -= delta
-        else this.targetTimer = 40
+        if (this.targetTimer > 0) {
+            this.targetTimer -= delta
+        } else {
+            this.radars.clear()
+            this.targetTimer = 40
+        }
 
         // Таймаут: процессор должен подтверждать команду, иначе юнит уходит из-под контроля
         if (this.controlTimer > 0 && this.controller !== null) {

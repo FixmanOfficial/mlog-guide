@@ -216,7 +216,117 @@ const RADAR_SORTS = {
 const RADAR_PERIOD = 30
 
 /** Режимы `ulocate`, которые песочница исполняет: остальным нужны ядра, волны и повреждения. */
-const LOCATES = new Set(['ore'])
+/**
+ * Режимы `ulocate`. `spawn` не перенесён: точек появления волн в песочнице нет,
+ * а выдумывать их — врать карте. См. `docs/parity.md`
+ */
+const LOCATES = new Set(['ore', 'building', 'damaged'])
+
+/** `Vars.buildingRange`: дальше этого юнит не видит здание объектом, только координатами. */
+const BUILDING_RANGE = 220
+
+/** `Team.derelict`: заброшенные постройки ничьи и врагом не считаются. */
+const DERELICT_TEAM = 0
+
+/**
+ * `UnitControlI.checkLogicAI`: контроллер логики у привязанного юнита.
+ *
+ * Один и тот же порядок нужен трём инструкциям: `ucontrol` командует, `uradar` ищет
+ * от юнита, `ulocate` ищет по карте — и все три берут юнита под управление. Команда юнита
+ * важна только обычному процессору: мировой командует и чужими.
+ *
+ * @param control заводить ли контроллер, если его ещё нет. `unbind` и `within` не заводят
+ */
+function checkLogicAI(vm, unit, control) {
+    if (!(unit instanceof Unit) || unit.dead) return null
+    if (unit.team !== vm.team && !vm.privileged) return null
+    if (!unit.spec.logicControllable) return null
+
+    if (unit.controller instanceof LogicAI) {
+        unit.controller.controller = vm.building
+        return unit.controller
+    }
+
+    if (!control) return null
+
+    const ai = new LogicAI(vm.building)
+
+    unit.controller = ai
+
+    // Старое занятие сбрасывается: юнит перестаёт копать и строить
+    unit.mineTile = null
+    unit.clearBuilding()
+
+    return ai
+}
+
+/**
+ * Ближайшая клетка с нужной рудой. В игре для этого есть указатель (`indexer`),
+ * у нас мир маленький и обход честный.
+ */
+function findOre(vm, unit, item) {
+    if (item?.contentType !== 'item') return null
+
+    let best = null
+    let distance = Infinity
+
+    for (let y = 0; y < vm.world.height; y++) {
+        for (let x = 0; x < vm.world.width; x++) {
+            const overlay = vm.world.overlayAt(x, y)
+            if (BLOCK_SPECS[overlay]?.itemDrop !== item.name) continue
+
+            const away = unit.dst2(unconv(x), unconv(y))
+            if (away >= distance) continue
+
+            distance = away
+            best = {x, y, building: null}
+        }
+    }
+
+    return best
+}
+
+/**
+ * Ближайшее здание: по метке блока (`building`) или повреждённое своё (`damaged`).
+ *
+ * Метки блока сняты дампом (`BlockFlag.allLogic`): ядро, склад, генератор, турель,
+ * фабрика, ремонт, батарея, реактор, бур, щит. Заброшенные постройки за врага не считаются —
+ * так же, как в `indexer.getEnemy`.
+ *
+ * Координаты берутся у здания, а не у тайла: у блока с чётной стороной центр приходится
+ * на угол, и `x + offset` даёт половинку — ровно то же число, что и `World.conv(build.x)`.
+ */
+function findBuilding(vm, unit, mode, flag, enemy) {
+    let best = null
+    let distance = Infinity
+
+    for (const building of vm.world.buildings) {
+        if (mode === 'damaged') {
+            if (building.team !== unit.team) continue
+            if (building.health >= building.maxHealth) continue
+        } else {
+            const flags = building.spec?.flags ?? []
+            if (!flags.includes(flag)) continue
+
+            if (enemy) {
+                if (building.team === unit.team || building.team === DERELICT_TEAM) continue
+            } else if (building.team !== unit.team) {
+                continue
+            }
+        }
+
+        const x = building.x + building.offset
+        const y = building.y + building.offset
+        const away = unit.dst2(unconv(x), unconv(y))
+
+        if (away >= distance) continue
+
+        distance = away
+        best = {x, y, building}
+    }
+
+    return best
+}
 
 /**
  * Общая часть `radar` и `uradar`. Инструкция кеширует найденное: в игре она пересчитывает
@@ -244,6 +354,15 @@ function radarBuilder(asm, params, fromUnit) {
                 return output.setobj(null)
             }
 
+            /*
+             * Поиск от юнита берёт его под управление и считает по своему окну: набор
+             * посчитанных инструкций живёт в контроллере и чистится раз в 40 тиков.
+             * У здания окно своё — 30 тиков. RadarI: `timer.get(30f)` против
+             * `ai.checkTargetTimer(this)`
+             */
+            const ai = fromUnit ? checkLogicAI(vm, base, true) : null
+            if (fromUnit && ai === null) return output.setobj(null)
+
             // У юнита дальность своя, у здания это дальность связи: LogicBlock.range
             const range = fromUnit ? base.range() : base.spec?.range
             if (range === undefined || range === null) return output.setobj(null)
@@ -253,7 +372,11 @@ function radarBuilder(asm, params, fromUnit) {
                 ? base
                 : {x: unconv(base.x + base.offset), y: unconv(base.y + base.offset)}
 
-            if (vm.world.tick - state.at >= RADAR_PERIOD) {
+            const recount = fromUnit
+                ? ai.checkTargetTimer(state)
+                : vm.world.tick - state.at >= RADAR_PERIOD
+
+            if (recount) {
                 state.at = vm.world.tick
                 state.found = null
 
@@ -790,24 +913,13 @@ const builders = {
         return {
             run: (vm) => {
                 const unit = unitVar.obj()
-                if (!(unit instanceof Unit) || unit.dead || unit.team !== vm.team) return
+                const ai = checkLogicAI(vm, unit, takesControl)
+
+                if (!(unit instanceof Unit) || unit.dead) return
+                if (unit.team !== vm.team && !vm.privileged) return
                 if (!unit.spec.logicControllable) return
 
-                // checkLogicAI: контроллер создаётся при первой команде и чистит старое занятие
-                let ai = unit.controller instanceof LogicAI ? unit.controller : null
-
-                if (takesControl) {
-                    if (ai !== null) {
-                        ai.controller = vm.building
-                    } else {
-                        ai = new LogicAI(vm.building)
-                        unit.controller = ai
-                        unit.mineTile = null
-                        unit.clearBuilding()
-                    }
-
-                    ai.controlTimer = LOGIC_CONTROL_TIMEOUT
-                }
+                if (takesControl) ai.controlTimer = LOGIC_CONTROL_TIMEOUT
 
                 const x1 = unconv(values[0].numf())
                 const y1 = unconv(values[1].numf())
@@ -964,12 +1076,16 @@ const builders = {
     uradar: (asm, params) => radarBuilder(asm, params, true),
 
     /**
-     * UnitLocateI: поиск по карте. Перенесён режим `ore` — руду мы моделируем; `building`,
-     * `spawn` и `damaged` требуют флагов зданий, точек появления волн и учёта повреждений,
-     * которых в песочнице нет.
+     * UnitLocateI: поиск по карте от привязанного юнита.
+     *
+     * Инструкция не только ищет, но и **берёт юнита под управление**: контроллер заводится
+     * так же, как у `ucontrol`, и десятисекундный срок отсчитывается заново. Пересчёт идёт
+     * по окну контроллера — раз в 40 тиков, — а между пересчётами отдаётся прошлый ответ.
      */
     ulocate: (asm, params, line) => {
         const mode = params[0] ?? 'building'
+        const flag = params[1] ?? 'core'
+        const enemy = asm.var(params[2] ?? 'true')
         const ore = asm.var(params[3] ?? '@copper')
         const [outX, outY, found, build] = [4, 5, 6, 7].map(i => asm.var(params[i] ?? 'result'))
 
@@ -978,40 +1094,63 @@ const builders = {
             return null
         }
 
+        // Кеш живёт в контроллере юнита, а ключом служит сама инструкция: `execCache`
+        const key = {}
+
         return {
             run: (vm) => {
                 const unit = asm.var('@unit').obj()
-                const target = ore.obj()
+                const ai = checkLogicAI(vm, unit, true)
 
-                if (!(unit instanceof Unit) || vm.world === null || target?.contentType !== 'item') {
+                if (ai === null || vm.world === null) {
                     found.setnum(0)
                     return
                 }
 
-                // Ближайшая руда: игра держит для этого указатель, у нас мир маленький
-                let best = null
-                let distance = Infinity
+                ai.controlTimer = LOGIC_CONTROL_TIMEOUT
 
-                for (let y = 0; y < vm.world.height; y++) {
-                    for (let x = 0; x < vm.world.width; x++) {
-                        const overlay = vm.world.overlayAt(x, y)
-                        if (BLOCK_SPECS[overlay]?.itemDrop !== target.name) continue
+                if (!ai.checkTargetTimer(key)) {
+                    const saved = ai.execCache.get(key) ?? null
 
-                        const away = unit.dst2(unconv(x), unconv(y))
-                        if (away >= distance) continue
+                    found.setnum(saved === null ? 0 : 1)
+                    build.setobj(saved?.build ?? null)
 
-                        distance = away
-                        best = {x, y}
+                    if (saved !== null) {
+                        outX.setnum(saved.x)
+                        outY.setnum(saved.y)
                     }
+                    return
                 }
 
-                found.setnum(best === null ? 0 : 1)
-                build.setobj(null)
+                const target = mode === 'ore'
+                    ? findOre(vm, unit, ore.obj())
+                    : findBuilding(vm, unit, mode, flag, enemy.bool())
 
-                if (best !== null) {
-                    outX.setnum(best.x)
-                    outY.setnum(best.y)
+                if (target === null) {
+                    ai.execCache.set(key, null)
+                    found.setnum(0)
+                    build.setobj(null)
+                    return
                 }
+
+                /*
+                 * Здание отдаётся объектом, только если юнит до него дотягивается или оно
+                 * своё: чужую постройку за горизонтом логика получает координатами,
+                 * но не объектом. `unit.within(..., max(unit.range(), buildingRange))`
+                 */
+                const reachable = target.building !== null && (
+                    target.building.team === vm.team
+                    || unit.within(unconv(target.x), unconv(target.y),
+                        Math.max(unit.range(), BUILDING_RANGE))
+                )
+
+                const result = {x: target.x, y: target.y, build: reachable ? target.building : null}
+
+                ai.execCache.set(key, result)
+                found.setnum(1)
+                build.setobj(result.build)
+                outX.setnum(result.x)
+                outY.setnum(result.y)
             }
         }
     },

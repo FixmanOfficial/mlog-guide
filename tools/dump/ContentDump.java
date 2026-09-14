@@ -19,6 +19,7 @@ import mindustry.type.StatusEffect;
 import mindustry.type.UnitType;
 import mindustry.content.Blocks;
 import mindustry.world.Block;
+import mindustry.world.meta.BlockFlag;
 import mindustry.world.blocks.defense.turrets.BaseTurret;
 import mindustry.world.blocks.logic.LogicBlock;
 import mindustry.world.blocks.logic.LogicDisplay;
@@ -302,6 +303,17 @@ public class ContentDump{
 
             spec.string("category", block.category.name());
             spec.string("group", block.group.name());
+
+            /*
+             * Метки блока (`BlockFlag`) — то, по чему `ulocate building` ищет здания:
+             * ядро, склад, генератор, турель, фабрика, ремонт, батарея, реактор, бур, щит.
+             * Часть меток служебная, и логике видны не все — отбор идёт по `allLogic`.
+             */
+            List<String> flags = new ArrayList<>();
+            for(BlockFlag flag : BlockFlag.allLogic){
+                if(block.flags.contains(flag)) flags.add(flag.name());
+            }
+            spec.strings("flags", flags);
             spec.string("buildVisibility", visibilityName(block.buildVisibility));
             spec.bool("canBeBuilt", block.canBeBuilt());
 

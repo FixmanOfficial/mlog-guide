@@ -13,7 +13,7 @@ import {readFileSync} from 'node:fs'
 import {World} from '../src/world.js'
 import {Processor} from '../src/vm.js'
 import {createContent} from '../src/content.js'
-import {UNIT_SPECS, unconv} from '../src/unit.js'
+import {UNIT_SPECS, unconv, LogicAI} from '../src/unit.js'
 import {Diagnostic} from '../src/errors.js'
 import {damage as explode} from '../src/damage.js'
 import {LABEL_OUTLINE} from '../src/markers.js'
@@ -121,7 +121,7 @@ test('uradar смотрит с юнита и не находит сам себя
     assert.equal(processor.get('result').obj()?.id, enemy.id)
 })
 
-test('ulocate находит ближайшую руду, а прочие режимы дают диагностику', () => {
+test('ulocate находит ближайшую руду, а режим spawn даёт диагностику', () => {
     const {world, processor} = setup([
         'ubind @poly',
         'ulocate ore core true @copper x y found building'
@@ -137,9 +137,93 @@ test('ulocate находит ближайшую руду, а прочие реж
     assert.equal(processor.num('x'), 14)
     assert.equal(processor.num('y'), 10)
 
-    const {processor: other} = setup('ulocate building core true @copper x y found b')
+    // Точек появления волн в песочнице нет, и сборщик говорит об этом вслух
+    const {processor: other} = setup('ulocate spawn core true @copper x y found b')
     const complaint = other.diagnostics.find(item => item.code === Diagnostic.NOT_IMPLEMENTED)
-    assert.equal(complaint?.instruction, 'ulocate building')
+    assert.equal(complaint?.instruction, 'ulocate spawn')
+})
+
+test('ulocate building ищет по метке блока и различает свои и чужие', () => {
+    const {world, processor} = setup([
+        'ubind @poly',
+        'ulocate building turret true @copper x y found цель'
+    ].join('\n'))
+
+    world.spawn('poly', {x: 10, y: 10})
+
+    // Своя турель ближе, но ищем вражескую: `enemy` = true
+    world.place('duo', 12, 10)
+    const enemy = world.place('duo', 18, 10, {team: 2})
+
+    processor.run(2)
+
+    assert.equal(processor.num('found'), 1)
+    assert.equal(processor.get('цель').obj(), enemy)
+
+    // Блок с чётной стороной стоит углом на тайле, и центр приходится на половинку
+    assert.equal(processor.num('x'), enemy.x + enemy.offset)
+})
+
+test('ulocate building со своей стороны берёт только свои здания', () => {
+    const {world, processor} = setup([
+        'ubind @poly',
+        'ulocate building turret false @copper x y found цель'
+    ].join('\n'))
+
+    world.spawn('poly', {x: 10, y: 10})
+    const own = world.place('duo', 14, 10)
+    world.place('duo', 16, 10, {team: 2})
+
+    processor.run(2)
+    assert.equal(processor.get('цель').obj(), own)
+})
+
+test('ulocate damaged находит подбитое здание своей команды', () => {
+    const {world, processor} = setup([
+        'ubind @poly',
+        'ulocate damaged core true @copper x y found цель'
+    ].join('\n'))
+
+    world.spawn('poly', {x: 10, y: 10})
+    world.place('duo', 12, 10)
+    const hurt = world.place('duo', 16, 10)
+
+    processor.run(2)
+    assert.equal(processor.num('found'), 0, 'целое здание подбитым не считается')
+
+    hurt.health = hurt.maxHealth / 2
+    world.steps(45)
+    processor.run(2)
+
+    assert.equal(processor.num('found'), 1)
+    assert.equal(processor.get('цель').obj(), hurt)
+})
+
+test('ulocate держит ответ до конца окна и берёт юнита под управление', () => {
+    const {world, processor} = setup([
+        'ubind @poly',
+        'ulocate building turret true @copper x y found цель'
+    ].join('\n'))
+
+    const poly = world.spawn('poly', {x: 10, y: 10})
+    const first = world.place('duo', 18, 10, {team: 2})
+
+    world.steps(3)
+    processor.run(2)
+    assert.equal(processor.get('цель').obj(), first)
+
+    // Контроллер заводится, как от команды: LExecutor.UnitLocateI зовёт checkLogicAI
+    assert.ok(poly.controller instanceof LogicAI)
+
+    // Пока окно контроллера не кончилось, ответ остаётся прежним
+    const near = world.place('duo', 12, 10, {team: 2})
+    processor.run(2)
+    assert.equal(processor.get('цель').obj(), first)
+
+    // Окно живёт 40 тиков, и после него инструкция ищет заново
+    world.steps(45)
+    processor.run(2)
+    assert.equal(processor.get('цель').obj(), near)
 })
 
 test('юнит добывает руду по твёрдости и не быстрее срока', () => {
