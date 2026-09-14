@@ -2754,3 +2754,35 @@ test('урок «Случайность и шум»: округление вни
     assert.ok(ближний['1'] > ближний['0'] * 1.5)
     assert.ok(ближний['1'] > ближний['2'] * 1.5)
 })
+
+test('урок «Битовые операции»: за 53 битами теряются младшие разряды', () => {
+    const scene = {
+        width: 7, height: 5, floor: 'sand',
+        blocks: [{type: 'micro-processor', x: 3, y: 2}],
+        processors: [{
+            at: [3, 2],
+            links: [],
+            program: [
+                'op shl большое 1 53',
+                'op or сЕдиницей большое 1',
+                'op sub разница сЕдиницей большое',
+                'op shl сдвиг64 1 64',
+                'op shr знаковый -8 1',
+                'op ushr беззнаковый -1 60',
+                'op not инверсия 1',
+                'stop'
+            ].join('\n')
+        }]
+    }
+
+    const {processor} = stage(scene, 20)
+
+    // Единица к 2^53 не прибавляется: младшего бита в числе уже нет
+    assert.equal(num(processor, 'разница'), 0)
+
+    // Три неожиданных ответа из урока
+    assert.equal(num(processor, 'сдвиг64'), 1)
+    assert.equal(num(processor, 'знаковый'), -4)
+    assert.equal(num(processor, 'беззнаковый'), 15)
+    assert.equal(num(processor, 'инверсия'), -2)
+})
