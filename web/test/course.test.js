@@ -52,6 +52,7 @@ import {
 } from '../src/course/scenes/ulocate.js'
 import {
     PRIVILEGE, FAST, LAYERS, PAINT, ROUNDING as TILE_ROUNDING, TALK, BUSY, RULES, TOUGH
+, FLAGS, PROPS
 } from '../src/course/scenes/world.js'
 import {AREA, SPAWN as SPAWN_SQUAD, BURN, FROZEN} from '../src/course/scenes/world-units.js'
 import iconTable from '@mlog/core/data/icons.json' with {type: 'json'}
@@ -2288,4 +2289,20 @@ test('урок «Правила партии»: unitHealth делит урон, 
 
     assert.equal(num(processor, 'предел'), 70, 'правило не поднимает @maxHealth')
     assert.ok(num(processor, 'здоровье') > 0, 'вспышка переживает обстрел')
+})
+
+test('урок «Поднять флаг»: один процессор поднимает, другой видит', () => {
+    // До двух секунд флага нет, после — соседний процессор печатает предупреждение
+    assert.equal(stage(FLAGS, 60).message, '')
+    assert.equal(stage(FLAGS, 180).message, 'Тревога!')
+})
+
+test('урок «Свойства напрямую»: здоровье, запасы и команда пишутся мимо физики', () => {
+    const {processor} = stage(PROPS, 40)
+
+    assert.equal(num(processor, 'здоровьеТурели'), 50)
+    assert.equal(num(processor, 'медиНаСкладе'), 120)
+
+    // `sensor @team` отдаёт номер: кинжал перешёл к круксу
+    assert.equal(num(processor, 'чейКинжал'), 2)
 })
