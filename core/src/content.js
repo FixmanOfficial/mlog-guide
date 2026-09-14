@@ -12,7 +12,7 @@
 import {LVar} from './lvar.js'
 import {NOT_SENSED} from './sense.js'
 import {packColorHex} from './arc.js'
-import {TEAMS} from './teams.js'
+import {TEAMS, teamColorBits} from './teams.js'
 import blockSpecs from '../data/block-specs.json' with {type: 'json'}
 import unitSpecs from '../data/unit-specs.json' with {type: 'json'}
 import materials from '../data/materials.json' with {type: 'json'}
@@ -113,6 +113,32 @@ export class Content {
 }
 
 /**
+ * Команда как объект логики: `@sharded`, `@crux` и остальные.
+ *
+ * Читается у неё немногое, зато читается: номер, цвет и имя. Ими и сравнивают команду
+ * юнита с нужной — `sensor @team` отдаёт **номер**, а не объект, и напрямую с `@crux`
+ * его не сравнить. `game/Team.java:170-182`
+ */
+class Team {
+    constructor(name, id) {
+        this.name = name
+        this.teamId = id
+    }
+
+    sense(property) {
+        switch (property) {
+            case 'id': return this.teamId
+            case 'color': return teamColorBits(this.teamId)
+            default: return NaN
+        }
+    }
+
+    senseObject(property) {
+        return property === 'name' ? this.name : NOT_SENSED
+    }
+}
+
+/**
  * Строит константы и таблицы поиска из данных генератора.
  * @param data содержимое core/data/logic-ids.json
  */
@@ -186,7 +212,7 @@ export function createContent(data) {
      * и `setblock` принимают именно их. GlobalVars.java:131
      */
     for (const [name, team] of Object.entries(TEAMS)) {
-        constant(`@${name}`, {teamId: team.id, name}, true)
+        constant(`@${name}`, new Team(name, team.id), true)
     }
 
     /** Объект контента по имени. Ищет среди констант, поэтому видит и местность. */

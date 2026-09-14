@@ -192,3 +192,62 @@ export const TOUGH = {
         ].join('\n')
     }]
 }
+
+/** Урок «Флаги партии»: два процессора говорят через флаг. */
+export const FLAGS = {
+    width: 16, height: 10, floor: 'sand',
+    blocks: [
+        {type: 'world-processor', x: 2, y: 7},
+        {type: 'world-processor', x: 2, y: 3},
+        {type: 'message', x: 12, y: 5}
+    ],
+    processors: [
+        {
+            at: [2, 7],
+            links: ['message1'],
+            program: [
+                'getflag тревога "тревога"',
+                'jump 4 equal тревога 0',
+                'print "Тревога!"',
+                'printflush message1',
+                'op add проверок проверок 1',
+                'end'
+            ].join('\n')
+        },
+        {
+            at: [2, 3],
+            links: [],
+            program: [
+                'jump 3 lessThan @time 2000',
+                'setflag "тревога" true',
+                'set подняли 1',
+                'end'
+            ].join('\n')
+        }
+    ]
+}
+
+/** Урок «Свойства напрямую»: `setprop` правит здоровье, команду и запасы мимо всякой физики. */
+export const PROPS = {
+    width: 16, height: 10, floor: 'sand',
+    blocks: [
+        {type: 'world-processor', x: 2, y: 5},
+        {type: 'container', x: 8, y: 5},
+        {type: 'duo', x: 12, y: 5, ammo: {copper: 5}}
+    ],
+    units: [{type: 'dagger', x: 6, y: 8}],
+    processors: [{
+        at: [2, 5],
+        links: ['container1', 'duo1'],
+        program: [
+            'setprop @health duo1 50',
+            'setprop @copper container1 120',
+            'ubind @dagger',
+            'setprop @team @unit @crux',
+            'sensor здоровьеТурели duo1 @health',
+            'sensor медиНаСкладе container1 @copper',
+            'sensor чейКинжал @unit @team',
+            'stop'
+        ].join('\n')
+    }]
+}

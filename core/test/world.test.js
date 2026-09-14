@@ -696,3 +696,36 @@ test('@solid берётся у блока, а не отвечает нулём �
     assert.equal(wall.sense('solid'), 1)
     assert.equal(router.sense('solid'), 0)
 })
+
+test('команда — объект с номером, цветом и именем, а sensor @team отдаёт номер', () => {
+    /*
+     * `Team.sense`: id и цвет числами, имя объектом. Сравнивать `sensor @team` с константой
+     * напрямую нельзя — номер спрашивают у самой команды. game/Team.java:170-182
+     */
+    const content = createContent(logicIds)
+    const world = new World({width: 12, height: 12, content})
+    const building = world.add('micro-processor')
+    world.spawn('dagger', {x: 5, y: 5})
+
+    const processor = new Processor([
+        'ubind @dagger',
+        'sensor чей @unit @team',
+        'sensor номерКрукса @crux @id',
+        'sensor номерШардед @sharded @id',
+        'sensor имя @crux @name',
+        'sensor цвет @crux @color',
+        'stop'
+    ].join('\n'), {world, content, globals: content.globals, building, team: 1})
+
+    building.processor = processor
+    world.addProcessor(processor)
+    processor.run(8)
+
+    assert.equal(processor.num('чей'), 1)
+    assert.equal(processor.num('номерКрукса'), 2)
+    assert.equal(processor.num('номерШардед'), 1)
+    assert.equal(processor.get('имя').obj(), 'crux')
+
+    // Цвет упакован так же, как у `packcolor`: крошечное число с байтами внутри
+    assert.ok(processor.num('цвет') > 0 && processor.num('цвет') < 1e-300)
+})
