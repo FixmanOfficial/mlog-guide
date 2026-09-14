@@ -2833,3 +2833,31 @@ test('урок «Эффекты»: замедленный кинжал отст�
     // Но и он доезжает — просто позже
     assert.ok(at(600)[0] > 15)
 })
+
+test('урок «Время»: с equal таймер срабатывает каждую итерацию, а не молчит', () => {
+    const base = DEADLINE.processors[0].program
+    const broken = base.replace('jump 4 lessThan @second срок', 'jump 4 equal @second срок')
+
+    const {processor} = stage({
+        ...DEADLINE,
+        processors: [{...DEADLINE.processors[0], program: broken}]
+    }, 600)
+
+    assert.ok(num(processor, 'сработало') > 100, num(processor, 'сработало'))
+    assert.equal(obj(processor, 'холостых'), null, 'холостых итераций не остаётся вовсе')
+})
+
+test('урок «Контент по номеру»: перебор жидкостей у контейнера даёт пустоту', () => {
+    const base = LOOKUP_SCAN.processors[0].program
+    const liquids = base
+        .replace('lookup item предмет номер', 'lookup liquid предмет номер')
+        .replace('@itemCount', '@liquidCount')
+
+    const {message} = stage({
+        ...LOOKUP_SCAN,
+        processors: [{...LOOKUP_SCAN.processors[0], program: liquids}]
+    }, 300)
+
+    // Жидкостей у контейнера нет вовсе: sensor отвечает пустотой, и лучшего не находится
+    assert.equal(message, 'null: null')
+})
