@@ -3026,3 +3026,29 @@ test('урок «Держать одного юнита»: sensor @dead у пу�
     assert.equal(processor.get('мёртв').num(), 1)
     assert.equal(processor.get('здоровье').obj(), null, 'а остальные свойства — пустота')
 })
+
+test('урок «Кто управляет юнитом»: задания про отказ от команд и про повтор', () => {
+    const without = (scene, index, line) => ({
+        ...scene,
+        processors: scene.processors.map((entry, at) => at === index
+            ? {...entry, program: entry.program.replace(line, '')}
+            : entry)
+    })
+
+    // Никто не командует — оба видят свободного юнита
+    const quiet = build(without(OWNER, 0, 'ucontrol move 16 6 0 0 0\n'))
+    for (let i = 0; i < 300; i++) quiet.world.step()
+
+    const [first, second] = quiet.processors.map(entry => entry.building.processor)
+
+    assert.equal(num(first, 'мой'), 0)
+    assert.equal(num(second, 'мой'), 0)
+    assert.equal(num(second, 'кем'), 0)
+    assert.equal(obj(second, 'кто'), quiet.world.units[0], '@controller — сам юнит')
+
+    // А повторяемая команда продлевает срок бесконечно
+    const looped = build(without(FORGET, 0, 'jump 3 notEqual отдал 0\n'))
+    for (let i = 0; i < 1500; i++) looped.world.step()
+
+    assert.equal(num(looped.processors[0].building.processor, 'кем'), 1)
+})
