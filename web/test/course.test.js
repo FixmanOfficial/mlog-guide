@@ -53,6 +53,7 @@ import {
 import {
     PRIVILEGE, FAST, LAYERS, PAINT, ROUNDING as TILE_ROUNDING
 } from '../src/course/scenes/world.js'
+import {AREA, SPAWN as SPAWN_SQUAD, BURN, FROZEN} from '../src/course/scenes/world-units.js'
 import iconTable from '@mlog/core/data/icons.json' with {type: 'json'}
 import logicIdsData from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
@@ -2192,4 +2193,36 @@ test('урок «Поставить и снести»: setblock усекает, 
     // Одни и те же 7.9 и 4.9: стена встала на 7 4, а прочиталась клетка 8 5
     assert.equal(obj(processor, 'гдеПоставили').name, 'copper-wall')
     assert.equal(obj(processor, 'поТемЖеЧислам').name, 'air')
+})
+
+test('урок «Поиск по области»: круг, прямоугольник и отбор по команде', () => {
+    const {processor} = stage(AREA, 40)
+
+    assert.equal(num(processor, 'всего'), 3)
+    assert.equal(num(processor, 'своих'), 2)
+    assert.equal(num(processor, 'вПрямоугольнике'), 3)
+    assert.equal(obj(processor, 'типПервого').name, 'dagger')
+})
+
+test('урок «Создать юнита»: появление останавливается на трёх', () => {
+    const {world, processor} = stage(SPAWN_SQUAD, 120)
+
+    assert.equal(world.units.length, 3)
+    assert.equal(num(processor, 'сколько'), 3)
+    assert.equal(obj(processor, 'типНового').name, 'dagger')
+})
+
+test('урок «Эффекты»: горение снимает сто здоровья за десять секунд', () => {
+    // 0.167 урона в тик — это ровно десять в секунду
+    const {processor} = stage(BURN, 660)
+
+    assert.equal(num(processor, 'предел'), 150)
+    assert.ok(Math.abs(num(processor, 'здоровье') - 50) < 1, num(processor, 'здоровье'))
+})
+
+test('урок «Эффекты»: unmoving держит юнита на месте', () => {
+    const {processor} = stage(FROZEN, 600)
+
+    assert.equal(num(processor, 'xСкованного'), 3)
+    assert.ok(num(processor, 'xСвободного') > 17, num(processor, 'xСвободного'))
 })
