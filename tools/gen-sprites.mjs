@@ -41,6 +41,16 @@ const chain = (type, name) => [
     `${name}1`
 ]
 
+/**
+ * У эффектов состояния берётся не `fullIcon`, а `uiIcon`: `loadIcon` ищет его первым,
+ * по имени `status-<имя>-ui`, и именно его игра показывает над юнитом и в характеристиках.
+ * Полная иконка у эффектов — картинка частицы, не значок.
+ */
+const statusChain = (name) => [`status-${name}-ui`, ...chain('status', name)]
+
+/** Служебные состояния значка не имеют вовсе: их и в атласе нет. */
+const SKIP_STATUS = new Set(['none', 'dynamic'])
+
 /** Уменьшает картинку до предела, сохраняя пропорции. */
 function fit(image, limit) {
     const side = Math.max(image.width, image.height)
@@ -58,6 +68,14 @@ function main() {
         ids = JSON.parse(readFileSync('core/data/logic-ids.json', 'utf8'))
     } catch {
         console.error('Не найден core/data/logic-ids.json — сначала запустите tools/gen-content.mjs')
+        process.exit(1)
+    }
+
+    let materials
+    try {
+        materials = JSON.parse(readFileSync('core/data/materials.json', 'utf8'))
+    } catch {
+        console.error('Не найден core/data/materials.json — сначала запустите tools/gen-dump.mjs')
         process.exit(1)
     }
 
@@ -81,6 +99,26 @@ function main() {
             entries.push({name: key, image: fit(atlas.cut(region), LIMIT)})
             found[type].push(name)
         }
+    }
+
+    /*
+     * Эффекты состояния идут отдельным списком: в `logicids.dat` их нет — по номеру
+     * `lookup` их не достать. Имена берутся из выгрузки контента, той же, где их числа.
+     */
+    found.status = []
+
+    for (const name of Object.keys(materials.statuses ?? {})) {
+        if (SKIP_STATUS.has(name)) continue
+
+        const region = statusChain(name).find(item => atlas.has(item))
+
+        if (region === undefined) {
+            missing.push(`status:${name}`)
+            continue
+        }
+
+        entries.push({name: `status:${name}`, image: fit(atlas.cut(region), LIMIT)})
+        found.status.push(name)
     }
 
     if (entries.length === 0) throw new Error('в атласе не нашлось иконок контента')

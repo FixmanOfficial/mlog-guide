@@ -2,7 +2,7 @@
 title: Spawn Bullet
 description: "Как мировой процессор пускает пулю без турели: чей это патрон, чья команда и что можно подкрутить"
 lead: "Выстрел без стрелка: пуля берётся у турели, а летит откуда скажут"
-difficulty: hard
+difficulty: medium
 sidebar:
     order: 0
     label: Пуля из ниоткуда
@@ -16,7 +16,7 @@ import Lesson from '../../../../../course/Lesson.astro'
 import {SHOT} from '../../../../../course/scenes/world.js'
 
 <LessonHead
-    difficulty="hard"
+    difficulty="medium"
     lead={frontmatter.lead}
     needs={[
         {lesson: 'world-intro', title: 'Что такое мировой процессор'},
@@ -80,9 +80,8 @@ bullet пуля @duo @graphite 5 5 0 @sharded null -1 1 1 0 0
 </Card>
 
 <Card kind="note">
-**В песочнице курса работают только пули предметных турелей.** Оружие юнитов в модели
-не разобрано: в выгрузке у типа юнита есть число стволов, но не их пули. В игре обе формы
-работают.
+**В песочнице курса пули юнитов не работают** — только пули предметных турелей.
+В игре инструкция работает как обычно.
 </Card>
 
 <Card kind="recap">

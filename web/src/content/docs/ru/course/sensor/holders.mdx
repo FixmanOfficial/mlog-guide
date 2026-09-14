@@ -9,6 +9,7 @@ sidebar:
 
 import {Example} from '../../../../../example/Example.jsx'
 import LessonHead from '../../../../../course/LessonHead.astro'
+import Lesson from '../../../../../course/Lesson.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
 import {HOLDERS} from '../../../../../course/scenes/sensor.js'
@@ -86,11 +87,14 @@ import {HOLDERS} from '../../../../../course/scenes/sensor.js'
 `@ctrlProcessor`, `@ctrlPlayer`, `@ctrlCommand`. Это те же самые 1, 2 и 3. Коды целиком —
 в [таблице свойств](/ru/reference/properties/#controlled).
 
-:::caution
-В песочнице курса живут не все свойства: `@heat` у реакторов всегда пуст, потому что тепла
-в модели нет вовсе. Турели и буры, наоборот, настоящие — `@ammo` и `@progress` здесь такие же,
-как в игре.
-:::
+Одного `@controlled` для юнитов обычно мало: он говорит «какой-то процессор», но не говорит
+какой. Пара к нему — `@controller`, и у каждого своя слепая зона; подробно об этом
+в уроке <Lesson lesson="ucontrol/control">«Кто управляет юнитом»</Lesson>.
+
+<Card kind="note">
+**В песочнице курса `@heat` у реакторов всегда пуст.** Турели и буры, наоборот, настоящие:
+`@ammo` и `@progress` здесь такие же, как в игре.
+</Card>
 
 <Card kind="recap">
 - Общих свойств немного: здоровье, координаты, команда, размер, содержимое.

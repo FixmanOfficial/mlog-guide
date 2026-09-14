@@ -882,8 +882,8 @@ export class WorldView {
         const bright = Math.round((0.7 + (sin(time / 0.5) * 0.3 + 0.3) / 2) * 8) / 8
         const color = mixColors(LIGHT_GRAY, '#ffffff', bright)
 
-        const cap = this.sprite('minelaser-end', color)
-        const beam = this.sprite('minelaser', color)
+        const cap = this.sprite('minelaser-end', color, 'multiply')
+        const beam = this.sprite('minelaser', color, 'multiply')
         if (beam === null) return
 
         const angle = Math.atan2(y2 - y1, x2 - x1)
@@ -1355,11 +1355,12 @@ export class WorldView {
      * умноженная на 32, — и потому не расплываются. Если блока там нет, берётся иконка контента,
      * но она уменьшена до 32 пикселей на весь блок и годится только как запасной вариант.
      */
-    sprite(type, color = null) {
+    sprite(type, color = null, mode = 'replace') {
         const native = this.blockSprites?.sprites?.[type]
         if (native !== undefined && this.blocks !== null) {
-            const key = color === null ? `block:${type}` : `block:${type}:${color}`
-            return this.cut(key, this.blocks, native.x, native.y, native.width, native.height, color)
+            const key = color === null ? `block:${type}` : `block:${type}:${color}:${mode}`
+            return this.cut(key, this.blocks,
+                native.x, native.y, native.width, native.height, color, mode)
         }
 
         const entry = this.sprites?.index.block?.[type]
@@ -1378,7 +1379,7 @@ export class WorldView {
      * картинку браузер молча отказывается. Отсюда пара условий: `complete` про загрузку,
      * ширина про то, что картинка не битая.
      */
-    cut(key, image, x, y, width, height = width, color = null) {
+    cut(key, image, x, y, width, height = width, color = null, mode = 'replace') {
         if (!image.complete || !(image.naturalWidth > 0)) return null
 
         // Пустой размер означает, что указатель разошёлся с рендером: молчать тут нельзя,
@@ -1396,8 +1397,25 @@ export class WorldView {
         context.imageSmoothingEnabled = false
         context.drawImage(image, x, y, width, height, 0, 0, width, height)
 
-        // Перекраска целиком, с сохранением прозрачности: рисунок ячейки — маска
-        if (color !== null) {
+        /*
+         * Два способа покрасить, и они разные.
+         *
+         * `replace` заливает рисунок целиком, оставляя от него только форму: так красятся
+         * белые накладки команды и уголки выделения — у них своего цвета нет вовсе.
+         *
+         * `multiply` — это `Draw.color` из игры: цвет **домножается** на пиксель, а не встаёт
+         * вместо него. Без этого жёлтый луч добычи (`#ffd9a8` в атласе) выходил белым.
+         * Умножение делается заливкой, а прозрачность возвращается вторым проходом:
+         * `multiply` на холсте трогает и пустые места.
+         */
+        if (color !== null && mode === 'multiply') {
+            context.globalCompositeOperation = 'multiply'
+            context.fillStyle = color
+            context.fillRect(0, 0, width, height)
+
+            context.globalCompositeOperation = 'destination-in'
+            context.drawImage(image, x, y, width, height, 0, 0, width, height)
+        } else if (color !== null) {
             context.globalCompositeOperation = 'source-in'
             context.fillStyle = color
             context.fillRect(0, 0, width, height)

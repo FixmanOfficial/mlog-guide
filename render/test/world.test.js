@@ -330,3 +330,46 @@ test('луч добычи тянется от юнита к рудной кле�
     // На каждом конце по кружку
     assert.equal(drawn.filter(entry => entry.image?.name === 'minelaser-end').length, 2)
 })
+
+test('цвет луча домножается на спрайт, а не встаёт вместо него', () => {
+    /*
+     * `Draw.color` в игре умножает цвет вершин на пиксель. Спрайт `minelaser` жёлтый
+     * (`#ffd9a8`), и заливка «целиком» делала его белым — луч добычи терял свой цвет.
+     * Проверяется сам механизм: у `cut` два режима, и они дают разное.
+     */
+    const pixels = []
+
+    const canvas = {
+        style: {},
+        getContext: () => ({imageSmoothingEnabled: true})
+    }
+
+    // Холст-заглушка запоминает, чем и в каком режиме красили
+    const stub = {
+        width: 0, height: 0,
+        getContext: () => ({
+            imageSmoothingEnabled: false,
+            drawImage: () => pixels.push('draw'),
+            fillRect: () => pixels.push('fill'),
+            set globalCompositeOperation(value) { pixels.push(value) },
+            set fillStyle(value) { pixels.push(value) }
+        })
+    }
+
+    globalThis.document = {createElement: () => stub}
+
+    const map = new WorldView(canvas, {world: new World({width: 4, height: 4}), tile: 8})
+    const image = {complete: true, naturalWidth: 64, naturalHeight: 64}
+
+    map.cut('тест:умножение', image, 0, 0, 4, 4, '#bfbfbf', 'multiply')
+
+    // Умножение: заливка, а потом возврат прозрачности вторым рисунком
+    assert.deepEqual(pixels, ['draw', 'multiply', '#bfbfbf', 'fill', 'destination-in', 'draw'])
+
+    pixels.length = 0
+    map.cut('тест:замена', image, 0, 0, 4, 4, '#bfbfbf')
+
+    assert.deepEqual(pixels, ['draw', 'source-in', '#bfbfbf', 'fill'])
+
+    delete globalThis.document
+})

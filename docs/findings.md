@@ -594,7 +594,11 @@ Mindustry закрепляет arc хешем коммита в `gradle.properti
 | **Привязка к юниту-объекту счётчик перебора не двигает.** `exec.binds[type.id]++` стоит только в ветке типа; `ubind мой` просто кладёт юнита в `@unit` | `logic/LExecutor.java:186-205` | ✓ `unit.test.js` |
 | `sensor @dead` у **пустоты** отдаёт единицу, а не пустоту: `SenseI` проверяет этот случай раньше всего остального. Все прочие свойства у пустоты остаются пустотой | `logic/LExecutor.java:683-689` | ✓ `course.test.js` |
 | Юнита под **игроком** или под **приказом** логика не получает вовсе: `checkLogicAI` спрашивает `unit.controller().isLogicControllable()`, а `PlayerComp` отвечает `false`, `CommandAI` — `!hasCommand()`. `ubind` при этом срабатывает как обычно | `logic/LExecutor.java:322`, `entities/comp/PlayerComp.java:174`, `ai/types/CommandAI.java:108` | — (игроков и приказов в модели нет) |
-| `@controller` у неуправляемого логикой юнита отдаёт **самого юнита**, а не пустоту | `entities/comp/UnitComp.java:321` | ✓ `course.test.js` |
+| `@controller` у неуправляемого логикой юнита отдаёт **самого юнита**, а не пустоту. Игрок за рулём от собственного ИИ так не отличается: обоим ответ один | `entities/comp/UnitComp.java:321` | ✓ `course.test.js` |
+| `@controlled` не различает процессоры: у своего и у чужого один и тот же `ctrlProcessor` | `entities/comp/UnitComp.java:298-302` | — |
+| Значение переменной в окне игры печатается через `PrintI.toString`: юнит показывается `unit.type.name`, здание — `build.block.name`. Не «object» и не имя связи | `logic/LogicDialog.java:205`, `logic/LExecutor.java:1078-1089` | ✓ `palette.test.js` |
+| `Draw.color` **домножает** цвет на пиксель, а не встаёт вместо него: спрайт луча добычи жёлтый (`#ffd9a8`), и заливка «целиком» делала его белым | `graphics/Drawf.java:521-541`, `type/UnitType.java:1619` | ✓ `world.test.js` (render) |
+| Значок эффекта — `uiIcon` (`status-<имя>-ui`), а не `fullIcon`: полная иконка у эффектов это картинка частицы | `type/UnlockableContent.java` `loadIcon` | — |
 
 ## Правила игры
 

@@ -60,6 +60,17 @@ export function valueText(variable) {
     if (variable.isobj) {
         if (variable.objval === null) return 'null'
         if (typeof variable.objval === 'string') return variable.objval
+
+        /*
+         * `PrintI.toString`: юнит и здание печатаются **типом**, а не собой. Юнит — это
+         * `unit.type.name`, здание — `build.block.name`, то есть `poly` и `container`,
+         * а не «объект» и не имя связи. У нас тип у обоих лежит в `type`, а `name` у здания
+         * это имя связи, которого в игре нет вовсе.
+         */
+        if (variable.objval instanceof Unit || variable.objval instanceof Building) {
+            return variable.objval.type
+        }
+
         if (variable.objval.name !== undefined) return variable.objval.name
         if (variable.objval.access !== undefined) return `@${variable.objval.access}`
         return 'object'

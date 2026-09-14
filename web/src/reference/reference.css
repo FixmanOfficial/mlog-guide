@@ -260,3 +260,17 @@
 .ref-status__none {
     color: var(--sl-color-gray-3);
 }
+
+/*
+ * Значок эффекта — кусок общего атласа игры: картинок по отдельности у нас нет вовсе,
+ * поэтому кадрируется он фоном. Размер фона — размер всего листа, сдвиг — место спрайта.
+ */
+.ref-status__icon {
+    width: var(--side);
+    height: var(--side);
+    flex: none;
+    background-image: var(--sheet);
+    background-size: var(--w) var(--h);
+    background-position: var(--x) var(--y);
+    image-rendering: pixelated;
+}

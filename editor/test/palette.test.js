@@ -91,3 +91,20 @@ test('команда в таблице — команда', () => {
     assert.equal(typeName(sharded), 'team')
     assert.equal(valueText(sharded), 'sharded')
 })
+
+test('юнит и здание в таблице печатаются типом, как в игре', () => {
+    /*
+     * `LogicDialog` показывает значение через `PrintI.toString`, а тот у юнита берёт
+     * `unit.type.name`, у здания — `build.block.name`. Раньше юнит выходил «object»,
+     * а здание — именем связи, которого в игре у здания нет вовсе.
+     */
+    const world = new World({width: 8, height: 8})
+    const container = world.add('container', {x: 3, y: 3})
+    const unit = world.spawn('poly', {x: 5, y: 5})
+
+    assert.equal(valueText({isobj: true, objval: unit}), 'poly')
+    assert.equal(typeName({isobj: true, objval: unit}), 'unit')
+
+    assert.equal(valueText({isobj: true, objval: container}), 'container')
+    assert.equal(typeName({isobj: true, objval: container}), 'building')
+})

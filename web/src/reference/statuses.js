@@ -11,6 +11,7 @@
  */
 
 import materials from '@mlog/core/data/materials.json' with {type: 'json'}
+import sprites from '@mlog/core/data/sprites.json' with {type: 'json'}
 
 import {bundle} from './data.js'
 
@@ -44,6 +45,12 @@ export function effects(locale) {
             name,
             title: names[`status.${name}.name`] ?? name,
             color: spec.color,
+
+            /*
+             * Значок — `uiIcon` из атласа игры (`status-<имя>-ui`), снятый `gen-sprites.mjs`.
+             * У неуязвимости его нет вовсе: в атласе такой картинки не нарисовано.
+             */
+            icon: sprites.index.status?.[name] ?? null,
             permanent: spec.permanent,
             disarm: spec.disarm,
 

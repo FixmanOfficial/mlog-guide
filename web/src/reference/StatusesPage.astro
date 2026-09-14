@@ -12,6 +12,9 @@ import {GAME_VERSION} from './data.js'
 import {strings} from './strings.js'
 import './reference.css'
 
+import atlas from '@mlog/core/data/sprites.json' with {type: 'json'}
+import atlasUrl from '@mlog/editor/assets/content.png?url'
+
 const {locale} = Astro.props
 
 const text = strings(locale)
@@ -47,7 +50,17 @@ function factorLabel(factor) {
                 <td>
                     <code>@status-{row.name}</code>
                     <div class="ref-status__name">
-                        <span class="ref-status__dot" style={`--dot: ${row.color}`}></span>
+                        {row.icon === null ? (
+                            <span class="ref-status__dot" style={`--dot: ${row.color}`}></span>
+                        ) : (
+                            <span
+                                class="ref-status__icon"
+                                style={`--sheet: url(${atlasUrl});
+                                    --x: ${-row.icon.x}px; --y: ${-row.icon.y}px;
+                                    --w: ${atlas.width}px; --h: ${atlas.height}px;
+                                    --side: ${row.icon.width}px`}
+                            ></span>
+                        )}
                         {row.title}
                     </div>
                 </td>
