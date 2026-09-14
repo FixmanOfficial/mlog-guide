@@ -36,6 +36,7 @@ import {
 import {ENABLED, CONFIG, UNLINKED, SHOOT, SHOOTP} from '../src/course/scenes/control.js'
 import {LOOP as LINK_LOOP, BEYOND} from '../src/course/scenes/getlink.js'
 import {FIND, SORT, CACHE} from '../src/course/scenes/radar.js'
+import {TABLE as LOOKUP_TABLE, SCAN as LOOKUP_SCAN} from '../src/course/scenes/lookup.js'
 import iconTable from '@mlog/core/data/icons.json' with {type: 'json'}
 import logicIdsData from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
@@ -1846,4 +1847,34 @@ test('контент в уроках назван так же, как в игр�
             assert.ok(!text.includes(bad), `${file}: «${bad}» — в игре это ${right}`)
         }
     }
+})
+
+test('урок «Контент по номеру»: нулевые в четырёх таблицах и границы', () => {
+    const {processor} = stage(LOOKUP_TABLE, 40)
+
+    // Порядок таблиц задаёт `logicids.dat`, снятый `gen-content.mjs`
+    assert.equal(obj(processor, 'первыйПредмет').name, 'copper')
+    assert.equal(obj(processor, 'первыйЮнит').name, 'dagger')
+    assert.equal(obj(processor, 'перваяЖидкость').name, 'water')
+
+    // За границей таблицы — пустота, а не ошибка
+    assert.equal(obj(processor, 'заГраницей'), null)
+})
+
+test('урок «Контент по номеру»: обратный перевод через @id и длины таблиц', () => {
+    const {processor} = stage(LOOKUP_TABLE, 40)
+
+    assert.equal(num(processor, 'номерГрафита'), 3)
+    assert.equal(obj(processor, 'обратно').name, 'graphite')
+
+    assert.equal(num(processor, 'предметов'), 20)
+    assert.equal(num(processor, 'юнитов'), 56)
+})
+
+test('урок «Контент по номеру»: перебор находит самый частый предмет', () => {
+    const {processor, message} = stage(LOOKUP_SCAN, 120)
+
+    assert.equal(obj(processor, 'чего').name, 'graphite')
+    assert.equal(num(processor, 'лучшее'), 60)
+    assert.equal(message, 'graphite: 60')
 })
