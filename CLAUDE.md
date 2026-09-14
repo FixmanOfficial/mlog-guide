@@ -24,13 +24,13 @@
 
 ## Источник истины
 
-**Mindustry v160.3**, тег зафиксирован. Обновление версии — отдельная осознанная задача, а не
+**Mindustry v160.4**, тег зафиксирован. Обновление версии — отдельная осознанная задача, а не
 «подтянуть последнее».
 
 Исходники не лежат в репозитории. Развернуть локально:
 
 ```bash
-git clone --depth 1 --branch v160.3 --filter=blob:none --sparse https://github.com/Anuken/Mindustry.git
+git clone --depth 1 --branch v160.4 --filter=blob:none --sparse https://github.com/Anuken/Mindustry.git
 git -C Mindustry sparse-checkout set core/src/mindustry/logic core/src/mindustry/world core/src/mindustry/content core/src/mindustry/type core/assets
 ```
 
@@ -129,7 +129,7 @@ node tools/gen-dump.mjs <путь-к-Mindustry.jar>
 
 Нужен JDK 17 или новее (игра собрана под 17, на восьмёрке не запустится) — ищется сам,
 в `JAVA_HOME`, среди установленных Adoptium и в PATH. Jar в репозиторий не кладём, качать
-отсюда: `github.com/Anuken/Mindustry/releases/download/v160.3/Mindustry.jar`, 87 МБ.
+отсюда: `github.com/Anuken/Mindustry/releases/download/v160.4/Mindustry.jar`, 87 МБ.
 Сам дампер — `tools/dump/ContentDump.java`.
 
 **Версию jar генератор проверяет сам**: читает `version.properties` из архива и падает, если
@@ -143,8 +143,8 @@ node tools/gen-dump.mjs <путь-к-Mindustry.jar>
 
 | Константа | Что подписывает | Сейчас |
 | --- | --- | --- |
-| `GAME_VERSION` | всё, что снято с исходников: раскладки, схемы, палитры, переводы | v160.3 |
-| `CONTENT_VERSION` | всё, что снято с jar: спеки контента, атласы, шрифт | v160.3 |
+| `GAME_VERSION` | всё, что снято с исходников: раскладки, схемы, палитры, переводы | v160.4 |
+| `CONTENT_VERSION` | всё, что снято с jar: спеки контента, атласы, шрифт | v160.4 |
 
 Сейчас они совпадают, и это обычное состояние. Разъехаться им позволено, когда в новой сборке
 контент не менялся вовсе: тогда качать 87 МБ незачем, но и подписывать выгрузку версией,
@@ -192,7 +192,7 @@ node tools/gen-instructions.mjs <путь-к-Mindustry>
 ## Библиотека arc
 
 Часть семантики mlog живёт не в Mindustry, а в arc — там `Mathf`, `Angles`, `Rand`, `Simplex`
-и разбор чисел. Игра закрепляет arc хешем коммита в `gradle.properties`, для v160.3 это
+и разбор чисел. Игра закрепляет arc хешем коммита в `gradle.properties`, для v160.4 это
 `archash=68a04fab6e`. Пин такой же жёсткий, как у самой игры.
 
 ```bash

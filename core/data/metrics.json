@@ -1,5 +1,5 @@
 {
-  "gameVersion": "v160.3",
+  "gameVersion": "v160.4",
   "source": "core/src/mindustry/logic, core/src/mindustry/ui",
   "note": "Файл сгенерирован, править вручную нельзя. Все значения — литералы из исходников, снятые шаблонами с якорем по соседнему коду.",
   "counts": [

@@ -1,5 +1,5 @@
 {
-  "gameVersion": "v160.3",
+  "gameVersion": "v160.4",
   "source": "sprites/sprites.aatls из Mindustry.jar",
   "note": "Файл сгенерирован, править вручную нельзя. Спрайты лежат в своём разрешении: сторона блока в тайлах, умноженная на 32.",
   "atlas": "render/assets/blocks.png",

@@ -1,5 +1,5 @@
 {
-  "gameVersion": "v160.3",
+  "gameVersion": "v160.4",
   "source": "core/src/mindustry/logic/GlobalVars.java",
   "note": "Файл сгенерирован, править вручную нельзя. Порядок тот же, что в окне игры; строки sectionX — заголовки разделов, описания лежат в i18n под ключами lglobal.",
   "entries": [

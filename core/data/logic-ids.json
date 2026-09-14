@@ -1,5 +1,5 @@
 {
-  "gameVersion": "v160.3",
+  "gameVersion": "v160.4",
   "source": "core/assets/logicids.dat",
   "note": "Индекс в массиве и есть логический идентификатор. Файл сгенерирован, править вручную нельзя.",
   "counts": {

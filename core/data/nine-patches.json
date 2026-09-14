@@ -1,5 +1,5 @@
 {
-  "gameVersion": "v160.3",
+  "gameVersion": "v160.4",
   "source": "core/assets-raw/sprites/ui",
   "note": "Файл сгенерирован, править вручную нельзя. border — толщина рамки в пикселях, cut — насколько срезан угол, fillAlpha — прозрачность заливки.",
   "patches": {

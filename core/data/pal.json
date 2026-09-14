@@ -1,5 +1,5 @@
 {
-  "gameVersion": "v160.3",
+  "gameVersion": "v160.4",
   "source": "core/src/mindustry/graphics/Pal.java",
   "note": "Файл сгенерирован, править вручную нельзя. Значения в формате #rrggbb, альфа дописывается только если она не полная.",
   "colors": {
