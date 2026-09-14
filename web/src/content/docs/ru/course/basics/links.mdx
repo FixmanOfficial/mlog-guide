@@ -60,9 +60,11 @@ import {LINKS} from '../../../../../course/scenes/basics.js'
 | `power-node` | `node1` |
 | `titanium-conveyor` | `conveyor1` |
 | `large-logic-display` | `display1` |
+| `power-node-large` | `node1` |
+| `metal-wall-2` | `wall1` |
 
-Хвост `large` и цифры игра отбрасывает и берёт часть перед ними — поэтому большой дисплей
-тоже `display`, а не `large`.
+Последние две строки — особый случай: если имя блока **кончается** на `large` или на число,
+игра берёт часть перед ним. Поэтому большой силовой узел — тоже `node`, а не `large`.
 
 <Card kind="error">
 Имя принадлежит **связи в этом процессоре**, а не блоку. Один и тот же контейнер у двух

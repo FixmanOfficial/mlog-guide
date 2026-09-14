@@ -60,6 +60,7 @@ import {AREA, SPAWN as SPAWN_SQUAD, BURN, FROZEN} from '../src/course/scenes/wor
 import iconTable from '@mlog/core/data/icons.json' with {type: 'json'}
 import logicIdsData from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
+import blockSpecs from '@mlog/core/data/block-specs.json' with {type: 'json'}
 
 import {readdirSync, readFileSync, statSync} from 'node:fs'
 import {join} from 'node:path'
@@ -709,7 +710,11 @@ test('урок «Связи и getlink»: имена связей из табл�
         'memory-cell': 'cell',
         'power-node': 'node',
         'titanium-conveyor': 'conveyor',
-        'large-logic-display': 'display'
+        'large-logic-display': 'display',
+
+        // Хвост отбрасывается только в конце имени: `large` спереди — обычная часть
+        'power-node-large': 'node',
+        'metal-wall-2': 'wall'
     }
 
     for (const [block, name] of Object.entries(table)) {
@@ -2432,4 +2437,29 @@ test('урок «Пуля из ниоткуда»: выстрелы по сро�
 
     const late = stage(SHOT, 700)
     assert.equal(late.world.units.length, 0, 'кинжал не пережил дюжину выстрелов')
+})
+
+test('урок «Как работает процессор»: таблица скоростей — это спеки блоков', () => {
+    /*
+     * Урок называет три числа вслух, и взяты они не с голоса: `instructionsPerTick`
+     * каждого процессора приходит дампом из игры.
+     */
+    const ipt = (block) => blockSpecs.blocks[block].ipt
+
+    assert.equal(ipt('micro-processor'), 2)
+    assert.equal(ipt('logic-processor'), 8)
+    assert.equal(ipt('hyper-processor'), 25)
+
+    // И арифметика урока: двадцать инструкций — шесть итераций в секунду на микро
+    assert.equal(60 / (20 / ipt('micro-processor')), 6)
+    assert.equal(60 / (20 / ipt('hyper-processor')), 75)
+})
+
+test('урок «Связи и getlink»: дальность связи — из спеков блока', () => {
+    // `range` у процессора в мировых единицах, а урок называет тайлы
+    const tiles = (block) => blockSpecs.blocks[block].range / 8
+
+    assert.equal(tiles('micro-processor'), 10)
+    assert.equal(tiles('logic-processor'), 22)
+    assert.equal(tiles('hyper-processor'), 42)
 })

@@ -99,25 +99,67 @@ export function available({privileged = false, unitControl = true, allow = true}
 let nextId = 1
 
 /**
- * Приведение введённого значения, как в LStatement.sanitize.
+ * Приведение введённого значения, как в `LStatement.sanitize`.
  *
- * Поле в игре не даёт ввести то, что сломает разбор: пробел, кавычка и точка с запятой
- * подменяются. Строковый литерал при этом сохраняется целиком, а кавычки внутри него
- * становятся апострофами.
+ * Поле в игре не даёт ввести то, что сломает разбор программы: точка с запятой, кавычка,
+ * пробел, табуляция, перевод строки и решётка подменяются — иначе одно значение
+ * превратилось бы в два или в комментарий.
+ *
+ * Строковый литерал (в кавычках с обеих сторон) обрабатывается иначе: внутри него кавычка
+ * и обратная косая экранируются, а уже написанные последовательности сохраняются как есть.
+ * Экранирование в строках появилось в v160 — до него кавычка внутри менялась на апостроф.
  */
+/** Одиночный символ, который в поле не поместится ничем, кроме слова `invalid`. */
+const LONE_BAD = new Set(['"', ';', ' ', '\n', '\t', '#'])
+
+/** Подмена в обычном значении: `LStatement.sanitize`, ветка без кавычек. */
+const PLAIN = {';': 's', '"': "'", ' ': '_', '\t': '_', '\n': '_', '#': '_'}
+
+/** Четыре шестнадцатеричные цифры подряд — хвост последовательности `\\uXXXX`. */
+function isHex(value, from) {
+    if (from + 4 > value.length) return false
+
+    for (let i = from; i < from + 4; i++) {
+        if (!/[0-9a-fA-F]/.test(value[i])) return false
+    }
+
+    return true
+}
+
 export function sanitize(value) {
     if (value.length === 0) return ''
-
-    if (value.length === 1) {
-        return value === '"' || value === ';' || value === ' ' ? 'invalid' : value
-    }
+    if (value.length === 1) return LONE_BAD.has(value) ? 'invalid' : value
 
     if (value.startsWith('"') && value.endsWith('"')) {
-        return '"' + value.slice(1, -1).split('"').join("'") + '"'
+        let result = '"'
+
+        for (let i = 1; i < value.length - 1; i++) {
+            const char = value[i]
+
+            // Уже написанное экранирование не трогаем: иначе `\n` превратился бы в `\\n`
+            if (char === '\\' && i + 1 < value.length - 1) {
+                const next = value[i + 1]
+
+                if (next === '"' || next === '\\' || next === 'n') {
+                    result += char + next
+                    i++
+                    continue
+                }
+
+                if (next === 'u' && i + 5 < value.length - 1 && isHex(value, i + 2)) {
+                    result += value.slice(i, i + 6)
+                    i += 5
+                    continue
+                }
+            }
+
+            result += char === '"' ? '\\"' : char === '\\' ? '\\\\' : char === '\n' ? '\\n' : char
+        }
+
+        return result + '"'
     }
 
-    return [...value].map(char =>
-        char === ';' ? 's' : char === '"' ? "'" : char === ' ' ? '_' : char).join('')
+    return [...value].map(char => PLAIN[char] ?? char).join('')
 }
 
 /** Новая инструкция со значениями по умолчанию из схемы. */
