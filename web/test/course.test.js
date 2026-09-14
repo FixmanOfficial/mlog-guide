@@ -2584,3 +2584,60 @@ test('урок «Буфер команд»: задания к примеру д�
     // Двести клеток — двести два места
     assert.deepEqual(variant(base.replace('номер 256', 'номер 200')), {команд: 202, вДисплее: 202})
 })
+
+test('урок «Настройка блока»: список настраиваемых блоков сходится с дампом', () => {
+    /*
+     * Урок перечисляет блоки, которым логика меняет настройку. Признак снят дампом
+     * (`logicConfigurable`), и здесь проверяется, что названные блоки в нём есть,
+     * а названные «ненастраиваемыми» — нет.
+     */
+    const can = (block) => blockSpecs.blocks[block].logicConfigurable === true
+
+    for (const block of [
+        'sorter', 'inverted-sorter', 'unloader', 'duct-unloader', 'duct-router',
+        'surge-router', 'item-source', 'liquid-source',
+        'ground-factory', 'air-factory', 'naval-factory',
+        'tank-fabricator', 'ship-fabricator', 'mech-fabricator',
+        'constructor', 'large-constructor', 'payload-router', 'payload-source'
+    ]) {
+        assert.equal(can(block), true, block)
+    }
+
+    for (const block of ['container', 'mechanical-drill', 'duo']) {
+        assert.equal(can(block), false, block)
+    }
+
+    // `@config` читается не у всех, кому пишется: у мишени настройка есть, а чтения нет
+    assert.equal(blockSpecs.blocks['target-dummy'].logicConfigurable, true)
+    assert.notEqual(blockSpecs.blocks['target-dummy'].configSenseable, true)
+})
+
+test('урок «Предметы и пустой ответ»: у типа блока спрашивают цену, а не запас', () => {
+    const scene = {
+        width: 12, height: 8, floor: 'sand',
+        blocks: [
+            {type: 'micro-processor', x: 2, y: 2},
+            {type: 'vault', x: 7, y: 4, items: {copper: 220, graphite: 15}}
+        ],
+        processors: [{
+            at: [2, 2],
+            links: ['vault1'],
+            program: [
+                'sensor графит vault1 @graphite',
+                'sensor титан vault1 @titanium',
+                'sensor ценаТитана @vault @titanium',
+                'sensor ценаСвинца @vault @lead',
+                'stop'
+            ].join('\n')
+        }]
+    }
+
+    const {processor} = stage(scene, 20)
+
+    assert.equal(num(processor, 'графит'), 15)
+    assert.equal(num(processor, 'титан'), 0, 'предмета нет — ноль, а не пустота')
+
+    // У чертежа нет запасов, зато есть стоимость: хранилище стоит 250 титана
+    assert.equal(num(processor, 'ценаТитана'), 250)
+    assert.equal(num(processor, 'ценаСвинца'), 0)
+})
