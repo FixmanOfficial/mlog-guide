@@ -4,9 +4,10 @@
  */
 
 import {level} from './levels.js'
+import {localeOf} from './locale.js'
 import './course.css'
 
-const {difficulty, locale = 'ru', label = false} = Astro.props
+const {difficulty, locale = localeOf(Astro.url), label = false} = Astro.props
 
 const entry = level(difficulty)
 ---

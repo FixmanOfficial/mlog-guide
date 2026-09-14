@@ -14,8 +14,8 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
 
-import {readdirSync, readFileSync, statSync} from 'node:fs'
-import {join} from 'node:path'
+import {existsSync, readdirSync, readFileSync, statSync} from 'node:fs'
+import {join, sep} from 'node:path'
 import {fileURLToPath} from 'node:url'
 
 import {GROUPS} from '../src/course/parts.js'
@@ -61,4 +61,59 @@ test('каждая группа уроков лежит в какой-нибуд
 
     // И наоборот: в описании не должно быть выдуманных имён с уроками
     assert.ok(folders.length > 0, 'уроки нашлись')
+})
+
+test('словарь имён покрывает все сцены курса', async () => {
+    /*
+     * Английская страница показывает ту же сцену с переписанными именами. Слово, которого
+     * нет в словаре, приехало бы в английский пример по-русски — и заметить это можно было
+     * бы только глазами, на одной странице из ста двадцати.
+     */
+    const {english} = await import('../src/course/scenes/translate.js')
+
+    const folder = fileURLToPath(new URL('../src/course/scenes/', import.meta.url))
+    const missing = new Set()
+    let scenes = 0
+
+    for (const file of readdirSync(folder)) {
+        if (!file.endsWith('.js') || file === 'translate.js' || file === 'names.en.js') continue
+
+        const module = await import(new URL(`../src/course/scenes/${file}`, import.meta.url))
+
+        for (const value of Object.values(module)) {
+            if (value !== null && typeof value === 'object') {
+                english(value, missing)
+                scenes++
+            }
+        }
+    }
+
+    assert.ok(scenes > 100, `сцен нашлось ${scenes}`)
+    assert.deepEqual([...missing], [], 'слова без перевода')
+})
+
+test('английский урок повторяет русский по месту и сложности', async () => {
+    /*
+     * Перевод — не отдельный курс: у урока тот же адрес, тот же порядок в меню и та же
+     * сложность. Разъехавшийся `order` переставил бы уроки местами только на одном языке,
+     * и заметить это можно было бы только сравнив два меню.
+     */
+    const root = fileURLToPath(new URL('../src/content/docs/', import.meta.url))
+
+    const head = (path) => {
+        const text = readFileSync(path, 'utf8')
+        const front = text.slice(0, text.indexOf('\n---', 4))
+
+        return {
+            order: front.match(/^\s+order:\s*(-?\d+)/m)?.[1] ?? null,
+            difficulty: front.match(/^difficulty:\s*(\w+)/m)?.[1] ?? null
+        }
+    }
+
+    for (const path of pages(join(root, 'en/course'))) {
+        const twin = path.replace(`${sep}en${sep}`, `${sep}ru${sep}`)
+
+        assert.ok(existsSync(twin), `${path}: русского урока нет вовсе`)
+        assert.deepEqual(head(path), head(twin), `${path}: шапка разошлась с русской`)
+    }
 })

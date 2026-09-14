@@ -20,6 +20,7 @@
  */
 
 import pal from '@mlog/core/data/pal.json' with {type: 'json'}
+import {localeOf} from './locale.js'
 import './course.css'
 
 const KINDS = {
@@ -29,7 +30,7 @@ const KINDS = {
     task: {color: pal.colors.accent, title: {ru: 'Задание', en: 'Task'}}
 }
 
-const {kind = 'error', title, locale = 'ru'} = Astro.props
+const {kind = 'error', title, locale = localeOf(Astro.url)} = Astro.props
 
 const role = KINDS[kind] ?? KINDS.error
 ---

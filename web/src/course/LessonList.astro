@@ -8,9 +8,10 @@
 
 import {groupLessons} from './data.js'
 import Level from './Level.astro'
+import {localeOf} from './locale.js'
 import './course.css'
 
-const {locale = 'ru', group} = Astro.props
+const {locale = localeOf(Astro.url), group} = Astro.props
 
 const lessons = await groupLessons(locale, group)
 ---

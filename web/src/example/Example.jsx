@@ -20,7 +20,9 @@ import {useEffect, useMemo, useRef, useState} from 'preact/hooks'
 
 import {Editor, fromText, applyEasings, applyMetrics, applyNinePatches} from '@mlog/editor'
 import {Icon} from '@mlog/editor/src/Icon.jsx'
-import {restoreLocalization, setLocalization, useLocalization} from '@mlog/editor/src/names.js'
+import {
+    restoreLocalization, setLocalization, useLocalization, useNameBundle
+} from '@mlog/editor/src/names.js'
 import {DisplayView} from '@mlog/render/src/display.js'
 import {WorldView} from '@mlog/render/src/world.js'
 
@@ -36,7 +38,11 @@ import terrainSprites from '@mlog/core/data/terrain-sprites.json'
 import teams from '@mlog/core/data/teams.json'
 import logicFontUrl from '@mlog/render/assets/logic.ttf'
 
+import bundleEn from '@mlog/core/data/i18n/en.json'
+import bundleRu from '@mlog/core/data/i18n/ru.json'
+
 import {createScene, attachProcessor} from '../sandbox/scene.js'
+import {localized as sceneFor} from '../course/scenes/translate.js'
 import {Variables} from '../game/Variables.jsx'
 
 import '@mlog/editor/src/styles.css'
@@ -128,6 +134,29 @@ function rememberHighlight(on) {
 }
 
 /**
+ * Подписи кнопок окна. Своего перевода у игры для них нет: в ней это не кнопки редактора,
+ * а наши — «шаг», «сначала», подсветка строки. Поэтому текст тут свой, как и у курса.
+ */
+const TOOLBAR = {
+    ru: {
+        pause: 'Пауза', play: 'Пуск', step: 'шаг', stepTitle: 'Одна инструкция',
+        reset: 'Сначала', add: 'Добавить инструкцию',
+        hide: 'Скрыть подсветку строки', show: 'Показать подсветку строки',
+        native: 'Надписи как в игре: по-русски',
+        plain: 'Надписи по-английски, как без перевода в игре',
+        tick: 'тик'
+    },
+    en: {
+        pause: 'Pause', play: 'Run', step: 'step', stepTitle: 'One instruction',
+        reset: 'Restart', add: 'Add instruction',
+        hide: 'Hide the current line', show: 'Show the current line',
+        native: 'Labels as in the game',
+        plain: 'Labels untranslated, as in the game without localisation',
+        tick: 'tick'
+    }
+}
+
+/**
  * Номер строки, которую процессор выполнит следующей.
  *
  * Счётчик увеличивается до запуска инструкции, поэтому на паузе он показывает именно
@@ -146,9 +175,20 @@ function nextIndex(processor) {
  * @param allow какие инструкции доступны в меню добавления; по умолчанию все
  * @param buffer показывать ли строку текстового буфера в переменных. Её в игре нет,
  *              это наша добавка, и в уроке не про печать она только сбивает
+ * @param locale язык страницы: на английской переписываются имена переменных в программе
+ *              и надписи редактора — те самые, что игра переводит настройкой
  */
-export function Example({scene: description, world = true, tick = 0, allow = true,
-    buffer = false}) {
+export function Example({scene: source, world = true, tick = 0, allow = true,
+    buffer = false, locale = 'ru'}) {
+    /*
+     * Язык надписей редактора — общий на модуль, как настройка в игре. Ставится до первой
+     * отрисовки, а не эффектом: разметка приходит с сервера уже с подписями, и разойдись
+     * они с первой отрисовкой в браузере, подписи остались бы серверными.
+     */
+    useNameBundle(locale === 'en' ? bundleEn : bundleRu)
+
+    const description = useMemo(() => sceneFor(source, locale), [source, locale])
+
     const canvas = useRef(null)
     const vars = useRef(null)
 
@@ -393,6 +433,8 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
         setGeneration(generation => generation + 1)
     }
 
+    const text = TOOLBAR[locale] ?? TOOLBAR.en
+
     return (
         // not-content — метка Starlight: внутри неё статья не навязывает свои стили,
         // а интерфейсу редактора они ломают раскладку
@@ -400,7 +442,7 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
             <div class="example__toolbar">
                 <button
                     class="game-button example__button"
-                    title={running ? 'Пауза' : 'Пуск'}
+                    title={running ? text.pause : text.play}
                     onClick={() => setRunning(!running)}
                 >
                     <Icon name={running ? 'pause' : 'play'} size={20} />
@@ -408,20 +450,20 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
 
                 <button
                     class="game-button example__button"
-                    title="Одна инструкция"
+                    title={text.stepTitle}
                     disabled={running}
                     onClick={single}
                 >
-                    шаг
+                    {text.step}
                 </button>
 
-                <button class="game-button example__button" title="Сначала" onClick={reset}>
+                <button class="game-button example__button" title={text.reset} onClick={reset}>
                     <Icon name="refresh-1" size={20} />
                 </button>
 
                 <button
                     class="game-button example__button"
-                    title="Добавить инструкцию"
+                    title={text.add}
                     onClick={() => setAddOpen(true)}
                 >
                     <Icon name="add" size={20} />
@@ -429,7 +471,7 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
 
                 <button
                     class="game-button example__button"
-                    title={highlight ? 'Скрыть подсветку строки' : 'Показать подсветку строки'}
+                    title={highlight ? text.hide : text.show}
                     aria-pressed={highlight ? 'true' : 'false'}
                     onClick={() => {
                         setHighlight(!highlight)
@@ -441,9 +483,7 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
 
                 <button
                     class="game-button example__button"
-                    title={localized
-                        ? 'Надписи как в игре: по-русски'
-                        : 'Надписи по-английски, как без перевода в игре'}
+                    title={localized ? text.native : text.plain}
                     aria-pressed={localized ? 'true' : 'false'}
                     onClick={() => setLocalization(!localized)}
                 >
@@ -451,7 +491,7 @@ export function Example({scene: description, world = true, tick = 0, allow = tru
                 </button>
 
                 <span class="example__tick">
-                    тик {Math.trunc(stand.scene.world.tick)}
+                    {text.tick} {Math.trunc(stand.scene.world.tick)}
                 </span>
             </div>
 

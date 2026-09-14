@@ -18,7 +18,9 @@
 
 import {getCollection} from 'astro:content'
 
-const {lesson, group, locale = 'ru'} = Astro.props
+import {localeOf} from './locale.js'
+
+const {lesson, group, locale = localeOf(Astro.url)} = Astro.props
 
 const path = group ?? lesson
 const slug = `${locale}/course/${path}`
