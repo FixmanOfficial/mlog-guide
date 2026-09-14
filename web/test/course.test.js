@@ -2812,3 +2812,24 @@ test('урок «Привязка к юниту»: перебор из трёх 
     assert.equal(num(variant(base).processor, 'тотЖе'), 1)
     assert.equal(num(variant(base.replace('ubind мой', 'ubind @poly')).processor, 'тотЖе'), 1)
 })
+
+test('урок «Эффекты»: замедленный кинжал отстаёт, но доезжает', () => {
+    const slow = FROZEN.processors[0].program.replace('@status-unmoving', '@status-slow')
+
+    const at = (ticks) => {
+        const {processor} = stage({
+            ...FROZEN,
+            processors: [{...FROZEN.processors[0], program: slow}]
+        }, ticks)
+
+        return [num(processor, 'xСкованного'), num(processor, 'xСвободного')]
+    }
+
+    // К третьей секунде обычный уже у цели, а замедленный ещё на полпути
+    const [slowed, plain] = at(200)
+    assert.ok(plain > 14, plain)
+    assert.ok(slowed < 9, slowed)
+
+    // Но и он доезжает — просто позже
+    assert.ok(at(600)[0] > 15)
+})
