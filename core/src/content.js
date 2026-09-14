@@ -13,6 +13,7 @@ import {LVar} from './lvar.js'
 import {NOT_SENSED} from './sense.js'
 import {packColorHex} from './arc.js'
 import {TEAMS, teamColorBits} from './teams.js'
+import weatherData from '../data/weathers.json' with {type: 'json'}
 import blockSpecs from '../data/block-specs.json' with {type: 'json'}
 import unitSpecs from '../data/unit-specs.json' with {type: 'json'}
 import materials from '../data/materials.json' with {type: 'json'}
@@ -213,6 +214,15 @@ export function createContent(data) {
      */
     for (const [name, team] of Object.entries(TEAMS)) {
         constant(`@${name}`, new Team(name, team.id), true)
+    }
+
+    /*
+     * Погода: `@rain`, `@snowing`, `@sandstorm` и ещё три. В таблицы `lookup` она не входит
+     * и логического номера не имеет — это просто константы, как и команды.
+     * GlobalVars.java:135
+     */
+    for (const [name, weather] of Object.entries(weatherData.weathers)) {
+        constant(`@${name}`, {weather: name, id: weather.id, name}, true)
     }
 
     /** Объект контента по имени. Ищет среди констант, поэтому видит и местность. */

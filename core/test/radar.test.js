@@ -620,6 +620,52 @@ test('setprop правит свойства напрямую, мимо всяк�
     assert.equal(container.items.get('copper'), 25)
 })
 
+test('погода включается и выключается, и обычному процессору она не даётся', () => {
+    /*
+     * `SetWeatherI` привилегированная, `SenseWeatherI` — нет: видеть погоду может любой
+     * процессор, а менять — только мировой.
+     */
+    const world = new World({width: 12, height: 12, content})
+    const privileged = world.add('world-processor', {x: 1, y: 1})
+
+    const worldProcessor = new Processor([
+        'weathersense @rain до',
+        'weatherset @rain true',
+        'weathersense @rain после',
+        'weathersense @snowing снег',
+        'stop'
+    ].join('\n'), {world, content, globals: content.globals, building: privileged, team: 1, ipt: 8})
+
+    privileged.processor = worldProcessor
+    world.addProcessor(worldProcessor)
+    worldProcessor.run(6)
+
+    assert.equal(worldProcessor.num('до'), 0)
+    assert.equal(worldProcessor.num('после'), 1)
+    assert.equal(worldProcessor.num('снег'), 0)
+    assert.ok(world.weather.has('rain'))
+
+    // Обычному процессору погода не даётся вовсе: обе инструкции привилегированные
+    const plain = world.add('micro-processor', {x: 4, y: 4})
+    const simple = new Processor([
+        'weathersense @rain видно',
+        'weatherset @rain false',
+        'weathersense @rain всёещё',
+        'stop'
+    ].join('\n'), {world, content, globals: content.globals, building: plain, team: 1})
+
+    plain.processor = simple
+    world.addProcessor(simple)
+    simple.run(6)
+
+    assert.equal(simple.get('видно').obj(), null, 'ответа обычный процессор не получает')
+    assert.ok(world.weather.has('rain'), 'и выключить погоду он не может')
+
+    // Сброс мира гасит погоду вместе с остальным состоянием
+    world.reset()
+    assert.equal(world.weather.size, 0)
+})
+
 test('localeprint берёт строку из словаря карты, а без словаря молчит', () => {
     const world = new World({width: 10, height: 10, content})
     const building = world.add('world-processor', {x: 1, y: 1})

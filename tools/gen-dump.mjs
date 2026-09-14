@@ -142,9 +142,10 @@ function main() {
         const teams = join(work, 'teams.json')
         const materials = join(work, 'materials.json')
         const stats = join(work, 'stats.json')
+        const weathers = join(work, 'weathers.json')
 
         const counts = execFileSync(jdk.java,
-            ['-cp', classpath, 'ContentDump', units, blocks, teams, materials, stats],
+            ['-cp', classpath, 'ContentDump', units, blocks, teams, materials, stats, weathers],
             {encoding: 'utf8', stdio: ['ignore', 'pipe', 'inherit']}).trim().split(' ')
 
         // Игра печатает всё одной строкой; раскладываем тем же способом, что и прочие таблицы
@@ -153,7 +154,8 @@ function main() {
             [blocks, 'core/data/block-specs.json'],
             [teams, 'core/data/teams.json'],
             [materials, 'core/data/materials.json'],
-            [stats, 'core/data/stats.json']
+            [stats, 'core/data/stats.json'],
+            [weathers, 'core/data/weathers.json']
         ]) {
             const data = JSON.parse(readFileSync(from, 'utf8'))
 
@@ -173,6 +175,7 @@ function main() {
         console.log(`core/data/block-specs.json: ${counts[1]} блоков`)
         console.log('core/data/teams.json: шесть базовых команд')
         console.log('core/data/materials.json: предметы и жидкости')
+        console.log(`core/data/weathers.json: ${counts[2]} видов погоды`)
         console.log(`core/data/stats.json: полная опись характеристик, ${Math.round(statSize())} КБ`)
     } finally {
         rmSync(work, {recursive: true, force: true})

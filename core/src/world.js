@@ -1033,6 +1033,12 @@ export class World {
         // Словарь карты: из него берёт строки `localeprint`. Пустой, пока карту не загрузили
         this.locales = new Map()
 
+        /*
+         * Погода: набор имён, которые сейчас идут. В игре это живые объекты со временем
+         * жизни и частицами, логике же видно ровно одно — идёт или нет. `SenseWeatherI`
+         */
+        this.weather = new Set()
+
         // Сообщение на экране: `message` кладёт его сюда, а страница показывает
         this.message = null
 
@@ -1441,6 +1447,7 @@ export class World {
         this.tick = 0
         this.message = null
         this.markers.clear()
+        this.weather.clear()
         this.rules.reset()
         this.stats.reset()
         this.objectives.reset()

@@ -1490,6 +1490,51 @@ const builders = {
     },
 
     /**
+     * SenseWeatherI: идёт ли такая погода. Погода в модели — набор имён, а не живые
+     * частицы: логике видно ровно это, `weather.isActive()`.
+     *
+     * Инструкция привилегированная, как и все мировые: в игре обычный процессор её даже
+     * не соберёт — разбор заменяет привилегированную строку пустой (`LParser`).
+     */
+    weathersense: (asm, params) => {
+        const type = asm.var(params[0] ?? '@rain')
+        const output = asm.var(params[1] ?? 'result')
+
+        return {
+            run: (vm) => {
+                if (!vm.privileged) return
+
+                const weather = type.obj()?.weather
+
+                if (typeof weather !== 'string' || vm.world === null) return output.setbool(false)
+                output.setbool(vm.world.weather.has(weather))
+            }
+        }
+    },
+
+    /**
+     * SetWeatherI: включает и выключает погоду. В игре у погоды есть время жизни
+     * и она кончается сама; здесь она идёт, пока её не выключат — времени погоды
+     * в модели нет, см. `docs/parity.md`.
+     */
+    weatherset: (asm, params) => {
+        const type = asm.var(params[0] ?? '@rain')
+        const state = asm.var(params[1] ?? 'true')
+
+        return {
+            run: (vm) => {
+                if (!vm.privileged || vm.world === null) return
+
+                const weather = type.obj()?.weather
+                if (typeof weather !== 'string') return
+
+                if (state.bool()) vm.world.weather.add(weather)
+                else vm.world.weather.delete(weather)
+            }
+        }
+    },
+
+    /**
      * ClientDataI и SyncI шлют данные по сети. В одиночной игре слать некому — инструкции
      * не делают ничего, и это не заглушка, а поведение игры.
      */

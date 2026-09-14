@@ -54,7 +54,7 @@ import {
 } from '../src/course/scenes/ulocate.js'
 import {
     PRIVILEGE, FAST, LAYERS, PAINT, ROUNDING as TILE_ROUNDING, TALK, BUSY, RULES, TOUGH
-, FLAGS, PROPS, FETCH, BOOM, MARKERS, LOCALE
+, FLAGS, PROPS, FETCH, BOOM, MARKERS, LOCALE, WEATHER
 } from '../src/course/scenes/world.js'
 import {AREA, SPAWN as SPAWN_SQUAD, BURN, FROZEN} from '../src/course/scenes/world-units.js'
 import iconTable from '@mlog/core/data/icons.json' with {type: 'json'}
@@ -2413,4 +2413,13 @@ test('урок «Тонкости языка»: допуск, пустота в�
 
     assert.equal(num(processor, 'медьРавнаМеди'), 1)
     assert.equal(num(processor, 'медьРавнаСвинцу'), 0)
+})
+
+test('урок «Погода»: дождь включается на второй секунде и виден сразу', () => {
+    assert.equal(stage(WEATHER, 60).message, 'дождь: 0')
+
+    const {message, world} = stage(WEATHER, 180)
+
+    assert.equal(message, 'дождь: 1')
+    assert.ok(world.weather.has('rain'))
 })

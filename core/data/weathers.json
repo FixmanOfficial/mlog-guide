@@ -1,0 +1,37 @@
+{
+  "gameVersion": "v160.4",
+  "source": "content/Weathers.java через ContentDump",
+  "note": "Файл сгенерирован, править вручную нельзя.",
+  "weathers": {
+    "snowing": {
+      "id": 0,
+      "duration": 36000,
+      "hidden": true
+    },
+    "rain": {
+      "id": 1,
+      "duration": 36000,
+      "hidden": true
+    },
+    "sandstorm": {
+      "id": 2,
+      "duration": 25200,
+      "hidden": true
+    },
+    "sporestorm": {
+      "id": 3,
+      "duration": 25200,
+      "hidden": true
+    },
+    "fog": {
+      "id": 4,
+      "duration": 54000,
+      "hidden": true
+    },
+    "suspend-particles": {
+      "id": 5,
+      "duration": 36000,
+      "hidden": true
+    }
+  }
+}

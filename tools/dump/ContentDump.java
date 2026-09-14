@@ -16,6 +16,7 @@ import mindustry.type.Item;
 import mindustry.type.ItemStack;
 import mindustry.type.Liquid;
 import mindustry.type.StatusEffect;
+import mindustry.type.Weather;
 import mindustry.type.UnitType;
 import mindustry.content.Blocks;
 import mindustry.world.Block;
@@ -105,9 +106,9 @@ public class ContentDump{
     }
 
     public static void main(String[] args) throws Exception{
-        if(args.length < 5){
-            System.err.println("нужны пять путей: <unit-specs.json> <block-specs.json> "
-                + "<teams.json> <materials.json> <stats.json>");
+        if(args.length < 6){
+            System.err.println("нужны шесть путей: <unit-specs.json> <block-specs.json> "
+                + "<teams.json> <materials.json> <stats.json> <weathers.json>");
             System.exit(1);
         }
 
@@ -129,8 +130,10 @@ public class ContentDump{
         write(Path.of(args[2]), teams());
         write(Path.of(args[3]), materials());
         write(Path.of(args[4]), stats());
+        write(Path.of(args[5]), weathers());
 
-        System.out.println(Vars.content.units().size + " " + Vars.content.blocks().size);
+        System.out.println(Vars.content.units().size + " " + Vars.content.blocks().size
+            + " " + Vars.content.weathers().size);
     }
 
     static String units(){
@@ -936,6 +939,33 @@ public class ContentDump{
         }
 
         out.raw("teams", teams.object());
+        return out.object();
+    }
+
+    /**
+     * Погода. Логике она видна двумя инструкциями (`weathersense`, `weatherset`)
+     * и константами `@<имя>`; имя берётся у самого контента, а не у поля в `Weathers`:
+     * снег там объявлен как `snow`, а называется `snowing`.
+     */
+    static String weathers(){
+        Json out = new Json();
+        out.string("gameVersion", VERSION);
+        out.string("source", "content/Weathers.java через ContentDump");
+        out.string("note", "Файл сгенерирован, править вручную нельзя.");
+
+        Json list = new Json();
+
+        for(Weather weather : Vars.content.weathers()){
+            Json entry = new Json();
+
+            entry.number("id", weather.id);
+            entry.number("duration", weather.duration);
+            entry.bool("hidden", weather.isHidden());
+
+            list.raw(weather.name, entry.object());
+        }
+
+        out.raw("weathers", list.object());
         return out.object();
     }
 

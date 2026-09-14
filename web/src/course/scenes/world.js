@@ -350,3 +350,26 @@ export const LOCALE = {
         ].join('\n')
     }]
 }
+
+/** Урок «Погода»: мировой включает дождь через две секунды и сам же его видит. */
+export const WEATHER = {
+    width: 16, height: 10, floor: 'sand',
+    blocks: [
+        {type: 'world-processor', x: 2, y: 5},
+        {type: 'message', x: 11, y: 5}
+    ],
+    processors: [{
+        at: [2, 5],
+        links: ['message1'],
+        program: [
+            'jump 3 lessThan @second 2',
+            'weatherset @rain true',
+            'set включили 1',
+            'weathersense @rain дождь',
+            'weathersense @sandstorm буря',
+            'print "дождь: "',
+            'print дождь',
+            'printflush message1'
+        ].join('\n')
+    }]
+}
