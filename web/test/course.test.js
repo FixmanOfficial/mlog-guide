@@ -2786,3 +2786,29 @@ test('урок «Битовые операции»: за 53 битами тер�
     assert.equal(num(processor, 'беззнаковый'), 15)
     assert.equal(num(processor, 'инверсия'), -2)
 })
+
+test('урок «Привязка по типу»: sensor у пустоты отдаёт пустоту, а не ноль', () => {
+    const {processor} = stage(NO_UNITS, 20)
+
+    assert.equal(obj(processor, 'пусто'), null)
+
+    // Важное различие: в таблице это `null`, а не число — хотя в арифметике оно нулевое
+    assert.equal(processor.get('здоровье').isobj, true)
+    assert.equal(obj(processor, 'здоровье'), null)
+})
+
+test('урок «Привязка к юниту»: перебор из трёх замыкается на четвёртой привязке', () => {
+    /*
+     * Задание урока: заменить `ubind мой` на `ubind @poly`. Поли трое, привязок четыре —
+     * список успевает замкнуться, и совпадение выходит случайным.
+     */
+    const variant = (program) => stage({
+        ...REMEMBER,
+        processors: [{...REMEMBER.processors[0], program}]
+    }, 40)
+
+    const base = REMEMBER.processors[0].program
+
+    assert.equal(num(variant(base).processor, 'тотЖе'), 1)
+    assert.equal(num(variant(base.replace('ubind мой', 'ubind @poly')).processor, 'тотЖе'), 1)
+})
