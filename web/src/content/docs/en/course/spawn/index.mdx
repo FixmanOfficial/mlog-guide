@@ -1,0 +1,106 @@
+---
+title: Spawn Unit
+description: "How a world processor creates a unit out of nowhere: type, place, rotation, team and why you must limit yourself"
+lead: "A unit appears whole and at once — with no factory, no resources and no queue"
+difficulty: medium
+sidebar:
+    order: 0
+    label: Create a unit
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {SPAWN} from '../../../../../course/scenes/world-units.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'world-intro', title: 'What a world processor is'},
+        {lesson: 'query', title: 'Searching an area'}
+    ]}
+/>
+
+<Example client:load scene={SPAWN} world={true} locale="en" />
+
+```
+spawn @dagger 9 5 90 @sharded fresh
+```
+
+A dagger appears on tile `9 5` — finished, at full health, with no factory at all. In the
+example the program does this until there are three of them and then stops.
+
+| Field | What is in it |
+| --- | --- |
+| first | the unit type: `@dagger`, `@poly`, `@flare` |
+| second and third | coordinates in tiles |
+| fourth | rotation in degrees: 90 is up, 0 is right |
+| fifth | the team: `@sharded`, `@crux`, `@derelict` |
+| sixth | where to put **the created unit** |
+
+The sixth field is the most useful: the unit arrives as an object and can be worked with
+straight away. Not with every instruction, though:
+
+```
+spawn @dagger 9 5 90 @sharded fresh
+ubind fresh
+ucontrol move 20 5 0 0 0
+```
+
+A world processor manages such a binding even to an enemy unit — that is its privilege.
+
+<Card kind="note">
+Rotation matters little at the moment of appearance: the unit immediately starts turning
+wherever it needs to go. It is only noticeable on ground units, for whom turning costs time.
+</Card>
+
+## There is no counter here
+
+<Card kind="error">
+**`spawn` counts neither resources nor the unit cap.** Every iteration of the program creates
+a new one — and a world processor can run up to a thousand iterations per tick.
+
+A `spawn` line with no check at all will breed thousands of daggers in a second and bring the
+game down. It is the most common mistake in world-processor scripts, and it shows immediately.
+</Card>
+
+So spawning is always **limited by something**:
+
+- **count how many there already are.** As in the example: <Lesson
+  lesson="query">`query`</Lesson> over an area, `sensor @size`, and spawn only if there are few;
+- **do it once.** A flag variable or a <Lesson lesson="setflag">global flag</Lesson>: created,
+  recorded, then checked;
+- **by time.** `@time` and a comparison with a deadline: a wave every half a minute.
+
+```
+query circle unit @sharded 9 5 5 0
+sensor amount @queries @size
+jump 0 greaterThanEq amount 3
+spawn @dagger 9 5 90 @sharded fresh
+```
+
+Four lines, and the map always has exactly three daggers: one dies and another takes its place.
+
+<Card kind="note">
+The instruction does not look at the unit cap from the game's rules (`unitCap`) either — it is
+stronger than the rules. If the cap matters to a script, check it yourself: `@unitCount` will
+not help, it is the length of the type table, not the number of living units.
+</Card>
+
+<Card kind="recap">
+- `spawn type x y rotation team result` creates a unit instantly.
+- The created unit arrives as an object in the last field.
+- The instruction checks neither resources nor the unit cap.
+- Spawning must be limited: by a count, by a flag or by time.
+</Card>
+
+<Card kind="task">
+Change `3` to `8` in the `jump` line: there are now eight daggers on the map, and the program
+stops again.
+
+Then replace `@sharded` with `@crux` in the `spawn` line: the count of your own never adds up —
+`query` looks for yours while enemies appear, and the program never stops.
+</Card>

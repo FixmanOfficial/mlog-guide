@@ -1,0 +1,116 @@
+---
+title: Set Block
+description: "How a world processor places and removes blocks, paints the floor and scatters ore, and why the coordinates are truncated"
+lead: "Editing the map on the fly: a block appears instantly, with no construction, no resources and no queue"
+difficulty: medium
+sidebar:
+    order: 0
+    label: Place and remove
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {PAINT, ROUNDING} from '../../../../../course/scenes/world.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'getblock', title: 'What is on a tile'},
+        {lesson: 'set/content', title: 'Content constants'}
+    ]}
+/>
+
+<Example client:load scene={PAINT} world={true} locale="en" />
+
+```
+setblock floor @metal-floor 6 4 @sharded 0
+setblock ore @ore-titanium 6 4 @sharded 0
+setblock block @copper-wall 8 4 @sharded 0
+setblock block @air 12 4 @sharded 0
+```
+
+Four lines change the map: the floor turns metal, titanium ore appears on top of it, a copper
+wall grows beside it — and the router on tile `12 4` disappears.
+
+| Field | What is in it |
+| --- | --- |
+| first | the layer: `floor`, `ore` or `block` |
+| second | **what to place**: a block constant or `@air` |
+| third and fourth | the tile's coordinates |
+| fifth | the team — only for the `block` layer |
+| sixth | rotation, 0 to 3 — for conveyors and drills |
+
+## Removal is `@air`
+
+There is no separate "remove" instruction: you put air into a layer and whatever was there
+disappears. No rubble, no refund, no animation.
+
+Ore is cleared the same way: `setblock ore @air 6 4` clears the overlay, leaving the floor.
+
+<Card kind="error">
+**The floor cannot be removed this way.** A tile always has some floor, and
+`setblock floor @air` simply does nothing. To "remove" a floor you put another one in its place.
+</Card>
+
+## The layer and the content have to match
+
+`setblock floor @router` will not put a router on the floor and will not make a router-floor.
+It simply **does nothing** — silently, like almost everything in mlog.
+
+| Layer | What it accepts |
+| --- | --- |
+| `floor` | floors only: `@sand-floor`, `@metal-floor`, `@water` |
+| `ore` | ores and overlays only: `@ore-copper`, `@air` |
+| `block` | anything buildable, plus natural walls and `@air` |
+
+`setblock` has no `building` layer at all: a structure cannot be placed that way, only a block —
+and its structure appears by itself.
+
+## Coordinates are truncated here and rounded next door
+
+<Example client:load scene={ROUNDING} world={true} locale="en" />
+
+Here is the non-obvious part, and it is not a liberty of ours but the game's behaviour:
+
+```
+setblock block @copper-wall 7.9 4.9 @sharded 0
+getblock block sameNumbers 7.9 4.9
+```
+
+The wall goes onto tile **7 4** — the fractional part is dropped. And `getblock`, given the very
+same numbers, looks at tile **8 5**, because it rounds. The result: the program does not find
+the wall it has just placed.
+
+<Card kind="error">
+**Make coordinates whole before passing them on.** If the coordinates come from a calculation —
+from a unit, from the centre of the map, from a division — put them through `op floor` and work
+with the whole number from then on. Then both instructions talk about the same tile.
+
+These two instructions parted ways in version 160.2: `setblock`'s rounding was replaced with
+truncation, while `getblock` was left as it was.
+</Card>
+
+<Card kind="note">
+The team in the fifth field decides whose block appears: `@sharded` is yours, `@crux` the
+enemy's, `@derelict` nobody's. That is how enemy defences are laid out on a scripted map.
+</Card>
+
+<Card kind="recap">
+- `setblock layer what x y team rotation` changes a map tile instantly.
+- Removal is `@air` in the right layer; a floor cannot be removed, only replaced.
+- The layer and the content have to match, or the line silently does nothing.
+- `setblock`'s coordinates are **truncated** while `getblock`'s are **rounded**.
+- The team in the fifth field decides whose the building will be.
+</Card>
+
+<Card kind="task">
+In the first example change `@copper-wall` to `@router`: a router appears instead of a wall —
+the `block` layer takes anything buildable.
+
+Then write `setblock floor @copper-wall 6 4 @sharded 0`: the floor does not change and there is
+no error. The layer and the content did not match.
+</Card>

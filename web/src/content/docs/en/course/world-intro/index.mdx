@@ -1,0 +1,114 @@
+---
+title: What a world processor is
+description: "Where a world processor comes from, how it differs from an ordinary one and why its instructions do nothing for everybody else"
+lead: "The same language, the same blocks — but it can change the map itself, and it cannot be built in an ordinary game"
+difficulty: medium
+sidebar:
+    order: 0
+    label: What it is
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {PRIVILEGE, FAST} from '../../../../../course/scenes/world.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'basics/processor', title: 'How the processor works'},
+        {lesson: 'setrate', title: 'Processor speed'}
+    ]}
+/>
+
+Everything in the course so far works in an ordinary game: place a processor, write a program,
+it spins. A world processor is a different animal. It is **part of the map**, not of what is
+built on it.
+
+<Example client:load scene={PRIVILEGE} world={true} locale="en" />
+
+Two programs, identical line for line. The world processor puts a router on tile `8 7` — and it
+appears. The ordinary one does the same on tile `8 2` — and nothing happens. No error, no
+message.
+
+## Privilege: what only it can do
+
+Twenty-five instructions in the game are marked **privileged**, and an ordinary processor does
+not run them. They are:
+
+| What it can do | With what |
+| --- | --- |
+| change the map | `setblock`, `getblock` |
+| create units and bullets | `spawn`, `bullet` |
+| change the game's rules | `setrule`, `spawnwave` |
+| talk to the player | `message`, `cutscene`, `localeprint` |
+| draw markers on the map | `makemarker`, `setmarker` |
+| keep shared data | `setflag`, `getflag`, `sync`, `fetch` |
+| touch anything at all | `setprop`, `status`, `explosion`, `effect` |
+
+An ordinary processor will **assemble** such a line — the editor accepts it and there is no
+error — and then simply skip it when running.
+
+<Card kind="error">
+**Silent skipping is the main trap of this part of the course.** A program written for a world
+processor and moved into an ordinary one does not break: half its lines just stop working.
+
+If the map is not changing while the program is "correct", the first thing to look at is which
+processor it is sitting in.
+</Card>
+
+## Where it comes from
+
+There is no world processor in the build menu, and it cannot be bought. It is placed by the
+**map editor**: open a map in the editor, take it from the block list and put it down.
+
+Hence its place in the game:
+
+- **the campaign and scenarios.** Objectives, dialogue, scheduled waves, mission scripts — all
+  of that is world processors on a map;
+- **your own maps and modes.** Rules that cannot be set in the settings: your own economy, your
+  own victory conditions;
+- **a server.** There the map is made by the server's owner, and they are the one who puts
+  world processors on it.
+
+<Card kind="note">
+A world processor's program is stored in the map itself. A player playing on it usually does
+not even know it is there: the processor is invisible, takes no space and cannot be broken.
+</Card>
+
+## What else is different about it
+
+<Example client:load scene={FAST} world={true} locale="en" />
+
+**Speed.** Its usual rate is eight — like a logic processor — but
+<Lesson lesson="setrate">`setrate`</Lesson> raises it to **1000** instructions per tick. No
+ordinary processor can do that: their ceiling is their own rate.
+
+**Range.** An ordinary processor's links are limited: a micro reaches ten tiles, a hyper
+forty-two. A world processor has no limit — it links to any block on the map, wherever it
+stands.
+
+**Invisibility to neighbours.** An ordinary processor can <Lesson
+lesson="read/processors">read a neighbour's variables</Lesson> — but not a world processor's.
+That one is closed: nothing can be read from it and nothing written to it. Otherwise a player's
+program could reach into the map's script and rewrite it.
+
+<Card kind="recap">
+- A world processor is part of the map; it is placed by the editor and is not in the build menu.
+- Twenty-five instructions work only for it; for everybody else they silently do nothing.
+- Its speed goes up to 1000 instructions per tick through `setrate`.
+- It links to any block on the map, with no limit on distance.
+- Its variables are not available to ordinary processors.
+</Card>
+
+<Card kind="task">
+In the first example point the ordinary processor's `setblock` at tile `8 7` — the same one the
+world processor uses. Nothing changes: one block appears, and the world processor is the one
+that placed it.
+
+In the second example set `setrate 5000`: `boosted` shows exactly `1000` — not even a world
+processor goes above the ceiling.
+</Card>

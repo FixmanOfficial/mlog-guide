@@ -1,0 +1,104 @@
+---
+title: Get Block
+description: "How a world processor reads a map tile: floor, ore, block and building — four layers of one tile"
+lead: "A tile has not one content but four layers. getblock asks about any of them"
+difficulty: medium
+sidebar:
+    order: 0
+    label: What is on a tile
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {LAYERS} from '../../../../../course/scenes/world.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'world-intro', title: 'What a world processor is'},
+        {lesson: 'basics/values', title: 'Number, object and text'}
+    ]}
+/>
+
+<Example client:load scene={LAYERS} world={true} locale="en" />
+
+```
+getblock floor floor 6 4
+getblock ore ore 9 4
+getblock block wall 12 4
+getblock building building 6 7
+```
+
+One instruction and four different questions to the map. On this map it answers: metal floor,
+copper ore, stone wall and a router.
+
+## The four layers of a tile
+
+| Layer | What it gives | What can be there |
+| --- | --- | --- |
+| `floor` | the **floor** | sand, stone, metal floor, water |
+| `ore` | the **overlay** | ore on top of the floor, or `@air` if there is none |
+| `block` | **what stands there** | a building, a static wall or `@air` |
+| `building` | the **building as an object** | the block itself, the kind `sensor` works with |
+
+The difference between `block` and `building` is subtle but important:
+
+- `block` gives a **type**: `@router`, `@copper-wall`, `@stone-wall`. That is content, not
+  a structure on the map — it has to be compared with block constants;
+- `building` gives **the structure itself**: the same thing `getlink` gives. It can be asked
+  for health, stock and team.
+
+```
+getblock building store 6 7
+sensor copperLeft store @copper
+```
+
+<Card kind="note">
+A natural wall — stone, dark stone, sandstone — is also a `block` but **not** a `building`.
+It has neither health nor a team: it is part of the map, not a structure. So
+`getblock block` sees it and `getblock building` gives emptiness.
+</Card>
+
+## An empty tile is `@air`
+
+<Card kind="error">
+**`getblock` has two kinds of emptiness, and they are different things.**
+
+`@air` means "the tile is empty": the layer was read and there is nothing in it. That is what
+`block` and `ore` answer on plain sand.
+
+Real emptiness (`null`) means "there is no such tile": the coordinates went past the edge of
+the map. Comparing with `@air` is useless there — compare with `null`.
+</Card>
+
+This is worth checking whenever the coordinates are computed rather than written as numbers:
+a program walking a strip of the map will certainly go past the edge one day.
+
+## Why read the map
+
+A world processor reads tiles for the sake of a script:
+
+- **check whether the player built what was asked**: `getblock building` on a given tile and
+  a type comparison;
+- **watch territory**: is the enemy wall still standing, has the core been demolished;
+- **find a spot to build on**: is it empty, and is the floor suitable;
+- **give a "build here" objective**: a marker on the map plus a tile check.
+
+<Card kind="recap">
+- `getblock layer where x y` reads a map tile; there are four layers.
+- `floor` is the floor, `ore` the ore on top of it, `block` what stands there, `building` the structure as an object.
+- An empty tile answers `@air`, and a tile past the map's edge `null`.
+- Natural walls are in `block` but not in `building`.
+</Card>
+
+<Card kind="task">
+Change `getblock block wall 12 4` in the example to `getblock building wall 12 4`: the variable
+goes empty — a stone wall is not a structure.
+
+Then put the coordinates `99 99` in any line: the answer is `null`, not `@air` — there is no
+such tile on the map at all.
+</Card>

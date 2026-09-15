@@ -1,0 +1,118 @@
+---
+title: Apply Status
+description: "How to put a status effect on a unit and take it off: burning, boosting, immobility and duration"
+lead: "Burning, freezing, boosted, immobilised — all of it is one instruction with two modes"
+difficulty: medium
+sidebar:
+    order: 0
+    label: Effects on a unit
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {BURN, FROZEN} from '../../../../../course/scenes/world-units.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'world-intro', title: 'What a world processor is'},
+        {lesson: 'ubind/types', title: 'Binding by type'}
+    ]}
+/>
+
+<Example client:load scene={BURN} world={true} locale="en" />
+
+```
+ubind @dagger
+status false @status-burning @unit 10
+```
+
+The dagger catches fire and burns for ten seconds. Watch its health: of `150` about `50` is
+left at the end. Burning takes `0.167` per tick — `10.02` a second, almost exactly a hundred
+over ten.
+
+| Field | What is in it |
+| --- | --- |
+| first | `false` — apply, `true` — clear |
+| second | the effect: `@status-burning`, `@status-overdrive`, … |
+| third | the **unit** it hits |
+| fourth | how many seconds to hold it |
+
+The first field is easy to read backwards: it is not "apply?" but "clear?". In the game's blocks
+it is labelled exactly that — "apply" or "clear".
+
+<Card kind="error">
+**The effect goes on a unit, not on a building.** Buildings are not affected at all: only units
+can burn, freeze and speed up. A line with anything but a unit silently does nothing.
+</Card>
+
+## What there is
+
+There are twenty-odd effects in the game, and they do very different things:
+
+| Effect | What it does |
+| --- | --- |
+| `@status-burning` | burns: 10.02 health a second |
+| `@status-melting` | melts: 18 a second, and slows down as well |
+| `@status-unmoving` | immobilises completely |
+| `@status-fast` | speeds up by a bit over half again |
+| `@status-disarmed` | stops it shooting |
+
+The full list with numbers is in the reference:
+[«Status effects»](/en/reference/statuses/). It also shows what the game never lists anywhere:
+exactly how much each one takes, and what and by how much it changes speed, health, damage and
+reload.
+
+These are content constants, like `@copper` or `@dagger` — written by name, not as a string.
+
+<Card kind="error">
+**Two effects `status` will not apply at all.** `@status-shocked` and `@status-blasted` are
+marked reactive in the game: they appear only as a **reaction** of one state to another, and
+a direct application is silently skipped for them.
+</Card>
+
+## Zero seconds and clearing
+
+<Example client:load scene={FROZEN} world={true} locale="en" />
+
+Two daggers here, and both are told to go right. The world processor puts `@status-unmoving` on
+the upper one — and it stays on tile three, however much it is commanded. The lower one calmly
+walks to tile eighteen.
+
+The effect is cleared with the first field:
+
+```
+status true @status-unmoving @unit 0
+```
+
+Duration is not needed for clearing — the effect goes away entirely.
+
+<Card kind="note">
+**A long effect is a big number of seconds, not eternity.** An effect is applied for ever only
+where it is such by nature (`@status-boss`, for instance). Everything else gets a term and, if
+it has to be held longer, is **renewed** — applied again every iteration.
+
+Repeated application does not add up: the term simply becomes full again.
+</Card>
+
+<Card kind="recap">
+- `status clear effect unit seconds` applies or clears an effect.
+- The first field is "clear?": `false` applies, `true` clears.
+- An effect works only on a unit; a building cannot be given one.
+- Effects are ordinary content constants: `@status-burning` and its neighbours.
+- The term does not add up: a repeat application refreshes it.
+</Card>
+
+<Card kind="task">
+In the first example change `@status-burning` to `@status-melting`: the dagger **does not live**
+to the end of the term. Melting takes 18 a second against burning's ten, and a hundred and
+fifty health lasts about eight seconds — while the order was for ten.
+
+In the second example change `@status-unmoving` to `@status-slow`: the upper dagger sets off,
+but at forty per cent speed. At the third second it is by tile seven while the lower one is
+already at fourteen. Both get there by the tenth — the gap closes to a single tile.
+</Card>
