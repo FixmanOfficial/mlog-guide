@@ -1,0 +1,115 @@
+---
+title: The memory cell
+description: "Reading from a memory cell and bank: addresses from zero, a fractional address truncated, and emptiness past the end"
+lead: "A processor's memory dies with every edit to the program. A cell remembers — and you fetch from it by slot number"
+difficulty: easy
+sidebar:
+    order: 1
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {CELLS, BOUNDS} from '../../../../../course/scenes/memory.js'
+
+<LessonHead
+    difficulty="easy"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'basics/links', title: 'Links and getlink'},
+        {lesson: 'basics/null', title: 'Emptiness: null'}
+    ]}
+/>
+
+A processor's variables are its own business: another processor cannot see them, and editing
+the program clears them. Shared, long-lived memory lives on the map as a separate block:
+a **memory cell** and a **memory bank**. `read` fetches a value out of it by slot number.
+
+<Example client:load scene={CELLS} world={true} locale="en" />
+
+The cell on this map arrived already filled: its contents are part of the save, not created
+fresh at start-up. The program fetches three numbers from it and prints two of them to
+a message block.
+
+## The line reads as "variable = where the address points"
+
+| Field | What is in it |
+| --- | --- |
+| first | where to put what was read |
+| second | **what** we read from — here a memory cell or bank, but it can be other things |
+| third | the **address**: a slot number, counting from zero |
+
+```
+read stock cell1 0
+```
+
+A cell has 64 slots, a memory bank 512. `sensor` can ask the memory itself:
+
+```
+sensor slots cell1 @memoryCapacity
+```
+
+<Card kind="note">
+A memory bank is the same cell, only bigger: 512 slots instead of 64, 2×2 instead of 1×1,
+tougher and dearer. Instructions, addresses and rules are shared between them.
+</Card>
+
+## The address is truncated, and past the end lies emptiness
+
+<Example client:load scene={BOUNDS} world={true} locale="en" />
+
+Both rules are visible here at once:
+
+- `read fractional cell1 1.9` fetches **slot 1**, not 2: the fractional part of an address is
+  dropped, not rounded. `1.9` and `1.0` are the same address;
+- `read pastEnd cell1 64` gives `null`. There are 64 slots, numbered zero to 63, and there is
+  no sixty-fourth — but there is no error either: the variable is simply assigned emptiness.
+  A negative address does the same;
+- `read blank cell1 7` gives `0`: the slot exists, it is inside the cell, and it holds a zero.
+
+<Card kind="note">
+**Zero and emptiness are not the same thing.** Zero means "the slot exists and holds zero",
+emptiness means "there is no such slot at all". A strict comparison tells them apart (`===` in
+the block, `strictEqual` in the text), but arithmetic will not: `op add x empty 1` gives `1`,
+because emptiness counts as zero in arithmetic. In detail in the lesson
+<Lesson lesson="basics/null">"Emptiness: null"</Lesson>.
+</Card>
+
+## A loop over memory
+
+Walking the whole memory is an everyday thing, and the bound for it is better asked for than
+written as a number:
+
+```
+sensor slots cell1 @memoryCapacity
+set address 0
+read value cell1 address
+op add sum sum value
+op add address address 1
+jump 2 lessThan address slots
+```
+
+With `64` written instead of `slots`, the program breaks silently the day the cell is replaced
+with a memory bank: it walks the first 64 slots out of 512 and decides the rest is empty.
+
+<Card kind="recap">
+- A memory cell and bank are shared memory on the map: 64 slots in a cell, 512 in a bank.
+- `read` puts the value at an address into a variable; addresses count from zero.
+- A fractional address is truncated, not rounded.
+- Past the end of memory lies emptiness, not zero, and that is not an error.
+- The bound of a loop is asked of the memory itself — `sensor @memoryCapacity`.
+</Card>
+
+<Card kind="task">
+In the first example change the address of `read stock` from `0` to `3` and run it: the message
+board shows `stock 0 of 300` — the slot exists and holds zero.
+
+Then set the address to `100`. The line becomes `stock null of 300`: past the end of memory
+lies emptiness, and `print` prints it as the word `null`.
+
+Finally add `sensor slots cell1 @memoryCapacity` at the end and look at the variables table:
+64. That is the number a loop over memory should end at — and it would become 512 the day
+a memory bank replaces the cell.
+</Card>

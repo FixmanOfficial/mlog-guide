@@ -1,0 +1,31 @@
+---
+title: Write
+description: The group of lessons about write — writing to a memory cell and bank, objects in memory and memory shared by several processors
+lead: "Variables live between iterations, but they don't survive an edit to the program. Memory does"
+sidebar:
+    order: 0
+    label: Overview
+---
+
+import LessonList from '../../../../../course/LessonList.astro'
+
+`write` puts a value into memory — a cell or a bank — at an address. It is the other side of
+[`read`](/en/course/read/), with the same fields, only the first one now means "what to write"
+instead of "where to put what was read".
+
+Memory is for where variables fall short:
+
+- **surviving an edit to the program.** Variables are cleared when the program changes;
+  memory is not;
+- **sharing with a neighbour.** Two processors cannot see each other's variables, but a cell
+  is visible to both;
+- **holding a list.** A variable keeps one value, a cell 64, a memory bank 512.
+
+## Lessons
+
+<LessonList group="write" />
+
+## What you need first
+
+[«The memory cell»](/en/course/read/cells/) — addresses, bounds and how emptiness differs from
+zero. The lessons will tell you the rest themselves.

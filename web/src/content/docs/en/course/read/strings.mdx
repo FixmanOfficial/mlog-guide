@@ -1,0 +1,102 @@
+---
+title: A character from a string
+description: "How read fetches a character's code from a string by index, and why that matters when mlog strings can neither be joined nor compared"
+lead: "A string is read by address too: a character index instead of a slot number, a character code instead of a value"
+difficulty: medium
+sidebar:
+    order: 3
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {LETTERS} from '../../../../../course/scenes/memory.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'read/cells', title: 'The memory cell'},
+        {lesson: 'printchar', title: 'Print Char'}
+    ]}
+/>
+
+The third thing `read` can read is an ordinary string. The address here is a character index,
+and the answer is its **code**, a number:
+
+```
+read code "mlog" 0
+```
+
+`code` gets 109 — that is `m`. Not a letter, a number: mlog has no separate "character" kind
+at all.
+
+<Example client:load scene={LETTERS} world={true} locale="en" />
+
+The program walks the string character by character and puts them back together with
+`printchar`. The board shows `mlog` — the same string, only assembled one character at a time.
+
+## Why, if a string cannot even be joined
+
+Strings in mlog are almost immovable: they cannot be concatenated, compared or trimmed.
+The only things you can do with one are print it whole and take it apart character by
+character. Hence the uses:
+
+- **print text letter by letter** — a crawling line on a board, a letter per iteration;
+- **break a string into codes and store them in memory**, to reassemble them in another order
+  later;
+- **fetch a single character** out of a prepared set: `read code "0123456789" digit` turns
+  a number into the code of its digit.
+
+<Card kind="note">
+The other side of it is `printchar`: it takes a code and appends a character to the buffer.
+`read` takes apart, `printchar` puts together, and both work in numbers. In detail in the
+lesson <Lesson lesson="printchar">"Print Char"</Lesson>.
+</Card>
+
+## The bounds are the same as memory's
+
+| Address | What happens |
+| --- | --- |
+| `0` … length minus one | the character's code |
+| length and above | emptiness |
+| negative | emptiness |
+| fractional | truncated: `2.9` is character 2 |
+
+There is no way to find out a string's length — the language has no "how many characters"
+instruction. So a loop over a string either knows the length in advance or runs until the first
+emptiness:
+
+```
+read code "mlog" index
+jump 5 strictEqual code null
+printchar code
+op add index index 1
+jump 0 always
+printflush message1
+```
+
+<Card kind="note">
+An ordinary `equal code 0` would work here too — emptiness equals zero in it — but it says
+something else: "the code equals zero". A strict comparison (`===` in the block, `strictEqual`
+in the text) asks exactly what is needed: "is there a character at all".
+</Card>
+
+<Card kind="recap">
+- `read` on a string gives the **character's code** by index, not the character itself.
+- The addresses behave like memory's: from zero, fractional truncated, emptiness past the end.
+- A string's length cannot be asked for: a loop runs until the first emptiness or knows it in advance.
+- `printchar` puts the characters back together.
+</Card>
+
+<Card kind="task">
+Change the string `"mlog"` in the example to `"logic"` and the number in the jump from `4`
+to `5`: the board shows `logic`. Any letters read the same way — non-Latin ones just have
+bigger codes.
+
+Then put `"mlog"` back and leave `5` in the jump: one extra character that is not in the string
+goes into the buffer. Nothing breaks — `printchar` passes emptiness by in silence, and the line
+stays as it was.
+</Card>

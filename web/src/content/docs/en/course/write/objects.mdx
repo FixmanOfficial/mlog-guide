@@ -1,0 +1,123 @@
+---
+title: An object in a cell
+description: "Memory holds more than numbers: an item, a building and a unit go into a cell as they are and come back as themselves"
+lead: "A cell stopped being an array of numbers. You put an item, a store or a unit in — and get the same thing out"
+difficulty: medium
+sidebar:
+    order: 2
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {OBJECTS} from '../../../../../course/scenes/memory.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'write/cells', title: 'Writing to a cell'},
+        {lesson: 'basics/values', title: 'Number, object and text'}
+    ]}
+/>
+
+A slot in memory remembers not only the value but its **kind**. Write a number and a number is
+there; write an item and an item is there, not its index.
+
+<Example client:load scene={OBJECTS} world={true} locale="en" />
+
+The program puts `@copper` and the store itself into the cell, takes them back out and puts
+them straight to work: the store that was read answers `sensor`, and the item that was read is
+fit to be its question.
+
+## What you can put in
+
+| What | Example |
+| --- | --- |
+| a number | `write 120 cell1 0` |
+| an item, liquid, block or unit type | `write @copper cell1 0` |
+| a building | `write container1 cell1 0` |
+| a unit | `write @unit cell1 0` |
+| a string | `write "done" cell1 0` |
+| emptiness | `write null cell1 0` |
+
+What comes back is fit for everything the original was: a building out of a cell can be asked
+with `sensor`, a unit out of a cell can be given an order, an item out of a cell can be named
+in a question about stock.
+
+<Card kind="note">
+It used to be impossible: memory held only numbers, so an object had to be turned into an
+index and unfolded at the other end with `lookup`. Now that is only needed where the index
+itself matters — walking all the content in order, for instance.
+</Card>
+
+## A slot remembers one kind at a time
+
+A write does not "append" a kind to the value — it replaces the slot's contents entirely:
+
+```
+write @copper cell1 0
+write 7 cell1 0
+read what cell1 0
+```
+
+`what` gets `7`. The item is no longer there — not "item plus number", just a number.
+
+Hence the rule: **if memory holds a list of different things, the kind has to be known in
+advance**. The program cannot tell from the value alone whether it is a number or a unit;
+you can only check indirectly, with a strict comparison against `null` or by trying to ask it
+for a property.
+
+## A unit in memory is a reference, not a copy
+
+Buildings and units go into memory as references to themselves. While they are alive
+everything works; when they die the reference stays and is of no use.
+
+<Card kind="error">
+**Orders to a dead unit silently do nothing.** The program carries on, `ucontrol` runs for
+nothing, and it looks like "the unit won't obey" rather than an error. So what comes out of
+memory is checked before it is commanded:
+
+```
+read fighter cell1 0
+sensor dead fighter @dead
+```
+
+Orders follow only when `dead` is zero: a jump with that condition goes above the lines with
+the orders.
+
+After a save is loaded, a reference to a dead unit turns into emptiness: a unit is written into
+the save as a number, and on reading there is nobody with that number any more. Buildings are
+the same — a demolished block does not come back from memory.
+</Card>
+
+## What it is good for in practice
+
+- **A queue of targets.** A radar found a unit — put it into memory; another processor took it
+  out and led it.
+- **A list of stores.** Walk the links with `getlink`, put the interesting ones into memory,
+  and from then on work with a ready list instead of scanning everything again every iteration.
+- **One found block for everybody.** An expensive search is done once, the result sits in
+  a cell, and the other processors simply read it.
+
+Memory shared by two processors is <Lesson lesson="write/shared">the next lesson</Lesson>.
+
+<Card kind="recap">
+- Memory stores the value together with its kind: a number as a number, an object as an object.
+- An object that was read is fully usable: fit for `sensor`, for orders to units, for questions about stock.
+- A new write overwrites the whole slot, the old kind included.
+- Buildings and units lie there as references: a dead unit stays a reference and becomes emptiness after a save is loaded.
+</Card>
+
+<Card kind="task">
+Change `write @copper cell1 0` in the example to `write @lead cell1 0` and run it: the line
+becomes `lead: 0`. A different item is in the cell, and it is that item that is asked about —
+there is no lead in the store.
+
+Then put copper back and change `write container1 cell1 1` to `write @this cell1 1`: now the
+processor itself is in memory, and `sensor` asks *it* about copper. The line becomes
+`copper: null` — not zero but emptiness: a processor has no storage at all, and the question
+does not apply to it.
+</Card>

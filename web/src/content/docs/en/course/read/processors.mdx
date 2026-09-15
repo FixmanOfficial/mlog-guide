@@ -1,0 +1,103 @@
+---
+title: Another processor's variables
+description: "How to read a neighbouring processor's variable by name, fetch its links, and why a world processor cannot be read this way"
+lead: "A cell for exchanging values isn't always needed: a neighbour's variable can be taken straight from it, by name"
+difficulty: medium
+sidebar:
+    order: 2
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {NEIGHBOUR} from '../../../../../course/scenes/memory.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'read/cells', title: 'The memory cell'},
+        {lesson: 'basics/links', title: 'Links and getlink'}
+    ]}
+/>
+
+A processor is a block like a cell, and it is read the same way. Only the address is not
+a slot number but **a variable's name in quotes**:
+
+```
+read theirLoops processor1 "loops"
+```
+
+<Example client:load scene={NEIGHBOUR} world={true} locale="en" />
+
+There are two processors on the map. The upper one simply counts its iterations; the lower
+one — the one whose program is shown — fetches that counter by name and prints it. There is no
+memory cell between them at all.
+
+<Card kind="note">
+"Step" moves only the processor on show, so use "run" to watch this: the upper one needs to be
+working too, or the counter has nowhere to grow from.
+</Card>
+
+## What can stand as the address
+
+| Address | What you get |
+| --- | --- |
+| `"loops"` — the neighbour has such a variable | its value, a number or an object |
+| `"container1"` — no such variable, but there is a **link** with that name | the building connected to the neighbour |
+| `"nonsense"` — neither one nor the other | emptiness |
+| `0`, `1`, … as a number | the neighbour's link by index — the same as its `getlink` |
+
+The second line of the example is exactly that: `read enemyStore processor1 "container1"`.
+The lower processor has no link to the store of its own, yet it can still ask it how much
+copper it holds — the building is taken from the neighbour.
+
+<Card kind="note">
+A link name is only looked up when it **ends with a digit**: the game runs exactly that quick
+check before searching. So `"cell1"` works and `"cell"` does not.
+</Card>
+
+## And on yourself too
+
+`@this` is the processor itself, and it can be read the same way:
+
+```
+read copy @this "count"
+read block @this 0
+```
+
+The first is a copy of your own variable, the second your own link by index — that is,
+`getlink` in other words. There is no particular use in the first; the second is occasionally
+handier.
+
+## Who a processor answers
+
+The check sits in the block itself, and it is short: it answers **its own team and only
+non-world processors**.
+
+- another team's processor — emptiness, even if it stands right there with a link;
+- a world processor answering an ordinary one — emptiness: a privileged block answers only
+  a privileged one;
+- a world processor is answered by everybody, other teams included.
+
+Writing obeys the same rules: what cannot be read cannot be overwritten either.
+
+<Card kind="recap">
+- A processor is read like memory, but the address is a variable's name in quotes.
+- No such variable — the neighbour's link with that name is given instead, if the name ends with a digit.
+- A numeric address gives the neighbour's link by index.
+- `@this` is read the same way: your own variable or your own link.
+- Only your own team answers, and only non-world processors; a world processor is answered by all.
+</Card>
+
+<Card kind="task">
+Change `"loops"` to `"loop"` in the example and run it: the board shows `loops null`.
+The neighbour has no such variable, and the name does not end with a digit — so there is
+nowhere to look for a link either.
+
+Then put the name back and change `"container1"` to `0` — the line does not change: the
+neighbour has one link, and index zero is that same one. But `1` gives `copper null`: it has
+no link with that index, and there is nobody to ask about the stock.
+</Card>

@@ -1,0 +1,33 @@
+---
+title: Read
+description: The group of lessons about read — reading from memory, from a neighbouring processor's variables and from a string
+lead: "One instruction and three different correspondents: a memory cell, someone else's processor and an ordinary string"
+sidebar:
+    order: 0
+    label: Overview
+---
+
+import LessonList from '../../../../../course/LessonList.astro'
+
+`read` puts into a variable something taken **from someone, by address**. Who that someone is
+is decided by the second field, and what the address means depends on it too:
+
+| Who we read from | What the address means | What we get |
+| --- | --- | --- |
+| a memory cell or bank | a slot number, from zero | a number or an object |
+| another processor | a variable name in quotes | its variable or its link |
+| a string | a character index, from zero | the character's code |
+
+These cases have more in common than it seems: an address out of range is never an error
+anywhere, and the answer is always emptiness. A block that cannot be read from answers with
+the same.
+
+## Lessons
+
+<LessonList group="read" />
+
+## What you need first
+
+[«Links and getlink»](/en/course/basics/links/) — how a processor sees neighbouring blocks at
+all, and [«Emptiness: null»](/en/course/basics/null/) — how it differs from zero. The lessons
+will tell you the rest themselves.

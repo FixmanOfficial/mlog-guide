@@ -1,0 +1,113 @@
+---
+title: Shared memory
+description: "How two processors exchange values through a memory cell and why they have no shared variables"
+lead: "A neighbour's variables are visible to nobody. A cell is visible to everyone linked to it — and that is what division of labour is built on"
+difficulty: medium
+sidebar:
+    order: 3
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {SHARED} from '../../../../../course/scenes/memory.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'write/cells', title: 'Writing to a cell'},
+        {lesson: 'basics/links', title: 'Links and getlink'}
+    ]}
+/>
+
+Processors have no shared variables. None at all: `copper` in one and `copper` in the other
+are two different values, and there is nothing that lets you learn the other one. A memory
+cell, though, is an ordinary block, and both of them can connect to it.
+
+<Example client:load scene={SHARED} world={true} locale="en" />
+
+There are two processors on the map. The upper one asks the store and puts the answer into
+the cell; the lower one takes it out and prints it. Their links differ: the upper has the store
+and the cell, the lower has the cell and the board. The only thing they share is the cell.
+
+<Card kind="note">
+The example shows the upper processor's program — that is the one you edit. The lower one runs
+its own, and it cannot be seen here: in the game, too, a program window is opened on one block
+at a time.
+
+So use "run" to watch this: "step" moves only the processor on show, while the lower one stands
+still and the board's line does not change.
+</Card>
+
+## Why divide the work
+
+A processor's budget of instructions is its own — `@ipt` per tick — and it can only be spent
+on itself. Two processors work **in parallel**, and that is the only way to make logic faster:
+
+- the slow part (walking links, searching with a radar) lives in one processor and puts the
+  result into memory;
+- the fast part (drawing on a display, leading a unit) lives in another and takes what is ready.
+
+The second one does not wait for the first: it reads what is there, and if that is last
+iteration's value, it works with that.
+
+## The agreement is yours to make
+
+A cell cannot say "the data is fresh" or "a write is in progress". All there is are slots and
+values; the meaning is an agreement between the programs, and it is written down only in the
+author's head.
+
+Hence a simple rule: **label the addresses** — in a comment in the program or on paper.
+
+| Address | What lies there |
+| --- | --- |
+| 0 | copper in the store |
+| 1 | how much we want |
+| 2 | flag: a delivery is needed |
+
+<Card kind="error">
+**The reader can slip in between two writes.** If the first processor puts three numbers down
+in a row, the second can read them at the moment when only two are written. The data comes out
+half fresh, and it is hard to notice: the bug flickers once in a hundred iterations.
+
+The cure is a convention: a **readiness flag** is written last, and the reader starts with it.
+
+```
+write 0 cell1 3
+write copper cell1 0
+write target cell1 1
+write 1 cell1 3
+```
+</Card>
+
+## What else can be shared
+
+- **A memory cell** — 64 slots, size 1×1: enough for an agreement of a few numbers.
+- **A memory bank** — 512 slots: lists, queues, tables.
+- **The processor itself** — a neighbour's variables by name, with no extra block on the map;
+  that is <Lesson lesson="write/neighbours">the next lesson</Lesson>.
+- **A message block** — text only, and for a human only: a program cannot read it.
+
+The other side of it: any processor linked to a cell can **write** to it. There is no
+protection, and an accidental write to someone else's address looks like "the data corrupts
+itself".
+
+<Card kind="recap">
+- Every processor's variables are its own; what is shared is what stands on the map.
+- A cell and a bank are visible to everyone linked to them, and anyone can write to them.
+- Divide the work by speed: one computes the slow part, the other takes the result.
+- A cell does not know what is in it: the meaning of the addresses is an agreement between programs.
+- The readiness flag is written last and read first.
+</Card>
+
+<Card kind="task">
+Change the write address in the upper processor from `0` to `1` and run it. The line becomes
+`in store 0`: the lower one still reads slot zero, and nothing appears there any more.
+
+Put the address back and remove the `sensor` line from the upper processor altogether.
+The line becomes `in store null`: it keeps writing every iteration, only now it writes
+emptiness — the variable `copper` has nowhere to come from.
+</Card>

@@ -1,0 +1,106 @@
+---
+title: Writing to a cell
+description: "How write puts a value at an address, what happens past the end of memory and why memory beats a variable"
+lead: "One line, three fields — and the value survives the iteration, the edit and the processor itself"
+difficulty: easy
+sidebar:
+    order: 1
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {STORE} from '../../../../../course/scenes/memory.js'
+
+<LessonHead
+    difficulty="easy"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'read/cells', title: 'The memory cell'},
+        {lesson: 'basics/processor', title: 'How the processor works'}
+    ]}
+/>
+
+`write` is `read` the other way round. The fields stand in the same order, and the first of
+them now means "what to write":
+
+```
+write loops cell1 0
+```
+
+<Example client:load scene={STORE} world={true} locale="en" />
+
+The counter here lives not in a variable but in memory: the iteration begins by fetching the
+previous value and ends by putting the new one back.
+
+## Why bother, when there are variables
+
+In this example — no reason: a variable would have managed on its own. The difference shows
+when the program gets touched.
+
+| What happened | A variable | A cell |
+| --- | --- | --- |
+| an iteration passed | remembers | remembers |
+| the program was edited | cleared | remembers |
+| the processor was demolished and rebuilt | cleared | remembers |
+| another processor looks | cannot see | can see |
+
+Editing the program clears the variables out of no malice: the processor rebuilds them from
+the text, and there is nowhere to take the old values from. A cell is a separate block, and
+that does not reach it.
+
+<Card kind="note">
+The contents of memory survive saving and loading the map as well: they sit in the save file
+together with the block.
+</Card>
+
+## The bounds are the same as for reading
+
+| Address | What happens |
+| --- | --- |
+| `2.9` | a write to slot 2: the fractional part is dropped |
+| `64` on a cell | **nothing**: the line runs, the memory does not change |
+| `-1` | the same — nothing |
+
+<Card kind="error">
+A write past the end does not complain and does not crash — it simply does not happen. If the
+program computes the address itself, a mistake in that arithmetic looks like "the data isn't
+being saved", not like an error. It is the address that is worth checking, not the result:
+
+```
+jump 6 greaterThanEq address slots
+write value cell1 address
+```
+</Card>
+
+## One slot, one value
+
+A write overwrites whatever was at the address, in full. There is no "add to what was there"
+and no "write half a slot": to increase a number in memory you read it first.
+
+```
+read count cell1 0
+op add count count 1
+write count cell1 0
+```
+
+Three lines instead of one is the usual price of memory. So a counter needed only inside an
+iteration stays in a variable, and what goes into memory is what has to outlive it.
+
+<Card kind="recap">
+- `write value cell address` — the same fields as `read`, in the same order.
+- Memory survives an edit to the program, the processor being demolished, and saving the map.
+- A fractional address is truncated; past the end of memory a write silently does not happen.
+- A write overwrites the whole slot, so "add" means read, add, write.
+</Card>
+
+<Card kind="task">
+Run the example and let it work for a while. Then, without stopping it, change `wait 0.5`
+to `wait 0.1` in the program: the counter carries on from where it was, not from one —
+it does not live in the processor.
+
+Now change the address of `write` from `0` to `64`, leaving `read` at zero. The line freezes
+at one: the same slot is read every time, and the write goes nowhere.
+</Card>

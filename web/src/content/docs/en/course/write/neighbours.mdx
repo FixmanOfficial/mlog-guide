@@ -1,0 +1,101 @@
+---
+title: A neighbour's variables
+description: "Writing straight into another processor's variable: what is allowed, what is not, and why it is best not to overdo it"
+lead: "A cell for exchanging values isn't always needed — but the shortcut is paid for with a variable that changes with no trace in the program"
+difficulty: medium
+sidebar:
+    order: 4
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {COMMAND} from '../../../../../course/scenes/memory.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'read/processors', title: "Another processor's variables"},
+        {lesson: 'write/shared', title: 'Shared memory'}
+    ]}
+/>
+
+Reading a neighbour's variable is <Lesson lesson="read/processors">already covered</Lesson>.
+`write` works the same way round: the address is a variable's name, and the value goes straight
+into it.
+
+```
+write 1 processor1 "needed"
+```
+
+<Example client:load scene={COMMAND} world={true} locale="en" />
+
+The lower processor — the one whose program is shown — sets the upper one's `needed` to one
+once a second. The upper one waits for that flag, does the work and clears it back to zero
+itself. There is no cell between them.
+
+## What is allowed and what is not
+
+| Allowed | Not allowed |
+| --- | --- |
+| writing into a neighbour's existing variable | creating a new variable on a neighbour |
+| putting a number or an object into it | overwriting a constant: `@pi`, `@copper` and the rest |
+| writing to yourself through `@this` | an ordinary processor writing into a world one |
+
+A new variable is not created silently: if the name has a typo, the write simply does not
+happen. The neighbour has `needed` and we write into `needeb` — and nothing happens for
+anybody.
+
+<Card kind="note">
+The counter `@counter` is an ordinary variable, not a constant. So it can be written to as
+well: the neighbour jumps to another line. The trick is well known, but afterwards there is no
+way to tell who sent whom where.
+</Card>
+
+## The rule: write to yourself, read from others
+
+<Card kind="error">
+**Someone else's variable changes with no trace in their program.** The neighbour assigned it
+itself, and then the value became something else; the line that did it is not in their program
+at all, and they will look for the cause in their own code.
+
+So by default you **write to yourself and read from others**. Then "who did this" is always
+visible in the program of whoever owns the variable.
+</Card>
+
+The exception is a short command, as in the example: one processor raises a flag, the other
+sees it and **clears it itself**. That works because the variable's owner stays in charge:
+it decides when to lower the flag, and an outsider can only raise it.
+
+## How it differs from a cell
+
+| | A neighbour's variable | A cell |
+| --- | --- | --- |
+| needs a block on the map | no | yes |
+| survives an edit to the program | no | yes |
+| visible to a third processor | only through that same neighbour | to everyone linked |
+| how many values | as many as there are variables | 64 or 512 |
+
+The main difference is the second row: an edit to the program clears the variables, and the
+neighbour starts reading zeroes that same second. For a "do it now" flag that does not matter;
+for accumulated data it decides everything.
+
+<Card kind="recap">
+- `write value processor "name"` puts a value into a neighbour's variable.
+- A new variable cannot be created, a constant cannot be overwritten.
+- By default you write to yourself and read from neighbours: otherwise a change is inexplicable.
+- A flag used as a command is cleared by whoever owns the variable.
+- A neighbour's variables do not survive an edit to their program — unlike a cell.
+</Card>
+
+<Card kind="task">
+Change `"needed"` in the example to `"need"` and run it: the line never appears on the board
+at all. The neighbour has no such variable, and a write cannot create one.
+
+Then put the name back and change `wait 1` to `wait 0.25`: the counter runs four times faster.
+The rhythm is set by whoever gives the orders, not by whoever does the work — and looking only
+at the worker's program, there is no way to see that.
+</Card>
