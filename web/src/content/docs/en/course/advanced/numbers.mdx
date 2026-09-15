@@ -1,0 +1,126 @@
+---
+title: Inside a number
+description: "What a number in mlog is made of: double precision, 53 significant bits, where integers stop being integers"
+lead: "There is one number type in mlog — double precision. Hence both the 53-bit limit and 0.1 + 0.2 ≠ 0.3"
+difficulty: hard
+sidebar:
+    order: 2
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {PRECISE} from '../../../../../course/scenes/advanced.js'
+
+<LessonHead
+    difficulty="hard"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'basics/values', title: 'Number, object and text'},
+        {lesson: 'op/integers', title: 'Integers, remainder and precision'}
+    ]}
+/>
+
+There is no separate integer type in mlog. Every number is a **double-precision float**, the
+same `double` as in most languages: 64 bits, of which 52 hold the mantissa, 11 the exponent and
+one the sign.
+
+Everything that follows comes out of that arrangement: why integers are exact up to a certain
+limit, why `0.1 + 0.2` is not `0.3`, and which bits survive packing.
+
+<Example client:load scene={PRECISE} world={false} locale="en" />
+
+## 53 significant bits
+
+The mantissa stores 52 bits plus one implied — **53 significant bits** in all. While a number
+fits in them it is an exact integer; past that a gap opens up between neighbouring representable
+numbers.
+
+| Number | What happens to it |
+| --- | --- |
+| up to 2⁵³ − 1 | stored exactly, bit for bit |
+| 2⁵³ = 9,007,199,254,740,992 | the last integer before the gaps start |
+| 2⁵³ + 1 | **does not exist**: rounds back to 2⁵³ |
+| beyond | the step grows: first every other one, then every fourth, eighth… |
+
+The example shows it directly: `withOne` is 2⁵² with a one mixed in, and the one is there.
+`lostBit` is 2⁵³ with the same one, and it is not: `check` is zero, so the number stayed exactly
+2⁵³.
+
+<Card kind="error">
+**Nothing is reported.** No error, no warning: `op or` ran, a number came out, the low bit just
+did not fit into it. You can only notice by comparing — or when the unpacked value turns out not
+to be what you put in.
+</Card>
+
+## Which bits are safe
+
+For <Lesson lesson="op/bitwise">bitwise operations</Lesson> the rule is simple:
+
+- **bits 0–52 are reliable.** You can set them, read them, shift them — the number survives;
+- **bits 53–63 exist inside the operation but not in the variable.** The game does bitwise
+  operations on a 64-bit integer and puts the result back into a float — and the excess is
+  rounded away. What gets lost are the **low** bits: the high ones stay in the number, and
+  precision runs out from the bottom.
+
+```
+op shl tag 1 52
+op or packed packed tag
+```
+
+That is fine. But `op shl tag 1 53` is not: the value will come back into the variable, only the
+low bits will not be able to live next to it.
+
+<Card kind="note">
+Hence the packing budget: **53 bits for everything**. Four numbers of 13 bits each (up to 8191)
+fit; five of 12 fit as well. Two 32-bit coordinates will not fit at all, though each one on its
+own is exact.
+</Card>
+
+## Fractions are stored no more precisely
+
+A fractional number is stored in the same 53 bits, only now it is not "how many units" but "how
+many binary fractions". Decimal `0.1` in binary goes on forever — like `1/3` in decimal — so the
+nearest representable value is what gets stored.
+
+In the example `fraction` is `0.30000000000000004`, and `failure` — the difference from a real
+`0.3` — is about 5.55 · 10⁻¹⁷.
+
+<Card kind="error">
+**Fractional numbers must not be compared for equality.** `op equal x 0.3` after adding
+`0.1 + 0.2` will give… one — and that is not luck but a concession: `equal` in mlog compares
+with a tolerance of 10⁻⁶. `strictEqual` allows no tolerance and will answer zero.
+
+The rule: compare fractions either with an ordinary `equal` or by a difference and a threshold —
+but not with strict equality.
+</Card>
+
+## Infinity and NaN do not fit in a variable
+
+Division by zero gives infinity, the root of a negative number gives NaN. A variable stores
+neither: on assignment such a value turns into **null**.
+
+```
+op div bad 1 0
+```
+
+`bad` will hold `null`, not "infinity". So a division-by-zero check usually looks like a null
+check after the operation — or a check of the divisor before it.
+
+<Card kind="recap">
+- There is one number in mlog: a double-precision float, 53 significant bits.
+- Integers are exact up to 2⁵³; past that numbers come with gaps.
+- For bitwise operations bits 0–52 are reliable; the high ones live only inside the operation.
+- Fractions are stored approximately: `0.1 + 0.2` is `0.30000000000000004`.
+- Infinity and NaN become null in a variable.
+</Card>
+
+<Card kind="task">
+In the example change `op shl lostBit 1 53` to `op shl lostBit 1 52`: `check` will go negative —
+the number is now below 2⁵³, but the one in it survived.
+
+Then add `op div infinity 1 0` and look at the variable table: it will hold `null`, and the type
+will be empty rather than a number.
+</Card>

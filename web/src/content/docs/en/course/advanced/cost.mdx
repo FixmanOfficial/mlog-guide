@@ -1,0 +1,98 @@
+---
+title: What an instruction costs
+description: "What a processor gets through in a tick, why every instruction costs the same and when that starts to hurt"
+lead: "A processor has no «expensive» and «cheap» lines: it counts them by the piece, and the pieces per tick are exactly @ipt"
+difficulty: medium
+sidebar:
+    order: 5
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {COST} from '../../../../../course/scenes/advanced.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'basics/processor', title: 'How the processor works'},
+        {lesson: 'setrate', title: 'The speed of a processor'}
+    ]}
+/>
+
+<Example client:load scene={COST} world={false} locale="en" />
+
+A hyper processor, a program of three lines. Look at `loopsPerTick`: about **8.3** — that is
+twenty-five instructions a tick divided by the three lines of an iteration.
+
+All the arithmetic of speed comes out of that:
+
+| What | Formula |
+| --- | --- |
+| instructions per tick | `@ipt`: 2, 8 or 25 |
+| iterations per tick | `@ipt` ÷ the length of the program |
+| iterations per second | the same, times 60 |
+
+## Every instruction costs the same
+
+`op add` and `radar enemy any any distance duo1 1 aim` are one instruction each. The processor
+does not count how much work stands behind a line; it counts **lines**.
+
+That does not mean the cost is truly identical: `radar` walks the units internally, and on a big
+map it costs the game more than an addition. But it makes no difference at all to the speed of
+**your program** — exactly `@ipt` lines will pass in a tick regardless.
+
+<Card kind="note">
+The practical conclusion: **save lines, not their "weight"**. Five `sensor`s in a row cost
+exactly as much as five `set`s — and if the same thing can be done in four lines, the program
+gets a quarter faster.
+</Card>
+
+## What does not spend instructions
+
+| What | Does it cost |
+| --- | --- |
+| a comment in the block editor | no: it is not an instruction |
+| a <Lesson lesson="advanced/labels">label</Lesson> | no: it does not get into the program |
+| `end` at the end of a program | no: the end is handled anyway |
+| an empty line, `noop` | one instruction |
+| a `jump` that did not fire | one instruction |
+
+The last one matters more than it seems: checks that are almost always false cost as much as
+the ones that fire. A program of twenty "has it happened yet" checks spends twenty instructions
+on them every iteration — and if one of them is expensive in meaning, it is better checked once
+a second by a <Lesson lesson="advanced/time">deadline</Lesson> than every time.
+
+## When it starts to hurt
+
+<Card kind="error">
+**A slow reaction is almost always a long program, not a slow processor.** A micro processor
+with a hundred-line program gets through it once every fifty ticks — nearly a second between two
+checks for an enemy.
+
+The cure is not `setrate` (it only slows things down) but three things:
+
+- **split it across processors**: two processors of fifty lines each run twice as often;
+- **spread it over time**: whatever is not urgent is checked by a deadline;
+- **place a faster block**: a hyper processor computes twelve times faster than a micro
+  processor.
+</Card>
+
+<Card kind="recap">
+- Exactly `@ipt` instructions pass in a tick, whatever they are.
+- Iterations per tick are `@ipt` divided by the length of the program.
+- Labels, comments and the end of a program cost no instructions.
+- A check that did not fire costs as much as one that did.
+- A long program is cured by splitting, by deadlines and by a faster block.
+</Card>
+
+<Card kind="task">
+Add any three lines to the example — `set a 1` three times, say. `loopsPerTick` will drop by
+about half: there are as many instructions a tick as before, but an iteration is twice as long.
+
+Then put `setrate 1` at the start: `loopsPerTick` will fall to about a quarter — one instruction
+a tick for a program that now has four lines.
+</Card>

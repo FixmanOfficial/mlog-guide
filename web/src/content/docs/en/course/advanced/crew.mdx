@@ -1,0 +1,115 @@
+---
+title: Several processors
+description: "How to split work between processors, what they exchange and who waits for whom"
+lead: "One processor is one queue of lines. Two run in parallel — and that is the only way to speed up without changing the block"
+difficulty: medium
+sidebar:
+    order: 7
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {CREW} from '../../../../../course/scenes/advanced.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'advanced/cost', title: 'What an instruction costs'},
+        {lesson: 'write/shared', title: 'Shared memory'}
+    ]}
+/>
+
+<Example client:load scene={CREW} world={true} locale="en" />
+
+Two processors and a cell between them. The top one takes the readings off the store and puts
+them into memory, the bottom one reads them out of there and prints the sum. Each is busy with
+its own job and runs at its own speed.
+
+## Why split
+
+**For speed.** A hundred-line program in a micro processor gets through an iteration once every
+fifty ticks. Cut it in half, place two processors — and each half will run twice as often. That
+is the only way to speed the work up without changing the block:
+<Lesson lesson="setrate">`setrate`</Lesson> only lowers the speed.
+
+**For order.** A separate processor for the turrets, a separate one for the factory, a separate
+one for the display: each small, each understandable, and one breaking does not bring the rest
+down.
+
+**For links.** A processor's link range is limited: a micro processor reaches ten tiles. A base
+is wider — so there will be several processors out of sheer geography.
+
+## What they exchange
+
+| Way | Good for |
+| --- | --- |
+| <Lesson lesson="write/shared">a memory cell</Lesson> | numbers and objects, many and for a long time |
+| <Lesson lesson="read/processors">reading a neighbour's variables</Lesson> | one or two values, with no extra blocks |
+| <Lesson lesson="setflag">a global flag</Lesson> | a "yes/no" between world processors |
+| a unit's flag | a mark that has to travel with the unit |
+| the building itself | when the neighbour can see the same store anyway |
+
+A cell is the most ordinary option: it is visible to both, it survives an edit to the program and
+it holds sixty-four values.
+
+<Card kind="note">
+**Agree on the layout in advance.** Slot 0 is the copper stock, slot 1 the lead, slot 2 the
+command. Such a table is worth writing down as a comment in both programs: a month later you will
+not remember what lies in slot 7.
+</Card>
+
+## Who waits for whom
+
+Nobody. The processors are not synchronised: each runs in its own turn, whenever a tick falls to
+it. Two things follow from that.
+
+<Card kind="error">
+**The reader sees an unfinished write.** If the writer puts three numbers down in a row and the
+reader manages to squeeze in between the second and the third, it will read two new ones and one
+old one — and do its arithmetic on those.
+
+The cure is a readiness mark: the writer writes the data, **then** sets a flag, and the reader
+checks the flag first and only then reads.
+
+```
+write 0 cell1 9      // "data not ready"
+write copperLeft cell1 0
+write leadLeft cell1 1
+write 1 cell1 9      // "ready"
+```
+</Card>
+
+<Card kind="error">
+**The order of running is undefined.** Which processor completes an iteration first depends on
+the order they were built in, and it cannot be relied on. The program has to work in any order —
+otherwise it will behave differently after the map is reloaded.
+</Card>
+
+## How many you can have
+
+Many. The game happily holds hundreds of processors, and what usually runs out is not the game
+but the person: ten processors talking through a single cell are hard to debug.
+
+The sensible middle is to split **by job**, not by lines: one processor is responsible for one
+thing entirely and does not climb into anybody else's.
+
+<Card kind="recap">
+- Several processors run in parallel; that is the only way to speed up without changing the block.
+- They exchange through a cell, a neighbour's variables, flags or a shared building.
+- The memory layout is agreed in advance and written down as a comment.
+- The reader may catch a write halfway — a readiness mark is used.
+- The order in which processors run is undefined.
+</Card>
+
+<Card kind="task">
+In the bottom processor change the address on the second line from `1` to `2`: the slot is empty,
+`leadLeft` becomes zero, and only the copper is left on the display.
+
+Then remove the line `write leadLeft cell1 1` from the top processor and run it again: the
+display will show `all 40` — the reader does not know the data is incomplete and honestly counts
+what is there.
+</Card>

@@ -1,0 +1,109 @@
+---
+title: "Time: @time, @tick, @second"
+description: "Four built-in clocks, how they differ and how to build a timer without wait"
+lead: "Tick, second, minute and millisecond — one and the same time in four forms. Which one you pick depends on the task"
+difficulty: medium
+sidebar:
+    order: 4
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {CLOCK, TIMER} from '../../../../../course/scenes/advanced.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'wait/rhythm', title: 'The rhythm of a program'},
+        {lesson: 'basics/processor', title: 'How the processor works'}
+    ]}
+/>
+
+<Example client:load scene={CLOCK} world={false} locale="en" />
+
+Four variables, and they all show the same thing — the time since the game began:
+
+| Variable | In what | After two seconds |
+| --- | --- | --- |
+| `@tick` | in ticks, 60 a second | `120` |
+| `@second` | in seconds | `2` |
+| `@minute` | in minutes | `0.033` |
+| `@time` | in milliseconds | `2000` |
+
+All of them are fractional and all grow continuously: `@second` is not "how many whole seconds
+have passed" but an honest fraction.
+
+<Card kind="note">
+`@tick` is the most precise of them and the only one that matches the game's step. Everything
+else is derived from it by division, so comparing "strictly equal" is useless with any of them:
+by the time the check happens the time is already different.
+</Card>
+
+## A timer: "once every two seconds" without `wait`
+
+<Example client:load scene={TIMER} world={false} locale="en" />
+
+```
+jump 4 lessThan @second deadline
+op add deadline @second 2
+op add fired fired 1
+end
+op add idle idle 1
+```
+
+The idea is simple: the program holds a **deadline** — the moment it is allowed to act again —
+and the rest of the time flies past. Over ten seconds `fired` reaches five, while several
+hundred `idle` iterations pile up.
+
+This is the usual way of measuring time in mlog, and it is better than
+<Lesson lesson="wait/pause">`wait`</Lesson> wherever the program has to keep working between
+jobs: `wait` stops it completely, a deadline does not.
+
+<Card kind="error">
+**Do not compare time for equality.** `jump 0 equal @second 5` will almost never fire: between
+iterations `@second` jumps right over the value you need.
+
+Only "greater" and "less" are compared: `greaterThanEq`, `lessThan`. The same goes for the
+remainder — `op mod @tick 60` gives zero not every second but only when the tick happened to
+divide evenly.
+</Card>
+
+## A clock that does not reset
+
+Time runs from the start of the game, not from the start of the processor: a processor placed on
+the tenth minute will see six hundred in `@second`, not zero.
+
+Hence the habit of remembering the **start** in a variable:
+
+```
+jump 3 notEqual start 0
+set start @second
+op sub elapsed @second start
+```
+
+That is how you count your own time: from the first iteration, not from the start of the map.
+
+<Card kind="note">
+There is also `@waveTime` — how much is left until the next wave, and it is a **countdown**: it
+does not grow, it shrinks. All it has in common with the rest is its unit: it is in ticks.
+</Card>
+
+<Card kind="recap">
+- `@tick`, `@second`, `@minute`, `@time` are one time in different units.
+- All are fractional and grow continuously; they are not compared for equality.
+- A timer is built on a **deadline**: remember a moment and wait for time to pass it.
+- Time runs from the start of the game, so your own start is remembered separately.
+</Card>
+
+<Card kind="task">
+Change the `2` in the timer to `0.5`: there will be four times as many firings in the same time.
+
+Then replace the check with `equal`: `jump 4 equal @second deadline`. It breaks the other way —
+it will **fire every iteration**: the condition "exactly this moment" is almost never met, the
+jump does not happen, and the program goes down the "time's up" branch every time. Over ten
+seconds `fired` will pass two hundred instead of five.
+</Card>

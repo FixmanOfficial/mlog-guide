@@ -1,0 +1,117 @@
+---
+title: Packing data
+description: "How to fit several numbers into one: digits, bits, a unit's flag and a memory cell"
+lead: "There are few slots in memory, and a unit has exactly one flag. Several numbers have to be folded into one"
+difficulty: hard
+sidebar:
+    order: 6
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {PACKED} from '../../../../../course/scenes/advanced.js'
+
+<LessonHead
+    difficulty="hard"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'advanced/numbers', title: 'Inside a number'},
+        {lesson: 'op/bitwise', title: 'Bitwise operations'}
+    ]}
+/>
+
+<Example client:load scene={PACKED} world={false} locale="en" />
+
+```
+op mul packed x 1000
+op add packed packed y
+op idiv backX packed 1000
+op mod backY packed 1000
+```
+
+The coordinates `37` and `12` turned into a single number `37012` — and came apart again. That
+is packing: **multiply the high part by the place value, add the low one**.
+
+| Action | With what |
+| --- | --- |
+| pack | `op mul` and `op add` |
+| take out the high part | `op idiv` — integer division |
+| take out the low part | `op mod` — the remainder |
+
+## What it is for
+
+There are few places in mlog where a number can be put:
+
+- **a unit's flag** — exactly one number per unit;
+- **a memory cell** — 64 slots, a memory bank — 512;
+- **a neighbour's variable**, which it reads by name.
+
+When you have to pass "unit number three is carrying copper to the store at point 37, 12", it
+has to be folded into one number. That is usually just what is done: the low digits are the
+coordinate, the high ones the task.
+
+<Card kind="note">
+The place value is chosen with room to spare, and round: a thousand for a coordinate (a map of
+up to 999 tiles), a hundred for a task number. Round numbers read by eye — `37012` is visibly
+`37` and `12`, while `0x2530C` is not.
+</Card>
+
+## Bits instead of digits
+
+The second way is <Lesson lesson="op/bitwise">bitwise operations</Lesson>: shift left, add, then
+shift back and apply a mask.
+
+```
+op shl packed x 10
+op or packed packed y
+op shr backX packed 10
+op and backY packed 1023
+```
+
+That is easier to reason about in terms of "how much fits": ten bits are a thousand and
+twenty-four values, and the bounds are exact. The number reads worse in the variables, though:
+`37900` instead of the legible `37012`.
+
+<Card kind="error">
+**Packing has a hard ceiling — 53 bits.** A number in mlog is stored with <Lesson
+lesson="advanced/numbers">double precision</Lesson>, and it stays an integer exactly up to that
+bound: nine quadrillion and a bit.
+
+That is a lot — five numbers of ten bits each, for instance — but not infinite.
+
+The bitwise operations themselves compute **wider**: `op shl` converts the number to a 64-bit
+integer, shifts it and converts it back. The trouble is the conversion back — the number is
+stored with double precision again, and everything that did not fit into 53 bits is rounded
+away. What gets lost are the **low** bits, which is precisely the bottom packed field.
+
+A separate surprise is a shift of 64 or more: it wraps around, because it counts by the
+remainder of division by 64. `op shl x 1 64` gives one, not zero.
+</Card>
+
+## Rules worth keeping
+
+- **pack integers.** A fraction breaks in packing: `op idiv` throws part of the number away, and
+  it will not come back;
+- **watch out for negatives.** `-5` in packing turns into rubbish: if you need a sign, add an
+  offset (always +500, say) and subtract it when unpacking;
+- **do not pack what need not be packed.** A cell has 64 slots — usually enough to put the
+  numbers in separately and spare yourself the trouble.
+
+<Card kind="recap">
+- Packing: multiply the high part by the place value, add the low one.
+- Unpacking: `op idiv` gives the high part, `op mod` the low one.
+- Digits read by eye, bits count more exactly.
+- The ceiling is 53 bits: the operations compute in 64, the variable stores 53.
+- Pack only integers, and only when there really are not enough places.
+</Card>
+
+<Card kind="task">
+In the example change `set y 12` to `set y 1200`: the unpacking falls apart — `backX` becomes
+`38` and `backY` becomes `200`. The low number climbed out of its place.
+
+Then change the place value from `1000` to `10000` in both lines: everything comes together
+again.
+</Card>

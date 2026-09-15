@@ -1,0 +1,102 @@
+---
+title: Labels instead of line numbers
+description: "How to write a jump to a label rather than a number: the syntax, the limit on labels and why blocks have none"
+lead: "A line number in a jump is a choice, not an obligation. In the text form the target can be called by name"
+difficulty: medium
+sidebar:
+    order: 3
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {LABELS} from '../../../../../course/scenes/advanced.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'jump/loops', title: 'Loops'},
+        {lesson: 'basics/editor', title: 'Writing in the game'}
+    ]}
+/>
+
+<Example client:load scene={LABELS} world={false} locale="en" />
+
+```
+set count 0
+again:
+op add count count 1
+jump again lessThan count 5
+set ready 1
+```
+
+The line `again:` is a **label**. It is not an instruction: it costs no line number, the
+processor does not execute it, and `jump again` leads to the line right after it.
+
+The game itself parses such a program: labels are understood by its text parsing, not by some
+external editor. Copy the example into the "Edit code" window — it will work.
+
+## What it looks like
+
+| What | How it is written |
+| --- | --- |
+| declaring a label | a single word ending in a colon: `again:` |
+| jumping to it | the name instead of a number: `jump again always` |
+
+The rules are simple:
+
+- a label takes up the whole line; nothing else may be on it;
+- the name can be anything, Cyrillic included;
+- two labels with the same name are a parse error, not a silent substitution;
+- a jump to a label that does not exist is an error too, and the game will say so.
+
+<Card kind="note">
+One program may hold up to **500** labels. That is a limit of the parsing, not of the logic: the
+jumps themselves are not going anywhere, the five hundred and first label simply will not be
+created.
+</Card>
+
+## What it is for
+
+A line number is a fragile reference. Insert a line in the middle of a program and every jump
+below points to the wrong place — silently: the program keeps running, just incorrectly.
+
+A label is tied to a place, not to a number. And it reads: `jump checkStock` says what is meant,
+while `jump 17` says only which line.
+
+<Card kind="error">
+**The block editor has no labels at all.** A program with labels opened as text in the game turns
+into blocks, and the jump targets become arrows — the labels disappear. There is no getting them
+back: on export to text the game will write numbers again.
+
+So labels live exactly until the first time the program is opened in the block editor. That is no
+great loss — arrows are more reliable than numbers — but a program you keep in text form is
+better edited as text as well.
+</Card>
+
+## Where it comes in handy
+
+- **long programs** written in an outside editor and pasted in whole;
+- **programs assembled by something else** — a compiler targeting mlog, say: there labels are the
+  only sensible way to refer to a place;
+- **portable pieces**: a piece with labels can be pasted into the middle of somebody else's
+  program and nothing shifts.
+
+<Card kind="recap">
+- A line of the form `name:` is a label; it takes up no line number.
+- `jump name condition ...` leads to the line after the label.
+- They are understood by the game's own parsing, not by external editors.
+- There may be up to five hundred labels; a repeated name and a jump to nowhere are errors.
+- In the block editor labels turn into arrows and disappear.
+</Card>
+
+<Card kind="task">
+Insert any line into the example — `set empty 0`, say — between `set count 0` and the label.
+Nothing breaks: the jump still leads where it should.
+
+Then rename the label to `again2:`, leaving `jump again` alone: the program will not assemble —
+the parser will say there is no such label.
+</Card>

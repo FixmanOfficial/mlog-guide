@@ -1,0 +1,104 @@
+---
+title: "@counter: a jump as a value"
+description: "The line counter is an ordinary variable: it is read, it is written to, and a jump can be computed"
+lead: "A jump is not only jump. The number of the next line sits in a variable, and it can be calculated"
+difficulty: medium
+sidebar:
+    order: 1
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {COUNTER, RELATIVE} from '../../../../../course/scenes/advanced.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'jump/branch', title: 'Condition and branching'},
+        {lesson: 'basics/processor', title: 'How the processor works'}
+    ]}
+/>
+
+`@counter` is the number of the line that will run next. In [«How the processor
+works»](/en/course/basics/processor/) it was read: it shows where the program is now. This
+lesson is about **writing** to it.
+
+## Writing to the counter *is* a jump
+
+Press "step" three times.
+
+<Example client:load scene={COUNTER} world={false} locale="en" />
+
+The second line puts a three into `@counter` — and the third line never runs at all: `skipped`
+stays empty and `reached` becomes one. A `jump` with its arrow on the fourth line would do
+exactly the same.
+
+There is one difference, and it is the decisive one: **a number can be computed**, an arrow
+cannot.
+
+## The counter already points at the next line
+
+Before you can count, you have to know what you are counting from. By the time a line runs, the
+counter has **already been increased** and points at the next line.
+
+<Example client:load scene={RELATIVE} world={false} locale="en" />
+
+`op add @counter @counter 2` in this example skips **two** lines, not one: `firstOne` and
+`secondOne` stay empty and the one goes to `thirdOne`. Adding zero would mean "the next line",
+that is, change nothing.
+
+Hence the rule for calculations: adding `n` skips `n` lines.
+
+## Why compute a jump
+
+Three cases this exists for at all:
+
+- **A choice among many.** Not five `jump`s in a row but one line: the branch number is computed
+  in advance and added to the counter. That is how jump tables are made.
+- **A number out of memory.** A cell holds which subprogram to run; the program reads the number
+  and jumps by it. The result is something like calling by name.
+- **Returning.** Before jumping "into a subprogram" the current `@counter` is saved into
+  a variable and restored at the end — the closest thing to a real call that mlog has at all.
+
+<Card kind="note">
+mlog has no subprograms, and that is not an oversight: there is no `call`, no stack and no local
+variables. Everything listed above is assembled by hand out of `@counter` and memory — and it
+works exactly as long as you remember what you are keeping.
+</Card>
+
+## The edges
+
+**Fractions are truncated.** Write 2.9 and line number two runs, not three.
+
+**A number outside the program returns to the start.** Negative or beyond the last line — the
+counter is cleared and the program goes from the first line. That is exactly how `end` works:
+it puts the program's line count into the counter, and that is certainly past the edge.
+
+<Card kind="error">
+**Numbers do not move when the program is edited.** A `jump`'s arrow holds onto a line: insert
+something in the middle and the jump still leads where it should. A number in `@counter` holds
+onto an index, and any insertion above breaks it silently.
+
+So ordinary jumps are written with an arrow, and `@counter` is used when the number really is
+computed. And then the program is rearranged carefully.
+</Card>
+
+<Card kind="recap">
+- `@counter` is an ordinary variable: visible in the table, readable and writable.
+- Writing to it is a jump; that is the whole point.
+- The counter already points at the next line, so adding `n` skips `n` lines.
+- Fractions are truncated, and a number past the end of the program clears the counter.
+- Numbers do not survive an edit to the program; arrows do.
+</Card>
+
+<Card kind="task">
+In the first example change the three to a four: both lines are skipped, `reached` stays empty,
+and the program goes straight to `end`.
+
+In the second, replace `step` with 0 and run it again — nothing changes: adding zero means "the
+next line", and all three variables get a one.
+</Card>

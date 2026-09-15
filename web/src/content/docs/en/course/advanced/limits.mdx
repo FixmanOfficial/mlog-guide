@@ -1,0 +1,106 @@
+---
+title: Limits and the game's editor
+description: "How many lines fit in a processor, what the buffers limit and how to move programs between maps"
+lead: "A thousand instructions, four hundred buffer characters, 256 draw commands — limits are worth knowing before you hit them"
+difficulty: medium
+sidebar:
+    order: 8
+---
+
+import LessonHead from '../../../../../course/LessonHead.astro'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import '../../../../../example/example.css'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'basics/editor', title: 'Writing in the game'},
+        {lesson: 'advanced/cost', title: 'What an instruction costs'}
+    ]}
+/>
+
+## The limits you run into
+
+| What | Limit |
+| --- | --- |
+| instructions in a program | **1000** |
+| labels in the text form | 500 |
+| characters in the print buffer | 400 |
+| draw commands before `drawflush` | 256 |
+| a processor's links | by the block's radius, not by count |
+| slots in a memory cell | 64, in a memory bank — 512 |
+
+A thousand instructions is a lot: nobody writes that many by hand. The people who hit it are
+those who assemble a program with something else — a compiler or a generator.
+
+<Card kind="error">
+**The excess does not fit, silently.** Line one thousand and one simply will not go into the
+program, draw command two hundred and fifty-seven will not go into the buffer, character four
+hundred and one will not go into the text. And there will be no error.
+
+So a long program is checked by the fact: look at the last line in the editor — is it there? The
+print buffer — `sensor @bufferSize`? Drawing — count the commands yourself.
+</Card>
+
+## The game's editor and everything else
+
+The processor window is a block editor: dragging, dropdowns, jump arrows. It is good while the
+program fits in your head, and agony when it has three hundred lines.
+
+That is why it has a second door — **"Edit code"**: the same thing as text. In it:
+
+- a program can be pasted in whole from the clipboard;
+- <Lesson lesson="advanced/labels">labels</Lesson> work instead of line numbers;
+- bulk changes are easy — search and replace in any text editor.
+
+<Card kind="note">
+Text and blocks are the same program. On opening, the block editor parses the text; on saving it
+assembles the text again out of blocks, and whatever it did not understand turns into an empty
+line. That is exactly how labels, comments and extra spaces disappear.
+</Card>
+
+## How to move a program
+
+| Where to | How |
+| --- | --- |
+| to another processor on the same map | copy the text through "Edit code" |
+| to another map | the same — text is not tied to a map |
+| together with the blocks | as a **schematic**: the processor is copied along with its program and links |
+
+A schematic is the only way to move a program **with its links**: the names `cell1`, `duo1` are
+preserved in it if the blocks move along. Text copied on its own remembers no links at all: you
+will have to set them up again, and the order will be different.
+
+<Card kind="error">
+**Links do not survive copying text.** `cell1` is not a block's name but a number in **this**
+processor's link list. Move the program and `cell1` now points at whatever is connected first,
+and that could be anything.
+
+It is worth checking straight away: <Lesson lesson="getlink">`getlink`</Lesson> and `@links` will
+show how many links there are and which.
+</Card>
+
+## What the game's editor does not have
+
+- **a search through the program.** In three hundred lines you have to look with your eyes;
+- **comments that survive.** You can write a comment: in the text form the game skips everything
+  after `#` to the end of the line. But open the program as blocks and save it, and the editor
+  assembles the text anew — out of blocks — and the comments disappear along with the labels;
+- **a debugger.** There is only the variable window; there are no breakpoints and no stepping
+  through lines — you have to imitate them yourself, with
+  <Lesson lesson="wait/pause">`wait`</Lesson> and printing to a message block;
+- **an edit history.** There is no undo: erased is erased.
+
+Hence the habit of the experienced: keep the program as text **outside the game**, edit it in an
+ordinary editor and paste it in whole.
+
+<Card kind="recap">
+- The limits: 1000 instructions, 500 labels, 400 buffer characters, 256 draw commands.
+- Everything in excess is dropped silently.
+- "Edit code" is the same program as text; labels live only there.
+- A program is moved as text, and links only as a schematic.
+- Comments (`#`) live only in the text and are lost when saving from blocks.
+- There is no search, no debugger and no undo in the editor.
+</Card>

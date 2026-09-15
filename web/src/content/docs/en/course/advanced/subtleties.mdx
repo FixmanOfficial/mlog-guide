@@ -1,0 +1,123 @@
+---
+title: The fine print
+description: "The epsilon in equal, division by zero, null in comparisons, objects and strings — the places where mlog does not behave as expected"
+lead: "A collection of places where intuition fails: comparisons with a tolerance, null instead of infinity and objects equal only to themselves"
+difficulty: hard
+sidebar:
+    order: 9
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {EDGE} from '../../../../../course/scenes/advanced.js'
+
+<LessonHead
+    difficulty="hard"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'advanced/numbers', title: 'Inside a number'},
+        {lesson: 'op/logic', title: 'Comparisons and logic'}
+    ]}
+/>
+
+## `equal` compares with a tolerance
+
+`0.1 + 0.2` in mlog, as everywhere, gives `0.30000000000000004`. But `op equal almost 0.3`
+answers **one**: it is a comparison with a tolerance — two numbers count as equal if the
+difference is less than one millionth. A strict comparison of the same pair gives zero.
+
+The same example shows the rest too: division by zero turned into null, null turned out to be
+equal to zero by `equal` and not equal by `strictEqual`, and copper is equal only to copper.
+
+<Example client:load scene={EDGE} world={false} locale="en" />
+
+| Condition | How it compares |
+| --- | --- |
+| `equal`, `notEqual` | with a tolerance of 0.000001 |
+| `strictEqual` | exactly, and checks the type as well |
+| `lessThan`, `greaterThan` and the rest | exactly, with no tolerance |
+
+Hence an oddity: `equal` can say "equal" while `lessThan` says "less", and both are right.
+
+<Card kind="note">
+The tolerance is a gift, not a nuisance: without it comparing fractional results would be next to
+impossible. It is worth remembering in one case: when the numbers are small. `0.0000005` and zero
+are one and the same thing to `equal`.
+</Card>
+
+## Division by zero gives null
+
+There is no infinity and no "not a number" in mlog variables. The moment a computation gives such
+an answer, the variable becomes **null**:
+
+```
+op div x 5 0        // x = null
+op div y 0 0        // y = null
+op sqrt z -4        // z = null
+```
+
+That is not our invention but how a variable is built in the game: it does not store an unusable
+number at all and turns it into null.
+
+<Card kind="error">
+**Hence silent data corruption.** A program divided by zero, put the "result" into a memory cell,
+and null landed there. From then on arithmetic counts it as zero, `print` prints `null`, and the
+cause will have to be hunted down twenty lines higher.
+
+It is the divisor that is worth checking, not the result: `jump ... equal divisor 0` before the
+division.
+</Card>
+
+## Null in comparisons
+
+| Comparison | The answer |
+| --- | --- |
+| `equal null 0` | **1** — in arithmetic null counts as zero |
+| `strictEqual null 0` | 0 — the types differ |
+| `op add x null 5` | `5` |
+| `print null` | `null` |
+
+Null is not zero, but it behaves like zero everywhere except in a strict comparison and in
+printing. The only reliable way to tell "no value" from "the value zero" is `strictEqual`.
+
+## Objects are equal only to themselves
+
+Buildings, units and content are compared **by identity**: `equal @copper @copper` is one,
+`equal @copper @lead` is zero. There is no "similar".
+
+Two things follow from that:
+
+- **two units of the same type are not equal.** To compare types you ask
+  `sensor kind @unit @type` and compare the types instead;
+- **a building from `getlink` and the same building from `radar` are one and the same object**,
+  and comparing them will confirm it.
+
+<Card kind="note">
+Comparing an object with a number is always false, with one exception: in a numeric comparison an
+object counts as one if it is there and zero if it is null. So `jump ... equal @unit 0` works as a
+"there is no unit" check — though it is not worth writing that way: `equal @unit null` is clearer.
+</Card>
+
+## A string is a value, but not a number
+
+A string can be put in a variable, printed, compared for equality and read character by character
+through <Lesson lesson="read/strings">`read`</Lesson>. What you cannot do with it is add it up
+and compare it in order:
+
+```
+op add x "abc" 5        // not an addition: a string in arithmetic is a one
+op lessThan y "abc" 5   // compares a one, not a string
+```
+
+In numeric operations a string behaves like an object: present is one, absent is zero.
+
+<Card kind="recap">
+- `equal` compares with a tolerance of one millionth, `strictEqual` exactly and by type.
+- Division by zero and the root of a negative number give **null**, not infinity.
+- Null equals zero in arithmetic and in `equal`, but not in `strictEqual`.
+- Objects are equal only to themselves; types are compared through `sensor @type`.
+- A string in arithmetic counts as one.
+</Card>
