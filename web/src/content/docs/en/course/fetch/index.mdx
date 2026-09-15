@@ -1,0 +1,115 @@
+---
+title: Fetch
+description: "How to get any of a team's units, buildings or cores by index and count how many there are"
+lead: "A radar sees around itself, query sees an area. Fetch sees everything a team has on the map"
+difficulty: medium
+sidebar:
+    order: 0
+    label: Everything a team has
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {FETCH} from '../../../../../course/scenes/world.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'world-intro', title: 'What a world processor is'},
+        {lesson: 'query', title: 'Searching an area'}
+    ]}
+/>
+
+<Example client:load scene={FETCH} world={true} locale="en" />
+
+```
+fetch unitCount ourUnits @sharded 0 0
+fetch buildCount turrets @sharded 0 @duo
+fetch core core @sharded 0 0
+```
+
+Three questions to the map: how many units we have (two), how many duos (also two) and where
+the core is. Distance has nothing to do with it — `fetch` sees the whole map at once.
+
+| Field | What is in it |
+| --- | --- |
+| first | what to get: `unit`, `build`, `core` or their counters |
+| second | where to put it |
+| third | the **team** |
+| fourth | the index in the list, counting from zero |
+| fifth | a type filter: a block for `build`, a unit type for `unit` |
+
+## Eight kinds and two questions
+
+The kinds split in half: half give **the object itself** by index, half give **how many there
+are**.
+
+| Gives an object | Gives a number |
+| --- | --- |
+| `unit` | `unitCount` |
+| `build` | `buildCount` |
+| `core` | `coreCount` |
+| `player` | `playerCount` |
+
+Hence the usual shape of a walk: ask for the count first, then go through the indices.
+
+```
+fetch unitCount amount @sharded 0 0
+set index 0
+fetch unit unit @sharded index 0
+sensor health unit @health
+op add index index 1
+jump 2 lessThan index amount
+```
+
+<Card kind="note">
+The fifth field is an optional filter. `fetch buildCount n @sharded 0 @duo` counts duos only,
+and `fetch unit u @sharded 0 @poly` walks polys only. With no filter, everything is included.
+</Card>
+
+## The order and its fragility
+
+The list runs **in order of appearance**: whatever was built or created earlier comes earlier
+in the list. The indices in it are attached to nobody: let the unit with index 3 die and
+everything after it shifts by one.
+
+<Card kind="error">
+**An index from `fetch` must not be remembered between iterations.** By the program's next
+iteration that index will hold a different unit — or none at all.
+
+What you remember is **the object itself**: `fetch unit own @sharded 3 0`, then
+`set remembered own`. The object stays the same even when the list has been reshuffled, and
+`sensor @dead` will tell you whether it is alive.
+</Card>
+
+## How it differs from radar and query
+
+| | `radar` | `query` | `fetch` |
+| --- | --- | --- | --- |
+| where it looks | around a building | in an area of the map | across the whole map |
+| what it gives | one | everybody in the area | one by index, or a count |
+| who can use it | everyone | a world processor | a world processor |
+| finds buildings | no | yes | yes |
+
+`fetch` is the only way to ask "how many units does the enemy have at all" or "where is their
+core" without walking the map tile by tile.
+
+<Card kind="recap">
+- `fetch kind where team index filter` gets a team's units, buildings and cores.
+- Half the kinds give an object, half a count.
+- The fifth field filters by block or unit type.
+- The order is the order of appearance, and the indices in it shift.
+- Remember the object, not the index.
+</Card>
+
+<Card kind="task">
+Change `@sharded` to `@crux` in the example's first line: "our" units become one — the enemy
+dagger.
+
+Then in the third line replace `@duo` with `@core-shard`: there are zero turrets, while that
+filter counts cores — one.
+</Card>

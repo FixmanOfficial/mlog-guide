@@ -1,0 +1,133 @@
+---
+title: Set Rule
+description: "How a world processor changes the game's rules: multipliers, waves, map bounds and bans"
+lead: "What a map's author normally sets in the settings, a world processor changes during play"
+difficulty: medium
+sidebar:
+    order: 0
+    label: Game rules
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {RULES, TOUGH} from '../../../../../course/scenes/world.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'world-intro', title: 'What a world processor is'},
+        {lesson: 'ucontrol/mine', title: 'Mining'}
+    ]}
+/>
+
+<Example client:load scene={RULES} world={true} locale="en" />
+
+```
+setrule unitMineSpeed 4 @sharded 0 0 0
+```
+
+One line, and the team's units mine four times as fast. The mono on this map fills its twenty
+copper in a bit over two seconds instead of nine.
+
+| Field | What is in it |
+| --- | --- |
+| first | which rule |
+| second | the value |
+| third | the **team** — for the ten multiplier rules |
+| the rest | the corners of an area — only for the `mapArea` rule |
+
+A rule changes at once and in full: not for one unit and not for one building, but for all of
+them together. It can be put back with the same `setrule` and the old value — the setting does
+not revert by itself.
+
+<Card kind="error">
+**For multipliers the third field is a team, not an empty space.** `unitHealth`,
+`unitMineSpeed`, `blockHealth` and seven more rules belong not to the world but to **a team**:
+`setrule` takes it from the third field and, if there is no team there, silently does nothing.
+
+```
+setrule unitMineSpeed 4 0 0 0 0
+```
+
+That line will not break and will not complain — it simply speeds up mining for **the
+derelicts**: zero is the team with number zero. Yours needs `@sharded`, the enemy `@crux`. In
+the game's editor this field is labelled exactly that — "of" — and holds `@sharded` by default.
+</Card>
+
+## What can be changed
+
+There are three dozen rules, and they fall into four kinds by what they take in the second
+field:
+
+| Kind | Examples |
+| --- | --- |
+| a number | `unitCap`, `waveSpacing`, `musicVolume` |
+| on/off | `waves`, `attackMode`, `canGameOver`, `lighting` |
+| a team multiplier | `unitHealth`, `unitMineSpeed`, `blockHealth`, `buildSpeed` |
+| special | `ban` and `unban` take content, `mapArea` takes four numbers |
+
+The full list is in the reference: [«Game rules»](/en/reference/rules/). It also shows which
+rule needs a team, which counts in seconds and which in tiles, and the bounds the game clamps
+a value to.
+
+<Card kind="note">
+**Seconds and tiles are converted for you.** `waveSpacing 30` is thirty seconds, not thirty
+ticks; `dropZoneRadius 5` is five tiles. The instruction converts them into the game's internal
+units, and there is no need to write ticks or world units.
+</Card>
+
+## A health multiplier does not raise health
+
+<Example client:load scene={TOUGH} world={true} locale="en" />
+
+Here a flare stands under an enemy turret's fire with the rule `unitHealth 4` switched on.
+Watch `limit`: it is still **70**. But the health drops four times slower, and the flare
+survives a bombardment that used to kill it.
+
+<Card kind="error">
+**`unitHealth` and `blockHealth` divide the damage, they do not multiply the health.** These
+rules are not visible in `@health` and `@maxHealth` at all — a program waiting for those
+numbers to grow will wait for ever.
+
+Such rules have to be checked by their consequences: how many hits a unit takes, not what
+`sensor` shows.
+</Card>
+
+## Bans and bounds
+
+Two rules stand apart because they do not take a number:
+
+```
+setrule ban @duo 0 0 0 0
+setrule mapArea 0 2 2 10 5
+```
+
+`ban` and `unban` take **content**: a block or a unit. A banned block disappears from the build
+menu, and a banned unit stops being produced.
+
+`mapArea` is the only rule that needs all four of the last fields: the coordinates of the bottom
+left corner, and after them the width and height of the playable area. That is how the campaign
+opens a map piece by piece.
+
+<Card kind="recap">
+- `setrule rule value` changes a setting for the whole game on the fly.
+- For the ten multiplier rules the third field is a team, and without one the line says nothing.
+- Seconds and tiles are converted for you.
+- `unitHealth` and `blockHealth` divide damage rather than raising health.
+- `ban` and `unban` take content, `mapArea` four numbers of an area.
+- A rule does not revert by itself: it is put back with the same `setrule`.
+</Card>
+
+<Card kind="task">
+In the first example change `4` to `0.25`: mining becomes four times slower than usual, and in
+the first ten seconds the mono gathers five instead of twenty. Filling its hold takes it over
+half a minute.
+
+In the second example set `unitHealth 1`: the flare dies again — the rule is back to normal.
+And if instead you erase `@sharded` and write `0`, the same thing happens: the multiplier goes
+to the derelicts and the flare is left without protection.
+</Card>

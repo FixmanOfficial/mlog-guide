@@ -1,0 +1,113 @@
+---
+title: Query
+description: "How query gathers every unit or building in an area and how to read the @queries list"
+lead: "A radar gives you one. Query gives you everybody who fell inside a circle or a rectangle"
+difficulty: medium
+sidebar:
+    order: 0
+    label: Searching an area
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {AREA} from '../../../../../course/scenes/world-units.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'world-intro', title: 'What a world processor is'},
+        {lesson: 'radar/find', title: 'Finding a unit'}
+    ]}
+/>
+
+<Example client:load scene={AREA} world={true} locale="en" />
+
+```
+query circle unit null 9 6 3 0
+sensor everything @queries @size
+```
+
+A circle of radius three around the point `9 6` turned out to hold **three** units: two daggers
+and a flare. Their list sits in `@queries`.
+
+| Field | What is in it |
+| --- | --- |
+| first | the shape: `circle` or `rect` |
+| second | what to look for: `unit`, `building`, `bullet` |
+| third | a team, or `null` for "anybody's" |
+| fourth and fifth | the area's centre in tiles |
+| sixth | the radius for a circle, the width for a rectangle |
+| seventh | the height for a rectangle; a circle does not need it |
+
+A rectangle is measured **from its centre**: `query rect unit null 9 6 4 4` is a four-by-four
+square centred on `9 6`, not a corner at that point.
+
+## The list is read like a memory cell
+
+`@queries` is neither a number nor an object but a **list**. Two instructions work with it:
+
+```
+sensor amount @queries @size
+read who @queries 0
+```
+
+`sensor @size` gives the length, `read` an element by index counting from zero. From then on
+each element is an ordinary unit or building, everything on which is read with `sensor`.
+
+And that is the whole walk:
+
+```
+set index 0
+read who @queries index
+sensor health who @health
+op add index index 1
+jump 1 lessThan index amount
+```
+
+<Card kind="error">
+**The list lives until the next `query`.** Every search clears `@queries` and fills it afresh —
+you cannot keep separate lists in different variables that way. If two sets are needed at once,
+walk the first one and then make the second query.
+
+That also means there must be no other `query` between a `query` and its walk — including one
+in another branch of the program.
+</Card>
+
+## Filtering by team
+
+The third field is a team, and it decides who counts:
+
+```
+query circle unit null 9 6 3 0       // everyone: three
+query circle unit @sharded 9 6 3 0   // ours only: two
+```
+
+Emptiness (`null`) means "any team". A specific team means its units only. There is no
+"everyone but mine" condition here: if you want enemies specifically, take everybody and filter
+by `@team` yourself.
+
+<Card kind="note">
+**How `query` differs from `radar`.** A radar gives **one** — the best by its sorting — and
+works on any processor. `query` gives **everybody** and only on a world processor; in exchange
+the area is any you like rather than a building's range.
+</Card>
+
+<Card kind="recap">
+- `query shape what team x y width height` gathers everybody in an area.
+- The result is a list in `@queries`: length through `sensor @size`, elements through `read`.
+- A rectangle is measured from its centre, a circle by its radius.
+- The team `null` means "any".
+- Every new `query` overwrites the previous list.
+</Card>
+
+<Card kind="task">
+Change the radius in the first line from `3` to `10`: the distant enemy dagger falls inside the
+circle too, and `everything` becomes four.
+
+Then replace `@sharded` with `@crux` in the third line: "ours" turns out to be however many
+enemies there are on the map — the variable's name lies, the search does not.
+</Card>
