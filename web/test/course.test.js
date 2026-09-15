@@ -3052,3 +3052,22 @@ test('урок «Кто управляет юнитом»: задания про
 
     assert.equal(num(looped.processors[0].building.processor, 'кем'), 1)
 })
+
+test('урок «Свойство есть не у каждого»: у незаряженной турели ноль, у маршрутизатора пустота', () => {
+    /*
+     * Два похожих ответа на два разных вопроса: `@ammo` у турели это ноль («патронов нет»),
+     * а у маршрутизатора — пустота («свойство к нему неприменимо»). Задание обещает именно это.
+     */
+    const asked = {
+        ...HOLDERS,
+        processors: [{
+            ...HOLDERS.processors[0],
+            program: `${HOLDERS.processors[0].program}\nsensor патроны duo1 @ammo\nsensor уМаршрута router1 @ammo`
+        }]
+    }
+
+    const {processor} = stage(asked, 40)
+
+    assert.equal(num(processor, 'патроны'), 0)
+    assert.equal(obj(processor, 'уМаршрута'), null)
+})

@@ -1,0 +1,84 @@
+---
+title: Properties of units
+description: How sensor reads the coordinates, health and flag of a unit taken under control
+lead: After ubind you can ask @unit the same things — where it is, whether it is intact, what it is busy with
+difficulty: medium
+sidebar:
+    order: 3
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import {UNITS} from '../../../../../course/scenes/sensor.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'sensor/buildings', title: 'sensor: properties of buildings'},
+        {group: 'ubind'}
+    ]}
+/>
+
+
+A unit is asked with the same `sensor` as a block. There is one difference: a unit has no link
+name, so it has to be taken first — that is what `ubind` does, and the taken unit sits in
+`@unit`.
+
+<Example client:load scene={UNITS} locale="en" />
+
+The first line takes the first free poly, and the rest ask it the same things that were asked
+of a container yesterday.
+
+## Coordinates are in tiles, not pixels
+
+`@x` and `@y` give tiles: for the poly in the example, 8 and 5. Inside the game everything is
+counted in pixels, eight per tile, but logic divides them by eight and multiplies back — which
+is why in mlog you never see 64 or 40.
+
+The fractional part is real, though: a unit stands at a point, not in a tile, and its `@x` can
+well be 8.37. Buildings have fractional parts too, but for another reason — an even-sized
+block's centre falls on a seam.
+
+## What is most often asked of a unit
+
+| Property | What it means |
+| --- | --- |
+| `@x`, `@y` | where it is now |
+| `@health`, `@maxHealth` | whether it is intact |
+| `@flying` | whether it is airborne: for mechs this changes |
+| `@mining` | whether it is mining right now |
+| `@totalItems`, `@firstItem` | what it is carrying |
+| `@flag` | the tag `ucontrol flag` puts on a unit |
+| `@controlled` | who commands it: 0 — nobody |
+
+The full table is in the [reference](/en/reference/properties/): it also shows which properties
+a unit has and which belong to buildings only. What those properties mean and how to change
+them is the `ucontrol` group's business; `sensor` can only read them.
+
+## A unit can be lost
+
+`@unit` lives exactly as long as the unit does. The moment it is shot down, `@unit` holds
+`null`, and every `sensor` on it gives the same back.
+
+<Card kind="error">
+    What to check is not "health above zero" but `@unit` itself: a dead unit's health arrives
+    as `null`, and an ordinary comparison takes that for zero. You need an `Operation` block
+    with `strictEqual` — labelled `===` on the button: `@unit` on the left, `null` on the right.
+</Card>
+
+<Card kind="recap">
+- A unit has no link name: `ubind` first, then questions to `@unit`.
+- Properties are read with the same `sensor` as for buildings — the set of properties differs.
+- Coordinates arrive in tiles, not pixels, and can be fractional.
+- After a unit dies `@unit` holds `null`, and every question to it gives `null` too.
+</Card>
+
+<Card kind="task">
+Add another `Sensor` with the plus, ask `@unit` for `@controlled` and put the answer into
+`ctrl`. You get 0: `ubind` only takes a unit, it does not command it. Command appears with the
+first `ucontrol` instruction — and then `@controlled` becomes one, the code for "a processor
+is driving it".
+</Card>

@@ -1,0 +1,115 @@
+---
+title: Not everyone has every property
+description: Why @ammo works only on a turret, how a block's type differs from a building and what to do with a null answer
+lead: Why only a turret has @ammo and only a drill has @progress, and how a block's type differs from a building
+difficulty: medium
+sidebar:
+    order: 4
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import {HOLDERS} from '../../../../../course/scenes/sensor.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'sensor/buildings', title: 'sensor: properties of buildings'},
+        {lesson: 'sensor/items', title: 'sensor: items and null'}
+    ]}
+/>
+
+
+There are 77 properties, and nobody has all of them at once. That is not a limit of logic but
+how the game is built: a property is read by the code of a particular class, and `@ammo` is
+written in the turret, `@progress` in the drill and the factory, `@memoryCapacity` in the
+memory cell. The others simply do not have that code.
+
+<Example client:load scene={HOLDERS} locale="en" />
+
+Here a duo is damaged down to 120 out of 250, and the cell has memory while the router does
+not.
+
+## A type is asked about price
+
+That a type and a building are different correspondents was already said in the lesson
+[«Properties of buildings»](/en/course/sensor/buildings/): `@duo` is a blueprint, `duo1` is
+a turret on the map. The example's first two lines ask them the same thing and get different
+answers: 250 health on the blueprint against 120 on the damaged turret.
+
+Then come the things a building does not have at all: a type has `@id` and `@name`, and also
+a price.
+
+Ask a type for an item rather than a property and you get the build cost: `@duo` costs 35
+copper, `@vault` 250 titanium. The same question to a building means "how much is inside", and
+to a type "how much it costs". There is no other way to learn a price from logic; in
+infinite-resources mode it goes to zero.
+
+## Who answers what
+
+Common to every building: health, coordinates, team, size, contents. After that it gets
+specific:
+
+| Property | Who has it |
+| --- | --- |
+| `@ammo`, `@ammoCapacity`, `@currentAmmoType` | turrets, 26 blocks |
+| `@progress` | everything that does work over time: drills, factories, construction |
+| `@heat` | reactors, heaters, the force projector, power turrets — 25 blocks |
+| `@memoryCapacity` | the memory cell and bank, plus the world cell for a world processor |
+| `@displayWidth`, `@displayHeight` | displays |
+| `@totalLiquids` | on a factory only its output liquid, on a pump only what it pumps |
+
+The full list, property by property, is in the [property table](/en/reference/properties/):
+each one says who it is read on and what it gives. That table is taken from the game's code
+rather than assembled by hand, so it can be trusted.
+
+## What to do with a `null` answer
+
+There will be no error: `sensor` does not complain, it puts down `null`. The program carries on.
+
+<Card kind="error">
+    If a check for "ammo is zero" always fires, you are almost certainly asking the wrong block
+    or have the property name wrong. `null` equals zero in an ordinary comparison, and neither
+    the game nor the editor will tell you.
+</Card>
+
+## A number does not always mean "how much"
+
+`@controlled` answers with a number — 0, 1, 2 or 3 — but that is not a quantity, it is a code:
+nobody, a processor, a player, command mode.
+
+Zero is there for a reason: anything above zero means "somebody is driving it". So the most
+common check is not a walk through the codes but a comparison with zero, and `jump` handles
+both "greater" and "not equal" here.
+
+Telling exactly who is needed less often; for that the codes have constant names —
+`@ctrlProcessor`, `@ctrlPlayer`, `@ctrlCommand`. Those are the same 1, 2 and 3. The codes in
+full are in the [property table](/en/reference/properties/#controlled).
+
+For units `@controlled` alone is usually not enough: it says "some processor" but not which
+one. Its partner is `@controller`, and each has a blind spot of its own; in detail in the
+lesson <Lesson lesson="ucontrol/control">"Who is driving the unit"</Lesson>.
+
+<Card kind="note">
+**In the course sandbox `@heat` on reactors is always empty.** Turrets and drills, on the
+contrary, are real: `@ammo` and `@progress` here are the same as in the game.
+</Card>
+
+<Card kind="recap">
+- There are few common properties: health, coordinates, team, size, contents.
+- `@ammo`, `@progress`, `@heat`, `@memoryCapacity` belong only to their own blocks.
+- A type answers about the blueprint, a building about itself; an item asked of a type gives the price.
+- What a block does not have arrives as `null`.
+</Card>
+
+<Card kind="task">
+Add another `Sensor` with the plus and ask `duo1` for `@ammo`. You get **zero**: the turret on
+this map stands unloaded, and zero here means "no ammo", not "wrong question".
+
+Then ask `@ammo` of the router: that gives `null`. *That* is "the property does not apply to
+this block" — two similar answers to two completely different questions.
+</Card>

@@ -1,0 +1,116 @@
+---
+title: Properties of buildings
+description: How sensor reads a neighbouring block's health, capacity, contents and type
+lead: Ask a linked block for a number — how much is inside, how much fits, whether it is intact
+difficulty: easy
+sidebar:
+    order: 1
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import Parts from '../../../../../course/Parts.astro'
+import Part from '../../../../../course/Part.astro'
+import Card from '../../../../../course/Card.astro'
+import '../../../../../example/example.css'
+import {BUILDINGS} from '../../../../../course/scenes/sensor.js'
+
+<LessonHead
+    difficulty="easy"
+    lead={frontmatter.lead}
+    needs={[{lesson: 'basics/processor', title: 'How the processor works'}]}
+/>
+
+A container stands next to the processor with 120 copper and 40 lead inside. The processor
+knows nothing about that — until it asks.
+
+The `sensor` block has three fields: on the left, **where** to put the answer; then **what**
+to ask; and after the "in" label, **who** to ask.
+
+Since version 160 the game translates the labels in the blocks. The book button above the
+example turns them back to English — then that same label reads `in`, as in other people's
+guides and in old videos.
+
+<Example client:load scene={BUILDINGS} locale="en" />
+
+Press "step" four times: the values appear one at a time, a line per press.
+
+<Parts>
+    <Part name="@totalItems" label="the property">
+        The list is closed: there are 77 of them and you cannot invent a new one — only pick
+        from the ready ones, which is what the pencil by the field is for.
+    </Part>
+
+    <Part name="container1" label="who we ask">
+        That is the name of the link: the first linked container. The game gives the name and
+        it cannot be changed, but it can be put into a variable and passed on.
+    </Part>
+
+    <Part name="everything" label="where we put it">
+        This one is your own name, and it can be anything at all. Other people's programs tend
+        to use short English words, but that does not change the language.
+    </Part>
+</Parts>
+
+The variable's name is yours; the names the game has already taken are read-only — that
+conversation belongs to the `set` group.
+
+## A building and its type are different things
+
+`container1` is a **building**: that container, right there, with that copper in it. There may
+be twenty of them on the map, each with its own contents and its own health.
+
+`@container` is a **type**: one record for the whole game of what a container is like in
+general. How much fits in it, what it costs, what size it is.
+
+The last line of the example asks the building what type it is and puts into `kind` **not the
+word** "container" but the type itself — the same object as the constant `@container`. That is
+why the result of `@type` is compared with the constant: in a `jump` block you put the variable
+on the left and pick `@container` on the right with the same pencil you used for the property.
+
+This is how you check what kind of block you got: `getlink` walks the links, `sensor @type` asks
+what it is, and the program decides what to do with it.
+
+<Card kind="error">
+    Comparing with the string "container" is useless: a string and a type are different things,
+    and `equal` will not bring them together. The check silently never fires, and there is no
+    error.
+</Card>
+
+The type itself can be asked things too: `sensor @container @itemCapacity` says how much fits
+into any container.
+
+## A coordinate with a half on a big block
+
+A container takes two tiles by two, and `sensor container1 @x` gives **6.5**, not 6: the
+coordinate is the building's centre, and the centre of an even-sized block falls on the seam
+between tiles. A router of size 1 never has this.
+
+It is not a detail to shrug at: the half cannot be rounded away "for tidiness" — that
+coordinate is later used to lead a unit or place a block, and the building's centre is where it
+is.
+
+## What a block does not have
+
+You can ask anything, but a block will not answer everything: a container has no ammo, and
+`sensor container1 @ammo` gives `null` — not zero, and those are different things. Who has
+which properties at all is [the group's last lesson](/en/course/sensor/holders/).
+
+<Card kind="recap">
+- `sensor` asks **one** property of **one** object and puts the answer into a variable.
+- The property is picked from the ready ones with the pencil by the field; the variable's name is yours.
+- `@type` gives the type as an object, and it must be compared with a constant like `@container`.
+- What a block does not have arrives as `null`, not zero.
+</Card>
+
+<Card kind="task">
+Click the pencil next to the property in the example's first line and choose `@size`, then
+`@rotation`. The first shows 2 — the container's side in tiles. The second shows 0, and that
+is not an error: a container does not rotate, yet it has a rotation all the same, like any
+building.
+
+The arrow button in the top row returns the example to its original state, so you can break
+it without worry.
+</Card>
+
+The full list of what can be asked is in the [property table](/en/reference/properties/).

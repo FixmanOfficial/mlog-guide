@@ -1,0 +1,84 @@
+---
+title: Items and an empty answer
+description: How to find out how much of a given item a block holds, and how zero differs from null
+lead: How much copper is in a block — and how "there is none of it" differs from "the question does not apply"
+difficulty: medium
+sidebar:
+    order: 2
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import {ITEMS} from '../../../../../course/scenes/sensor.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'sensor/buildings', title: 'sensor: properties of buildings'},
+        {lesson: 'basics/null', title: 'Emptiness: null'}
+    ]}
+/>
+
+
+As its third argument `sensor` takes not only a property but also an item. The vault holds 220
+copper and 15 graphite; there is no silicon at all, and a vault does not hold water in
+principle.
+
+<Example client:load scene={ITEMS} locale="en" />
+
+Three answers to three similar questions:
+
+| Asked | Answer | What it means |
+| --- | --- | --- |
+| `@copper` | 220 | the item is there, and here is how much |
+| `@silicon` | 0 | the item exists, but not here — zero means "none" |
+| `@water` | `null` | a vault does not hold liquids at all — the question does not apply |
+
+<Card kind="error">
+    In an ordinary comparison `null` equals zero, so a check for "no copper left" fires on
+    "no block" and "wrong property" too. What to do about that is in the lesson
+    [«Emptiness: null»](/en/course/basics/null/).
+</Card>
+
+## The first item is an object
+
+`@firstItem` gives not a count but the item itself: the same object as the constant `@copper`.
+It is convenient to pass on — into `ucontrol itemTake`, into `sensor` as the next argument,
+into `print`.
+
+"First" means the one that has been in the block longest and has not run out, not the largest
+and not the first alphabetically. On a drill it is whatever it is mining.
+
+## What can be asked as an item
+
+Any item and any liquid in the game: `@copper`, `@graphite`, `@water`, `@cryofluid`. The full
+list is in the [reference](/en/reference/instructions/lookup/), along with a way to walk them
+all by index.
+
+<Card kind="note">
+**The course sandbox has no liquids**: the blocks that hold them are always empty. The numbers
+about items are real, the ones about liquids are not.
+</Card>
+
+<Card kind="recap">
+- As its third field `sensor` takes not only a property but also an item or a liquid.
+- "There is none of the item" is zero; "the question does not apply" is `null`.
+- `@firstItem` gives the item itself as an object, not its count.
+</Card>
+
+<Card kind="task">
+Click the pencil by the property in any line and ask the vault for three more things:
+`@graphite` (it is there), `@titanium` (not in this vault, but it exists as an item) and
+`@sand`. The first answers with a number, the others with zero.
+
+Then type `@vault` into the block's field instead of `vault1` — ask the same thing of the
+vault's type rather than of the vault. The answer is not about contents but about **price**:
+`sensor @vault @titanium` gives 250, the amount of titanium a vault costs. A blueprint has no
+contents but it does have a cost, and this is the only way to learn it from logic.
+
+In infinite-resources mode the price honestly answers zero — just like building, which deducts
+nothing.
+</Card>

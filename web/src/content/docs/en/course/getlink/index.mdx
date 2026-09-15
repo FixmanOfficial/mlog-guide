@@ -1,0 +1,103 @@
+---
+title: Get Link
+description: "Links by index: how to walk every connected block and what lies past the last one"
+lead: "Links have an order, and you can walk it — without knowing in advance what is connected"
+difficulty: easy
+sidebar:
+    order: 0
+    label: Links by index
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {LOOP, BEYOND} from '../../../../../course/scenes/getlink.js'
+
+<LessonHead
+    difficulty="easy"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'basics/links', title: 'Links and getlink'},
+        {lesson: 'jump/loops', title: 'Loops'}
+    ]}
+/>
+
+A link can be named — `cell1`, `duo1` — or it can be taken **by index**. The index is the order
+of connecting: the first connected block is number zero, the second number one, and so on.
+
+<Example client:load scene={LOOP} world={true} locale="en" />
+
+The program walks every link and prints what it found: `container memory-cell message`.
+It does not know the blocks' names, and it does not have to.
+
+## `@links` — how many there are
+
+```
+getlink block index
+op add index index 1
+jump 0 lessThan index @links
+```
+
+`@links` is a built-in variable of the processor: the number of connected blocks. That is what
+ends the loop, not a number: connect one more block and the program sees it by itself.
+
+<Card kind="note">
+`@links` is a variable, not a property: you read it like `@ipt` or `@time`, not through
+`sensor`. `sensor` has no such property at all.
+</Card>
+
+## Past the last link lies emptiness
+
+<Example client:load scene={BEYOND} world={true} locale="en" />
+
+| Index | What comes back |
+| --- | --- |
+| 0 and 1 | the connected blocks |
+| 2 with two links | `null` |
+| `1.9` | link number 1: the fractional part is dropped |
+
+There is no error past the end — as with memory, the answer is emptiness.
+
+## Why walk the links
+
+- **One program for different bases.** Connect six drills instead of three and the loop walks
+  six.
+- **Finding the block you want.** Walk the links, ask `@type` or `sensor`, find the one you
+  were after.
+- **Going over blocks of one kind.** Switch off every turret, poll every store, add up the
+  copper across all containers.
+
+```
+getlink block index
+sensor kind block @type
+jump 7 notEqual kind @container
+sensor copperLeft block @copper
+op add everything everything copperLeft
+```
+
+<Card kind="error">
+**The order of links is the order of connecting, not the layout on the map.** The block
+connected first stays number zero even if it stands furthest away. The list cannot be
+reshuffled: disconnecting and reconnecting is the only way to change the numbers.
+
+So programs that rely on "block zero is the store" break silently the moment somebody
+reconnects the links.
+</Card>
+
+<Card kind="recap">
+- `getlink variable index` takes a link by order of connecting, from zero.
+- `@links` is how many links the processor has; that is what ends the loop.
+- Past the last link lies emptiness; a fractional index is truncated.
+- Walking the links lets you write a program without knowing in advance what will be connected to it.
+</Card>
+
+<Card kind="task">
+In the first example change `jump 0 lessThan index @links` to `jump 0 lessThan index 5` and run
+it: after the third link `null`s go into the buffer, and the line becomes
+`container memory-cell message null null`.
+
+Then put `@links` back and remove the line `print " "`. The line sticks together into
+`containermemory-cellmessage` — a space does not enter the buffer by itself.
+</Card>
