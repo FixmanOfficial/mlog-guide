@@ -1,0 +1,97 @@
+---
+title: Finding a unit
+description: "The radar's three filters, where it looks from and why it does not find buildings"
+lead: "Three conditions are joined by a logical AND, and the range is taken from the block you look from"
+difficulty: medium
+sidebar:
+    order: 1
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {FIND} from '../../../../../course/scenes/radar.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'basics/links', title: 'Links and getlink'},
+        {lesson: 'sensor/units', title: 'Properties of units'}
+    ]}
+/>
+
+<Example client:load scene={FIND} world={true} locale="en" />
+
+There are three on the map: a dagger and a flare belong to the enemy, a poly is ours. Three
+radars find different ones — through filters.
+
+## The instruction's fields
+
+| Field | What is in it |
+| --- | --- |
+| first, second, third | the **filters**: three conditions joined by a logical AND |
+| fourth | what measures "best" — that is <Lesson lesson="radar/sort">the next lesson</Lesson> |
+| fifth | **where we look from**: the block being asked |
+| sixth | the sort direction |
+| seventh | where to put the one found |
+
+## Eight filters
+
+| Filter | Who qualifies |
+| --- | --- |
+| `any` | anybody |
+| `enemy` | a unit of another team |
+| `ally` | a unit of your own team |
+| `flying` | airborne |
+| `ground` | on the ground |
+| `attacker` | able to shoot |
+| `player` | driven by a player |
+| `boss` | a wave boss |
+
+The derelict team does not count as an enemy: rusty units on the map will not come up under
+`enemy`.
+
+Three filters are an **AND**, not an OR: `enemy flying any` finds one that is hostile **and**
+airborne. To have fewer than three conditions, the spare ones are set to `any`.
+
+<Card kind="error">
+**A radar does not see buildings.** Neither yours nor anyone else's: it walks units only. To
+find a block, a processor has its links (<Lesson lesson="getlink">`getlink`</Lesson>), and the
+map has the world instructions.
+</Card>
+
+## Where it looks from
+
+The fifth field is a block, and the range is taken from it:
+
+| Block | How far it sees |
+| --- | --- |
+| a turret | as far as it shoots |
+| a processor | as far as it links |
+| every other block | not at all |
+
+So a radar is usually hung on the very turret that will be commanded afterwards: it sees
+exactly what it can reach.
+
+<Card kind="note">
+**The course sandbox has neither players nor waves**, so the `player` and `boss` filters always
+give emptiness here. In the game they work as usual.
+</Card>
+
+<Card kind="recap">
+- A radar looks for **one** unit: the best by the measure in the fourth field.
+- Three filters are joined by a logical AND; the unneeded ones are set to `any`.
+- The range is taken from the block that is looking.
+- A radar does not find buildings at all.
+</Card>
+
+<Card kind="task">
+Change the first radar in the example from `enemy any any` to `enemy ground any` — `near`
+gets the dagger and the flare drops out: it flies.
+
+Then give the third radar `ally ground any`: the answer becomes `null`. The poly is airborne,
+there are no other allies on the map, and that is not an error but an honest "nobody".
+</Card>

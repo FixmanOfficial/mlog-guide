@@ -1,0 +1,113 @@
+---
+title: Configuring a block
+description: "How control config changes a sorter's item and a factory's unit, and why a number will not do it"
+lead: "A sorter, an unloader and a factory are configured with an item — and logic can change that setting on the fly"
+difficulty: medium
+sidebar:
+    order: 2
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {CONFIG} from '../../../../../course/scenes/control.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'control/enabled', title: 'Switching on and off'},
+        {lesson: 'set/content', title: 'Content constants'}
+    ]}
+/>
+
+Some blocks in the game are configured by clicking them and picking an item: a sorter, an
+unloader, an item source, a unit factory. Whatever is picked is the block's **configuration** —
+and logic can change it.
+
+<Example client:load scene={CONFIG} world={true} locale="en" />
+
+The program looks at which of the two is scarcer in the store and configures the sorter for
+that item. Copper 40, lead 25 — so the sorter settles on lead.
+
+## Only as an object, and only for those that have a configuration
+
+```
+control config sorter1 @lead
+```
+
+The third field is a **content object**: `@lead`, `@titanium`, `@poly`. Not a number and not
+a string.
+
+<Card kind="error">
+**A number does not change the configuration.** `control config sorter1 3` runs and does
+nothing: the game checks that the value is an object and never lets the numeric branch reach
+the configuration.
+
+Hence a typical trap: an item fetched with `lookup` and put into a variable works; an index
+fetched and never unfolded leaves the line silently idle.
+</Card>
+
+Not every block has a configuration. The ones logic can drive are those configured with
+**content**:
+
+| Block | Configured with |
+| --- | --- |
+| sorter, inverted sorter | an item |
+| unloader, ductular unloader | an item |
+| duct router and overflow-style routers with a filter | an item |
+| item source, liquid source | an item or a liquid |
+| ground, air and naval factories | a unit type |
+| tank, ship and mech assemblers | a unit type |
+| constructor and large constructor | a block |
+| payload unloader, payload source | a block or a unit type |
+
+There are about twenty such blocks in all. A container, a drill and a turret are not on the
+list: they have nothing to configure, and the command passes them by.
+
+## Reading the configuration — with the same `sensor`
+
+```
+sensor setting sorter1 @config
+```
+
+It answers with an object — the one that was put there — or emptiness, if the block has no
+configuration at all. It is convenient to compare straight with a constant:
+`jump 8 equal setting @lead`.
+
+<Card kind="note">
+`@config` cannot be read on everything it can be written to: the game gives back the
+configuration only for blocks configured with content. On the rest it is emptiness, not zero.
+</Card>
+
+## What it is for
+
+- **One sorter instead of five.** The program sees what is running short and reconfigures it on
+  the fly — the line carries the scarce thing by itself.
+- **An unloader on demand.** The core hands out exactly what a factory is asking for.
+- **A factory for the task at hand.** One factory makes polys one moment and daggers the next,
+  depending on what is needed right now.
+
+<Card kind="error">
+**Reconfiguring costs time.** A block whose configuration changes every iteration works worse
+than one configured once: the conveyor in front of the sorter fills up with the wrong thing in
+between. A configuration is changed on an event — "ran out", "arrived" — not every iteration.
+</Card>
+
+<Card kind="recap">
+- `control config block @item` changes the configuration; the value has to be an object.
+- A number does not change it, and there will be no warning.
+- Logic can configure only blocks whose configuration is content.
+- The configuration is read with `sensor @config`; on other blocks that is emptiness.
+</Card>
+
+<Card kind="task">
+Swap `@copper` and `@lead` in the example and run it: the sorter settles on copper — the
+condition stayed the same, the values changed.
+
+Then replace `control config sorter1 item` with `control config sorter1 3`. The configuration
+does not change at all: `@config` shows the previous item, although the line runs every
+iteration.
+</Card>

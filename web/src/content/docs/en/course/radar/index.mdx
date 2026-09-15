@@ -1,0 +1,35 @@
+---
+title: Radar
+description: "The group of lessons about radar: how a block finds a unit near itself"
+lead: "How a block learns that somebody is nearby: units only, within its own range only, and only the best one"
+sidebar:
+    order: 0
+    label: Overview
+---
+
+import LessonList from '../../../../../course/LessonList.astro'
+import Card from '../../../../../course/Card.astro'
+
+`sensor` asks about a **particular** block or unit the program already holds in a variable.
+A radar answers a different question: **who is nearby**.
+
+```
+radar enemy any any distance duo1 1 aim
+```
+
+It finds exactly one — the "best" by the chosen measure — and only a **unit**: a radar does not
+see buildings at all.
+
+<Card kind="note">
+A radar has no range of its own: it looks as far as the block being asked can see. On a turret
+that is its firing range, on a processor its link range.
+</Card>
+
+## Lessons
+
+<LessonList group="radar" />
+
+## What you need first
+
+[«Properties of units»](/en/course/sensor/units/) — what to ask the one you found, and
+[«Links and getlink»](/en/course/basics/links/) — so there is something to look from.

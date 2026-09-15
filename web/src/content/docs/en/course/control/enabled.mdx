@@ -1,0 +1,108 @@
+---
+title: Switching on and off
+description: "How control enabled stops a block and why a switched-off block is logic's main tool"
+lead: "The one command that works on any block: switch it off and switch it back on"
+difficulty: easy
+sidebar:
+    order: 1
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {ENABLED, UNLINKED} from '../../../../../course/scenes/control.js'
+
+<LessonHead
+    difficulty="easy"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'basics/links', title: 'Links and getlink'},
+        {lesson: 'sensor/buildings', title: 'Properties of buildings'}
+    ]}
+/>
+
+A switched-off block does not work: a drill does not drill, a factory does not produce,
+a conveyor does not carry. Logic uses this constantly — it is its main way of interfering with
+a base.
+
+<Example client:load scene={ENABLED} world={true} locale="en" />
+
+The program watches the store and keeps the drill on while there is less than a hundred
+copper. Press "run" and wait: as soon as `copper` reaches 100, `running` becomes zero and the
+drill stops.
+
+## The line reads as "enable the block on a condition"
+
+```
+control enabled drill1 low
+```
+
+The third field is not "on" and not "off" but a **number**: zero switches off, any other value
+switches on. So what usually goes in there is the result of a comparison:
+
+```
+op lessThan low copper 100
+control enabled drill1 low
+```
+
+<Card kind="note">
+The truth threshold here is the same as everywhere in mlog: a number is true if its absolute
+value is **not less than one hundred thousandth** — `0.00001`. Anything closer to zero counts
+as false, and emptiness is always false: `null` switches off.
+</Card>
+
+## `sensor` can check the state
+
+```
+sensor running drill1 @enabled
+```
+
+The `@enabled` property is read on any block and answers with a one or a zero. That is handy
+for debugging: if a block is not working while the program is sure of the opposite, one line
+settles the question.
+
+<Card kind="note">
+Logic will switch back on a block the player switched off, and the other way round: there is
+one switch for everybody. So a program that writes `control enabled` every iteration takes
+manual control of the block away from the human — they switch it on and the next iteration
+switches it off.
+</Card>
+
+## Only linked blocks obey
+
+<Example client:load scene={UNLINKED} world={true} locale="en" />
+
+There are two drills on the map. The first is linked to our processor, the second to
+a neighbouring one; ours fetches it
+[by the neighbour's link name](/en/course/read/processors/) and commands both the same way.
+
+Press "run": `mineRuns` becomes zero and `theirsRuns` stays one. The building is real —
+`sensor` reads it perfectly well — but the order does not reach it.
+
+<Card kind="error">
+**An order to an unlinked block does nothing and says nothing about it.** That is the first
+thing to check when "control doesn't work": does **this** processor have a link to that block.
+
+A link is limited not by a count but by **range**: ten tiles on a micro processor, forty-two on
+a hyper. That is why big bases usually have several processors rather than one for everything,
+each with its own charges.
+</Card>
+
+<Card kind="recap">
+- `control enabled block value` — zero switches off, anything else switches on.
+- A switched-off block does not work at all, and that is logic's main way of affecting a base.
+- The state is read with `sensor @enabled`.
+- Only blocks linked to this processor carry out the order; the rest keep silent.
+- Writing `enabled` constantly takes manual control of the block away from the human.
+</Card>
+
+<Card kind="task">
+Change `100` to `10` in the first example and run it: there is already more copper in the
+store, so the drill never switches on — `running` stays zero.
+
+Then put the hundred back and write `control enabled drill1 1`. The drill runs all the time,
+and the `sensor` line shows a one: the program gave up on its condition and became a switch
+that cannot be switched off.
+</Card>

@@ -1,0 +1,103 @@
+---
+title: Sorting and the cache
+description: "What a radar measures the best target by, how the order flips and why the answer refreshes once every 30 ticks"
+lead: "A radar answers not «who is there» but «who is best». And it does not answer afresh every time"
+difficulty: medium
+sidebar:
+    order: 2
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {SORT, CACHE} from '../../../../../course/scenes/radar.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[{lesson: 'radar/find', title: 'Finding a unit'}]}
+/>
+
+<Example client:load scene={SORT} world={true} locale="en" />
+
+Four radars, all with the same filters — only the measure and the order differ. The dagger is
+closer and healthier, the flare further away and weaker.
+
+## What to measure by
+
+| Measure | What it compares |
+| --- | --- |
+| `distance` | the distance to the block |
+| `health` | current health |
+| `maxHealth` | maximum health |
+| `shield` | shield |
+| `armor` | armour |
+
+## The order: the sixth field
+
+Zero and one flip the choice:
+
+| Measure and order | Who it finds |
+| --- | --- |
+| `distance 1` | the **nearest** |
+| `distance 0` | the furthest |
+| `health 1` | the toughest |
+| `health 0` | the weakest |
+
+An easier way to remember it: **one means "the best by the measure"**, zero "the worst". For
+distance, "best" means nearest, because that is usually who you are after.
+
+<Card kind="note">
+Finishing enemies off works well with `health 0`: a wounded one dies sooner, and the turret
+does not spread its ammo over the healthy. "The most dangerous", though, cannot be expressed by
+one measure — that needs filters and a check of your own afterwards.
+</Card>
+
+## The answer refreshes once every 30 ticks
+
+<Example client:load scene={CACHE} world={true} locale="en" />
+
+A radar does not search afresh every iteration. A block's result is recomputed **once every 30
+ticks** — half a second — and between recomputations the previous answer is handed back. This
+is done for speed: a dozen radars in a program would otherwise eat a frame.
+
+Press "run" and watch `dead`. The turret finishes the flare off, and for a while `aim` still
+points at it — only now with `@dead` equal to one.
+
+<Card kind="error">
+**A target from a radar may already be dead.** Up to half a second passes between the death and
+the recomputation, and all that time the program is commanding a corpse: `control shootp` will
+aim the turret at a body, and `ucontrol` will lead a unit to a place where nobody is.
+
+So what was found is checked before it is used:
+
+```
+radar enemy any any distance duo1 1 aim
+sensor dead aim @dead
+jump 6 notEqual dead 0
+```
+</Card>
+
+<Card kind="note">
+The cache belongs to **the line** of the program, not to the block: two radars on different
+lines are counted separately even if they ask the same thing. So identical radars are worth
+writing once and putting the result into a variable.
+</Card>
+
+<Card kind="recap">
+- There are five measures; the sixth field flips the choice.
+- `distance 1` is the nearest, `health 0` the weakest.
+- The answer is recomputed once every 30 ticks; in between, the previous one is given.
+- The unit found may already be dead: check `@dead`.
+</Card>
+
+<Card kind="task">
+Change the measure `health` in the first example to `maxHealth` and run it: `tough` stays the
+dagger — its maximum health is higher too. But wound the dagger and `health` and `maxHealth`
+start answering differently.
+
+Then give all four radars the order `1` and compare `near` with `far`: they become the same
+unit.
+</Card>

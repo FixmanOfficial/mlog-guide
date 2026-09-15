@@ -1,0 +1,42 @@
+---
+title: Control
+description: "The group of lessons about control: how a processor drives neighbouring blocks — switching them on and off and configuring them"
+lead: "sensor asks, control orders. Only the blocks the processor is linked to obey"
+sidebar:
+    order: 0
+    label: Overview
+---
+
+import LessonList from '../../../../../course/LessonList.astro'
+import Card from '../../../../../course/Card.astro'
+
+`sensor` and `control` are a pair: the first reads a block's property, the second changes it.
+Almost everything can be read, and exactly five things can be changed:
+
+| Property | What it does | For whom |
+| --- | --- | --- |
+| `enabled` | switches a block on and off | anyone |
+| `config` | changes the setting — an item, a unit type | those configured with content |
+| `shoot` | shoot at a point | turrets |
+| `shootp` | shoot at a unit with lead | turrets |
+| `color` | the glow colour | the illuminator |
+
+Nothing else about a block can be changed: not its stock, not its rotation, not its health.
+Logic can start and stop things, not build and break them.
+
+<Card kind="error">
+**Only linked blocks can be commanded.** `control` checks the link to the processor, and
+a building obtained around it — by radar, out of a memory cell, from a neighbouring
+processor — will not carry out the order. No error, no trace: the line simply does nothing.
+
+`sensor` meanwhile works with anyone. You may ask anybody; you may order only your own.
+</Card>
+
+## Lessons
+
+<LessonList group="control" />
+
+## What you need first
+
+[«Links and getlink»](/en/course/basics/links/) — how a processor reaches a block at all, and
+[«Properties of buildings»](/en/course/sensor/buildings/) — what a block can be asked.

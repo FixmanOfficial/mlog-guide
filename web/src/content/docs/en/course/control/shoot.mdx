@@ -1,0 +1,127 @@
+---
+title: Shooting
+description: "How logic aims a turret: control shoot at a point, control shootp at a unit with lead"
+lead: "A turret shoots well enough on its own. Logic is for when it matters who exactly it shoots"
+difficulty: medium
+sidebar:
+    order: 3
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {SHOOT, SHOOTP} from '../../../../../course/scenes/control.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'control/enabled', title: 'Switching on and off'},
+        {lesson: 'sensor/buildings', title: 'Properties of buildings'}
+    ]}
+/>
+
+Without logic a turret picks its target itself: the nearest one in range. Logic steps in when
+that choice will not do — when one enemy has to be finished off instead of spreading fire, or
+when the more dangerous one has to be hit.
+
+<Example client:load scene={SHOOT} world={true} locale="en" />
+
+Press "run". The duo turns east and starts firing at the point `13 4`, where a dagger stands:
+`ammo` goes down, and so does the dagger's health.
+
+## `control shoot turret x y shoot`
+
+| Field | What is in it |
+| --- | --- |
+| first | the turret |
+| second and third | a point in map **tiles**, not in world units |
+| fourth | shoot or only aim: zero means turn silently |
+
+The coordinates are the same as any block's `@x` and `@y`, so aiming at a building is just
+taking its coordinates and handing them to the turret.
+
+<Card kind="note">
+The last field is worth separating from the aiming: a turret can be held pointing the right way
+without spending ammo. `control shoot duo1 13 4 0` turns the barrel and leaves it there.
+</Card>
+
+## The order lasts two seconds
+
+A turret obeys logic for **120 ticks** after the last command, then returns to its own aim and
+starts choosing targets by itself again.
+
+<Card kind="error">
+**One command is not an order for ever.** A program that issued `control shoot` once and went
+off into a long wait will find the turret back about its own business two seconds later.
+
+So the command is repeated every iteration — it is cheap, and it works as holding a target.
+</Card>
+
+## Shooting a unit: `control shootp`
+
+<Example client:load scene={SHOOTP} world={true} locale="en" />
+
+Here the target is found by a radar, and `shootp` aims the turret **with lead**: it fires not
+where the unit is now but where it will be when the bullet arrives.
+
+```
+radar enemy any any distance duo1 1 aim
+control shootp duo1 aim 1
+```
+
+| Field | What is in it |
+| --- | --- |
+| first | the turret |
+| second | a **unit**, not coordinates |
+| third | shoot or only aim |
+
+The lead is worked out by the game, from the target's speed and the bullet's. So a duo leads
+a flying flare and puts its shot straight into a standing dagger.
+
+<Card kind="note">
+The lead is taken from whichever ammo is on top: graphite's bullet is faster, so the lead is
+smaller. Change the ammo and the aiming point changes with it.
+</Card>
+
+## What a turret will tell you about itself
+
+| Property | What it gives |
+| --- | --- |
+| `@shooting` | whether it is firing right now |
+| `@ammo` | how many units of ammunition are left |
+| `@ammoCapacity` | how many fit |
+| `@currentAmmoType` | the **item** it is loaded with: `@copper`, `@graphite` |
+| `@progress` | how ready the next shot is, from 0 to 1 |
+| `@rotation` | where the barrel points |
+| `@shootX`, `@shootY` | where it is aiming |
+
+Ammo is counted not in items but in **units of ammunition**: one lump of copper gives two,
+graphite four. So a full duo's `@ammo` is 30 while it holds fifteen items of copper.
+
+<Card kind="error">
+**The command does not check range.** `control shoot` will turn a turret towards the far side
+of the map and it will honestly fire — the bullet just will not get there: it has a lifetime of
+its own.
+
+Range is worth checking yourself: `sensor range duo1 @range` and a comparison with the distance
+to the target through `op len`.
+</Card>
+
+<Card kind="recap">
+- `control shoot` hits a point in tiles, `control shootp` a unit with lead.
+- The last field separates aiming from firing.
+- The order lasts two seconds, so it is repeated every iteration.
+- Logic checks neither range nor ammo — that is the program's job.
+- `@ammo` is counted in units of ammunition, not in items.
+</Card>
+
+<Card kind="task">
+Change the last field of `control shoot` in the first example from `1` to `0` and run it: the
+turret turns but does not fire — `shooting` stays zero and `ammo` does not change.
+
+Then set the target to `3 4` — a point behind the turret. The barrel starts turning, and until
+it comes round there are no shots: a turret fires only if the target is inside its cone.
+</Card>
