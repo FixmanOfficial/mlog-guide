@@ -1,0 +1,141 @@
+---
+title: Writing it in the game
+description: "The processor's program window: what a line is made of, where the tooltips are and what the buttons below do"
+lead: "Where the program lives, what a line is made of and what the buttons around it do"
+difficulty: easy
+sidebar:
+    order: 1
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {EDITOR} from '../../../../../course/scenes/basics.js'
+
+<LessonHead difficulty="easy" lead={frontmatter.lead} />
+
+You don't type a program in the game — you assemble it out of blocks. Click the processor,
+a row of buttons appears under it, and the pencil in that row opens the program window.
+
+Everything happens in that window from there on. It also stands on every page of this course:
+the example below **is** that window, only with our own buttons on top.
+
+<Example client:load scene={EDITOR} world={false} locale="en" />
+
+## A line of a program
+
+Every line is built the same way:
+
+- a **header** — the instruction's name on the left, the line number on the right;
+- **three buttons in the header**: the plus adds a new line **after this one**, the two pages
+  copy the line, the cross deletes it;
+- a **body** — the fields you write into. A field takes both a number and a variable name:
+  the block does not care which, and in writing there is no difference between "a value"
+  and "a variable".
+
+The header colour is not decoration: it says which category the instruction comes from.
+Input and output are greyish pink, block control is brick, operations are lilac, flow control
+is turquoise, units are sandy, world ones are blue. The "Add…" menu uses the same colours,
+and its sections are laid out by them.
+
+Lines are reordered by dragging them by the header, and that is the first thing worth learning:
+the order of the lines **is** the order of execution. "Move a line up" in mlog means "run it
+earlier", not "make it more important".
+
+## Tooltips on lines and fields
+
+Instruction names and field labels have descriptions: hover the cursor or hold your finger,
+and a black plate appears explaining what the instruction does and what goes in the field.
+They work the same way on the course pages.
+
+Not everything has one: signs like `<` and `>` have no tooltip in the game either — there is
+nothing to explain there.
+
+<Card kind="note">
+These tooltips have no setting of their own: they are always on. The "Hints" setting in the
+"Game" section has nothing to do with them — it removes the gameplay advice in the corner
+of the screen and does not touch the program editor.
+</Card>
+
+## The buttons under the window
+
+There are four buttons under the program window, and newcomers leave three of them unopened
+for years.
+
+- **"Back"** closes the window. The program saves itself; there is no separate "save" button.
+- **"Edit…"** opens a small window with four actions: clear the program, copy it to the
+  clipboard, paste from the clipboard and restart. It is the most useful button in the window —
+  see the lesson <Lesson lesson="basics/text">"A program is text"</Lesson>.
+- **"Variables"** shows what is in the processor's variables right now. It is the main
+  debugging tool, and it gets the lesson <Lesson lesson="basics/watch">"The variables
+  window"</Lesson>.
+- **"Add…"** — a new line at the end of the program.
+
+<Card kind="error">
+Any edit to the program starts it over: the counter goes back to the first line and every
+variable is cleared. You cannot append a line without losing what has been accumulated —
+the game has no "continue from here".
+</Card>
+
+## Our buttons on top are not from the game
+
+Above the example is a row the game does not have: run, step, "restart", add a line, the eye
+and the book.
+
+**Step** runs exactly one instruction. The game cannot do this: a processor is either running
+or switched off. For learning it is the key button — you can watch one variable change at a time.
+
+**"Restart"** does exist in the game, but it is hidden: it is "Restart" inside the "Edit…"
+window.
+
+**The eye** removes the frame around the next line: while the example is running it jumps
+every tick, and that flickers.
+
+**The book** switches the language of the labels — more on that below.
+
+## Labels are translated, code is not
+
+Since version 160 the game translates the labels inside the blocks: `Operation` becomes a word
+in your own language, and so do `in` and `and`. The setting responsible is **"Logic
+Localization"** in the "Graphics" section, and it is on by default.
+
+The book button above the example does the same thing. Press it and look at the lines: names
+and labels turn English, and the fields do not change by a single character.
+
+That is the main thing to take away: **the translation does not touch the language**. In the
+block's field, in the program's text and in a schematic it is still `sensor block1 @totalItems` —
+in someone else's guide and in your own game alike, whatever the setting. Only the words around
+the fields change.
+
+<Card kind="error">
+Hence a common confusion for newcomers: in a two-year-old video the block is called
+`Operation`, and in your game it is a word in your own language — and it looks like two
+different blocks, or two different versions of the language. It is the same block; flip the
+book and compare.
+</Card>
+
+<Card kind="recap">
+- The program opens by clicking the processor and then the pencil in the row of buttons.
+- A line has a header with a name and a number, plus three buttons: add after, copy, delete.
+- Lines are reordered by dragging the header — the order of lines is the order of execution.
+- "Edit…" and "Variables" live under the window and get lessons of their own.
+- Editing the program clears the variables and starts it from the first line.
+- The translation changes the labels, not the code: the fields are always English.
+</Card>
+
+<Card kind="task">
+Swap the second and third lines in the example by dragging one of them by the header, press
+"restart" and walk through the first iteration a step at a time.
+
+On the second step `total` becomes five, not twenty-five: the addition now comes before the
+multiplication and adds to an empty variable. The program did not break and did not complain —
+it does what is written, in the order it is written.
+
+Take three more steps and `total` becomes twenty-five. The program reached the end and started
+over, and by then `doubled` has already been computed, so the addition takes a ready number.
+Why it loops is in the lesson [«How the processor works»](/en/course/basics/processor/); what
+matters here is something else: a mistake in the order of lines is not always visible at once —
+sometimes only on the first iteration.
+</Card>

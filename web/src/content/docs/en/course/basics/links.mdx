@@ -1,0 +1,129 @@
+---
+title: Links and getlink
+description: "Why a processor cannot see its neighbours, where the names container1 and cell1 come from and what getlink does"
+lead: "A link is not adjacency: a block has to be connected, and only then does it get a name"
+difficulty: easy
+sidebar:
+    order: 8
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {LINKS} from '../../../../../course/scenes/basics.js'
+
+<LessonHead
+    difficulty="easy"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'basics/values', title: 'Number, object and text'},
+        {lesson: 'basics/names', title: 'Variables and names'}
+    ]}
+/>
+
+A processor cannot see the blocks around it. A container pushed right up against it does not
+exist as far as the program is concerned — exactly like a container on the far side of the
+base.
+
+To make a block appear in the program you connect it: click the processor, then the block.
+A circle is drawn around the processor while you do — that is its range, and there is nothing
+to connect beyond it. Clicking a connected block again removes the link.
+
+## Range depends on the processor
+
+| Processor | Range |
+| --- | --- |
+| micro processor | 10 tiles |
+| logic processor | 22 tiles |
+| hyper processor | 42 tiles |
+
+The distance is measured from the middle of the processor to the middle of the block, but half
+the block's size is added to the range: a large vault's middle is further away while its edge
+is nearer, and the game counts by the edge.
+
+<Card kind="note">
+Only a block of your own team can be connected, and only a finished one: a construction site
+does not accept a link. Processor to processor is allowed — it is an ordinary block with
+properties of its own.
+</Card>
+
+## The name comes from the link, not the block
+
+A connected block gets a name like `container1`, `cell1`, `display1`. It is assembled from the
+block's name: the last part after a hyphen is taken, and the number is the first free one,
+starting at one.
+
+| Block | Link name |
+| --- | --- |
+| `container` | `container1` |
+| `memory-cell` | `cell1` |
+| `power-node` | `node1` |
+| `titanium-conveyor` | `conveyor1` |
+| `large-logic-display` | `display1` |
+| `power-node-large` | `node1` |
+| `metal-wall-2` | `wall1` |
+
+The last two rows are a special case: if the block's name **ends** with `large` or with
+a number, the game takes the part before it. That is why a large power node is a `node` too,
+not a `large`.
+
+<Card kind="error">
+The name belongs to **the link in this processor**, not to the block. The same container will
+be `container1` in two different processors — and if the second one already has another
+container, it will be `container2`. A name from someone else's program means nothing in yours.
+</Card>
+
+The number is the first free one, not the next one: remove the link to `container1`, then
+connect a different container, and it becomes `container1` again.
+
+## `@links` and `getlink`
+
+Names are convenient while there are three links. When there are fifteen of them and they
+change, the program needs to walk the list — `@links` and `getlink` are for that.
+
+- `@links` is how many links the processor has right now, a number.
+- `getlink` is a building by index, **starting from zero**. An index out of range gives `null`.
+
+<Example client:load scene={LINKS} world={true} locale="en" />
+
+Press "step" five times. The example has two connected blocks — a container and a memory
+cell — so `amount` becomes two, `first` turns out to be `container1`, `second` is `cell1`, and
+`third` stays empty: there is no link number 2, and mlog has no such thing as an error.
+
+Look at the type column in the table: `first` and `second` say `building` — not a number and
+not text, but the block itself. `sensor` works with such a value and does not care whether it
+came from a link name or from `getlink`.
+
+<Card kind="note">
+The order of links is the order in which they were connected, and it is best not to rely on
+it: remove and re-add one link and the numbers shift. Walking the list is for when the blocks
+are alike and numerous; when a block is single and important, it has a name.
+</Card>
+
+## When a link disappears
+
+The block is demolished — the link becomes invalid, `@links` goes down, and `sensor` by name
+starts answering `null`. The program meanwhile keeps running as if nothing happened: checking
+whether the block is gone is your job.
+
+Put an identical block in the same place and the link comes back with its old name. Put
+a different one and the name is recomputed for the new block.
+
+<Card kind="recap">
+- Adjacency means nothing: a block has to be connected by a click before it appears in the program.
+- Range is 10 tiles on a micro processor, 22 on a logic one, 42 on a hyper.
+- A link name is the last part of the block's name plus the first free number.
+- The name lives in this processor: in someone else's program the same name may mean another block.
+- `@links` counts the links, `getlink` fetches them by index from zero, out of range gives `null`.
+</Card>
+
+<Card kind="task">
+Replace `container1` with `first` in the last line and run the example again: `copper` stays
+eighty. To `sensor` there is no difference between a block that came from a link name and one
+that came from `getlink` — it is the same value.
+
+Then type 1 instead of 2 into `getlink third`: the empty variable becomes the same memory cell
+as `second`. One link can sit in three variables at once.
+</Card>

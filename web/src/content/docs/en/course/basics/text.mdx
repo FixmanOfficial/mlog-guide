@@ -1,0 +1,110 @@
+---
+title: A program is text
+description: "The «Edit…» button: copy the program to the clipboard, paste someone else's, ask for help"
+lead: "Assembled from blocks, stored as lines — and that is worth using"
+difficulty: easy
+sidebar:
+    order: 2
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {EDITOR} from '../../../../../course/scenes/basics.js'
+
+<LessonHead
+    difficulty="easy"
+    lead={frontmatter.lead}
+    needs={[{lesson: 'basics/editor', title: 'Writing it in the game'}]}
+/>
+
+Under the program window there is an "Edit…" button. It opens a small window with four lines:
+
+- **"Clear"** — delete the whole program, with a confirmation;
+- **"Copy to clipboard"** — put the program into the clipboard as text;
+- **"Paste from clipboard"** — replace the program with whatever is in the clipboard;
+- **"Restart"** — start running from the first line.
+
+The middle two are the most useful thing in the window, and the least noticed.
+
+## A program is stored as lines
+
+Here is the example from the previous lesson:
+
+<Example client:load scene={EDITOR} world={false} locale="en" />
+
+And here is the same thing copied to the clipboard — exactly what lands in a chat if you press
+"Copy to clipboard" and paste:
+
+```
+set stock 10
+op mul doubled stock 2
+op add total doubled 5
+```
+
+One block line, one text line: the instruction's name, then its fields in order. There is no
+second language here; it is the same program, just written down.
+
+<Card kind="note">
+Names in the text are always English, even if the game shows the labels in your own language:
+`op`, not "Operation". The translation added in version 160 changes the labels in the blocks,
+not the writing — which is why the text reads the same for everyone, whatever the game's
+language.
+</Card>
+
+## Ask for help with text, not a schematic
+
+The most common beginner's mistake in a help chat is sending a schematic (`.msch`). To read ten
+lines the other person has to download a file, launch the game, find an empty spot, paste the
+schematic, click the processor and open the program window.
+
+Text reads right there in the message: from a phone, from a browser, in ten seconds. Copy,
+paste into the chat. The answer comes sooner simply because helping got cheaper.
+
+<Card kind="note">
+A schematic is for when the build matters rather than the code: which blocks stand where, how
+they are connected, what is configured in them. For reading a program it only gets in the way.
+</Card>
+
+## Pasting works both ways
+
+Someone else's text from a chat goes in with "Paste from clipboard" and is parsed back into
+blocks. Nothing has to be retyped — neither theirs into yours, nor yours out of your notes.
+
+It is just as handy for keeping drafts: a program in a note on your phone outlives a processor
+on a map that will one day be demolished.
+
+<Card kind="error">
+Pasting **replaces** the whole program, it does not append. If the processor had something of
+its own — copy that out first, then paste theirs in.
+
+And remember that any edit starts the program over: variables are cleared, the counter returns
+to the first line.
+</Card>
+
+<Card kind="note">
+If the text contains an instruction your version of the game does not know (text from a newer
+build), the line does not vanish — it takes its place in the program marked invalid and simply
+never runs. The place is visible, the meaning is lost.
+</Card>
+
+<Card kind="recap">
+- "Edit…" is clear, copy to clipboard, paste from clipboard, restart.
+- The clipboard holds plain text: a block line is a text line, names are English.
+- Send text to a chat, not a schematic: a schematic is for the build, not the code.
+- Pasting replaces the whole program and clears the variables.
+</Card>
+
+<Card kind="task">
+Open any processor of yours in the game, press "Edit…" → "Copy to clipboard" and paste the
+result into your notes. Then put an empty processor next to it and paste the text into that
+one: you get the same program, assembled from the same blocks.
+
+This is also the cheapest way to move a program from one map to another — and the most reliable
+way not to lose it.
+</Card>
+
+What to do when the program is pasted and works wrong is in the lesson <Lesson
+lesson="basics/watch">"The variables window"</Lesson>.

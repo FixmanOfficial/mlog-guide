@@ -1,0 +1,77 @@
+---
+title: Number, object and text
+description: What kinds of values mlog has and why the kind arrives together with the value
+lead: A variable holds either a number or an object — and what you can do with it follows from that
+difficulty: easy
+sidebar:
+    order: 5
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {VALUES} from '../../../../../course/scenes/basics.js'
+
+<LessonHead difficulty="easy" lead={frontmatter.lead} />
+
+An mlog variable holds either a number or an object. Everything that is not a number is an
+object: a string, an item, a block, a unit, a team. Emptiness, `null`, is a kind of object all
+its own, and it gets <Lesson lesson="basics/null">a lesson of its own</Lesson>.
+
+<Example client:load scene={VALUES} world={false} locale="en" />
+
+To the right of the value the table shows the kind: `number`, `string`, `content`, `null`.
+It is the same column the "Variables" window shows in the game itself, in the same colours.
+
+## The kind arrives together with the value
+
+A variable does not hold a kind by itself. Write a number into it and it is a number; write
+`@copper` and it is an object. The same variable is both at different points in a program's
+life, and nobody complains.
+
+There is nowhere and no need to declare a kind in advance: mlog has neither types in
+a declaration nor a check on assignment. The only place the kind is visible is the variables
+table.
+
+## An object in arithmetic is a one
+
+Numbers count as numbers. But when an object lands in arithmetic, the game does not work out
+what it is:
+
+- `op add two @copper 1` gives **2**, because copper as a number is a one;
+- the same happens with any building, unit or string;
+- and only `null` gives zero — that is <Lesson lesson="basics/null">the next lesson</Lesson>.
+
+The rule is simple: **any object in a numeric context equals one, emptiness equals zero**.
+This is not a "type conversion" but a rule, and there is no other way to get a number out of
+an object.
+
+## A string is not text for arithmetic
+
+`"copper"` is a string: `print`, `format` and comparisons work with it, arithmetic does not.
+You can add a string to a number, only the result will not be what you expect: the string goes
+into the sum as an object, that is, as a one.
+
+<Card kind="error">
+Hence a common beginner's mistake: comparing a block's type with a string. `sensor kind block1
+@type` puts a **type object** into the variable, not the word "container", and
+`equal kind "container"` will never be true. It has to be compared with the constant
+`@container`.
+</Card>
+
+<Card kind="recap">
+- A variable holds either a number or an object; the kind arrives with the value.
+- A string, an item, a block, a unit and a team are all objects.
+- In arithmetic any object equals one, and `null` equals zero.
+- A block's type is an object, not a string: compare it with the constant.
+</Card>
+
+<Card kind="task">
+Add an `Operation` line with the plus, choose `+`, put `check` on the left and add `item` and
+1 on the right — you get a two.
+
+Then replace `item` with `text`: a two again. Copper, a string and any other object are
+indistinguishable in arithmetic — all of them are a one.
+</Card>

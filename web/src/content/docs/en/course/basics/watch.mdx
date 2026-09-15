@@ -1,0 +1,119 @@
+---
+title: The variables window
+description: "The «Variables» button: what is in the processor's memory right now and how to find mistakes with it"
+lead: "The only place that tells the truth about what the program has computed"
+difficulty: easy
+sidebar:
+    order: 3
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {WATCH} from '../../../../../course/scenes/basics.js'
+
+<LessonHead
+    difficulty="easy"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'basics/editor', title: 'Writing it in the game'},
+        {lesson: 'basics/values', title: 'Number, object and text'}
+    ]}
+/>
+
+mlog has neither error messages nor crashes. A program with a typo does not complain — it
+silently computes the wrong thing. That makes the second most important button under the
+program window "Variables": it shows the contents of the processor's memory at this moment.
+
+On the course pages that table is always open to the right of the lines: in an example you
+need to look at it more often than you do in the game.
+
+## What is in a row
+
+A row of the table is three cells: **name**, **value**, **type**. The game names the type in
+its own word and paints it in its own colour:
+
+| Type | What it is |
+| --- | --- |
+| `number` | a number |
+| `null` | empty: the variable was never written to |
+| `string` | text in quotes |
+| `content` | an item, a liquid, a block or a unit type |
+| `building` | a building — the thing a link gives you |
+| `unit` | a unit |
+| `team` | a team |
+| `enum` | a value from a list, like `enabled` |
+
+The table usually starts with `@counter` — the number of the line that will run next. Then
+your variables, in the order they first appeared in the program.
+
+## Not everything is visible
+
+Constants do not make it into the table: `@copper`, `@this`, `@ipt`, `@links` and link names
+(`cell1`, `switch1`) will not show up there — they do not change, so there is nothing to show.
+
+Their list opens with the "Built-in variables" button in the same window; here it lives on the
+[built-in variables page](/en/reference/variables/).
+
+## A typo is visible at once
+
+The example below is the program from the previous lessons, but with one letter out of place:
+the second line says `stok`, not `stock`. Press "run" and look at the table.
+
+<Example client:load scene={WATCH} world={false} locale="en" />
+
+`total` is five instead of twenty-five. Why, is visible in the same place:
+
+- **`stok` is an extra row with the value `null`.** For a name that was never assigned, mlog
+  creates a variable of its own and puts `null` in it. An unfamiliar name is not an error to
+  it, but a new variable.
+- **`doubled` is zero.** In arithmetic `null` counts as zero: zero times two is zero.
+- **`total` is five.** Zero plus five. The program ran honestly, just with the wrong number.
+
+This is the most common way to break a program, and it is cured with your eyes: two nearly
+identical rows in the table mean you made a typo.
+
+<Card kind="note">
+The second common case is a variable that **does not change at all**. That means the line
+writing it never runs: there is a jump or an `end` above it. Where the program goes is shown
+by `@counter`, and it is the best answer to "does it even get here".
+</Card>
+
+## Values do not refresh instantly
+
+In the game the table re-reads its values once every fifteen ticks — about four times
+a second — and a changed number flashes yellow. That is not a delay in the counting but the
+rate of display: in that time the processor makes hundreds of steps, and you cannot see each
+one.
+
+While the variables window is open the game is **not paused**: the program window pauses it
+and the variables window unpauses it — otherwise the numbers would not change.
+
+In the course examples the table refreshes every frame, and the "step" button lets you look at
+exactly one instruction — the game cannot do that.
+
+<Card kind="error">
+Any edit to the program clears every variable and returns the counter to the first line.
+So "fix a line and see what has accumulated" will not work: after an edit nothing has
+accumulated.
+</Card>
+
+<Card kind="recap">
+- "Variables" shows the name, value and type of every variable of the processor.
+- Constants and links are not shown there — "Built-in variables" is for them.
+- `null` in a row means the variable was never written to; in arithmetic that is zero.
+- Two nearly identical rows in the table are a typo in a name.
+- In the game the table refreshes four times a second, and an edit clears everything.
+</Card>
+
+<Card kind="task">
+Fix the example: open the second line, type `stock` instead of `stok` and press "restart".
+The extra row disappears from the table, `doubled` becomes twenty and `total` twenty-five.
+
+Then break it differently: type `stock` in the first line with a different typo, say `stck`.
+A second nearly identical row appears in the table again — and now you know what that means.
+</Card>
+
+Harder debugging is in the lesson <Lesson lesson="basics/debug">"When it does not work"</Lesson>.

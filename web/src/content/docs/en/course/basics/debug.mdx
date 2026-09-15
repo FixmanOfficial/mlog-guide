@@ -1,0 +1,136 @@
+---
+title: When it does not work
+description: "How to find the cause when the program does not complain but does the wrong thing"
+lead: "mlog reports no errors. So you have to look yourself — and there is an order in which it is done"
+difficulty: medium
+sidebar:
+    order: 9
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {DEBUG} from '../../../../../course/scenes/basics.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'basics/watch', title: 'The variables window'},
+        {lesson: 'basics/processor', title: 'How the processor works'},
+        {lesson: 'basics/null', title: 'Emptiness: null'}
+    ]}
+/>
+
+A program with a mistake in mlog does not crash, does not turn red and writes nothing in the
+corner of the screen. It simply computes something other than what you meant — and does it
+sixty times a second, confidently and silently.
+
+So you have to find the cause yourself. The good news: there are not many ways to break
+a program at this stage, and all of them are recognised at a glance in the variables table.
+
+## Three kinds of "does not work"
+
+| What you see | Where to look |
+| --- | --- |
+| nothing happens at all | whether the program runs: is `@counter` stuck or moving |
+| it computes, but wrongly | the values: which one first stopped being what you expected |
+| it works, then breaks | the iteration: from the second pass the variables are not empty |
+
+The third is the sneakiest, and the most common. The program runs in an endless loop, and on
+the second iteration the very same thing runs in different surroundings.
+
+## Step, not run
+
+The main technique is not to run the program but to walk it one instruction at a time.
+"Run" shows only the consequences; a step shows **which line** created them.
+
+The order is:
+
+1. **"Restart"** — reset everything so you start from a clean slate.
+2. **Step** — one instruction. Look at the table after each step.
+3. **Find the first line after which a value stopped being what you expected.** The mistake is
+   in that line or above it; looking below is pointless.
+4. If it never even reaches the line in question — look at `@counter`: it shows which line
+   will run next.
+
+This is exactly what the game does not have: there a processor either runs or is switched off.
+Step is our button, and we keep it precisely for this.
+
+## An example: a counter that counts the wrong thing
+
+The program below was supposed to count how many of ten are done and what share that is.
+Press "restart", then "step" four times and look at the table.
+
+<Example client:load scene={DEBUG} world={false} locale="en" />
+
+After the first iteration: `aim` is 10, `count` is one, `left` is nine. So far it looks right.
+But `share` is empty, though it should be a number.
+
+Now press "run" and wait a couple of seconds. The picture changes: `count` has passed ten and
+keeps growing, `left` has gone negative, `share` is still empty.
+
+There are two different mistakes here, and both are typical.
+
+**`share` is empty because nobody filled in `everything`.** In the line
+`op div share count everything` the divisor is a variable that was never assigned anything,
+that is, `null`. In arithmetic `null` counts as zero, and division by zero in mlog gives
+neither infinity nor an error: the result is simply "nothing". An empty variable in an answer
+almost always means something that went into it was empty.
+
+**`count` grows without stopping because the program runs in an endless loop.**
+`op add count count 1` adds one to what has accumulated from the previous pass, and there are
+sixty passes a second. The line itself is correct — what is wrong is the expectation that it
+runs once.
+
+<Card kind="note">
+To make such a counter stop you need a check and a jump — that is the
+<Lesson group="jump">`jump`</Lesson> group. What matters here is something else: seeing from
+the table that the iteration is to blame, not the line.
+</Card>
+
+## Three mistakes caught by eye
+
+1. **A typo in a name.** An extra row appears in the table with a nearly identical name and
+   the value `null` — in detail in the lesson <Lesson lesson="basics/watch">"The variables
+   window"</Lesson>.
+2. **An empty variable in a calculation.** `null` does not complain, it counts as zero:
+   addition gives back the other term, multiplication gives zero, division gives emptiness.
+   Look not where it is empty but where it should have been filled.
+3. **A forgotten iteration.** A variable you expected to be empty arrives with the value from
+   the previous pass. One press of "restart" checks it: if the first iteration is right and
+   everything drifts after that, the iteration is to blame.
+
+## What mlog does not have
+
+**No error messages.** Not in the block, not in the corner of the screen, not in a log — they
+do not exist as a phenomenon. The only source of truth is the values of the variables.
+
+**No "broken" program.** A line the game does not know does not break the others — it simply
+never runs, while you hunt for why a piece of the logic vanished. Where such a line comes from
+is told in the lesson <Lesson lesson="basics/text">"A program is text"</Lesson>.
+
+<Card kind="error">
+Remember that **any edit clears the variables and returns the counter to the first line**.
+So "let me tweak a line and see what has accumulated" will not work: after an edit nothing has
+accumulated. Look first, edit after.
+</Card>
+
+<Card kind="recap">
+- mlog shows no errors: the program silently does something other than intended.
+- Debug by stepping, not by running: find the first line after which a value is wrong.
+- `@counter` answers the question "does it even get here".
+- An empty variable in an answer means something on the way in was empty.
+- If the first iteration is right and everything drifts after, the iteration is to blame, not the line.
+</Card>
+
+<Card kind="task">
+Fix half of the example: in the fourth line replace `everything` with `aim`. Press "restart"
+and walk the iteration a step at a time — `share` stops being empty and becomes one tenth.
+
+The second mistake stays: run the example and you will see `share` grow past one, because
+`count` keeps piling up. That is neither a typo nor an empty variable — it is the iteration,
+and it is fixed with a jump, not by editing a line.
+</Card>

@@ -1,0 +1,115 @@
+---
+title: "Emptiness: null"
+description: "Where null comes from in mlog, why it equals zero in comparisons and how to tell the two apart"
+lead: "There is no value — and that is a value too. The main source of silent mistakes in mlog"
+difficulty: medium
+sidebar:
+    order: 6
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {EMPTINESS} from '../../../../../course/scenes/basics.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[{lesson: 'basics/values', title: 'Number, object and text'}]}
+/>
+
+`null` is not zero, not an error and not an empty string. It is the answer "there is no
+value": you asked, and there is nothing to say.
+
+It needs a lesson of its own because everybody runs into it constantly while it behaves
+invisibly: a program with `null` in it does not crash and does not complain, it just computes
+the wrong thing.
+
+## Where it comes from
+
+| Case | Example |
+| --- | --- |
+| a variable was never written to | a typo in a name, someone else's name |
+| `sensor` on a block that is not there | the link was demolished and the program still asks |
+| `sensor` on a property that does not apply | liquid in a vault, `@totalItems` on a block type |
+| `getlink` past the number of links | you walked further than there are |
+| `@unit` before `ubind` and after the unit dies | the unit was shot down mid-job |
+| reading memory past the end of a cell | address 64 in a cell that holds 64 values |
+| a calculation with no answer | division by zero, root of a negative, log of zero |
+
+The last row surprises people most often: mlog has neither infinity nor `NaN`. Everything the
+maths could not compute becomes emptiness.
+
+## In arithmetic it is a zero
+
+<Example client:load scene={EMPTINESS} world={false} locale="en" />
+
+Press "step" six times. `null` in a numeric context is zero, any other object is one:
+
+- `equal same unset 0` gives **1**;
+- `add sum unset 1` gives **1**;
+- `add itemPlusOne @copper 1` gives **2** — copper as an object is a one;
+- `strictEqual strict unset 0` gives **0**, and that is the important one.
+
+## Only a strict comparison tells emptiness from zero
+
+Ordinary `equal` and `notEqual` look at the number, and the number of emptiness is zero.
+A strict comparison also looks at the kind of the value, which is why only it sees the
+difference.
+
+In references and in the program's text it is called `strictEqual`, and the block labels it
+with the sign `===` — that is what to look for in the list. The game does not translate signs,
+so `===` stays `===` in any language.
+
+| You need | With what |
+| --- | --- |
+| to store the answer in a variable | `op strictEqual empty answer null` |
+| to branch away | `jump strictEqual` to the "no data" branch |
+| to pick one of two values | `select` with the same condition |
+
+## Why it bites
+
+The usual check for "the block has run out of copper" is two blocks: `sensor` asks the vault
+for `@copper`, `jump` compares the answer with zero.
+
+<Card kind="error">
+It fires not only when there is no copper. Also when there is no block at all, when the link
+is the wrong one, and when the property name has a typo: in every one of those cases `sensor`
+puts down `null`, and `null` equals zero. The program will not stop and will not complain,
+it will simply do the wrong thing.
+</Card>
+
+Hence the rule: **check for `null` before you check for zero.** The order of lines is:
+
+1. `sensor` — ask the vault for `@copper`;
+2. `op strictEqual` — compare the answer with `null`;
+3. `jump` — if the comparison gave a one, go to "no block";
+4. and only now compare with zero.
+
+Two extra blocks at the top are the price of a program that tells "ran out" from "broke".
+They are worth putting everywhere data arrives from outside: from links, from units, from
+memory.
+
+<Card kind="note">
+In the variables table emptiness is visible at once: value `null`, kind `null`, and its colour
+is grey, unlike a number's. Half of all debugging comes down to finding the first grey row
+there and working out where it came from. That is
+<Lesson lesson="basics/debug">"When it does not work"</Lesson>.
+</Card>
+
+<Card kind="recap">
+- `null` means "there is no value", not zero and not an error.
+- It comes from blocks that are not there, lost units, empty variables and calculations with no answer.
+- In arithmetic and ordinary comparisons it equals zero; any other object equals one.
+- Only a strict comparison tells it from zero — in `op`, `jump` or `select`.
+- Check for `null` before you check for zero.
+</Card>
+
+<Card kind="task">
+Add an `Operation` line with the plus, choose `*`, put `twice` on the left and multiply
+`unset` by 2 — you get zero. Then replace `unset` with `@copper`: it becomes two.
+
+Neither is an error: it is the same rule seen from two sides.
+</Card>

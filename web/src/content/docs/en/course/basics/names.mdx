@@ -1,0 +1,120 @@
+---
+title: Variables and names
+description: "Where variables come from, what the names with an at-sign are taken by, and why case matters"
+lead: "A variable isn't declared — it's just named. Which names are free, and which are already taken"
+difficulty: easy
+sidebar:
+    order: 7
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {NAMES} from '../../../../../course/scenes/basics.js'
+
+<LessonHead
+    difficulty="easy"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'basics/values', title: 'Number, object and text'},
+        {lesson: 'basics/watch', title: 'The variables window'}
+    ]}
+/>
+
+mlog has no line that says "declare a variable". A variable comes into being the moment its
+name first appears in the program — whether in a field written to or in a field read from.
+
+Everything else in this lesson follows from that.
+
+## Variables belong to the processor
+
+Not to a line, not to a piece of the program, not to an instruction — to the whole processor.
+Every line sees every variable; mlog has no scopes at all.
+
+That is why names have to be meaningful: fifty lines later, the `x` from the top of the program
+is still the same `x`.
+
+A neighbouring processor is a different set of variables, even if the names match. They share
+nothing: passing a value needs memory or a link, and those get groups of lessons of their own.
+
+<Card kind="note">
+A name that is only read also creates a variable — with the value `null`. That is exactly why
+a typo in a name is not an error but a new empty variable, and the only place you see it is
+the table.
+</Card>
+
+## Case matters
+
+`stock` and `Stock` are two different variables. mlog has no "case-insensitive" comparison of
+any kind.
+
+<Example client:load scene={NAMES} world={false} locale="en" />
+
+Press "step" four times. Both variables show up in the table — 100 and 5 — and `total` becomes
+105. The program does not consider this an error and does not warn: mlog has nothing to warn
+with.
+
+Hence a simple rule: pick one way of writing names and stick to it. Non-Latin letters work in
+names just as well as Latin ones — the game stores the program as UTF-8 text.
+
+## What the editor does to what you typed
+
+A block's field is not a text editor: the game replaces some characters as you type, so that
+a name cannot break the way the program is written down.
+
+| What you typed | What you get |
+| --- | --- |
+| space, tab, `#` | `_` |
+| `;` | `s` |
+| `"` | `'` |
+
+So `my stock` turns into `my_stock` by itself. This is not the editor being fussy: the program
+is stored as text, its lines are separated by newlines, and `#` starts a comment — a space
+inside a name would make two variables out of one.
+
+## Names that are already taken
+
+A name starting with an at-sign belongs to the game: `@copper` is an item, `@time` is time,
+`@thisx` is the processor's coordinate. Such names are **read-only**: an assignment to them
+goes nowhere, silently and without consequence.
+
+The fourth line of the example is `set @copper 7`. It does nothing, and `@copper` never appears
+in the variables table at all: constants do not go there.
+
+Three names without an at-sign are taken too: `true`, `false` and `null`. They are constants as
+well — 1, 0 and emptiness — and writing to them fails in exactly the same way.
+
+<Card kind="error">
+**There is one exception — `@counter`.** It is the number of the line that will run next, and
+it is an ordinary variable: you can write to it. Writing to `@counter` **is** a jump — the
+program continues from whatever line number you put there.
+
+Jumps are normally written with a separate instruction — the <Lesson group="jump">`jump`</Lesson>
+group — and why you would ever write to the counter gets a lesson of its own:
+<Lesson lesson="advanced/counter">"`@counter`: a jump as a value"</Lesson>.
+</Card>
+
+## How many variables there can be
+
+There is no limit: as many names as appear in the program, that is how many there are. What is
+limited is the program itself — **1000 instructions**, and at that limit the buttons that add
+a line go dark.
+
+<Card kind="recap">
+- A variable is created by the first mention of its name, reading included.
+- All variables are shared across the processor: mlog has no scopes.
+- `stock` and `Stock` are different variables.
+- A space, `#` and `;` in a name are replaced by the editor itself.
+- Names with an at-sign, plus `true`, `false` and `null`, belong to the game: writing does nothing.
+- The exception is `@counter`: writing to it is a jump.
+</Card>
+
+<Card kind="task">
+Add a fifth line to the example: `set Total 1` — with a capital letter. A new variable appears
+in the table next to the old `total`, and the one that was being counted does not change.
+
+Then put a space inside a name: "my stock". The field turns it into `my_stock` by itself,
+before you even move on to the next one.
+</Card>

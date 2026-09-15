@@ -1,0 +1,95 @@
+---
+title: How the processor works
+description: How a processor runs a program — top to bottom, and from the end back to the top, and at what speed
+lead: The program runs top to bottom and starts over. Lines count from zero, speed is measured in instructions per tick
+difficulty: easy
+sidebar:
+    order: 4
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {PROCESSOR} from '../../../../../course/scenes/basics.js'
+
+<LessonHead difficulty="easy" lead={frontmatter.lead} />
+
+A processor is not started and not stopped: as long as it stands there with a program in it,
+it runs that program. Instructions go top to bottom, one after another; when it reaches the
+last one it starts again. Almost everything written in mlog works this way: it is not a script
+that runs once and ends, but an endless loop.
+
+<Card kind="note">
+Two words you will meet in every lesson from here on, and they mean exactly what they mean
+in any other programming language:
+
+- a **loop** is a repetition. A processor's program is an endless loop: it does not end,
+  it starts over. In other languages you write such a loop by hand (`while (true)`); here it
+  is built in and cannot be turned off;
+- an **iteration** is one pass through the program, top to bottom. "Per iteration", "on every
+  iteration" means "in one such pass".
+
+A program can also have loops of its own — those are built out of jumps, and they get
+<Lesson lesson="jump/loops">a lesson of their own</Lesson>.
+</Card>
+
+<Example client:load scene={PROCESSOR} world={false} locale="en" />
+
+Press "step": the frame walks through both lines and returns to the top, and `loops` goes up
+by one each time.
+
+## Lines count from zero
+
+The first instruction is number zero, the second is number one. You see it everywhere: in the
+numbers to the left of the blocks, in jumps, in `@counter`.
+
+<Card kind="error">
+    Worth getting used to straight away. Whoever counts from one has every jump land one line
+    off — and the program still works, it just does the wrong thing.
+</Card>
+
+## Speed: instructions per tick
+
+Time in the game goes in ticks — sixty a second. In one tick a processor runs not one
+instruction but as many as its kind is allowed:
+
+| Processor | Instructions per tick |
+| --- | --- |
+| micro processor | 2 |
+| logic processor | 8 |
+| hyper processor | 25 |
+
+That number lives in `@ipt` — the first line of the example puts it into a variable. A simple
+consequence follows: a twenty-instruction program on a micro processor takes ten ticks per
+iteration, that is six times a second, and on a hyper processor seventy-five times.
+
+The same program therefore behaves differently on different processors: one watching a store
+simply reacts more slowly, while one drawing on a display starts to flicker.
+
+The "step" button in the examples runs **one instruction**, not one tick: a tick is too coarse
+to see the program move, especially on a hyper.
+
+## The counter
+
+The variables window has `@counter` — the number of the instruction the processor will run
+next. For now it is enough to know it is there: it shows where the program currently is.
+
+The counter does not only show — you can write to it, and writing to it is a jump. Jumps are
+normally written with the <Lesson group="jump">`jump`</Lesson> instruction, and the counter as
+a variable gets its own lesson: <Lesson lesson="advanced/counter">"`@counter`: a jump as
+a value"</Lesson>.
+
+<Card kind="recap">
+- The program runs top to bottom and starts over after the last line.
+- Lines count from zero.
+- `@ipt` instructions run per tick: 2 on a micro, 8 on a logic, 25 on a hyper.
+</Card>
+
+<Card kind="task">
+Press "run" and watch how fast `loops` grows: about sixty a second, because a micro processor
+gets through a two-instruction iteration in a single tick.
+
+Then pause it and walk the program a step at a time, watching the numbers to the left of the
+blocks and `@counter`.
+</Card>
