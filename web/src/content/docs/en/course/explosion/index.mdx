@@ -1,0 +1,113 @@
+---
+title: Explosion
+description: "How a world processor deals area damage: the explosion's team, the radius, who gets hit"
+lead: "Damage with no source: no turret, no bullet — something simply exploded at a point on the map"
+difficulty: medium
+sidebar:
+    order: 0
+    label: An explosion at a point
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {BOOM} from '../../../../../course/scenes/world.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'world-intro', title: 'What a world processor is'},
+        {lesson: 'fetch', title: 'Everything a team has'}
+    ]}
+/>
+
+<Example client:load scene={BOOM} world={true} locale="en" />
+
+```
+explosion @sharded 10 5 3 200 1 1 0 0
+```
+
+Once — and the enemy dagger on tile `10 5` is gone: `enemies` drops from two to one. The
+second, standing aside, is intact — the radius did not reach it.
+
+| Field | What is in it |
+| --- | --- |
+| first | **whose explosion it is**: it will not touch its own |
+| second and third | the point in tiles |
+| fourth | the radius in tiles |
+| fifth | the damage |
+| sixth and seventh | whether to hit air and ground |
+| eighth | whether to pierce: hit everybody through, or only the first |
+| ninth | whether to show a flash |
+
+## The team decides who gets hurt
+
+The first field is not "who to hit" but **whose explosion this is**. Everybody not on that team
+suffers.
+
+```
+explosion @sharded 10 5 3 200 1 1 0 0   // your explosion, hits enemies
+explosion @crux 10 5 3 200 1 1 0 0      // the enemy's, hits you
+```
+
+It is easy to mix up, and the mistake is a quiet one: the program dutifully explodes and the
+target stands there untouched — the explosion simply turned out to be "its own".
+
+<Card kind="note">
+The sixth and seventh fields separate air from ground. An explosion told to hit the ground only
+will not touch a flare or a poly — that is how ground mines are made in scripts.
+</Card>
+
+<Card kind="error">
+**Damage falls off towards the edge of the radius.** At the point of the explosion it is full,
+and at the boundary about 40% remains — only with piercing on (the eighth field) does the
+circle cover everybody equally.
+
+So "set a bigger radius" is not the same as "hit harder": a distant enemy gets its share and
+survives.
+</Card>
+
+## What it is used for
+
+An explosion is a scripting tool, needed where damage has to happen **for no reason**:
+
+- traps and mines on a map: the player stepped into a forbidden zone — explosion;
+- events: a meteorite, a collapse, sabotage;
+- punishment for breaking a script's rule — for building in a forbidden area, for instance;
+- finishing off: the script wants the wave to end right now.
+
+```
+query circle unit @crux 10 5 3 0
+sensor amount @queries @size
+jump 0 equal amount 0
+explosion @sharded 10 5 3 200 1 1 0 0
+```
+
+<Card kind="error">
+**An explosion hits buildings too.** A three-tile radius in the middle of a base will not just
+remove an enemy: everything not on your team takes damage — derelict structures and walls
+included.
+
+The program has to check who is in the radius itself: <Lesson lesson="query">`query`</Lesson>
+over the same area and the same team.
+</Card>
+
+<Card kind="recap">
+- `explosion team x y radius damage air ground pierce flash` deals area damage.
+- The first field is whose explosion it is; it does not touch its own.
+- The radius and coordinates are in tiles, the damage an ordinary number.
+- Air and ground are separated from each other.
+- Buildings in the radius take damage too.
+</Card>
+
+<Card kind="task">
+Change the team in the example from `@sharded` to `@crux`: the explosion becomes the enemy's
+and the daggers survive it — `enemies` stays at two.
+
+Then put `@sharded` back and set the radius to `10`: the second dagger is covered too, but it
+survives the hit — it is six tiles away, and less than a quarter of two hundred damage reaches
+it.
+</Card>

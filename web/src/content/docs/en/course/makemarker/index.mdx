@@ -1,0 +1,102 @@
+---
+title: Make Marker
+description: "How a world processor draws markers on the map: kinds of marker, ids, and why a marker outlives an iteration"
+lead: "A drawing over the map that the player sees: a circle over a point, a caption, an arrow, a line"
+difficulty: medium
+sidebar:
+    order: 0
+    label: Create a marker
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {MARKERS} from '../../../../../course/scenes/world.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'world-intro', title: 'What a world processor is'},
+        {lesson: 'draw/first', title: 'The first picture'}
+    ]}
+/>
+
+<Example client:load scene={MARKERS} world={true} locale="en" />
+
+```
+makemarker shape 1 8 7 1
+makemarker text 2 8 3 1
+makemarker line 3 4 5 1
+```
+
+Three markers: a shape, a caption and a line. They appear on the map itself — not on a display
+but over the world, and the player sees them.
+
+| Field | What is in it |
+| --- | --- |
+| first | the kind of marker |
+| second | the **id**: what it is found by later |
+| third and fourth | coordinates in tiles |
+| fifth | whether to replace a marker with that id if one already exists |
+
+## A marker lives on its own
+
+That is the main difference from <Lesson lesson="draw/first">drawing on a display</Lesson>.
+A display has to be redrawn every time; a marker is placed once and stays on the map until it
+is removed.
+
+```
+setmarker remove 1 0 0 0
+```
+
+Hence the fifth field: `makemarker` with the same id and `replace = 0` **does nothing** if the
+marker already exists. That is exactly how it is placed inside a loop — the program calls
+`makemarker` every iteration and the marker does not multiply.
+
+<Card kind="error">
+**Marker ids are not handed out automatically.** The program assigns them, and if two parts of
+a script take the same id, the second silently overwrites the first.
+
+So ids are allocated in advance and in blocks: traps get their own hundred, hints another.
+</Card>
+
+## What kinds there are
+
+| Kind | What it draws |
+| --- | --- |
+| `shape` | a polygon: a circle, a triangle, a square |
+| `text` | text on the map |
+| `shapeText` | a shape with a caption under it |
+| `line` | a segment between two points |
+| `texture` | a picture — one of the game's sprites |
+| `quad` | a quadrilateral given by four corners |
+| `point` | a point visible only on the minimap |
+
+All of them are configured by one instruction — <Lesson
+lesson="setmarker">`setmarker`</Lesson>: colour, radius, rotation, text, drawing layer. Right
+after creation a marker is plain: a white quadrilateral at the given point.
+
+<Card kind="note">
+A marker's text is not set in `makemarker`. It is printed into the buffer with an ordinary
+`print` and then handed to the marker: `setmarker flushText 2 0 0 0` — the same motion as
+`printflush` into a message block.
+</Card>
+
+<Card kind="recap">
+- `makemarker kind id x y replace` puts a marker on the map.
+- A marker lives until it is removed — it does not need redrawing.
+- The program assigns the id; the same id is needed to edit and delete it.
+- The fifth field protects against re-creating it in a loop.
+- `setmarker` configures a marker, and text is handed over through the print buffer.
+</Card>
+
+<Card kind="task">
+Change the first marker's kind in the example from `shape` to `shapeText`: a place for
+a caption appears above the shape — empty, though, until text is handed to it.
+
+Then set the fifth field of `makemarker text 2 8 3` to zero instead of one and move the marker
+to other coordinates: it stays where it was — with a zero no replacement happens.
+</Card>

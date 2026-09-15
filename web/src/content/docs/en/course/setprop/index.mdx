@@ -1,0 +1,100 @@
+---
+title: Set Prop
+description: "How setprop changes buildings' and units' properties directly: health, team, item stocks"
+lead: "The other side of sensor: what it reads, setprop writes — bypassing all physics"
+difficulty: medium
+sidebar:
+    order: 0
+    label: Properties directly
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {PROPS} from '../../../../../course/scenes/world.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'sensor/buildings', title: 'Properties of buildings'},
+        {lesson: 'world-intro', title: 'What a world processor is'}
+    ]}
+/>
+
+<Example client:load scene={PROPS} world={true} locale="en" />
+
+```
+setprop @health duo1 50
+setprop @copper container1 120
+setprop @team @unit @crux
+```
+
+Three lines change the world directly: the turret now has 50 health, the store has 120 copper,
+and the dagger goes over to the enemy. None of that "happens" — it simply **becomes** so.
+
+| Field | What is in it |
+| --- | --- |
+| first | a property: `@health`, `@team`, `@x` — or an item: `@copper` |
+| second | to whom: a building or a unit |
+| third | the new value |
+
+The field order is the reverse of `sensor`'s: there, where to put it first; here, what to change.
+
+## What can be written
+
+| Property | To whom | What it does |
+| --- | --- | --- |
+| `@health` | a building and a unit | sets health; will not go above the maximum |
+| `@team` | a building and a unit | moves it to another team |
+| `@x`, `@y` | a unit | teleports it across the map |
+| `@rotation` | a unit and a turret | turns it |
+| `@flag` | a unit | the same flag as `ucontrol flag` |
+| `@totalPower` | a battery | charges it |
+| **an item** | a building | puts exactly that much of that item in |
+
+An item in the first field is a special case and the most useful one:
+`setprop @copper container1 120` does not add 120 copper but **makes it be** 120.
+
+<Card kind="note">
+Properties `sensor` computes on the fly cannot be written: `@shooting`, `@efficiency`,
+`@progress` are answers, not settings. The line will assemble but change nothing.
+</Card>
+
+## Bypassing all physics
+
+`setprop` deals no damage, carries no items and moves no unit — it **substitutes a number**.
+All its quirks follow from that:
+
+- a building set to zero health dies — as if from damage, but with nobody having dealt it: the
+  battle statistics will not see it;
+- a unit moved by `@x` and `@y` ends up anywhere: through walls, beyond the edge of the base,
+  in the middle of water;
+- items placed by `setprop` come out of nowhere and never pass along a conveyor.
+
+<Card kind="error">
+**This is a scripting tool, not an automation one.** Everything `setprop` does looks like
+a miracle to the player: the store filled itself, the turret repaired itself, the dagger changed
+sides.
+
+There is no place for that in an ordinary game — and for good reason: the instruction is
+privileged, and an ordinary processor cannot use it.
+</Card>
+
+<Card kind="recap">
+- `setprop property whom value` writes what `sensor` reads.
+- An item in the first field sets the **final** amount, not an increment.
+- Only real properties can be written; computed ones cannot.
+- The change happens outside physics: no damage, no transport, no movement.
+- The instruction is privileged — world processors only.
+</Card>
+
+<Card kind="task">
+Change `setprop @health duo1 50` in the example to `setprop @health duo1 9999`: the health
+becomes 250 — a building will not go above its own maximum.
+
+Then write `setprop @team duo1 @crux`: the turret on the map becomes the enemy's, and the
+colour of its outline changes.
+</Card>

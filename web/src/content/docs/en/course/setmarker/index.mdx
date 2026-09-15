@@ -1,0 +1,116 @@
+---
+title: Set Marker
+description: "How to configure a marker on the map: colour, radius, text, rotation — and why properties it does not understand are ignored"
+lead: "One instruction for every property of every marker: whatever this kind understands is what changes"
+difficulty: medium
+sidebar:
+    order: 0
+    label: Edit a marker
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {MARKERS} from '../../../../../course/scenes/world.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'makemarker', title: 'Create a marker'},
+        {lesson: 'packcolor', title: 'A colour as one number'}
+    ]}
+/>
+
+<Example client:load scene={MARKERS} world={true} locale="en" />
+
+```
+setmarker color 1 %ff5555 0 0
+setmarker radius 1 20 0 0
+setmarker rotation 1 @time 0 0
+```
+
+Marker number one turns red, grows and slowly rotates: the last line runs every iteration, and
+the rotation follows the time.
+
+| Field | What is in it |
+| --- | --- |
+| first | **what to change**: a property from the list |
+| second | the marker's id |
+| the other three | values — as many as that property needs |
+
+## There are many properties, and each kind has its own
+
+The list is shared across all kinds of marker — two dozen properties and more:
+
+| Property | What it does |
+| --- | --- |
+| `pos`, `endPos` | move the marker; for a line, its other end |
+| `color`, `radius`, `stroke` | colour, size, line thickness |
+| `shape` | the number of sides of a polygon |
+| `rotation`, `arc` | rotation and arc |
+| `text`, `flushText`, `fontSize` | the text and its size |
+| `textAlign`, `lineAlign`, `labelFlags` | alignment, backing and outline of a caption |
+| `texture`, `textureSize` | a picture and its size |
+| `world`, `minimap`, `autoscale` | where the marker is visible and whether it grows on zoom |
+| `drawLayer` | the order: what goes over what |
+| `remove` | delete the marker entirely |
+
+<Card kind="note">
+**A property this kind does not understand is simply ignored.** A radius on a text marker,
+a rotation on a point — the line runs and nothing happens. That is not an error but how the
+instruction is built: there is one for every kind.
+</Card>
+
+## Colour and text
+
+Colour is written two ways: as the literal `%ff5555` straight into the field, or as a packed
+number from <Lesson lesson="packcolor">`packcolor`</Lesson>. The second is for when the colour
+is computed — green shading into red as the stock runs down, for instance.
+
+Text is not given as a value — it is **handed over from the print buffer**:
+
+```
+print "Build here"
+setmarker flushText 2 0 0 0
+```
+
+The same trick as `printflush` and `message`: the text is assembled, handed over, and the
+buffer is cleared. Hence the convenience — numbers and variables can be printed into a marker,
+not just a string.
+
+<Card kind="error">
+**A marker with no text handed to it shows nothing.** An empty text marker is invisible on the
+map, and there is no way to tell whether the program reached it. It is worth checking by the
+print buffer: if it did not empty, `flushText` did not fire.
+</Card>
+
+## Where a marker is visible
+
+| Property | What it means |
+| --- | --- |
+| `world` | draw on the map (yes by default) |
+| `minimap` | draw on the minimap |
+| `autoscale` | shrink when zoomed out, so as not to cover the map |
+
+A marker can be taken off the map entirely and left on the minimap only — that is how danger
+zones are marked when they should not get in the way of looking at the base.
+
+<Card kind="recap">
+- `setmarker property id values` configures an already created marker.
+- The property list is shared, and ones that do not apply to this kind are silently ignored.
+- Colour is either the literal `%rrggbb` or a packed number.
+- Text is handed over from the print buffer through `flushText`.
+- `remove` deletes a marker; `world` and `minimap` decide where it is visible.
+</Card>
+
+<Card kind="task">
+Change `setmarker radius 1 20 0 0` in the example to `setmarker shape 1 3 0 0`: the circle
+becomes a triangle — that is the number of sides.
+
+Then add `setmarker minimap 1 1 0 0` on the next line and switch `world` off:
+`setmarker world 1 0 0 0`. The marker disappears from the example's map — it is now only on the
+minimap, which is not shown here.
+</Card>
