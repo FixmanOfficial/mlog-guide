@@ -1,0 +1,89 @@
+---
+title: Unpack Color
+description: "How to take a packed colour back apart into channels and why you would read an item's colour"
+lead: "The other side of packcolor: one number becomes four again"
+difficulty: medium
+sidebar:
+    order: 0
+    label: Taking a colour apart
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {UNPACK} from '../../../../../course/scenes/color.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'packcolor', title: 'A colour as one number'},
+        {lesson: 'sensor/buildings', title: 'Properties of buildings'}
+    ]}
+/>
+
+A packed colour is one number, and it cannot be read by eye. `unpackcolor` lays it back out
+into four channels.
+
+<Example client:load scene={UNPACK} world={true} locale="en" />
+
+The program asks copper for its colour and prints it channel by channel: the board shows
+`copper: 217 157 115`.
+
+```
+sensor colour @copper @color
+unpackcolor r g b a colour
+```
+
+| Field | What is in it |
+| --- | --- |
+| the first four | where to put red, green, blue and alpha |
+| fifth | the packed colour |
+
+<Card kind="note">
+The channels come back as **fractions from zero to one** — the same ones `packcolor` takes.
+The familiar 0–255 are obtained by multiplying: `op mul r r 255`. In the example the
+multiplication is followed by `op floor`, because dividing and multiplying by 255 leaves a tail
+like `217.00000000000003`.
+</Card>
+
+## Why take a colour apart
+
+Taking one apart is rarely needed for its own sake — colours are usually assembled rather than
+read. There is one real use: **learning a colour somebody else chose**.
+
+- an item's, liquid's or block's colour — `sensor @color`, and the display draws ore in its own
+  colour;
+- a team's colour — `sensor @color @crux`, so markers on the map match what the player sees
+  around them;
+- a colour that arrived from a memory cell or a neighbouring processor and needs a small
+  change — dimming it by halving the channels and packing it back, for instance.
+
+```
+unpackcolor r g b a colour
+op div r r 2
+op div g g 2
+op div b b 2
+packcolor dim r g b a
+```
+
+That is the usual way of working with colour: take apart, adjust the channels, pack again.
+The packed number itself must not be touched with arithmetic.
+
+<Card kind="recap">
+- `unpackcolor r g b a colour` lays a packed colour out into four channels.
+- The channels are fractions from zero to one; 0–255 comes from multiplying.
+- The main source of other people's colours is `sensor @color` on content and teams.
+- To change a colour you take it apart, adjust the channels and pack it back with `packcolor`.
+</Card>
+
+<Card kind="task">
+Change `@copper` in the example to `@graphite` and run it: the numbers come out different —
+graphite is grey, and all three channels end up close to one another.
+
+Then remove the three `op floor` lines and look at the board: instead of round numbers there
+are tails. That is not a fault of the unpacking but the ordinary imprecision of fractional
+numbers — there is <Lesson lesson="advanced/numbers">a lesson of its own</Lesson> about it.
+</Card>

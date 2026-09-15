@@ -1,0 +1,132 @@
+---
+title: Lookup
+description: "How to fetch an item, a unit, a block or a liquid by index and what that is for"
+lead: "All the game's content is numbered. Lookup turns a number into an object — and opens up walking the whole list"
+difficulty: medium
+sidebar:
+    order: 0
+    label: Content by index
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {TABLE, SCAN} from '../../../../../course/scenes/lookup.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'set/content', title: 'Content constants'},
+        {lesson: 'jump/loops', title: 'Loops'}
+    ]}
+/>
+
+An item can be named with a constant — `@copper`, `@graphite`. But there are twenty constants,
+and writing them out one by one is tiresome. The game has **numbered lists** for this, and
+`lookup` fetches from them by index.
+
+<Example client:load scene={TABLE} world={false} locale="en" />
+
+## Four lists
+
+| Type | How many in the game | Number zero |
+| --- | --- | --- |
+| `item` | 20 | `@copper` |
+| `liquid` | 11 | `@water` |
+| `unit` | 56 | `@dagger` |
+| `block` | 262 | `@graphite-press` |
+
+```
+lookup item item 0
+```
+
+The first field is which list, the second where to put it, the third the index. Past the end of
+a list lies emptiness, as everywhere.
+
+<Card kind="note">
+The numbers themselves are written nowhere in the game, but the list does exist and can be
+looked at: it is the **core database**, the "Database" button in the menu. Its order is the one
+`lookup` counts by: the first item in the items section is copper, and `lookup item 0` gives
+copper.
+
+Count positions from zero and within your own section: items, liquids, units and blocks are
+numbered separately.
+</Card>
+
+## How many of each there are
+
+Every list has a built-in variable holding its length:
+
+```
+set amount @itemCount
+```
+
+`@itemCount`, `@liquidCount`, `@unitCount`, `@blockCount` — four numbers, and they are what
+a walk ends on. Writing `20` instead of `@itemCount` is not allowed: the next update will add
+items, and the program will stop seeing the new ones.
+
+## Backwards: `@id`
+
+An object's index is asked of the object itself:
+
+```
+sensor index @graphite @id
+```
+
+The answer is `3` — graphite is third in the items list. Back again, `lookup item back 3`
+returns that same graphite. This comes in handy when an item has to be **stored as a number**:
+an object does not always fit into a memory cell or a unit's flag, but an index is an ordinary
+number.
+
+<Card kind="error">
+**Indices are not for ever.** They are tied to the game's version: add a new item in the middle
+of a list and everything after it shifts. An index saved in a cell will, after an update, point
+at a different item, and the program will keep working — just with the wrong thing.
+
+So an index is for **temporary** storage, while a program is written with constants:
+`@graphite` is clearer and survives updates.
+</Card>
+
+## What it is really for
+
+<Example client:load scene={SCAN} world={true} locale="en" />
+
+The main use is **walking the whole list**. The program asks the store about each item in turn
+and remembers which there is most of: the board shows `graphite: 60`.
+
+```
+lookup item item index
+sensor amount container1 item
+op add index index 1
+jump 0 lessThan index @itemCount
+```
+
+Without `lookup` you would have to write out twenty `sensor`s in a row — and rewrite the
+program after every update to the game.
+
+The same way finds which unit there is most of on the map, what a factory is busy with, which
+ore is plentiful and which block is missing from a schematic.
+
+<Card kind="recap">
+- `lookup type variable index` fetches content from one of the game's numbered lists.
+- There are four lists: items, liquids, units, blocks.
+- A list's length is in a built-in variable: `@itemCount` and its neighbours.
+- The index is asked back from the object: `sensor index @graphite @id`.
+- Indices are tied to the game's version, so programs are written with constants.
+</Card>
+
+<Card kind="task">
+In the second example change `item` to `liquid` in the `lookup` line and `@itemCount` to
+`@liquidCount`: the program starts looking for the fullest liquid. A container holds no liquids
+at all, and `sensor` answers each one with **emptiness** — not zero. Comparing emptiness with
+emptiness is pointless, no best is found, and the board shows `null: null`.
+
+That is a good illustration of what the lesson on emptiness says: a walk written without
+a check happily runs to the end and prints nonsense.
+
+Then put the items back and write `3` instead of `@liquidCount` in the `jump`: the walk stops
+after the first three items, and graphite with its sixty never makes it into the answer.
+</Card>

@@ -1,0 +1,116 @@
+---
+title: Set Rate
+description: "How setrate changes a processor's speed, why it is usually lowered and where the @ipt ceiling is"
+lead: "A processor always runs at its own speed. setrate is the only way to change it, and it is almost always changed downwards"
+difficulty: medium
+sidebar:
+    order: 0
+    label: Processor speed
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {FULL, SLOW, CEILING} from '../../../../../course/scenes/rate.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'basics/processor', title: 'How the processor works'},
+        {lesson: 'wait/rhythm', title: "A program's rhythm"}
+    ]}
+/>
+
+Every processor has its own speed — how many instructions it gets through per tick. It lives in
+`@ipt` and is written in the block's stats:
+
+| Block | Instructions per tick |
+| --- | --- |
+| Micro processor | 2 |
+| Logic processor | 8 |
+| Hyper processor | 25 |
+| World processor | 8, up to 1000 |
+
+<Example client:load scene={FULL} world={true} locale="en" />
+
+A hyper processor at full speed: in one second a five-line program gets through about **295
+iterations**. That is how many times a second the `sensor` is read, the display is redrawn and
+everything written in it is recomputed.
+
+## `setrate` changes the speed on the fly
+
+<Example client:load scene={SLOW} world={true} locale="en" />
+
+The same program with one new line at the top:
+
+```
+setrate 1
+```
+
+Now `@ipt` is one, and in the same second the program gets through **14 iterations** instead of
+295. It does exactly the same thing, only twenty times less often.
+
+<Card kind="note">
+`@ipt` changes immediately, in that same line: the instruction alters the processor's own speed
+rather than preparing it for the next start.
+</Card>
+
+## It cannot be raised above its own ceiling
+
+<Example client:load scene={CEILING} world={true} locale="en" />
+
+Here a micro processor is told to work at a thousand instructions per tick, and `speed` stays
+a **two** all the same.
+
+The number in `setrate` is clamped to the range from one to **this block's** limit, and for an
+ordinary processor that limit is its own speed. A micro processor cannot be overclocked into
+a hyper; it can only be slowed down.
+
+<Card kind="error">
+**`setrate` is a brake, not an accelerator.** The only one whose speed it raises is the
+<Lesson lesson="world-intro">world processor</Lesson>: its base is 8 and its ceiling 1000. The
+three ordinary blocks live at their own speed, and `setrate` can only make it lower.
+</Card>
+
+## What it is for at all
+
+The honest answer: **for the world processor**. Eight instructions per tick is not much for
+a script that walks units, counts waves and talks to the player — and `setrate 1000` gives it
+over a hundred times more.
+
+Ordinary processors got the instruction along the way: before version 160 it was privileged and
+not available to them at all. There is almost no use for slowing down: the game handles
+hundreds of processors calmly, and speeding a map up this way will not work either — an
+ordinary processor cannot go above its own rate, and there is no reason to take it below.
+
+The one place it is occasionally useful is **watching a program work**: at `setrate 1` you can
+see the counter walking the lines. In the game people rarely look at that, while in this
+course's examples the step button does exactly the same thing.
+
+<Card kind="note">
+**Rhythm is not set by speed.** If a program has to do something once a second, that is
+<Lesson lesson="wait/rhythm">`wait`</Lesson>, not `setrate`: `wait` states the interval
+directly, while slowing down stretches the whole program and depends on its length.
+</Card>
+
+<Card kind="recap">
+- `@ipt` is how many instructions a processor gets through per tick: 2, 8 or 25.
+- `setrate number` changes it on the fly, and `@ipt` updates at once.
+- The number is clamped to the range from 1 to the block's limit: an ordinary processor cannot
+  go above its own rate.
+- `setrate` raises the speed only for a world processor — up to 1000.
+- The point of the instruction is to speed up a world processor; slowing an ordinary one down
+  is usually pointless.
+</Card>
+
+<Card kind="task">
+In the second example change `setrate 1` to `setrate 5` and run it: there are noticeably more
+iterations a second, and `speed` shows a five.
+
+Then set `setrate 0`. The speed stays at one, not zero: zero is clamped to the lower bound, and
+a processor cannot be stopped this way at all — <Lesson lesson="stop">`stop`</Lesson> is for
+that.
+</Card>

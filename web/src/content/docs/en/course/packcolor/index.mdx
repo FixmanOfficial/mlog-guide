@@ -1,0 +1,115 @@
+---
+title: Pack Color
+description: "How to fold a colour into one number: channels from zero to one, draw col and keeping a colour in a variable"
+lead: "A colour made of four numbers is awkward to carry around. packcolor folds it into one — and the colour becomes an ordinary value"
+difficulty: medium
+sidebar:
+    order: 0
+    label: A colour as one number
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {PACK, CHOICE} from '../../../../../course/scenes/color.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'draw/colors', title: 'Colour and transparency'},
+        {lesson: 'select/choice', title: 'Choosing a value without a branch'}
+    ]}
+/>
+
+`draw color` takes a colour as four numbers, and while a program has one colour that is enough.
+As soon as there are several and they have to be chosen between, four numbers turn into four
+variables that get dragged around together. `packcolor` folds them into one.
+
+<Example client:load scene={PACK} world={true} locale="en" />
+
+```
+packcolor red 1 0 0 1
+draw col red
+```
+
+| Field | What is in it |
+| --- | --- |
+| first | where to put the finished colour |
+| the other four | red, green, blue and alpha |
+
+<Card kind="error">
+**The channels here run from zero to one, not from zero to 255.** `draw color` uses 0–255;
+`packcolor` uses fractions, and anything above one is clamped to one.
+
+The mistake is not always easy to spot: `packcolor colour 255 0 0 255` works by accident — the
+two-hundred-odd is clamped to one and red stays red. But copper's colour,
+`packcolor colour 217 157 115 255`, comes out **white**: all three channels are above one and
+all three got clamped. The right way is `packcolor colour 0.85 0.62 0.45 1`.
+</Card>
+
+## A colour becomes an ordinary value
+
+<Example client:load scene={CHOICE} world={true} locale="en" />
+
+This is what it is all for: the colour is now **one number**, and one number can do everything
+any other number can. Go into a memory cell. Be chosen with `select`. Be passed to
+a neighbouring processor. Here the program chooses between an alarm colour and a calm one in
+a single line:
+
+```
+select colour lessThan stock 50 alarm calm
+draw col colour
+```
+
+Through `draw color` the same thing would need a branch and four assignments in each branch.
+
+## A number not meant to be read
+
+Look at the variables table: `red` there holds not a round value but something like `2.1e-314`.
+That is as it should be.
+
+A packed colour is **a colour's bytes placed inside a number**, not a number in the usual
+sense. To the game it is simply a way of carrying four bytes in one value.
+
+<Card kind="error">
+**You cannot do arithmetic with a packed colour.** Adding two colours, taking half of one,
+comparing "which is brighter" — all of that gives nonsense: it is bytes being added, not
+colours.
+
+`print` will not help either: the number is so small it prints as zero. Only
+<Lesson lesson="unpackcolor">`unpackcolor`</Lesson> can take a colour back apart into channels.
+</Card>
+
+## Where else such numbers come from
+
+Items, liquids, blocks and teams have colours of their own, and `sensor` gives them in the same
+packed form:
+
+```
+sensor colour @copper @color
+draw col colour
+```
+
+That is how an item is drawn on a display in its own colour — without writing out by hand that
+copper is orange.
+
+<Card kind="recap">
+- `packcolor result r g b a` folds a colour into one number.
+- The channels are fractions from zero to one, not 0–255.
+- `draw col` hands the finished colour to the display.
+- A colour as one number can be stored, chosen and passed like any other value.
+- You cannot compute with it: there are bytes inside, not a number.
+- `sensor @color` gives a colour in this same form.
+</Card>
+
+<Card kind="task">
+In the first example change `packcolor red 1 0 0 1` to `packcolor red 217 157 115 255` and run
+it: instead of a copper colour the square turns white — all three channels are above one and
+got clamped.
+
+Then in the second example set `set stock 70`: the condition `lessThan stock 50` stops holding,
+and `select` gives the calm colour instead of the alarm one.
+</Card>
