@@ -1,0 +1,77 @@
+---
+title: Client Data
+description: "How a server sends data to clients on a channel and how that differs from sync"
+lead: "A message not to the screen but into the client's program: a channel, a value and a choice between «reliable» and «fast»"
+difficulty: hard
+sidebar:
+    order: 0
+    label: Data to the client
+---
+
+import LessonHead from '../../../../../course/LessonHead.astro'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import '../../../../../example/example.css'
+
+<LessonHead
+    difficulty="hard"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'sync', title: 'Broadcast a variable'},
+        {lesson: 'world-intro', title: 'What a world processor is'}
+    ]}
+/>
+
+```
+clientdata "score" points 1
+```
+
+| Field | What is in it |
+| --- | --- |
+| first | the **channel**: a name-string by which a client tells one from another |
+| second | the value: a number or an object |
+| third | whether to deliver reliably |
+
+<Card kind="note">
+**In a single-player game the instruction does nothing**, just like
+<Lesson lesson="sync">`sync`</Lesson>: there are no clients. **The course sandbox has no
+network**, so there is no example for this lesson either.
+</Card>
+
+## How it differs from `sync`
+
+`sync` broadcasts **a processor's variable**: the client receives its value into that same
+variable and can read it as usual.
+
+`clientdata` is not tied to any variable. It sends a value **to a channel** — to a name the
+script invented — and it arrives not in the client's logic but in their game: mods and
+client-side add-ons use this.
+
+| | `sync` | `clientdata` |
+| --- | --- | --- |
+| what it sends | a variable's value | an arbitrary value on a channel |
+| where it arrives | into the same variable on the client | into a channel handler |
+| limit | 20 times a second per variable | none of its own |
+| what for | showing a client a number | connecting a script to a mod |
+
+## Reliable or fast
+
+The third field chooses how it is delivered:
+
+- **reliably** (`1`): the packet will arrive, and arrive in order — like an ordinary message.
+  More expensive;
+- **unreliably** (`0`): send and forget. It may be lost, but it is cheap — that is how things
+  are sent that update constantly and can afford to lose a frame.
+
+<Card kind="note">
+Facts about the client itself are read with built-in variables: `@clientLocale` is the player's
+language, `@clientName` their name, `@clientTeam` their team, `@clientMobile` whether they are
+on a phone or a computer. All of them are privileged and available to a world processor only.
+</Card>
+
+<Card kind="recap">
+- `clientdata "channel" value reliable` sends a value to clients on a named channel.
+- In a single-player game it does nothing.
+- Unlike `sync`, the value is not tied to a variable and is addressed to mods.
+- The third field chooses between reliable and fast delivery.
+</Card>

@@ -1,0 +1,83 @@
+---
+title: Weather Sense
+description: "How to find out whether weather is running, and why this instruction's answer is so short"
+lead: "Is it raining, snowing or storming right now — a binary answer and nothing beyond it"
+difficulty: medium
+sidebar:
+    order: 0
+    label: Is weather running
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {WEATHER} from '../../../../../course/scenes/world.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'weatherset', title: 'Turn weather on'},
+        {lesson: 'jump/branch', title: 'Condition and branching'}
+    ]}
+/>
+
+<Example client:load scene={WEATHER} world={true} locale="en" />
+
+```
+weathersense @rain rain
+```
+
+After two seconds the processor turns the rain on and sees it immediately: the board shows
+`rain: 1`.
+
+| Field | What is in it |
+| --- | --- |
+| first | the kind of weather |
+| second | where to put the answer: 1 or 0 |
+
+<Card kind="error">
+**Only a world processor can ask about the weather too.** The instruction is privileged, like
+all the others in this part: an ordinary processor will not even assemble it — the parser
+replaces the line with an empty one, and the variable is left untouched.
+
+That is not obvious: after all, a player sees the weather with their own eyes. But the game's
+rule covers the whole category with no exceptions.
+</Card>
+
+## What it is for in a script
+
+- **a script checks itself**: it turned a storm on, made sure it is running, and only then
+  counted the task done;
+- **reacting to the map's weather**: on some maps weather comes on by itself, and a script can
+  adapt — by giving the player a hint, for instance;
+- **a board**: a world processor tells the player what is going on.
+
+```
+weathersense @sandstorm storm
+jump 5 equal storm 0
+control enabled projector1 1
+```
+
+<Card kind="error">
+**The answer is only "running or not".** Logic knows neither the intensity nor the time left:
+mlog has no `@weatherTime` and no degree. If a script needs a duration, it turns the weather on
+itself and measures the time with a <Lesson lesson="advanced/time">timer</Lesson>.
+</Card>
+
+<Card kind="recap">
+- `weathersense kind where` answers whether that weather is running.
+- The instruction is privileged: unavailable to an ordinary processor, like the rest of the world ones.
+- The answer is binary: neither the intensity nor the time left can be learned.
+- Only a world processor can change the weather — `weatherset`.
+</Card>
+
+<Card kind="task">
+Change the kind in `weathersense @rain rain` to `@fog`: the board always shows zero — nobody
+turned any fog on.
+
+Then change `jump 3 lessThan @second 2` to `jump 3 lessThan @second 10`: the rain only starts
+at the tenth second, and until then the board honestly shows zero.
+</Card>

@@ -1,0 +1,92 @@
+---
+title: Weather Set
+description: "How a world processor turns weather on and off: rain, snow, a sandstorm"
+lead: "Weather on a map is not chance but a state a script can control"
+difficulty: medium
+sidebar:
+    order: 0
+    label: Turn weather on
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {WEATHER} from '../../../../../course/scenes/world.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'world-intro', title: 'What a world processor is'},
+        {lesson: 'setrule', title: 'Game rules'}
+    ]}
+/>
+
+<Example client:load scene={WEATHER} world={true} locale="en" />
+
+```
+weatherset @rain true
+```
+
+After two seconds the world processor turns the rain on and immediately checks itself with
+<Lesson lesson="weathersense">`weathersense`</Lesson>: the board shows `rain: 1`.
+
+| Field | What is in it |
+| --- | --- |
+| first | the kind of weather: `@rain`, `@snowing`, `@sandstorm`, `@sporestorm`, `@fog` |
+| second | on or off |
+
+## Six kinds
+
+| Constant | What it is |
+| --- | --- |
+| `@rain` | rain |
+| `@snowing` | snow |
+| `@sandstorm` | a sandstorm |
+| `@sporestorm` | a spore storm |
+| `@fog` | fog |
+| `@suspend-particles` | particles hanging in the air |
+
+The names come from the content itself, and they do not always match what you would expect:
+snow is called `@snowing`, not `@snow`.
+
+<Card kind="note">
+Weather is not only a picture. In the game it gets in the way: a storm damages units, spores
+poison, fog hides the view. So turning weather on in a script is a complication, not
+a decoration.
+</Card>
+
+## Weather stays on for good
+
+<Card kind="error">
+Weather turned on by logic **does not end by itself**. Ordinary weather on a map comes and goes
+on its own schedule, while weather set by `weatherset` holds until it is turned off:
+
+```
+weatherset @sandstorm false
+```
+
+So a script that turned a storm on for a minute has to turn it off itself — by
+a <Lesson lesson="advanced/time">timer</Lesson>, a flag or an event.
+</Card>
+
+<Card kind="note">
+**The course sandbox does not show weather**: the instructions work, but no snow and no rain
+are visible. In the game weather runs as usual.
+</Card>
+
+<Card kind="recap">
+- `weatherset kind on` controls the weather on a map.
+- There are six kinds; the names are content constants, `@snowing` rather than `@snow`.
+- Weather turned on by logic does not stop by itself.
+- The instruction is privileged: world processors only.
+</Card>
+
+<Card kind="task">
+Change `@rain` to `@sandstorm` in the example's `weatherset` line: the board stops showing rain —
+a different kind of weather is running while the question is about rain.
+
+Then add `print storm` after `print rain`: the storm comes out as one and the rain as zero.
+</Card>

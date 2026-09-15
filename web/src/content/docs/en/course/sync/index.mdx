@@ -1,0 +1,80 @@
+---
+title: Sync
+description: "How a world processor broadcasts a variable's value to every player and why there is a limit on it"
+lead: "In a single-player game it does nothing. On a server it is the only way to show everybody the same number"
+difficulty: hard
+sidebar:
+    order: 0
+    label: Broadcast a variable
+---
+
+import LessonHead from '../../../../../course/LessonHead.astro'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import '../../../../../example/example.css'
+
+<LessonHead
+    difficulty="hard"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'world-intro', title: 'What a world processor is'},
+        {lesson: 'setflag', title: 'Raise a flag'}
+    ]}
+/>
+
+```
+sync count
+```
+
+One variable in one field — and its value travels to everybody playing on this map.
+
+<Card kind="note">
+**In a single-player game the instruction does nothing** — that is the game's own behaviour,
+there is nobody to broadcast to. **The course sandbox has no network**, so there is no example
+for this lesson.
+</Card>
+
+## What it is for on a server
+
+On a server the map is computed once — on the server. Clients see a copy of it, and in that
+copy **processors' variables are empty**: the server does not broadcast them, because there are
+hundreds of them and they change every tick.
+
+Usually that is not needed: a client sees blocks, units and messages. But if a script wants
+a client to **read** a value — a player's display drawing a score from a processor's variable,
+say — the value has to be broadcast explicitly. That is what `sync` does.
+
+## Twenty times a second, no more
+
+Every variable has its own timer: it can be sent once every 50 milliseconds. Anything
+a program tries to send more often simply is not sent — no error and no queue.
+
+<Card kind="note">
+The limit is on the **variable**, not on the instruction. Twenty different variables broadcast
+freely; the same one in a loop, only twenty times a second.
+</Card>
+
+<Card kind="error">
+**A constant cannot be broadcast.** `sync @copper` or `sync 5` do nothing: only real program
+variables are sent.
+</Card>
+
+## Which to choose: `sync` or a flag
+
+| | `sync` | <Lesson lesson="setflag">a global flag</Lesson> |
+| --- | --- | --- |
+| what it carries | any value | "yes" or "no" |
+| to whom | every client | processors and the map's objectives |
+| how often | 20 times a second per variable | no limit |
+
+Flags are about a script's logic, `sync` is about what the player sees. A number on a display,
+a countdown to a wave, a team's score: everything a client reads **from a processor's
+variable** needs broadcasting.
+
+<Card kind="recap">
+- `sync variable` broadcasts its value to clients.
+- In a single-player game it does nothing.
+- The limit is twenty sends a second per variable.
+- Constants are not broadcast.
+- A script's logic usually manages with flags; `sync` is for the clients' sake.
+</Card>
