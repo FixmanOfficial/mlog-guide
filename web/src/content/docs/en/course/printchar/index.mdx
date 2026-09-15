@@ -1,0 +1,93 @@
+---
+title: Print Char
+description: "How printchar adds one character by its code to the buffer, and the icon of an item or a block"
+lead: "One character at a time — but any of them: an arrow, a box-drawing line or the copper icon"
+difficulty: easy
+sidebar:
+    order: 0
+    label: A character and an icon
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {CHARS} from '../../../../../course/scenes/format.js'
+
+<LessonHead
+    difficulty="easy"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'print/buffer', title: 'The text buffer'},
+        {lesson: 'set/content', title: 'Content constants'}
+    ]}
+/>
+
+`printchar` appends **one character** to the buffer. Not a string, not a number — exactly one
+character, given by its code.
+
+<Example client:load scene={CHARS} world={true} buffer={true} locale="en" />
+
+Press "run". Under the message block you get the copper icon, the number 120 and an upward
+arrow: the icon came from `printchar @copper`, the arrow from `printchar 8593`.
+
+## A character by code
+
+The number is a character's code in UTF-16: `printchar 65` gives `A`, `printchar 97` gives `a`,
+`printchar 32` gives a space. A fractional number is truncated down to a whole code.
+
+Next to the field in the block there is a pencil: it opens a table of printable characters from
+32 to 126, so you do not have to hunt for codes on the internet. Anything above that is typed
+as a number.
+
+<Card kind="note">
+Box drawing is the only way mlog draws "graphics" in text: arrows `↑` (8593), `↓` (8595),
+lines `─` (9472) and `│` (9474), a tick `✓` (10003). One instruction per character, but you
+end up with a table inside a message block.
+</Card>
+
+## A content character is an icon
+
+`printchar @copper` puts the copper character into the buffer, and in the caption it looks like
+an icon rather than letters. Liquids, blocks and unit types work the same way.
+
+The trick behind it: every item has a character code of its own, but there is no glyph for it
+in the font — the game draws a picture from the atlas in its place. That is why an icon cannot
+be typed on a keyboard, and `printchar` is the only way to get one.
+
+<Card kind="error">
+Anything that is not an item, a liquid, a block or a unit type is **silently skipped** by
+`printchar`: a string, a building, a team, emptiness — nothing is added, and the buffer stays
+as it was.
+
+The building case is especially annoying: `printchar container1` looks meaningful and does
+nothing. A block's icon comes from its **type** — `printchar @container`.
+</Card>
+
+## What it is for
+
+| Task | How |
+| --- | --- |
+| an item's icon in a caption | `printchar @copper` |
+| an arrow or a tick | `printchar 8593`, `printchar 10003` |
+| a line break | easier as a string, `print "\n"` |
+| a long text | not needed: that is `print` |
+
+A board with icons reads noticeably faster than one with words — especially when there are
+several items and the line updates on the fly.
+
+<Card kind="recap">
+- `printchar` adds exactly one character by its UTF-16 code.
+- A fractional code is truncated down.
+- An item, a liquid, a block and a unit type give their own icon.
+- Everything else — a string, a building, a team, emptiness — is skipped in silence.
+</Card>
+
+<Card kind="task">
+Replace `@copper` with `@container` and run it: the copper icon becomes the container icon.
+Then try `container1` — the icon disappears entirely, though the line looks almost the same.
+
+Then change 8593 to 10003: the arrow becomes a tick. Character codes can be found in any
+Unicode table, and printable ones are easier to pick with the pencil next to the field.
+</Card>

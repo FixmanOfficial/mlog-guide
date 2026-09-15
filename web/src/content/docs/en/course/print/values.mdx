@@ -1,0 +1,102 @@
+---
+title: What prints as what
+description: "What a number, an item, a building and emptiness turn into when they are printed"
+lead: "Anything can be printed — and almost everything turns into text differently from what you expect"
+difficulty: easy
+sidebar:
+    order: 2
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {PIECES} from '../../../../../course/scenes/print.js'
+
+<LessonHead
+    difficulty="easy"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'print/buffer', title: 'The text buffer'},
+        {lesson: 'basics/null', title: 'Emptiness: null'}
+    ]}
+/>
+
+`print` takes any value, and the buffer takes only text. So a conversion happens somewhere in
+between, and its rules are worth knowing: half of all strange captions on displays come from
+here.
+
+<Example client:load scene={PIECES} world={true} buffer={true} locale="en" />
+
+Press "step" seven times. The buffer holds `copper container null 0.5`.
+
+## The conversion rules
+
+| What is printed | What lands in the buffer |
+| --- | --- |
+| a number less than 0.00001 away from a whole one | the whole number, no fraction: `120` |
+| any other number | as it is: `0.5`, `3.25` |
+| a string | the string itself, without the quotes |
+| an item, liquid, block or unit type | its English name: `copper`, `titanium-conveyor` |
+| a building | **its block's name**: `container`, not `container1` |
+| a unit | its type's name: `poly` |
+| a team | the team's name: `sharded` |
+| emptiness | the word `null` |
+
+## A building prints as its type
+
+That is the first thing that surprises people. `print container1` gives `container`, not
+`container1`.
+
+The reason is simple: a link name belongs to **the processor**, not to the block. The building
+itself has no such name at all — it is your note in your program, and a neighbouring processor
+may call the same container something else. There is nothing to print but the block's type.
+About link names, see the lesson <Lesson lesson="basics/links">"Links and getlink"</Lesson>.
+
+<Card kind="note">
+The names are always English: `surge-alloy`, `titanium-conveyor`, `phase-fabric`. Translating
+content names has nothing to do with logic — that lives in the game's interface, while what is
+printed is the internal name. If you want a caption in another language, write it as a string
+yourself.
+</Card>
+
+## Emptiness prints as a word
+
+`print` of `null` puts four letters into the buffer: `null`. Neither emptiness nor zero — the
+word itself.
+
+<Card kind="error">
+That is why displays and message blocks so often hang there saying `null`: a sensor did not
+find the building, the program did not check for it, and the word rode into the caption.
+If you see `null` on a board, do not look for a printing mistake — look for
+<Lesson lesson="basics/null">an empty value</Lesson> further up the program.
+</Card>
+
+## Numbers print as in the variables table
+
+The rule and the threshold are the same: **0.00001**. If a number is less than that away from
+a whole one it prints whole; more, and it prints in full, every digit after the point included.
+
+The threshold is not invented: it is written into the game itself, and the same hundred
+thousandth decides how a number is shown in the variables window.
+
+One consequence spoils boards: `op div share 1 3` prints as `0.3333333333333333`. Rounding is
+up to you — `op round`, `op floor` or a multiply and a divide — and that is the lesson
+[«Whole numbers and precision»](/en/course/op/integers/).
+
+<Card kind="recap">
+- A number prints whole if it is less than 0.00001 away from a whole one; otherwise in full.
+- An item, a block and a unit print as their English name.
+- A building prints as its block's name: the link name belongs to the processor, not to it.
+- Emptiness prints as the word `null` — the most common caption-as-a-bug there is.
+</Card>
+
+<Card kind="task">
+Replace `container1` in the third line with `@container` and run the example again: the buffer
+holds the same word `container`. A building and its type print identically — by the block's
+name — even though they are completely different values.
+
+Then add the line `op div third 1 3` before the printing and print `third`: `0.3333333333333333`
+appears in the buffer. That is exactly how an untrimmed fraction looks on a board.
+</Card>

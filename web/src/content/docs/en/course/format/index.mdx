@@ -1,0 +1,99 @@
+---
+title: Format
+description: "How format substitutes a value into a {0} placeholder inside the text buffer"
+lead: "A whole template instead of text in pieces: format drops values into a ready caption"
+difficulty: easy
+sidebar:
+    order: 0
+    label: Filling a template
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {TEMPLATE} from '../../../../../course/scenes/format.js'
+
+<LessonHead
+    difficulty="easy"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'print/buffer', title: 'The text buffer'},
+        {lesson: 'printflush', title: 'Print Flush'}
+    ]}
+/>
+
+`print` assembles a caption in pieces, and on a long phrase that becomes awkward: the text is
+split across lines of the program, and what it will finally look like exists only in your head.
+
+`format` works the other way round: first the whole **template** goes into the buffer, then
+values are substituted into it.
+
+<Example client:load scene={TEMPLATE} world={true} buffer={true} locale="en" />
+
+Press "run". Under the message block you get `copper 120 of 300`: the template
+`copper {0} of {1}` went into the buffer first, and two `format`s replaced its placeholders
+in turn.
+
+## A placeholder is exactly three characters
+
+A placeholder looks like `{0}`: an opening brace, a digit from 0 to 9, a closing brace.
+No spaces, no numbers above nine — such a thing simply does not count as a placeholder, and
+`format` will not see it.
+
+<Card kind="error">
+If there is no suitable placeholder in the buffer, `format` **does nothing** — silently.
+No error, no appending at the end. The value simply disappears, and the caption keeps
+a template with an unfilled placeholder.
+
+The most common cause: `format` standing **before** the `print` with the template. The buffer
+is empty at that moment, and there is nowhere to substitute into.
+</Card>
+
+## The smallest number wins, not the first placeholder
+
+This rule surprises people. `format` searches the buffer for the placeholder with the
+**smallest number**, not the one that comes first.
+
+For the template `{1} and {0}` the first `format` substitutes **at the end** — where `{0}` is.
+The order of substitutions is set by the numbers, not by their position in the string.
+
+<Card kind="note">
+Hence a simple rule: number the placeholders in the order you intend to fill them, not in the
+order they stand in the text. Then the phrase can be written the way it reads naturally —
+"`{1}` left out of `{0}`" — and still be filled in limit first, remainder second.
+</Card>
+
+## A placeholder disappears once filled
+
+A replaced placeholder is gone from the buffer, so the next `format` finds the next one by
+number. Two values cannot go into one placeholder, and an extra `format` with none free does
+nothing.
+
+| What is in the buffer | `format 120` gives |
+| --- | --- |
+| `copper {0}` | `copper 120` |
+| `{1} and {0}` | `{1} and 120` |
+| `copper 0` | `copper 0` — no placeholder, the value is lost |
+| empty | empty — nowhere to substitute |
+
+Values turn into text by the same rules as with `print`: a whole number prints without
+a fraction, a building as its block's name, emptiness as the word `null`. That is the lesson
+<Lesson lesson="print/values">"What prints as what"</Lesson>.
+
+<Card kind="recap">
+- `format` substitutes a value into the `{N}` placeholder inside the buffer.
+- Template first, substitutions after — otherwise there is nowhere to substitute.
+- The placeholder with the smallest number is taken, not the first in the string.
+- A placeholder disappears once filled, and an extra `format` silently does nothing.
+</Card>
+
+<Card kind="task">
+Change the template to `left {1} of {0}` and run it: you get `left 300 of 120` — the numbers
+decide what goes where, and the values swapped places even though the `format` lines stayed
+the same.
+
+Then remove `{1}` from the template: the second `format` is left without a placeholder and
+keeps quiet, and the caption stays `copper 120 of`.
+</Card>

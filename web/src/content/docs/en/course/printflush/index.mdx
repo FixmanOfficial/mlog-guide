@@ -1,0 +1,109 @@
+---
+title: Print Flush
+description: "Where the text buffer goes: printflush hands it to a message block and always clears it"
+lead: "Accumulated text is shown not by print but by printflush — and it clears the buffer whatever happens"
+difficulty: easy
+sidebar:
+    order: 0
+    label: Where the buffer goes
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {FLUSH} from '../../../../../course/scenes/print.js'
+
+<LessonHead
+    difficulty="easy"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'print/buffer', title: 'The text buffer'},
+        {lesson: 'basics/links', title: 'Links and getlink'}
+    ]}
+/>
+
+`printflush` has one field — who to hand the buffer to. It can be handed to a **message
+block** — called "Message" in the build menu — and that is the only block that can take text.
+
+<Example client:load scene={FLUSH} world={true} buffer={true} locale="en" />
+
+Press "run". `copper: 120` appears under the message block, and the buffer is empty almost all
+the time: the program fills the line in and immediately hands it over.
+
+<Card kind="note">
+The block's text is drawn under the block itself — white on a dark backing, wrapped by words.
+In the game you see it when the cursor is over the block; here it is always visible, because
+the example has no cursor at all.
+</Card>
+
+## The buffer is always cleared
+
+That is the instruction's main rule. `printflush` clears the buffer **whether or not the text
+reached its destination**: the wrong link, a demolished block, not a message block at all —
+the buffer ends up empty regardless.
+
+<Card kind="error">
+Hence a common loss of text: `printflush display1` looks plausible, but a display does not take
+text — the line vanishes without a trace. Text is drawn on a display differently: `draw print`
+and then `drawflush`, and that is <Lesson group="draw">another group</Lesson>.
+</Card>
+
+## What a message block accepts
+
+| Limit | How much |
+| --- | --- |
+| text length | 400 characters — same as the buffer |
+| line breaks | no more than 24 |
+| spaces at the edges | trimmed |
+
+Text longer than 400 characters is not accepted at all — not trimmed, refused, and the old line
+stays. That differs from the buffer, which simply stops appending.
+
+## It has to be handed out in the same iteration
+
+`print` accumulates, `printflush` hands out and clears. If you forget to hand it out, the
+buffer survives, and on the second iteration all the same text is appended again — the line
+starts repeating itself until it hits four hundred characters.
+
+So the "fill in — hand out" pair almost always stands together, with no jumps and no waiting
+between them.
+
+<Card kind="error">
+**A silent failure: `printflush` above `print`.** The program runs in an endless loop, so that
+arrangement looks like it works: on the second iteration what was filled in on the first is
+flushed, and there is something on the board.
+
+Three things are wrong with it:
+
+- **the first iteration is empty** — an empty string goes into the block, and until the second
+  one there is nothing there;
+- **the line is always one iteration behind** — you see what was, not what is;
+- **stopping breaks everything** — the program halted after filling in, and the old line stays
+  in the block for ever.
+
+Checking is easy: press "restart" and walk one iteration a step at a time. If the text appears
+in the block only on the second iteration, the flush is in the wrong place.
+</Card>
+
+<Card kind="recap">
+- `printflush` hands the buffer to a message block — the only one that takes text.
+- It clears the buffer always, even if the target did not suit.
+- Text for a display is drawn with `draw print` and `drawflush`, not with this.
+- A message block takes up to 400 characters and up to 24 line breaks; longer is not accepted at all.
+- The flush goes **after** the printing: above, it only works thanks to the loop and lags by an iteration.
+</Card>
+
+<Card kind="task">
+Replace `message1` with `container1` and run it: no line appears under the block. The buffer is
+still cleared every iteration, only the text goes nowhere — a container does not take it.
+
+Then remove the `printflush` line altogether and look at the buffer: it starts growing by
+repetition. On the map there is no difference between "handed to the wrong one" and "handed to
+nobody" — in both cases the block is empty.
+
+Finally drag `printflush` to the very top of the program and walk two iterations a step at
+a time: the line appears only on the second and shows the previous iteration. That is the
+silent failure, and that is exactly how to spot it.
+</Card>

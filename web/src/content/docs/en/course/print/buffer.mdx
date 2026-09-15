@@ -1,0 +1,94 @@
+---
+title: The text buffer
+description: "How print piles text up in the processor's buffer and why it shows nothing by itself"
+lead: "The string is assembled piece by piece and sits inside the processor until it is handed out"
+difficulty: easy
+sidebar:
+    order: 1
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {BUFFER} from '../../../../../course/scenes/print.js'
+
+<LessonHead
+    difficulty="easy"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'basics/values', title: 'Number, object and text'},
+        {lesson: 'sensor/buildings', title: 'Properties of buildings'}
+    ]}
+/>
+
+Every processor has a text buffer — a string that `print` appends values to, one after
+another. While it is inside, nobody sees it: not the player, not the neighbouring blocks.
+
+<Example client:load scene={BUFFER} world={true} buffer={true} locale="en" />
+
+Press "step" five times and watch the bottom row of the table: the buffer fills up with
+`copper: 120 of 300`. Four `print`s — four pieces, glued together in the order the lines ran.
+
+<Card kind="note">
+The game has no buffer row: there the buffer is invisible, and the only way to learn its
+contents is to hand it out. Here it is shown as a separate row in the variables table —
+otherwise half the printing lessons would have to be explained with hand gestures.
+</Card>
+
+## The language has no string concatenation
+
+The familiar `"copper: " + copper` does not exist in mlog: `op add` with a string gives
+a number, not a string. Only the buffer can join text, and it does so in exactly one way —
+one piece per instruction.
+
+Hence the usual shape of such a program:
+
+```
+print "copper: "
+print copper
+print " of "
+print 300
+```
+
+Four lines for one line of text is normal. When there are many pieces,
+<Lesson group="format">`format`</Lesson> comes to the rescue: it substitutes values into
+a ready template.
+
+## The buffer is not endless
+
+It holds **400 characters**. Everything that does not fit is simply not appended: there is no
+error and no warning — the end of the line is just cut off.
+
+Four hundred characters is a lot for a caption and not much for a report. Printing in a loop
+overflows the buffer unnoticed, and the display or the block shows exactly the first part.
+
+<Card kind="error">
+The buffer is shared across the processor and lives **between iterations**: if it is not
+handed out, the next iteration's `print` keeps appending to the old contents. A hundred
+iterations later it is a porridge of a hundred repeats of one line — right up to the 400
+character limit.
+
+The buffer has to be handed out in the same iteration it was filled in.
+</Card>
+
+<Card kind="recap">
+- `print` appends a value to the processor's text buffer and shows nothing.
+- The buffer is one per processor, invisible in the game, and lives between iterations.
+- The language has no string concatenation: text is assembled piece by piece, one `print` per piece.
+- The buffer holds 400 characters; the excess silently disappears.
+</Card>
+
+<Card kind="task">
+Press "run" and watch what happens to the buffer: the line starts repeating itself —
+`copper: 120 of 300copper: 120 of 300…` — until it hits the limit. That is a buffer nobody
+handed out.
+
+Then press "restart" and swap the second and third lines: the buffer holds
+`120copper:  of 300`. The order of the pieces is the order of execution, and the buffer does
+no "joining it up nicely".
+
+Who it is handed to so it does not pile up is <Lesson group="printflush">the next
+group</Lesson>.
+</Card>

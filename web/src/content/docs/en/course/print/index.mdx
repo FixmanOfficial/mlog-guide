@@ -1,0 +1,29 @@
+---
+title: Print
+description: The group of lessons about print — the instruction that collects text in the processor's buffer
+lead: "Text in mlog isn't shown, it's accumulated: print writes into a buffer, and another instruction shows it"
+sidebar:
+    order: 0
+    label: Overview
+---
+
+import LessonList from '../../../../../course/LessonList.astro'
+
+`print` displays nothing. It **appends** a value to the processor's text buffer — a string that
+piles up inside and is visible to nobody until it is handed out.
+
+[`printflush`](/en/course/printflush/) hands it out — to a message block; or `draw print`
+together with `drawflush` — to a display.
+
+Because of that, text in mlog is assembled piece by piece: the label separately, the number
+separately, the separator separately. The language has no string concatenation at all, and it
+does not need one: the buffer *is* the concatenation.
+
+## Lessons
+
+<LessonList group="print" />
+
+## What you need first
+
+[«Number, object and text»](/en/course/basics/values/) — that a string is an object, not
+a number. The lesson will tell you the rest itself.
