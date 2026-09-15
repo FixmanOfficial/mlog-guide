@@ -1,0 +1,121 @@
+---
+title: Buildings by flag
+description: "How ulocate building finds a core, a turret, a store or a drill — yours or the enemy's — and what a block flag is"
+lead: "A building cannot be searched for by type, but it can be searched for by role: core, turret, store, generator"
+difficulty: medium
+sidebar:
+    order: 2
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {BUILDINGS} from '../../../../../course/scenes/ulocate.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'ulocate/ore', title: 'Where the ore is'},
+        {lesson: 'sensor/buildings', title: 'Properties of buildings'}
+    ]}
+/>
+
+<Example client:load scene={BUILDINGS} world={true} locale="en" />
+
+```
+ulocate building turret true @copper enemyX enemyY enemyFound enemys
+ulocate building turret false @copper oursX oursY allyFound ours
+```
+
+Two lines differing by one word: the first finds an **enemy** turret on tile 18, the second
+**ours** on tile six. It is the third field that decides whose building to look for.
+
+| Field | What is in it when searching for a building |
+| --- | --- |
+| first | `building` |
+| second | the **flag**: what kind of building it is by role |
+| third | `true` — theirs, `false` — ours |
+| fourth | an item — not needed for this kind of search |
+| fifth and sixth | the coordinates of what was found |
+| seventh | whether it was found |
+| eighth | **the building itself**, as an object |
+
+## Flags: a role instead of a name
+
+You cannot search for "a duo" or "a container" — you search for a building with the right
+**flag**. The flags are set in advance, in the game itself, and there are ten of them:
+
+| Flag | Who carries it |
+| --- | --- |
+| `core` | the core |
+| `storage` | container, vault |
+| `generator` | anything that produces power |
+| `turret` | any turret |
+| `factory` | factories: smelters, presses, mixers |
+| `repair` | repair point |
+| `battery` | battery |
+| `reactor` | reactor |
+| `drill` | any drill |
+| `shield` | force projector |
+
+A building can carry more than one: a thorium reactor is flagged both `generator` and
+`reactor` — it can be searched for either way.
+
+<Card kind="note">
+A conveyor, a wall, a sorter and the rest of the small stuff have no flags at all — `ulocate`
+will never find such buildings. The flags do not exist for logic: the game aims units and waves
+by them, and logic was merely allowed to read them.
+</Card>
+
+## The eighth field: the building itself
+
+`ulocate` gives back not only coordinates but the building as an object — and that is the most
+valuable part. From then on it is treated like any building:
+
+```
+ulocate building core false @copper x y found core
+sensor copperLeft core @copper
+sensor intact core @health
+```
+
+No link to that building is needed: `sensor` reads unlinked blocks too. `control`, though, does
+not — it requires a link.
+
+<Card kind="error">
+**The building does not always arrive as an object.** An enemy building is given as an object
+only if the unit can reach it — by weapon range or by build range. If it is further away, the
+coordinates arrive and the eighth field holds emptiness.
+
+With your own it is simpler: your own are always given as objects, at any distance.
+</Card>
+
+## A building's coordinate is not always whole
+
+Look at `storeX` in the example: `10.5`, although the container stands on tile ten.
+
+That is how it should be. A block with an even side — 2×2, 4×4 — has its centre not in the
+middle of a tile but on its corner, so its coordinates come out with a half. `ulocate` gives
+exactly the building's centre, as `sensor @x` does.
+
+For `ucontrol move` that is even handier: the unit flies to the middle of the store rather than
+to its corner.
+
+<Card kind="recap">
+- `ulocate building` finds the nearest building with the right **flag**, not the right name.
+- There are ten flags: core, storage, generator, turret, factory, repair, battery, reactor, drill, shield.
+- The third field chooses whose building to look for: theirs or yours.
+- The eighth field gives the building as an object — ready to be read with `sensor`.
+- An enemy building comes as an object only within the unit's reach.
+- A block with an even side has a centre coordinate with a half in it.
+</Card>
+
+<Card kind="task">
+Change `turret` in the first line to `storage`: there is no enemy store on the map, and
+`enemyFound` becomes zero.
+
+Then put `true` instead of `false` in the third line: your own turret stops being searched for,
+and the program finds the same enemy one the first line does.
+</Card>

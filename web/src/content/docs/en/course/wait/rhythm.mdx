@@ -1,0 +1,124 @@
+---
+title: A program's rhythm
+description: "How many times a second a program really needs to run and what extra iterations cost"
+lead: "Sixty iterations a second are rarely needed. How to choose a rhythm and how to set it"
+difficulty: medium
+sidebar:
+    order: 2
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {RHYTHM, TIMER} from '../../../../../course/scenes/wait.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'wait/pause', title: 'A pause in seconds'},
+        {lesson: 'basics/processor', title: 'How the processor works'}
+    ]}
+/>
+
+A program without `wait` runs at full speed always. For a blinking lamp that changes nothing;
+for a program polling a dozen blocks it changes everything: it will do that hundreds of times
+a second when twice would do.
+
+<Example client:load scene={RHYTHM} world={true} locale="en" />
+
+Press "run". `checks` grows by two a second, and that is enough: the copper in a container does
+not change sixty times a second, and if it did you would not see it.
+
+## How much is actually needed
+
+| Task | A sensible rhythm |
+| --- | --- |
+| watching the stock in a store | 2–5 times a second |
+| switching blocks on and off by a condition | 5–10 times a second |
+| leading a unit, drawing on a display | every tick, no `wait` |
+| counting something once a wave | once every few seconds |
+
+The rule is simple: **the rhythm is set by how fast the thing you are watching changes**.
+A store changes slowly, a unit every tick.
+
+## What extra iterations cost
+
+A processor has exactly `@ipt` instructions per tick, and it spends that budget on itself —
+other processors do not suffer from your hurry. Others pay:
+
+- **The lines below.** While the program spins its first loop, it never reaches the rest.
+  A tight loop with no `wait` is not "fast" but "this and nothing else".
+- **Readability.** A program that does everything every tick has no shape: you cannot say what
+  happens when.
+- **The display.** Drawing more often than the frame refreshes is pointless: the buffer is
+  flushed once anyway.
+
+<Card kind="note">
+The opposite happens too: `wait` where it does not belong. If a program is leading a unit or
+drawing, waiting turns motion into jerks. The sign is simple: if the result is visible to the
+eye, the rhythm should be frame-paced.
+</Card>
+
+## A rhythm without `wait`
+
+Sometimes waiting is not allowed — a program has to watch a store *and* lead a unit, say. Then
+the slow part is measured by **time**: a processor has `@time`, the game's time in
+milliseconds, and the program keeps a deadline in a variable and does not touch the slow part
+before it.
+
+<Example client:load scene={TIMER} world={true} locale="en" />
+
+Press "run" and watch two variables: `loops` runs in the tens while `checks` goes up by one
+a second. The program reads as "if the time has not reached the deadline, start the iteration
+over"; when it has, a new deadline is set a second ahead and the slow part is done.
+
+In the first second the iteration runs getting on for sixty times, and `sensor` fires once.
+
+<Card kind="note">
+Counting **iterations** instead of time is a poor substitute: their number depends on the
+program's length and on the processor, and a hyper processor gets ten times as many. Time is
+the same for everybody, and "once a second" stays once a second whatever you add to the program.
+
+Besides `@time` there is `@tick` — the tick number — and `@second`, the same seconds as
+a fraction. Only the units differ.
+</Card>
+
+<Card kind="error">
+Such a timer is not the same as `wait`: it does spend instructions, every iteration. It is only
+used when one program has to hold tasks of different rhythms; if there is only one task, `wait`
+is cheaper and more honest.
+</Card>
+
+## The precision of waiting
+
+`wait` measures time in game ticks, and a tick is 1/60 of a second at normal speed. When the
+game lags or is sped up, the ticks run differently, and `wait 1` will not be exactly a second by
+the clock. For logic that usually does not matter: a program lives in the game's time, not in
+yours.
+
+There is another reason not to rely on `wait` as a precise timer: the waiting starts from the
+moment the line runs, not from the end of the previous iteration, so the program's running time
+is added to the pause.
+
+<Card kind="recap">
+- The rhythm is chosen by how fast the watched thing changes, not "faster, just in case".
+- Each processor's instruction budget is its own: hurrying gets in the way of your own lines below.
+- Units and displays need a frame-paced rhythm, a store a few times a second.
+- When one program has two rhythms, the slow part is measured by `@time`, not by counting iterations.
+- `wait` measures game time and is not a precise timer.
+</Card>
+
+<Card kind="task">
+Change `wait 0.5` in the example to `wait 0.1` and run it: `checks` runs several times faster —
+nine a second instead of two. Not ten: a tick for the program itself is added to the wait, and
+that shows `wait` measures the pause **between** iterations rather than an iteration's length.
+
+The data is the same, though: there are still 120 copper in the container, and all seven extra
+checks went for nothing.
+
+Then remove `wait` altogether. The counter runs so fast the digits blur — that is how much work
+the program would be doing with no rhythm at all.
+</Card>

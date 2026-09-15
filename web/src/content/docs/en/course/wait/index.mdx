@@ -1,0 +1,30 @@
+---
+title: Wait
+description: The group of lessons about wait — the instruction that makes a processor pause
+lead: "A program spins sixty times a second even when it need not. wait is the way to stop doing that"
+sidebar:
+    order: 0
+    label: Overview
+---
+
+import LessonList from '../../../../../course/LessonList.astro'
+
+By default a processor works without stopping: it runs its instructions for the tick and
+carries on from the same place on the next one. A three-line program gets through an iteration
+several hundred times a second — and almost always that is wasted.
+
+`wait` says "not right now". The processor gives up the rest of the tick and comes back to the
+same line later, when the time is up.
+
+Its neighbours in the category do something similar in their own ways:
+[`end`](/en/course/end/) starts the iteration over, [`stop`](/en/course/stop/) halts the
+processor altogether.
+
+## Lessons
+
+<LessonList group="wait" />
+
+## What you need first
+
+[«How the processor works»](/en/course/basics/processor/) — about the tick and `@ipt`. Without
+that, a conversation about what exactly `wait` gives up hangs in the air.

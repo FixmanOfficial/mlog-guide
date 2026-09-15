@@ -1,0 +1,112 @@
+---
+title: Damaged buildings and checking the find
+description: "The damaged mode, why the «found» field is always checked and why the answer does not refresh every iteration"
+lead: "The fourth kind of search looks for what needs repairing. And on the way, why the answer sometimes sticks"
+difficulty: medium
+sidebar:
+    order: 3
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {DAMAGED} from '../../../../../course/scenes/ulocate.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'ulocate/buildings', title: 'Buildings by flag'},
+        {lesson: 'jump/guards', title: 'Nested conditions and early exit'}
+    ]}
+/>
+
+<Example client:load scene={DAMAGED} world={true} locale="en" />
+
+```
+ulocate damaged core true @copper damagedX damagedY found damaged
+```
+
+There are two duos on the map, and one of them is damaged: it has `60` health out of `250`.
+That is the one the search finds — its intact neighbour does not count.
+
+`damaged` looks only at **your own** buildings: it does not use the "flag" and "is it theirs"
+fields at all. It finds the building nearest the unit whose health is below its maximum.
+
+That is exactly what a repairer needs:
+
+```
+ubind @poly
+ulocate damaged core true @copper x y found aim
+jump 0 equal found 0
+ucontrol approach x y 4 0 0
+```
+
+The poly flies up to the damaged building, and repairs it by itself in the game: repairing is
+its own business and needs no order. All the program has to do is bring it to the work.
+
+## "Found" is always checked
+
+<Card kind="error">
+**When a search finds nothing, the old coordinates stay where they are.** `ulocate` does not
+clear them and does not touch them at all — only the seventh field changes.
+
+A program that does not check this behaves especially unpleasantly: everything was being
+repaired and working, the last building got repaired — and the unit hangs for ever over the
+place where a bit of damage once was.
+
+So every `ulocate` is followed by a check, and only then by an order.
+</Card>
+
+That is a general rule for all four kinds of search, not a quirk of `damaged`.
+
+## The answer does not refresh every iteration
+
+`ulocate`, like `uradar`, **recomputes its find once every 40 ticks**, and in between gives
+back the previous answer. The reason is simple: walking the whole map is expensive, and
+a program spins several hundred times a second.
+
+A couple of habits follow from that:
+
+- do not try to "refresh" a search by repeating the instruction several times in a row: the
+  answer will be the same;
+- do not be surprised that a repaired building counts as damaged for another two thirds of
+  a second.
+
+<Card kind="note">
+**`ulocate` takes the unit under control.** This is not just a question: the instruction gives
+the unit a controller and extends the ten-second term exactly as `ucontrol move` does.
+
+So a program that only searches and commands nothing still keeps the unit to itself — it will
+not return to its own business while that program runs.
+</Card>
+
+## The fourth kind: `spawn`
+
+`ulocate` has a fourth kind of search — `spawn`, the point where enemy waves appear. It works
+the same way: coordinates plus "found", with no building.
+
+<Card kind="note">
+**The course sandbox has no waves**, so there is no example for `spawn` here. In the game it is
+in place — it finds the nearest drop point, the one defences are built around.
+</Card>
+
+<Card kind="recap">
+- `ulocate damaged` finds the nearest damaged building of **yours**; it needs neither a flag nor "is it theirs".
+- Nothing found — the coordinates stay as they were, only the "found" field changes.
+- Checking the find is compulsory for every kind of search.
+- The answer is recomputed once every 40 ticks.
+- A search holds the unit under control, like an ordinary order.
+</Card>
+
+<Card kind="task">
+Change the first field in the example from `damaged` to `building`, the second from `core` to
+`turret`, and the third from `true` to `false`: now it searches for your nearest turret,
+damaged or not. It finds the same one — just for a different reason: it is nearer the unit.
+
+Then keep `building turret` but put `true` back: there are no enemy turrets on the map, and
+`found` becomes zero. The coordinates keep the previous answer — and if there has been no
+search yet, they simply stay empty: the instruction does not touch them.
+</Card>

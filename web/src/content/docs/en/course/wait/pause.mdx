@@ -1,0 +1,92 @@
+---
+title: A pause in seconds
+description: "How wait measures a pause, why waiting spends no instructions and what wait 0 does"
+lead: "Wait this many seconds — and spend not a single instruction on the waiting"
+difficulty: easy
+sidebar:
+    order: 1
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {TICKS} from '../../../../../course/scenes/wait.js'
+
+<LessonHead
+    difficulty="easy"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'basics/processor', title: 'How the processor works'},
+        {lesson: 'jump/loops', title: 'Loops'}
+    ]}
+/>
+
+`wait` has one field — how many seconds to wait. Fractions are allowed: `wait 0.1` is six
+ticks, `wait 2.5` is a hundred and fifty.
+
+<Example client:load scene={TICKS} world={false} locale="en" />
+
+Press "run" and watch `loops`: one a second, not a hundred. The program does its job once
+a second and keeps quiet the rest of the time.
+
+## Waiting spends no instructions
+
+Inside, `wait` is simple: while the time is not up it **puts the counter back on itself** and
+gives up the rest of the tick. On the next tick the processor hits the same line again, checks
+the time and gives up the tick again.
+
+That matters: while a program is waiting it runs nothing. The `@ipt` budget is not spent, and
+the room in the tick goes to your other lines — or rather, will go to them once the wait is
+over.
+
+<Card kind="note">
+Zero and negative numbers mean "just give up the rest of the tick": no waiting needed, but the
+next line runs on the next tick. It is the cheapest way to say "that is all for now": one
+instruction and no waiting.
+</Card>
+
+## How many iterations come out
+
+The same one-useful-line program on a hyper processor, 60 ticks:
+
+| Tail | Iterations per second |
+| --- | --- |
+| nothing | 1475 |
+| `wait 0` | 59 |
+| `wait 0.5` | 2 |
+| `wait 1` | 1 |
+
+The difference between the first row and the second is the price of waiting: the program stops
+spinning for nothing. The difference between the second and the third is set by you, and that
+is <Lesson lesson="wait/rhythm">the next lesson</Lesson>.
+
+## Game time, not yours
+
+`wait` measures a pause in game ticks, and a tick is 1/60 of a second at normal speed. When the
+game is sped up or lagging, the ticks run differently, and `wait 1` will not be exactly
+a second by the clock on the wall. For logic that is usually right: a program lives in the
+game's time.
+
+<Card kind="error">
+`wait` is not a precise timer for another reason too: the pause is measured **between**
+iterations, so the program's own running time is added to it. `wait 0.1` in a ten-instruction
+iteration gives nine iterations a second, not ten.
+</Card>
+
+<Card kind="recap">
+- `wait` has one field — seconds, fractions allowed.
+- While the time is not up, the counter returns to the same line and the tick is given up.
+- Waiting spends no instructions: the processor runs nothing meanwhile.
+- `wait 0` means "give up the rest of the tick", with no waiting.
+- The pause is measured in game time and adds to the program's own running time.
+</Card>
+
+<Card kind="task">
+Set `wait 0.5` and run it: the counting goes twice as fast — two iterations a second.
+
+Then set `wait 0` and run it again: the counter runs at about sixty a second, one iteration per
+tick. That is the ceiling for a program that gives up a tick every iteration — faster is only
+possible with no `wait` at all.
+</Card>

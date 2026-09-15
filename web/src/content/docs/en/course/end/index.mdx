@@ -1,0 +1,96 @@
+---
+title: End
+description: "What end does: returns the program to the first line without giving up the tick"
+lead: "Start the iteration over — and, against expectations, without giving up the tick"
+difficulty: easy
+sidebar:
+    order: 0
+    label: End of an iteration
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {ENDING} from '../../../../../course/scenes/wait.js'
+
+<LessonHead
+    difficulty="easy"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'basics/processor', title: 'How the processor works'},
+        {lesson: 'jump/branch', title: 'Condition and branching'}
+    ]}
+/>
+
+`end` has no fields. It does exactly one thing: it puts the number of lines in the program into
+`@counter`. That is past the edge, and a number past the edge resets the counter — so the
+program starts from the first line.
+
+<Example client:load scene={ENDING} world={false} locale="en" />
+
+Press "step" four times: `loops` becomes two and `after` stays empty. The line below `end` is
+unreachable — execution never gets to it.
+
+## The program loops without it anyway
+
+That is the first thing to understand: **`end` is not needed to make a program repeat**. It
+starts over by itself when the lines run out.
+
+`end` is needed when an iteration has to be cut short **early**: to leave a branch without
+running everything written below.
+
+```
+jump 4 greaterThanEq stock 100
+set low 1
+end
+set low 0
+```
+
+Without the third line both branches would run one after the other. That is the lesson
+<Lesson lesson="jump/branch">"Condition and branching"</Lesson>.
+
+## It does not give up the tick
+
+Here is where the surprise lives. `wait` gives up the rest of the tick and `end` does not: it
+only moves the counter. If the processor still has instructions in its budget, it goes straight
+round the program again, in the same tick.
+
+The same one-useful-line program on a hyper processor, 60 ticks:
+
+| Tail | Iterations per second |
+| --- | --- |
+| nothing | 1475 |
+| `end` | 738 |
+| `wait 0` | 59 |
+
+`end` is twice as slow as an empty tail for exactly one reason: it counts as an instruction
+itself, so the iteration went from one line to two. It gives no pause at all.
+
+<Card kind="error">
+Hence a common mistake: putting `end` at the end of a program "so as not to load the
+processor". It does not work — the load does not change. Only <Lesson
+lesson="wait/pause">`wait`</Lesson> can give up a tick.
+</Card>
+
+<Card kind="note">
+The variables window shows how it works: after `end`, `@counter` holds the number of lines in
+the program, and on the next step it is zero. More about the counter as a variable is
+<Lesson lesson="advanced/counter">in "Advanced"</Lesson>.
+</Card>
+
+<Card kind="recap">
+- `end` puts the line count into the counter, and the program starts from the first line.
+- It is not needed for repetition: the program loops anyway.
+- It is needed to cut an iteration short — to leave a branch, for instance.
+- `end` does not give up the tick and does not reduce the load.
+</Card>
+
+<Card kind="task">
+Replace `end` with `wait 0` and run the example: `after` still stays empty — the line below is
+unreachable not because of `end` but because execution never gets there.
+
+`loops`, though, behaves differently: with `end` the iteration finishes straight away, with
+`wait 0` on the next tick.
+</Card>

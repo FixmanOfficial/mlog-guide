@@ -1,0 +1,105 @@
+---
+title: Where the ore is
+description: "How ulocate ore finds the nearest tile with the ore you want and how to tie the search to mining"
+lead: "Ore coordinates are not written out by hand: everybody's map is different, and the search is one line"
+difficulty: medium
+sidebar:
+    order: 1
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {ORE, LEAD} from '../../../../../course/scenes/ulocate.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'ucontrol/mine', title: 'Mining'},
+        {lesson: 'ubind/types', title: 'Binding by type'}
+    ]}
+/>
+
+<Example client:load scene={ORE} world={true} locale="en" />
+
+```
+ubind @mono
+ulocate ore core true @copper oreX oreY found building
+ucontrol mine oreX oreY 0 0 0
+```
+
+Two lines find copper and send the mono to mine it. On this map the nearest copper lies on tile
+`12 7` — that is where the unit flies, and `cargo` starts growing.
+
+| Field | What is in it when searching for ore |
+| --- | --- |
+| first | `ore` |
+| second | a block flag — unused when searching for ore |
+| third | "search for an enemy" — also unused |
+| fourth | the **item**: `@copper`, `@lead`, `@titanium` |
+| fifth and sixth | where to put the tile's coordinates |
+| seventh | whether it was found |
+| eighth | the building — ore has none, emptiness arrives |
+
+`ulocate` has eight fields for all four kinds of search at once, and the spare ones are simply
+not looked at. The game's editor shows this plainly: some fields go dim as soon as you
+choose `ore`.
+
+## It finds the one nearest the unit
+
+<Example client:load scene={LEAD} world={true} locale="en" />
+
+The same map also has lead — on the other side. The search gives `5 3`, because it measures
+distance **from the unit**, not from the processor and not from the core.
+
+So two units running the same program fly to different deposits: each to its own nearest one.
+There is no need to spread them over the map separately.
+
+<Card kind="error">
+**The ore may not be there at all.** There is no titanium on this map, and
+`ulocate ore … @titanium` answers with a zero in the "found" field while leaving the coordinates
+from the previous search.
+
+So `found` is checked **before** an order is given: `ucontrol mine` with somebody else's
+coordinates sends a unit to mine an empty spot.
+
+```
+ulocate ore core true @titanium x y found building
+jump 0 equal found 0
+ucontrol mine x y 0 0 0
+```
+</Card>
+
+## What counts as ore
+
+The search looks for a tile the wanted item is mined from. It looks not only at the
+**overlay** — the map layer where ores are drawn — but at the floor itself: a sand floor drops
+sand, and for the search that is ore like any other.
+
+<Card kind="note">
+The tile found is not checked against the **mining tier**. A mono will find a titanium deposit
+and hand over its coordinates, and then be unable to mine there — `mine` will say nothing. The
+mining tier is the program's business: either search only for what the unit can take, or check
+`@mining` after the order.
+</Card>
+
+<Card kind="recap">
+- `ulocate ore` finds the tile with the wanted ore nearest **the unit**.
+- The item goes in the fourth field; the other fields are not needed for this kind of search.
+- The coordinates come in tiles and go straight into `ucontrol mine`.
+- No such ore on the map — "found" is zero and the coordinates stay as they were.
+- What is found is not checked against the unit's mining tier.
+</Card>
+
+<Card kind="task">
+In the first example change `@copper` to `@lead`: the mono turns round and flies the other
+way — to the lead on tile `5 3`.
+
+Then set `@titanium`: `found` becomes zero and the coordinates stay **empty** — the search did
+not touch them at all. `ucontrol mine` with emptiness in its fields sends the unit to mine the
+corner of the map, and nothing happens: you have to work it out from the variables. That is
+exactly the mistake the "found" check saves you from.
+</Card>

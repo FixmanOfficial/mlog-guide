@@ -1,0 +1,84 @@
+---
+title: Stop
+description: "What stop does: halts the processor until the program is edited or restarted"
+lead: "Not a pause but the end of work: after stop the processor runs nothing"
+difficulty: easy
+sidebar:
+    order: 0
+    label: A full halt
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {STOPPED} from '../../../../../course/scenes/wait.js'
+
+<LessonHead
+    difficulty="easy"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'basics/processor', title: 'How the processor works'},
+        {lesson: 'wait/pause', title: 'A pause in seconds'}
+    ]}
+/>
+
+`stop` has no fields either, and it does the simplest thing that can be done to a processor:
+it halts it.
+
+<Example client:load scene={STOPPED} world={false} locale="en" />
+
+Press "run" and wait: `loops` stays at one and `afterStop` never appears. The processor ran the
+first line, hit `stop` — and that was that.
+
+## How it works
+
+`stop` puts the counter back on itself and gives up the tick — like `wait`, only for ever: the
+time it is waiting for never comes. On the next tick the processor hits the same line again.
+
+In the game such a processor looks switched off, and that is not a metaphor: it really does
+nothing until something wakes it from outside.
+
+## How to wake it
+
+| What to do | What happens |
+| --- | --- |
+| edit the program | the edit starts it over: variables cleared, counter at zero |
+| "Edit…" → "Restart" | the same, without editing |
+| demolish and rebuild | a new block with an empty program |
+
+<Card kind="error">
+`stop` is **not a pause**. Neither a wait nor a jump after it will run: there is nothing left to
+run. If you need to "wait", that is <Lesson lesson="wait/pause">`wait`</Lesson>; if you need
+"do nothing until something happens", that is a loop with a check.
+</Card>
+
+## What it is for
+
+There are exactly two cases, and both are rare.
+
+**The program has done its job.** A one-off setup when a map starts, laying out a display,
+handing out flags to units — things that make sense to do once. Without `stop` that would spin
+sixty times a second for nothing.
+
+**The program has realised it cannot go on.** The data does not add up, the block is missing,
+the link is wrong — stopping is more honest than carrying on doing who knows what. And the
+variables table then shows which line everything stopped at.
+
+<Card kind="recap">
+- `stop` puts the counter back on itself and gives up the tick — permanently.
+- After that the processor runs nothing and looks switched off.
+- It can only be woken from outside: by an edit, a restart or replacing the block.
+- This is not a pause: `wait` is for pausing.
+- It is for one-off programs and for halting honestly when something is broken.
+</Card>
+
+<Card kind="task">
+Replace `stop` with `end` and run it: `loops` starts climbing, and `afterStop` still stays
+empty. The line after `end` is unreachable in exactly the same way — only now the processor
+keeps working.
+
+Then put `wait 5` in place of `stop`: the counting goes on, but once every five seconds. All
+three instructions interrupt a program's progress, and the only difference is by how much.
+</Card>

@@ -1,0 +1,32 @@
+---
+title: Unit Locate
+description: "The group of lessons about ulocate — searching the map from a unit: ore, buildings by flag, damaged structures"
+lead: "A radar looks for units; ulocate looks for places: a tile with ore, the nearest enemy turret, a damaged building of yours"
+sidebar:
+    order: 0
+    label: Overview
+---
+
+import LessonList from '../../../../../course/LessonList.astro'
+import Card from '../../../../../course/Card.astro'
+
+`ulocate` answers the question "where is the nearest". It searches **from the bound unit**, and
+what it finds is not units but places on the map: a tile with ore or a building.
+
+Hence its shape: the answer is always coordinates, a "found" flag and — if a building is
+involved — the building object itself.
+
+<Card kind="note">
+`ulocate`, like the orders, **takes the unit under control**: a controller is created and the
+control term starts counting again. Searching the map is not a question from the sidelines but
+part of working with the unit.
+</Card>
+
+## Lessons
+
+<LessonList group="ulocate" />
+
+## What you need first
+
+[«Binding by type»](/en/course/ubind/types/) — `ulocate` can only search from a unit. The
+lessons will tell you the rest themselves.
