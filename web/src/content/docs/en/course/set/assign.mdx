@@ -1,0 +1,98 @@
+---
+title: Assignment and copying
+description: "How set puts a value into a variable and what copying one variable into another means"
+lead: "Put down a number, a text or another variable's contents — and how a copy differs from the original"
+difficulty: easy
+sidebar:
+    order: 1
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {ASSIGN} from '../../../../../course/scenes/set.js'
+
+<LessonHead
+    difficulty="easy"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'basics/names', title: 'Variables and names'},
+        {lesson: 'basics/values', title: 'Number, object and text'}
+    ]}
+/>
+
+`set` is the first instruction almost every program puts down: before anything can be computed,
+the starting numbers have to come from somewhere.
+
+Press "step" four times and watch the table.
+
+<Example client:load scene={ASSIGN} world={false} locale="en" />
+
+## What can be put in
+
+**A number** is written as it is: `5`, `-0.25`, `1e6`. A point, not a comma; the minus sign
+sits against the number.
+
+**Text** goes in double quotes: `"copper"`. In the variables table its type is `string`, and
+not every instruction works with it: text cannot be added to a number, but it can be printed.
+
+**A taken name** — `@copper`, `@this`, `@time`. These are the game's constants, and they are
+<Lesson lesson="set/content">the next lesson</Lesson>.
+
+**Another variable** — then the value is copied. More on that below.
+
+<Card kind="note">
+The second field accepts both a variable's name and a value — the block does not care. That is
+exactly why a typo in a name is not an error: `set copy stok` simply copies emptiness.
+</Card>
+
+## A copy does not follow the original
+
+The example's third line is `set copy stock`, and at that moment `stock` holds a five. The
+fourth changes `stock` to 99, and `copy` stays a five.
+
+That is the main rule: **the value is copied, not a link**. mlog has no "reference to
+a variable" and no way to say "let this variable always equal that one". Every `set` line is
+a one-off action: take what is on the right **now** and put it on the left.
+
+<Card kind="error">
+Hence a common mistake: copy a value once and expect it to keep updating. If `copy` has to
+follow `stock`, the line `set copy stock` has to run again and again — which the program does
+anyway if the line sits in the main loop.
+</Card>
+
+## And if there is an object on the right
+
+A value is not always a number. If a variable holds a building or an item, that is what gets
+copied: `set other container1` puts that very same container into `other`.
+
+It does not make a copy of the container — there is one container, it is just that two
+variables now look at it. As with a number, copying is a one-off: demolish the container and
+both variables keep a building that no longer exists.
+
+## What `set` cannot do
+
+- **Compute.** `set total stock + 1` cannot be written: addition is `op`.
+- **Write into taken names.** `set @copper 7` does nothing. The one exception is `@counter`,
+  where writing means a jump.
+- **Declare a variable in advance.** mlog has no "declare a variable" line: a variable appears
+  from its first mention, and `set` is simply the first place that usually happens.
+
+<Card kind="recap">
+- `set` puts a number, a text, a game constant or another variable's value into a variable.
+- The value is copied, not a link: after the copy the original can change freely.
+- Copying is a one-off — for the value to keep up, the line has to run again.
+- A building or an item is copied the same way: both names look at the same object.
+- `set` has no calculations at all; `op` is for those.
+</Card>
+
+<Card kind="task">
+Swap the example's third and fourth lines and run the iteration again: now `copy` becomes 99,
+because what is copied is whatever the variable holds **at the moment** the line runs.
+
+Then type `text` instead of `"copper"` in the second line — with no quotes. That is no longer
+text but a variable's name: the field accepts it, the program does not break, and `text` ends
+up holding emptiness, because nobody ever put anything into a variable by that name.
+</Card>

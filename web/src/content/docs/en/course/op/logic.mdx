@@ -1,0 +1,111 @@
+---
+title: Comparisons and logic
+description: How to compare two numbers, join conditions, and why op not is not a negation
+lead: A comparison is a number too, and it can be worked with like one
+difficulty: easy
+sidebar:
+    order: 3
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import {LOGIC, NEGATION} from '../../../../../course/scenes/op.js'
+
+<LessonHead
+    difficulty="easy"
+    lead={frontmatter.lead}
+    needs={[{lesson: 'op/arithmetic', title: 'op: arithmetic'}]}
+/>
+
+A comparison in mlog is not a special construct but an `op` operation like addition. Its answer
+is a number too: **1 if true and 0 if not**. It can be put into a variable, added to another,
+passed on — it is no different from an ordinary number.
+
+<Example client:load scene={LOGIC} locale="en" />
+
+There is 40 copper and the limit is 100. The first comparison answers with a one, the second
+with a zero.
+
+| Operation | In the block | True when |
+| --- | --- | --- |
+| `equal` | `==` | the numbers are equal (with a tolerance of 0.000001) |
+| `notEqual` | `not` | they are not equal |
+| `lessThan` | `<` | the first is less than the second |
+| `lessThanEq` | `<=` | less than or equal |
+| `greaterThan` | `>` | greater |
+| `greaterThanEq` | `>=` | greater than or equal |
+
+The second column is what is written on the button in the block. It does not always match:
+"not equal" is labelled `not`, with no equals sign at all, and a confusion of its own comes with
+that — see below.
+
+About `equal`'s tolerance and how `strictEqual` differs from it, see the lesson
+[«Whole numbers and precision»](/en/course/op/integers/).
+
+## Two conditions at once
+
+`land` is "and": a one only if both numbers are non-zero. In the example `both` came out zero,
+because the second condition did not hold.
+
+There is, however, **no separate "or"** operation in mlog. `or` is used instead — it is
+bitwise, but on ones and zeroes it behaves exactly like "or", because 1 or 0 in bits is just
+1 or 0. In the example `atLeastOne` came out a one.
+
+<Card kind="note">
+`or` only lets you down when the variables hold arbitrary numbers rather than ones and zeroes:
+`or` of 2 and 4 gives 6. For a check of "is at least one of these true" that still does — 6 is
+not zero — but if you expected exactly a one, you will not get it. It is safer to bring the
+numbers to 0 and 1 with a comparison first and join them after.
+</Card>
+
+## `not` is not a negation
+
+The group's most common trap, and it starts with the labels. The operation list has `not` —
+a bitwise inversion — but on the button it is labelled `flip`. And the label `not` goes to
+a completely different operation: that is how "not equal", `notEqual`, is written.
+
+| In the reference | On the button | What it is |
+| --- | --- | --- |
+| `notEqual` | `not` | not equal |
+| `not` | `flip` | bitwise inversion |
+
+Now for the second row: `op not` is a **bitwise inversion**, not a logical "not":
+
+<Example client:load scene={NEGATION} locale="en" />
+
+`not 1` gives −2, not 0. What happens to the bits is in the lesson
+[«Bitwise operations»](/en/course/op/bitwise/); what matters here is something else: the
+operation is no good for negation.
+
+**A logical "not" is written as a comparison with zero:** `op equal answer condition 0`. If the
+condition was a one it becomes zero; if it was zero it becomes one.
+
+<Card kind="error">
+`op not` in a condition is a mistake you cannot see: the program does not crash, nothing is
+underlined, it is just that instead of "not" you get −2, and −2 is not zero, that is, "yes".
+The check works backwards, and silently.
+</Card>
+
+## Why store a comparison at all
+
+Branching in mlog is done not by `op` but by `jump`, whose condition is written right into the
+jump block. A comparison through `op` is for when the answer has to be **kept** rather than
+checked once: to add up several conditions and see how many held, to hand a number to `print`,
+to put it into memory, to give it back to another processor.
+
+<Card kind="recap">
+- A comparison is an ordinary `op` operation; its answer is 1 or 0.
+- `land` is "and"; there is no separate "or", `or` is used instead.
+- `not` is a bitwise inversion, not a negation: `not 1` is −2.
+- A logical "not" is `equal` with zero.
+</Card>
+
+<Card kind="task">
+Change `copper` in the example from 40 to 150 and watch all four answers change: `low` becomes
+zero, `plenty` a one, `both` stays zero, `atLeastOne` a one.
+
+Then add the line `op equal notLow low 0` and see that it gives a one when `low` is zero. That
+is a logical "not", written correctly.
+</Card>

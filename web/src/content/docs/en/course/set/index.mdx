@@ -1,0 +1,33 @@
+---
+title: Set
+description: The group of lessons about set — the instruction that puts a value into a variable
+lead: "The simplest instruction in the language: take a value and put it into a variable"
+sidebar:
+    order: 0
+    label: Overview
+---
+
+import LessonList from '../../../../../course/LessonList.astro'
+
+`set` computes nothing and asks nobody anything. It puts a **value** into a **variable** —
+and that is all.
+
+It has two fields: the variable's name on the left, what to put into it on the right. The
+right-hand side can be any of four things:
+
+- a **number** — `5`, `-0.25`, `1e6`;
+- **text in quotes** — `"copper"`;
+- **a name the game has taken** — `@copper`, `@this`, `@time`;
+- **another variable** — then the value is copied.
+
+There are no expressions on the right: `count + 1` is not a value but a calculation, and that
+lives in [`op`](/en/course/op/). `set` can only put down something ready.
+
+## Lessons
+
+<LessonList group="set" />
+
+## What you need first
+
+[«Variables and names»](/en/course/basics/names/) — where variables come from and which names
+are already taken. The lesson will tell you the rest itself.

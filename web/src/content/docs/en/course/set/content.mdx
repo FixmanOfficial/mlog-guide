@@ -1,0 +1,119 @@
+---
+title: Content constants
+description: "What @copper, @router and @poly are, where they come in handy and how @this differs from them"
+lead: "An item, a liquid, a block and a unit are values like a number: they go into variables and get passed to instructions"
+difficulty: easy
+sidebar:
+    order: 2
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {CONTENT} from '../../../../../course/scenes/set.js'
+
+<LessonHead
+    difficulty="easy"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'set/assign', title: 'Assignment and copying'},
+        {lesson: 'basics/values', title: 'Number, object and text'}
+    ]}
+/>
+
+`@copper` is not a number and not a text. It is copper itself: the same item that sits in
+a container and rides a conveyor. The game creates such a constant for every thing it has.
+
+| What | How many | Examples |
+| --- | --- | --- |
+| items | 20 | `@copper`, `@silicon`, `@thorium` |
+| liquids | 11 | `@water`, `@slag`, `@cryofluid` |
+| blocks | 262 | `@router`, `@vault`, `@duo`, `@air` |
+| unit types | 56 | `@poly`, `@mono`, `@flare` |
+
+Names are written the way the thing is called in the game, in English and with hyphens:
+`@surge-alloy`, `@phase-fabric`, `@titanium-conveyor`.
+
+## They go into variables
+
+Press "step" five times.
+
+<Example client:load scene={CONTENT} world={true} locale="en" />
+
+In the table `item`, `block` and `unit` have the type `content` — not a number, not a text,
+but a thing. No arithmetic comes of them: copper cannot be added to a router, but they can be
+passed where a thing is expected.
+
+Where that comes in handy:
+
+- **`sensor`** — ask a container how much copper it holds;
+- **`control config`** — set a sorter to the item you want;
+- **`ubind`** — take control of a unit of the right type;
+- **`draw image`** — draw a thing's icon on a display.
+
+<Card kind="note">
+With `set` the thing's name is typed by hand: there are two fields and both are simple. But
+`sensor`, `ubind` and `draw image` have a pencil next to the field, and it opens a table of
+every item, liquid, block and unit — which is also the quickest way to check how a name is
+spelt.
+</Card>
+
+## One name, two roles
+
+The example's last line is `sensor amount container1 item`, and `item` holds `@copper`.
+The answer: 120, the amount of copper in the container.
+
+This is worth pausing on. `@copper` in the property field means "how much copper", and
+`@copper` in the value field means "copper itself". The name is one, and the role depends on
+where it was put — and that is not confusion but how the language is built: `sensor` looks at
+what it was handed and answers differently to a thing and to a property like `@health`.
+
+To `sensor` there is no difference between `@copper` typed straight into the field and
+`@copper` arriving from a variable. So items can be walked through the same way: put them into
+a memory cell and ask about them in turn.
+
+## `@this` and its neighbours
+
+A separate little pile of constants is about the processor itself:
+
+| Name | What it is |
+| --- | --- |
+| `@this` | the processor's own building, of type `building` |
+| `@thisx`, `@thisy` | its coordinates in tiles, numbers |
+| `@links` | how many links it has |
+| `@ipt` | how many instructions it runs per tick |
+
+`@this` is a building, like `container1`: you can ask it for properties and pass it where
+a block is expected. In the example it sits in the variable `self`, and the table shows the
+processor's name.
+
+<Card kind="error">
+Constants are **read-only**, and the variables table does not show them at all — neither
+`@copper` nor `@this`. The variables window shows what changes; what does not change lives in
+a separate list, opened by the "Built-in variables" button.
+</Card>
+
+## When a name is not enough
+
+Sometimes an item is needed by index rather than by name: to walk all twenty without writing
+each one out. There is a separate instruction for that — <Lesson
+group="lookup">`lookup`</Lesson> — which fetches a thing by its index in the game.
+
+<Card kind="recap">
+- `@copper`, `@router`, `@poly` are thing-values: items, liquids, blocks and unit types.
+- In the table their type is `content`, and arithmetic does not work on them.
+- They go into variables and get passed to instructions that expect a thing.
+- The same name can be both a value and a property — the field decides the role.
+- `@this` is the processor's own building, `@thisx` and `@thisy` its coordinates.
+</Card>
+
+<Card kind="task">
+Replace `@copper` in the first line with `@lead` and run the example again: `amount` becomes
+forty, because that is how much lead is in the container. The name has to be typed by hand —
+`set` has no pencil, but the last line, with `sensor`, does.
+
+Then type `@totalItems` into the last line instead of `item`. That is no longer a thing but
+a property, and the answer becomes 160 — all the container's items together.
+</Card>

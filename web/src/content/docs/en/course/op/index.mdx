@@ -1,0 +1,33 @@
+---
+title: Operation
+description: The group of lessons about op — everything the processor can compute
+lead: "Everything the processor can compute: from addition to sine and noise"
+sidebar:
+    order: 0
+    label: Overview
+---
+
+import LessonList from '../../../../../course/LessonList.astro'
+
+`op` is the language's main computing instruction. Add two numbers, compare them, take
+a remainder, find the angle between two points, roll a die — all of that is one instruction
+with forty-five operations inside it.
+
+It is always built the same way: **where to put it**, **what to do** and **with what** — with
+one number or with two. The operation is chosen from a list, and it decides whether the block
+shows a second field: sine and absolute value have none at all.
+
+The main thing to accept straight away: **one operation per line**. Expressions like
+`(a + b) * 2` do not exist in mlog — they unfold into several lines with an intermediate
+variable. That is not a limitation of the editor, it is how the language is built.
+
+The full list of operations is in the [reference](/en/reference/instructions/op/).
+
+## Lessons
+
+<LessonList group="op" />
+
+## What you need first
+
+Nothing beyond knowing what a variable is. If the word "variable" is unfamiliar, start with
+[«How the processor works»](/en/course/basics/processor/).

@@ -1,0 +1,86 @@
+---
+title: Randomness and noise
+description: How to roll a die in mlog, why rand gives a fraction, and how noise differs from a random number
+lead: "Two operations about unpredictability: one different every time, the other smooth"
+difficulty: medium
+sidebar:
+    order: 6
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {RANDOM, NOISE} from '../../../../../course/scenes/op.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[{lesson: 'op/integers', title: 'op: whole numbers and precision'}]}
+/>
+
+`rand` gives a random number **from zero up to but not including the one you give**, and that
+number is fractional. A die comes out of it in two lines: first the throw, then rounding down.
+
+<Example client:load scene={RANDOM} locale="en" />
+
+`op rand throw 6` gives a fractional number below six — say 2.09; `floor` cuts the fraction and
+leaves 2; add one and you get 1 to 6, like a real die. Press "step" a few times: the throw is
+different every time.
+
+The order matters here. Round `rand 5` first and then add, and a six never comes up at all;
+take `rand 7` and round it, and a seven turns up now and then. An N-sided die is always
+`rand N`, `floor`, `add 1`.
+
+<Card kind="note">
+Every `rand` is a new throw. Two lines in a row with `op rand a 10` and `op rand b 10` give
+**different** numbers, not the same one: `rand` is not a property you ask for but an action.
+</Card>
+
+## In the example the numbers are always the same
+
+Press "restart" and run the example again — the same thing comes up. The game is not like that:
+there the generator is seeded randomly at start-up, and the same program gives different
+numbers every time.
+
+Here the seed is fixed on purpose: the lesson promises numbers, the tests check them, and an
+example that shows something different every time can teach nothing. Keep that in mind when you
+move a program into the game: there will be no repeats there.
+
+## Noise is not randomness
+
+<Example client:load scene={NOISE} locale="en" />
+
+`noise` takes two coordinates and gives a number roughly between −1 and 1. It is **not
+random**: the same point always has the same answer, and neighbouring points have nearly the
+same one.
+
+In the example the points (10, 10) and (10.01, 10) gave −0.524 and −0.520 — neighbours, and
+their answers are close together. (40, 10) is far away, and the answer there is quite
+different: 0.908.
+
+That is exactly what makes noise useful. A random number jumps about, and anything built on it
+flickers; noise changes smoothly, so hills, ore patches and stains on a map come out of it —
+everything that should look uneven but not torn. The game draws terrain with it, and in logic
+it is handy for a smoothly wandering value: a speed, a delay, a brightness.
+
+<Card kind="recap">
+- `rand N` is a fractional number from zero up to but not including N.
+- A die is `rand N`, then `floor`, then `add 1`.
+- Every `rand` throws afresh.
+- `noise x y` is not randomness: a point always has one answer, and nearby points have close ones.
+- In the course examples the seed is fixed; in the game it is random.
+</Card>
+
+<Card kind="task">
+Make a coin: `op rand r 2` and `op floor heads r`. You get a zero or a one, and both sides come
+up equally often.
+
+Then replace `floor` with `round` and see what happens. There are now **three** outcomes: zero,
+one and two, and the one comes up twice as often as the others. Rounding to nearest gathers the
+whole stretch from 0.5 to 1.5 into the one, and only half a stretch each into zero and two.
+
+A fair coin can be made with `round` as well, but from a different throw: `op rand r 1` and
+`op round heads r`. The general rule: **`rand N` is rounded down, not to nearest**.
+</Card>

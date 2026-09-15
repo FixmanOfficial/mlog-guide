@@ -1,0 +1,96 @@
+---
+title: Whole numbers and precision
+description: Integer division, the remainder, rounding, and why 0.1 plus 0.2 is not always 0.3
+lead: How to get a whole number and a remainder, and what to expect from fractions
+difficulty: medium
+sidebar:
+    order: 2
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import {INTEGERS, ROUNDING, PRECISION} from '../../../../../course/scenes/op.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[{lesson: 'op/arithmetic', title: 'op: arithmetic'}]}
+/>
+
+Ordinary division gives a fraction, and that is not always what is wanted: items come one at
+a time, tiles are whole, a link index is whole. `op` has operations of its own for whole
+numbers.
+
+<Example client:load scene={INTEGERS} locale="en" />
+
+| Operation | In the block | What it computes | 7 and 2 | −7 and 2 |
+| --- | --- | --- | --- | --- |
+| `div` | `/` | ordinary division | 3.5 | −3.5 |
+| `idiv` | `//` | integer division | 3 | **−4** |
+| `mod` | `%` | remainder | 1 | **−1** (with −7 and 3) |
+| `emod` | `%%` | unsigned remainder | 1 | 2 (with −7 and 3) |
+
+Two numbers in that table are worth remembering, because they surprise people.
+
+**`idiv` does not drop the fractional part, it rounds down.** For positives those are the same
+thing; for negatives they are not: −3.5 rounds down to −4, not to −3. If dropping is what you
+want, take the absolute value, divide, and restore the sign separately.
+
+**The sign of `mod`'s remainder follows the sign of the dividend.** The remainder of −7 divided
+by 3 is −1, not 2. For an "always non-negative" remainder there is a separate operation,
+`emod`: it gives 2.
+
+<Card kind="note">
+`emod` was not in mlog from the start. If your version's operation list does not have it, the
+same answer comes from a chain of three lines: `mod`, then `add` with the divisor, then `mod`
+again.
+</Card>
+
+## Rounding
+
+<Example client:load scene={ROUNDING} locale="en" />
+
+`floor` rounds down, `ceil` up, `round` to the nearest whole number. A half goes up with
+`round`: 2.5 becomes 3, not 2. For negatives "down" means "further from zero": `floor` of −3.2
+gives −4.
+
+None of the three has a second field: they round one number.
+
+## Fractions are computed approximately
+
+<Example client:load scene={PRECISION} locale="en" />
+
+The sum of 0.1 and 0.2 is 0.30000000000000004, and that is not a bug in mlog. Numbers are
+stored the way they are almost everywhere — as binary fractions — and 0.1 in binary is endless,
+like ⅓ in decimal. A tail in the seventeenth digit always remains.
+
+The interesting part is different: **`equal` still answers "equal"**. Comparing numbers in mlog
+is not exact but has a tolerance of 0.000001: anything closer counts as the same. That is
+exactly why arithmetic with fractions usually behaves the way you expect.
+
+`strictEqual` (labelled `===` on the button) knows no tolerance and answers "not equal": it
+compares values exactly.
+
+<Card kind="error">
+Hence the rule: **compare fractions with `equal`, not with `strictEqual`**. `strictEqual` has
+a different job — telling `null` from zero and an object from a number — and that is the lesson
+[«Emptiness: null»](/en/course/basics/null/).
+</Card>
+
+<Card kind="recap">
+- `idiv` rounds down rather than dropping the fraction: −7 idiv 2 is −4.
+- The sign of `mod` follows the dividend; `emod` is always non-negative.
+- `round` sends a half upwards.
+- Fractions are stored approximately, but `equal` compares with a tolerance of 0.000001 and so forgives.
+</Card>
+
+<Card kind="task">
+Work out how many full crates of 30 items come out of 100 and how much is left:
+`op idiv crates 100 30` and `op mod rest 100 30`.
+
+Then replace 100 with −100 and look at both answers. The crates become −4 rather than −3, and
+the remainder comes out negative: both operations behave exactly as described above, and that
+is the most common reason a beginner's counter one day drifts into the minus.
+</Card>

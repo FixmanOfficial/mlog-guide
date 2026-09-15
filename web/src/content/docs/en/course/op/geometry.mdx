@@ -1,0 +1,106 @@
+---
+title: Angles and distances
+description: How to compute a distance and a direction, why angles are in degrees and where the uneven answers come from
+lead: "The distance to a point, the angle to it and the difference between two angles — three operations everybody needs"
+difficulty: medium
+sidebar:
+    order: 5
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {GEOMETRY, FLOAT} from '../../../../../course/scenes/op.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[{lesson: 'op/arithmetic', title: 'op: arithmetic'}]}
+/>
+
+Almost everything a processor does with the world comes down to two questions: **how far** and
+**in which direction**. How far is `len`, in which direction is `angle`. Neither works with
+points but with an offset: how far right and how far up.
+
+<Example client:load scene={GEOMETRY} locale="en" />
+
+| Operation | What it computes | Answer |
+| --- | --- | --- |
+| `len` | the length of the offset, that is, the distance | 50 |
+| `angle` | the angle of that offset, from 0 to 360 | 53.130008697509766 |
+| `angleDiff` | the shortest difference of two angles, from 0 to 180 | 20 |
+| `sin` | sine — and it is in **degrees** | 0.49999999999999994 |
+
+Two of the four answers have a long tail, and that is as it should be; why, is explained below.
+
+The offset is computed by subtraction: `op sub dx toX fromX` and the same for `y`. The
+processor gets coordinates from the world — how exactly is in the lesson
+<Lesson lesson="sensor/buildings">"Properties of buildings"</Lesson>.
+
+## Angles count counter-clockwise from pointing right
+
+Zero is "right", 90 is "up", 180 is "left", 270 is "down". The same order as block rotation in
+the game, and the same system `sensor @rotation` answers in.
+
+`angleDiff` answers "how far apart are these two angles", and the answer is always
+non-negative and no more than 180: between 350 and 10 the difference is 20, not 340. It counts
+correctly across zero — that is what makes it useful.
+
+<Card kind="note">
+All three operations take **degrees**, not radians. That goes for trigonometry too: the sine of
+thirty is a half, not −0.988 as it would be in radians. Neither `@pi` nor any conversion is
+needed for them.
+</Card>
+
+## The answers are slightly off from the textbook
+
+<Example client:load scene={FLOAT} locale="en" />
+
+The diagonal of a unit square is √2, that is 1.4142135623730951. mlog answers
+1.4142135381698608. The angle of "left" is 180, and mlog answers 179.99989.
+
+This is not a bug but precision, and there are two reasons for it.
+
+`len`, `angle` and `angleDiff` are computed in the game with **single-precision numbers**, half
+the usual length, and the angle itself comes from an approximate formula — hence both the
+truncated root and 179.99989 instead of 180. The rest of the arithmetic runs at full precision:
+only these three diverge.
+
+The sine is computed at full precision, and its tail has another origin — the one from the
+lesson [«Whole numbers and precision»](/en/course/op/integers/): degrees are converted to
+radians by division, and a half does not come out even. Nought point four nines and ninety-nine
+*is* a half, simply written down honestly.
+
+<Card kind="error">
+Hence the rule: **angles and distances are not compared for exact equality**. "The unit is
+exactly ten tiles away" will never happen; you check "closer than ten" with `lessThan`, and
+a rotation with `angleDiff` and "less than five degrees".
+</Card>
+
+## The rest of the trigonometry
+
+`cos` and `tan` are like `sin`, in degrees. The inverses — `asin`, `acos`, `atan` — give
+degrees back. None of the five has a second field: they compute one number.
+
+`angle` stands slightly apart: it does what `atan2` does in other languages, and the game still
+understands the old name `atan2` when reading a program.
+
+<Card kind="recap">
+- `len` is the distance of an offset, `angle` its direction, `angleDiff` the difference of angles.
+- Zero degrees is right, and it goes counter-clockwise from there.
+- `angleDiff` is never negative and never above 180.
+- Trigonometry is in degrees.
+- These operations have half the usual precision: do not compare them for equality.
+</Card>
+
+<Card kind="task">
+Compute the distance between two points — (12, 5) and (40, 45):
+
+`op sub dx 40 12` gives 28, `op sub dy 45 5` gives 40, and `op len path dx dy` gives 48.8.
+
+Then swap the points in the subtraction: `op sub dx 12 40`. The distance does not change —
+`len` computes a length and the sign means nothing to it — but `angle` changes by 180 degrees.
+That is the difference between "how far" and "in which direction".
+</Card>

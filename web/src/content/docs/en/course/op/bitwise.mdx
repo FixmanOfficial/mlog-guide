@@ -1,0 +1,117 @@
+---
+title: Bitwise operations
+description: How mlog works with a number's bits, what the shifts do, and three answers nobody expects
+lead: "A number as a set of bits: masks, shifts, and why shifting by 64 changes nothing"
+difficulty: hard
+sidebar:
+    order: 4
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {BITWISE, SHIFTS} from '../../../../../course/scenes/op.js'
+
+<LessonHead
+    difficulty="hard"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'op/arithmetic', title: 'op: arithmetic'},
+        {lesson: 'op/logic', title: 'op: comparisons and logic'}
+    ]}
+/>
+
+Any whole number is a set of bits: 12 is `1100`, 10 is `1010`. Six `op` operations work not
+with the number as a whole but with each bit separately.
+
+This is needed rarely, but when it is, nothing else will do: several flags in one number,
+a check for "is this bit on", a quick multiplication by a power of two.
+
+<Example client:load scene={BITWISE} locale="en" />
+
+| Operation | In the block | What it does | 12 and 10 |
+| --- | --- | --- | --- |
+| `and` | `b-and` | a bit stays if it is in both | 8 (`1000`) |
+| `or` | `or` | a bit stays if it is in at least one | 14 (`1110`) |
+| `xor` | `xor` | a bit stays if it is in exactly one | 6 (`0110`) |
+| `not` | `flip` | every bit the other way round | −6 from 5 |
+| `shl` | `<<` | shift left: multiply by 2 that many times | 8 from 1 and 3 |
+| `shr` | `>>` | shift right: divide by 2 that many times | 1 from 8 and 3 |
+
+The "In the block" column is worth reading carefully: bitwise "and" is labelled `b-and`,
+because `and` in the list is already taken by the logical "and", and bitwise inversion is
+`flip`, because `not` is taken by the "not equal" comparison. This is where the names in
+references and the labels on the buttons diverge the most.
+
+The shift is the most understandable of the six: `shl 1 3` moves the single bit three places
+left and turns 1 into 8. The reverse `shr` turns 8 back into 1.
+
+## Everything is computed in whole numbers, and long ones
+
+Before a bitwise operation the number is brought to a whole one: **the fractional part is
+dropped**, so `and` of 12.7 and 10 gives the same 8 as 12 would.
+
+That whole number is long, 64-bit, and signed — from −2⁶³ to 2⁶³−1.
+
+<Card kind="error">
+**Wider than fits in a variable.** The operation is computed in 64 bits, and the result is put
+back into an ordinary mlog number, which has only 53 significant bits. **The low bits are the
+ones lost**, and there is no error: `op or` over 2⁵³ and a one runs, and the number does not
+change — there is no room in it for the one.
+
+Hence the working rule: **bits 0–52 are reliable, above that they are not**. Why 53 exactly and
+what happens past that limit is in the lesson <Lesson lesson="advanced/numbers">"The number
+inside"</Lesson>.
+</Card>
+
+## Three answers nobody expects
+
+<Example client:load scene={SHIFTS} locale="en" />
+
+**`shl 1 64` gives 1, not zero.** A shift takes only the low six bits of the second number,
+that is, the remainder of dividing by 64. A shift by 64 is a shift by 0, a shift by 65 is
+a shift by 1. Zero cannot be reached this way at all.
+
+**`shr −8 1` gives −4, not a huge number.** `shr` is signed: it moves the bits right and pads
+the left with the sign, so a negative stays negative. Halving works for minuses too.
+
+**`ushr −1 60` gives 15.** `ushr`, on the other hand, does not preserve the sign: it treats the
+number as unsigned, and to it −1 is 64 one-bits. Shift by 60 and four remain: 15.
+
+<Card kind="error">
+`not` is not a logical "not" but an inversion of every bit: `not 1` is −2, `not 5` is −6.
+The rule is simple: `not x` always equals `−x − 1`. Logical negation is `equal` with zero, see
+[«Comparisons and logic»](/en/course/op/logic/).
+</Card>
+
+## What it is for in the game
+
+The main case is **fitting several numbers into one**. A processor has plenty of variables, but
+few places to put a number for another processor: a memory cell, a unit's flag. Shifts and `or`
+pack several numbers into one, and `shr` and `and` take them back out.
+
+How many fit is decided by that same limit: 53 bits for everything. The details are in the
+lesson <Lesson lesson="advanced/numbers">"The number inside"</Lesson>.
+
+<Card kind="recap">
+- There are six bitwise operations: `and`, `or`, `xor`, `not`, `shl`, `shr`, plus the unsigned `ushr`.
+- Before the operation the fraction is dropped and the number becomes a 64-bit integer.
+- A shift takes the low six bits of the shift amount: `shl 1 64` is `shl 1 0`.
+- `shr` preserves the number's sign, `ushr` does not.
+- `not x` is `−x − 1`.
+- Computed in 64 bits, stored in 53: bits 0–52 are reliable.
+</Card>
+
+<Card kind="task">
+Pack two small numbers into one and take them back apart. Let the first be 3 and the second 5:
+
+`op shl packed 5 8` — move the second one eight bits to the left;
+`op or packed packed 3` — mix the first into the low bits.
+
+`packed` holds 1283. Now back again: `op and first packed 255` gives 3, and
+`op shr second packed 8` gives 5.
+
+255 here is a mask of eight one-bits: it keeps exactly the part where we put the first number.
+</Card>

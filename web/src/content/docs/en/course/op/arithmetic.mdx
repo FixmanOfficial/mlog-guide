@@ -1,0 +1,93 @@
+---
+title: Arithmetic
+description: The four operations in mlog and why only one fits in a line
+lead: Add, subtract, multiply, divide — and what to do when there are two operations
+difficulty: easy
+sidebar:
+    order: 1
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import {ARITHMETIC, STEPS} from '../../../../../course/scenes/op.js'
+
+<LessonHead
+    difficulty="easy"
+    lead={frontmatter.lead}
+    needs={[{lesson: 'basics/processor', title: 'How the processor works'}]}
+/>
+
+The `op` block has four fields: where to put the answer, what to do, and the two numbers it is
+done to. Numbers can be written straight into the fields or supplied as variables — the block
+does not care.
+
+<Example client:load scene={ARITHMETIC} locale="en" />
+
+The first two lines put numbers into `a` and `b`, the other four compute. The variables window
+shows all four answers at once:
+
+| Operation | In the block | What it computes | Answer with `a = 12`, `b = 5` |
+| --- | --- | --- | --- |
+| `add` | `+` | addition | 17 |
+| `sub` | `-` | subtraction | 7 |
+| `mul` | `*` | multiplication | 60 |
+| `div` | `/` | division | 2.4 |
+
+Division is ordinary, not integer: 12 divided by 5 is 2.4, and the fractional part does not go
+anywhere. How to get a whole number and a remainder is in the lesson
+[«Whole numbers and precision»](/en/course/op/integers/).
+
+## One operation per line
+
+The familiar `total = (a + b) * 2` does not exist in mlog. The instruction does exactly one
+thing, so an expression unfolds into a chain, with the intermediate answer put into a variable:
+
+<Example client:load scene={STEPS} locale="en" />
+
+First `sum` becomes 17, then that same value goes into the multiplication — and `total` comes
+out as 34. The name `sum` is not special here but invented: an intermediate answer can be
+called anything.
+
+<Card kind="note">
+The order of operations is set by you, through the order of the lines. There is no
+"multiplication before addition" in mlog, because there is no expression inside which that
+order would be needed.
+</Card>
+
+## Operations that need no second number
+
+Half the operations need no second argument at all, and the editor simply does not show it:
+choose `abs` and the second field disappears. That is how absolute value, square root,
+rounding and trigonometry work.
+
+`op abs answer -5` gives 5, `op sqrt answer 81` gives nine. One field is left, because one
+number is all the work needs.
+
+## Three more useful ones
+
+| Operation | In the block | What it does | Example |
+| --- | --- | --- | --- |
+| `pow` | `^` | raises to a power | `op pow answer 2 10` → 1024 |
+| `max` | `max` | takes the larger of two | `op max answer 3 7` → 7 |
+| `min` | `min` | takes the smaller | `op min answer 3 7` → 3 |
+
+`max` and `min` are the usual way to keep a number inside bounds: `max` with the lower one
+first, then `min` with the upper, and the value is clamped between them.
+
+<Card kind="recap">
+- `op` has four fields: where, what to do, and two numbers.
+- Numbers can be written into the fields or supplied as variables.
+- One operation per line; a complex expression is several lines and an intermediate variable.
+- `div` divides evenly only by accident: 12 / 5 is 2.4.
+</Card>
+
+<Card kind="task">
+Change `b` in the example from 5 to 0 and look at `quotient`.
+
+The variable holds `null`. Division by zero gives infinity, and infinity is not stored in mlog
+at all: the variable becomes the object `null` instead. The program does not crash and does not
+stop — it carries on with `null` instead of a number, and in the very next piece of arithmetic
+that counts as zero. Checking the divisor before dividing is your job, not the processor's.
+</Card>
