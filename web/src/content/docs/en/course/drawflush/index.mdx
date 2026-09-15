@@ -1,0 +1,103 @@
+---
+title: Draw Flush
+description: "Where drawing commands go, why there are no more than 256 at a time and how to work with several displays"
+lead: "A processor's command buffer is not endless: 256 at a time, and everything above that is lost in silence"
+difficulty: medium
+sidebar:
+    order: 0
+    label: The command buffer
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {OVERFLOW, TWO} from '../../../../../course/scenes/draw.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'draw/first', title: 'The first picture'},
+        {lesson: 'printflush', title: 'Print Flush'}
+    ]}
+/>
+
+`drawflush` is exactly `printflush` for pictures: it hands the display everything `draw` has
+piled up, and **clears the buffer in any case** — wrong block, demolished block, not a display
+at all, it makes no difference.
+
+## No more than 256 commands at a time
+
+<Example client:load scene={OVERFLOW} world={true} locale="en" />
+
+The program draws a 16 by 16 grid — exactly 256 cells, filling the display. Press "run" and
+look at the top right corner: **two cells are missing**.
+
+The buffer has 256 slots too, but two of them are already taken: `clear` and `color` are
+commands like any other. So 254 cells are drawn, and the variable `commands` shows exactly that
+many slots reaching the display.
+
+<Card kind="error">
+**Extra commands vanish in silence.** The processor's buffer holds 256 commands; anything that
+does not fit is simply not added by `draw` — no error, no warning, no trace in the variables.
+
+It looks like "the picture cuts off halfway" or "the bottom half of the display isn't drawn".
+The first thing to do is count the commands: an iteration should have fewer than 256 shapes,
+and if it has more, the picture is split into parts and handed out with several `drawflush`es
+in a row.
+</Card>
+
+Count all the commands, not just the shapes: `clear`, `color`, `stroke` and the transforms take
+slots just like them — in the example above it is exactly they that cost us two cells. And
+a caption takes as many slots as it has characters —
+<Lesson lesson="draw/text">one command per letter</Lesson>.
+
+## You do not have to hand it all out at once
+
+The buffer is cleared after every `drawflush`, so a picture is easy to split:
+
+```
+draw clear 20 20 30
+# …the first two hundred commands…
+drawflush display1
+# …the next two hundred…
+drawflush display1
+```
+
+A display remembers what was drawn, so the second batch lands on top of the first rather than
+instead of it. The one thing this cannot do is show everything at once: time passes between
+the two hand-offs, and on a fast-moving picture that shows.
+
+## Several displays
+
+<Example client:load scene={TWO} world={true} locale="en" />
+
+The buffer has no address: there is one per processor, and until `drawflush` nobody knows who
+it will be handed to. So with two displays the order is: draw for the first, hand to the first,
+draw for the second, hand to the second.
+
+<Card kind="error">
+**One batch will not reach two displays.** After the first `drawflush` the buffer is empty, and
+the second one gets emptiness — that is, does not change at all. To get the same thing onto two
+displays, the commands have to be drawn twice.
+</Card>
+
+<Card kind="recap">
+- `drawflush` hands what has piled up to the display and always clears the buffer.
+- The buffer holds 256 commands; the excess vanishes without a trace.
+- Every command counts, `clear`, `color` and each letter of a caption included.
+- A picture can be handed out in parts: a display does not wipe the old itself.
+- Two displays need two batches of commands.
+</Card>
+
+<Card kind="task">
+In the first example change `jump 2 lessThan index 256` to `jump 2 lessThan index 254` and run
+it: nothing is missing any more — the grid comes out as intended, and `commands` still shows
+the same 256.
+
+Then set it to 200: `commands` becomes 202 — two hundred cells plus `clear` and `color`. Note
+`index`: it always runs to the end. The program does not know that part of its work went
+nowhere, and it has no way of finding out.
+</Card>

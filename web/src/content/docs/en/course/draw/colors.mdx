@@ -1,0 +1,128 @@
+---
+title: Colour and transparency
+description: "How to set a display's colour with numbers 0–255, how col differs from color and where a packed colour comes from"
+lead: "Colour is a state, not a property of a shape: choose it once and it holds until the next time"
+difficulty: medium
+sidebar:
+    order: 3
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {COLORS} from '../../../../../course/scenes/draw.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'draw/first', title: 'The first picture'},
+        {lesson: 'op/arithmetic', title: 'Arithmetic'}
+    ]}
+/>
+
+<Example client:load scene={COLORS} world={true} locale="en" />
+
+Three squares, each set a different way. The red one is opaque, the green one is half
+transparent, and the blue one is taken as a ready number.
+
+## `color`: four numbers from 0 to 255
+
+```
+draw color 255 180 60 255
+```
+
+Red, green, blue and **opacity**: 255 is fully solid, 0 is invisible, 128 lets whatever was
+drawn earlier show through.
+
+| What is set | Field | Range |
+| --- | --- | --- |
+| red | first | 0–255 |
+| green | second | 0–255 |
+| blue | third | 0–255 |
+| opacity | fourth | 0–255 |
+
+A fractional number drops its fraction: `180.9` is `180`.
+
+<Card kind="error">
+**A number above 255, though, is not clamped — it overflows into the next channel.** The game
+packs four bytes into one number (`Color.toFloatBits`) and checks nothing while doing it: the
+extra bit moves into the next byte.
+
+`draw color 300 0 0 255` gives not pure red but **dark red with a touch of green**: of three
+hundred, 44 stays in red and a one moves into green. Stay in the 0–255 range, and clamp numbers
+the program computes yourself — `op min` and `op max`.
+</Card>
+
+<Card kind="note">
+`clear` has only three fields: it fills the background and cannot be transparent. Transparency
+is for where there is something underneath a shape — and under the background there is nothing.
+</Card>
+
+## The colour holds until it is changed
+
+Colour is not a property of a shape but a state of the display. Set `color` and every shape
+that follows is that colour, be it one or twenty.
+
+```
+draw color 255 60 60 255
+draw rect 10 10 40 40
+draw rect 60 10 40 40
+draw rect 110 10 40 40
+```
+
+Three red squares, one `color`. That is also the trap: forget to change the colour before the
+second picture and it is drawn in the first one's colour.
+
+## `col`: a colour as one number
+
+```
+packcolor colour 0.2 0.5 1 0.6
+draw col colour
+```
+
+`col` takes **one** number with all four channels packed into it. The number itself is prepared
+by the `packcolor` instruction, whose shares run not to 255 but **from zero to one**.
+
+| | `draw color` | `draw col` |
+| --- | --- | --- |
+| how many fields | four | one |
+| channels | 0–255 | 0–1 (through `packcolor`) |
+| when it is handier | when the colour is written into the program | when the colour is in a variable or came from somewhere |
+
+A packed colour is an ordinary number, and it can be treated as one: kept in a memory cell,
+passed to a neighbouring processor, chosen with `select` out of two prepared ones.
+
+<Card kind="note">
+The game hands out content colours as that same number: `sensor colour @copper @color` gives
+copper's packed colour, and it can go straight into `draw col`. `unpackcolor` takes a packed
+colour back apart into channels.
+</Card>
+
+## Transparency draws over, it does not pre-mix
+
+A half-transparent shape mixes with what is **already** drawn on the display. So the order of
+commands decides everything: background first, then what goes on top.
+
+<Card kind="error">
+Drawing half-transparently over itself accumulates density: two identical shapes at opacity 128
+give an almost solid colour. In a program that draws every iteration without a `clear` this
+looks like "the colour thickens by itself over time".
+</Card>
+
+<Card kind="recap">
+- `color` is four numbers 0–255, the last one opacity; `clear` has no transparency.
+- The colour holds until the next `color` and is not attached to a shape.
+- `col` takes a colour as one number, and `packcolor` prepares it from shares of 0 to 1.
+- A packed colour can be stored and passed around like any number.
+</Card>
+
+<Card kind="task">
+Change the green square's opacity in the example from `128` to `255` and run it: the red one
+underneath disappears completely.
+
+Then change `packcolor colour 0.2 0.5 1 0.6` to `packcolor colour 1 1 1 0.2`: the third square
+becomes a barely visible white haze over the others.
+</Card>

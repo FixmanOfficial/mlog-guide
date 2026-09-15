@@ -1,0 +1,90 @@
+---
+title: Shapes and lines
+description: "Every shape a logic display can draw: rectangle, line, polygon, triangle and line thickness"
+lead: "There are six shapes, and each asks for its own numbers: a corner here, a centre there, a radius elsewhere"
+difficulty: easy
+sidebar:
+    order: 2
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {SHAPES} from '../../../../../course/scenes/draw.js'
+
+<LessonHead
+    difficulty="easy"
+    lead={frontmatter.lead}
+    needs={[{lesson: 'draw/first', title: 'The first picture'}]}
+/>
+
+<Example client:load scene={SHAPES} world={true} locale="en" />
+
+Everything the display can do is drawn here: a fill and an outline, a line, a hexagon,
+a triangle in outline and a triangle filled.
+
+## What each shape asks for
+
+| Command | Fields | What it counts from |
+| --- | --- | --- |
+| `rect` | `x y width height` | the bottom left corner |
+| `lineRect` | `x y width height` | the same, but in outline |
+| `line` | `x1 y1 x2 y2` | point to point |
+| `poly` | `x y sides radius rotation` | **from the centre** |
+| `linePoly` | `x y sides radius rotation` | the same, in outline |
+| `triangle` | `x1 y1 x2 y2 x3 y3` | three vertices |
+
+That difference in what a shape counts from is the most common cause of "it drew in the wrong
+place". For a rectangle it is a corner, for a polygon the centre.
+
+<Card kind="note">
+There is no circle among the commands: you draw one as a polygon with many sides. No more than
+**25** of them, though — anything above that the display silently trims to twenty-five. That is
+the limit of smoothness: on 176 dots, twenty-five sides are indistinguishable from a circle.
+</Card>
+
+## Line thickness
+
+```
+draw stroke 4
+```
+
+`stroke` sets the thickness of everything drawn in outline: `line`, `lineRect`, `linePoly`.
+Like the colour, it holds until the next `stroke`, and it does not affect fills at all.
+
+<Card kind="note">
+Thickness is counted in the same picture dots as the coordinates — not in screen pixels.
+An ordinary display has 80 per side, a large one 176, so the same numbers on a large display
+give a smaller-looking shape: it takes up a smaller share of the screen.
+</Card>
+
+## Rotating a polygon
+
+The fifth field of `poly` is an angle in degrees, and it is counted as everywhere in mlog:
+counter-clockwise, with zero pointing right.
+
+```
+draw poly 88 88 3 40 0
+draw poly 88 88 3 40 180
+```
+
+Two triangles from the same point, rotated relative to each other — a star. Half the pictures
+on displays are built on that.
+
+<Card kind="recap">
+- `rect` and `lineRect` count from a corner, `poly` and `linePoly` from the centre.
+- A circle is drawn as a polygon; there can be at most 25 sides, the extra are trimmed silently.
+- `stroke` sets outline thickness and holds, like the colour.
+- Rotation is given in degrees, counter-clockwise.
+</Card>
+
+<Card kind="task">
+Change `draw poly 45 40 6 30 0` in the example to `draw poly 45 40 25 30 0` and run it: the
+hexagon becomes a circle. Put 40 and the picture does not change at all — a display does not
+draw more than 25 sides.
+
+Then set `draw stroke 1` and look at the line: it becomes a hair. And with `draw stroke 20`
+the line covers a third of the display — thickness grows both ways from its middle.
+</Card>

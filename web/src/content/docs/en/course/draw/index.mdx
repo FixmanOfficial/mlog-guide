@@ -1,0 +1,40 @@
+---
+title: Draw
+description: "The group of lessons about draw: shapes, colour, text and transforms on a logic display"
+lead: "draw draws nothing. It piles commands up in the processor's buffer, and another instruction shows them to the display"
+sidebar:
+    order: 0
+    label: Overview
+---
+
+import LessonList from '../../../../../course/LessonList.astro'
+
+`draw` is built like `print`: it **does not draw**, it appends a command to the processor's
+buffer. The picture appears when the buffer is handed to a display — that is
+[`drawflush`](/en/course/drawflush/)'s job.
+
+One instruction, and sixteen different commands behind it: fill the background, choose
+a colour, run a line, place a polygon, write text, move the origin. Their fields are shared
+and mean different things from command to command — hence one topic per lesson.
+
+## What we draw on
+
+| Block | Picture side | Space on the map |
+| --- | --- | --- |
+| logic display | 80 dots | 3×3 |
+| large logic display | 176 dots | 6×6 |
+
+A display's dot is neither a map tile nor a screen pixel: the picture has a grid of its own,
+and its size is better asked of the block (`sensor @displayWidth`) than written as a number.
+
+The origin is the **bottom left corner**, and the Y axis goes up. Not like a browser and not
+like the map editor, but like the game itself.
+
+## Lessons
+
+<LessonList group="draw" />
+
+## What you need first
+
+[«The text buffer»](/en/course/print/buffer/) — the same "pile up, then hand out" trick is
+built on it, and you need it to write anything on a display.

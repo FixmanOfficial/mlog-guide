@@ -92,6 +92,23 @@ test('словарь имён покрывает все сцены курса', 
     assert.deepEqual([...missing], [], 'слова без перевода')
 })
 
+test('имя переменной и строка с тем же словом переводятся одинаково', async () => {
+    /*
+     * Имя переменной соседа пишется строкой: `write 1 processor1 "нужен"`. Переведи словарь
+     * строку иначе, чем само имя, — и английский пример стал бы писать в переменную,
+     * которой нет. Программа при этом не сломается, просто молча ничего не сделает.
+     */
+    const {NAMES, STRINGS} = await import('../src/course/scenes/names.en.js')
+
+    for (const [russian, asString] of Object.entries(STRINGS)) {
+        const asName = NAMES[russian]
+        if (asName === undefined) continue
+
+        assert.equal(asString, asName,
+            `«${russian}»: строкой «${asString}», а именем «${asName}»`)
+    }
+})
+
 test('английский урок повторяет русский по месту и сложности', async () => {
     /*
      * Перевод — не отдельный курс: у урока тот же адрес, тот же порядок в меню и та же

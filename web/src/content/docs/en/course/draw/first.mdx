@@ -1,0 +1,106 @@
+---
+title: The first picture
+description: "Clear the background, choose a colour, fill a rectangle and hand the picture to the display"
+lead: "Four lines and a rectangle appears on the display. Without the last of them nothing appears at all"
+difficulty: easy
+sidebar:
+    order: 1
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {FIRST, FORGOTTEN} from '../../../../../course/scenes/draw.js'
+
+<LessonHead
+    difficulty="easy"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'basics/links', title: 'Links and getlink'},
+        {lesson: 'print/buffer', title: 'The text buffer'}
+    ]}
+/>
+
+A display is a separate block, and like a message block it has to be reached with a link.
+The program draws not on it but **in the processor's buffer**, and only `drawflush` carries
+what has piled up onto the screen.
+
+<Example client:load scene={FIRST} world={true} locale="en" />
+
+Press "run". An orange rectangle appears on a grey background — four lines, and each one does
+exactly one thing.
+
+## Line by line
+
+```
+draw clear 40 40 50
+draw color 255 180 60 255
+draw rect 20 20 60 40
+drawflush display1
+```
+
+| Line | What it does |
+| --- | --- |
+| `clear` | fills the **whole** display with a colour: three fields — red, green, blue |
+| `color` | chooses the colour for whatever is drawn next; the fourth field is opacity |
+| `rect` | fills a rectangle: corner `x`, `y`, then width and height |
+| `drawflush` | hands what has piled up to the display |
+
+The colour holds until the next `color`: it is not attached to a shape, it simply becomes the
+current one. So two shapes of one colour are one `color` and two drawing commands.
+
+## Coordinates count from the bottom left corner
+
+A large display's side is 176 dots, so `0 0` is the bottom left corner and `175 175` the top
+right. The Y axis grows **upwards**.
+
+```
+draw rect 20 20 60 40
+```
+
+That is a rectangle 60 wide and 40 tall whose bottom left corner sits at `20 20`. Not the
+centre — the corner.
+
+<Card kind="note">
+A display's side is better asked for than remembered: `sensor width display1 @displayWidth`
+gives 80 on an ordinary one and 176 on a large one. Then the picture survives a change of
+block.
+</Card>
+
+## Without `drawflush` nothing appears
+
+<Example client:load scene={FORGOTTEN} world={true} locale="en" />
+
+The same program without the last line. Press "run" — the display stays dark, although all
+three commands run perfectly well: they sit in the processor's buffer waiting to be sent.
+
+<Card kind="error">
+A forgotten `drawflush` produces no error and no empty screen with a message — the display
+simply stays the way it was. If a picture did not appear, the first thing to check is not the
+coordinates but whether there is a flush line and whether it is addressed to the right block.
+</Card>
+
+## The picture stays until it is wiped
+
+A display remembers what was drawn. It has no notion of a "frame": draw nothing new and the
+old stays. So a program drawing a moving arrow starts its iteration with `clear` — otherwise
+the previous arrows stay where they were.
+
+<Card kind="recap">
+- `draw` piles commands up in the processor's buffer; `drawflush` shows them.
+- `clear` fills the whole display, `color` sets the colour for the shapes that follow.
+- Coordinates count from the bottom left corner, the Y axis grows upwards.
+- `rect` takes a corner, a width and a height — not two corners.
+- What is drawn stays on the display until a new `clear` wipes it.
+</Card>
+
+<Card kind="task">
+In the first example change `draw rect 20 20 60 40` to `draw rect 20 20 200 200` and run it:
+the rectangle covers the whole display. Anything that does not fit is simply cut off by the
+edge — that is not considered an error.
+
+Then put the sizes back and remove the line `draw clear 40 40 50`. The rectangle stays and the
+background turns black: a display does not fill itself, and black is its initial state.
+</Card>

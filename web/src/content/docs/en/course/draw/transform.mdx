@@ -1,0 +1,101 @@
+---
+title: Translate, rotate, scale
+description: "How translate, scale and rotate move the display's whole coordinate system and why they must be reset"
+lead: "Easier than recomputing every point: move the grid itself and draw in it as if for the first time"
+difficulty: medium
+sidebar:
+    order: 5
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {TRANSFORM} from '../../../../../course/scenes/draw.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'draw/shapes', title: 'Shapes and lines'},
+        {lesson: 'op/geometry', title: 'Angles and distances'}
+    ]}
+/>
+
+A rectangle cannot be rotated by the `rect` command — it has no rotation field. But **the grid
+itself** it is drawn in can be rotated.
+
+<Example client:load scene={TRANSFORM} world={true} locale="en" />
+
+Three squares are given identically, `40` by `40`. The first is drawn as is, the second after
+the grid was moved and turned, the third after a `reset`, back in ordinary coordinates.
+
+## Three commands and an undo
+
+| Command | Fields | What it does |
+| --- | --- | --- |
+| `translate` | `x y` | moves the origin |
+| `rotate` | angle | turns the grid by an angle in degrees |
+| `scale` | `x y` | stretches the grid along the axes |
+| `reset` | — | puts everything back as it was |
+
+Rotation has only one field — the angle. In the text form it still stands **third**:
+`draw rotate 0 0 90`. The first two places are taken by coordinates this command does not use —
+that is how every `draw` is written, they share one set of fields.
+
+They **accumulate**: a move after a move adds up, and so does a turn after a turn. Only `reset`
+undoes them.
+
+<Card kind="note">
+Scale is counted in steps of 0.05, and a one in that counting is **20**:
+
+| `draw scale` | What you get |
+| --- | --- |
+| `20 20` | nothing changes |
+| `40 40` | twice as big |
+| `10 10` | half the size |
+
+The field is a whole number; there is no need to write fractions into it — the step size is
+already built in.
+</Card>
+
+## What it is for
+
+There is no other way to rotate a shape: `rect`, `line` and `triangle` have no rotation at all,
+and `poly` has one, but only around its own centre. The grid solves both problems:
+
+```
+draw translate 88 88
+draw rotate 0 0 angle
+draw rect -20 -20 40 40
+draw reset
+```
+
+The square is drawn **around zero** — from `-20` to `20` — so the rotation turns it about its
+own middle, and `translate` puts that middle in the centre of the display. A compass needle,
+a clock's second hand, a turning turret — all of them are built this way.
+
+<Card kind="error">
+**A forgotten `reset` spoils the next iteration.** Transforms do not undo themselves: a program
+that does `translate 88 88` every iteration and never cancels it draws past the edge of the
+display by the tenth one — and that looks like "the picture drifted off and vanished".
+
+The rule is simple: as many transforms as you set, that many `reset`s — or better, one `reset`
+at the start of the iteration, right after `clear`.
+</Card>
+
+<Card kind="recap">
+- `translate`, `rotate` and `scale` change the coordinate system, not the shape.
+- They accumulate, and only `reset` undoes them.
+- Scale is counted in steps of 0.05.
+- To make a shape spin about itself, draw it around zero and put it in place with a move.
+</Card>
+
+<Card kind="task">
+Change `draw rotate 0 0 45` in the example to `draw rotate 0 0 10` and run it: the second
+square almost straightens up.
+
+Then remove the `draw reset` line: the third square — the blue one — drifts and turns as well,
+even though nothing changed in its own coordinates.
+</Card>
