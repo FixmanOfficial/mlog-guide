@@ -1,0 +1,74 @@
+---
+title: Cutscene
+description: "How a script takes the camera away from the player: panning, zoom, shake and hiding the interface"
+lead: "The only instruction that talks not to the map but to the player's screen"
+difficulty: medium
+sidebar:
+    order: 0
+    label: The player's camera
+---
+
+import LessonHead from '../../../../../course/LessonHead.astro'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import '../../../../../example/example.css'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'world-intro', title: 'What a world processor is'},
+        {lesson: 'message', title: 'A message to the player'}
+    ]}
+/>
+
+```
+cutscene pan 100 100 0.06 0
+cutscene zoom 0.5 0 0 0
+cutscene stop 0 0 0 0
+```
+
+| Action | What it does | What is in the fields |
+| --- | --- | --- |
+| `pan` | moves the camera to a point | coordinates in tiles and a speed |
+| `zoom` | zoom level | a level from 0 to 1 |
+| `stop` | gives the camera back to the player | — |
+| `shake` | shakes the screen | strength and duration in seconds |
+| `active` | whether a cutscene is running | where to put the answer |
+| `getHud`, `setHud` | whether the interface is visible, and showing it | an answer or a value |
+
+## The camera has to be given back
+
+While a cutscene is running the player **does not control the camera**: it goes where the
+script takes it. That is good in the campaign — showing what is happening on the far side of
+the map — and unbearable if the script forgets to let go.
+
+<Card kind="error">
+**`stop` is compulsory.** One mistake in a script and the player is left without a camera until
+the end of the game; they cannot get out of it themselves. So a cutscene is limited by time
+with a <Lesson lesson="advanced/time">timer</Lesson> or a flag, and `stop` is written first of
+all.
+</Card>
+
+## Speed and zoom
+
+`pan`'s speed is the fraction of the distance covered per tick: `0.06` gives a smooth approach,
+one gives an instant jump. Zoom is a fraction of full: the smaller the number, the further you
+see.
+
+<Card kind="note">
+**The instruction works per player.** On a server a cutscene happens on the screen of whoever's
+client received it; on a dedicated server with no players it does nothing at all.
+</Card>
+
+<Card kind="note">
+**The course sandbox has no camera**, so there is no example for this lesson. In the game the
+instruction works as usual.
+</Card>
+
+<Card kind="recap">
+- `cutscene` drives the player's camera: `pan`, `zoom`, `shake`, `stop`.
+- While a cutscene runs, the player does not control the camera.
+- `stop` gives control back — without it the player is left without a camera.
+- `getHud` and `setHud` hide and show the interface.
+</Card>

@@ -1,0 +1,76 @@
+---
+title: Play Sound
+description: "How a script plays a sound: positional and global, volume, pitch and the overlap limit"
+lead: "A sound from a point on the map or straight into the player's ears — with every knob the engine has"
+difficulty: medium
+sidebar:
+    order: 0
+    label: Sound
+---
+
+import LessonHead from '../../../../../course/LessonHead.astro'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import '../../../../../example/example.css'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'world-intro', title: 'What a world processor is'},
+        {lesson: 'effect', title: 'An effect on the map'}
+    ]}
+/>
+
+```
+playsound true @sfx-explosion 1 1 0 10 10 true
+```
+
+| Field | What is in it |
+| --- | --- |
+| first | whether the sound is positional |
+| second | which sound: an `@sfx-…` constant |
+| third | volume |
+| fourth | pitch |
+| fifth | pan: further left or right |
+| sixth and seventh | the point, if the sound is positional |
+| eighth | whether to limit overlapping |
+
+## Positional and global
+
+A **positional** sound is tied to a point on the map: the further the player's camera is from
+it the quieter it gets, and it is heard from the side the point is on. That is how shots and
+explosions sound.
+
+A **global** one sounds the same for everybody everywhere — it is how you say an event
+happened, not that something knocked somewhere. Volume and pan work on it; coordinates are not
+needed.
+
+## Where the sounds come from
+
+Every sound in the game is available as the constant `@sfx-<name>`: `@sfx-explosion`,
+`@sfx-shoot`, `@sfx-pew`, `@sfx-place`. The list is the same as the game's files, and the
+editor's picker shows all of it.
+
+<Card kind="note">
+The game caps volume at two: making one sound ten times louder than the rest will not work.
+Pitch changes a sound beyond recognition — that is how "new" sounds are made out of old ones.
+</Card>
+
+<Card kind="error">
+**The eighth field is protection against mush.** With it, the game will not let the same sound
+pile on top of itself a hundred times. It is switched off rarely and deliberately: without the
+limit, a program playing a sound every iteration turns the game into a screech.
+</Card>
+
+<Card kind="note">
+**The course sandbox has no sound**, so there is no example for this lesson. In the game the
+instruction works as usual.
+</Card>
+
+<Card kind="recap">
+- `playsound` plays one of the game's sounds: positional from a point or global for everybody.
+- The sounds are `@sfx-<name>` constants.
+- Volume is capped at two, pitch is free.
+- The last field stops a sound piling on top of itself.
+</Card>

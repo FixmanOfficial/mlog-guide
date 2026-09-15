@@ -1,0 +1,60 @@
+---
+title: Play Music
+description: "How a script starts music and what «interrupt the current one» means"
+lead: "The simplest instruction in the whole part: a tune's name and one flag"
+difficulty: easy
+sidebar:
+    order: 0
+    label: Music
+---
+
+import LessonHead from '../../../../../course/LessonHead.astro'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import '../../../../../example/example.css'
+
+<LessonHead
+    difficulty="easy"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'playsound', title: 'Sound'},
+        {lesson: 'world-intro', title: 'What a world processor is'}
+    ]}
+/>
+
+```
+playmusic "game1" true
+```
+
+| Field | What is in it |
+| --- | --- |
+| first | the tune's name as a string |
+| second | whether to interrupt what is playing now |
+
+The names are the same as the game's music files: `game1`, `game3`, `boss1`, `fine`. The
+editor's picker lists them all.
+
+## Interrupt or wait
+
+With `true` the music starts immediately, cutting off the current one: that is how a turning
+point in a script is marked — a boss arrived, a siege began.
+
+With `false` it joins the queue and plays when the current one ends: that is how the background
+is changed between tasks, without jarring the player.
+
+<Card kind="note">
+Music is the one thing a script does **not to the map but to the mood**. It is worth using
+sparingly: the player has usually already chosen what to listen to, and a script that changes
+the music every minute is irritating.
+</Card>
+
+<Card kind="note">
+**The course sandbox has no music**, so there is no example for this lesson. In the game the
+instruction works as usual.
+</Card>
+
+<Card kind="recap">
+- `playmusic "name" interrupt` starts one of the game's tunes.
+- With `true` it cuts off the current one, with `false` it waits its turn.
+- The names come from the game's music files.
+</Card>

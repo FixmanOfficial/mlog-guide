@@ -1,0 +1,80 @@
+---
+title: Effect
+description: "How to draw a flash, smoke, sparks or an explosion on the map — a visual effect with no consequences at all"
+lead: "Three dozen ready-made effects from the game: an explosion, smoke, sparks, a trail. Pretty and entirely harmless"
+difficulty: medium
+sidebar:
+    order: 0
+    label: An effect on the map
+---
+
+import LessonHead from '../../../../../course/LessonHead.astro'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import '../../../../../example/example.css'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'world-intro', title: 'What a world processor is'},
+        {lesson: 'packcolor', title: 'A colour as one number'}
+    ]}
+/>
+
+```
+effect explosion 10 10 4 %ffaaff 0
+```
+
+| Field | What is in it |
+| --- | --- |
+| first | which effect |
+| second and third | the point in tiles |
+| fourth | size **or** rotation — whichever this effect understands |
+| fifth | the colour |
+| sixth | extra data: for `blockFall` that is the falling block |
+
+## An effect does nothing
+
+It is a pure picture: no damage, no push, no change to the map. An explosion drawn by
+`effect explosion` touches nobody — <Lesson lesson="explosion">`explosion`</Lesson> is for
+damage, and the two are easy to confuse.
+
+## What kinds there are
+
+| Group | Effects |
+| --- | --- |
+| warnings | `warn`, `cross` |
+| construction | `placeBlock`, `placeBlockSpark`, `breakBlock`, `breakProp`, `blockFall` |
+| shots | `shootSmall`, `shootBig`, `sparkShoot`, `sparkShootBig` |
+| smoke | `smokeSmall`, `smokeBig`, `smokeColor`, `smokeSquare`, `smokeSquareBig`, `smokeCloud`, `smokePuff` |
+| hits | `hit`, `hitSquare`, `spark`, `sparkBig` |
+| explosions | `explosion`, `sparkExplosion`, `crossExplosion`, `wave` |
+| other | `spawn`, `trail`, `vapor`, `drill`, `drillBig`, `lightBlock`, `bubble` |
+
+Not every effect understands every field: some take a colour, some do not; some grow in size,
+some rotate. What does not apply simply has no effect — as with
+<Lesson lesson="setmarker">`setmarker`</Lesson>.
+
+<Card kind="note">
+The game caps the size at a thousand: an effect covering half the map is of no use to anybody
+and expensive to draw. Effects that take a rotation instead of a size have no such cap.
+</Card>
+
+<Card kind="error">
+**An effect costs drawing time, not logic time.** A program calling `effect` every iteration
+draws hundreds of flashes a second and bogs down the game for everybody watching. Effects are
+paced by a timer, like everything else that is for show.
+</Card>
+
+<Card kind="note">
+**The course sandbox has no effects**, so there is no example for this lesson. In the game the
+instruction works as usual.
+</Card>
+
+<Card kind="recap">
+- `effect kind x y size colour data` draws one of the game's ready-made effects.
+- It has no consequences at all — it is only a picture.
+- Some effects take a colour, some a rotation; fields that do not apply are ignored.
+- The size is capped at a thousand.
+</Card>

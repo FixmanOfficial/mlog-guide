@@ -1,0 +1,71 @@
+---
+title: Spawn Wave
+description: "How to call a wave early and how to drop its roster at a chosen point on the map"
+lead: "A wave on schedule is the game's business. A world processor can call one early or drop it somewhere else"
+difficulty: medium
+sidebar:
+    order: 0
+    label: Call a wave
+---
+
+import LessonHead from '../../../../../course/LessonHead.astro'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import '../../../../../example/example.css'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'world-intro', title: 'What a world processor is'},
+        {lesson: 'setrule', title: 'Game rules'}
+    ]}
+/>
+
+```
+spawnwave 10 10 false
+```
+
+| Field | What is in it |
+| --- | --- |
+| first and second | the drop point in tiles |
+| third | whether it is a natural wave |
+
+## Two different actions in one line
+
+**`natural = true`** means "let the next wave come". No point is needed then: the game does
+exactly what the "call wave" button on a core does — the wave counter goes up and the enemies
+come by their own routes.
+
+**`natural = false`** means "drop the current wave's roster right here". The wave counter does
+not move and the schedule is not disturbed: the units that this wave would have brought simply
+appear at the given point, with a little scatter.
+
+<Card kind="note">
+A wave's roster comes from the map's rules, not out of thin air: which groups, how many and of
+what tier is set in the editor. So on a map with no waves configured, `spawnwave` does nothing.
+</Card>
+
+## What it is for
+
+- **a script**: "after the third task the base is attacked" — an event, not a schedule;
+- **a drop off to the side**: the enemy appears from where the player is not looking;
+- **hurrying things along**: the wave comes early, when the player is ready for it.
+
+<Card kind="error">
+**A wave arrives whole.** There is no "half the roster" and no "daggers only" here: if a script
+needs particular units, they are created with <Lesson lesson="spawn">`spawn`</Lesson>, not with
+a wave.
+</Card>
+
+<Card kind="note">
+**The course sandbox has no waves**, so there is no example for this lesson. In the game the
+instruction works as usual.
+</Card>
+
+<Card kind="recap">
+- `spawnwave x y natural` calls a wave early or drops its roster at a point.
+- With `true` the wave counter goes up, with `false` it does not.
+- The roster comes from the map's rules, configured in the editor.
+- Individual units are created with `spawn`, not with a wave.
+</Card>

@@ -1,0 +1,101 @@
+---
+title: Spawn Bullet
+description: "How a world processor fires a bullet with no turret: whose ammo it is, whose team and what can be tweaked"
+lead: "A shot with no shooter: the bullet is borrowed from a turret and flies from wherever you say"
+difficulty: medium
+sidebar:
+    order: 0
+    label: A bullet out of nowhere
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {SHOT} from '../../../../../course/scenes/world.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'world-intro', title: 'What a world processor is'},
+        {lesson: 'explosion', title: 'An explosion at a point'}
+    ]}
+/>
+
+<Example client:load scene={SHOT} world={true} locale="en" />
+
+```
+bullet shot @duo @graphite 5 5 0 @sharded null -1 1 1 0 0
+```
+
+Once a second a duo's graphite bullet flies out of tile five — although there is no turret on
+the map at all. The dagger on the right loses health and dies after a dozen shots.
+
+| Field | What is in it |
+| --- | --- |
+| first | where to put the created bullet |
+| second | **whose bullet we borrow**: a turret or unit type |
+| third | which ammo: an item for an item turret, a weapon index for a unit |
+| fourth and fifth | where it flies from, in tiles |
+| sixth | the angle in degrees |
+| seventh | the team |
+| eighth | the owner: the unit or building the shot is credited to |
+| ninth | damage; `-1` means "as the ammo's" |
+| tenth and eleventh | multipliers for speed and lifetime |
+| twelfth and thirteenth | the aim point — for bullets that use one |
+
+## A bullet always belongs to somebody
+
+The instruction has no bullet kind of its own: it borrows a ready **type** from whoever fires
+such bullets.
+
+- from an item turret — by ammo: `@duo` plus `@copper`, `@graphite` or `@silicon`;
+- from a power turret — its own shot, with no ammo needed;
+- from a unit — by weapon index: `@dagger` and `0`.
+
+Hence the strength of the shot: graphite from a duo hits for 18, copper for 9. The ninth field
+lets you rewrite the damage without touching anything else.
+
+<Card kind="note">
+The team and the owner are different things. The team decides who gets hurt; the owner who the
+hit is credited to. The owner can be a unit or a building, or it can be left empty: then the
+shot simply has no author.
+</Card>
+
+## What it is for
+
+- **weapons the game does not have**: traps, shooting walls, delayed mines;
+- **scripted events**: shelling the base "from afar", a meteor shower;
+- **spectacle**: a victory salute, tracer fire along a road.
+
+<Card kind="error">
+**A bullet checks nothing.** Not ammo, not reload, not firing range — as many as you say fly
+out. A program calling `bullet` every iteration fires several hundred bullets a second and
+brings the game down exactly as <Lesson lesson="spawn">`spawn`</Lesson> does without a limiter.
+
+So shots are always paced: by a <Lesson lesson="advanced/time">timer</Lesson>, as in the
+example, or by an event.
+</Card>
+
+<Card kind="note">
+**The course sandbox does not support unit bullets** — only item turrets'. In the game the
+instruction works as usual.
+</Card>
+
+<Card kind="recap">
+- `bullet` creates a bullet at a point on the map, with no turret and no shooter.
+- The bullet's type is borrowed from a turret or a unit; an item turret also needs ammo.
+- The team decides who gets hurt; the owner who the shot is credited to.
+- Damage, speed and lifetime can be rewritten with multipliers.
+- The instruction checks neither ammo nor reload — the program keeps count.
+</Card>
+
+<Card kind="task">
+Change the ammo in the example from `@graphite` to `@copper`: the damage halves and the dagger
+lives noticeably longer.
+
+Then set the ninth field to `100` instead of `-1`: the bullet looks the same but hits five
+times harder than graphite.
+</Card>
