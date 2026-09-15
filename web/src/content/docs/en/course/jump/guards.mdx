@@ -1,0 +1,167 @@
+---
+title: Nested conditions and early exit
+description: "How to build «and», «or» and else out of several jumps, leave a loop early and skip a step"
+lead: "A jump has one condition and one target. Everything else — «and», «or», else, leaving a loop — is assembled out of several jumps"
+difficulty: medium
+sidebar:
+    order: 3
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {GUARD, BREAK, SKIP} from '../../../../../course/scenes/branching.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'jump/branch', title: 'Condition and branching'},
+        {lesson: 'jump/loops', title: 'Loops'}
+    ]}
+/>
+
+Exactly one check fits into a `jump`: two values and one comparison. There is no "and", no "or"
+and no "else if" in it — and there never will be. But several jumps can be put in a row, and
+that covers everything.
+
+## "And" is two jumps in a row
+
+The condition "switched on **and** there is enough stock" is written as two lines, and both
+lead to the same place — past the work:
+
+```
+jump 8 equal on 0
+jump 8 lessThan stock 10
+```
+
+Note that the checks are **inverted**. `jump` sends execution away, so it has to be sent away
+when the condition for working is **not** met. That is the main reason other people's mlog
+programs read badly, and it is worth getting used to straight away.
+
+<Card kind="note">
+There is a second way: fold the condition into a variable with `op land` and check it with one
+jump. It reads more easily but costs extra instructions and cannot stop at the first failing
+check. For two checks people usually take jumps; for a complex condition, `op`.
+</Card>
+
+## "Or" is two jumps to the same place
+
+Inverted checks are not needed here: each jump is sufficient by itself.
+
+```
+jump 12 greaterThan enemiesNear 0
+jump 12 lessThan health 200
+```
+
+The program goes to line 12 if **at least one** of the two happened.
+
+## Early exit instead of nesting
+
+<Example client:load scene={GUARD} world={false} locale="en" />
+
+Here is that pair of checks in full. Everything that should abort the work is checked **at the
+top**, and each check sends execution to the end:
+
+```
+jump 8 equal on 0
+jump 8 lessThan stock 10
+set give 5
+op sub stock stock give
+set done 1
+stop
+set done 0
+```
+
+This is called an **early exit**, and the checks themselves are **guards**. The work stays one
+flat piece, with no steps in it.
+
+The temptation to write it the other way round — "if switched on, then if there is enough
+stock, then…" — leads to a staircase of jumps where every branch goes to its own line. In text
+that is still readable; in blocks it becomes a tangle of arrows.
+
+<Card kind="note">
+**A line number need not be written into a `jump` at all.** The text form has labels: a line
+like `done:` takes no number, and `jump done …` leads to it.
+
+```
+again:
+op add count count 1
+jump again lessThan count 5
+```
+
+This is an ordinary part of the language, not an invention of external editors: the game's own
+parser understands labels. A line inserted in the middle then breaks nothing — the target is
+tied to the label, not to a number. In detail in the lesson
+<Lesson lesson="advanced/labels">"Labels"</Lesson>.
+
+Blocks have no labels and need none: there the target is an arrow onto the block itself, and it
+travels with it.
+</Card>
+
+## Leaving a loop early
+
+<Example client:load scene={BREAK} world={true} locale="en" />
+
+The loop looks for the first non-empty slot in a cell — and stops walking as soon as it finds
+one:
+
+```
+read value cell1 address
+jump 7 notEqual value 0
+op add address address 1
+jump 1 lessThan address 64
+set wasFound -1
+stop
+set wasFound address
+```
+
+A jump from the middle of a loop to the line **after** it is an early exit. The program stops
+at address 3, where `42` sits, instead of walking all sixty-four slots for nothing.
+
+The line `set wasFound -1` is what happens if the loop reached the end and found nothing. The
+"not found" answer is always worth preparing: without it the variable keeps the previous
+iteration's value, and the program takes an old find for a new one.
+
+## Skipping a step
+
+<Example client:load scene={SKIP} world={false} locale="en" />
+
+The opposite case: this pass of the loop should not be done, but it is too early to leave. The
+jump goes not outside but **to the counter's increment**:
+
+```
+op mod rest count 2
+jump 4 notEqual rest 0
+op add total total count
+op add count count 1
+jump 1 lessThan count 10
+```
+
+Only even numbers make it into the sum — the total comes out as `20`. Odd ones are wound past
+without touching the sum.
+
+<Card kind="error">
+**A skip must not jump over the counter.** If the jump lands above the line
+`op add count count 1`, the counter stops growing and the loop becomes endless. The program
+does not break and gives no error — it simply sticks on one value for ever.
+</Card>
+
+<Card kind="recap">
+- A `jump` holds one check; "and" is several jumps in a row to the same place.
+- For "and" the checks are inverted: send execution away when the working condition is not met.
+- "Or" is assembled from jumps without inverting.
+- An early exit keeps a program flat: guards at the top, the work in one piece.
+- Leaving a loop is a jump to the line after it; skipping a step is a jump to the counter.
+- The "not found" answer is prepared in advance, or the previous one stays.
+</Card>
+
+<Card kind="task">
+In the first example set `set on 0` and run it: the work does not happen at all — `done`
+becomes zero and `stock` stays at forty.
+
+In the second example change the cell's contents so that there are no non-empty slots at all
+and look at `wasFound`: it holds `-1` — that very answer prepared in advance.
+</Card>

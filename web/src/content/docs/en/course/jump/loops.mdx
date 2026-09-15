@@ -1,0 +1,107 @@
+---
+title: Loops
+description: "A jump backwards: how to build a loop, why it needs preparing and why an endless loop does not freeze the game"
+lead: "The same jump, only the arrow points up — and the program starts repeating a piece of itself"
+difficulty: medium
+sidebar:
+    order: 2
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {LOOP} from '../../../../../course/scenes/jump.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'jump/branch', title: 'Condition and branching'},
+        {lesson: 'op/arithmetic', title: 'Arithmetic'}
+    ]}
+/>
+
+A loop in mlog is not a separate instruction and not a special way of writing things. It is the
+same `jump` with its arrow pointing **up**: at a line that has already run.
+
+The example adds up the numbers from zero to four. Press "step" seventeen times — or "run"
+once, then pause.
+
+<Example client:load scene={LOOP} world={false} locale="en" />
+
+`total` becomes ten: 0 + 1 + 2 + 3 + 4. `count` stops at five — the value at which the
+condition stopped holding.
+
+## The three parts of a loop
+
+| Part | In the example | What for |
+| --- | --- | --- |
+| preparation | `set count 0`, `set total 0` | clear whatever the loop will accumulate |
+| body | `op add total total count` | the reason for all of this |
+| step and check | `op add count count 1`, `jump` | move on and decide whether another iteration is needed |
+
+The check here is **at the end**, and that matters: the body runs at least once even if the
+condition was false from the start. Such a loop assembles itself, and most of the time it is
+the one you want.
+
+If the body must not run at all, the check goes at the top: a jump **forward**, past the end of
+the loop, with an unconditional jump backwards at the end of the body. Two `jump` lines instead
+of one.
+
+## Preparation is compulsory
+
+A program runs in an endless loop, and the second iteration does not start from a clean slate:
+the variables hold what was left from the first. So `set count 0` is not a formality but part
+of the loop.
+
+<Card kind="error">
+Remove the first line from the example and the first iteration works as before, while every
+following one gives a seemingly random number: 5, then 6, then 7. The body runs exactly once,
+because `count` arrived already above five and the condition is false straight away.
+
+That is the most common way a loop breaks, and it shows in the variables table at once —
+a counter that does not start over.
+</Card>
+
+## An endless loop does not freeze the game
+
+A loop with no way out is no catastrophe. A processor runs exactly as many instructions per
+tick as it is allowed (`@ipt`: two on a micro processor, eight on a logic one, twenty-five on
+a hyper) and gives control back to the game. It will spin for ever, and the game meanwhile goes
+on as usual.
+
+Something else is bad about it: **the program will never reach the other lines**. Everything
+below the loop will never run again — the processor is busy.
+
+<Card kind="note">
+If you need to "wait", do not write a waiting loop: `wait` exists for that, and it spends ticks
+properly instead of eating them. That is the lesson <Lesson group="wait">"Wait"</Lesson>.
+</Card>
+
+## How many ticks a loop takes
+
+Eighteen instructions on a micro processor is nine ticks, about a seventh of a second. Such
+a loop cannot be seen on "run", which is why it is walked a step at a time.
+
+The longer the loop, the less often the program returns to the top. That is not a fault but
+a price: logic in Mindustry has no parallelism, and the only ways to get more done are a faster
+processor or a shorter loop.
+
+<Card kind="recap">
+- A loop is a `jump` with the arrow pointing up; there is no separate instruction for it.
+- The parts of a loop: preparation, body, step and check.
+- A check at the end means the body runs at least once; a check at the top needs a second `jump`.
+- Without clearing the variables the second iteration computes the wrong thing.
+- An endless loop does not freeze the game, but nothing below it will ever run again.
+</Card>
+
+<Card kind="task">
+Change the five in the condition to 10 and run the example again: `total` becomes 45 — the sum
+of the numbers from zero to nine.
+
+Then drag the jump's arrow onto the line `op add count count 1` instead of
+`op add total total count`. The addition drops out of the loop's body, and `total` stays zero
+for ever, though the loop keeps spinning dutifully up to five.
+</Card>

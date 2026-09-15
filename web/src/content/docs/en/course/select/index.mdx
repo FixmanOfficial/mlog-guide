@@ -1,0 +1,29 @@
+---
+title: Select
+description: The group of lessons about select — the instruction that picks one value out of two
+lead: "Pick one value out of two by a condition, without sending execution off to the side"
+sidebar:
+    order: 0
+    label: Overview
+---
+
+import LessonList from '../../../../../course/LessonList.astro'
+
+`select` is a `jump` that jumps nowhere. Its condition is the same, and instead of jumping it
+**puts one of two values into a variable**: the first if the condition holds, the second if not.
+
+The line reads as words, and in the game that is how it is written:
+`total = if copper >= 100 then 1 else 0`.
+
+The group is small: the instruction does exactly one thing, and the whole conversation is about
+when it is appropriate. Not always: if the choice is between one and zero, the comparison in
+`op` gives the answer by itself, and `select` there is redundant.
+
+## Lessons
+
+<LessonList group="select" />
+
+## What you need first
+
+[«Condition and branching»](/en/course/jump/branch/) — that is where the conditions and their
+labels in the blocks are covered, and `select` takes exactly the same ones.

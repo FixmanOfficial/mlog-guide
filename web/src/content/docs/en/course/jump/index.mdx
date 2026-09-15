@@ -1,0 +1,39 @@
+---
+title: Jump
+description: The group of lessons about jump — conditions, branching and loops
+lead: "Check a condition and go somewhere other than you normally would: branches and loops"
+sidebar:
+    order: 0
+    label: Overview
+---
+
+import LessonList from '../../../../../course/LessonList.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+
+Until a program has a `jump` in it, it runs top to bottom and, on reaching the end, starts from
+the top again — doing the same thing whatever the circumstances. `jump` is the instruction that
+changes that: one check, and execution goes off to the side. Writing to
+<Lesson lesson="advanced/counter">`@counter`</Lesson> does the same job, but that is used rarely
+and deliberately.
+
+The line is built like this: **where to jump**, **which condition** and **what to compare with
+what**. If the condition holds, the next line to run is the one the arrow points at; if not,
+the ordinary next one.
+
+Everything else is assembled from that:
+
+- **a branch** — a jump forward, over a piece of the program;
+- **a loop** — a jump backwards, to a line that has already run.
+
+To the processor there is no difference between them: in both cases the number of the next line
+simply changes. That is why there are only three lessons.
+
+## Lessons
+
+<LessonList group="jump" />
+
+## What you need first
+
+[«How the processor works»](/en/course/basics/processor/) — that a program runs in an endless
+loop, and what `@counter` is. The comparisons are the same as `op`'s, so
+[«Comparisons and logic»](/en/course/op/logic/) will come in handy, though it is not required.

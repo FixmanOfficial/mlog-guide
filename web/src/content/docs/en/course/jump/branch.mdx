@@ -1,0 +1,125 @@
+---
+title: Condition and branching
+description: "How jump checks a condition and sends execution off to the side, and why a branch needs an end"
+lead: "One check — two roads. How a program stops being a straight line"
+difficulty: easy
+sidebar:
+    order: 1
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {BRANCH} from '../../../../../course/scenes/jump.js'
+
+<LessonHead
+    difficulty="easy"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'basics/processor', title: 'How the processor works'},
+        {lesson: 'set/assign', title: 'Assignment and copying'}
+    ]}
+/>
+
+`jump` has four fields: where to jump, which condition, and the two values being compared.
+The line reads as "if `stock` is greater than or equal to ten — go there".
+
+If the condition holds, the next line to run is the one the arrow points at. If it does not,
+the ordinary next one runs and the program carries on as if nothing had happened.
+
+Press "step" four times.
+
+<Example client:load scene={BRANCH} world={false} locale="en" />
+
+`stock` holds a seven and the condition asks about ten: it is false, there is no jump, and the
+program reaches `set low 1`. The "there is enough stock" branch stayed aside — execution never
+got to it.
+
+## The target is set by an arrow, not a number
+
+In the program's text a jump's target is a line number, but numbers are not written in the
+blocks: a `jump` line has an arrow on the left, and you **drag** it onto the line you want.
+While you drag, the lines light up.
+
+That is not for looks. Numbers shift every time a line is added or deleted, and an arrow holds
+onto the line itself: insert something in the middle and the target is unchanged, so the jump
+still leads where it should.
+
+## Why a branch needs `end`
+
+The example's third line is `end`, and without it the program, having landed in the "low"
+branch, would fall through into the "enough" branch and run both.
+
+That is branching's main trap: **lines do not know they belong to somebody's branch**.
+Execution does not stop at the boundary — it simply carries on down the list. So a branch has
+to be left deliberately: either with `end` or with another jump.
+
+<Card kind="note">
+Here `end` is used precisely as a way out of a branch: it returns the program to the first
+line. How it differs from `wait` and `stop` is in the lesson <Lesson
+group="end">"End"</Lesson>.
+</Card>
+
+## What conditions there are
+
+There are eight conditions. The list names them in English, and the line itself shows not
+a name but a sign — two different labels, and both are worth knowing:
+
+| Condition | In the block | When it jumps |
+| --- | --- | --- |
+| `equal` | `==` | the values are equal |
+| `notEqual` | `not` | they are not equal |
+| `lessThan` | `<` | less |
+| `lessThanEq` | `<=` | less than or equal |
+| `greaterThan` | `>` | greater |
+| `greaterThanEq` | `>=` | greater than or equal |
+| `strictEqual` | `===` | equal and of one kind: <Lesson lesson="basics/null">tells emptiness from zero</Lesson> |
+| `always` | `always` | always; the comparison fields disappear |
+
+<Card kind="error">
+The condition button shows a **sign**, not a name: `===`, not `strictEqual`. Worse, "not equal"
+looks like `not` — with no equals sign at all — and it is the same thing as `notEqual` in the
+references and in the program's text.
+
+And with the translation on, the words are translated too, while the symbols never are.
+</Card>
+
+`jump` compares exactly as `op` does: with the same slack in the sixth decimal place and the
+same rules for `null`. The details are in the lesson
+[«Comparisons and logic»](/en/course/op/logic/).
+
+## `always`: a jump with no condition
+
+The `always` condition jumps every time, and the comparison fields disappear from the line —
+there is nothing to compare.
+
+It is needed in two places: to close a loop whose check is at the top, and to leave a branch
+for wherever the common part of the program resumes. The second happens more often than it
+seems: `end` starts the iteration over, while `always` lets you carry on from the right place.
+
+<Card kind="note">
+There is no "not less" condition in the list, and there is no point looking for one: that is
+`greaterThanEq`. `jump` has no negation either — "jump when not equal" is `notEqual`, not
+"equal the other way round".
+</Card>
+
+<Card kind="recap">
+- `jump` jumps if the condition holds and does nothing if it does not.
+- The target is set with an arrow: it holds onto the line, not its number.
+- Execution does not stop at a branch's boundary — you have to leave it yourself.
+- `end` starts the iteration over and works as a way out of a branch.
+- There are eight conditions, and they compare just as `op` does.
+- The block shows a sign, not a name: `===` instead of `strictEqual`, `not` instead of `notEqual`.
+- `always` always jumps and hides the comparison fields.
+</Card>
+
+<Card kind="task">
+Change the seven in the first line to 12 and run the example again. Now the condition holds,
+the jump happens, and `low` becomes zero — the second branch runs and the first does not.
+
+Then delete the `end` line and set it back to 7. `low` becomes a one first and then a zero: the
+program runs both branches one after the other, because there is nowhere to leave the first one
+for any more.
+</Card>

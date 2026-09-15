@@ -1,0 +1,105 @@
+---
+title: Choosing a value without a branch
+description: "How select puts one of two values into a variable and when it beats op or jump"
+lead: "A branch for the sake of one value is unnecessary — but select is not always needed either: a comparison already has an answer"
+difficulty: easy
+sidebar:
+    order: 1
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {CHOICE} from '../../../../../course/scenes/select.js'
+
+<LessonHead
+    difficulty="easy"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'jump/branch', title: 'Condition and branching'},
+        {lesson: 'op/logic', title: 'Comparisons and logic'}
+    ]}
+/>
+
+`select` puts one of two values into a variable: the first if the condition holds, the second
+if it does not. In the block it reads as words: `total = if copper >= 100 then 1 else 0`.
+
+Before picking it up it is worth understanding when it is *not* needed — otherwise people start
+writing with it what is shorter without it.
+
+<Example client:load scene={CHOICE} world={true} locale="en" />
+
+Press "step" four times.
+
+## When `select` is not needed
+
+The example's second line is `op greaterThanEq enough copper 100`, and `enough` ends up
+holding a one. No choice was required: **a comparison answers with a one or a zero by itself**,
+and that is already a finished value.
+
+<Card kind="error">
+So `select enough >= copper 100 1 0` is wasted work: the same one and zero come out of a single
+`op`. If both of your values are 1 and 0, what you need is not `select` but a comparison.
+More on that in the lesson [«Comparisons and logic»](/en/course/op/logic/).
+</Card>
+
+## When it is the right tool
+
+As soon as the values stop being one and zero, a comparison stops helping.
+
+**The third line** chooses between two strings: `caption` becomes "enough". That cannot be had
+through `op` at all — a comparison can only answer with a number.
+
+**The fourth line** — `select howMany lessThan copper 100 copper 100` — caps a number from
+above: if there is less than a hundred copper, take what there is; otherwise take exactly
+a hundred. `howMany` ends up as 100.
+
+The general rule: `select` is needed when **both values are arbitrary** — numbers other than
+zero and one, strings, items, buildings, variables.
+
+| What is being chosen | With what |
+| --- | --- |
+| a one or a zero by a condition | `op` with a comparison |
+| one of two ready values | `select` |
+| one of two actions | `jump`: that is a branch, not a value |
+| the larger or smaller of two numbers | `op max` and `op min` — shorter |
+
+## It chooses a value, not an action
+
+Both halves of `select` are **values** that already exist: numbers, strings, variables,
+objects. The instruction runs nothing and skips nothing, it simply takes one of two.
+
+<Card kind="error">
+Calculations cannot be hidden in the fields: `total = if … then a+1 else a-1` cannot be
+written, because `a+1` is an operation, not a value. You compute in advance, in two `op` lines,
+and `select` takes what is already computed.
+
+And both halves are computed — including the one that will not be taken. If the calculation is
+expensive, `jump` is cheaper: it does skip what is not needed.
+</Card>
+
+## The conditions are the same as `jump`'s
+
+There are eight of them, and the buttons carry the same signs — `==`, `===`, `not` and the rest
+from [the table](/en/course/jump/branch/). The words "if", "then" and "else" in the block are
+a translation; without it they are `if`, `then`, `else`.
+
+<Card kind="recap">
+- `select` puts one of two ready values into a variable by a condition.
+- If the values are one and zero, `select` is not needed: the comparison itself gives the answer.
+- Only it can choose between strings, items and arbitrary numbers.
+- An action is chosen by branching, not by `select`.
+- The conditions and their labels are the same as `jump`'s.
+</Card>
+
+<Card kind="task">
+Change the condition in the third line to `lessThan` and run the example again: `caption`
+becomes "low", although there is still 120 copper. The values stayed where they were — the
+first is still the one for "true", it is just that "true" now means something else.
+
+Then type `copper` instead of `100` in the second half of the fourth line: the cap disappears,
+and `howMany` equals the copper whatever the condition. That shows both halves are ordinary
+values, and nothing stops you putting the same thing in both.
+</Card>
