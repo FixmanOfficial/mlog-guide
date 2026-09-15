@@ -1,0 +1,151 @@
+---
+title: The flag as a tag
+description: "Why units are tagged, why the tag must always be set and how to check that a unit is still yours"
+lead: "Every unit has a number the game never uses. Without it two processors will pull one squad apart"
+difficulty: medium
+sidebar:
+    order: 4
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {FLAG} from '../../../../../course/scenes/ucontrol.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'ubind/object', title: 'Keeping one unit'},
+        {lesson: 'jump/guards', title: 'Nested conditions and early exit'}
+    ]}
+/>
+
+The walk hands out units in a circle, and the program gets somebody new every time. Worse, the
+same walk runs in the neighbouring processor — and hands it **the very same** units. To divide
+a squad, a unit is **tagged**:
+
+```
+ucontrol flag 7 0 0 0 0
+```
+
+Now its `@flag` holds a seven. Any processor can read it:
+
+```
+sensor tag @unit @flag
+```
+
+<Example client:load scene={FLAG} world={true} locale="en" />
+
+The program hands out numbers: whoever has no tag (zero) gets the next one, whoever has one is
+skipped. Three polys get one, two and three, and `lastTag` stops at three: there is nobody left
+to tag.
+
+## The tag is always set, not set when needed
+
+It is easy to decide tagging is for complicated cases: "I have one processor, I will just take
+mine by walking the list". That will not work. `ubind @poly` in every processor walks the
+**shared** list of all the team's polys, and each has its own counter. Two processors without
+tags will inevitably take the same unit and will <Lesson lesson="ucontrol/control">take it from
+each other</Lesson> — silently, without a single error.
+
+So tagging is not a technique for later but the ordinary shape of a program about units:
+
+```
+ubind @poly
+sensor tag @unit @flag
+jump 0 notEqual tag 0
+ucontrol flag 1 0 0 0 0
+```
+
+While units have no tag the processor sorts them out; tagged ones it skips. The ones that are
+not its own — those whose tag is somebody else's — it will never touch.
+
+<Card kind="error">
+**Setting the tag is not enough, it has to be checked.** A program that tagged a unit once and
+commands it without looking will sooner or later command somebody else's: the unit died,
+another took its place in the walk, and nobody asked that one for its tag.
+
+```
+ubind @poly
+sensor tag @unit @flag
+jump 0 notEqual tag 1
+ucontrol move 20 30 0 0 0
+```
+
+Three lines, and they are compulsory: bind, ask for the tag, go back to the top if the tag is
+somebody else's. Everything else comes after the check.
+</Card>
+
+<Card kind="error">
+**And the tag is not enough either.** A flag says "this unit is mine by agreement", but not
+that a neighbour has not taken it: `ucontrol` does not look at the tag at all. The full check
+adds <Lesson lesson="ucontrol/control">`@controller`</Lesson>:
+
+```
+sensor who @unit @controller
+jump 0 notEqual who @this
+```
+
+The first line cuts off those who are not yours by agreement, the second those who are not
+yours in fact.
+</Card>
+
+## What it is for
+
+A flag is **the only memory that lives on the unit itself**, not in a processor and not in
+a cell. Every use of it follows from that:
+
+- **dividing a squad.** Tag `1` carries copper, tag `2` mines, tag `3` repairs. Every processor
+  looks at the flag and skips the others;
+- **not grabbing the same one twice.** Having tagged a unit, the program sees it is already
+  busy — even if it forgot about it between iterations;
+- **handing a unit to another processor.** One tags, the other reads: talking through a flag is
+  cheaper than through a memory cell, and the tag is always on the unit;
+- **counting your own.** A walk plus a tag check tells you how many units have already been
+  assigned.
+
+<Card kind="note">
+A flag is an ordinary number with all a number's properties, and a lot fits into it: a task
+number and a coordinate packed together, for example. Although "a lot" runs into how many
+<Lesson lesson="advanced/numbers">whole numbers fit into a number</Lesson> — 53 bits, and that
+is all.
+</Card>
+
+## What a flag cannot do
+
+<Card kind="error">
+**A flag does not survive a unit's death.** A new unit of the same type arrives with a zero, and
+all the tags have to be handed out again. A program that hands out tags once at start-up will
+be left with a hole in the squad after the first loss.
+
+So the handing out is kept in the loop — as in the example: zero means "not tagged", and
+a newcomer gets a number by itself.
+</Card>
+
+An enemy cannot see the flag — as with everything else on another team's units. The flag is not
+shown in the game: no number over the unit, no highlight. And buildings have no flag: there the
+role of a tag is played by a <Lesson lesson="write/cells">memory cell</Lesson> or the block's
+configuration.
+
+And the numbers have to be agreed on by you: the game will not give two processors different
+tags, it simply stores a number. Two authors who both chose a one get the same muddle as with
+no tags at all.
+
+<Card kind="recap">
+- `ucontrol flag number` puts a tag on a unit, `sensor @flag` reads it.
+- The tag is set **always**: otherwise processors pull one squad apart.
+- And always checked — the tag before working, and `@controller` against interception.
+- Zero means "not tagged" — every unit starts there.
+- Death wipes the tag: the handing out is kept in the loop.
+</Card>
+
+<Card kind="task">
+Change `jump 6 notEqual tag 0` in the example to `jump 6 notEqual tag 99`: the program decides
+everybody needs tagging every iteration, and `lastTag` climbs without stopping.
+
+Then put it back and add the line `ucontrol move 3 3 0 0 0` after `ucontrol flag`: tagged units
+gather in one corner — a tag and an order usually travel together.
+</Card>

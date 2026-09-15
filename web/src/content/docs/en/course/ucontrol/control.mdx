@@ -1,0 +1,158 @@
+---
+title: Who is driving the unit
+description: "How to find out whose unit it is: @controlled, @controller, ten seconds of authority and why it gets taken away"
+lead: "A unit obeys whoever commanded it last. Two properties tell you who that is right now"
+difficulty: medium
+sidebar:
+    order: 6
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {OWNER, STOLEN, FORGET} from '../../../../../course/scenes/ucontrol.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'ucontrol/move', title: 'Movement and stopping'},
+        {lesson: 'ucontrol/flag', title: 'The flag as a tag'}
+    ]}
+/>
+
+<Example client:load scene={OWNER} world={true} locale="en" />
+
+Two processors are looking at one poly. The upper one commands, the lower one only asks — and
+sees somebody else's authority from the outside.
+
+```
+sensor who @unit @controller
+op equal own who @this
+```
+
+`@controller` gives the **block** that is currently driving the unit. In the upper processor
+`own` becomes a one; in the lower it stays zero, because `who` there is somebody else's
+`processor1`.
+
+## Two properties instead of one
+
+| Property | What it gives |
+| --- | --- |
+| `@controlled` | a **number**: what kind of driver — a processor, a player, an order |
+| `@controller` | an **object**: which block exactly, or the unit itself if logic is not driving it |
+
+`@controlled`'s numbers are not made up; they have names:
+
+| Value | Constant | What it means |
+| --- | --- | --- |
+| `0` | — | nobody: the unit lives by its own mind |
+| `1` | `@ctrlProcessor` | a processor is driving it |
+| `2` | `@ctrlPlayer` | a player is inside it |
+| `3` | `@ctrlCommand` | a player has given it an order |
+
+<Card kind="note">
+`@controller` on an undriven unit gives **the unit itself**, not emptiness. That is convenient:
+the comparison `who == @this` answers "is it mine" the same way whether the unit is free or has
+been taken.
+</Card>
+
+## Neither of the two answers in full
+
+The properties look like two views of one thing, but each has a blind spot of its own — which
+is why a real check takes them together.
+
+<Card kind="error">
+**`@controlled` does not tell your processor from somebody else's.** A one means "some
+processor is driving it", and that is all. A program that checks only `@controlled` will
+happily command a unit a neighbour has already taken — the numbers add up, after all.
+
+Which one exactly is known only to `@controller`, and it has to be compared with `@this`.
+</Card>
+
+<Card kind="error">
+**`@controller` does not show a player.** It gives a block only when a **processor** is driving
+the unit. In every other case — when the unit lives by its own AI and when a player has got
+inside it — the answer is the unit itself, one and the same.
+
+A human can only be told apart by `@controlled`: two is a player, three is an order.
+</Card>
+
+Hence both lines together, and in this order:
+
+```
+sensor ctrl @unit @controlled
+jump 0 greaterThan ctrl 1       // taken by a human — leave it alone
+sensor who @unit @controller
+jump 0 notEqual who @this       // taken by another processor — likewise
+```
+
+## Authority is taken away in silence
+
+<Example client:load scene={STOLEN} world={true} locale="en" />
+
+Here both of them command, and each drags the poly towards its own corner. Watch `own` in both:
+the one goes to whichever command ran last, and the unit dangles between two targets.
+
+<Card kind="error">
+**Interception does not count as an error.** No refusal, no warning: `ucontrol` simply takes
+the unit from its previous owner. A program written on the assumption that "this unit is mine
+for ever" starts behaving inexplicably — and it is not its own code that is to blame but the
+neighbouring processor.
+
+Hence the rule for working with a squad: **tag your own with a flag and check the tag**, rather
+than hoping nobody will touch the unit. That is the <Lesson lesson="ucontrol/flag">lesson about
+the flag</Lesson>.
+</Card>
+
+## Ten seconds and no more
+
+<Example client:load scene={FORGET} world={true} locale="en" />
+
+Here the order is given **once**, and after that the program only asks. The poly reaches the
+spot — and ten seconds later `ctrl` drops from one to zero, while `who` starts showing the unit
+itself. The processor has let it go.
+
+Every order refreshes the term: while `ucontrol` is called in a loop, the authority never runs
+out. The moment the calls stop — six hundred ticks, and the unit returns to itself.
+
+<Card kind="note">
+It can be let go at once, without waiting out the term: `ucontrol unbind 0 0 0 0 0`. That is
+not "forget the unit" — the `@unit` variable stays as it was — but "stop driving it".
+</Card>
+
+## Who cannot be taken
+
+Two cases where `ucontrol` keeps quiet however often it is called:
+
+- **a player is driving the unit.** One with somebody inside is not given to logic at all;
+- **the unit has an order** — the kind a player hands out by selecting and clicking the map.
+
+In both cases `ubind` works as usual and puts the unit into `@unit` — but the orders never
+reach it, and `@controller` will not say so: it goes on giving the unit itself. That leaves
+`@controlled`: two and three mean the unit is taken by a human.
+
+<Card kind="recap">
+- `@controlled` answers with a number saying what drives a unit; `@controller` with which block.
+- On a free unit `@controller` is the unit itself and `@controlled` is zero.
+- `@controlled` does not tell your processor from another's, `@controller` does not see
+  a player: the full check is both in a row.
+- Any `ucontrol` takes a unit from its previous owner, and that is not an error.
+- Authority lasts ten seconds from the last order and is extended by every new one.
+- Logic will not get a unit under a player or under an order at all.
+</Card>
+
+<Card kind="task">
+In the first example remove the line `ucontrol move 16 6 0 0 0` from the upper processor. There
+is nobody left to command: `own` goes to zero in both, `ctrl` becomes zero, and `who` starts
+showing the poly itself — it is its own master again.
+
+In the second example remove the line `ucontrol move 18 2 0 0 0` from the lower processor.
+The tug of war ends: the poly calmly heads for the upper corner, and `own` in the lower one
+stays zero — you may watch as long as you like, watching gives no authority.
+
+In the third example remove the line `jump 3 notEqual ordered 0`. Now the order repeats every
+iteration, the term is renewed, and `ctrl` never falls to zero at all.
+</Card>

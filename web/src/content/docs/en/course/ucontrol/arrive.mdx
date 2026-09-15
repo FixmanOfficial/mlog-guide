@@ -1,0 +1,100 @@
+---
+title: "Arrival: within"
+description: "How to check whether a unit has arrived, why coordinates cannot be compared and how within differs from approach"
+lead: "A unit will never stand exactly on a point. The question to ask is not «is it there» but «is it close»"
+difficulty: medium
+sidebar:
+    order: 2
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {ARRIVED} from '../../../../../course/scenes/ucontrol.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'ucontrol/move', title: 'Movement and stopping'},
+        {lesson: 'op/integers', title: 'Whole numbers and precision'}
+    ]}
+/>
+
+<Example client:load scene={ARRIVED} world={true} locale="en" />
+
+```
+ucontrol move 16 4 0 0 0
+ucontrol within 16 4 2 arrived 0
+```
+
+While the poly is flying, `arrived` is zero; once it comes within two tiles of the target, it
+becomes one. Note `x`: the unit settled around `15.87`, not exactly on sixteen.
+
+| Field | What is in it |
+| --- | --- |
+| first | `within` |
+| second and third | a point in tiles |
+| fourth | the radius, also in tiles |
+| fifth | where to put the answer: 1 or 0 |
+
+<Card kind="error">
+**`jump … equal x 16` will never fire.** A unit's coordinates are fractional numbers, and there
+is no hitting a whole one exactly with them. Even if the unit stood perfectly, the engine
+computes position in fractions, and `15.999998` is not `16`.
+
+A distance check is the only correct way to ask "is it there yet".
+</Card>
+
+## `within` is a question, not an order
+
+`within` does nothing to the unit: it only answers. So it does **not take control** — a unit
+nobody has commanded will not fall under control from a `within` alone. `unbind` behaves the
+same way.
+
+But control that has already been taken is extended by `within`: if the unit was commanded
+earlier, every question refreshes the ten-second term just as an order does.
+
+```
+ucontrol move 16 4 0 0 0
+ucontrol within 16 4 2 arrived 0
+jump 0 equal arrived 0
+```
+
+Here `move` is repeated together with the check, and that is the right shape of waiting: the
+order keeps the unit on course rather than merely holding the term open.
+
+## What radius to take
+
+| Radius | When |
+| --- | --- |
+| 1–2 tiles | ordinary "has arrived" |
+| 3–5 tiles | switching to the next waypoint, where precision does not matter |
+| transfer range | before `itemTake` and `itemDrop`: the unit has to get right up close |
+
+Too small a radius and the unit is for ever "almost there": inertia will not let it stop half
+a tile from the target. Too large, and the program decides it has arrived while the store is
+still a flight away.
+
+<Card kind="note">
+**`approach` and `within` are different things.** `approach` tells a unit to stop at
+a distance, `within` asks whether it is close. They are often confused because of the similar
+third field, but the first is an order and the second a question.
+</Card>
+
+<Card kind="recap">
+- `ucontrol within x y radius answer` puts down 1 or 0: whether the unit is close.
+- Coordinates cannot be compared directly — they are fractional.
+- `within` does not take control, but it extends control already taken.
+- The radius is chosen to fit: 1–2 tiles for arrival, more for waypoints.
+</Card>
+
+<Card kind="task">
+Change the radius from `2` to `0.1` and run it: `arrived` stays zero — a unit will never stand
+that precisely.
+
+Then set the radius to `20`: the one appears at once, before the unit has even moved. The whole
+map fits inside the check's radius.
+</Card>

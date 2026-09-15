@@ -1,0 +1,116 @@
+---
+title: Movement and stopping
+description: "How ucontrol move leads a unit to a point, how stop differs from braking and why the order is repeated in a loop"
+lead: "Coordinates in tiles, an order that lasts ten seconds, and «stop» that does not mean «freeze»"
+difficulty: medium
+sidebar:
+    order: 1
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {MOVE, HALT} from '../../../../../course/scenes/ucontrol.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'ubind/types', title: 'Binding by type'},
+        {lesson: 'sensor/units', title: 'Properties of units'}
+    ]}
+/>
+
+<Example client:load scene={MOVE} world={true} locale="en" />
+
+```
+ubind @poly
+ucontrol move 16 4 0 0 0
+```
+
+Two lines, and the poly flies to tile `16 4`. Watch `x`: it grows while the unit is on its way
+and settles around sixteen once it has arrived.
+
+| Field | What is in it |
+| --- | --- |
+| first | `move` |
+| second and third | the target's coordinates **in tiles** |
+| the rest | unused by `move`, write zeroes |
+
+The coordinates are the same as `@x` and `@y`: map tiles, not world units. So "fly to the
+store" is `sensor x container1 @x`, `sensor y container1 @y` and those same numbers in `move`.
+
+<Card kind="note">
+A unit arrives **roughly** at a point, not exactly: it has acceleration, inertia and drag.
+Checking arrival by comparing coordinates is pointless — <Lesson
+lesson="ucontrol/arrive">`within`</Lesson> exists for that.
+</Card>
+
+## The order is repeated, not issued
+
+Control of a unit lasts **ten seconds** — 600 ticks. Every new order starts that count again,
+and when the time runs out the unit returns to its usual behaviour: a poly flies off to repair
+buildings, a dagger walks to the nearest enemy.
+
+Movement simply stops at that point — there is nobody left to drive it. But the work it was
+given stays: mining, building and the flag survive the timer and are removed only by a new
+order.
+
+So a program about units almost always looks like this: bind, command, end the iteration — and
+start again. There is nothing wasteful about it; a repeated order does not knock the unit off
+course.
+
+## `stop` is not a brake
+
+<Example client:load scene={HALT} world={true} locale="en" />
+
+Here the program leads the poly to `16 4`, but as soon as `x` passes ten it issues
+`ucontrol stop`. The unit then coasts several more tiles, and `x` settles around seventeen —
+**past the target**.
+
+`stop` means "I am no longer driving you", not "stand still". Speed is killed by drag, and
+a flying unit carries a long way.
+
+<Card kind="error">
+**To hold a unit at a point you command `move` to that point, not `stop`.** A `move` works like
+a tether: the unit stands there, and if pushed it comes back. `stop` simply lets go of the
+control until the ten-second term expires.
+</Card>
+
+## Other ways to move
+
+| Command | What it does |
+| --- | --- |
+| `move` | straight to a point, ignoring the terrain |
+| `approach` | towards a point, stopping at a given radius |
+| `pathfind` | to a point by road — a ground unit walks round a wall |
+| `autoPathfind` | where the unit would go by itself: to the enemy core |
+| `boost` | lift a ground unit into the air, if it can |
+| `idle` | do nothing, but stay under control |
+
+`approach` comes in handy when getting right up close is unnecessary: to a turret to repair it,
+or to an enemy at firing range. Its radius is in the third field, in tiles as well.
+
+<Card kind="note">
+For flyers `move` and `pathfind` are the same thing: air needs no roads. The difference shows
+only on the ground, and **the course sandbox has no pathfinding**: ground units go straight too.
+In the game `pathfind` leads them around.
+</Card>
+
+<Card kind="recap">
+- `ucontrol move x y` leads the bound unit to a point; the coordinates are in tiles.
+- Control lasts 600 ticks, so the order is repeated every iteration.
+- A unit arrives roughly at a point: there is acceleration and inertia.
+- `stop` releases the movement rather than braking; to hold a unit, `move` it to the same point.
+- `pathfind` goes round obstacles, `approach` stops at a distance.
+</Card>
+
+<Card kind="task">
+In the first example change the target to `3 8` and run it: the unit turns around and flies
+back up, and `y` heads towards eight.
+
+In the second example change `ucontrol stop` to `ucontrol move 10 4 0 0 0`. Now the unit does
+not overshoot: having reached tile ten, it stays about there.
+</Card>

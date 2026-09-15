@@ -1,0 +1,26 @@
+---
+title: Unit Bind
+description: The group of lessons about ubind — binding a unit to a processor, the cycle through them and other teams' units
+lead: "A processor does not drive units in general. It drives one — whichever is bound right now"
+sidebar:
+    order: 0
+    label: Overview
+---
+
+import LessonList from '../../../../../course/LessonList.astro'
+
+Every instruction about units — `ucontrol`, `uradar`, `ulocate` — works not with a unit named
+in a field but with the one sitting in `@unit`. `ubind` puts it there, and nothing else does.
+
+Hence the whole order of working with units: bind first, command after. A binding lives until
+the next `ubind`, belongs to each processor separately, and the unit knows nothing about it —
+it simply starts obeying.
+
+## Lessons
+
+<LessonList group="ubind" />
+
+## What you need first
+
+[«Emptiness: null»](/en/course/basics/null/) — with no units around `@unit` comes out empty,
+and that is an everyday thing, not a breakage. The lessons will tell you the rest themselves.

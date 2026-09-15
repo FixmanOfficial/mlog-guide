@@ -1,0 +1,133 @@
+---
+title: Mining
+description: "How to send a unit to mine ore: a tile instead of an item, the mining tier and what a full hold means"
+lead: "Not everyone mines and not everything is minable, and they mine from where they stand — reaching the tile is the unit's own problem"
+difficulty: medium
+sidebar:
+    order: 5
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {MINE} from '../../../../../course/scenes/ucontrol.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'ucontrol/items', title: 'Items: take and drop'},
+        {lesson: 'ulocate/ore', title: 'Where the ore is'}
+    ]}
+/>
+
+<Example client:load scene={MINE} world={true} locale="en" />
+
+```
+ubind @mono
+ucontrol mine 9 4 0 0 0
+```
+
+The mono reaches the ore with a beam and starts mining: `mining` becomes one, `cargo` grows,
+`what` shows copper. In about nine seconds the unit gathers its twenty — no more will fit — and
+the mining stops by itself.
+
+| Field | What is in it |
+| --- | --- |
+| first | `mine` |
+| second and third | the **tile with ore**, not an item |
+| the rest | unused |
+
+The fields hold coordinates, not an item: a unit mines a particular tile, not "copper in
+general". <Lesson lesson="ulocate/ore">`ulocate ore`</Lesson> can find such a tile: it gives
+the coordinates of the nearest ore of the kind you want.
+
+<Card kind="error">
+**A unit does not fly to the ore.** It mines from where it stands, reaching out with a beam:
+the tile has to be no further than eight and a half tiles away already at the moment the order
+is given. Further, and `mine` simply does nothing — no error and no attempt to fly over.
+
+So a unit is led to distant ore yourself:
+
+```
+ucontrol approach 9 4 6 0 0
+ucontrol mine 9 4 0 0 0
+```
+
+Every miner has the same reach — seventy world units, a little over eight tiles.
+</Card>
+
+## Not everyone mines and not everything is minable
+
+Every unit has a mining tier and every ore a hardness. Ore harder than the tier — and the order
+silently does nothing:
+
+| Unit | Tier | What it takes | Cargo slots |
+| --- | --- | --- | --- |
+| Mono | 1 | sand, scrap, copper, lead | 20 |
+| Poly | 2 | and coal as well | 30 |
+| Mega | 3 | and titanium as well | 60 |
+| Dagger, flare | none | nothing | — |
+
+Ore hardness: sand and scrap are zero, copper and lead one, coal two, titanium three, thorium
+four. A unit takes everything no harder than its tier, and thorium on that list goes to nobody:
+it needs tier four.
+
+<Card kind="error">
+**No refusal and no error.** Ore that is too hard, the wrong tile, the wrong unit — in every
+case `mine` simply never starts. You can check with `sensor mining @unit @mining`: a one means
+mining is under way.
+</Card>
+
+## A full hold ends the work
+
+When the cargo is full, mining stops. The unit stays where it is until somebody unloads it —
+it will not fly anywhere by itself.
+
+So a mining program is always a pair of "mine — deliver":
+
+```
+ubind @mono
+sensor cargo @unit @totalItems
+jump 5 greaterThanEq cargo 20
+ucontrol mine 9 4 0 0 0
+end
+ucontrol move 4 4 0 0 0
+ucontrol itemDrop container1 20 0 0 0
+```
+
+While the hold is not full — mine; once it is — fly to the store and hand over. There is no
+need to give a "stop mining" order: a movement command cancels it by itself.
+
+<Card kind="note">
+**Mining by units is faster than a drill, not slower.** One unit of ore takes
+`50 + hardness * 15` ticks divided by the unit's mining speed: for a mono that is 26 ticks for
+copper — nearly two a second. A mechanical drill on four ore tiles gives one every two and
+a half seconds.
+
+And there is no lock on a tile: twenty monos can hang over the same ore at once, and each will
+mine at full speed. Exactly one drill can stand on that spot.
+
+The price is delivery: a drill puts items on a belt itself, while a unit has to be driven to
+the store by a program.
+</Card>
+
+<Card kind="recap">
+- `ucontrol mine x y` sends a unit to mine a **tile**, not an item.
+- A unit mines from where it stands: beyond eight and a half tiles the order does not work.
+- What is available to whom is decided by the unit's mining tier and the ore's hardness.
+- A full hold stops the mining; unloading is the program's job.
+- `sensor @mining` shows whether the work is under way.
+</Card>
+
+<Card kind="task">
+Change `@mono` in the example to `@flare`: there are no flares on the map, the binding gives
+emptiness, and `mining` becomes empty — there is nobody to command. Adding a flare and trying
+again will not help either: it cannot mine at all.
+
+Then put the mono back and set the tile to `5 4`. There is no ore there, but the result is not
+"nothing": `what` shows `sand`. Sand is dropped by the floor itself rather than by an overlay,
+and for mining that is ore like any other — simply the softest.
+</Card>

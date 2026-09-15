@@ -1,0 +1,162 @@
+---
+title: Keeping one unit
+description: "How to keep one unit for yourself: a check instead of a binding, ubind by variable and what happens when the unit dies"
+lead: "There is no point binding every iteration. A proper loop binds rarely — only when the previous unit will no longer do"
+difficulty: medium
+sidebar:
+    order: 2
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {KEEP, EVERY, REMEMBER, LOST} from '../../../../../course/scenes/ubind.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'ubind/types', title: 'Binding by type'},
+        {lesson: 'jump/loops', title: 'Loops'}
+    ]}
+/>
+
+Walking the list is good when every unit needs the same thing. As soon as a unit gets
+**business of its own** — this one carries copper, that one guards a passage — the walk starts
+getting in the way: every iteration goes to a different unit, and none of them finishes the job.
+
+The answer is not to remember a unit in a variable. It is **not to bind more often than
+needed**.
+
+## A proper loop binds rarely
+
+<Example client:load scene={KEEP} world={true} locale="en" />
+
+```
+op add loops loops 1
+sensor gone @unit @dead
+jump 5 equal gone 0
+ubind @poly
+op add binds binds 1
+```
+
+Watch the two counters: `loops` grows without stopping while `binds` stays at one. The program
+bound once, and after that it makes sure every iteration that the unit is still there and goes
+straight to work.
+
+This rests on a simple property: **`@unit` lives between iterations**. It is an ordinary
+processor variable, nobody clears it, and by the next iteration it holds the same unit. No copy
+in a variable is needed at all.
+
+<Card kind="note">
+`sensor @dead` on **emptiness** answers not with emptiness but with a one — the game checks
+that case separately. So one check catches both: "the unit died" and "no unit has been taken
+yet". On the first iteration `@unit` is empty, `gone` is a one, and the program goes and binds.
+</Card>
+
+## And if you bind every time
+
+<Example client:load scene={EVERY} world={true} locale="en" />
+
+The same program without the check. Now `binds` equals `loops`, and the `swaps` counter shows
+the point: the unit changes almost every iteration. There are three polys on the map, and the
+program walks them in turn instead of leading one.
+
+<Card kind="error">
+**A needless binding is not just a wasted line.** The walking counter is one per processor per
+type, and every `ubind` moves it. A program that binds inside the loop "just in case" does not
+keep a unit at all: it takes the next one every iteration.
+
+Hence the order: first check whether the previous one will do, and only then bind.
+</Card>
+
+## When a variable really is needed
+
+There is one `@unit`, and there can be several units. As soon as a processor has to remember
+**more than one**, they have to be stored somewhere else — and taken back out:
+
+<Example client:load scene={REMEMBER} world={true} locale="en" />
+
+```
+ubind @poly
+set own @unit
+...
+ubind own
+```
+
+The `ubind` field takes not only a type but the unit itself. Then the binding does not go round
+the circle but comes back to exactly that one — `sameOne` confirms it.
+
+That is done when:
+
+- there are several units, each with its own job — then they are kept in
+  a <Lesson lesson="write/cells">memory cell</Lesson>, a slot each;
+- a unit is handed to another processor — it takes it out of a shared cell and binds;
+- the program bound to somebody else in between and has to return to its own.
+
+<Card kind="note">
+**Binding to an object does not move the walking counter.** The game moves it only in the
+"bound by type" branch; `ubind own` simply puts the unit into `@unit` and that is all. So such
+a loop does not steal units from itself — it merely does extra work where a check would have
+done: `@unit` survives until the next iteration without any variable.
+
+A tag on the unit itself, though, is not extra work: a <Lesson
+lesson="ucontrol/flag">flag</Lesson> is visible to a neighbouring processor and a variable is
+not.
+</Card>
+
+## The unit dies, the binding remembers
+
+<Example client:load scene={LOST} world={true} locale="en" />
+
+The flare stands under an enemy turret's fire and will die in a few seconds. Watch the
+variables: `dead` becomes one, and `alive` shows there is nobody left to bind to.
+
+Here is what happens:
+
+- the unit drops out of the walk — `ubind @flare` starts giving emptiness at once;
+- **the binding keeps pointing at the deceased**. Neither `@unit` nor the variable is cleared;
+- `sensor dead own @dead` answers with a one — and that is the way to check.
+
+<Card kind="error">
+**A remembered unit must always be checked.** A program that once a minute fetches "its" unit
+out of a cell and commands it will go on commanding a dead one for years: the orders quietly go
+nowhere, and nothing happens on the map.
+
+No living one found — take a new one from the walk and write it into its place.
+</Card>
+
+## Letting a unit go
+
+A binding gives no orders by itself, but `ucontrol` does, and after it the unit
+<Lesson lesson="ucontrol/control">obeys the processor for ten seconds</Lesson> instead of its
+own mind. There is no need to wait out those ten seconds:
+
+```
+ucontrol unbind 0 0 0 0 0
+```
+
+This is not "unbind from `@unit`" — the variable stays as it was. It is "stop driving it": the
+unit returns to its usual behaviour, and the processor can get on with the next one.
+
+<Card kind="recap">
+- `@unit` lives between iterations: there is no point copying it into a variable.
+- A proper loop checks the previous unit and binds only if it will no longer do.
+- Every binding moves the walking counter, so no needless ones are made.
+- `ubind variable` is needed when there are several units and they live in memory.
+- Death does not clear the binding; `sensor @dead` answers with a one for a corpse and for emptiness alike.
+- `ucontrol unbind` returns the unit to its own mind.
+</Card>
+
+<Card kind="task">
+In the first example remove the line `jump 5 equal gone 0` — and the proper loop turns into an
+improper one: `binds` catches up with `loops`, and `swaps` shows the unit changing almost every
+iteration.
+
+In the second example put `ubind @poly` instead of `ubind own` in the second-to-last line and
+look at `sameOne`: it **stays a one**. There are three polys on the map and four bindings to
+that place — the walk closed the circle and came back to the first by itself. A coincidence,
+not a rule: add a fourth poly and it disappears.
+</Card>

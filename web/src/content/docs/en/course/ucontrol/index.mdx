@@ -1,0 +1,41 @@
+---
+title: Unit Control
+description: "The group of lessons about ucontrol — orders to a bound unit: movement, items, the flag, mining"
+lead: "Everything a unit can do on command is done by one instruction with different first fields"
+sidebar:
+    order: 0
+    label: Overview
+---
+
+import LessonList from '../../../../../course/LessonList.astro'
+import Card from '../../../../../course/Card.astro'
+
+`ucontrol` commands whichever unit is sitting in `@unit`. It has no field for a unit of its own
+and cannot have one: [`ubind`](/en/course/ubind/) first, then the order.
+
+The first field chooses what exactly to do, and the rest depend on it: for `move` they are
+coordinates, for `itemTake` a store, an item and an amount, for `flag` a number to tag with.
+There are about twenty commands in all, and they fall into four groups: movement, shooting,
+items, and work — mining and building.
+
+<Card kind="note">
+**It is the control that lasts ten seconds, not the order.** Every `ucontrol` extends it by 600
+ticks; when the time runs out the processor stops driving the unit and it returns to its own
+mind.
+
+What was started is not cancelled: mining, a build plan and the flag stay with the unit — they
+are removed not by the timer but by a new order or by its own business. Movement, though, does
+stop: there is nobody left to drive it.
+
+So orders are not given once — they are repeated in a loop, and that is the normal shape of
+a program about units.
+</Card>
+
+## Lessons
+
+<LessonList group="ucontrol" />
+
+## What you need first
+
+[«Binding by type»](/en/course/ubind/types/) — without `@unit` no order does anything.
+The lessons will tell you the rest themselves.

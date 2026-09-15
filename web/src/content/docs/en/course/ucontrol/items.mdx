@@ -1,0 +1,121 @@
+---
+title: "Items: take and drop"
+description: "How a unit takes items from a store and hands them over: transfer range, the delay and capacity"
+lead: "A unit is a portable storage slot: one kind of item, a few places and a compulsory delay between trips"
+difficulty: medium
+sidebar:
+    order: 3
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {CARRY, FERRY} from '../../../../../course/scenes/ucontrol.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'ucontrol/arrive', title: 'Arrival: within'},
+        {lesson: 'sensor/items', title: 'Items and an empty answer'}
+    ]}
+/>
+
+<Example client:load scene={CARRY} world={true} locale="en" />
+
+```
+ucontrol itemTake container1 @copper 10 0 0
+```
+
+The poly takes copper out of the store: `cargo` grows, `inStore` shrinks. Once the unit is
+full — and a poly has thirty places — taking stops changing anything.
+
+| Field | `itemTake` | `itemDrop` |
+| --- | --- | --- |
+| second | **where from**: a building | **where to**: a building |
+| third | which item | how many to hand over |
+| fourth | how many to take | — |
+
+The difference in fields is no accident: only one kind of item can be taken, and which one has
+to be said; what a unit hands over is whatever it has — there is nothing to choose from.
+
+## Three rules of transfer
+
+**Only up close.** Transfer works within about six tiles of the building — roughly as far as
+a player can drag things by hand. The unit is brought in with `move` first, and only then given
+the transfer order.
+
+**No more often than once every one and a half seconds.** Ninety ticks pass between one unit's
+two transfers. An order given sooner simply does nothing: no error, no half transfer.
+
+**Only your own.** Another team's store will not give to a unit and will not accept from it —
+the order silently does nothing.
+
+<Card kind="error">
+**A transfer does not report a refusal.** The unit is too far, the store is full, the delay has
+not passed, the item has run out — in every case `itemTake` behaves identically: it says
+nothing.
+
+Check by the facts: `sensor cargo @unit @totalItems` before and after. If the cargo did not
+change, the transfer did not happen, and it is worth finding out why rather than assuming it
+worked.
+</Card>
+
+## A unit carries one kind of item
+
+Unlike a store, a unit has **one cargo slot**: it carries copper or graphite, but not both at
+once. Take copper and then try to take graphite, and there will be no graphite.
+
+| Property | What it gives |
+| --- | --- |
+| `@totalItems` | how much it carries in total |
+| `@firstItem` | **what exactly** it carries: `@copper`, `@graphite` or emptiness |
+| `@itemCapacity` | how much fits: 30 on a poly, 20 on a mono, 60 on a mega |
+
+## A full trip
+
+<Example client:load scene={FERRY} world={true} locale="en" />
+
+Here is a whole ferry program. It looks at its cargo and decides where to fly: empty — to the
+store for copper, full — to the recipient.
+
+```
+ubind @poly
+sensor cargo @unit @totalItems
+jump 6 greaterThanEq cargo 30
+ucontrol move 5 4 0 0 0
+ucontrol itemTake container1 @copper 30 0 0
+end
+ucontrol move 15 4 0 0 0
+ucontrol itemDrop container2 30 0 0 0
+```
+
+Three trips and ninety copper have moved into the second store. Note that there is no `within`
+and no waiting here at all: the transfer order is issued every iteration and fires by itself as
+soon as the unit arrives and the delay has passed. Such a ferry is shorter and more reliable
+than a program that honestly waits for arrival.
+
+<Card kind="note">
+**Dumping cargo on the ground** is `ucontrol itemDrop @air 0 0 0 0`. The items vanish, and
+there is no delay on it. It is rarely needed: freeing a unit of unwanted ore before sending it
+after something else, for instance.
+</Card>
+
+<Card kind="recap">
+- `itemTake store item count` takes, `itemDrop store count` gives.
+- Transfer works only right next to a building and no more than once every one and a half seconds.
+- Nobody reports a refusal — check with `@totalItems`.
+- A unit carries one kind of item; which one is in `@firstItem`.
+- `itemDrop @air` dumps the cargo on the ground.
+</Card>
+
+<Card kind="task">
+In the first example change `@copper` to `@lead`: the cargo stops growing — there is no lead in
+the store, and `itemTake` silently does nothing.
+
+In the second example change the target in the fourth line to `15 4` — the same place the cargo
+is delivered to. The unit stops flying for copper, hangs by the second store, and the ferrying
+stops at whatever has already been delivered.
+</Card>

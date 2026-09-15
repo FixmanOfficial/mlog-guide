@@ -1,0 +1,102 @@
+---
+title: Other teams' units
+description: "Why ubind will not take an enemy unit, what you can still do with one and how a world processor differs"
+lead: "An enemy unit cannot be driven — neither by type nor by object. Looking at it is free"
+difficulty: medium
+sidebar:
+    order: 3
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {FOREIGN} from '../../../../../course/scenes/ubind.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'ubind/types', title: 'Binding by type'},
+        {lesson: 'radar/find', title: 'Finding a unit'}
+    ]}
+/>
+
+<Example client:load scene={FOREIGN} world={true} locale="en" />
+
+There are two daggers on the map, both hostile. `ubind @dagger` honestly searches — and puts
+emptiness into `@unit`: the walk goes **through units of your own team**, and there are no
+enemies on that list at all.
+
+The same goes for binding by object: even if an enemy unit is sitting in one of your
+variables — found by a radar, say — `ubind` will not take it.
+
+<Card kind="error">
+**No unit and an enemy unit look identical.** In both cases `@unit` is empty, and the binding
+will not tell them apart. If a program expects your polys and gets emptiness, either there are
+none or they are not yours.
+</Card>
+
+## What you can still do with enemies
+
+The ban covers driving only. Nobody stops you looking at an enemy:
+
+| What | With what |
+| --- | --- |
+| find the nearest | <Lesson lesson="radar/find">`radar`</Lesson> from a building, `uradar` from your own unit |
+| walk through all of them | <Lesson lesson="fetch">`fetch`</Lesson> by team, <Lesson lesson="query">`query`</Lesson> by area — both on a world processor |
+| read properties | `sensor` — health, coordinates, type, team |
+| shoot at it | <Lesson lesson="control/shoot">`control shootp`</Lesson> on a turret |
+| aim your own unit at it | `ucontrol targetp` — the target is given to yours, not to theirs |
+
+```
+radar enemy any any distance duo1 1 foe
+sensor health foe @health
+sensor team foe @team
+```
+
+An enemy unit here is an ordinary value: it is read, compared, passed around. Only one thing is
+forbidden — putting it into `@unit` and commanding it.
+
+## A team arrives as a number
+
+`sensor whose unit @team` gives the team's **number**, not the team itself: derelict is zero,
+yours is usually one, the enemy's is two.
+
+The constants `@sharded`, `@crux`, `@derelict`, on the other hand, are objects, and they do not
+compare with a number directly. The number is asked of the team itself:
+
+```
+sensor whose unit @team
+sensor crux @crux @id
+jump 10 equal whose crux
+```
+
+A processor learns its own team the same way, through itself: `sensor myTeam @this @team`.
+
+<Card kind="note">
+**A team is no obstacle to a world processor.** It binds to an enemy unit if that unit is
+sitting in a variable, and drives it like its own — half the campaign's scripts rest on this.
+
+But even for it the walk by type goes through its own team: to reach an enemy, the unit must
+first be **found as an object** — by radar, by <Lesson lesson="query">`query`</Lesson> over an
+area or by <Lesson lesson="fetch">`fetch`</Lesson> by index in the enemy team — and only then
+bound.
+</Card>
+
+<Card kind="recap">
+- `ubind` takes only units of your own team — by type and by object alike.
+- An enemy unit and no unit are indistinguishable: emptiness in both cases.
+- An enemy can be read with anything: `radar`, `uradar`, `sensor`.
+- `sensor @team` gives a team's number; a constant's number comes from `sensor @crux @id`.
+- A world processor binds to an enemy unit by object.
+</Card>
+
+<Card kind="task">
+Change `ubind @dagger` in the example to `ubind @poly`: the poly on the map is yours, so the
+binding succeeds — `theirs` stops being empty, even though the variable's name has not changed.
+
+Then add `sensor myTeam @this @team` at the end and compare it with `team`: for your own unit the
+number is the same as the processor's — one.
+</Card>

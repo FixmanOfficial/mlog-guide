@@ -1,0 +1,110 @@
+---
+title: Unit Radar
+description: "How uradar looks for units around the bound unit and how it differs from an ordinary radar"
+lead: "The same radar, only it looks from your unit rather than from a building — and with your unit's range"
+difficulty: medium
+sidebar:
+    order: 0
+    label: Searching from a unit
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {SEEK, ALLY} from '../../../../../course/scenes/uradar.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'radar/find', title: 'Finding a unit'},
+        {lesson: 'ubind/types', title: 'Binding by type'}
+    ]}
+/>
+
+<Example client:load scene={SEEK} world={true} locale="en" />
+
+```
+ubind @dagger
+uradar enemy any any distance 0 1 near
+```
+
+The dagger looks for enemies around itself: `near` is the flare on tile nine, and the same
+search with a zero in the second-to-last field gives the far one, on tile fourteen.
+
+`uradar`'s fields are the same as <Lesson lesson="radar/find">`radar`</Lesson>'s: three filter
+conditions, what to measure by, which to count first. There is one difference, and it is in the
+fifth field.
+
+## Where the radar looks from
+
+| | `radar` | `uradar` |
+| --- | --- | --- |
+| looks from | the building in the fifth field | the **bound unit** |
+| range | that building's range | the unit's own range |
+| fifth field | a building | unused, write `0` |
+
+`uradar` effectively has no fifth field: the source is always `@unit`, and the zero is there
+just for tidiness. No binding, no search: the answer will be emptiness.
+
+The range is taken from the unit and differs for each: a dagger's is `18.25` tiles, a flare's
+is noticeably less, a big unit's noticeably more. You can ask the unit itself:
+
+```
+sensor range @unit @range
+```
+
+<Card kind="error">
+**The search radius is weapon range, not eyesight.** A unit finds exactly what its weapon can
+reach: an enemy beyond that line does not exist as far as `uradar` is concerned. For a wider
+view you put a radar on a building — turrets reach further, and for
+<Lesson lesson="radar/find">an ordinary radar</Lesson> the building sets the range.
+</Card>
+
+## A unit does not find itself
+
+<Example client:load scene={ALLY} world={true} locale="en" />
+
+The dagger looks for **allies** — and finds the poly, not itself. That is a built-in rule: the
+source of the search is excluded from the list.
+
+Otherwise searching for an ally would be useless: the nearest ally to a unit is always itself,
+and `uradar ally any any distance` would return the very unit that had just been bound.
+
+<Card kind="note">
+`radar` has no such clause: a building is not a unit itself, so it has nobody to exclude.
+</Card>
+
+## The cache and its own recompute window
+
+`uradar` **recomputes its target once every 40 ticks**, and that is not the same window as an
+ordinary radar's: a building's is thirty ticks, while a unit's is its own, because it lives not
+in the instruction but in the very control that `ubind` and `ucontrol` hang on the unit. In
+between, `uradar` gives back what it found last time — even if the target has flown away or
+died.
+
+The same fact has a second consequence: **`uradar` takes the unit under control**. It needs the
+same controller the orders need, so it creates one — it just gives no orders.
+
+Two thirds of a second is not much, but for a unit it is noticeable: it is moving and so is the
+target. That is why aiming for fire (`ucontrol targetp`) is issued every iteration: the target
+may be stale, but the order is fresh.
+
+<Card kind="recap">
+- `uradar` looks for units around the bound unit, not around a building.
+- The fifth field is unused: the source is always `@unit`.
+- The search radius is the unit's weapon range, `sensor @range`.
+- A unit does not find itself, and that is a rule of the game, not an accident.
+- The target is recomputed once every 40 ticks — by the unit-control window, not the radar's.
+</Card>
+
+<Card kind="task">
+In the first example change `enemy` to `ally`: enemies stop being found, and allies are not
+found either, because apart from the dagger there are none of ours on the map. `near` becomes
+empty.
+
+In the second example put `enemy` instead of `ally`: instead of the poly it finds the hostile
+flare, and `whoIsIt` becomes `@flare`.
+</Card>

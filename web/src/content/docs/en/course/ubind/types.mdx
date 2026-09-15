@@ -1,0 +1,106 @@
+---
+title: Binding by type
+description: "How ubind takes a unit by type, why every call gives the next one and what to do when there are no units"
+lead: "One ubind, one unit. The next one gives another, and so on round the circle until they run out"
+difficulty: medium
+sidebar:
+    order: 1
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {CYCLE, WATCH, NONE} from '../../../../../course/scenes/ubind.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'basics/null', title: 'Emptiness: null'},
+        {lesson: 'sensor/units', title: 'Properties of units'}
+    ]}
+/>
+
+```
+ubind @poly
+```
+
+One line, and `@unit` holds a poly — one of those flying about the map. Every program about
+units starts here: while `@unit` is empty there is nobody to command.
+
+<Example client:load scene={WATCH} world={true} locale="en" />
+
+A bound unit is an ordinary object: `sensor` asks it for coordinates, health and type exactly
+as it would a building.
+
+## Every call gives the next one
+
+<Example client:load scene={CYCLE} world={true} locale="en" />
+
+There are three polys on the map, and the program binds four times in a row. `first`, `second`
+and `third` get different units, and `fourth` turns out to be the same as `first`: the list
+closed the circle.
+
+`ubind` does not "take some unit", it **walks a list**. The processor has a counter — one per
+unit type — and every binding moves it on by one.
+
+<Card kind="note">
+Each processor has its own counter: two processors binding polys do not get in each other's way
+and do not divide the units between them. Both walk the same list, each at its own pace.
+</Card>
+
+That is where the main technique for working with a squad comes from: **one iteration, one
+unit**. The program binds, gives an order and ends the iteration; on the next one it gets the
+next unit, and so the whole squad gets its turn.
+
+```
+ubind @poly
+ucontrol move 20 30 0 0 0
+```
+
+Two lines with no loop at all drive every poly on the map — simply one at a time.
+
+## When there are no units
+
+<Example client:load scene={NONE} world={true} locale="en" />
+
+There are no flares on the map, and `ubind @flare` puts **emptiness** into `@unit`. There is no
+error: neither in the game nor in the example does the program stop.
+
+<Card kind="error">
+**Check `@unit` before working.** Units die, and a program written on the assumption of a full
+squad will one day get emptiness. Orders on emptiness simply do nothing, and `sensor` returns
+emptiness in turn — which counts as zero in arithmetic. So the program does not break, it
+quietly decides health is zero and the coordinates are in the corner of the map.
+
+```
+ubind @poly
+jump 0 equal @unit null
+```
+
+A line like that is the usual start of a program about units: no unit, nothing to do.
+</Card>
+
+<Card kind="note">
+Not every type is available to logic at all. Some units have the controllable flag off, and
+`ubind` on such a type gives emptiness too — however many of them stand on the map.
+</Card>
+
+<Card kind="recap">
+- `ubind type` puts a unit into `@unit`; every order works with that one.
+- Each binding gives the **next** unit in the list, and the list closes into a circle.
+- The walking counter belongs to each processor and each type separately.
+- No units of that type — `@unit` is empty, and that is not an error.
+- `sensor` reads the same things on a bound unit as it does on a building.
+</Card>
+
+<Card kind="task">
+In the first example change `@poly` to `@mono` and run it: there are no monos on the map, and
+`@unit` becomes empty. Every property after that is empty too: `sensor` on emptiness gives not
+zero but emptiness, and the table shows that as the type `null`.
+
+In the second example remove the last two bindings, leaving `ubind @poly` twice: `third` and
+`fourth` stay empty, and `first` and `second` are still different units.
+</Card>
