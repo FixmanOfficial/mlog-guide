@@ -1,0 +1,88 @@
+---
+title: Get Flag
+description: "How to read a global flag, what an unset flag answers and what flags are for on an ordinary processor"
+lead: "The other side of setflag — and the only way to learn that something happened somewhere on the map"
+difficulty: medium
+sidebar:
+    order: 0
+    label: Read a flag
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {FLAGS} from '../../../../../course/scenes/world.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'setflag', title: 'Raise a flag'},
+        {lesson: 'jump/branch', title: 'Condition and branching'}
+    ]}
+/>
+
+<Example client:load scene={FLAGS} world={true} locale="en" />
+
+```
+getflag alarm "alarm"
+jump 4 equal alarm 0
+```
+
+The order of the fields is the reverse of what `setflag` accustoms you to: first **where to put
+it**, then the name. As with `read` and `sensor` — the result always comes first.
+
+| Field | What is in it |
+| --- | --- |
+| first | where to put the answer: 1 or 0 |
+| second | the flag's name as a string |
+
+An unset flag answers with zero, not emptiness: asking about any name is safe, and there is no
+need for a separate "does such a flag exist" check.
+
+<Card kind="note">
+A flag raised once stays raised until the end of the game — or until it is explicitly lowered.
+That makes it convenient as a "this has already happened" mark: the wave came, the player built
+a core, the script reached step three.
+</Card>
+
+## What this is for on ordinary processors
+
+`getflag` and `setflag` are world-processor instructions, and an ordinary one will not run them.
+But a flag still reaches the map: **through objectives**.
+
+A script on a map usually looks like this:
+
+1. the world processor watches what happens and raises a flag;
+2. the map's objective, set to that flag, is marked complete;
+3. the player sees a tick in their task list.
+
+World processors also talk to one another with flags — that is cheaper and more reliable than
+a memory cell: no link is needed and no building can be destroyed.
+
+<Card kind="error">
+**Flags do not survive a restart of the scenario.** They live in the running game, not in the
+map: start over and every flag is down. A program that counts on "I have already done this"
+will do it all again after a restart.
+
+If a mark has to survive a restart, it goes into a memory cell: a cell's contents are saved with
+the map.
+</Card>
+
+<Card kind="recap">
+- `getflag where "name"` reads a flag: a one or a zero.
+- The result is the first field, the name the second.
+- An unset flag answers with zero, not emptiness.
+- Flags are the shared language of world processors and a map's objectives.
+- Restarting the game lowers every flag.
+</Card>
+
+<Card kind="task">
+Change the upper processor's flag name to `"silence"`: it stops printing anything — nobody
+raised such a flag, and the answer is zero.
+
+Then change the condition `jump 4 equal alarm 0` to `notEqual`: the warning appears at once and
+disappears when the flag is raised. The check has been inverted.
+</Card>

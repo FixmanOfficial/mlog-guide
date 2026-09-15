@@ -1,0 +1,95 @@
+---
+title: Locale Print
+description: "How to print text from a map's dictionary and why that matters on maps played in different languages"
+lead: "The same print, only the text comes from the map's dictionary rather than from the program — a different one per language"
+difficulty: medium
+sidebar:
+    order: 0
+    label: Text by key
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {LOCALE} from '../../../../../course/scenes/world.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'print/buffer', title: 'The text buffer'},
+        {lesson: 'message', title: 'A message to the player'}
+    ]}
+/>
+
+<Example client:load scene={LOCALE} world={true} locale="en" />
+
+```
+localeprint "task.drill"
+```
+
+The program contains a **key**, and the board shows "Build a drill": the text lives in the
+map's dictionary, not in the processor.
+
+| Field | What is in it |
+| --- | --- |
+| the only one | the key, as a string |
+
+Everything after that is like an ordinary <Lesson lesson="print/buffer">`print`</Lesson>: the
+text is appended to the buffer, and the buffer is handed to a message block, a marker or the
+player.
+
+## What it is for
+
+A map can reach a player with any interface language. If a script prints "Build a drill"
+straight out of the program, everybody sees English — including those who do not read it.
+
+A map's dictionary solves that: the map holds a "key → text" table, one per language, and the
+program knows only the keys. The game picks the right language itself.
+
+<Card kind="note">
+The dictionary is edited in the map editor, not by logic: the instruction can only read.
+Keys in it are conventionally written with dots — `task.drill`, `hint.core` — so the parts of
+a script do not get muddled.
+</Card>
+
+## No key, no text
+
+<Card kind="error">
+**An unknown key prints emptiness, not the key itself.** In the example the second line asks
+for `task.nothing`, and nothing appears on the board between the separators.
+
+That is convenient and dangerous at the same time: a typo in a key does not break the program,
+but it is not visible either — the message simply comes out shorter than intended. It is worth
+checking by comparing the buffer: if it did not change after a `localeprint`, the key is not in
+the dictionary.
+</Card>
+
+## A key can be assembled
+
+A key is an ordinary string, and a variable will do in the field:
+
+```
+set key "task.drill"
+localeprint key
+```
+
+Hence a common technique: a script's step number is turned into a key and the hint for the
+current step is printed, without writing every text out in a row.
+
+<Card kind="recap">
+- `localeprint "key"` appends text from the map's dictionary to the print buffer.
+- The dictionary lives in the map and is translated into different languages; logic only reads it.
+- An unknown key prints emptiness.
+- A key can be kept in a variable and assembled as the script goes.
+</Card>
+
+<Card kind="task">
+Change the key in the example's second line to `"task.done"`: instead of emptiness you get
+"Task complete" — that key is in the map's dictionary.
+
+Then replace `localeprint "task.drill"` with an ordinary `print "task.drill"`: the key itself
+lands on the board. That is what a typo in an instruction's name looks like.
+</Card>

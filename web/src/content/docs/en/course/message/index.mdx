@@ -1,0 +1,115 @@
+---
+title: Flush Message
+description: "How a world processor shows text to the player: four kinds of message, a busy screen and @wait"
+lead: "The same print buffer, only it goes not to a message block but straight to the player's screen"
+difficulty: medium
+sidebar:
+    order: 0
+    label: A message to the player
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {TALK, BUSY} from '../../../../../course/scenes/world.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'world-intro', title: 'What a world processor is'},
+        {lesson: 'printflush', title: 'Where the buffer goes'}
+    ]}
+/>
+
+<Example client:load scene={TALK} world={true} locale="en" />
+
+```
+print "Hold the line!"
+message announce 3 @wait
+```
+
+The text is assembled by the same <Lesson lesson="print/buffer">`print`</Lesson> as for
+a message block, and `message` sends it **to the player's screen**. Three seconds later the
+announcement disappears and the program shows it again: the `frames` counter grows about once
+every three seconds.
+
+| Field | What is in it |
+| --- | --- |
+| first | the kind of message |
+| second | how many seconds to hold it |
+| third | where to put the answer: did it get through or not |
+
+## Four kinds
+
+| Kind | What it looks like |
+| --- | --- |
+| `announce` | large text in the middle of the screen |
+| `notify` | a line at the top, like the one about a core being built |
+| `toast` | a pop-up hint, short and small |
+| `mission` | the map's objective: it hangs in the corner until it is replaced |
+
+`mission` stands apart: it is not a pop-up message but the **text of the objective**. It never
+disappears and waits for nobody — it simply replaces the previous one.
+
+<Card kind="note">
+An announcement and a toast share one place on the screen, while a notification has its own.
+So `notify` gets through even while an `announce` is still up.
+</Card>
+
+## A busy screen
+
+<Example client:load scene={BUSY} world={true} locale="en" />
+
+Two messages in a row: the first gets through (`firstText` is one), the second does not
+(`secondText` is zero). The place is taken, and the program learns about it.
+
+An important detail: **on a refusal the buffer is not cleared**. The text "And one more" stays
+in the print buffer and will go to the screen with the next successful attempt. Nothing is lost.
+
+<Card kind="error">
+**This is a trap for programs that print every iteration.** While the screen is busy, every
+iteration adds another copy of the text to the buffer — and when the place frees up the player
+sees a wall of a hundred repeats stuck together.
+
+So either print only just before a successful send, or leave `@wait` in the answer field.
+</Card>
+
+## `@wait`: the program waits its turn
+
+The answer field holds `@wait` by default — and that is not just a variable's name. While it is
+there, a busy screen **holds the program** on that line: the counter is wound back, the tick is
+given up, and the attempt is repeated on the next tick.
+
+```
+print "Hold the line!"
+message announce 3 @wait
+op add frames frames 1
+```
+
+That is exactly how the first example works: `print` does not get to repeat, because the
+program is standing on the `message` line rather than running iteration after iteration.
+
+<Card kind="note">
+`@wait` is the instruction's old behaviour, kept for compatibility: there used to be no answer
+field at all, and `message` always waited. Put your own variable there and the waiting turns
+into a refusal you have to check yourself.
+</Card>
+
+<Card kind="recap">
+- `message kind seconds answer` sends the print buffer to the player's screen.
+- There are four kinds: `announce`, `notify`, `toast` and `mission`.
+- `mission` is the objective's text; it does not disappear by itself.
+- A busy screen answers with zero, and the buffer stays intact.
+- `@wait` in the answer field makes the program wait instead of being refused.
+</Card>
+
+<Card kind="task">
+In the first example change `announce` to `notify`: the message moves to the top — a different
+place on the screen, occupied separately.
+
+In the second example change the second message's kind to `notify`: both get through, because
+a notification and an announcement do not get in each other's way.
+</Card>

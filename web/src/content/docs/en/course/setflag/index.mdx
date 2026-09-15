@@ -1,0 +1,98 @@
+---
+title: Set Flag
+description: "How a world processor raises a global flag and how a flag differs from a memory cell"
+lead: "Shared memory for the whole map: not a number and not an object, just a «yes» under a name"
+difficulty: medium
+sidebar:
+    order: 0
+    label: Raise a flag
+---
+
+import {Example} from '../../../../../example/Example.jsx'
+import LessonHead from '../../../../../course/LessonHead.astro'
+import '../../../../../example/example.css'
+import Card from '../../../../../course/Card.astro'
+import Lesson from '../../../../../course/Lesson.astro'
+import {FLAGS} from '../../../../../course/scenes/world.js'
+
+<LessonHead
+    difficulty="medium"
+    lead={frontmatter.lead}
+    needs={[
+        {lesson: 'world-intro', title: 'What a world processor is'},
+        {lesson: 'write/shared', title: 'Shared memory'}
+    ]}
+/>
+
+<Example client:load scene={FLAGS} world={true} locale="en" />
+
+```
+setflag "alarm" true
+```
+
+After two seconds the lower processor raises a flag, the upper one sees it and prints
+a warning. There is no link between them — only a shared flag name.
+
+| Field | What is in it |
+| --- | --- |
+| first | the **flag's name**: a string, not a variable |
+| second | the value: `true` or `false` |
+
+## A flag is only "yes" or "no"
+
+A flag's value is one of two. A number, an item or a unit cannot be put into it: any value is
+reduced to truth by the same rules as in `jump` — zero and emptiness are false, everything else
+is true.
+
+```
+setflag "waveIncoming" 1        // true
+setflag "waveIncoming" 0        // false
+```
+
+<Card kind="error">
+**A flag's name is a string, and only a string.** Not `setflag alarm true` but
+`setflag "alarm" true`: without quotes that is a variable, and the flag simply is not raised —
+silently, as always.
+
+The name can be assembled, though: a variable holding a string will do, and that is how named
+flags are made per player or per point on the map.
+</Card>
+
+## How a flag differs from a cell
+
+| | A flag | <Lesson lesson="write/shared">A memory cell</Lesson> |
+| --- | --- | --- |
+| what it holds | "yes" or "no" | any numbers and objects |
+| how many | as many names as you like | 64 or 512 slots |
+| who sees it | any processor on the map | only those linked to it |
+| where it lives | in the running game | in a block on the map |
+| who else reads it | **the map's objectives** | nobody |
+
+The last row is the main one. Flags are the shared language of a world processor and the
+**map's objectives**: the editor has a "such and such flag is raised" condition, and it is
+satisfied by exactly this set.
+
+So a script is usually built like this: the processor watches what happens and raises a flag,
+and the map's objective sees it and marks the task done.
+
+<Card kind="note">
+A memory cell has to be placed, a link has to be run to it, and it breaks together with the
+building. A flag needs none of that — it lives in the game itself. The other side of it: no
+number and no list fits into it.
+</Card>
+
+<Card kind="recap">
+- `setflag "name" value` raises or lowers a global flag.
+- The value is binary only: zero and emptiness are false, everything else true.
+- The name is written as a string, in quotes; it can be assembled from a variable.
+- Flags are visible to every processor on the map and to objectives in the editor.
+- Numbers and objects do not fit into a flag — a memory cell is for that.
+</Card>
+
+<Card kind="task">
+Change the lower processor's `setflag "alarm" true` to `setflag "alarm" false`: the upper one
+stops printing the warning, although the flag is still being "set".
+
+Then remove the quotes — `setflag alarm true`. Nothing breaks and nothing happens: the name has
+become an empty variable.
+</Card>
