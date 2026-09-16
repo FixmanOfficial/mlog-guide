@@ -135,6 +135,9 @@ export default defineConfig({
     integrations: [
         starlight({
             title: 'mlog.guide',
+
+            // Иконка логического процессора из атласа игры: `tools/gen-favicon.mjs`
+            favicon: '/favicon.png',
             defaultLocale: 'en',
             locales: {
                 en: {label: 'English', lang: 'en'},
