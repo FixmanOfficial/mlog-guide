@@ -18,8 +18,10 @@ import {clamp, lerpDelta} from './arc.js'
 /** `Vars.tilesize`: восемь мировых единиц на тайл. Дальность мачты задана в тайлах. */
 const TILE_UNITS = 8
 
-/** Порог `Mathf.zero`: числа мельче считаются нулём. Mathf.java */
-const ZERO = 0.0000001
+/** `Mathf.FLOAT_ROUNDING_ERROR`: порог `Mathf.zero` и `Mathf.equal`, включительно. Mathf.java:10 */
+const ZERO = 0.000001
+
+const zero = (value) => Math.abs(value) <= ZERO
 
 /**
  * Энергетический модуль здания. `PowerModule`
@@ -109,7 +111,8 @@ export class PowerGraph {
 
     /**
      * Запрошено за такт. `ConsumePower.requestedPower`: буферу нужно ровно столько, сколько
-     * не хватает до полного, а обычному потребителю — его мощность, и только когда он работает.
+     * не хватает до полного, а обычному потребителю — его мощность, и только когда он хочет
+     * работать (`shouldConsume`). Фабрика, которой некуда класть готовое, энергию не тянет.
      */
     powerNeeded(delta) {
         let total = 0
@@ -120,7 +123,7 @@ export class PowerGraph {
 
             total += (consume.buffered === true
                 ? (1 - consumer.power.status) * consume.capacity
-                : consume.usage) * delta
+                : consume.usage * (consumer.shouldConsume() ? 1 : 0)) * delta
         }
 
         return total
@@ -168,7 +171,7 @@ export class PowerGraph {
      */
     useBatteries(needed) {
         const stored = this.batteryStored()
-        if (Math.abs(stored) < ZERO) return 0
+        if (zero(stored)) return 0
 
         const used = Math.min(stored, needed)
         const share = Math.min(1, needed / stored)
@@ -186,7 +189,7 @@ export class PowerGraph {
         const capacity = this.batteryCapacity()
         const share = Math.min(excess / capacity, 1)
 
-        if (Math.abs(capacity) < ZERO) return 0
+        if (zero(capacity)) return 0
 
         for (const battery of this.batteries) {
             const consume = PowerGraph.consumePower(battery)
@@ -205,18 +208,17 @@ export class PowerGraph {
      * начни он работать. Она и показывается полоской в игре, и видна через `sensor @efficiency`.
      */
     distributePower(needed, produced, charged, delta) {
-        const idle = Math.abs(needed) < ZERO && Math.abs(produced) < ZERO
-            && !charged && Math.abs(this.lastPowerStored) < ZERO
+        const idle = zero(needed) && zero(produced) && !charged && zero(this.lastPowerStored)
 
         const coverage = idle ? 0
-            : Math.abs(needed) < ZERO ? 1
+            : zero(needed) ? 1
                 : Math.min(1, produced / needed)
 
         for (const consumer of this.consumers) {
             const consume = PowerGraph.consumePower(consumer)
 
             if (consume.buffered === true) {
-                if (Math.abs(consume.capacity) < ZERO) continue
+                if (zero(consume.capacity)) continue
 
                 const rate = (1 - consumer.power.status) * consume.capacity * coverage * delta
                 consumer.power.status = clamp(consumer.power.status + rate / consume.capacity)
@@ -249,7 +251,7 @@ export class PowerGraph {
 
         let charged = false
 
-        if (Math.abs(needed - produced) > ZERO) {
+        if (!zero(needed - produced)) {
             if (needed > produced) {
                 const fromBatteries = this.useBatteries(needed - produced)
 

@@ -188,3 +188,30 @@ test('источник песочницы кормит сеть в одиноч�
     assert.equal(source.power.graph, smelter.power.graph, 'источник — это мачта, он сам тянет связь')
     assert.equal(smelter.efficiency, 1)
 })
+
+test('фабрика, которой некуда класть готовое, энергию не запрашивает', () => {
+    // ConsumePower.requestedPower: `usage * (shouldConsume() ? 1 : 0)`
+    const scene = world()
+
+    const generator = scene.place('combustion-generator', 5, 5)
+    const full = scene.place('kiln', 10, 5)
+    const working = scene.place('kiln', 10, 9)
+    scene.place('power-node', 8, 7)
+
+    generator.handleStack('coal', 10)
+    for (const kiln of [full, working]) {
+        kiln.handleStack('lead', 5)
+        kiln.handleStack('sand', 5)
+    }
+
+    // Печи с полным выходом стоять: готовому некуда деться
+    full.handleStack('metaglass', 10)
+
+    for (let i = 0; i < 5; i++) scene.step()
+
+    assert.equal(full.power.graph, working.power.graph)
+    assert.equal(generator.power.graph, working.power.graph)
+
+    // Генератор даёт единицу, работающей печи нужно 0.6 — ей хватает целиком
+    assert.equal(working.power.status, 1)
+})
