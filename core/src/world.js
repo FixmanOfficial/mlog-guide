@@ -282,6 +282,14 @@ export class Building {
         this.cdump = 0
         this.timers.fill(-Infinity)
         this.items?.clear()
+
+        // Запас, положенный картой до первого тика, возвращается: его перемотка не отменяет
+        for (const [item, amount] of this.initial.items ?? []) this.items?.set(item, amount)
+    }
+
+    /** Запоминает запас как исходный. Мир зовёт это, когда снимает основу перемотки. */
+    captureInitial() {
+        this.initial.items = this.items === null ? null : new Map(this.items)
     }
 
     /**
@@ -1166,6 +1174,8 @@ export class World {
             links: new Map()
         }
 
+        for (const building of this.buildings) building.captureInitial()
+
         this.recordLinks()
         return this
     }
@@ -1440,6 +1450,7 @@ export class World {
 
         // Поставленное игроком входит в основу: перемотка его не уберёт
         if (this.baseline !== null) {
+            building.captureInitial()
             this.baseline.buildings.push(building)
             this.recordLinks()
         }

@@ -888,3 +888,17 @@ test('setblock сносит под блоком четыре на четыре �
     assert.equal(world.buildings.includes(inside), false, 'угол следа остался стоять')
     assert.equal(world.buildings.includes(outside), true, 'снесено то, что за следом')
 })
+
+test('сброс возвращает зданиям запас, положенный картой', () => {
+    const content = createContent(logicIds)
+    const world = new World({content, width: 20, height: 20})
+    const container = world.add('container', {x: 5, y: 5})
+    container.handleStack('copper', 40)
+
+    world.step()
+    container.removeStack('copper', 30)
+    assert.equal(container.items.get('copper'), 10)
+
+    world.reset()
+    assert.equal(container.items.get('copper'), 40)
+})
