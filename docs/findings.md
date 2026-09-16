@@ -666,3 +666,4 @@ Mindustry закрепляет arc хешем коммита в `gradle.properti
 | `draw print` меряет текст по 16-битным кодам: пара суррогатов — два шага курсора | `LExecutor.java:958-992` | ✓ `display.test.js` |
 | `sensor @payloadCapacity` у типа юнита — только у грузового корпуса; у экземпляра юнита проверки нет, и у кинжала это 0.125 | `UnitType.java:1439`, `UnitComp.java:305` | ✓ `radar.test.js` |
 | Эффект состояния — контент, но не `Senseable`: любой `sensor` у него отвечает пустотой | `StatusEffect.java:17`, `LExecutor.SenseI` | ✓ `radar.test.js` |
+| `setrule` зажимает правила мира каждое по-своему, а `mapArea` во всю карту снимает ограничение | `LExecutor.java:1794-1885` | ✓ `radar.test.js` |

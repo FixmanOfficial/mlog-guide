@@ -1703,6 +1703,9 @@ const builders = {
                     const content = value.obj()
                     if (content === null || vm.world === null) return
 
+                    // Запретить можно только блок или тип юнита: `cont instanceof Block | UnitType`
+                    if (content.contentType !== 'block' && content.contentType !== 'unit') return
+
                     const key = `${content.contentType}:${content.name}`
                     if (rule === 'ban') vm.world.rules.banned.add(key)
                     else vm.world.rules.banned.delete(key)
@@ -1714,7 +1717,18 @@ const builders = {
             return {
                 run: (vm) => {
                     if (vm.world === null) return
-                    vm.world.rules.mapArea = corners.map(corner => corner.numi())
+
+                    /*
+                     * `checkMapArea`: начало не меньше нуля, размер не больше карты,
+                     * а область во всю карту — это снятое ограничение.
+                     */
+                    const [x, y, w, h] = corners.map(corner => corner.numi())
+                    const area = [Math.max(x, 0), Math.max(y, 0),
+                        Math.min(vm.world.width, w), Math.min(vm.world.height, h)]
+                    const full = area[0] === 0 && area[1] === 0
+                        && area[2] === vm.world.width && area[3] === vm.world.height
+
+                    vm.world.rules.mapArea = full ? null : area
                 }
             }
         }
@@ -1745,8 +1759,21 @@ const builders = {
 
         const flags = new Set([
             'waveTimer', 'waves', 'waveSending', 'attackMode', 'lighting',
-            'canGameOver', 'pauseDisabled'
+            'canGameOver', 'pauseDisabled', 'unitLight'
         ])
+
+        /*
+         * Зажимы `SetRuleI`: у каждого правила свой. Время до волны не уходит в минус,
+         * предел юнитов — целое не меньше нуля, громкость — от нуля до единицы,
+         * множители солнца и трения — не отрицательные.
+         */
+        const clamps = {
+            currentWaveTime: (number) => Math.max(number, 0),
+            unitCap: () => Math.max(value.numi(), 0),
+            musicVolume: (number) => Math.min(Math.max(number, 0), 1),
+            solarMultiplier: (number) => Math.max(number, 0),
+            dragMultiplier: (number) => Math.max(number, 0)
+        }
 
         return {
             run: (vm) => {
@@ -1755,7 +1782,8 @@ const builders = {
                 if (flags.has(rule)) return void vm.world.rules.set(rule, value.bool())
                 if (rule === 'wave') return void vm.world.rules.set(rule, Math.max(value.numi(), 1))
 
-                vm.world.rules.set(rule, value.num() * (scales[rule] ?? 1))
+                const number = value.numf() * (scales[rule] ?? 1)
+                vm.world.rules.set(rule, clamps[rule]?.(number) ?? number)
             }
         }
     },

@@ -1431,3 +1431,32 @@ test('sensor у типа: броня и буфер блока, груз юнит
     assert.equal(processor.num('dagger'), 0, 'у негрузового корпуса ёмкости нет')
     assert.equal(processor.get('status').obj(), null)
 })
+
+test('setrule зажимает правила мира так же, как игра', () => {
+    // LExecutor.SetRuleI: у каждого правила свой зажим
+    const world = new World({width: 30, height: 20, content, floor: 'stone'})
+    const processor = place(world, 'world-processor', [
+        'setrule currentWaveTime -5',
+        'setrule unitCap -3',
+        'setrule musicVolume 7',
+        'setrule dragMultiplier -1',
+        'setrule unitLight 1',
+        'setrule ban @copper',
+        'setrule mapArea 0 -2 -2 100 100'
+    ].join('\n'))
+    processor.run(7)
+
+    assert.equal(world.rules.get('currentWaveTime'), 0)
+    assert.equal(world.rules.get('unitCap'), 0)
+    assert.equal(world.rules.get('musicVolume'), 1)
+    assert.equal(world.rules.get('dragMultiplier'), 0)
+    assert.equal(world.rules.get('unitLight'), true)
+    assert.equal(world.rules.banned.size, 0, 'предмет запрещать нельзя')
+
+    // Область во всю карту — ограничения нет
+    assert.equal(world.rules.mapArea, null)
+
+    const small = place(world, 'world-processor', 'setrule mapArea 0 1 2 3 4', {x: 3})
+    small.run(1)
+    assert.deepEqual(world.rules.mapArea, [1, 2, 3, 4])
+})
