@@ -7,7 +7,7 @@ sidebar:
     order: 1
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -23,7 +23,7 @@ import {MOVE, HALT} from '../../../../../course/scenes/ucontrol.js'
     ]}
 />
 
-<Example client:load scene={MOVE} world={true} locale="en" />
+<Example scene={MOVE} world={true} />
 
 ```
 ubind @poly
@@ -64,7 +64,7 @@ course.
 
 ## `stop` is not a brake
 
-<Example client:load scene={HALT} world={true} locale="en" />
+<Example scene={HALT} world={true} />
 
 Here the program leads the poly to `16 4`, but as soon as `x` passes ten it issues
 `ucontrol stop`. The unit then coasts several more tiles, and `x` settles around seventeen —

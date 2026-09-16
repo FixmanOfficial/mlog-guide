@@ -7,7 +7,7 @@ sidebar:
     order: 5
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -20,7 +20,7 @@ import {VALUES} from '../../../../../course/scenes/basics.js'
 предмет, блок, юнит, команда. Отдельный вид объекта — пустота, `null`, и ей отведён
 <Lesson lesson="basics/null">свой урок</Lesson>.
 
-<Example client:load scene={VALUES} world={false} />
+<Example scene={VALUES} world={false} />
 
 Справа от значения таблица показывает вид: `number`, `string`, `content`, `null`. Это тот же
 столбец, что в окне «Переменные» в самой игре, и цвета те же.

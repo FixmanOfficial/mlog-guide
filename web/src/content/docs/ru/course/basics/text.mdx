@@ -7,7 +7,7 @@ sidebar:
     order: 2
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -33,7 +33,7 @@ import {EDITOR} from '../../../../../course/scenes/basics.js'
 
 Вот пример из прошлого урока:
 
-<Example client:load scene={EDITOR} world={false} />
+<Example scene={EDITOR} world={false} />
 
 А вот он же, скопированный в буфер обмена, — ровно то, что окажется в чате, если нажать
 «Скопировать в буфер обмена» и вставить:

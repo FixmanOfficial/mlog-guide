@@ -7,7 +7,7 @@ sidebar:
     order: 1
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -29,7 +29,7 @@ import {CHOICE} from '../../../../../course/scenes/select.js'
 Прежде чем брать его в руки, стоит понять, когда он не нужен, — иначе им начинают писать
 то, что и так пишется короче.
 
-<Example client:load scene={CHOICE} world={true} />
+<Example scene={CHOICE} world={true} />
 
 Нажмите «шаг» четыре раза.
 

@@ -8,7 +8,7 @@ sidebar:
     label: Полная остановка
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -27,7 +27,7 @@ import {STOPPED} from '../../../../../course/scenes/wait.js'
 У `stop` тоже нет полей, и делает он самое простое, что можно сделать с процессором:
 останавливает его.
 
-<Example client:load scene={STOPPED} world={false} />
+<Example scene={STOPPED} world={false} />
 
 Нажмите «пуск» и подождите: `итераций` останется единицей, `послеСтопа` так и не появится.
 Процессор выполнил первую строку, упёрся в `stop` — и на этом всё.

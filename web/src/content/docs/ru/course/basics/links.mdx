@@ -7,7 +7,7 @@ sidebar:
     order: 8
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -83,7 +83,7 @@ import {LINKS} from '../../../../../course/scenes/basics.js'
 - `@links` — сколько связей у процессора прямо сейчас, число.
 - `getlink` — здание по номеру, **начиная с нуля**. Номер вне диапазона даёт `null`.
 
-<Example client:load scene={LINKS} world={true} />
+<Example scene={LINKS} world={true} />
 
 Нажмите «шаг» пять раз. В примере подключены два блока — контейнер и ячейка памяти, — поэтому
 `сколько` станет двойкой, `первый` окажется `container1`, `второй` — `cell1`, а `третий`

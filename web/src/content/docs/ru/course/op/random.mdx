@@ -7,7 +7,7 @@ sidebar:
     order: 6
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -23,7 +23,7 @@ import {RANDOM, NOISE} from '../../../../../course/scenes/op.js'
 `rand` даёт случайное число **от нуля до заданного, не включая его самого**, и число это
 дробное. Кубик из него получается в две строки: сначала бросок, потом округление вниз.
 
-<Example client:load scene={RANDOM} />
+<Example scene={RANDOM} />
 
 `op rand бросок 6` даёт дробное число меньше шести — скажем, 2.09; `floor` отрезает дробь
 и оставляет 2; прибавили единицу — вышло от 1 до 6, как у настоящего кубика. Нажмите «шаг»
@@ -50,7 +50,7 @@ import {RANDOM, NOISE} from '../../../../../course/scenes/op.js'
 
 ## Шум — это не случайность
 
-<Example client:load scene={NOISE} />
+<Example scene={NOISE} />
 
 `noise` берёт две координаты и отдаёт число примерно от −1 до 1. Оно **не случайное**:
 у одной и той же точки ответ всегда один, а у соседних — почти одинаковый.

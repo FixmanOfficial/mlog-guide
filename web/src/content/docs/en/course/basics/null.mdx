@@ -7,7 +7,7 @@ sidebar:
     order: 6
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -44,7 +44,7 @@ maths could not compute becomes emptiness.
 
 ## In arithmetic it is a zero
 
-<Example client:load scene={EMPTINESS} world={false} locale="en" />
+<Example scene={EMPTINESS} world={false} />
 
 Press "step" six times. `null` in a numeric context is zero, any other object is one:
 

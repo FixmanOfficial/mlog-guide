@@ -7,7 +7,7 @@ sidebar:
     order: 9
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -64,7 +64,7 @@ Step is our button, and we keep it precisely for this.
 The program below was supposed to count how many of ten are done and what share that is.
 Press "restart", then "step" four times and look at the table.
 
-<Example client:load scene={DEBUG} world={false} locale="en" />
+<Example scene={DEBUG} world={false} />
 
 After the first iteration: `aim` is 10, `count` is one, `left` is nine. So far it looks right.
 But `share` is empty, though it should be a number.

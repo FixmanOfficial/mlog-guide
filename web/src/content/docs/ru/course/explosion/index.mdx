@@ -8,7 +8,7 @@ sidebar:
     label: Взрыв в точке
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -24,7 +24,7 @@ import {BOOM} from '../../../../../course/scenes/world.js'
     ]}
 />
 
-<Example client:load scene={BOOM} world={true} />
+<Example scene={BOOM} world={true} />
 
 ```
 explosion @sharded 10 5 3 200 1 1 0 0

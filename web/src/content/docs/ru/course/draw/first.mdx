@@ -7,7 +7,7 @@ sidebar:
     order: 1
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -27,7 +27,7 @@ import {FIRST, FORGOTTEN} from '../../../../../course/scenes/draw.js'
 Программа рисует не на нём, а **в буфере процессора**, и только `drawflush` переносит
 накопленное на экран.
 
-<Example client:load scene={FIRST} world={true} />
+<Example scene={FIRST} world={true} />
 
 Нажмите «пуск». На дисплее появится оранжевый прямоугольник на сером фоне — четыре строки,
 и каждая делает ровно одно.
@@ -70,7 +70,7 @@ draw rect 20 20 60 40
 
 ## Без `drawflush` не появится ничего
 
-<Example client:load scene={FORGOTTEN} world={true} />
+<Example scene={FORGOTTEN} world={true} />
 
 Та же программа без последней строки. Нажмите «пуск» — дисплей останется тёмным, хотя
 все три команды выполняются исправно: они лежат в буфере процессора и ждут отправки.

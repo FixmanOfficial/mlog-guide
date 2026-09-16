@@ -8,7 +8,7 @@ sidebar:
     label: Processor speed
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -34,7 +34,7 @@ Every processor has its own speed — how many instructions it gets through per 
 | Hyper processor | 25 |
 | World processor | 8, up to 1000 |
 
-<Example client:load scene={FULL} world={true} locale="en" />
+<Example scene={FULL} world={true} />
 
 A hyper processor at full speed: in one second a five-line program gets through about **295
 iterations**. That is how many times a second the `sensor` is read, the display is redrawn and
@@ -42,7 +42,7 @@ everything written in it is recomputed.
 
 ## `setrate` changes the speed on the fly
 
-<Example client:load scene={SLOW} world={true} locale="en" />
+<Example scene={SLOW} world={true} />
 
 The same program with one new line at the top:
 
@@ -60,7 +60,7 @@ rather than preparing it for the next start.
 
 ## It cannot be raised above its own ceiling
 
-<Example client:load scene={CEILING} world={true} locale="en" />
+<Example scene={CEILING} world={true} />
 
 Here a micro processor is told to work at a thousand instructions per tick, and `speed` stays
 a **two** all the same.

@@ -7,7 +7,7 @@ sidebar:
     order: 4
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import Lesson from '../../../../../course/Lesson.astro'
 import '../../../../../example/example.css'
@@ -28,7 +28,7 @@ import {HOLDERS} from '../../../../../course/scenes/sensor.js'
 свойство читает код конкретного класса, и `@ammo` написан в турели, `@progress` — в буре
 и фабрике, `@memoryCapacity` — в ячейке памяти. У остальных этого кода просто нет.
 
-<Example client:load scene={HOLDERS} />
+<Example scene={HOLDERS} />
 
 Здесь двойная турель подбита до 120 из 250, а память есть у ячейки и нет у маршрутизатора.
 

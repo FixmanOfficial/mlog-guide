@@ -8,7 +8,7 @@ sidebar:
     label: Taking a colour apart
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -27,7 +27,7 @@ import {UNPACK} from '../../../../../course/scenes/color.js'
 A packed colour is one number, and it cannot be read by eye. `unpackcolor` lays it back out
 into four channels.
 
-<Example client:load scene={UNPACK} world={true} locale="en" />
+<Example scene={UNPACK} world={true} />
 
 The program asks copper for its colour and prints it channel by channel: the board shows
 `copper: 217 157 115`.

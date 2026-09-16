@@ -7,7 +7,7 @@ sidebar:
     order: 3
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -27,7 +27,7 @@ Processors have no shared variables. None at all: `copper` in one and `copper` i
 are two different values, and there is nothing that lets you learn the other one. A memory
 cell, though, is an ordinary block, and both of them can connect to it.
 
-<Example client:load scene={SHARED} world={true} locale="en" />
+<Example scene={SHARED} world={true} />
 
 There are two processors on the map. The upper one asks the store and puts the answer into
 the cell; the lower one takes it out and prints it. Their links differ: the upper has the store

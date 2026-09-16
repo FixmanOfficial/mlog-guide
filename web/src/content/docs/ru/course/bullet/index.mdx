@@ -8,7 +8,7 @@ sidebar:
     label: Пуля из ниоткуда
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -24,7 +24,7 @@ import {SHOT} from '../../../../../course/scenes/world.js'
     ]}
 />
 
-<Example client:load scene={SHOT} world={true} />
+<Example scene={SHOT} world={true} />
 
 ```
 bullet пуля @duo @graphite 5 5 0 @sharded null -1 1 1 0 0

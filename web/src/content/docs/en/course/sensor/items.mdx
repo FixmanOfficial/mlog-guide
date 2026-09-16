@@ -7,7 +7,7 @@ sidebar:
     order: 2
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -27,7 +27,7 @@ As its third argument `sensor` takes not only a property but also an item. The v
 copper and 15 graphite; there is no silicon at all, and a vault does not hold water in
 principle.
 
-<Example client:load scene={ITEMS} locale="en" />
+<Example scene={ITEMS} />
 
 Three answers to three similar questions:
 

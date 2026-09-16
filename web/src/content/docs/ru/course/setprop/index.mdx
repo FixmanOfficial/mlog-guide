@@ -8,7 +8,7 @@ sidebar:
     label: Свойства напрямую
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -24,7 +24,7 @@ import {PROPS} from '../../../../../course/scenes/world.js'
     ]}
 />
 
-<Example client:load scene={PROPS} world={true} />
+<Example scene={PROPS} world={true} />
 
 ```
 setprop @health duo1 50

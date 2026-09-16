@@ -7,7 +7,7 @@ sidebar:
     order: 2
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -27,7 +27,7 @@ import {PIECES} from '../../../../../course/scenes/print.js'
 between, and its rules are worth knowing: half of all strange captions on displays come from
 here.
 
-<Example client:load scene={PIECES} world={true} buffer={true} locale="en" />
+<Example scene={PIECES} world={true} buffer={true} />
 
 Press "step" seven times. The buffer holds `copper container null 0.5`.
 

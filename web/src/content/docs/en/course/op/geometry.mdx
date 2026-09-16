@@ -7,7 +7,7 @@ sidebar:
     order: 5
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -24,7 +24,7 @@ Almost everything a processor does with the world comes down to two questions: *
 **in which direction**. How far is `len`, in which direction is `angle`. Neither works with
 points but with an offset: how far right and how far up.
 
-<Example client:load scene={GEOMETRY} locale="en" />
+<Example scene={GEOMETRY} />
 
 | Operation | What it computes | Answer |
 | --- | --- | --- |
@@ -56,7 +56,7 @@ needed for them.
 
 ## The answers are slightly off from the textbook
 
-<Example client:load scene={FLOAT} locale="en" />
+<Example scene={FLOAT} />
 
 The diagonal of a unit square is √2, that is 1.4142135623730951. mlog answers
 1.4142135381698608. The angle of "left" is 180, and mlog answers 179.99989.

@@ -7,7 +7,7 @@ sidebar:
     order: 9
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -32,7 +32,7 @@ import {EDGE} from '../../../../../course/scenes/advanced.js'
 Тот же пример показывает и остальное: деление на ноль превратилось в пустоту, пустота
 оказалась равна нулю по `equal` и не равна по `strictEqual`, а медь равна только меди.
 
-<Example client:load scene={EDGE} world={false} />
+<Example scene={EDGE} world={false} />
 
 | Условие | Как сравнивает |
 | --- | --- |

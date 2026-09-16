@@ -8,7 +8,7 @@ sidebar:
     label: Поиск от юнита
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -24,7 +24,7 @@ import {SEEK, ALLY} from '../../../../../course/scenes/uradar.js'
     ]}
 />
 
-<Example client:load scene={SEEK} world={true} />
+<Example scene={SEEK} world={true} />
 
 ```
 ubind @dagger
@@ -64,7 +64,7 @@ sensor дальность @unit @range
 
 ## Сам себя юнит не находит
 
-<Example client:load scene={ALLY} world={true} />
+<Example scene={ALLY} world={true} />
 
 Кинжал ищет **своих** — и находит поли, а не себя. Это встроенное правило: источник поиска
 из списка исключается.

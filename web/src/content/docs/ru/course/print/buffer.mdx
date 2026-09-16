@@ -7,7 +7,7 @@ sidebar:
     order: 1
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -26,7 +26,7 @@ import {BUFFER} from '../../../../../course/scenes/print.js'
 У каждого процессора есть текстовый буфер — строка, в которую `print` дописывает значения
 одно за другим. Пока она внутри, её никто не видит: ни игрок, ни соседние блоки.
 
-<Example client:load scene={BUFFER} world={true} buffer={true} />
+<Example scene={BUFFER} world={true} buffer={true} />
 
 Нажмите «шаг» пять раз и смотрите на нижнюю строку таблицы: в буфере соберётся
 `меди: 120 из 300`. Четыре `print` — четыре куска, склеенных в том порядке, в каком

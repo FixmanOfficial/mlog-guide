@@ -7,7 +7,7 @@ sidebar:
     order: 1
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -31,7 +31,7 @@ import {BRANCH} from '../../../../../course/scenes/jump.js'
 
 Нажмите «шаг» четыре раза.
 
-<Example client:load scene={BRANCH} world={false} />
+<Example scene={BRANCH} world={false} />
 
 В `запас` лежит семёрка, а условие спрашивает про десять: оно ложно, прыжка нет, и программа
 доходит до `set мало 1`. Ветка «запаса хватает» осталась в стороне — до неё выполнение

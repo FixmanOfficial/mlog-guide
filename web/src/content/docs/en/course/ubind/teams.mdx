@@ -7,7 +7,7 @@ sidebar:
     order: 3
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -23,7 +23,7 @@ import {FOREIGN} from '../../../../../course/scenes/ubind.js'
     ]}
 />
 
-<Example client:load scene={FOREIGN} world={true} locale="en" />
+<Example scene={FOREIGN} world={true} />
 
 There are two daggers on the map, both hostile. `ubind @dagger` honestly searches — and puts
 emptiness into `@unit`: the walk goes **through units of your own team**, and there are no

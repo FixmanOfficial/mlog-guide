@@ -7,7 +7,7 @@ sidebar:
     order: 1
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -27,7 +27,7 @@ A display is a separate block, and like a message block it has to be reached wit
 The program draws not on it but **in the processor's buffer**, and only `drawflush` carries
 what has piled up onto the screen.
 
-<Example client:load scene={FIRST} world={true} locale="en" />
+<Example scene={FIRST} world={true} />
 
 Press "run". An orange rectangle appears on a grey background — four lines, and each one does
 exactly one thing.
@@ -71,7 +71,7 @@ block.
 
 ## Without `drawflush` nothing appears
 
-<Example client:load scene={FORGOTTEN} world={true} locale="en" />
+<Example scene={FORGOTTEN} world={true} />
 
 The same program without the last line. Press "run" — the display stays dark, although all
 three commands run perfectly well: they sit in the processor's buffer waiting to be sent.

@@ -7,7 +7,7 @@ sidebar:
     order: 6
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -43,7 +43,7 @@ import {EMPTINESS} from '../../../../../course/scenes/basics.js'
 
 ## В арифметике это ноль
 
-<Example client:load scene={EMPTINESS} world={false} />
+<Example scene={EMPTINESS} world={false} />
 
 Нажмите «шаг» шесть раз. `null` в числовом контексте — ноль, любой другой объект — единица:
 

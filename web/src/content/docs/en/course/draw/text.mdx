@@ -7,7 +7,7 @@ sidebar:
     order: 4
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -27,7 +27,7 @@ A display has no separate "write this text" command. Text is first piled up with
 the processor's buffer — the very same one `printflush` takes it from — and then carried onto
 the picture by the `draw print` command.
 
-<Example client:load scene={TEXT} world={true} locale="en" />
+<Example scene={TEXT} world={true} />
 
 A caption at the top left, the copper icon in the middle. The order of the lines matters here:
 `print` fills the buffer, `draw print` takes it.
@@ -97,9 +97,9 @@ buffer (the space is skipped), and that buffer is not endless.
 </Card>
 
 <Card kind="task">
-Change `print "Cu: "` in the example to `print "Копper: "` and run it: the first letter
-disappears from the caption and an empty gap is left in its place — exactly as wide as the
-letter would have been.
+Change `print "Cu: "` in the example to `print "Медь: "` (Russian for "copper") and run it: only
+the colon and the number are left of the caption, with an empty gap on the left — exactly as
+wide as the Cyrillic letters would have been.
 
 Then change `draw image 88 70 @copper 40 0` to `draw image 88 70 @copper 40 45`: the icon turns
 by 45 degrees. And with a size of `120` it takes up almost the whole display — the size is

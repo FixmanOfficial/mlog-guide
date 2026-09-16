@@ -42,7 +42,6 @@ import bundleEn from '@mlog/core/data/i18n/en.json'
 import bundleRu from '@mlog/core/data/i18n/ru.json'
 
 import {createScene, attachProcessor} from '../sandbox/scene.js'
-import {localized as sceneFor} from '../course/scenes/translate.js'
 import {Variables} from '../game/Variables.jsx'
 
 import '@mlog/editor/src/styles.css'
@@ -175,10 +174,10 @@ function nextIndex(processor) {
  * @param allow какие инструкции доступны в меню добавления; по умолчанию все
  * @param buffer показывать ли строку текстового буфера в переменных. Её в игре нет,
  *              это наша добавка, и в уроке не про печать она только сбивает
- * @param locale язык страницы: на английской переписываются имена переменных в программе
- *              и надписи редактора — те самые, что игра переводит настройкой
+ * @param locale язык страницы: от него зависят надписи редактора и кнопок. Сцену остров
+ *              не переводит — она приходит уже переведённой из `Example.astro`
  */
-export function Example({scene: source, world = true, tick = 0, allow = true,
+export function Example({scene: description, world = true, tick = 0, allow = true,
     buffer = false, locale = 'ru'}) {
     /*
      * Язык надписей редактора — общий на модуль, как настройка в игре. Ставится до первой
@@ -187,7 +186,6 @@ export function Example({scene: source, world = true, tick = 0, allow = true,
      */
     useNameBundle(locale === 'en' ? bundleEn : bundleRu)
 
-    const description = useMemo(() => sceneFor(source, locale), [source, locale])
 
     const canvas = useRef(null)
     const vars = useRef(null)

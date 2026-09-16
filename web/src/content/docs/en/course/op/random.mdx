@@ -7,7 +7,7 @@ sidebar:
     order: 6
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -23,7 +23,7 @@ import {RANDOM, NOISE} from '../../../../../course/scenes/op.js'
 `rand` gives a random number **from zero up to but not including the one you give**, and that
 number is fractional. A die comes out of it in two lines: first the throw, then rounding down.
 
-<Example client:load scene={RANDOM} locale="en" />
+<Example scene={RANDOM} />
 
 `op rand throw 6` gives a fractional number below six — say 2.09; `floor` cuts the fraction and
 leaves 2; add one and you get 1 to 6, like a real die. Press "step" a few times: the throw is
@@ -50,7 +50,7 @@ move a program into the game: there will be no repeats there.
 
 ## Noise is not randomness
 
-<Example client:load scene={NOISE} locale="en" />
+<Example scene={NOISE} />
 
 `noise` takes two coordinates and gives a number roughly between −1 and 1. It is **not
 random**: the same point always has the same answer, and neighbouring points have nearly the

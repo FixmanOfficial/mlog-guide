@@ -7,7 +7,7 @@ sidebar:
     order: 3
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -61,7 +61,7 @@ jump 12 lessThan здоровье 200
 
 ## Ранний выход вместо вложенности
 
-<Example client:load scene={GUARD} world={false} />
+<Example scene={GUARD} world={false} />
 
 Вот та же пара проверок целиком. Всё, что должно сорвать работу, проверяется **в начале**,
 и каждая проверка уводит в конец:
@@ -102,7 +102,7 @@ jump ещёРаз lessThan счёт 5
 
 ## Выйти из цикла досрочно
 
-<Example client:load scene={BREAK} world={true} />
+<Example scene={BREAK} world={true} />
 
 Цикл ищет в ячейке первое непустое место — и прекращает перебор, как только нашёл:
 
@@ -125,7 +125,7 @@ set найдено адрес
 
 ## Пропустить шаг
 
-<Example client:load scene={SKIP} world={false} />
+<Example scene={SKIP} world={false} />
 
 Обратный случай: шаг цикла не нужно делать, но и выходить рано. Переход ведёт не наружу,
 а **на увеличение счётчика**:

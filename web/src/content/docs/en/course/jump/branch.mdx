@@ -7,7 +7,7 @@ sidebar:
     order: 1
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -31,7 +31,7 @@ the ordinary next one runs and the program carries on as if nothing had happened
 
 Press "step" four times.
 
-<Example client:load scene={BRANCH} world={false} locale="en" />
+<Example scene={BRANCH} world={false} />
 
 `stock` holds a seven and the condition asks about ten: it is false, there is no jump, and the
 program reaches `set low 1`. The "there is enough stock" branch stayed aside — execution never

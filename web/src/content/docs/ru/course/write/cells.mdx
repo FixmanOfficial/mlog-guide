@@ -7,7 +7,7 @@ sidebar:
     order: 1
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -30,7 +30,7 @@ import {STORE} from '../../../../../course/scenes/memory.js'
 write итераций cell1 0
 ```
 
-<Example client:load scene={STORE} world={true} />
+<Example scene={STORE} world={true} />
 
 Счётчик здесь живёт не в переменной, а в памяти: итерация начинается с того, что программа
 достаёт прошлое значение, и кончается тем, что кладёт новое.

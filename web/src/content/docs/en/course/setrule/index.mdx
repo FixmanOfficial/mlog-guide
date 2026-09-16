@@ -8,7 +8,7 @@ sidebar:
     label: Game rules
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -24,7 +24,7 @@ import {RULES, TOUGH} from '../../../../../course/scenes/world.js'
     ]}
 />
 
-<Example client:load scene={RULES} world={true} locale="en" />
+<Example scene={RULES} world={true} />
 
 ```
 setrule unitMineSpeed 4 @sharded 0 0 0
@@ -82,7 +82,7 @@ units, and there is no need to write ticks or world units.
 
 ## A health multiplier does not raise health
 
-<Example client:load scene={TOUGH} world={true} locale="en" />
+<Example scene={TOUGH} world={true} />
 
 Here a flare stands under an enemy turret's fire with the rule `unitHealth 4` switched on.
 Watch `limit`: it is still **70**. But the health drops four times slower, and the flare

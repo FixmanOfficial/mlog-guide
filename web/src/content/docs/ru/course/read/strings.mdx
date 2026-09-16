@@ -7,7 +7,7 @@ sidebar:
     order: 3
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -33,7 +33,7 @@ read код "mlog" 0
 В `код` окажется 109 — это `m`. Не буква, а именно число: отдельного вида «символ» в mlog
 нет вовсе.
 
-<Example client:load scene={LETTERS} world={true} />
+<Example scene={LETTERS} world={true} />
 
 Программа проходит строку по символам и складывает их обратно через `printchar`. На табло
 появится `mlog` — та же строка, только собранная посимвольно.

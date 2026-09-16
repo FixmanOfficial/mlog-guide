@@ -7,7 +7,7 @@ sidebar:
     order: 3
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -62,7 +62,7 @@ import {WATCH} from '../../../../../course/scenes/basics.js'
 В примере ниже программа из прошлых уроков, но с одной буквой не на месте: во второй строке
 написано `запс`, а не `запас`. Нажмите «пуск» и посмотрите в таблицу.
 
-<Example client:load scene={WATCH} world={false} />
+<Example scene={WATCH} world={false} />
 
 `итог` равен пяти вместо двадцати пяти. Почему — видно там же:
 

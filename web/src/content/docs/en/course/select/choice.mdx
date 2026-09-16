@@ -7,7 +7,7 @@ sidebar:
     order: 1
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -29,7 +29,7 @@ if it does not. In the block it reads as words: `total = if copper >= 100 then 1
 Before picking it up it is worth understanding when it is *not* needed — otherwise people start
 writing with it what is shorter without it.
 
-<Example client:load scene={CHOICE} world={true} locale="en" />
+<Example scene={CHOICE} world={true} />
 
 Press "step" four times.
 

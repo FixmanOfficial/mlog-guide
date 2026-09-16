@@ -7,7 +7,7 @@ sidebar:
     order: 1
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -26,7 +26,7 @@ import {ENABLED, UNLINKED} from '../../../../../course/scenes/control.js'
 Выключенный блок не работает: бур не бурит, фабрика не производит, конвейер не везёт.
 Логика пользуется этим постоянно — это её главный способ вмешаться в базу.
 
-<Example client:load scene={ENABLED} world={true} />
+<Example scene={ENABLED} world={true} />
 
 Программа смотрит на склад и держит бур включённым, пока меди меньше сотни. Нажмите «пуск»
 и подождите: как только `медь` дойдёт до 100, `работает` станет нулём, и бур встанет.
@@ -69,7 +69,7 @@ sensor работает drill1 @enabled
 
 ## Слушаются только связанные блоки
 
-<Example client:load scene={UNLINKED} world={true} />
+<Example scene={UNLINKED} world={true} />
 
 На карте два бура. Первый связан с нашим процессором, второй — с соседним; наш достаёт его
 [по имени связи соседа](/ru/course/read/processors/) и командует обоим одинаково.

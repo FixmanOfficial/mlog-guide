@@ -7,7 +7,7 @@ sidebar:
     order: 4
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -23,7 +23,7 @@ import {CLOCK, TIMER} from '../../../../../course/scenes/advanced.js'
     ]}
 />
 
-<Example client:load scene={CLOCK} world={false} />
+<Example scene={CLOCK} world={false} />
 
 Четыре переменные, и все показывают одно и то же — время с начала игры:
 
@@ -45,7 +45,7 @@ import {CLOCK, TIMER} from '../../../../../course/scenes/advanced.js'
 
 ## Таймер: «раз в две секунды» без `wait`
 
-<Example client:load scene={TIMER} world={false} />
+<Example scene={TIMER} world={false} />
 
 ```
 jump 4 lessThan @second срок

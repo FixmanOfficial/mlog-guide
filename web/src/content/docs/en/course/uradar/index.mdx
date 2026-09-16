@@ -8,7 +8,7 @@ sidebar:
     label: Searching from a unit
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -24,7 +24,7 @@ import {SEEK, ALLY} from '../../../../../course/scenes/uradar.js'
     ]}
 />
 
-<Example client:load scene={SEEK} world={true} locale="en" />
+<Example scene={SEEK} world={true} />
 
 ```
 ubind @dagger
@@ -65,7 +65,7 @@ view you put a radar on a building — turrets reach further, and for
 
 ## A unit does not find itself
 
-<Example client:load scene={ALLY} world={true} locale="en" />
+<Example scene={ALLY} world={true} />
 
 The dagger looks for **allies** — and finds the poly, not itself. That is a built-in rule: the
 source of the search is excluded from the list.

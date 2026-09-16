@@ -7,7 +7,7 @@ sidebar:
     order: 2
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -33,7 +33,7 @@ The middle two are the most useful thing in the window, and the least noticed.
 
 Here is the example from the previous lesson:
 
-<Example client:load scene={EDITOR} world={false} locale="en" />
+<Example scene={EDITOR} world={false} />
 
 And here is the same thing copied to the clipboard — exactly what lands in a chat if you press
 "Copy to clipboard" and paste:

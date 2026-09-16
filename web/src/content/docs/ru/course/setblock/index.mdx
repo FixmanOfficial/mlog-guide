@@ -8,7 +8,7 @@ sidebar:
     label: Поставить и снести
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -24,7 +24,7 @@ import {PAINT, ROUNDING} from '../../../../../course/scenes/world.js'
     ]}
 />
 
-<Example client:load scene={PAINT} world={true} />
+<Example scene={PAINT} world={true} />
 
 ```
 setblock floor @metal-floor 6 4 @sharded 0
@@ -72,7 +72,7 @@ setblock block @air 12 4 @sharded 0
 
 ## Координаты усекаются, а у соседа — округляются
 
-<Example client:load scene={ROUNDING} world={true} />
+<Example scene={ROUNDING} world={true} />
 
 Вот неочевидное, и это не наша вольность, а поведение игры:
 

@@ -7,7 +7,7 @@ sidebar:
     order: 1
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -30,14 +30,14 @@ ubind @poly
 Одна строка, и в `@unit` оказывается поли — один из тех, что летают по карте. С этого
 начинается любая программа про юнитов: пока `@unit` пуст, командовать некому.
 
-<Example client:load scene={WATCH} world={true} />
+<Example scene={WATCH} world={true} />
 
 Привязанный юнит — обычный объект: `sensor` спрашивает у него координаты, здоровье и тип
 так же, как у здания.
 
 ## Каждый вызов даёт следующего
 
-<Example client:load scene={CYCLE} world={true} />
+<Example scene={CYCLE} world={true} />
 
 На карте три поли, и программа привязывается четыре раза подряд. В `первый`, `второй`
 и `третий` попадут разные юниты, а `четвёртый` окажется тем же, что и `первый`: список
@@ -65,7 +65,7 @@ ucontrol move 20 30 0 0 0
 
 ## Когда юнитов нет
 
-<Example client:load scene={NONE} world={true} />
+<Example scene={NONE} world={true} />
 
 Вспышек на карте нет, и `ubind @flare` кладёт в `@unit` **пустоту**. Ошибки при этом
 не будет: ни в игре, ни в примере программа не остановится.

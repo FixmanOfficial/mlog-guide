@@ -7,7 +7,7 @@ sidebar:
     order: 2
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -20,7 +20,7 @@ import {SHAPES} from '../../../../../course/scenes/draw.js'
     needs={[{lesson: 'draw/first', title: 'The first picture'}]}
 />
 
-<Example client:load scene={SHAPES} world={true} locale="en" />
+<Example scene={SHAPES} world={true} />
 
 Everything the display can do is drawn here: a fill and an outline, a line, a hexagon,
 a triangle in outline and a triangle filled.

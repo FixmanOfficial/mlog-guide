@@ -7,7 +7,7 @@ sidebar:
     order: 1
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -27,7 +27,7 @@ import {CELLS, BOUNDS} from '../../../../../course/scenes/memory.js'
 они обнуляются. Общая и долгая память живёт на карте отдельным блоком: **ячейка памяти**
 и **блок памяти**. `read` достаёт из неё значение по номеру места.
 
-<Example client:load scene={CELLS} world={true} />
+<Example scene={CELLS} world={true} />
 
 Ячейка на этой карте пришла заполненной: её содержимое лежит в сохранении, а не заводится
 заново при запуске. Программа достаёт из неё три числа и печатает два из них в блок
@@ -58,7 +58,7 @@ sensor мест cell1 @memoryCapacity
 
 ## Адрес усекается, а за границей лежит пустота
 
-<Example client:load scene={BOUNDS} world={true} />
+<Example scene={BOUNDS} world={true} />
 
 Здесь видно оба правила сразу:
 

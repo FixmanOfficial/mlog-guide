@@ -8,7 +8,7 @@ sidebar:
     label: Цвет одним числом
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -28,7 +28,7 @@ import {PACK, CHOICE} from '../../../../../course/scenes/color.js'
 Как только цветов становится несколько и их надо выбирать, четыре числа превращаются
 в четыре переменные, которые всюду таскают вместе. `packcolor` складывает их в одну.
 
-<Example client:load scene={PACK} world={true} />
+<Example scene={PACK} world={true} />
 
 ```
 packcolor красный 1 0 0 1
@@ -52,7 +52,7 @@ draw col красный
 
 ## Цвет становится обычным значением
 
-<Example client:load scene={CHOICE} world={true} />
+<Example scene={CHOICE} world={true} />
 
 Вот ради чего всё: цвет теперь **одно число**, а с одним числом можно делать то же, что
 с любым другим. Положить в ячейку памяти. Выбрать через `select`. Передать в соседний

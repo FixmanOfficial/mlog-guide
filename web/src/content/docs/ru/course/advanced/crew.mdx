@@ -7,7 +7,7 @@ sidebar:
     order: 7
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -23,7 +23,7 @@ import {CREW} from '../../../../../course/scenes/advanced.js'
     ]}
 />
 
-<Example client:load scene={CREW} world={true} />
+<Example scene={CREW} world={true} />
 
 Два процессора и ячейка между ними. Верхний снимает показания со склада и кладёт их
 в память, нижний читает оттуда и печатает сумму. Каждый занят своим делом и идёт

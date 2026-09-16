@@ -7,7 +7,7 @@ sidebar:
     order: 3
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -27,7 +27,7 @@ Without logic a turret picks its target itself: the nearest one in range. Logic 
 that choice will not do — when one enemy has to be finished off instead of spreading fire, or
 when the more dangerous one has to be hit.
 
-<Example client:load scene={SHOOT} world={true} locale="en" />
+<Example scene={SHOOT} world={true} />
 
 Press "run". The duo turns east and starts firing at the point `13 4`, where a dagger stands:
 `ammo` goes down, and so does the dagger's health.
@@ -62,7 +62,7 @@ So the command is repeated every iteration — it is cheap, and it works as hold
 
 ## Shooting a unit: `control shootp`
 
-<Example client:load scene={SHOOTP} world={true} locale="en" />
+<Example scene={SHOOTP} world={true} />
 
 Here the target is found by a radar, and `shootp` aims the turret **with lead**: it fires not
 where the unit is now but where it will be when the bullet arrives.

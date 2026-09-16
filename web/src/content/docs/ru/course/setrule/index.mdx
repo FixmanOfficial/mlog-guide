@@ -8,7 +8,7 @@ sidebar:
     label: Правила игры
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -24,7 +24,7 @@ import {RULES, TOUGH} from '../../../../../course/scenes/world.js'
     ]}
 />
 
-<Example client:load scene={RULES} world={true} />
+<Example scene={RULES} world={true} />
 
 ```
 setrule unitMineSpeed 4 @sharded 0 0 0
@@ -81,7 +81,7 @@ setrule unitMineSpeed 4 0 0 0 0
 
 ## Множитель живучести не поднимает здоровье
 
-<Example client:load scene={TOUGH} world={true} />
+<Example scene={TOUGH} world={true} />
 
 Здесь вспышка стоит под огнём вражеской турели, а правило `unitHealth 4` включено. Смотрите
 на `предел`: он так и остался **70**. А вот здоровье падает вчетверо медленнее, и вспышка

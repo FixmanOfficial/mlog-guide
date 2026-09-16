@@ -7,7 +7,7 @@ sidebar:
     order: 3
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -23,7 +23,7 @@ import {COLORS} from '../../../../../course/scenes/draw.js'
     ]}
 />
 
-<Example client:load scene={COLORS} world={true} locale="en" />
+<Example scene={COLORS} world={true} />
 
 Three squares, each set a different way. The red one is opaque, the green one is half
 transparent, and the blue one is taken as a ready number.

@@ -7,7 +7,7 @@ sidebar:
     order: 4
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -27,7 +27,7 @@ import {TEXT} from '../../../../../course/scenes/draw.js'
 в буфере процессора — тем же самым, из которого его забирает `printflush`, — а потом
 командой `draw print` переносят на картинку.
 
-<Example client:load scene={TEXT} world={true} />
+<Example scene={TEXT} world={true} />
 
 Слева вверху надпись, посередине иконка меди. Порядок строк здесь важен: `print` наполняет
 буфер, `draw print` его забирает.

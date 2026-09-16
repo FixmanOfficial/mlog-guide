@@ -7,7 +7,7 @@ sidebar:
     order: 3
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -23,7 +23,7 @@ import {CARRY, FERRY} from '../../../../../course/scenes/ucontrol.js'
     ]}
 />
 
-<Example client:load scene={CARRY} world={true} />
+<Example scene={CARRY} world={true} />
 
 ```
 ucontrol itemTake container1 @copper 10 0 0
@@ -74,7 +74,7 @@ ucontrol itemTake container1 @copper 10 0 0
 
 ## Полный рейс
 
-<Example client:load scene={FERRY} world={true} />
+<Example scene={FERRY} world={true} />
 
 Вот программа-перевозчик целиком. Она смотрит на груз и решает, куда лететь: пустой —
 на склад за медью, полный — к получателю.

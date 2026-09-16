@@ -8,7 +8,7 @@ sidebar:
     label: Буфер команд
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -30,7 +30,7 @@ import {OVERFLOW, TWO} from '../../../../../course/scenes/draw.js'
 
 ## Команд за раз не больше 256
 
-<Example client:load scene={OVERFLOW} world={true} />
+<Example scene={OVERFLOW} world={true} />
 
 Программа рисует сетку 16 на 16 — ровно 256 клеток, дисплей занят целиком. Нажмите «пуск»
 и посмотрите в правый верхний угол: **двух клеток не хватает**.
@@ -70,7 +70,7 @@ drawflush display1
 
 ## Несколько дисплеев
 
-<Example client:load scene={TWO} world={true} />
+<Example scene={TWO} world={true} />
 
 У буфера нет адреса: он один на процессор, и до `drawflush` неизвестно, кому его отдадут.
 Поэтому с двумя дисплеями порядок такой: нарисовали для первого — отдали первому, нарисовали

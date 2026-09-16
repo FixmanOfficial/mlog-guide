@@ -7,7 +7,7 @@ sidebar:
     order: 2
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -40,7 +40,7 @@ import {CONTENT} from '../../../../../course/scenes/set.js'
 
 Нажмите «шаг» пять раз.
 
-<Example client:load scene={CONTENT} world={true} />
+<Example scene={CONTENT} world={true} />
 
 В таблице у `предмет`, `блок` и `юнит` тип `content` — не число, не текст, а вещь. Никакой
 арифметики с ними не выходит: сложить медь с роутером нельзя, зато можно передать их туда,

@@ -8,7 +8,7 @@ sidebar:
     label: Content by index
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -28,7 +28,7 @@ An item can be named with a constant — `@copper`, `@graphite`. But there are t
 and writing them out one by one is tiresome. The game has **numbered lists** for this, and
 `lookup` fetches from them by index.
 
-<Example client:load scene={TABLE} world={false} locale="en" />
+<Example scene={TABLE} world={false} />
 
 ## Four lists
 
@@ -92,7 +92,7 @@ So an index is for **temporary** storage, while a program is written with consta
 
 ## What it is really for
 
-<Example client:load scene={SCAN} world={true} locale="en" />
+<Example scene={SCAN} world={true} />
 
 The main use is **walking the whole list**. The program asks the store about each item in turn
 and remembers which there is most of: the board shows `graphite: 60`.

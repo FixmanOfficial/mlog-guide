@@ -7,7 +7,7 @@ sidebar:
     order: 4
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -29,7 +29,7 @@ import {BITWISE, SHIFTS} from '../../../../../course/scenes/op.js'
 Это нужно нечасто, но когда нужно — заменить нечем: несколько признаков в одном числе,
 проверка «включён ли такой-то бит», быстрое умножение на степень двойки.
 
-<Example client:load scene={BITWISE} />
+<Example scene={BITWISE} />
 
 | Операция | В блоке | Что делает | 12 и 10 |
 | --- | --- | --- | --- |
@@ -67,7 +67,7 @@ import {BITWISE, SHIFTS} from '../../../../../course/scenes/op.js'
 
 ## Три ответа, которых никто не ждёт
 
-<Example client:load scene={SHIFTS} />
+<Example scene={SHIFTS} />
 
 **`shl 1 64` даёт 1, а не ноль.** У сдвига берутся только младшие шесть битов второго числа,
 то есть остаток от деления на 64. Сдвиг на 64 — это сдвиг на 0, сдвиг на 65 — на 1.

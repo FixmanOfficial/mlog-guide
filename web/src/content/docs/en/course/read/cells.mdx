@@ -7,7 +7,7 @@ sidebar:
     order: 1
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -27,7 +27,7 @@ A processor's variables are its own business: another processor cannot see them,
 the program clears them. Shared, long-lived memory lives on the map as a separate block:
 a **memory cell** and a **memory bank**. `read` fetches a value out of it by slot number.
 
-<Example client:load scene={CELLS} world={true} locale="en" />
+<Example scene={CELLS} world={true} />
 
 The cell on this map arrived already filled: its contents are part of the save, not created
 fresh at start-up. The program fetches three numbers from it and prints two of them to
@@ -58,7 +58,7 @@ tougher and dearer. Instructions, addresses and rules are shared between them.
 
 ## The address is truncated, and past the end lies emptiness
 
-<Example client:load scene={BOUNDS} world={true} locale="en" />
+<Example scene={BOUNDS} world={true} />
 
 Both rules are visible here at once:
 

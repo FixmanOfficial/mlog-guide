@@ -7,7 +7,7 @@ sidebar:
     order: 4
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -37,7 +37,7 @@ ucontrol flag 7 0 0 0 0
 sensor метка @unit @flag
 ```
 
-<Example client:load scene={FLAG} world={true} />
+<Example scene={FLAG} world={true} />
 
 Программа раздаёт номера: у кого метки нет (ноль) — тому выдаётся следующая, у кого есть —
 тот пропускается. Три поли получают единицу, двойку и тройку, и `последний` останавливается

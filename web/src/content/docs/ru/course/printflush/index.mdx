@@ -8,7 +8,7 @@ sidebar:
     label: Куда уходит буфер
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -28,7 +28,7 @@ import {FLUSH} from '../../../../../course/scenes/print.js'
 в строительном меню он называется «Сообщение», — и это единственный блок, который умеет
 принимать текст.
 
-<Example client:load scene={FLUSH} world={true} buffer={true} />
+<Example scene={FLUSH} world={true} buffer={true} />
 
 Нажмите «пуск». Под блоком сообщений появится `меди: 120`, а в буфере будет пусто почти
 всё время: программа набирает надпись и тут же отдаёт её блоку.

@@ -7,7 +7,7 @@ sidebar:
     order: 2
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -20,7 +20,7 @@ import {SORT, CACHE} from '../../../../../course/scenes/radar.js'
     needs={[{lesson: 'radar/find', title: 'Найти юнита'}]}
 />
 
-<Example client:load scene={SORT} world={true} />
+<Example scene={SORT} world={true} />
 
 Четыре радара, фильтры у всех одинаковые — разная только мерка и порядок. Кинжал стоит ближе
 и здоровее, вспышка дальше и слабее.
@@ -57,7 +57,7 @@ import {SORT, CACHE} from '../../../../../course/scenes/radar.js'
 
 ## Ответ обновляется раз в 30 тиков
 
-<Example client:load scene={CACHE} world={true} />
+<Example scene={CACHE} world={true} />
 
 Радар не ищет заново на каждой итерации. У блока результат пересчитывается **раз в 30 тиков**
 — полсекунды, — а между пересчётами отдаётся прошлый ответ. Это сделано ради скорости:

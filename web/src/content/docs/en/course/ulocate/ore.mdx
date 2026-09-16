@@ -7,7 +7,7 @@ sidebar:
     order: 1
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -23,7 +23,7 @@ import {ORE, LEAD} from '../../../../../course/scenes/ulocate.js'
     ]}
 />
 
-<Example client:load scene={ORE} world={true} locale="en" />
+<Example scene={ORE} world={true} />
 
 ```
 ubind @mono
@@ -50,7 +50,7 @@ choose `ore`.
 
 ## It finds the one nearest the unit
 
-<Example client:load scene={LEAD} world={true} locale="en" />
+<Example scene={LEAD} world={true} />
 
 The same map also has lead — on the other side. The search gives `5 3`, because it measures
 distance **from the unit**, not from the processor and not from the core.

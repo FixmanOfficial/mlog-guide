@@ -7,7 +7,7 @@ sidebar:
     order: 1
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -23,7 +23,7 @@ import {MOVE, HALT} from '../../../../../course/scenes/ucontrol.js'
     ]}
 />
 
-<Example client:load scene={MOVE} world={true} />
+<Example scene={MOVE} world={true} />
 
 ```
 ubind @poly
@@ -65,7 +65,7 @@ ucontrol move 16 4 0 0 0
 
 ## `stop` — не тормоз
 
-<Example client:load scene={HALT} world={true} />
+<Example scene={HALT} world={true} />
 
 Здесь программа ведёт поли к `16 4`, но как только `x` переваливает за десять, отдаёт
 `ucontrol stop`. Юнит после этого пролетает ещё несколько клеток по инерции — и `x`

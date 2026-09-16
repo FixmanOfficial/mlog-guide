@@ -7,7 +7,7 @@ sidebar:
     order: 2
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -29,7 +29,7 @@ import {LOOP} from '../../../../../course/scenes/jump.js'
 Пример складывает числа от нуля до четырёх. Нажмите «шаг» семнадцать раз — или один раз
 «пуск», а потом паузу.
 
-<Example client:load scene={LOOP} world={false} />
+<Example scene={LOOP} world={false} />
 
 `итог` станет десяткой: 0 + 1 + 2 + 3 + 4. `счёт` остановится на пятёрке — на том значении,
 при котором условие перестало быть верным.

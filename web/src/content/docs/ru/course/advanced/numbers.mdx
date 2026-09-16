@@ -7,7 +7,7 @@ sidebar:
     order: 2
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -30,7 +30,7 @@ import {PRECISE} from '../../../../../course/scenes/advanced.js'
 Из этого устройства следует всё, что дальше: и почему целые точны до определённого предела,
 и почему `0.1 + 0.2` не равно `0.3`, и какие биты переживут упаковку.
 
-<Example client:load scene={PRECISE} world={false} />
+<Example scene={PRECISE} world={false} />
 
 ## 53 значащих бита
 

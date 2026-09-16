@@ -8,7 +8,7 @@ sidebar:
     label: Place and remove
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -24,7 +24,7 @@ import {PAINT, ROUNDING} from '../../../../../course/scenes/world.js'
     ]}
 />
 
-<Example client:load scene={PAINT} world={true} locale="en" />
+<Example scene={PAINT} world={true} />
 
 ```
 setblock floor @metal-floor 6 4 @sharded 0
@@ -72,7 +72,7 @@ and its structure appears by itself.
 
 ## Coordinates are truncated here and rounded next door
 
-<Example client:load scene={ROUNDING} world={true} locale="en" />
+<Example scene={ROUNDING} world={true} />
 
 Here is the non-obvious part, and it is not a liberty of ours but the game's behaviour:
 

@@ -7,7 +7,7 @@ sidebar:
     order: 8
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -86,7 +86,7 @@ change, the program needs to walk the list — `@links` and `getlink` are for th
 - `@links` is how many links the processor has right now, a number.
 - `getlink` is a building by index, **starting from zero**. An index out of range gives `null`.
 
-<Example client:load scene={LINKS} world={true} locale="en" />
+<Example scene={LINKS} world={true} />
 
 Press "step" five times. The example has two connected blocks — a container and a memory
 cell — so `amount` becomes two, `first` turns out to be `container1`, `second` is `cell1`, and

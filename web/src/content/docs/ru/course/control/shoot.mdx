@@ -7,7 +7,7 @@ sidebar:
     order: 3
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -27,7 +27,7 @@ import {SHOOT, SHOOTP} from '../../../../../course/scenes/control.js'
 выбор не устраивает — нужно добить одного, а не распылиться на всех, или бить по тому, кто
 опаснее.
 
-<Example client:load scene={SHOOT} world={true} />
+<Example scene={SHOOT} world={true} />
 
 Нажмите «пуск». Двойная турель развернётся на восток и начнёт стрелять по точке `13 4`, где стоит
 кинжал: `патронов` пойдёт вниз, а здоровье кинжала — тоже.
@@ -62,7 +62,7 @@ import {SHOOT, SHOOTP} from '../../../../../course/scenes/control.js'
 
 ## Стрельба по юниту: `control shootp`
 
-<Example client:load scene={SHOOTP} world={true} />
+<Example scene={SHOOTP} world={true} />
 
 Здесь цель ищет радар, а `shootp` наводит турель **с упреждением**: она стреляет не туда,
 где юнит сейчас, а туда, где он окажется, когда пуля долетит.

@@ -7,7 +7,7 @@ sidebar:
     order: 6
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -23,7 +23,7 @@ import {OWNER, STOLEN, FORGET} from '../../../../../course/scenes/ucontrol.js'
     ]}
 />
 
-<Example client:load scene={OWNER} world={true} />
+<Example scene={OWNER} world={true} />
 
 Два процессора смотрят на одного поли. Верхний командует, нижний только спрашивает —
 и видит чужую власть со стороны.
@@ -90,7 +90,7 @@ jump 0 notEqual кто @this      # занят чужим процессором
 
 ## Власть отбирают молча
 
-<Example client:load scene={STOLEN} world={true} />
+<Example scene={STOLEN} world={true} />
 
 Здесь командуют оба, и каждый тянет поли в свой угол. Смотрите на `мой` у обоих: единица
 достаётся тому, чья команда прошла последней, а юнит болтается между двумя целями.
@@ -106,7 +106,7 @@ jump 0 notEqual кто @this      # занят чужим процессором
 
 ## Десять секунд и не больше
 
-<Example client:load scene={FORGET} world={true} />
+<Example scene={FORGET} world={true} />
 
 Здесь команда отдаётся **один раз**, а дальше программа только спрашивает. Поли доезжает
 до места — и через десять секунд `кем` падает с единицы до нуля, а `кто` начинает показывать

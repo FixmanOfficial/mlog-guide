@@ -7,7 +7,7 @@ sidebar:
     order: 2
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -27,7 +27,7 @@ import {RHYTHM, TIMER} from '../../../../../course/scenes/wait.js'
 не меняет, а для программы, которая опрашивает десяток блоков, — меняет всё: она будет
 делать это сотни раз в секунду, хотя достаточно двух.
 
-<Example client:load scene={RHYTHM} world={true} />
+<Example scene={RHYTHM} world={true} />
 
 Нажмите «пуск». `проверок` растёт по два в секунду, и этого хватает: медь в контейнере
 не меняется шестьдесят раз в секунду, а если бы и менялась — вы бы этого не увидели.
@@ -69,7 +69,7 @@ import {RHYTHM, TIMER} from '../../../../../course/scenes/wait.js'
 в миллисекундах, — и программа держит в переменной срок, раньше которого за медленную часть
 не берётся.
 
-<Example client:load scene={TIMER} world={true} />
+<Example scene={TIMER} world={true} />
 
 Нажмите «пуск» и посмотрите на две переменные: `итераций` бежит десятками, а `проверок`
 прибавляется по единице в секунду. Читается программа так: «если время ещё не дошло

@@ -8,7 +8,7 @@ sidebar:
     label: The command buffer
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -30,7 +30,7 @@ at all, it makes no difference.
 
 ## No more than 256 commands at a time
 
-<Example client:load scene={OVERFLOW} world={true} locale="en" />
+<Example scene={OVERFLOW} world={true} />
 
 The program draws a 16 by 16 grid — exactly 256 cells, filling the display. Press "run" and
 look at the top right corner: **two cells are missing**.
@@ -72,7 +72,7 @@ the two hand-offs, and on a fast-moving picture that shows.
 
 ## Several displays
 
-<Example client:load scene={TWO} world={true} locale="en" />
+<Example scene={TWO} world={true} />
 
 The buffer has no address: there is one per processor, and until `drawflush` nobody knows who
 it will be handed to. So with two displays the order is: draw for the first, hand to the first,

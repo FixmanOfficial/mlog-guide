@@ -7,7 +7,7 @@ sidebar:
     order: 2
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -30,7 +30,7 @@ a slot number but **a variable's name in quotes**:
 read theirLoops processor1 "loops"
 ```
 
-<Example client:load scene={NEIGHBOUR} world={true} locale="en" />
+<Example scene={NEIGHBOUR} world={true} />
 
 There are two processors on the map. The upper one simply counts its iterations; the lower
 one — the one whose program is shown — fetches that counter by name and prints it. There is no

@@ -7,7 +7,7 @@ sidebar:
     order: 2
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -40,7 +40,7 @@ Names are written the way the thing is called in the game, in English and with h
 
 Press "step" five times.
 
-<Example client:load scene={CONTENT} world={true} locale="en" />
+<Example scene={CONTENT} world={true} />
 
 In the table `item`, `block` and `unit` have the type `content` — not a number, not a text,
 but a thing. No arithmetic comes of them: copper cannot be added to a router, but they can be

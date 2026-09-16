@@ -8,7 +8,7 @@ sidebar:
     label: Filling a template
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -30,7 +30,7 @@ split across lines of the program, and what it will finally look like exists onl
 `format` works the other way round: first the whole **template** goes into the buffer, then
 values are substituted into it.
 
-<Example client:load scene={TEMPLATE} world={true} buffer={true} locale="en" />
+<Example scene={TEMPLATE} world={true} buffer={true} />
 
 Press "run". Under the message block you get `copper 120 of 300`: the template
 `copper {0} of {1}` went into the buffer first, and two `format`s replaced its placeholders

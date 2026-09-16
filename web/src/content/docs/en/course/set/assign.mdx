@@ -7,7 +7,7 @@ sidebar:
     order: 1
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -28,7 +28,7 @@ the starting numbers have to come from somewhere.
 
 Press "step" four times and watch the table.
 
-<Example client:load scene={ASSIGN} world={false} locale="en" />
+<Example scene={ASSIGN} world={false} />
 
 ## What can be put in
 

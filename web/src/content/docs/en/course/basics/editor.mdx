@@ -7,7 +7,7 @@ sidebar:
     order: 1
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -22,7 +22,7 @@ a row of buttons appears under it, and the pencil in that row opens the program 
 Everything happens in that window from there on. It also stands on every page of this course:
 the example below **is** that window, only with our own buttons on top.
 
-<Example client:load scene={EDITOR} world={false} locale="en" />
+<Example scene={EDITOR} world={false} />
 
 ## A line of a program
 

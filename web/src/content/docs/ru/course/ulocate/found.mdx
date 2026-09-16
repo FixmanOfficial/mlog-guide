@@ -7,7 +7,7 @@ sidebar:
     order: 3
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -23,7 +23,7 @@ import {DAMAGED} from '../../../../../course/scenes/ulocate.js'
     ]}
 />
 
-<Example client:load scene={DAMAGED} world={true} />
+<Example scene={DAMAGED} world={true} />
 
 ```
 ulocate damaged core true @copper битыйX битыйY нашлось битый

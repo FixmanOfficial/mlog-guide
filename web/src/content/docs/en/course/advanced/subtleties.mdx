@@ -7,7 +7,7 @@ sidebar:
     order: 9
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -32,7 +32,7 @@ difference is less than one millionth. A strict comparison of the same pair give
 The same example shows the rest too: division by zero turned into null, null turned out to be
 equal to zero by `equal` and not equal by `strictEqual`, and copper is equal only to copper.
 
-<Example client:load scene={EDGE} world={false} locale="en" />
+<Example scene={EDGE} world={false} />
 
 | Condition | How it compares |
 | --- | --- |

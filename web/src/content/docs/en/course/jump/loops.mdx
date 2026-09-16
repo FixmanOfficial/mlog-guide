@@ -7,7 +7,7 @@ sidebar:
     order: 2
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -29,7 +29,7 @@ same `jump` with its arrow pointing **up**: at a line that has already run.
 The example adds up the numbers from zero to four. Press "step" seventeen times — or "run"
 once, then pause.
 
-<Example client:load scene={LOOP} world={false} locale="en" />
+<Example scene={LOOP} world={false} />
 
 `total` becomes ten: 0 + 1 + 2 + 3 + 4. `count` stops at five — the value at which the
 condition stopped holding.

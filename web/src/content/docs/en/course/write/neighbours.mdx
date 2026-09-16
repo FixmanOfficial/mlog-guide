@@ -7,7 +7,7 @@ sidebar:
     order: 4
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -31,7 +31,7 @@ into it.
 write 1 processor1 "needed"
 ```
 
-<Example client:load scene={COMMAND} world={true} locale="en" />
+<Example scene={COMMAND} world={true} />
 
 The lower processor — the one whose program is shown — sets the upper one's `needed` to one
 once a second. The upper one waits for that flag, does the work and clears it back to zero

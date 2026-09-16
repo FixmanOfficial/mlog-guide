@@ -8,7 +8,7 @@ sidebar:
     label: What it is
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -28,7 +28,7 @@ Everything in the course so far works in an ordinary game: place a processor, wr
 it spins. A world processor is a different animal. It is **part of the map**, not of what is
 built on it.
 
-<Example client:load scene={PRIVILEGE} world={true} locale="en" />
+<Example scene={PRIVILEGE} world={true} />
 
 Two programs, identical line for line. The world processor puts a router on tile `8 7` — and it
 appears. The ordinary one does the same on tile `8 2` — and nothing happens. No error, no
@@ -81,7 +81,7 @@ not even know it is there: the processor is invisible, takes no space and cannot
 
 ## What else is different about it
 
-<Example client:load scene={FAST} world={true} locale="en" />
+<Example scene={FAST} world={true} />
 
 **Speed.** Its usual rate is eight — like a logic processor — but
 <Lesson lesson="setrate">`setrate`</Lesson> raises it to **1000** instructions per tick. No

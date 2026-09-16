@@ -8,7 +8,7 @@ sidebar:
     label: Символ и иконка
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -27,7 +27,7 @@ import {CHARS} from '../../../../../course/scenes/format.js'
 `printchar` дописывает в буфер **один символ**. Не строку, не число — ровно один символ,
 заданный его кодом.
 
-<Example client:load scene={CHARS} world={true} buffer={true} />
+<Example scene={CHARS} world={true} buffer={true} />
 
 Нажмите «пуск». Под блоком сообщений появится иконка меди, число 120 и стрелка вверх:
 иконку дал `printchar @copper`, стрелку — `printchar 8593`.

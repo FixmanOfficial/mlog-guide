@@ -7,7 +7,7 @@ sidebar:
     order: 3
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -60,7 +60,7 @@ The program goes to line 12 if **at least one** of the two happened.
 
 ## Early exit instead of nesting
 
-<Example client:load scene={GUARD} world={false} locale="en" />
+<Example scene={GUARD} world={false} />
 
 Here is that pair of checks in full. Everything that should abort the work is checked **at the
 top**, and each check sends execution to the end:
@@ -103,7 +103,7 @@ travels with it.
 
 ## Leaving a loop early
 
-<Example client:load scene={BREAK} world={true} locale="en" />
+<Example scene={BREAK} world={true} />
 
 The loop looks for the first non-empty slot in a cell — and stops walking as soon as it finds
 one:
@@ -127,7 +127,7 @@ iteration's value, and the program takes an old find for a new one.
 
 ## Skipping a step
 
-<Example client:load scene={SKIP} world={false} locale="en" />
+<Example scene={SKIP} world={false} />
 
 The opposite case: this pass of the loop should not be done, but it is too early to leave. The
 jump goes not outside but **to the counter's increment**:

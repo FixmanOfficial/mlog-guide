@@ -7,7 +7,7 @@ sidebar:
     order: 2
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -20,7 +20,7 @@ import {SORT, CACHE} from '../../../../../course/scenes/radar.js'
     needs={[{lesson: 'radar/find', title: 'Finding a unit'}]}
 />
 
-<Example client:load scene={SORT} world={true} locale="en" />
+<Example scene={SORT} world={true} />
 
 Four radars, all with the same filters — only the measure and the order differ. The dagger is
 closer and healthier, the flare further away and weaker.
@@ -57,7 +57,7 @@ one measure — that needs filters and a check of your own afterwards.
 
 ## The answer refreshes once every 30 ticks
 
-<Example client:load scene={CACHE} world={true} locale="en" />
+<Example scene={CACHE} world={true} />
 
 A radar does not search afresh every iteration. A block's result is recomputed **once every 30
 ticks** — half a second — and between recomputations the previous answer is handed back. This

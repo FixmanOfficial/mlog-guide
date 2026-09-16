@@ -7,7 +7,7 @@ sidebar:
     order: 4
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import Card from '../../../../../course/Card.astro'
 import Lesson from '../../../../../course/Lesson.astro'
@@ -34,7 +34,7 @@ import {PROCESSOR} from '../../../../../course/scenes/basics.js'
 <Lesson lesson="jump/loops">отдельный урок</Lesson>.
 </Card>
 
-<Example client:load scene={PROCESSOR} world={false} />
+<Example scene={PROCESSOR} world={false} />
 
 Нажимайте «шаг»: рамка проходит обе строки и возвращается наверх, а `итераций` каждый раз
 прибавляется на единицу.

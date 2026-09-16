@@ -8,7 +8,7 @@ sidebar:
     label: A message to the player
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -24,7 +24,7 @@ import {TALK, BUSY} from '../../../../../course/scenes/world.js'
     ]}
 />
 
-<Example client:load scene={TALK} world={true} locale="en" />
+<Example scene={TALK} world={true} />
 
 ```
 print "Hold the line!"
@@ -61,7 +61,7 @@ So `notify` gets through even while an `announce` is still up.
 
 ## A busy screen
 
-<Example client:load scene={BUSY} world={true} locale="en" />
+<Example scene={BUSY} world={true} />
 
 Two messages in a row: the first gets through (`firstText` is one), the second does not
 (`secondText` is zero). The place is taken, and the program learns about it.

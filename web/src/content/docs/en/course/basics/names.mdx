@@ -7,7 +7,7 @@ sidebar:
     order: 7
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -50,7 +50,7 @@ the table.
 `stock` and `Stock` are two different variables. mlog has no "case-insensitive" comparison of
 any kind.
 
-<Example client:load scene={NAMES} world={false} locale="en" />
+<Example scene={NAMES} world={false} />
 
 Press "step" four times. Both variables show up in the table — 100 and 5 — and `total` becomes
 105. The program does not consider this an error and does not warn: mlog has nothing to warn

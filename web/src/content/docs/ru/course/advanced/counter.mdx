@@ -7,7 +7,7 @@ sidebar:
     order: 1
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -31,7 +31,7 @@ import {COUNTER, RELATIVE} from '../../../../../course/scenes/advanced.js'
 
 Нажмите «шаг» три раза.
 
-<Example client:load scene={COUNTER} world={false} />
+<Example scene={COUNTER} world={false} />
 
 Вторая строка кладёт тройку в `@counter` — и третья строка не выполняется вовсе: `пропущено`
 остаётся пустым, а `дошли` становится единицей. Ровно то же сделал бы `jump` со стрелкой
@@ -44,7 +44,7 @@ import {COUNTER, RELATIVE} from '../../../../../course/scenes/advanced.js'
 Прежде чем считать, надо знать, от чего считать. К моменту, когда строка выполняется,
 счётчик **уже увеличен** и показывает на следующую строку.
 
-<Example client:load scene={RELATIVE} world={false} />
+<Example scene={RELATIVE} world={false} />
 
 `op add @counter @counter 2` в этом примере пропускает **две** строки, а не одну: `первая`
 и `вторая` остаются пустыми, единица достаётся `третьей`. Прибавка нуля означала бы

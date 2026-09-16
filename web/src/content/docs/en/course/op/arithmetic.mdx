@@ -7,7 +7,7 @@ sidebar:
     order: 1
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -23,7 +23,7 @@ The `op` block has four fields: where to put the answer, what to do, and the two
 done to. Numbers can be written straight into the fields or supplied as variables — the block
 does not care.
 
-<Example client:load scene={ARITHMETIC} locale="en" />
+<Example scene={ARITHMETIC} />
 
 The first two lines put numbers into `a` and `b`, the other four compute. The variables window
 shows all four answers at once:
@@ -44,7 +44,7 @@ anywhere. How to get a whole number and a remainder is in the lesson
 The familiar `total = (a + b) * 2` does not exist in mlog. The instruction does exactly one
 thing, so an expression unfolds into a chain, with the intermediate answer put into a variable:
 
-<Example client:load scene={STEPS} locale="en" />
+<Example scene={STEPS} />
 
 First `sum` becomes 17, then that same value goes into the multiplication — and `total` comes
 out as 34. The name `sum` is not special here but invented: an intermediate answer can be

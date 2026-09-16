@@ -7,7 +7,7 @@ sidebar:
     order: 2
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -26,7 +26,7 @@ import {OBJECTS} from '../../../../../course/scenes/memory.js'
 Место в памяти помнит не только значение, но и **вид** значения. Записали число — лежит
 число; записали предмет — лежит предмет, а не его номер.
 
-<Example client:load scene={OBJECTS} world={true} />
+<Example scene={OBJECTS} world={true} />
 
 Программа кладёт в ячейку `@copper` и сам склад, достаёт их обратно и сразу пускает в дело:
 прочитанный склад отвечает на `sensor`, прочитанный предмет годится ему в вопрос.

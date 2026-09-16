@@ -8,7 +8,7 @@ sidebar:
     label: Where the buffer goes
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -27,7 +27,7 @@ import {FLUSH} from '../../../../../course/scenes/print.js'
 `printflush` has one field — who to hand the buffer to. It can be handed to a **message
 block** — called "Message" in the build menu — and that is the only block that can take text.
 
-<Example client:load scene={FLUSH} world={true} buffer={true} locale="en" />
+<Example scene={FLUSH} world={true} buffer={true} />
 
 Press "run". `copper: 120` appears under the message block, and the buffer is empty almost all
 the time: the program fills the line in and immediately hands it over.

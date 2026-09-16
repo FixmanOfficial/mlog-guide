@@ -7,7 +7,7 @@ sidebar:
     order: 6
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -23,7 +23,7 @@ import {OWNER, STOLEN, FORGET} from '../../../../../course/scenes/ucontrol.js'
     ]}
 />
 
-<Example client:load scene={OWNER} world={true} locale="en" />
+<Example scene={OWNER} world={true} />
 
 Two processors are looking at one poly. The upper one commands, the lower one only asks — and
 sees somebody else's authority from the outside.
@@ -91,7 +91,7 @@ jump 0 notEqual who @this       # taken by another processor — likewise
 
 ## Authority is taken away in silence
 
-<Example client:load scene={STOLEN} world={true} locale="en" />
+<Example scene={STOLEN} world={true} />
 
 Here both of them command, and each drags the poly towards its own corner. Watch `own` in both:
 the one goes to whichever command ran last, and the unit dangles between two targets.
@@ -109,7 +109,7 @@ the flag</Lesson>.
 
 ## Ten seconds and no more
 
-<Example client:load scene={FORGET} world={true} locale="en" />
+<Example scene={FORGET} world={true} />
 
 Here the order is given **once**, and after that the program only asks. The poly reaches the
 spot — and ten seconds later `ctrl` drops from one to zero, while `who` starts showing the unit

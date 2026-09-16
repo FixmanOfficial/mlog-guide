@@ -7,7 +7,7 @@ sidebar:
     order: 1
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -23,7 +23,7 @@ import {FIND} from '../../../../../course/scenes/radar.js'
     ]}
 />
 
-<Example client:load scene={FIND} world={true} />
+<Example scene={FIND} world={true} />
 
 На карте трое: кинжал и вспышка чужие, поли свой. Три радара находят разных — фильтрами.
 

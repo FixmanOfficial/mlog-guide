@@ -8,7 +8,7 @@ sidebar:
     label: A colour as one number
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -28,7 +28,7 @@ import {PACK, CHOICE} from '../../../../../course/scenes/color.js'
 As soon as there are several and they have to be chosen between, four numbers turn into four
 variables that get dragged around together. `packcolor` folds them into one.
 
-<Example client:load scene={PACK} world={true} locale="en" />
+<Example scene={PACK} world={true} />
 
 ```
 packcolor red 1 0 0 1
@@ -52,7 +52,7 @@ all three got clamped. The right way is `packcolor colour 0.85 0.62 0.45 1`.
 
 ## A colour becomes an ordinary value
 
-<Example client:load scene={CHOICE} world={true} locale="en" />
+<Example scene={CHOICE} world={true} />
 
 This is what it is all for: the colour is now **one number**, and one number can do everything
 any other number can. Go into a memory cell. Be chosen with `select`. Be passed to

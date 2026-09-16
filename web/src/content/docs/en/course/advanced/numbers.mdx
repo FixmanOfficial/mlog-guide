@@ -7,7 +7,7 @@ sidebar:
     order: 2
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -30,7 +30,7 @@ one the sign.
 Everything that follows comes out of that arrangement: why integers are exact up to a certain
 limit, why `0.1 + 0.2` is not `0.3`, and which bits survive packing.
 
-<Example client:load scene={PRECISE} world={false} locale="en" />
+<Example scene={PRECISE} world={false} />
 
 ## 53 significant bits
 

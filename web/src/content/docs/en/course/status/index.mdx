@@ -8,7 +8,7 @@ sidebar:
     label: Effects on a unit
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -24,7 +24,7 @@ import {BURN, FROZEN} from '../../../../../course/scenes/world-units.js'
     ]}
 />
 
-<Example client:load scene={BURN} world={true} locale="en" />
+<Example scene={BURN} world={true} />
 
 ```
 ubind @dagger
@@ -77,7 +77,7 @@ a direct application is silently skipped for them.
 
 ## Zero seconds and clearing
 
-<Example client:load scene={FROZEN} world={true} locale="en" />
+<Example scene={FROZEN} world={true} />
 
 Two daggers here, and both are told to go right. The world processor puts `@status-unmoving` on
 the upper one — and it stays on tile three, however much it is commanded. The lower one calmly

@@ -7,7 +7,7 @@ sidebar:
     order: 2
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -27,7 +27,7 @@ import {CONFIG} from '../../../../../course/scenes/control.js'
 источник предметов, завод юнитов. То, что выбрано, и есть **настройка** блока — и логика
 умеет её менять.
 
-<Example client:load scene={CONFIG} world={true} />
+<Example scene={CONFIG} world={true} />
 
 Программа смотрит, чего на складе меньше, и настраивает сортировщик на этот предмет.
 Меди 40, свинца 25 — значит сортировщик встанет на свинец.

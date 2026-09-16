@@ -7,7 +7,7 @@ sidebar:
     order: 4
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -29,7 +29,7 @@ with the number as a whole but with each bit separately.
 This is needed rarely, but when it is, nothing else will do: several flags in one number,
 a check for "is this bit on", a quick multiplication by a power of two.
 
-<Example client:load scene={BITWISE} locale="en" />
+<Example scene={BITWISE} />
 
 | Operation | In the block | What it does | 12 and 10 |
 | --- | --- | --- | --- |
@@ -68,7 +68,7 @@ inside"</Lesson>.
 
 ## Three answers nobody expects
 
-<Example client:load scene={SHIFTS} locale="en" />
+<Example scene={SHIFTS} />
 
 **`shl 1 64` gives 1, not zero.** A shift takes only the low six bits of the second number,
 that is, the remainder of dividing by 64. A shift by 64 is a shift by 0, a shift by 65 is

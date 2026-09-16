@@ -7,7 +7,7 @@ sidebar:
     order: 2
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -23,7 +23,7 @@ import {ARRIVED} from '../../../../../course/scenes/ucontrol.js'
     ]}
 />
 
-<Example client:load scene={ARRIVED} world={true} locale="en" />
+<Example scene={ARRIVED} world={true} />
 
 ```
 ucontrol move 16 4 0 0 0

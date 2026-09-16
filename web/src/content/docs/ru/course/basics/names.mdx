@@ -7,7 +7,7 @@ sidebar:
     order: 7
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -48,7 +48,7 @@ import {NAMES} from '../../../../../course/scenes/basics.js'
 
 `запас` и `Запас` — две разные переменные. Никакого сравнения «без учёта регистра» в mlog нет.
 
-<Example client:load scene={NAMES} world={false} />
+<Example scene={NAMES} world={false} />
 
 Нажмите «шаг» четыре раза. В таблице окажутся обе переменные — 100 и 5, — а `итог` станет
 равен 105. Программа не считает это ошибкой и не предупреждает: предупреждать в mlog нечем.

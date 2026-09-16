@@ -8,7 +8,7 @@ sidebar:
     label: Связи по номеру
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -27,7 +27,7 @@ import {LOOP, BEYOND} from '../../../../../course/scenes/getlink.js'
 Связь можно назвать по имени — `cell1`, `duo1`, — а можно взять **по номеру**. Номер это
 порядок подключения: первый подключённый блок нулевой, второй первый и так далее.
 
-<Example client:load scene={LOOP} world={true} />
+<Example scene={LOOP} world={true} />
 
 Программа обходит все связи и печатает, что нашла: `container memory-cell message`. Имён
 блоков она при этом не знает и знать не обязана.
@@ -50,7 +50,7 @@ jump 0 lessThan номер @links
 
 ## За последней связью — пустота
 
-<Example client:load scene={BEYOND} world={true} />
+<Example scene={BEYOND} world={true} />
 
 | Номер | Что вернёт |
 | --- | --- |

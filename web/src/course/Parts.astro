@@ -7,8 +7,11 @@
  */
 
 import './course.css'
+import {localeOf} from './locale.js'
 
-const {title = 'Что здесь на что'} = Astro.props
+const TITLE = {ru: 'Что здесь на что', en: 'What is what here'}
+
+const {title = TITLE[localeOf(Astro.url)]} = Astro.props
 ---
 <div class="parts">
     <p class="parts__title">{title}</p>

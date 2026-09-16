@@ -7,7 +7,7 @@ sidebar:
     order: 3
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -23,7 +23,7 @@ import {CARRY, FERRY} from '../../../../../course/scenes/ucontrol.js'
     ]}
 />
 
-<Example client:load scene={CARRY} world={true} locale="en" />
+<Example scene={CARRY} world={true} />
 
 ```
 ucontrol itemTake container1 @copper 10 0 0
@@ -76,7 +76,7 @@ once. Take copper and then try to take graphite, and there will be no graphite.
 
 ## A full trip
 
-<Example client:load scene={FERRY} world={true} locale="en" />
+<Example scene={FERRY} world={true} />
 
 Here is a whole ferry program. It looks at its cargo and decides where to fly: empty — to the
 store for copper, full — to the recipient.

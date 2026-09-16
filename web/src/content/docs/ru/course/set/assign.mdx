@@ -7,7 +7,7 @@ sidebar:
     order: 1
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -28,7 +28,7 @@ import {ASSIGN} from '../../../../../course/scenes/set.js'
 
 Нажмите «шаг» четыре раза и смотрите в таблицу.
 
-<Example client:load scene={ASSIGN} world={false} />
+<Example scene={ASSIGN} world={false} />
 
 ## Что можно положить
 

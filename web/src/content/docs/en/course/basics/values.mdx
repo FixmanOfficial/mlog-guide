@@ -7,7 +7,7 @@ sidebar:
     order: 5
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -20,7 +20,7 @@ An mlog variable holds either a number or an object. Everything that is not a nu
 object: a string, an item, a block, a unit, a team. Emptiness, `null`, is a kind of object all
 its own, and it gets <Lesson lesson="basics/null">a lesson of its own</Lesson>.
 
-<Example client:load scene={VALUES} world={false} locale="en" />
+<Example scene={VALUES} world={false} />
 
 To the right of the value the table shows the kind: `number`, `string`, `content`, `null`.
 It is the same column the "Variables" window shows in the game itself, in the same colours.

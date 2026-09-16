@@ -7,7 +7,7 @@ sidebar:
     order: 5
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -26,7 +26,7 @@ import {TRANSFORM} from '../../../../../course/scenes/draw.js'
 A rectangle cannot be rotated by the `rect` command — it has no rotation field. But **the grid
 itself** it is drawn in can be rotated.
 
-<Example client:load scene={TRANSFORM} world={true} locale="en" />
+<Example scene={TRANSFORM} world={true} />
 
 Three squares are given identically, `40` by `40`. The first is drawn as is, the second after
 the grid was moved and turned, the third after a `reset`, back in ordinary coordinates.

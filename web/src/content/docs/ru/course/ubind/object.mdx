@@ -7,7 +7,7 @@ sidebar:
     order: 2
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -32,7 +32,7 @@ import {KEEP, EVERY, REMEMBER, LOST} from '../../../../../course/scenes/ubind.js
 
 ## Правильный цикл привязывается редко
 
-<Example client:load scene={KEEP} world={true} />
+<Example scene={KEEP} world={true} />
 
 ```
 op add итераций итераций 1
@@ -58,7 +58,7 @@ op add привязок привязок 1
 
 ## А если привязываться каждый раз
 
-<Example client:load scene={EVERY} world={true} />
+<Example scene={EVERY} world={true} />
 
 Та же программа без проверки. Теперь `привязок` равно `итераций`, а счётчик `смен`
 показывает главное: юнит меняется почти каждую итерацию. Поли на карте трое, и программа
@@ -77,7 +77,7 @@ op add привязок привязок 1
 `@unit` один, а юнитов может быть несколько. Как только процессору нужно помнить **больше
 одного**, приходится складывать их куда-то ещё — и доставать обратно:
 
-<Example client:load scene={REMEMBER} world={true} />
+<Example scene={REMEMBER} world={true} />
 
 ```
 ubind @poly
@@ -108,7 +108,7 @@ ubind мой
 
 ## Юнит гибнет, привязка помнит
 
-<Example client:load scene={LOST} world={true} />
+<Example scene={LOST} world={true} />
 
 Вспышка стоит под огнём чужой турели и через несколько секунд погибнет. Смотрите
 за переменными: `мёртв` станет единицей, а `живых` покажет, что привязываться больше

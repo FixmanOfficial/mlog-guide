@@ -7,7 +7,7 @@ sidebar:
     order: 1
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -26,7 +26,7 @@ import {BUFFER} from '../../../../../course/scenes/print.js'
 Every processor has a text buffer — a string that `print` appends values to, one after
 another. While it is inside, nobody sees it: not the player, not the neighbouring blocks.
 
-<Example client:load scene={BUFFER} world={true} buffer={true} locale="en" />
+<Example scene={BUFFER} world={true} buffer={true} />
 
 Press "step" five times and watch the bottom row of the table: the buffer fills up with
 `copper: 120 of 300`. Four `print`s — four pieces, glued together in the order the lines ran.

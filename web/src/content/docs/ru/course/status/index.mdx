@@ -8,7 +8,7 @@ sidebar:
     label: Эффекты на юните
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -24,7 +24,7 @@ import {BURN, FROZEN} from '../../../../../course/scenes/world-units.js'
     ]}
 />
 
-<Example client:load scene={BURN} world={true} />
+<Example scene={BURN} world={true} />
 
 ```
 ubind @dagger
@@ -76,7 +76,7 @@ status false @status-burning @unit 10
 
 ## Ноль секунд и снятие
 
-<Example client:load scene={FROZEN} world={true} />
+<Example scene={FROZEN} world={true} />
 
 Здесь два кинжала, и обоим велено идти вправо. Верхнему мировой процессор накладывает
 `@status-unmoving` — и он остаётся на третьей клетке, сколько ему ни командуй. Нижний

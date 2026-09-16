@@ -7,7 +7,7 @@ sidebar:
     order: 2
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -30,7 +30,7 @@ import {NEIGHBOUR} from '../../../../../course/scenes/memory.js'
 read чужиеИтерации processor1 "итераций"
 ```
 
-<Example client:load scene={NEIGHBOUR} world={true} />
+<Example scene={NEIGHBOUR} world={true} />
 
 На карте два процессора. Верхний просто считает итерации; нижний — тот, чья программа
 показана — достаёт его счётчик по имени и печатает. Ячейки между ними нет вовсе.

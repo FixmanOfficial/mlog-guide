@@ -7,7 +7,7 @@ sidebar:
     order: 4
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -37,7 +37,7 @@ Now its `@flag` holds a seven. Any processor can read it:
 sensor tag @unit @flag
 ```
 
-<Example client:load scene={FLAG} world={true} locale="en" />
+<Example scene={FLAG} world={true} />
 
 The program hands out numbers: whoever has no tag (zero) gets the next one, whoever has one is
 skipped. Three polys get one, two and three, and `lastTag` stops at three: there is nobody left

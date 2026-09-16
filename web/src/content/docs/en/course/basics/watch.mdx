@@ -7,7 +7,7 @@ sidebar:
     order: 3
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -62,7 +62,7 @@ Their list opens with the "Built-in variables" button in the same window; here i
 The example below is the program from the previous lessons, but with one letter out of place:
 the second line says `stok`, not `stock`. Press "run" and look at the table.
 
-<Example client:load scene={WATCH} world={false} locale="en" />
+<Example scene={WATCH} world={false} />
 
 `total` is five instead of twenty-five. Why, is visible in the same place:
 

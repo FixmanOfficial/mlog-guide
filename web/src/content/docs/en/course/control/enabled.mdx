@@ -7,7 +7,7 @@ sidebar:
     order: 1
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -27,7 +27,7 @@ A switched-off block does not work: a drill does not drill, a factory does not p
 a conveyor does not carry. Logic uses this constantly — it is its main way of interfering with
 a base.
 
-<Example client:load scene={ENABLED} world={true} locale="en" />
+<Example scene={ENABLED} world={true} />
 
 The program watches the store and keeps the drill on while there is less than a hundred
 copper. Press "run" and wait: as soon as `copper` reaches 100, `running` becomes zero and the
@@ -72,7 +72,7 @@ switches it off.
 
 ## Only linked blocks obey
 
-<Example client:load scene={UNLINKED} world={true} locale="en" />
+<Example scene={UNLINKED} world={true} />
 
 There are two drills on the map. The first is linked to our processor, the second to
 a neighbouring one; ours fetches it

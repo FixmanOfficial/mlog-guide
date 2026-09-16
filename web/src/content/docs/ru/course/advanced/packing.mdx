@@ -7,7 +7,7 @@ sidebar:
     order: 6
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -23,7 +23,7 @@ import {PACKED} from '../../../../../course/scenes/advanced.js'
     ]}
 />
 
-<Example client:load scene={PACKED} world={false} />
+<Example scene={PACKED} world={false} />
 
 ```
 op mul упаковано x 1000

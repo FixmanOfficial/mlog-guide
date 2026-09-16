@@ -7,7 +7,7 @@ sidebar:
     order: 1
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -31,7 +31,7 @@ lesson is about **writing** to it.
 
 Press "step" three times.
 
-<Example client:load scene={COUNTER} world={false} locale="en" />
+<Example scene={COUNTER} world={false} />
 
 The second line puts a three into `@counter` — and the third line never runs at all: `skipped`
 stays empty and `reached` becomes one. A `jump` with its arrow on the fourth line would do
@@ -45,7 +45,7 @@ cannot.
 Before you can count, you have to know what you are counting from. By the time a line runs, the
 counter has **already been increased** and points at the next line.
 
-<Example client:load scene={RELATIVE} world={false} locale="en" />
+<Example scene={RELATIVE} world={false} />
 
 `op add @counter @counter 2` in this example skips **two** lines, not one: `firstOne` and
 `secondOne` stay empty and the one goes to `thirdOne`. Adding zero would mean "the next line",

@@ -7,7 +7,7 @@ sidebar:
     order: 5
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -23,7 +23,7 @@ import {COST} from '../../../../../course/scenes/advanced.js'
     ]}
 />
 
-<Example client:load scene={COST} world={false} locale="en" />
+<Example scene={COST} world={false} />
 
 A hyper processor, a program of three lines. Look at `loopsPerTick`: about **8.3** — that is
 twenty-five instructions a tick divided by the three lines of an iteration.

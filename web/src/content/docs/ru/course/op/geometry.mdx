@@ -7,7 +7,7 @@ sidebar:
     order: 5
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -24,7 +24,7 @@ import {GEOMETRY, FLOAT} from '../../../../../course/scenes/op.js'
 сторону**. Далеко — это `len`, в какую сторону — `angle`. Обе работают не с точками,
 а со смещением: сколько вправо и сколько вверх.
 
-<Example client:load scene={GEOMETRY} />
+<Example scene={GEOMETRY} />
 
 | Операция | Что считает | Ответ |
 | --- | --- | --- |
@@ -56,7 +56,7 @@ import {GEOMETRY, FLOAT} from '../../../../../course/scenes/op.js'
 
 ## Ответы чуть-чуть не такие, как в учебнике
 
-<Example client:load scene={FLOAT} />
+<Example scene={FLOAT} />
 
 Диагональ единичного квадрата — это √2, то есть 1.4142135623730951. mlog отвечает
 1.4142135381698608. Угол «влево» — это 180, а mlog отвечает 179.99989.

@@ -7,7 +7,7 @@ sidebar:
     order: 2
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -32,7 +32,7 @@ needed**.
 
 ## A proper loop binds rarely
 
-<Example client:load scene={KEEP} world={true} locale="en" />
+<Example scene={KEEP} world={true} />
 
 ```
 op add loops loops 1
@@ -58,7 +58,7 @@ yet". On the first iteration `@unit` is empty, `gone` is a one, and the program 
 
 ## And if you bind every time
 
-<Example client:load scene={EVERY} world={true} locale="en" />
+<Example scene={EVERY} world={true} />
 
 The same program without the check. Now `binds` equals `loops`, and the `swaps` counter shows
 the point: the unit changes almost every iteration. There are three polys on the map, and the
@@ -77,7 +77,7 @@ Hence the order: first check whether the previous one will do, and only then bin
 There is one `@unit`, and there can be several units. As soon as a processor has to remember
 **more than one**, they have to be stored somewhere else — and taken back out:
 
-<Example client:load scene={REMEMBER} world={true} locale="en" />
+<Example scene={REMEMBER} world={true} />
 
 ```
 ubind @poly
@@ -109,7 +109,7 @@ not.
 
 ## The unit dies, the binding remembers
 
-<Example client:load scene={LOST} world={true} locale="en" />
+<Example scene={LOST} world={true} />
 
 The flare stands under an enemy turret's fire and will die in a few seconds. Watch the
 variables: `dead` becomes one, and `alive` shows there is nobody left to bind to.

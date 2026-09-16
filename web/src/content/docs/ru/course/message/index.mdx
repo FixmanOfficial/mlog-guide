@@ -8,7 +8,7 @@ sidebar:
     label: Сообщение игроку
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -24,7 +24,7 @@ import {TALK, BUSY} from '../../../../../course/scenes/world.js'
     ]}
 />
 
-<Example client:load scene={TALK} world={true} />
+<Example scene={TALK} world={true} />
 
 ```
 print "Держите оборону!"
@@ -61,7 +61,7 @@ message announce 3 @wait
 
 ## Занятый экран
 
-<Example client:load scene={BUSY} world={true} />
+<Example scene={BUSY} world={true} />
 
 Два сообщения подряд: первое проходит (`первое` равно единице), второе — нет
 (`второе` равно нулю). Место занято, и программа об этом узнаёт.

@@ -7,7 +7,7 @@ sidebar:
     order: 3
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -27,7 +27,7 @@ A unit is asked with the same `sensor` as a block. There is one difference: a un
 name, so it has to be taken first — that is what `ubind` does, and the taken unit sits in
 `@unit`.
 
-<Example client:load scene={UNITS} locale="en" />
+<Example scene={UNITS} />
 
 The first line takes the first free poly, and the rest ask it the same things that were asked
 of a container yesterday.

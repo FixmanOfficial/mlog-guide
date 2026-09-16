@@ -8,7 +8,7 @@ sidebar:
     label: Конец итерации
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -27,7 +27,7 @@ import {ENDING} from '../../../../../course/scenes/wait.js'
 У `end` нет полей. Он делает ровно одно: кладёт в `@counter` число строк программы. Это
 за краем, а номер за краем счётчик обнуляет — программа начинается с первой строки.
 
-<Example client:load scene={ENDING} world={false} />
+<Example scene={ENDING} world={false} />
 
 Нажмите «шаг» четыре раза: `итераций` станет двойкой, а `после` останется пустым. Строка ниже
 `end` недостижима — до неё выполнение не доходит никогда.

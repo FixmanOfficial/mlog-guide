@@ -7,7 +7,7 @@ sidebar:
     order: 4
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import Card from '../../../../../course/Card.astro'
 import Lesson from '../../../../../course/Lesson.astro'
@@ -34,7 +34,7 @@ A program can also have loops of its own — those are built out of jumps, and t
 <Lesson lesson="jump/loops">a lesson of their own</Lesson>.
 </Card>
 
-<Example client:load scene={PROCESSOR} world={false} locale="en" />
+<Example scene={PROCESSOR} world={false} />
 
 Press "step": the frame walks through both lines and returns to the top, and `loops` goes up
 by one each time.

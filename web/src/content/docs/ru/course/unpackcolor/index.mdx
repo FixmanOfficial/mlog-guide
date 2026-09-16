@@ -8,7 +8,7 @@ sidebar:
     label: Разбор цвета
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -27,7 +27,7 @@ import {UNPACK} from '../../../../../course/scenes/color.js'
 Упакованный цвет — одно число, и прочитать его глазом нельзя. `unpackcolor` раскладывает
 его обратно на четыре канала.
 
-<Example client:load scene={UNPACK} world={true} />
+<Example scene={UNPACK} world={true} />
 
 Программа спрашивает у меди её цвет и печатает его по каналам: на табло появится
 `медь: 217 157 115`.

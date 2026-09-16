@@ -7,7 +7,7 @@ sidebar:
     order: 3
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -27,7 +27,7 @@ import {SHARED} from '../../../../../course/scenes/memory.js'
 значения, и узнать чужое нельзя ничем. Зато ячейка памяти — обычный блок, и подключиться
 к ней могут оба.
 
-<Example client:load scene={SHARED} world={true} />
+<Example scene={SHARED} world={true} />
 
 На карте два процессора. Верхний спрашивает склад и кладёт ответ в ячейку; нижний берёт
 его оттуда и печатает. Связи у них разные: у верхнего склад и ячейка, у нижнего — ячейка

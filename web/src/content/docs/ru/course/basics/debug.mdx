@@ -7,7 +7,7 @@ sidebar:
     order: 9
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -64,7 +64,7 @@ import {DEBUG} from '../../../../../course/scenes/basics.js'
 Программа ниже должна была считать, сколько всего сделано из десяти и какая это доля.
 Нажмите «сначала», потом четыре раза «шаг» и посмотрите в таблицу.
 
-<Example client:load scene={DEBUG} world={false} />
+<Example scene={DEBUG} world={false} />
 
 После первой итерации: `цель` равна 10, `счёт` — единице, `осталось` — девяти. Пока похоже
 на правду. А `доля` пуста, хотя должна быть числом.

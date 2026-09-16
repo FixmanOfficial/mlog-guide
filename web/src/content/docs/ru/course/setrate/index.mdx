@@ -8,7 +8,7 @@ sidebar:
     label: Скорость процессора
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -34,7 +34,7 @@ import {FULL, SLOW, CEILING} from '../../../../../course/scenes/rate.js'
 | Гиперпроцессор | 25 |
 | Мировой процессор | 8, до 1000 |
 
-<Example client:load scene={FULL} world={true} />
+<Example scene={FULL} world={true} />
 
 Гиперпроцессор на полном ходу: за секунду программа из пяти строк проходит её около
 **295 раз**. Столько же раз за секунду читается `sensor`, перерисовывается дисплей
@@ -42,7 +42,7 @@ import {FULL, SLOW, CEILING} from '../../../../../course/scenes/rate.js'
 
 ## `setrate` меняет скорость на ходу
 
-<Example client:load scene={SLOW} world={true} />
+<Example scene={SLOW} world={true} />
 
 Та же программа с одной новой строкой в начале:
 
@@ -60,7 +60,7 @@ setrate 1
 
 ## Выше своего потолка не поднять
 
-<Example client:load scene={CEILING} world={true} />
+<Example scene={CEILING} world={true} />
 
 Здесь микропроцессору велено работать на тысяче инструкций за тик, а `скорость` всё равно
 остаётся **двойкой**.

@@ -7,7 +7,7 @@ sidebar:
     order: 1
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -22,7 +22,7 @@ import {ARITHMETIC, STEPS} from '../../../../../course/scenes/op.js'
 В блоке `op` четыре поля: куда положить ответ, что сделать и два числа, над которыми
 это делают. Числа можно писать прямо в поля, а можно подставлять переменные — блоку всё равно.
 
-<Example client:load scene={ARITHMETIC} />
+<Example scene={ARITHMETIC} />
 
 Первые две строки кладут в `a` и `b` числа, остальные четыре считают. В окне переменных
 видно все четыре ответа сразу:
@@ -43,7 +43,7 @@ import {ARITHMETIC, STEPS} from '../../../../../course/scenes/op.js'
 Привычной записи `итог = (a + b) * 2` в mlog нет. Инструкция делает ровно одно действие,
 поэтому выражение разворачивается в цепочку, а промежуточный ответ кладётся в переменную:
 
-<Example client:load scene={STEPS} />
+<Example scene={STEPS} />
 
 Сначала `сумма` становится 17, потом она же идёт в умножение — и `итог` выходит 34. Имя
 `сумма` здесь не служебное, а придуманное: назвать промежуточный ответ можно как угодно.

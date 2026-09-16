@@ -7,7 +7,7 @@ sidebar:
     order: 2
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -20,7 +20,7 @@ import {SHAPES} from '../../../../../course/scenes/draw.js'
     needs={[{lesson: 'draw/first', title: 'Первый рисунок'}]}
 />
 
-<Example client:load scene={SHAPES} world={true} />
+<Example scene={SHAPES} world={true} />
 
 Здесь нарисовано всё, что дисплей умеет: заливка и контур, линия, шестиугольник, треугольник
 контуром и треугольник заливкой.

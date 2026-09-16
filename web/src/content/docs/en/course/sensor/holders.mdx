@@ -7,7 +7,7 @@ sidebar:
     order: 4
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import Lesson from '../../../../../course/Lesson.astro'
 import '../../../../../example/example.css'
@@ -29,7 +29,7 @@ how the game is built: a property is read by the code of a particular class, and
 written in the turret, `@progress` in the drill and the factory, `@memoryCapacity` in the
 memory cell. The others simply do not have that code.
 
-<Example client:load scene={HOLDERS} locale="en" />
+<Example scene={HOLDERS} />
 
 Here a duo is damaged down to 120 out of 250, and the cell has memory while the router does
 not.

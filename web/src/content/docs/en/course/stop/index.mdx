@@ -8,7 +8,7 @@ sidebar:
     label: A full halt
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -27,7 +27,7 @@ import {STOPPED} from '../../../../../course/scenes/wait.js'
 `stop` has no fields either, and it does the simplest thing that can be done to a processor:
 it halts it.
 
-<Example client:load scene={STOPPED} world={false} locale="en" />
+<Example scene={STOPPED} world={false} />
 
 Press "run" and wait: `loops` stays at one and `afterStop` never appears. The processor ran the
 first line, hit `stop` — and that was that.

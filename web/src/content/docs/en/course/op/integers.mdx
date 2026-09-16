@@ -7,7 +7,7 @@ sidebar:
     order: 2
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -23,7 +23,7 @@ Ordinary division gives a fraction, and that is not always what is wanted: items
 a time, tiles are whole, a link index is whole. `op` has operations of its own for whole
 numbers.
 
-<Example client:load scene={INTEGERS} locale="en" />
+<Example scene={INTEGERS} />
 
 | Operation | In the block | What it computes | 7 and 2 | −7 and 2 |
 | --- | --- | --- | --- | --- |
@@ -50,7 +50,7 @@ again.
 
 ## Rounding
 
-<Example client:load scene={ROUNDING} locale="en" />
+<Example scene={ROUNDING} />
 
 `floor` rounds down, `ceil` up, `round` to the nearest whole number. A half goes up with
 `round`: 2.5 becomes 3, not 2. For negatives "down" means "further from zero": `floor` of −3.2
@@ -60,7 +60,7 @@ None of the three has a second field: they round one number.
 
 ## Fractions are computed approximately
 
-<Example client:load scene={PRECISION} locale="en" />
+<Example scene={PRECISION} />
 
 The sum of 0.1 and 0.2 is 0.30000000000000004, and that is not a bug in mlog. Numbers are
 stored the way they are almost everywhere — as binary fractions — and 0.1 in binary is endless,

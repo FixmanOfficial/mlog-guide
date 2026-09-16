@@ -1,0 +1,22 @@
+---
+/**
+ * Пример урока: остров `Example` со сценой на языке страницы.
+ *
+ * Сцены пишутся по-русски, а английская страница показывает их с переписанными именами.
+ * Переписывать надо здесь, при сборке, а не в острове: входные данные острова Astro кладёт
+ * в разметку целиком, и переведи их остров сам — в HTML английской страницы ехал бы русский
+ * исходник сцены.
+ *
+ * Язык берётся из адреса, поэтому урок его не передаёт: `<Example scene={...} />` одинаково
+ * на обоих языках.
+ */
+
+import {Example as Island} from './Example.jsx'
+import {localized} from '../course/scenes/translate.js'
+import {localeOf} from '../course/locale.js'
+
+const {scene, ...rest} = Astro.props
+const locale = localeOf(Astro.url)
+---
+
+<Island client:load {...rest} scene={localized(scene, locale)} locale={locale} />

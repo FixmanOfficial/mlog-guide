@@ -8,7 +8,7 @@ sidebar:
     label: Контент по номеру
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -28,7 +28,7 @@ import {TABLE, SCAN} from '../../../../../course/scenes/lookup.js'
 их по одной в программу утомительно. У игры для этого есть **нумерованные списки**, и `lookup`
 достаёт из них по номеру.
 
-<Example client:load scene={TABLE} world={false} />
+<Example scene={TABLE} world={false} />
 
 ## Четыре списка
 
@@ -90,7 +90,7 @@ sensor номер @graphite @id
 
 ## Зачем это на самом деле
 
-<Example client:load scene={SCAN} world={true} />
+<Example scene={SCAN} world={true} />
 
 Главное применение — **перебрать весь список**. Программа спрашивает склад про каждый предмет
 по очереди и запоминает, какого больше всех: на табло появится `graphite: 60`.

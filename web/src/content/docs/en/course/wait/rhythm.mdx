@@ -7,7 +7,7 @@ sidebar:
     order: 2
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -27,7 +27,7 @@ A program without `wait` runs at full speed always. For a blinking lamp that cha
 for a program polling a dozen blocks it changes everything: it will do that hundreds of times
 a second when twice would do.
 
-<Example client:load scene={RHYTHM} world={true} locale="en" />
+<Example scene={RHYTHM} world={true} />
 
 Press "run". `checks` grows by two a second, and that is enough: the copper in a container does
 not change sixty times a second, and if it did you would not see it.
@@ -69,7 +69,7 @@ the slow part is measured by **time**: a processor has `@time`, the game's time 
 milliseconds, and the program keeps a deadline in a variable and does not touch the slow part
 before it.
 
-<Example client:load scene={TIMER} world={true} locale="en" />
+<Example scene={TIMER} world={true} />
 
 Press "run" and watch two variables: `loops` runs in the tens while `checks` goes up by one
 a second. The program reads as "if the time has not reached the deadline, start the iteration

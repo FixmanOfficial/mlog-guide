@@ -7,7 +7,7 @@ sidebar:
     order: 3
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -23,7 +23,7 @@ import {FOREIGN} from '../../../../../course/scenes/ubind.js'
     ]}
 />
 
-<Example client:load scene={FOREIGN} world={true} />
+<Example scene={FOREIGN} world={true} />
 
 На карте два кинжала, оба вражеские. `ubind @dagger` честно ищет — и кладёт в `@unit`
 пустоту: перебор идёт **по юнитам своей команды**, а чужих в этом списке нет вовсе.

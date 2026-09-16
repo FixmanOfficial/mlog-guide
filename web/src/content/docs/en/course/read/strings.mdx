@@ -7,7 +7,7 @@ sidebar:
     order: 3
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -33,7 +33,7 @@ read code "mlog" 0
 `code` gets 109 — that is `m`. Not a letter, a number: mlog has no separate "character" kind
 at all.
 
-<Example client:load scene={LETTERS} world={true} locale="en" />
+<Example scene={LETTERS} world={true} />
 
 The program walks the string character by character and puts them back together with
 `printchar`. The board shows `mlog` — the same string, only assembled one character at a time.

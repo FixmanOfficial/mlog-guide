@@ -7,7 +7,7 @@ sidebar:
     order: 1
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -30,7 +30,7 @@ them now means "what to write":
 write loops cell1 0
 ```
 
-<Example client:load scene={STORE} world={true} locale="en" />
+<Example scene={STORE} world={true} />
 
 The counter here lives not in a variable but in memory: the iteration begins by fetching the
 previous value and ends by putting the new one back.

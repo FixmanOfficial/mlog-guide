@@ -7,7 +7,7 @@ sidebar:
     order: 2
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -27,7 +27,7 @@ Some blocks in the game are configured by clicking them and picking an item: a s
 unloader, an item source, a unit factory. Whatever is picked is the block's **configuration** —
 and logic can change it.
 
-<Example client:load scene={CONFIG} world={true} locale="en" />
+<Example scene={CONFIG} world={true} />
 
 The program looks at which of the two is scarcer in the store and configures the sorter for
 that item. Copper 40, lead 25 — so the sorter settles on lead.

@@ -8,7 +8,7 @@ sidebar:
     label: Links by index
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -27,7 +27,7 @@ import {LOOP, BEYOND} from '../../../../../course/scenes/getlink.js'
 A link can be named — `cell1`, `duo1` — or it can be taken **by index**. The index is the order
 of connecting: the first connected block is number zero, the second number one, and so on.
 
-<Example client:load scene={LOOP} world={true} locale="en" />
+<Example scene={LOOP} world={true} />
 
 The program walks every link and prints what it found: `container memory-cell message`.
 It does not know the blocks' names, and it does not have to.
@@ -50,7 +50,7 @@ ends the loop, not a number: connect one more block and the program sees it by i
 
 ## Past the last link lies emptiness
 
-<Example client:load scene={BEYOND} world={true} locale="en" />
+<Example scene={BEYOND} world={true} />
 
 | Index | What comes back |
 | --- | --- |

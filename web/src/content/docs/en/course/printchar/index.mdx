@@ -8,7 +8,7 @@ sidebar:
     label: A character and an icon
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -27,7 +27,7 @@ import {CHARS} from '../../../../../course/scenes/format.js'
 `printchar` appends **one character** to the buffer. Not a string, not a number — exactly one
 character, given by its code.
 
-<Example client:load scene={CHARS} world={true} buffer={true} locale="en" />
+<Example scene={CHARS} world={true} buffer={true} />
 
 Press "run". Under the message block you get the copper icon, the number 120 and an upward
 arrow: the icon came from `printchar @copper`, the arrow from `printchar 8593`.

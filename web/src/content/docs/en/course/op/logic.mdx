@@ -7,7 +7,7 @@ sidebar:
     order: 3
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -23,7 +23,7 @@ A comparison in mlog is not a special construct but an `op` operation like addit
 is a number too: **1 if true and 0 if not**. It can be put into a variable, added to another,
 passed on — it is no different from an ordinary number.
 
-<Example client:load scene={LOGIC} locale="en" />
+<Example scene={LOGIC} />
 
 There is 40 copper and the limit is 100. The first comparison answers with a one, the second
 with a zero.
@@ -73,7 +73,7 @@ a completely different operation: that is how "not equal", `notEqual`, is writte
 
 Now for the second row: `op not` is a **bitwise inversion**, not a logical "not":
 
-<Example client:load scene={NEGATION} locale="en" />
+<Example scene={NEGATION} />
 
 `not 1` gives −2, not 0. What happens to the bits is in the lesson
 [«Bitwise operations»](/en/course/op/bitwise/); what matters here is something else: the

@@ -7,7 +7,7 @@ sidebar:
     order: 2
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -22,7 +22,7 @@ import {INTEGERS, ROUNDING, PRECISION} from '../../../../../course/scenes/op.js'
 Обычное деление отдаёт дробь, и это не всегда то, что нужно: предметы поштучно, тайлы
 целыми, номер связи целый. Для целых у `op` есть свои операции.
 
-<Example client:load scene={INTEGERS} />
+<Example scene={INTEGERS} />
 
 | Операция | В блоке | Что считает | 7 и 2 | −7 и 2 |
 | --- | --- | --- | --- | --- |
@@ -47,7 +47,7 @@ import {INTEGERS, ROUNDING, PRECISION} from '../../../../../course/scenes/op.js'
 
 ## Округления
 
-<Example client:load scene={ROUNDING} />
+<Example scene={ROUNDING} />
 
 `floor` округляет вниз, `ceil` вверх, `round` — к ближайшему целому. Половина у `round`
 уходит вверх: 2.5 становится 3, а не 2. У отрицательных «вниз» означает «дальше от нуля»:
@@ -57,7 +57,7 @@ import {INTEGERS, ROUNDING, PRECISION} from '../../../../../course/scenes/op.js'
 
 ## Дроби считаются приблизительно
 
-<Example client:load scene={PRECISION} />
+<Example scene={PRECISION} />
 
 Сумма 0.1 и 0.2 равна 0.30000000000000004, и это не ошибка mlog. Числа хранятся так же,
 как почти везде — двоичной дробью, — а 0.1 в двоичной записи бесконечна, как ⅓ в десятичной.

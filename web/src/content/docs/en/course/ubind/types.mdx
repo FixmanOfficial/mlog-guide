@@ -7,7 +7,7 @@ sidebar:
     order: 1
 ---
 
-import {Example} from '../../../../../example/Example.jsx'
+import Example from '../../../../../example/Example.astro'
 import LessonHead from '../../../../../course/LessonHead.astro'
 import '../../../../../example/example.css'
 import Card from '../../../../../course/Card.astro'
@@ -30,14 +30,14 @@ ubind @poly
 One line, and `@unit` holds a poly — one of those flying about the map. Every program about
 units starts here: while `@unit` is empty there is nobody to command.
 
-<Example client:load scene={WATCH} world={true} locale="en" />
+<Example scene={WATCH} world={true} />
 
 A bound unit is an ordinary object: `sensor` asks it for coordinates, health and type exactly
 as it would a building.
 
 ## Every call gives the next one
 
-<Example client:load scene={CYCLE} world={true} locale="en" />
+<Example scene={CYCLE} world={true} />
 
 There are three polys on the map, and the program binds four times in a row. `first`, `second`
 and `third` get different units, and `fourth` turns out to be the same as `first`: the list
@@ -64,7 +64,7 @@ Two lines with no loop at all drive every poly on the map — simply one at a ti
 
 ## When there are no units
 
-<Example client:load scene={NONE} world={true} locale="en" />
+<Example scene={NONE} world={true} />
 
 There are no flares on the map, and `ubind @flare` puts **emptiness** into `@unit`. There is no
 error: neither in the game nor in the example does the program stop.
