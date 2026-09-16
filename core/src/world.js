@@ -1143,6 +1143,42 @@ export class World {
 
         // Открытый контент. Дерева технологий у нас нет, а `ResearchObjective` его читает
         this.unlocked = new Set()
+
+        /*
+         * Исходное состояние для перемотки. Снимается перед первым тиком (`markBaseline`):
+         * всё, что появилось позже по воле симуляции — юнит от `spawn`, здание от `setblock`,
+         * пол от `setblock floor`, — сброс убирает, а погибшее и снесённое возвращает.
+         * Постройка и снос руками игрока — внешний ввод: они правят саму основу.
+         */
+        this.baseline = null
+    }
+
+    /** Запоминает текущее состояние как исходное для `reset`. */
+    markBaseline() {
+        this.baseline = {
+            buildings: [...this.buildings],
+            units: [...this.units],
+            floors: [...this.floors],
+            overlays: [...this.overlays],
+            walls: [...this.walls],
+            linkCounters: new Map(this.linkCounters),
+            nextUnitId: this.nextUnitId,
+            links: new Map()
+        }
+
+        this.recordLinks()
+        return this
+    }
+
+    /** Связи мачт в основе — только между зданиями основы. */
+    recordLinks() {
+        const base = this.baseline
+        if (base === null) return
+
+        const members = new Set(base.buildings)
+        base.links = new Map(base.buildings
+            .filter(building => building.power !== null)
+            .map(building => [building, building.power.links.filter(link => members.has(link))]))
     }
 
     /** Пуля в полёте. Складывается в общий список и живёт до попадания или до срока. */
@@ -1216,8 +1252,8 @@ export class World {
         const spec = BLOCK_SPECS[type]
         const size = spec?.size ?? 1
 
-        // След блока: у нечётных он вокруг тайла, у чётных — от него вправо и вверх
-        const offset = size % 2 === 0 ? 0 : -Math.floor(size / 2)
+        // След блока: `-(size - 1) / 2`, у двойки это ноль, у тройки и четвёрки — минус один
+        const offset = -Math.trunc((size - 1) / 2)
 
         for (let dy = 0; dy < size; dy++) {
             for (let dx = 0; dx < size; dx++) {
@@ -1397,12 +1433,30 @@ export class World {
         if (!this.canPlace(type, x, y, rotation)) return null
 
         // Заменяемое уходит молча: в игре старый блок не разбирается, а исчезает под новым
-        for (const other of this.covered(type, x, y)) this.remove(other)
+        for (const other of this.covered(type, x, y)) this.demolish(other)
 
         const building = this.add(type, {...options, x, y})
         if (building.team === this.rules.defaultTeam) this.stats.placedBlockCount.increment(type)
 
+        // Поставленное игроком входит в основу: перемотка его не уберёт
+        if (this.baseline !== null) {
+            this.baseline.buildings.push(building)
+            this.recordLinks()
+        }
+
         return building
+    }
+
+    /** Снос руками игрока: здание уходит и из мира, и из основы перемотки. */
+    demolish(building) {
+        this.remove(building)
+
+        if (this.baseline !== null) {
+            this.baseline.buildings = this.baseline.buildings.filter(item => item !== building)
+            this.recordLinks()
+        }
+
+        return this
     }
 
     /** Здания под следом блока: те, что заменит постановка. */
@@ -1489,6 +1543,8 @@ export class World {
      * только в следующем.
      */
     step(delta = 1) {
+        if (this.baseline === null) this.markBaseline()
+
         this.tick += delta
 
         // Цели проверяются раньше всего остального: так они стоят в `Logic.update`.
@@ -1542,10 +1598,57 @@ export class World {
         this.stats.reset()
         this.objectives.reset()
         this.bullets = []
+
+        if (this.baseline !== null) this.restoreBaseline()
+
         for (const unit of this.units) unit.reset()
         for (const building of this.buildings) building.reset()
         for (const processor of this.processors) processor.reset()
         return this
+    }
+
+    /**
+     * Возвращает состав мира к основе: здания, юнитов, местность, счётчики имён и связи
+     * мачт. Соседство и энергосети после этого пересобираются заново — снесённое здание
+     * вернулось, а созданное симуляцией исчезло, и старые графы ничего об этом не знают.
+     */
+    restoreBaseline() {
+        const base = this.baseline
+
+        this.buildings = [...base.buildings]
+        this.units = [...base.units]
+        this.floors = [...base.floors]
+        this.overlays = [...base.overlays]
+        this.walls = [...base.walls]
+        this.linkCounters = new Map(base.linkCounters)
+        this.nextUnitId = base.nextUnitId
+        this.terrainVersion++
+
+        /*
+         * Процессоры — в прежнем порядке, без чужих основе, и с возвращёнными: порядок
+         * списка задаёт страница, а у снесённого здания процессор из него уже выпал.
+         */
+        const members = new Set(this.buildings)
+        const kept = this.processors.filter(processor =>
+            processor.building === undefined || processor.building === null || members.has(processor.building))
+
+        for (const building of this.buildings) {
+            if (building.processor !== undefined && !kept.includes(building.processor)) kept.push(building.processor)
+        }
+
+        this.processors = kept
+
+        for (const building of this.buildings) {
+            if (building.power === null) continue
+
+            building.power.links = [...(base.links.get(building) ?? [])]
+            building.power.graph = new POWER.Graph()
+            building.power.init = false
+            building.power.graph.add(building)
+        }
+
+        for (const building of this.buildings) this.updateProximity(building)
+        for (const building of this.buildings) building.updatePowerGraph?.()
     }
 
     steps(count, delta = 1) {

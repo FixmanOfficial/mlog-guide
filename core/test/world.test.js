@@ -8,6 +8,7 @@ import {createContent} from '../src/content.js'
 
 // Сортировщик — из `distribution.js`: без него мир соберёт его обычным зданием
 import '../src/distribution.js'
+import '../src/power.js'
 
 const logicIds = JSON.parse(readFileSync(new URL('../data/logic-ids.json', import.meta.url), 'utf8'))
 const icons = JSON.parse(readFileSync(new URL('../data/icons.json', import.meta.url), 'utf8'))
@@ -806,4 +807,84 @@ test('порог истинности — одна стотысячная, и о
     assert.equal(processor.num('мало'), 0, 'ближе стотысячной к нулю — ложь')
     assert.equal(processor.num('много'), 1)
     assert.equal(processor.num('пусто'), 0, 'пустота ложна')
+})
+
+test('сброс возвращает мир к исходному: созданное симуляцией уходит, погибшее возвращается', () => {
+    // Перемотка — это сброс и прогон заново, поэтому сброс обязан вернуть сам состав мира
+    const content = createContent(logicIds)
+    const world = new World({content, width: 20, height: 20})
+    const building = world.add('world-processor', {x: 1, y: 1})
+    const flare = world.spawn('flare', {x: 3, y: 3, team: 2})
+
+    const processor = new Processor([
+        'spawn @dagger 5 5 90 @sharded u',
+        'setblock block @router 8 8 @sharded 0',
+        'setblock floor @darksand 2 2 @sharded 0',
+        'stop'
+    ].join('\n'), {world, content, globals: content.globals, building, ipt: 8})
+    building.processor = processor
+    world.addProcessor(processor)
+
+    world.steps(3)
+    flare.kill()
+
+    const replay = () => ({
+        units: world.units.map(unit => `${unit.type}#${unit.id}`),
+        buildings: world.buildings.map(item => item.name),
+        floor: world.floorAt(2, 2)
+    })
+
+    const before = replay()
+    assert.deepEqual(before.units, ['dagger#1'])
+
+    world.reset()
+    assert.deepEqual(world.units.map(unit => unit.type), ['flare'], 'погибший не вернулся или созданный остался')
+    assert.deepEqual(world.buildings.map(item => item.name), ['processor1'])
+    assert.equal(world.floorAt(2, 2), 'stone')
+    assert.equal(world.processors.length, 1)
+
+    // Прогон заново даёт те же имена и номера, что и в первый раз
+    world.steps(3)
+    flare.kill()
+    assert.deepEqual(replay(), before)
+})
+
+test('перемотка не трогает построенное игроком и чинит энергосеть', () => {
+    const content = createContent(logicIds)
+    const world = new World({content, width: 30, height: 20})
+    const battery = world.add('battery', {x: 5, y: 5})
+
+    world.step()
+
+    // Игрок поставил мачту и батарею после начала: они внешний ввод и переживают сброс
+    const node = world.place('power-node', 8, 5)
+    const second = world.place('battery', 11, 5)
+    assert.equal(battery.power.graph, second.power.graph)
+
+    // Снос батареи симуляцией (взрывом) — сброс её вернёт вместе со связью
+    battery.destroy()
+    world.reset()
+
+    assert.equal(world.buildings.includes(battery), true)
+    assert.equal(world.buildings.includes(node), true)
+    assert.equal(battery.power.graph, second.power.graph, 'сеть после сброса не собралась')
+    assert.equal(node.power.links.includes(battery), true)
+
+    // Снос руками — наоборот, навсегда
+    world.demolish(second)
+    world.reset()
+    assert.equal(world.buildings.includes(second), false)
+})
+
+test('setblock сносит под блоком четыре на четыре ровно его след', () => {
+    // Смещение следа — `-(size - 1) / 2`: у четвёрки это минус один, след 5..8 от клетки 6
+    const content = createContent(logicIds)
+    const world = new World({content, width: 20, height: 20})
+    const inside = world.add('router', {x: 5, y: 5})
+    const outside = world.add('router', {x: 9, y: 9})
+
+    world.setBlock(6, 6, 'thruster', {team: 1})
+
+    assert.equal(world.buildings.includes(inside), false, 'угол следа остался стоять')
+    assert.equal(world.buildings.includes(outside), true, 'снесено то, что за следом')
 })

@@ -225,7 +225,7 @@ export function Sandbox({allow = {}, scene: description = undefined,
         }
 
         hideConfig()
-        scene.world.remove(building)
+        scene.world.demolish(building)
 
         if (hoveredRef.current === building) hoveredRef.current = null
         setHoveredBuilding(null)
