@@ -664,3 +664,5 @@ Mindustry закрепляет arc хешем коммита в `gradle.properti
 | Цели проверяются на ходу (`all.each(qualified, ...)`): потомок после родителя в списке выполняется в том же тике | `MapObjectives.update` | ✓ `objectives.test.js` |
 | `draw scale` делится во float: `(int)(x.numf() / 0.05f)`. У 0.15 это ровно три шага, а в double вышло бы два | `LExecutor.java:1012`, `LogicDisplay.java:49` | ✓ `display.test.js` |
 | `draw print` меряет текст по 16-битным кодам: пара суррогатов — два шага курсора | `LExecutor.java:958-992` | ✓ `display.test.js` |
+| `sensor @payloadCapacity` у типа юнита — только у грузового корпуса; у экземпляра юнита проверки нет, и у кинжала это 0.125 | `UnitType.java:1439`, `UnitComp.java:305` | ✓ `radar.test.js` |
+| Эффект состояния — контент, но не `Senseable`: любой `sensor` у него отвечает пустотой | `StatusEffect.java:17`, `LExecutor.SenseI` | ✓ `radar.test.js` |

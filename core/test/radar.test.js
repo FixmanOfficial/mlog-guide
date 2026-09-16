@@ -1410,3 +1410,24 @@ test('sensor юнита: скорость с эффектами, контрол�
     unit.kill()
     assert.equal(unit.senseObject('controller'), null)
 })
+
+test('sensor у типа: броня и буфер блока, груз юнита, эффект не отвечает', () => {
+    // Block.sense, UnitType.sense; StatusEffect не Senseable
+    const world = new World({width: 10, height: 10, content, floor: 'stone'})
+    const processor = place(world, 'logic-processor', [
+        'sensor battery @battery @powerCapacity',
+        'sensor smelter @silicon-smelter @powerCapacity',
+        'sensor armor @tungsten-wall @armor',
+        'sensor mega @mega @payloadCapacity',
+        'sensor dagger @dagger @payloadCapacity',
+        'sensor status @status-wet @id'
+    ].join('\n'))
+    processor.run(6)
+
+    assert.equal(processor.num('battery'), 4000, 'ёмкость батареи в v160')
+    assert.equal(processor.num('smelter'), 0)
+    assert.equal(processor.num('armor'), 14)
+    assert.equal(processor.num('mega'), UNIT_SPECS.mega.payloadCapacity / 64)
+    assert.equal(processor.num('dagger'), 0, 'у негрузового корпуса ёмкости нет')
+    assert.equal(processor.get('status').obj(), null)
+})

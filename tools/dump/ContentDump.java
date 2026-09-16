@@ -11,6 +11,7 @@ import mindustry.game.Team;
 import mindustry.gen.Crawlc;
 import mindustry.gen.Legsc;
 import mindustry.gen.Mechc;
+import mindustry.gen.Payloadc;
 import mindustry.gen.Tankc;
 import mindustry.type.Item;
 import mindustry.type.ItemStack;
@@ -171,6 +172,9 @@ public class ContentDump{
 
             unit.number("itemCapacity", type.itemCapacity);
             unit.number("payloadCapacity", type.payloadCapacity);
+
+            // Грузовой ли корпус: `UnitType.sense` отдаёт ёмкость только таким, прочим ноль
+            unit.bool("payload", type.sample instanceof Payloadc);
             unit.number("mineTier", type.mineTier);
             unit.number("mineSpeed", type.mineSpeed);
             unit.bool("mineFloor", type.mineFloor);

@@ -184,7 +184,7 @@ function main() {
             // читает пиксель с номером блока из первой строки block_colors.png
             if (to.endsWith('block-specs.json')) colorize(resolve(jar), data.blocks)
 
-            writeFileSync(to, JSON.stringify(data, null, 2) + '\n')
+            writeFileSync(to, JSON.stringify(pack(data), null, 2) + '\n')
         }
 
         console.log(`core/data/unit-specs.json: ${counts[0]} юнитов`)

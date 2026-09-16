@@ -59,6 +59,8 @@ export class Content {
                 case 'flying': return spec.flying ? 1 : 0
                 case 'itemCapacity': return spec.itemCapacity
                 case 'speed': return spec.speed * 60 / TILE
+                // Ёмкость есть только у грузового корпуса: `sample instanceof Payloadc`
+                case 'payloadCapacity': return spec.payload ? spec.payloadCapacity / (TILE * TILE) : 0
                 default: return NaN
             }
         }
@@ -70,10 +72,18 @@ export class Content {
             switch (property) {
                 case 'color': return spec.mapColor === undefined ? NaN : packColorHex(spec.mapColor)
                 case 'health': case 'maxHealth': return spec.health
+                case 'armor': return spec.armor ?? 0
                 case 'solid': return spec.solid ? 1 : 0
                 case 'size': return spec.size
                 case 'itemCapacity': return spec.itemCapacity
                 case 'liquidCapacity': return spec.liquidCapacity
+
+                // Ёмкость буфера: у небуферного потребителя её нет. Block.java:1683
+                case 'powerCapacity': {
+                    const consume = (spec.consumes ?? []).find(entry => entry.kind === 'power')
+                    return consume?.buffered === true ? consume.capacity : 0
+                }
+
                 default: return NaN
             }
         }
@@ -109,6 +119,24 @@ export class Content {
     /** Единственное объектное свойство контента — имя. */
     senseObject(property) {
         return property === 'name' ? this.name : NOT_SENSED
+    }
+}
+
+/**
+ * Эффект состояния как объект логики: `@status-burning`.
+ *
+ * Это контент, но не `Senseable`, как блок или юнит: `sensor x @status-wet @id` отвечает
+ * пустотой. Поэтому своего `sense` у него нет вовсе. StatusEffect.java:17
+ */
+class StatusContent {
+    constructor(name) {
+        this.contentType = 'status'
+        this.name = name
+        this.logicId = -1
+    }
+
+    equals(other) {
+        return other instanceof StatusContent && other.name === this.name
     }
 }
 
@@ -176,7 +204,7 @@ export function createContent(data) {
      * в таблицу `lookup` статусы не входят. GlobalVars.init, v160
      */
     types.status = Object.keys(materials.statuses ?? {})
-        .map(name => new Content('status', name, -1))
+        .map(name => new StatusContent(name))
 
     for (const effect of types.status) {
         constant(`@status-${effect.name}`, effect, true)
