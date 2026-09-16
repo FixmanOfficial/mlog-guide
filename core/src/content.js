@@ -249,7 +249,8 @@ export function createContent(data) {
      * GlobalVars.java:135
      */
     for (const [name, weather] of Object.entries(weatherData.weathers)) {
-        constant(`@${name}`, {weather: name, id: weather.id, name}, true)
+        // Погода — контент (`Weather extends UnlockableContent`), но не `Senseable`
+        constant(`@${name}`, {contentType: 'weather', weather: name, id: weather.id, name}, true)
     }
 
     /** Объект контента по имени. Ищет среди констант, поэтому видит и местность. */

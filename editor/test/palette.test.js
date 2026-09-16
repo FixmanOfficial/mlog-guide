@@ -108,3 +108,19 @@ test('юнит и здание в таблице печатаются типом
     assert.equal(valueText({isobj: true, objval: container}), 'container')
     assert.equal(typeName({isobj: true, objval: container}), 'building')
 })
+
+test('таблица печатает значение тем же PrintI.toString, что и print', () => {
+    // LogicDialog: `s.isobj ? PrintI.toString(s.objval) : ...`
+    const content = createContent(logicIds)
+
+    // Свойство — перечисление, и печатается именем без собачки
+    assert.equal(valueText({isobj: true, objval: {access: 'health'}}), 'health')
+
+    // Погода — контент: и цвет, и название типа у неё контентные
+    assert.equal(typeName(content.globals.get('@rain')), 'content')
+    assert.equal(valueText(content.globals.get('@rain')), 'rain')
+
+    // Неизвестный объект — `[object]`, большие числа — через long
+    assert.equal(valueText({isobj: true, objval: {}}), '[object]')
+    assert.equal(valueText({isobj: false, numval: 1e21}), '1.0E21')
+})

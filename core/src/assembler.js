@@ -459,13 +459,18 @@ function propertyName(variable) {
     return object !== null && object.access !== undefined ? object.access : null
 }
 
-/** PrintI.toString плюс правило «целое печатается без дробной части». */
-function printValue(variable) {
+/**
+ * PrintI.toString плюс правило «целое печатается без дробной части». Тем же текстом
+ * значение показывает и таблица переменных: `LogicDialog` зовёт тот же `PrintI.toString`.
+ */
+export function printValue(variable) {
     if (variable.isobj) {
         const object = variable.objval
 
         if (object === null) return 'null'
         if (typeof object === 'string') return object
+
+        // Свойство — это перечисление `LAccess`, и печатается оно `e.name()`: без собачки
         if (object.access !== undefined) return object.access
 
         /*

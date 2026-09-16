@@ -5,7 +5,7 @@
  * с исходником тестом. Страница только рисует то, что здесь посчитано.
  */
 
-import {javaDoubleToString} from '@mlog/core/src/arc.js'
+import {printValue} from '@mlog/core/src/assembler.js'
 import {MAX_TEXT_BUFFER} from '@mlog/core/src/vm.js'
 import {Building} from '@mlog/core/src/world.js'
 import {Unit} from '@mlog/core/src/unit.js'
@@ -53,34 +53,11 @@ export function typeName(variable) {
 }
 
 /**
- * Значение так, как его печатает таблица игры: целое, если отличается от целого меньше
- * чем на 1e-5, иначе полная запись числа.
+ * Значение так, как его печатает таблица игры. `LogicDialog` берёт тот же `PrintI.toString`,
+ * что и `print`, поэтому и здесь текст один с инструкцией: юнит и здание — типом, свойство —
+ * именем без собачки, целое — целым, пока оно помещается в long.
  */
-export function valueText(variable) {
-    if (variable.isobj) {
-        if (variable.objval === null) return 'null'
-        if (typeof variable.objval === 'string') return variable.objval
-
-        /*
-         * `PrintI.toString`: юнит и здание печатаются **типом**, а не собой. Юнит — это
-         * `unit.type.name`, здание — `build.block.name`, то есть `poly` и `container`,
-         * а не «объект» и не имя связи. У нас тип у обоих лежит в `type`, а `name` у здания
-         * это имя связи, которого в игре нет вовсе.
-         */
-        if (variable.objval instanceof Unit || variable.objval instanceof Building) {
-            return variable.objval.type
-        }
-
-        if (variable.objval.name !== undefined) return variable.objval.name
-        if (variable.objval.access !== undefined) return `@${variable.objval.access}`
-        return 'object'
-    }
-
-    const value = variable.numval
-    return Math.abs(value - Math.round(value)) < 0.00001
-        ? String(Math.round(value))
-        : javaDoubleToString(value)
-}
+export const valueText = (variable) => printValue(variable)
 
 /**
  * Текстовый буфер процессора отдельной строкой таблицы.
