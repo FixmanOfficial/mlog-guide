@@ -14,6 +14,7 @@ import {World} from '../src/world.js'
 import {Processor} from '../src/vm.js'
 import {createContent} from '../src/content.js'
 import '../src/turret.js'
+import {completeDamage} from '../src/damage.js'
 
 const logicIds = JSON.parse(readFileSync(new URL('../data/logic-ids.json', import.meta.url), 'utf8'))
 const content = createContent(logicIds)
@@ -142,8 +143,9 @@ test('control shootp берёт упреждение по скорости це�
     turret.control('shootp', enemy, 1)
     assert.ok(Math.abs(turret.targetPos.x - enemy.x) < 1, turret.targetPos.x)
 
-    enemy.velocityX = 2
-    enemy.velocityY = 0
+    // Скорость для упреждения — сдвиг за прошлый тик, `Hitboxc.deltaX`. Predict.intercept
+    enemy.deltaX = 2
+    enemy.deltaY = 0
     turret.control('shootp', enemy, 1)
 
     // Упреждение сместило точку вперёд по движению
@@ -206,4 +208,28 @@ test('сброс возвращает турели патроны и повор�
     assert.equal(turret.totalAmmo, 10)
     assert.equal(turret.rotation, 90)
     assert.equal(world.bullets.length, 0)
+})
+
+test('sensor @range у турели — в тайлах', () => {
+    // BuildingComp.sense: `range() / tilesize`
+    const {turret} = stand('noop')
+    assert.equal(turret.sense('range'), turret.spec.range / 8)
+})
+
+test('control shootp по зданию целится в его середину в мировых единицах', () => {
+    const {world, turret} = stand('noop')
+    const wall = world.add('copper-wall-large', {x: 12, y: 12, team: 2})
+
+    turret.control('shootp', wall, 1)
+    assert.deepEqual(turret.targetPos, {x: (12 + 0.5) * 8, y: (12 + 0.5) * 8})
+})
+
+test('сплошной взрыв бьёт большое здание по каждой его клетке', () => {
+    // Damage.completeDamage: урон на клетку, а не на здание
+    const world = new World({width: 20, height: 20, content, floor: 'stone'})
+    const wall = world.add('titanium-wall-large', {x: 10, y: 10, team: 2})
+    const before = wall.health
+
+    completeDamage(world, 10.5 * 8, 10.5 * 8, 3 * 8, 10, 1)
+    assert.equal(before - wall.health, 40)
 })

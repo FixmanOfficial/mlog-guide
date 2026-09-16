@@ -13,8 +13,10 @@
  */
 
 import {Building, registerBuilders} from './world.js'
-import {conv, unconv} from './unit.js'
+import {Unit, conv, unconv} from './unit.js'
 import {angleDist, mod} from './arc.js'
+
+const f = Math.fround
 
 /** Turret.logicControlCooldown: столько тиков турель слушается логики, а не своего прицела. */
 export const LOGIC_CONTROL_COOLDOWN = 120
@@ -268,15 +270,27 @@ export class TurretBuilding extends Building {
         const bullet = this.peekAmmo()
         if (bullet === null) return
 
-        const x = target.x ?? 0
-        const y = target.y ?? 0
+        /*
+         * Цель в мировых единицах. У юнита они и так мировые, а здание живёт в тайлах:
+         * его середину надо перевести, иначе `shootp` по зданию целился бы в угол карты.
+         */
+        const isUnit = target instanceof Unit
+        const x = isUnit ? target.x : unconv((target.x ?? 0) + (target.offset ?? 0))
+        const y = isUnit ? target.y : unconv((target.y ?? 0) + (target.offset ?? 0))
 
         if (!this.turret.predictTarget || bullet.speed < 0.01) {
             this.targetPos = {x, y}
             return
         }
 
-        this.targetPos = intercept(this.worldX, this.worldY, target, bullet.speed)
+        // Скорость цели — её сдвиг за прошлый тик (`Hitboxc.deltaX`); у здания его нет
+        const vx = isUnit ? target.deltaX : 0
+        const vy = isUnit ? target.deltaY : 0
+
+        this.targetPos = intercept(this.worldX, this.worldY, x, y, vx, vy, bullet.speed)
+
+        // `if(targetPos.isZero()) targetPos.set(pos)`
+        if (this.targetPos.x === 0 && this.targetPos.y === 0) this.targetPos = {x, y}
     }
 
     sense(property) {
@@ -288,7 +302,8 @@ export class TurretBuilding extends Building {
             case 'shootY': return conv(this.targetPos.y)
             case 'shooting': return this.isShooting ? 1 : 0
             case 'progress': return Math.min(this.reloadCounter / this.turret.reload, 1)
-            case 'range': return this.range
+            // `BuildingComp.sense`: `range() / tilesize` — в тайлах, как и координаты
+            case 'range': return this.range / 8
             default: return super.sense(property)
         }
     }
@@ -427,36 +442,41 @@ const TIMER_TARGET = 1
 
 /**
  * Точка встречи пули и цели. `Predict.intercept`: решается квадратное уравнение на время
- * полёта, и если решения нет — стреляем в то место, где цель сейчас.
+ * полёта, берётся меньший положительный корень, а если его нет — точка, где цель сейчас.
+ *
+ * Перенесено вместе со странностью: при вырожденном уравнении (`a` около нуля) игра
+ * считает корень, но не возвращает его, и упреждения не получается. Predict.java:87-103
  */
-function intercept(fromX, fromY, target, speed) {
-    const x = (target.x ?? 0) - fromX
-    const y = (target.y ?? 0) - fromY
+function intercept(fromX, fromY, toX, toY, vx, vy, speed) {
+    const tx = f(toX - fromX)
+    const ty = f(toY - fromY)
 
-    const vx = (target.velocityX ?? target.vx ?? 0)
-    const vy = (target.velocityY ?? target.vy ?? 0)
+    const a = f(f(vx * vx) + f(vy * vy) - f(speed * speed))
+    const b = f(2 * f(f(vx * tx) + f(vy * ty)))
+    const c = f(f(tx * tx) + f(ty * ty))
 
-    const a = vx * vx + vy * vy - speed * speed
-    const b = 2 * (vx * x + vy * y)
-    const c = x * x + y * y
+    const roots = quad(a, b, c)
+    if (roots === null) return {x: toX, y: toY}
 
-    let time = 0
+    let time = Math.min(roots[0], roots[1])
+    if (time < 0) time = Math.max(roots[0], roots[1])
+    if (!(time > 0)) return {x: toX, y: toY}
 
-    if (Math.abs(a) < 0.00001) {
-        if (Math.abs(b) > 0.00001) time = -c / b
-    } else {
-        const discriminant = b * b - 4 * a * c
-        if (discriminant >= 0) {
-            const root = Math.sqrt(discriminant)
-            const first = (-b + root) / (2 * a)
-            const second = (-b - root) / (2 * a)
+    return {x: f(toX + f(vx * time)), y: f(toY + f(vy * time))}
+}
 
-            const positive = [first, second].filter(value => value > 0)
-            time = positive.length === 0 ? 0 : Math.min(...positive)
-        }
+/** `Predict.quad`: корни или null. Линейный случай теряется — см. выше. */
+function quad(a, b, c) {
+    if (Math.abs(a) < 1e-6) {
+        return Math.abs(b) < 1e-6 && Math.abs(c) < 1e-6 ? [0, 0] : null
     }
 
-    return {x: (target.x ?? 0) + vx * time, y: (target.y ?? 0) + vy * time}
+    const discriminant = f(f(b * b) - f(4 * a * c))
+    if (discriminant < 0) return null
+
+    const root = f(Math.sqrt(discriminant))
+    const twice = f(2 * a)
+    return [f((-b - root) / twice), f((-b + root) / twice)]
 }
 
 registerBuilders({ItemTurret: TurretBuilding})

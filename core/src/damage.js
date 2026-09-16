@@ -58,22 +58,22 @@ export function damage(world, {team = null, x, y, radius, amount, complete = fal
 /**
  * Damage.completeDamage: сплошной урон по кругу, полной величиной и не глядя на препятствия.
  * Радиус здесь считается в тайлах и округляется вниз.
+ *
+ * Урон раздаётся **по клеткам**, а не по зданиям: большое здание получает его столько раз,
+ * сколько его клеток попало в круг. Блок 2×2 целиком внутри — вчетверо. Так в игре.
  */
 export function completeDamage(world, x, y, radius, amount, team) {
     const tiles = Math.trunc(radius / TILE_SIZE)
     const [cx, cy] = [Math.round(x / TILE_SIZE), Math.round(y / TILE_SIZE)]
 
-    const hit = new Set()
-
-    for (let dy = -tiles; dy <= tiles; dy++) {
-        for (let dx = -tiles; dx <= tiles; dx++) {
+    for (let dx = -tiles; dx <= tiles; dx++) {
+        for (let dy = -tiles; dy <= tiles; dy++) {
             if (dx * dx + dy * dy > tiles * tiles) continue
 
             const building = world.at(cx + dx, cy + dy)
-            if (building === undefined || hit.has(building)) continue
+            if (building === undefined) continue
             if (team !== null && building.team === team) continue
 
-            hit.add(building)
             building.damage(amount)
         }
     }

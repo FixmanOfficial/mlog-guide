@@ -653,3 +653,6 @@ Mindustry закрепляет arc хешем коммита в `gradle.properti
 | `sensor @range` у здания — только у `Ranged` (турели, процессоры), у прочих **ноль**, а не пустота; у процессора это дальность связи в тайлах | `BuildingComp.java:2112` | ✓ `radar.test.js` |
 | `setprop @health 0` — это снос здания и смерть юнита, а не просто ноль здоровья | `BuildingComp.java:2176`, `UnitComp.java:356` | ✓ `radar.test.js` |
 | `sensor @speed` у юнита домножается на множитель скорости от эффектов | `UnitComp.java:297` | ✓ `radar.test.js` |
+| `sensor @range` у турели в тайлах: `range() / tilesize` | `BuildingComp.java:2112`, `Turret.java:348` | ✓ `turret.test.js` |
+| Скорость цели для упреждения — её сдвиг за прошлый тик (`Hitboxc.deltaX`), а при вырожденном уравнении игра упреждения не даёт вовсе | `Predict.java:63-103` | ✓ `turret.test.js` |
+| Сплошной урон (`pierce`) раздаётся по клеткам: блок 2×2 целиком внутри круга получает его четырежды | `Damage.completeDamage`, `Damage.java:643-654` | ✓ `turret.test.js` |
