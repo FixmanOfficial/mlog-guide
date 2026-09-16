@@ -118,6 +118,12 @@ const instructionName = (opcode) =>
  */
 export default defineConfig({
     /*
+     * Адрес сайта: из него собираются канонические ссылки и `hreflang`. Пока бета живёт
+     * на адресе Cloudflare Pages; свой домен — переменной `SITE`, без правки конфига.
+     */
+    site: process.env.SITE ?? 'https://mlog-guide.pages.dev',
+
+    /*
      * Свои пакеты не отдаём предварительной сборке зависимостей.
      *
      * Vite складывает зависимости в общий бандл и раздаёт их по адресам с отпечатком. Наши
@@ -147,9 +153,13 @@ export default defineConfig({
 
             /*
              * Меню отдано своему компоненту: он дописывает ссылкам уроков сложность,
-             * а всё остальное рисует Starlight как обычно.
+             * а всё остальное рисует Starlight как обычно. Подвал — тоже: под ним
+             * подпись о том, что проект неофициальный.
              */
-            components: {Sidebar: './src/overrides/Sidebar.astro'},
+            components: {
+                Sidebar: './src/overrides/Sidebar.astro',
+                Footer: './src/overrides/Footer.astro'
+            },
             sidebar: [
                 {label: 'Sandbox', translations: {ru: 'Песочница'}, link: 'sandbox'},
                 /*

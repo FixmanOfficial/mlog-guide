@@ -1,0 +1,4 @@
+# Заголовки для Cloudflare Pages.
+# Сборка кладёт скрипты и стили в /_astro/ с отпечатком в имени: они не меняются никогда.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable

@@ -1,0 +1,29 @@
+---
+/**
+ * Подвал с отметкой о том, чей это сайт.
+ *
+ * Спрайты, шрифты и переводы взяты из игры, и без подписи страница легко читается как
+ * официальная. Подпись одна на весь сайт: ставить её в каждый урок руками бессмысленно.
+ */
+
+import Default from '@astrojs/starlight/components/Footer.astro'
+
+const NOTES = {
+    en: 'Unofficial fan project, not affiliated with Anuke. Mindustry sprites, fonts and translations © Anuke, used under GPL-3.0; Fira Code under OFL-1.1. Site code is GPL-3.0.',
+    ru: 'Неофициальный проект, с Anuke не связан. Спрайты, шрифты и переводы Mindustry © Anuke, используются по GPL-3.0; Fira Code — по OFL-1.1. Код сайта — GPL-3.0.'
+}
+
+const note = NOTES[Astro.props.locale as keyof typeof NOTES] ?? NOTES.en
+---
+
+<Default {...Astro.props}><slot /></Default>
+<p class="attribution">{note}</p>
+
+<style>
+    .attribution {
+        margin-top: 2rem;
+        font-size: var(--sl-text-xs);
+        color: var(--sl-color-gray-3);
+        text-align: center;
+    }
+</style>
