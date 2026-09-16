@@ -236,6 +236,15 @@ export class Building {
     }
 
     /**
+     * `BuildingComp.isValid`: здание цело и всё ещё стоит на своей клетке. Снесённое
+     * или заменённое остаётся объектом в переменных программ, но действовать уже не может.
+     */
+    isValid() {
+        if (this.health <= 0) return false
+        return this.world?.at === undefined || this.world.at(this.x, this.y) === this
+    }
+
+    /**
      * `readable(exec)`: читать и писать логикой можно целое здание своей команды и не
      * привилегированное; мировому процессору — любое. Так спрашивают процессор и ячейка памяти.
      *
@@ -244,7 +253,7 @@ export class Building {
      */
     opensTo(other) {
         if (other === null || other === undefined) return true
-        if (this.health <= 0) return false
+        if (!this.isValid()) return false
         if (other.privileged === true) return true
 
         return !this.spec.privileged && this.team === other.team
@@ -1074,7 +1083,7 @@ export class World {
         // Метки: их рисует процессор мира, и те же классы носят цели карты
         this.markers = new Markers()
 
-        // Счётчики партии: из них читает половина условий у целей
+        // Счётчики игры: из них читает половина условий у целей
         this.stats = new Stats()
 
         // Цели карты. Пустой список ничего не стоит: `update` по нему не ходит

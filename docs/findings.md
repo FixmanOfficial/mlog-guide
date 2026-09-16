@@ -648,3 +648,5 @@ Mindustry закрепляет arc хешем коммита в `gradle.properti
 | Адрес ячейки — `position.numi()`: строка как непустой объект даёт единицу | `MemoryBlock.java:90` | ✓ `radar.test.js` |
 | `print` и `format` сравнивают число с `Math.round` — long с насыщением, — приведённым обратно к double. Поэтому `1e19` печатается `1.0E19`, а ровно 2^63 — `9223372036854775807` | `LExecutor.java:1070,1152` | ✓ `semantics.test.js` |
 | `setprop @team` числом: `Team.get((int)value)` = `all[((byte)id) & 0xff]` | `BuildingComp.java:2185`, `UnitComp.java:376`, `Team.java:58` | ✓ `radar.test.js` |
+| `op round` — это `Math::round` для double: результат long, за краем упирается в ±2^63 | `LogicOp.java:49` | ✓ `semantics.test.js` |
+| Контроллер логики отпускает юнита сразу, как только процессор перестал быть действительным | `LogicAI.updateMovement`, `controller.isValid()` | ✓ `radar.test.js` |

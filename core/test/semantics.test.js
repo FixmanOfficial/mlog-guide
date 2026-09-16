@@ -59,7 +59,7 @@ test('бесконечность в литерале превращается в
     assert.equal(processor.num('result'), 0)
 })
 
-test('единственное экранирование в строке — перевод строки', () => {
+test('перевод строки в литерале раскрывается', () => {
     const processor = new Processor('print "первая\\nвторая"')
     processor.run(1)
 
@@ -279,4 +279,12 @@ test('номер у getlink, lookup и read упирается в край int, 
     assert.equal(processor.get('link').obj(), null)
     assert.equal(processor.get('thing').obj(), null)
     assert.equal(processor.get('char').obj(), null, 'за краем строки — NaN, а в переменной он пустота')
+})
+
+test('op round отдаёт long: за его краем число упирается в 2^63', () => {
+    // LogicOp.round — `Math::round` для double, результат long
+    assert.equal(run('op round r 1e20', 1).num('r'), 2 ** 63)
+    assert.equal(run('op round r -1e20', 1).num('r'), -(2 ** 63))
+    assert.equal(run('op round r 2.5', 1).num('r'), 3)
+    assert.equal(run('op round r -2.5', 1).num('r'), -2)
 })

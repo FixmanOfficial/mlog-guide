@@ -34,6 +34,20 @@ const fromLong = (value) => Number(BigInt.asIntN(64, value))
 const bitwise = (fn) => (a, b) => fromLong(fn(toLong(a), toLong(b)))
 
 /**
+ * `Math.round(double)` из Java: округление к ближайшему, половина вверх, и результат — **long**.
+ * За пределами long число упирается в край, поэтому `op round` от 1e20 даёт 2^63, а не 1e20.
+ * Этим же пользуются `print` и `format`, где важна сама запись long.
+ */
+export function roundToLong(value) {
+    const rounded = Math.round(value)
+
+    if (Number.isNaN(rounded)) return 0n
+    if (rounded >= 2 ** 63) return LONG_MAX
+    if (rounded <= -(2 ** 63)) return LONG_MIN
+    return BigInt(rounded)
+}
+
+/**
  * Соответствует GlobalVars.rand. Игра засеивает его случайно при старте, поэтому совпасть
  * с конкретным её запуском невозможно; нам важна воспроизводимость, отсюда фиксированный seed.
  * Сам алгоритм перенесён из arc точно, так что при равном seed последовательности совпадают.
@@ -87,7 +101,7 @@ export const operations = {
     log10: {unary: true, fn: (a) => Math.log10(a)},
     floor: {unary: true, fn: (a) => Math.floor(a)},
     ceil: {unary: true, fn: (a) => Math.ceil(a)},
-    round: {unary: true, fn: (a) => Math.round(a)},
+    round: {unary: true, fn: (a) => Number(roundToLong(a))},
     sqrt: {unary: true, fn: (a) => Math.sqrt(a)},
     rand: {unary: true, fn: (a) => rand.nextDouble() * a},
 

@@ -1316,3 +1316,16 @@ test('setprop @team берёт номер команды по модулю 256',
     assert.equal(router.team, 2)
     assert.equal(unit.team, 255)
 })
+
+test('снесённый процессор отпускает юнита сразу, не дожидаясь срока', () => {
+    // LogicAI.updateMovement: `controlTimer > 0 && controller != null && controller.isValid()`
+    const {world, processor, building} = setup('ubind @poly\nucontrol move 20 20 0 0 0')
+    const poly = world.spawn('poly', {x: 10, y: 10})
+
+    processor.run(2)
+    assert.ok(poly.controller instanceof LogicAI)
+
+    building.destroy()
+    world.steps(1)
+    assert.equal(poly.controller instanceof LogicAI, false)
+})

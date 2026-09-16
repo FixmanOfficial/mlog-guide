@@ -13,7 +13,7 @@
 
 import {LVar} from './lvar.js'
 import {Diagnostic, diagnostic} from './errors.js'
-import {operations, conditions} from './ops.js'
+import {operations, conditions, roundToLong} from './ops.js'
 import {parse} from './parser.js'
 import {
     PI, E, degRad, radDeg, parseDouble, parseLong, javaDoubleToString,
@@ -483,9 +483,6 @@ function printValue(variable) {
     return numberText(variable.numval)
 }
 
-const LONG_MAX = 9223372036854775807n
-const LONG_MIN = -9223372036854775808n
-
 /**
  * Число так, как его печатают `print` и `format`. Порог 1e-5, тот же, что у bool():
  * близкое к целому печатается целым.
@@ -497,10 +494,7 @@ const LONG_MIN = -9223372036854775808n
  * у больших чисел перешёл бы на запись с `e+`. LExecutor.PrintI, FormatI
  */
 function numberText(value) {
-    let rounded = BigInt(Math.round(value))
-    if (rounded > LONG_MAX) rounded = LONG_MAX
-    if (rounded < LONG_MIN) rounded = LONG_MIN
-
+    const rounded = roundToLong(value)
     if (Math.abs(value - Number(rounded)) < 0.00001) return rounded.toString()
     return javaDoubleToString(value)
 }

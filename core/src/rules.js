@@ -98,7 +98,7 @@ export class Rules {
         this.objectiveFlags = new Set()
 
         /*
-         * Чья это партия и кто идёт волнами. В игре это `Team.sharded` и `Team.crux`,
+         * Чья это игра и кто идёт волнами. В игре это `Team.sharded` и `Team.crux`,
          * и цели карты считают «своим» именно `defaultTeam`: его предметы, его юниты,
          * его постройки. Уничтожить нужно ядра `waveTeam`.
          */

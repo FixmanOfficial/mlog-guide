@@ -155,8 +155,11 @@ export class LogicAI {
             this.targetTimer = 40
         }
 
-        // Таймаут: процессор должен подтверждать команду, иначе юнит уходит из-под контроля
-        if (this.controlTimer > 0 && this.controller !== null) {
+        /*
+         * Таймаут: процессор должен подтверждать команду, иначе юнит уходит из-под контроля.
+         * Снесённый процессор отпускает юнита сразу, не дожидаясь срока: `controller.isValid()`
+         */
+        if (this.controlTimer > 0 && this.controller !== null && (this.controller.isValid?.() ?? true)) {
             this.controlTimer -= delta
         } else {
             unit.resetController()
@@ -536,7 +539,7 @@ export class Unit {
     }
 
     /**
-     * `Rules.unitHealth`: правило партии не поднимает здоровье, а **делит урон**. Число
+     * `Rules.unitHealth`: правило игры не поднимает здоровье, а **делит урон**. Число
      * в `@health` от него не меняется — меняется, насколько его хватает.
      * ShieldComp.damage
      */
@@ -674,7 +677,7 @@ export class Unit {
 
         const item = this.mineResult(this.mineTile)
 
-        // `MinerComp.update`: скорость добычи умножается на правило партии
+        // `MinerComp.update`: скорость добычи умножается на правило игры
         const rule = this.world?.rules?.teamRule(this.team, 'unitMineSpeed') ?? 1
         this.mineTimer = f(this.mineTimer + f(delta * f(this.spec.mineSpeed * rule)))
 
