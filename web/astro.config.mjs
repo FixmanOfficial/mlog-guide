@@ -144,6 +144,7 @@ export default defineConfig({
 
             // Иконка логического процессора из атласа игры: `tools/gen-favicon.mjs`
             favicon: '/favicon.png',
+            social: [{icon: 'github', label: 'GitHub', href: 'https://github.com/FixmanOfficial/mlog-guide'}],
             defaultLocale: 'en',
             locales: {
                 en: {label: 'English', lang: 'en'},
