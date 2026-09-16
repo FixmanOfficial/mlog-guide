@@ -36,7 +36,7 @@ import blockSprites from '@mlog/core/data/block-sprites.json'
 import unitSprites from '@mlog/core/data/unit-sprites.json'
 import terrainSprites from '@mlog/core/data/terrain-sprites.json'
 import teams from '@mlog/core/data/teams.json'
-import logicFontUrl from '@mlog/render/assets/logic.ttf'
+import logicFontUrl from '@mlog/render/assets/logic.woff2'
 
 import bundleEn from '@mlog/core/data/i18n/en.json'
 import bundleRu from '@mlog/core/data/i18n/ru.json'

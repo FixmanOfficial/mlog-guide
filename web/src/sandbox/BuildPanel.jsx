@@ -6,7 +6,7 @@ import {nameBundle} from '@mlog/editor/src/names.js'
 
 import {strings} from './strings.js'
 
-import specs from '@mlog/core/data/block-specs.json'
+import {BLOCK_SPECS} from '@mlog/core/src/specs.js'
 import bindings from '@mlog/core/data/bindings.json'
 
 /**
@@ -49,7 +49,7 @@ function keyName(binding) {
 }
 
 /** Блоки категории: те, что игра вообще разрешает строить. */
-const blocksOf = (category) => Object.entries(specs.blocks)
+const blocksOf = (category) => Object.entries(BLOCK_SPECS)
     .filter(([, spec]) => spec.category === category && spec.canBeBuilt === true
         && spec.buildVisibility !== 'hidden' && spec.buildVisibility !== 'debugOnly')
     .sort(([, a], [, b]) => a.id - b.id)
@@ -178,7 +178,7 @@ export function BuildPanel({selected, onSelect, building = null, rotation = 0, b
                     <PlacementRow
                         breaking={breaking}
                         rotation={rotation}
-                        rotatable={selected !== null && specs.blocks[selected]?.rotate === true}
+                        rotatable={selected !== null && BLOCK_SPECS[selected]?.rotate === true}
                         onBreak={onBreak}
                         onRotate={onRotate}
                     />
@@ -288,7 +288,7 @@ function BlockInfo({block, category, index}) {
             </div>
 
             <div class="build__requirements">
-                {(specs.blocks[block]?.requirements ?? []).map(({item, amount}) => (
+                {(BLOCK_SPECS[block]?.requirements ?? []).map(({item, amount}) => (
                     <div class="build__stack" key={item}>
                         <ContentIcon type="item" name={item} size={8 * (METRICS.requirementIconFactor ?? 2)} />
                         <span class="build__item" style={{maxWidth: `${METRICS.requirementNameWidth ?? 140}px`}}>

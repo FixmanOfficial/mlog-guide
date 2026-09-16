@@ -11,13 +11,13 @@
 
 import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
 import access from '@mlog/core/data/access.json' with {type: 'json'}
-import blockSpecs from '@mlog/core/data/block-specs.json' with {type: 'json'}
 import icons from '@mlog/core/data/icons.json' with {type: 'json'}
 import globalVars from '@mlog/core/data/globals.json' with {type: 'json'}
 import ru from '@mlog/core/data/i18n/ru.json' with {type: 'json'}
 import en from '@mlog/core/data/i18n/en.json' with {type: 'json'}
 
 import {IMPLEMENTED_INSTRUCTIONS} from '@mlog/core/src/assembler.js'
+import {BLOCK_SPECS} from '@mlog/core/src/specs.js'
 
 import {INSTRUCTIONS_RU} from './instructions.ru.js'
 import {INSTRUCTIONS_EN} from './instructions.en.js'
@@ -183,7 +183,7 @@ export function blockTitle(locale, name) {
     return bundle(locale).content.block?.[name] ?? name
 }
 
-export const blockExists = (name) => blockSpecs.blocks[name] !== undefined
+export const blockExists = (name) => BLOCK_SPECS[name] !== undefined
 
 /**
  * Встроенные переменные — разделами и в том же порядке, в каком их показывает окно игры.

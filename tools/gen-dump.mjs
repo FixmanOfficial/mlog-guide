@@ -26,6 +26,7 @@ import {join, resolve} from 'node:path'
 import {decodePng} from './png.mjs'
 import {CONTENT_VERSION, checkJar} from './version.mjs'
 import {readEntries, readFile} from './zip.mjs'
+import {packSpecs} from '../core/src/pack.js'
 
 const MIN_JAVA = 17
 const separator = process.platform === 'win32' ? ';' : ':'
@@ -69,6 +70,21 @@ function findJdk() {
     }
 
     return null
+}
+
+/**
+ * Спеки блоков и юнитов пишутся сжатыми: значения по умолчанию отдельно, у записи — только
+ * отличия. Разворачивает их `core/src/specs.js`; остальные таблицы пишутся как есть.
+ */
+function pack(data) {
+    for (const key of ['blocks', 'units']) {
+        if (data[key] === undefined) continue
+
+        const {[key]: table, ...head} = data
+        return {...head, ...packSpecs(table)}
+    }
+
+    return data
 }
 
 /**

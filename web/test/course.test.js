@@ -70,7 +70,7 @@ const {AREA, SPAWN: SPAWN_SQUAD, BURN, FROZEN} = russianScenes(await import('../
 import iconTable from '@mlog/core/data/icons.json' with {type: 'json'}
 import logicIdsData from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
-import blockSpecs from '@mlog/core/data/block-specs.json' with {type: 'json'}
+import {BLOCK_SPECS} from '@mlog/core/src/specs.js'
 import pal from '@mlog/core/data/pal.json' with {type: 'json'}
 
 import {readdirSync, readFileSync, statSync} from 'node:fs'
@@ -2538,7 +2538,7 @@ test('урок «Как работает процессор»: таблица с
      * Урок называет три числа вслух, и взяты они не с голоса: `instructionsPerTick`
      * каждого процессора приходит дампом из игры.
      */
-    const ipt = (block) => blockSpecs.blocks[block].ipt
+    const ipt = (block) => BLOCK_SPECS[block].ipt
 
     assert.equal(ipt('micro-processor'), 2)
     assert.equal(ipt('logic-processor'), 8)
@@ -2551,7 +2551,7 @@ test('урок «Как работает процессор»: таблица с
 
 test('урок «Связи и getlink»: дальность связи — из спеков блока', () => {
     // `range` у процессора в мировых единицах, а урок называет тайлы
-    const tiles = (block) => blockSpecs.blocks[block].range / 8
+    const tiles = (block) => BLOCK_SPECS[block].range / 8
 
     assert.equal(tiles('micro-processor'), 10)
     assert.equal(tiles('logic-processor'), 22)
@@ -2678,7 +2678,7 @@ test('урок «Настройка блока»: список настраив�
      * (`logicConfigurable`), и здесь проверяется, что названные блоки в нём есть,
      * а названные «ненастраиваемыми» — нет.
      */
-    const can = (block) => blockSpecs.blocks[block].logicConfigurable === true
+    const can = (block) => BLOCK_SPECS[block].logicConfigurable === true
 
     for (const block of [
         'sorter', 'inverted-sorter', 'unloader', 'duct-unloader', 'duct-router',
@@ -2695,8 +2695,8 @@ test('урок «Настройка блока»: список настраив�
     }
 
     // `@config` читается не у всех, кому пишется: у мишени настройка есть, а чтения нет
-    assert.equal(blockSpecs.blocks['target-dummy'].logicConfigurable, true)
-    assert.notEqual(blockSpecs.blocks['target-dummy'].configSenseable, true)
+    assert.equal(BLOCK_SPECS['target-dummy'].logicConfigurable, true)
+    assert.notEqual(BLOCK_SPECS['target-dummy'].configSenseable, true)
 })
 
 test('урок «Предметы и пустой ответ»: у типа блока спрашивают цену, а не запас', () => {

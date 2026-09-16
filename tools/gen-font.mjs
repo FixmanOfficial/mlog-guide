@@ -12,7 +12,8 @@
  *   1. распаковывает WOFF в обычный TrueType — таблицы внутри сжаты zlib;
  *   2. собирает номера нужных глифов по таблице cmap, добавляя составные части составных глифов;
  *   3. перестраивает glyf, loca, hmtx, cmap и maxp под новую нумерацию;
- *   4. выбрасывает всё, что не нужно для отрисовки: разметку GSUB/GPOS/GDEF, имена глифов.
+ *   4. выбрасывает всё, что не нужно для отрисовки: разметку GSUB/GPOS/GDEF, имена глифов;
+ *   5. пакует результат в WOFF2 — так он вдвое легче.
  *
  * Использование:
  *   node tools/gen-font.mjs <путь-к-Mindustry> [файл-назначения]
@@ -21,6 +22,8 @@
 import {readFileSync, writeFileSync} from 'node:fs'
 import {inflateSync} from 'node:zlib'
 import {join, resolve} from 'node:path'
+
+import {encodeWoff2} from './woff2.mjs'
 
 /**
  * Что оставляем. Кириллица и латиница целиком, плюс знаки, которые реально встречаются
@@ -313,7 +316,7 @@ function buildFont(tables) {
 
 function main() {
     const gameRoot = resolve(process.argv[2] ?? '../Mindustry')
-    const target = process.argv[3] ?? 'editor/assets/ui.ttf'
+    const target = process.argv[3] ?? 'editor/assets/ui.woff2'
     const source = join(gameRoot, 'core/assets/fonts/font.woff')
 
     let buffer
@@ -431,11 +434,13 @@ function main() {
         if (tables[tag] !== undefined) result[tag] = tables[tag]
     }
 
+    // На страницу шрифт уходит в WOFF2: brotli сжимает его вдвое
     const font = buildFont(result)
-    writeFileSync(target, font)
+    const packed = target.endsWith('.woff2') ? encodeWoff2(font) : font
+    writeFileSync(target, packed)
 
     const before = (buffer.length / 1024 / 1024).toFixed(1)
-    const after = (font.length / 1024).toFixed(0)
+    const after = (packed.length / 1024).toFixed(0)
 
     console.log(`${target} — из ${source}`)
     console.log(`  глифов ${ordered.length} из ${numGlyphs}, символов ${charToNewGlyph.size}`)

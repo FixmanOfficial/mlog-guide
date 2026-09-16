@@ -14,8 +14,7 @@ import {NOT_SENSED} from './sense.js'
 import {packColorHex} from './arc.js'
 import {TEAMS, teamColorBits} from './teams.js'
 import weatherData from '../data/weathers.json' with {type: 'json'}
-import blockSpecs from '../data/block-specs.json' with {type: 'json'}
-import unitSpecs from '../data/unit-specs.json' with {type: 'json'}
+import {BLOCK_SPECS, UNIT_SPECS} from './specs.js'
 import materials from '../data/materials.json' with {type: 'json'}
 
 /** Vars.tilesize */
@@ -49,7 +48,7 @@ export class Content {
         if (property === 'id') return this.logicId
 
         if (this.contentType === 'unit') {
-            const spec = unitSpecs.units[this.name]
+            const spec = UNIT_SPECS[this.name]
             if (spec === undefined) return NaN
 
             switch (property) {
@@ -65,7 +64,7 @@ export class Content {
         }
 
         if (this.contentType === 'block') {
-            const spec = blockSpecs.blocks[this.name]
+            const spec = BLOCK_SPECS[this.name]
             if (spec === undefined) return NaN
 
             switch (property) {
@@ -100,7 +99,7 @@ export class Content {
 
         if (rules?.get('infiniteResources') === true) return 0
 
-        const spec = blockSpecs.blocks[this.name]
+        const spec = BLOCK_SPECS[this.name]
         const stack = spec?.requirements?.find(entry => entry.item === content.name)
         if (stack === undefined) return 0
 
@@ -195,7 +194,7 @@ export function createContent(data) {
     const items = new Set(data.types.item ?? [])
     const environment = []
 
-    for (const [name, spec] of Object.entries(blockSpecs.blocks)) {
+    for (const [name, spec] of Object.entries(BLOCK_SPECS)) {
         if (items.has(name) || globals.has(`@${name}`)) continue
 
         const block = new Content('block', name, -1)

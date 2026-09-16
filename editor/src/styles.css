@@ -1,17 +1,18 @@
 /*
- * Шрифты игры. Основной — вырезка из font.woff: из 42 515 глифов оставлены латиница,
- * кириллица и знаки препинания, 47 КБ вместо 3.5 МБ. Снимает tools/gen-font.mjs.
+ * Шрифты игры, все в WOFF2. Основной — вырезка из font.woff: из 42 515 глифов оставлены
+ * латиница, кириллица и знаки препинания, 23 КБ вместо 3.5 МБ. Снимает tools/gen-font.mjs,
+ * остальные перекладывает в WOFF2 tools/gen-webfonts.mjs.
  * Моноширинный — Fira Code под SIL OFL 1.1, им набран код. См. editor/assets/README.md
  */
 @font-face {
     font-family: 'Mindustry';
-    src: url('../assets/ui.ttf') format('truetype');
+    src: url('../assets/ui.woff2') format('woff2');
     font-display: swap;
 }
 
 @font-face {
     font-family: 'Mindustry Mono';
-    src: url('../assets/mono.woff') format('woff');
+    src: url('../assets/mono.woff2') format('woff2');
     font-weight: 500;
     font-display: swap;
 }
@@ -22,7 +23,7 @@
  */
 @font-face {
     font-family: 'Mindustry Icons';
-    src: url('../assets/icon.ttf') format('truetype');
+    src: url('../assets/icon.woff2') format('woff2');
     font-display: block;
 }
 

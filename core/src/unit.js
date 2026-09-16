@@ -20,8 +20,7 @@ import {Vec2, clamp, moveToward, approach, angle} from './arc.js'
 import {NOT_SENSED} from './sense.js'
 import {teamColorBits} from './teams.js'
 import {applyArmor} from './damage.js'
-import specs from '../data/unit-specs.json' with {type: 'json'}
-import blockSpecs from '../data/block-specs.json' with {type: 'json'}
+import {BLOCK_SPECS, UNIT_SPECS} from './specs.js'
 import materials from '../data/materials.json' with {type: 'json'}
 
 /*
@@ -39,7 +38,7 @@ export const TILE_SIZE = 8
  * `UnitType.init()` — то есть с выведенными дальностью и вместимостью, которых в исходнике
  * нет ни одним числом.
  */
-export const UNIT_SPECS = specs.units
+export {UNIT_SPECS}
 
 /** LogicAI.logicControlTimeout: без новых команд юнит возвращается своему ИИ через 10 секунд. */
 export const LOGIC_CONTROL_TIMEOUT = 600
@@ -301,7 +300,7 @@ export class Unit {
         if (this.world === null || this.isFlying() || this.spec.hovering) return null
 
         const name = this.world.floorAt(Math.round(conv(this.x)), Math.round(conv(this.y)))
-        return name === null ? null : blockSpecs.blocks[name] ?? null
+        return name === null ? null : BLOCK_SPECS[name] ?? null
     }
 
     /**
@@ -642,9 +641,9 @@ export class Unit {
             const overlay = this.world.overlayAt(tile.x, tile.y)
             const floor = this.world.floorAt(tile.x, tile.y)
 
-            item = blockSpecs.blocks[overlay]?.itemDrop ?? blockSpecs.blocks[floor]?.itemDrop ?? null
+            item = BLOCK_SPECS[overlay]?.itemDrop ?? BLOCK_SPECS[floor]?.itemDrop ?? null
         } else if (this.spec.mineWalls && wall !== null) {
-            item = blockSpecs.blocks[wall]?.itemDrop ?? null
+            item = BLOCK_SPECS[wall]?.itemDrop ?? null
         }
 
         return this.canMine(item) ? item : null

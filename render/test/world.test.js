@@ -10,7 +10,7 @@ import {World} from '@mlog/core/src/world.js'
 import {UNIT_SPECS} from '@mlog/core/src/unit.js'
 import unitSprites from '@mlog/core/data/unit-sprites.json' with {type: 'json'}
 import terrainSprites from '@mlog/core/data/terrain-sprites.json' with {type: 'json'}
-import blockSpecs from '@mlog/core/data/block-specs.json' with {type: 'json'}
+import {BLOCK_SPECS} from '@mlog/core/src/specs.js'
 import teams from '@mlog/core/data/teams.json' with {type: 'json'}
 import pal from '@mlog/core/data/pal.json' with {type: 'json'}
 
@@ -127,7 +127,7 @@ test('в атласе местности есть все варианты пли
     const {sprites} = terrainSprites
     let floors = 0
 
-    for (const [name, spec] of Object.entries(blockSpecs.blocks)) {
+    for (const [name, spec] of Object.entries(BLOCK_SPECS)) {
         if (!['floor', 'overlay', 'ore', 'staticWall'].includes(spec.kind)) continue
 
         // Плитка либо одна, либо пронумерованные варианты — как их ищет Floor.load

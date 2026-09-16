@@ -10,7 +10,7 @@
  */
 @font-face {
     font-family: 'Mindustry Icons';
-    src: url('../../../editor/assets/icon.ttf') format('truetype');
+    src: url('../../../editor/assets/icon.woff2') format('woff2');
     font-display: block;
 }
 

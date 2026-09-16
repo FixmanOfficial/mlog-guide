@@ -23,6 +23,8 @@
     "gen:pal": "node tools/gen-pal.mjs",
     "gen:dump": "node tools/gen-dump.mjs",
     "gen:nine": "node tools/gen-nine.mjs",
-    "gen:metrics": "node tools/gen-metrics.mjs"
+    "gen:metrics": "node tools/gen-metrics.mjs",
+    "gen:font": "node tools/gen-font.mjs",
+    "gen:webfonts": "node tools/gen-webfonts.mjs"
   }
 }

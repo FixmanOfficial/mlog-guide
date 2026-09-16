@@ -18,6 +18,7 @@
 import {readdirSync, readFileSync, writeFileSync} from 'node:fs'
 import {basename, join, resolve} from 'node:path'
 import {GAME_VERSION} from './version.mjs'
+import {BLOCK_SPECS} from '../core/src/specs.js'
 
 /**
  * Кто отвечает на `sensor`. Ключ — как это называется в справочнике, значение — где искать.
@@ -216,7 +217,7 @@ function main() {
         classes[name] = {numbers, objects, setters}
     }
 
-    const blocks = JSON.parse(readFileSync('core/data/block-specs.json', 'utf8')).blocks
+    const blocks = BLOCK_SPECS
 
     for (const [block, spec] of Object.entries(blocks)) {
         for (const type of spec.javaClasses ?? []) {

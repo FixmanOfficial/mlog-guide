@@ -12,8 +12,8 @@ import logicIds from '@mlog/core/data/logic-ids.json'
 import sprites from '@mlog/core/data/sprites.json'
 
 import atlasUrl from '../../editor/assets/content.png'
-import fontUrl from '../assets/logic.ttf'
-import uiFontUrl from '../../editor/assets/ui.ttf'
+import fontUrl from '../assets/logic.woff2'
+import uiFontUrl from '../../editor/assets/ui.woff2'
 
 import {DisplayView} from '../src/display.js'
 import {WorldView} from '../src/world.js'

@@ -10,7 +10,7 @@
  * Проигрывает их canvas на стороне сайта.
  */
 
-import specs from '../data/block-specs.json' with {type: 'json'}
+import {BLOCK_SPECS} from './specs.js'
 import {Unit, unconv} from './unit.js'
 import {NOT_SENSED} from './sense.js'
 import {edgeOffsets, facingEdge} from './edges.js'
@@ -31,7 +31,7 @@ export {NOT_SENSED}
  * Руками их писать нельзя: здоровье почти нигде не задано числом, а выводится из размера
  * и состава — `round(size * size * 40 * (1 + сумма healthScaling))`.
  */
-export const BLOCK_SPECS = specs.blocks
+export {BLOCK_SPECS}
 
 /** MessageBlock.maxTextLength */
 export const MAX_MESSAGE_LENGTH = 400

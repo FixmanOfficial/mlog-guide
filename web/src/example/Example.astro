@@ -9,6 +9,10 @@
  *
  * Язык берётся из адреса, поэтому урок его не передаёт: `<Example scene={...} />` одинаково
  * на обоих языках.
+ *
+ * Оживает пример, когда до него остаётся экран прокрутки, а не сразу. Разметка при этом
+ * приходит готовой, так что текст не прыгает, — но атласы, сборка мира и редактор
+ * не делаются для четырёх примеров разом, пока читатель смотрит на первый.
  */
 
 import {Example as Island} from './Example.jsx'
@@ -19,4 +23,4 @@ const {scene, ...rest} = Astro.props
 const locale = localeOf(Astro.url)
 ---
 
-<Island client:load {...rest} scene={localized(scene, locale)} locale={locale} />
+<Island client:visible={{rootMargin: '100% 0px'}} {...rest} scene={localized(scene, locale)} locale={locale} />
