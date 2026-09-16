@@ -30,11 +30,11 @@ into four channels.
 <Example scene={UNPACK} world={true} />
 
 The program asks copper for its colour and prints it channel by channel: the board shows
-`copper: 217 157 115`.
+`copper colour: 217 157 115`.
 
 ```
 sensor colour @copper @color
-unpackcolor r g b a colour
+unpackcolor R G B A colour
 ```
 
 | Field | What is in it |
@@ -44,7 +44,7 @@ unpackcolor r g b a colour
 
 <Card kind="note">
 The channels come back as **fractions from zero to one** — the same ones `packcolor` takes.
-The familiar 0–255 are obtained by multiplying: `op mul r r 255`. In the example the
+The familiar 0–255 are obtained by multiplying: `op mul R R 255`. In the example the
 multiplication is followed by `op floor`, because dividing and multiplying by 255 leaves a tail
 like `217.00000000000003`.
 </Card>
@@ -62,18 +62,18 @@ read. There is one real use: **learning a colour somebody else chose**.
   change — dimming it by halving the channels and packing it back, for instance.
 
 ```
-unpackcolor r g b a colour
-op div r r 2
-op div g g 2
-op div b b 2
-packcolor dim r g b a
+unpackcolor R G B A colour
+op div R R 2
+op div G G 2
+op div B B 2
+packcolor dim R G B A
 ```
 
 That is the usual way of working with colour: take apart, adjust the channels, pack again.
 The packed number itself must not be touched with arithmetic.
 
 <Card kind="recap">
-- `unpackcolor r g b a colour` lays a packed colour out into four channels.
+- `unpackcolor R G B A colour` lays a packed colour out into four channels.
 - The channels are fractions from zero to one; 0–255 comes from multiplying.
 - The main source of other people's colours is `sensor @color` on content and teams.
 - To change a colour you take it apart, adjust the channels and pack it back with `packcolor`.

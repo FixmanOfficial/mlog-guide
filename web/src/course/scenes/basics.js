@@ -13,10 +13,10 @@ export const VALUES = {
         at: [2, 2],
         links: [],
         program: [
-            'set число 5',
-            'set текст "медь"',
-            'set предмет @copper',
-            'set безЗначения null'
+            'set number 5',
+            'set text "copper"',
+            'set item @copper',
+            'set unset null'
         ].join('\n')
     }]
 }
@@ -29,12 +29,12 @@ export const EMPTINESS = {
         at: [2, 2],
         links: [],
         program: [
-            'set безЗначения null',
-            'op equal равно безЗначения 0',
-            'op strictEqual строго безЗначения 0',
-            'op add сумма безЗначения 1',
-            'set предмет @copper',
-            'op add объектПлюсОдин предмет 1'
+            'set unset null',
+            'op equal same unset 0',
+            'op strictEqual strict unset 0',
+            'op add sum unset 1',
+            'set item @copper',
+            'op add itemPlusOne item 1'
         ].join('\n')
     }]
 }
@@ -52,8 +52,8 @@ export const PROCESSOR = {
         at: [3, 2],
         links: [],
         program: [
-            'set скорость @ipt',
-            'op add итераций итераций 1'
+            'set speed @ipt',
+            'op add loops loops 1'
         ].join('\n')
     }]
 }
@@ -67,9 +67,9 @@ export const EDITOR = {
         at: [3, 2],
         links: [],
         program: [
-            'set запас 10',
-            'op mul удвоено запас 2',
-            'op add итог удвоено 5'
+            'set stock 10',
+            'op mul doubled stock 2',
+            'op add total doubled 5'
         ].join('\n')
     }]
 }
@@ -77,7 +77,7 @@ export const EDITOR = {
 /**
  * Урок «Окно переменных»: та же программа, что в уроке про редактор, но с опечаткой.
  *
- * `запс` вместо `запас` — имя, которого нигде не присваивали. Ошибки не будет: mlog заведёт
+ * `stok` вместо `stock` — имя, которого нигде не присваивали. Ошибки не будет: mlog заведёт
  * новую переменную со значением `null`, арифметика посчитает её нулём, и программа тихо
  * досчитает не то. Видно это только в таблице переменных, ради чего сцена и нужна.
  */
@@ -88,9 +88,9 @@ export const WATCH = {
         at: [3, 2],
         links: [],
         program: [
-            'set запас 10',
-            'op mul удвоено запс 2',
-            'op add итог удвоено 5'
+            'set stock 10',
+            'op mul doubled stok 2',
+            'op add total doubled 5'
         ].join('\n')
     }]
 }
@@ -98,7 +98,7 @@ export const WATCH = {
 /**
  * Урок «Когда не работает»: программа, в которой сразу две ошибки новичка.
  *
- * `счёт` растёт без остановки, потому что программа выполняется в бесконечном цикле, а `всего` никто
+ * `count` растёт без остановки, потому что программа выполняется в бесконечном цикле, а `everything` никто
  * не заполнил — деление на пустую переменную даёт не ноль и не бесконечность, а `null`.
  * Обе видны только в таблице переменных: сама программа ни на что не жалуется.
  */
@@ -109,10 +109,10 @@ export const DEBUG = {
         at: [3, 2],
         links: [],
         program: [
-            'set цель 10',
-            'op add счёт счёт 1',
-            'op sub осталось цель счёт',
-            'op div доля счёт всего'
+            'set aim 10',
+            'op add count count 1',
+            'op sub left aim count',
+            'op div share count everything'
         ].join('\n')
     }]
 }
@@ -120,7 +120,7 @@ export const DEBUG = {
 /**
  * Урок «Переменные и имена»: регистр имени и попытка записать в занятое имя.
  *
- * `запас` и `Запас` — две разные переменные, а `set @copper 7` не делает ничего: имя занято
+ * `stock` и `Stock` — две разные переменные, а `set @copper 7` не делает ничего: имя занято
  * игрой, и присваивание в константу проходит мимо. В таблице его не видно вовсе — константы
  * туда не попадают.
  */
@@ -131,9 +131,9 @@ export const NAMES = {
         at: [3, 2],
         links: [],
         program: [
-            'set запас 100',
-            'set Запас 5',
-            'op add итог запас Запас',
+            'set stock 100',
+            'set Stock 5',
+            'op add total stock Stock',
             'set @copper 7'
         ].join('\n')
     }]
@@ -156,11 +156,11 @@ export const LINKS = {
         at: [2, 3],
         links: ['container1', 'cell1'],
         program: [
-            'set сколько @links',
-            'getlink первый 0',
-            'getlink второй 1',
-            'getlink третий 2',
-            'sensor медь container1 @copper'
+            'set amount @links',
+            'getlink first 0',
+            'getlink second 1',
+            'getlink third 2',
+            'sensor copper container1 @copper'
         ].join('\n')
     }]
 }

@@ -20,13 +20,13 @@ export const AREA = {
         links: [],
         program: [
             'query circle unit null 9 6 3 0',
-            'sensor всего @queries @size',
+            'sensor everything @queries @size',
             'query circle unit @sharded 9 6 3 0',
-            'sensor своих @queries @size',
+            'sensor ourOwn @queries @size',
             'query rect unit null 9 6 4 4',
-            'sensor вПрямоугольнике @queries @size',
-            'read первый @queries 0',
-            'sensor типПервого первый @type',
+            'sensor inBox @queries @size',
+            'read first @queries 0',
+            'sensor firstKind first @type',
             'stop'
         ].join('\n')
     }]
@@ -42,10 +42,10 @@ export const SPAWN = {
         links: [],
         program: [
             'query circle unit @sharded 9 5 5 0',
-            'sensor сколько @queries @size',
-            'jump 6 greaterThanEq сколько 3',
-            'spawn @dagger 9 5 90 @sharded новый',
-            'sensor типНового новый @type',
+            'sensor amount @queries @size',
+            'jump 6 greaterThanEq amount 3',
+            'spawn @dagger 9 5 90 @sharded fresh',
+            'sensor newKind fresh @type',
             'end',
             'stop'
         ].join('\n')
@@ -62,11 +62,11 @@ export const BURN = {
         links: [],
         program: [
             'ubind @dagger',
-            'jump 3 notEqual подожгли 0',
+            'jump 3 notEqual burned 0',
             'status false @status-burning @unit 10',
-            'set подожгли 1',
-            'sensor здоровье @unit @health',
-            'sensor предел @unit @maxHealth'
+            'set burned 1',
+            'sensor health @unit @health',
+            'sensor limit @unit @maxHealth'
         ].join('\n')
     }]
 }
@@ -88,9 +88,9 @@ export const FROZEN = {
             'ucontrol move 18 y 0 0 0',
             'jump 7 lessThan y 5',
             'status false @status-unmoving @unit 20',
-            'sensor xСкованного @unit @x',
+            'sensor heldX @unit @x',
             'end',
-            'sensor xСвободного @unit @x',
+            'sensor freeX @unit @x',
             'end'
         ].join('\n')
     }]

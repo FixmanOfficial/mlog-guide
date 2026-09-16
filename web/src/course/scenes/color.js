@@ -24,27 +24,27 @@ const stand = (program) => ({
 
 /** Урок «Цвет одним числом»: каналы в долях, готовый цвет в переменной. */
 export const PACK = stand([
-    'packcolor красный 1 0 0 1',
-    'packcolor голубой 0 0.6 1 0.5',
+    'packcolor red 1 0 0 1',
+    'packcolor blue 0 0.6 1 0.5',
     'draw clear 30 30 40',
-    'draw col красный',
+    'draw col red',
     'draw rect 20 40 70 70',
-    'draw col голубой',
+    'draw col blue',
     'draw rect 60 70 70 70',
     'drawflush display1',
-    'print красный',
+    'print red',
     'printflush message1',
     'stop'
 ])
 
 /** Тот же урок: цвет как обычное число — его можно хранить и выбирать. */
 export const CHOICE = stand([
-    'packcolor тревога 1 0.2 0.2 1',
-    'packcolor покой 0.2 1 0.4 1',
-    'set запас 30',
-    'select цвет lessThan запас 50 тревога покой',
+    'packcolor alarm 1 0.2 0.2 1',
+    'packcolor calm 0.2 1 0.4 1',
+    'set stock 30',
+    'select colour lessThan stock 50 alarm calm',
     'draw clear 20 20 25',
-    'draw col цвет',
+    'draw col colour',
     'draw rect 38 38 100 100',
     'drawflush display1',
     'stop'
@@ -52,20 +52,20 @@ export const CHOICE = stand([
 
 /** Урок «Разбор цвета»: цвет предмета в каналы. */
 export const UNPACK = stand([
-    'sensor цвет @copper @color',
-    'unpackcolor кр зел син прозр цвет',
-    'op mul кр кр 255',
-    'op mul зел зел 255',
-    'op mul син син 255',
-    'op floor кр кр',
-    'op floor зел зел',
-    'op floor син син',
-    'print "медь: "',
-    'print кр',
+    'sensor colour @copper @color',
+    'unpackcolor R G B A colour',
+    'op mul R R 255',
+    'op mul G G 255',
+    'op mul B B 255',
+    'op floor R R',
+    'op floor G G',
+    'op floor B B',
+    'print "copper colour: "',
+    'print R',
     'print " "',
-    'print зел',
+    'print G',
     'print " "',
-    'print син',
+    'print B',
     'printflush message1',
     'stop'
 ])

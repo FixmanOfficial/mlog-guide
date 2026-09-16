@@ -1,102 +1,110 @@
 /**
- * Сцена урока по-английски.
+ * Сцена урока по-русски.
  *
- * Сцены пишутся один раз, по-русски, и гоняются тестами. Для английской страницы та же
+ * Сцены пишутся один раз, по-английски, и гоняются тестами. Для русской страницы та же
  * сцена переписывается именами из словаря — программа остаётся той же строка в строку,
- * меняются только имена переменных, строки в кавычках и ключи словаря карты.
+ * меняются только имена переменных, строки в кавычках и надписи карты.
  *
  * Почему не две копии: любая находка вычитки тогда чинилась бы дважды, и вторая копия
- * рано или поздно отстала бы молча. Проверять её было бы нечем — тесты гоняют русскую.
- */
-
-import {NAMES, STRINGS} from './names.en.js'
-
-/**
- * Имя переменной целиком. Кириллица в нём может стоять не в начале и не в конце: в сценах
- * есть `рудаX`, `xБлижнего` и `здание2`. Поэтому слово берётся вместе с латиницей вокруг —
- * иначе от `xБлижнего` переводилась бы половина, и вышло бы `xNear`.
- */
-const WORD = /[A-Za-z0-9_]*[А-Яа-яЁё][A-Za-z0-9_А-Яа-яЁё]*/g
-
-/** Есть ли в значении кириллица — по ней и решается, надо ли вообще трогать. */
-const cyrillic = (value) => typeof value === 'string' && /[А-Яа-яЁё]/.test(value)
-
-/**
- * Имена в одной строке программы.
+ * рано или поздно отстала бы молча.
  *
- * Строковые литералы вынимаются первыми и переводятся по своему словарю: внутри кавычек
- * лежит текст для табло, а не имя переменной, и делить его на слова нельзя.
+ * Переводить английский труднее, чем русский: кириллица в программе может быть только
+ * именем, а английское слово бывает и словом языка — `floor` в `op floor`, `item`
+ * в `lookup item`. Поэтому имя переписывается только там, где инструкция ждёт значение,
+ * а поля-перечисления не трогаются вовсе. Какое поле чем является, знает схема инструкций.
+ */
+
+import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
+
+import {NAMES, STRINGS} from './names.ru.js'
+
+/**
+ * Типы полей по инструкциям, в порядке записи. Переписывать можно только `value` — это
+ * переменная или число — и `int`: у `jump` там номер строки или имя метки.
+ */
+const FIELDS = Object.fromEntries(schema.instructions.map(entry => [
+    entry.opcode, entry.params.map(param => param.type)
+]))
+
+/**
+ * Поля, которые схема называет значением, а игра читает словом. Тип метки у `makemarker`
+ * — это `shape`, `text`, `line`: выбирается списком, хотя записан как значение.
+ */
+const WORDS = {makemarker: new Set([0])}
+
+const renames = (opcode, index) => {
+    if (WORDS[opcode]?.has(index)) return false
+
+    const type = FIELDS[opcode]?.[index] ?? 'value'
+    return type === 'value' || type === 'int'
+}
+
+/** Строковый литерал: внутри кавычек текст для табло, и переводится он целиком. */
+const literal = (text) => STRINGS[text] ?? text
+
+/**
+ * Одна строка программы. Слова в mlog разделены пробелами, а строка в кавычках — одно
+ * слово, даже если внутри неё пробелы. Первое слово — инструкция, остальные — её поля.
  */
 function line(text, missing) {
-    const parts = text.split(/("[^"]*")/)
+    // Метка перехода — строка из одного слова с двоеточием
+    if (/^\S+:$/.test(text)) return rename(text, missing)
 
-    return parts.map(part => {
-        if (part.startsWith('"') && part.endsWith('"')) {
-            const inside = part.slice(1, -1)
-            if (!cyrillic(inside)) return part
+    const opcode = text.match(/^\S+/)?.[0]
+    let index = -1
 
-            const found = STRINGS[inside]
-            if (found === undefined) missing.add(`"${inside}"`)
+    return text.replace(/"[^"]*"|\S+/g, (word) => {
+        index++
+        if (index === 0) return word
+        if (word.startsWith('"')) return `"${literal(word.slice(1, -1))}"`
 
-            return `"${found ?? inside}"`
-        }
-
-        return part.replace(WORD, (word) => {
-            // Метка перехода пишется с двоеточием, и в словаре она так и лежит
-            const found = NAMES[word]
-            if (found === undefined) missing.add(word)
-
-            return found ?? word
-        })
-    }).join('')
+        return renames(opcode, index - 1) ? rename(word, missing) : word
+    })
 }
 
-/** Программа целиком, строка за строкой. Метка `снова:` — отдельная строка, не имя. */
-function program(text, missing) {
-    return text.split('\n').map(row => {
-        const label = row.match(/^([А-Яа-яЁё][А-Яа-яЁё0-9_]*):$/)
-        if (label !== null) {
-            const found = NAMES[`${label[1]}:`] ?? NAMES[label[1]]
-            if (found === undefined) missing.add(`${label[1]}:`)
-
-            return found === undefined ? row : (found.endsWith(':') ? found : `${found}:`)
-        }
-
-        return line(row, missing)
-    }).join('\n')
-}
+const program = (text, missing) => text.split('\n').map(row => line(row, missing)).join('\n')
 
 /**
- * Копия сцены с английскими именами.
- *
- * Обходится всё описание, а не только программы: русское слово встречается ещё в словаре
- * карты (`locales` для `localeprint`) и в готовых надписях блоков. Ключ словаря переводится
- * тоже — программа ищет по нему, и разойдись они, `localeprint` замолчал бы.
- *
- * @param missing куда складывать слова, которых нет в словаре. Их собирает тест
+ * Число, константа `@…`, связь вроде `cell1`, цвет `%ff0000` и слова `true`, `false`,
+ * `null` именами не бывают — о них тест и не спрашивает.
  */
-export function english(scene, missing = new Set()) {
-    const walk = (value, inProgram) => {
+const NOT_NAMES = /^(-?[\d.]+(e-?\d+)?|0x[\da-f]+|0b[01]+|%[\da-f]+|@.*|[a-z-]+\d+|true|false|null)$/i
+
+/** Имя переменной или метки на русском; чего нет в словаре, остаётся как было. */
+function rename(word, missing) {
+    const found = NAMES[word]
+    if (found === undefined && !NOT_NAMES.test(word)) missing?.add(word)
+
+    return found ?? word
+}
+
+/** Поля сцены, где лежит текст для читателя, а не имя контента или вида. */
+const TEXTS = new Set(['text', 'flag', 'message'])
+
+/**
+ * Копия сцены с русскими именами.
+ *
+ * Обходится всё описание, а не только программы: слово встречается ещё в словаре карты
+ * (`locales` для `localeprint`) и в целях. Ключ словаря переводится тоже — программа ищет
+ * по нему, и разойдись они, `localeprint` замолчал бы.
+ *
+ * @param missing куда складывать имена, которых нет в словаре. Их собирает тест
+ */
+export function russian(scene, missing = null) {
+    const walk = (value, key, inLocales) => {
         if (typeof value === 'string') {
-            if (inProgram) return program(value, missing)
-            if (!cyrillic(value)) return value
-
-            const found = STRINGS[value]
-            if (found === undefined) missing.add(`"${value}"`)
-
-            return found ?? value
+            if (key === 'program') return program(value, missing)
+            return inLocales || TEXTS.has(key) ? literal(value) : value
         }
 
-        if (Array.isArray(value)) return value.map(item => walk(item, inProgram))
+        if (Array.isArray(value)) return value.map(item => walk(item, key, inLocales))
 
         if (value !== null && typeof value === 'object') {
             const copy = {}
 
-            for (const [key, inner] of Object.entries(value)) {
-                const name = cyrillic(key) ? (STRINGS[key] ?? key) : key
-                if (cyrillic(key) && STRINGS[key] === undefined) missing.add(`"${key}"`)
-
-                copy[name] = walk(inner, key === 'program')
+            for (const [name, inner] of Object.entries(value)) {
+                const local = inLocales || name === 'locales'
+                copy[inLocales ? literal(name) : name] = walk(inner, name, local)
             }
 
             return copy
@@ -105,8 +113,8 @@ export function english(scene, missing = new Set()) {
         return value
     }
 
-    return walk(scene, false)
+    return walk(scene, null, false)
 }
 
-/** Сцена под язык страницы: русская отдаётся как есть, английская переписывается. */
-export const localized = (scene, locale) => locale === 'en' ? english(scene) : scene
+/** Сцена под язык страницы: английская отдаётся как есть, русская переписывается. */
+export const localized = (scene, locale) => locale === 'ru' ? russian(scene) : scene

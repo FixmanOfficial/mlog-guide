@@ -20,10 +20,10 @@ export const ARITHMETIC = {
         program: [
             'set a 12',
             'set b 5',
-            'op add сумма a b',
-            'op sub разность a b',
-            'op mul произведение a b',
-            'op div частное a b'
+            'op add sum a b',
+            'op sub difference a b',
+            'op mul product a b',
+            'op div quotient a b'
         ].join('\n')
     }]
 }
@@ -38,8 +38,8 @@ export const STEPS = {
         program: [
             'set a 12',
             'set b 5',
-            'op add сумма a b',
-            'op mul итог сумма 2'
+            'op add sum a b',
+            'op mul total sum 2'
         ].join('\n')
     }]
 }
@@ -52,12 +52,12 @@ export const INTEGERS = {
         at: [2, 2],
         links: [],
         program: [
-            'op div точно 7 2',
-            'op idiv целое 7 2',
-            'op mod остаток 7 2',
-            'op idiv вниз -7 2',
-            'op mod знак -7 3',
-            'op emod всегда -7 3'
+            'op div exact 7 2',
+            'op idiv whole 7 2',
+            'op mod rest 7 2',
+            'op idiv down -7 2',
+            'op mod sign -7 3',
+            'op emod always -7 3'
         ].join('\n')
     }]
 }
@@ -70,9 +70,9 @@ export const ROUNDING = {
         at: [2, 2],
         links: [],
         program: [
-            'op floor вниз 3.7',
-            'op ceil вверх 3.2',
-            'op round ближе 2.5'
+            'op floor down 3.7',
+            'op ceil up 3.2',
+            'op round closer 2.5'
         ].join('\n')
     }]
 }
@@ -85,9 +85,9 @@ export const PRECISION = {
         at: [2, 2],
         links: [],
         program: [
-            'op add сумма 0.1 0.2',
-            'op equal равно сумма 0.3',
-            'op strictEqual строго сумма 0.3'
+            'op add sum 0.1 0.2',
+            'op equal same sum 0.3',
+            'op strictEqual strict sum 0.3'
         ].join('\n')
     }]
 }
@@ -100,12 +100,12 @@ export const LOGIC = {
         at: [2, 2],
         links: [],
         program: [
-            'set медь 40',
-            'set предел 100',
-            'op lessThan мало медь предел',
-            'op greaterThan много медь предел',
-            'op land оба мало много',
-            'op or хотяБы мало много'
+            'set copper 40',
+            'set limit 100',
+            'op lessThan low copper limit',
+            'op greaterThan plenty copper limit',
+            'op land both low plenty',
+            'op or atLeastOne low plenty'
         ].join('\n')
     }]
 }
@@ -118,8 +118,8 @@ export const NEGATION = {
         at: [2, 2],
         links: [],
         program: [
-            'op not побитовое 1',
-            'op equal логическое 1 0'
+            'op not bitwise 1',
+            'op equal logical 1 0'
         ].join('\n')
     }]
 }
@@ -132,12 +132,12 @@ export const BITWISE = {
         at: [2, 2],
         links: [],
         program: [
-            'op and маска 12 10',
-            'op or обе 12 10',
-            'op xor разные 12 10',
-            'op shl сдвиг 1 3',
-            'op shr обратно 8 3',
-            'op not инверт 5'
+            'op and mask 12 10',
+            'op or either 12 10',
+            'op xor differ 12 10',
+            'op shl shift 1 3',
+            'op shr back 8 3',
+            'op not flipped 5'
         ].join('\n')
     }]
 }
@@ -150,9 +150,9 @@ export const SHIFTS = {
         at: [2, 2],
         links: [],
         program: [
-            'op shl перебор 1 64',
-            'op shr знак -8 1',
-            'op ushr беззнак -1 60'
+            'op shl wrapped 1 64',
+            'op shr sign -8 1',
+            'op ushr unsigned -1 60'
         ].join('\n')
     }]
 }
@@ -167,10 +167,10 @@ export const GEOMETRY = {
         program: [
             'set dx 30',
             'set dy 40',
-            'op len расстояние dx dy',
-            'op angle угол dx dy',
-            'op angleDiff разница 350 10',
-            'op sin высота 30'
+            'op len distance dx dy',
+            'op angle angle dx dy',
+            'op angleDiff gap 350 10',
+            'op sin height 30'
         ].join('\n')
     }]
 }
@@ -183,8 +183,8 @@ export const FLOAT = {
         at: [2, 2],
         links: [],
         program: [
-            'op len диагональ 1 1',
-            'op angle назад -5 0'
+            'op len diagonal 1 1',
+            'op angle behind -5 0'
         ].join('\n')
     }]
 }
@@ -197,9 +197,9 @@ export const RANDOM = {
         at: [2, 2],
         links: [],
         program: [
-            'op rand бросок 6',
-            'op floor кубик бросок',
-            'op add кубик кубик 1'
+            'op rand throw 6',
+            'op floor roll throw',
+            'op add roll roll 1'
         ].join('\n')
     }]
 }
@@ -212,9 +212,9 @@ export const NOISE = {
         at: [2, 2],
         links: [],
         program: [
-            'op noise тут 10 10',
-            'op noise рядом 10.01 10',
-            'op noise далеко 40 10'
+            'op noise here 10 10',
+            'op noise beside 10.01 10',
+            'op noise away 40 10'
         ].join('\n')
     }]
 }

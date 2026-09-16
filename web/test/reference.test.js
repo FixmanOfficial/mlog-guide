@@ -23,7 +23,7 @@ import {byCategory, processorVars, properties} from '../src/reference/data.js'
 import {rules} from '../src/reference/rules.js'
 import {strings as sandboxStrings} from '../src/sandbox/strings.js'
 import {SANDBOX} from '../src/sandbox/scenes/sandbox.js'
-import {english} from '../src/course/scenes/translate.js'
+import {russian} from '../src/course/scenes/translate.js'
 
 const CYRILLIC = /[А-Яа-яЁё]/
 
@@ -72,9 +72,12 @@ test('надписи песочницы переведены целиком', ()
     }
 })
 
-test('сцена песочницы переводится словарём целиком', () => {
+test('сцена песочницы переписывается словарём целиком', () => {
     const missing = new Set()
-    english(SANDBOX, missing)
+    const scene = russian(SANDBOX, missing)
 
-    assert.deepEqual([...missing], [], 'в словаре нет слов из сцены песочницы')
+    assert.deepEqual([...missing].filter(name => !['x', 'y'].includes(name)), [],
+        'в словаре нет слов из сцены песочницы')
+    assert.match(scene.objectives.map(entry => entry.text).join(), /[А-Яа-яЁё]/,
+        'цели песочницы по-русски не переписались')
 })

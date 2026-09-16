@@ -80,4 +80,4 @@ const SANDBOX = {
  * текстов. Так надписи находят вложенные куски вроде панели строительства, которым пропа
  * не докинуть, не протащив его через полдесятка узлов.
  */
-export const strings = (locale = uiLocale()) => SANDBOX[locale] ?? SANDBOX.ru
+export const strings = (locale = uiLocale()) => SANDBOX[locale] ?? SANDBOX.en

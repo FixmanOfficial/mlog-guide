@@ -13,10 +13,10 @@ export const ASSIGN = {
         at: [3, 2],
         links: [],
         program: [
-            'set запас 5',
-            'set текст "медь"',
-            'set копия запас',
-            'set запас 99'
+            'set stock 5',
+            'set text "copper"',
+            'set copy stock',
+            'set stock 99'
         ].join('\n')
     }]
 }
@@ -36,11 +36,11 @@ export const CONTENT = {
         at: [2, 2],
         links: ['container1'],
         program: [
-            'set предмет @copper',
-            'set блок @router',
-            'set юнит @poly',
-            'set сам @this',
-            'sensor сколько container1 предмет'
+            'set item @copper',
+            'set block @router',
+            'set unit @poly',
+            'set self @this',
+            'sensor amount container1 item'
         ].join('\n')
     }]
 }

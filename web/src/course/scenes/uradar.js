@@ -19,11 +19,11 @@ export const SEEK = {
         links: [],
         program: [
             'ubind @dagger',
-            'uradar enemy any any distance 0 1 ближний',
-            'uradar enemy any any distance 0 0 дальний',
-            'sensor xБлижнего ближний @x',
-            'sensor xДальнего дальний @x',
-            'sensor дальность @unit @range'
+            'uradar enemy any any distance 0 1 near',
+            'uradar enemy any any distance 0 0 far',
+            'sensor nearX near @x',
+            'sensor farX far @x',
+            'sensor range @unit @range'
         ].join('\n')
     }]
 }
@@ -42,9 +42,9 @@ export const ALLY = {
         links: [],
         program: [
             'ubind @dagger',
-            'uradar ally any any distance 0 1 свой',
-            'sensor ктоЭто свой @type',
-            'sensor яСам @unit @type',
+            'uradar ally any any distance 0 1 mine',
+            'sensor whoIsIt mine @type',
+            'sensor myself @unit @type',
             'stop'
         ].join('\n')
     }]

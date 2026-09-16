@@ -15,14 +15,14 @@ export const TABLE = {
         at: [4, 2],
         links: [],
         program: [
-            'lookup item первыйПредмет 0',
-            'lookup unit первыйЮнит 0',
-            'lookup liquid перваяЖидкость 0',
-            'lookup item заГраницей 999',
-            'sensor номерГрафита @graphite @id',
-            'lookup item обратно номерГрафита',
-            'set предметов @itemCount',
-            'set юнитов @unitCount',
+            'lookup item firstItem 0',
+            'lookup unit firstUnit 0',
+            'lookup liquid firstLiquid 0',
+            'lookup item pastEnd 999',
+            'sensor graphiteId @graphite @id',
+            'lookup item back graphiteId',
+            'set itemCount @itemCount',
+            'set unitCount @unitCount',
             'stop'
         ].join('\n')
     }]
@@ -45,16 +45,16 @@ export const SCAN = {
         at: [1, 4],
         links: ['container1', 'message1'],
         program: [
-            'lookup item предмет номер',
-            'sensor сколько container1 предмет',
-            'jump 5 lessThanEq сколько лучшее',
-            'set лучшее сколько',
-            'set чего предмет',
-            'op add номер номер 1',
-            'jump 0 lessThan номер @itemCount',
-            'print чего',
+            'lookup item item index',
+            'sensor amount container1 item',
+            'jump 5 lessThanEq amount best',
+            'set best amount',
+            'set what item',
+            'op add index index 1',
+            'jump 0 lessThan index @itemCount',
+            'print what',
             'print ": "',
-            'print лучшее',
+            'print best',
             'printflush message1',
             'stop'
         ].join('\n')

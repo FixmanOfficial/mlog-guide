@@ -20,10 +20,10 @@ export const ORE = {
         links: [],
         program: [
             'ubind @mono',
-            'ulocate ore core true @copper рудаX рудаY нашлось здание',
-            'ucontrol mine рудаX рудаY 0 0 0',
-            'sensor груз @unit @totalItems',
-            'sensor чего @unit @firstItem'
+            'ulocate ore core true @copper oreX oreY found building',
+            'ucontrol mine oreX oreY 0 0 0',
+            'sensor cargo @unit @totalItems',
+            'sensor what @unit @firstItem'
         ].join('\n')
     }]
 }
@@ -42,8 +42,8 @@ export const LEAD = {
         links: [],
         program: [
             'ubind @mono',
-            'ulocate ore core true @lead рудаX рудаY нашлось здание',
-            'ulocate ore core true @titanium нетX нетY титанЕсть здание2',
+            'ulocate ore core true @lead oreX oreY found building',
+            'ulocate ore core true @titanium missX missY titaniumFound building2',
             'stop'
         ].join('\n')
     }]
@@ -64,9 +64,9 @@ export const BUILDINGS = {
         links: [],
         program: [
             'ubind @poly',
-            'ulocate building turret true @copper врагX врагY естьВраг вражья',
-            'ulocate building turret false @copper свояX свояY естьСвоя своя',
-            'ulocate building storage false @copper складX складY естьСклад склад',
+            'ulocate building turret true @copper enemyX enemyY enemyFound enemys',
+            'ulocate building turret false @copper oursX oursY allyFound ours',
+            'ulocate building storage false @copper storeX storeY storeFound store',
             'stop'
         ].join('\n')
     }]
@@ -86,9 +86,9 @@ export const DAMAGED = {
         links: [],
         program: [
             'ubind @poly',
-            'ulocate damaged core true @copper битыйX битыйY нашлось битый',
-            'sensor здоровье битый @health',
-            'sensor предел битый @maxHealth',
+            'ulocate damaged core true @copper damagedX damagedY found damaged',
+            'sensor health damaged @health',
+            'sensor limit damaged @maxHealth',
             'stop'
         ].join('\n')
     }]

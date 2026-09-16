@@ -2,6 +2,7 @@ import {useEffect, useRef} from 'preact/hooks'
 
 import {ContentIcon, parseMarkup, METRICS} from '@mlog/editor'
 import {formatAmount} from '@mlog/editor/src/format.js'
+import {nameBundle} from '@mlog/editor/src/names.js'
 import {drawMinimap} from '@mlog/render/src/minimap.js'
 
 import teamData from '@mlog/core/data/teams.json'
@@ -81,7 +82,7 @@ export function CoreItems({world, beat}) {
                 <div class="hud-core__item" key={item}>
                     <ContentIcon type="item" name={item} size={8 * (METRICS.iconSmallFactor ?? 3)} />
                     <span class="hud-core__amount" style={{minWidth: `${METRICS.coreAmountWidth ?? 52}px`}}>
-                        <Markup text={formatAmount(core?.items.get(item) ?? 0)} />
+                        <Markup text={formatAmount(core?.items.get(item) ?? 0, nameBundle().ui)} />
                     </span>
                 </div>
             ))}

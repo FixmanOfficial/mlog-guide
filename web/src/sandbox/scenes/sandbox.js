@@ -94,8 +94,8 @@ export const SANDBOX = {
             at: [11, 7],
             links: ['display1', 'cell1'],
             program: [
-                'read шаг cell1 0',
-                'op mod x шаг 68',
+                'read step cell1 0',
+                'op mod x step 68',
                 'draw clear 0 0 0 0 0 0',
                 'draw color 255 210 120 255 0 0',
                 'draw rect x 34 12 12 0 0',
@@ -106,12 +106,12 @@ export const SANDBOX = {
             at: [5, 5],
             links: ['cell1', 'message1', 'switch1', 'door1'],
             program: [
-                'op add шаг шаг 1',
-                'write шаг cell1 0',
-                'sensor открыт switch1 @enabled',
-                'control enabled door1 открыт 0 0 0',
-                'print "шаг: "',
-                'print шаг',
+                'op add step step 1',
+                'write step cell1 0',
+                'sensor open switch1 @enabled',
+                'control enabled door1 open 0 0 0',
+                'print "step: "',
+                'print step',
                 'printflush message1'
             ].join('\n')
         },
@@ -124,22 +124,22 @@ export const SANDBOX = {
             // команд юнит через 600 тиков уходит из-под контроля
             program: [
                 'ubind @poly',
-                'sensor груз @unit @totalItems',
-                'jump 7 greaterThanEq груз 30',
-                'ulocate ore core true @copper рудаX рудаY есть building',
-                'ucontrol move рудаX рудаY 0 0 0',
-                'ucontrol mine рудаX рудаY 0 0 0',
+                'sensor cargo @unit @totalItems',
+                'jump 7 greaterThanEq cargo 30',
+                'ulocate ore core true @copper oreX oreY found building',
+                'ucontrol move oreX oreY 0 0 0',
+                'ucontrol mine oreX oreY 0 0 0',
                 'jump 9 always x false',
                 'ucontrol move 17 5 0 0 0',
                 'ucontrol itemDrop container1 30 0 0 0',
-                'op idiv фаза @tick 240',
-                'op mod фаза фаза 2',
-                'op mul цель фаза 13',
-                'op add цель цель 3',
+                'op idiv phase @tick 240',
+                'op mod phase phase 2',
+                'op mul aim phase 13',
+                'op add aim aim 3',
                 'ubind @mono',
-                'ucontrol move цель 9 0 0 0',
+                'ucontrol move aim 9 0 0 0',
                 'ubind @dagger',
-                'ucontrol move цель 5 0 0 0'
+                'ucontrol move aim 5 0 0 0'
             ].join('\n')
         },
         {
@@ -150,7 +150,7 @@ export const SANDBOX = {
             // Последние три строки — единственный мостик от логики к целям карты
             program: [
                 'makemarker shapetext 1 17 6 false',
-                'print "склад"',
+                'print "store"',
                 'setmarker flushText 1 0 0 0',
                 'makemarker line 2 13 1 false',
                 'setmarker endPos 2 17 4 0',
@@ -158,14 +158,14 @@ export const SANDBOX = {
                 'setmarker colori 2 1 %84f491 0',
                 'makemarker point 3 4 1 false',
                 'ubind @poly',
-                'sensor юнитX @unit @x',
-                'sensor юнитY @unit @y',
-                'op div юнитX юнитX 8',
-                'op div юнитY юнитY 8',
-                'setmarker pos 3 юнитX юнитY 0',
-                'sensor медь container1 @copper',
-                'jump 0 lessThan медь 10',
-                'setflag "склад" true'
+                'sensor unitX @unit @x',
+                'sensor unitY @unit @y',
+                'op div unitX unitX 8',
+                'op div unitY unitY 8',
+                'setmarker pos 3 unitX unitY 0',
+                'sensor copper container1 @copper',
+                'jump 0 lessThan copper 10',
+                'setflag "store" true'
             ].join('\n')
         }
     ],
@@ -177,11 +177,11 @@ export const SANDBOX = {
      */
     objectives: [
         {kind: 'unitCount', unit: 'poly', count: 1},
-        {kind: 'timer', duration: 60 * 20, text: '[accent]Продержаться: []{0}'},
+        {kind: 'timer', duration: 60 * 20, text: '[accent]Hold out: []{0}'},
         {
             kind: 'flag',
-            flag: 'склад',
-            text: '[accent]Натаскать на склад: []10 меди',
+            flag: 'store',
+            text: '[accent]Haul to the store: []10 copper',
             markers: [{type: 'shape', pos: [17, 4], radius: 14, shape: 6, color: '#84f491'}]
         }
     ]

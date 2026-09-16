@@ -5,7 +5,7 @@
  * программа успевает за секунду с разными хвостами.
  */
 
-/** Урок «Пауза в секундах»: круг раз в секунду вместо круга каждый тик. */
+/** Урок «Пауза в секундах»: итерация раз в секунду вместо итерации каждый тик. */
 export const TICKS = {
     width: 7, height: 5, floor: 'sand-floor',
     blocks: [{type: 'micro-processor', x: 3, y: 2}],
@@ -13,16 +13,16 @@ export const TICKS = {
         at: [3, 2],
         links: [],
         program: [
-            'op add итераций итераций 1',
+            'op add loops loops 1',
             'wait 1'
         ].join('\n')
     }]
 }
 
 /**
- * Урок «End»: круг обрывается раньше, и строка под `end` не выполняется никогда.
+ * Урок «End»: итерация обрывается раньше, и строка под `end` не выполняется никогда.
  *
- * Четыре шага — это два круга: в итерации две инструкции, а `после` так и остаётся пустым.
+ * Четыре шага — это две итерации: в каждой по две инструкции, а `after` так и остаётся пустым.
  */
 export const ENDING = {
     width: 7, height: 5, floor: 'sand-floor',
@@ -31,9 +31,9 @@ export const ENDING = {
         at: [3, 2],
         links: [],
         program: [
-            'op add итераций итераций 1',
+            'op add loops loops 1',
             'end',
-            'op add после после 1'
+            'op add after after 1'
         ].join('\n')
     }]
 }
@@ -46,9 +46,9 @@ export const STOPPED = {
         at: [3, 2],
         links: [],
         program: [
-            'op add итераций итераций 1',
+            'op add loops loops 1',
             'stop',
-            'op add послеСтопа послеСтопа 1'
+            'op add afterStop afterStop 1'
         ].join('\n')
     }]
 }
@@ -64,8 +64,8 @@ export const RHYTHM = {
         at: [2, 2],
         links: ['container1'],
         program: [
-            'sensor медь container1 @copper',
-            'op add проверок проверок 1',
+            'sensor copper container1 @copper',
+            'op add checks checks 1',
             'wait 0.5'
         ].join('\n')
     }]
@@ -87,11 +87,11 @@ export const TIMER = {
         at: [2, 2],
         links: ['container1'],
         program: [
-            'op add итераций итераций 1',
-            'jump 0 lessThan @time срок',
-            'op add срок @time 1000',
-            'sensor медь container1 @copper',
-            'op add проверок проверок 1'
+            'op add loops loops 1',
+            'jump 0 lessThan @time deadline',
+            'op add deadline @time 1000',
+            'sensor copper container1 @copper',
+            'op add checks checks 1'
         ].join('\n')
     }]
 }

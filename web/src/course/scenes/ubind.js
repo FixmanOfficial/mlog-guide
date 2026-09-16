@@ -1,7 +1,7 @@
 /**
  * Сцены группы Unit Bind.
  *
- * Юниты в примерах настоящие: летают, дохнут от чужой турели и ходят по кругу привязки
+ * Юниты в примерах настоящие: летают, дохнут от чужой турели и перебираются привязкой по очереди
  * ровно так, как в игре. Числа, которые уроки называют вслух, проверяет
  * `web/test/course.test.js`.
  */
@@ -22,13 +22,13 @@ const three = (program, extra = {}) => ({
 /** Урок «Привязка по типу»: четыре привязки подряд обходят трёх поли и возвращаются к первому. */
 export const CYCLE = three([
     'ubind @poly',
-    'set первый @unit',
+    'set first @unit',
     'ubind @poly',
-    'set второй @unit',
+    'set second @unit',
     'ubind @poly',
-    'set третий @unit',
+    'set third @unit',
     'ubind @poly',
-    'set четвёртый @unit',
+    'set fourth @unit',
     'stop'
 ])
 
@@ -37,15 +37,15 @@ export const WATCH = three([
     'ubind @poly',
     'sensor x @unit @x',
     'sensor y @unit @y',
-    'sensor здоровье @unit @health',
-    'sensor тип @unit @type'
+    'sensor health @unit @health',
+    'sensor kind @unit @type'
 ])
 
 /** Тот же урок: юнитов такого типа нет — `@unit` пуст. */
 export const NONE = three([
     'ubind @flare',
-    'set пусто @unit',
-    'sensor здоровье @unit @health',
+    'set empty @unit',
+    'sensor health @unit @health',
     'stop'
 ])
 
@@ -58,14 +58,14 @@ export const NONE = three([
  * ловит и «погиб», и «никого не было».
  */
 export const KEEP = three([
-    'op add итераций итераций 1',
-    'sensor негоден @unit @dead',
-    'jump 5 equal негоден 0',
+    'op add loops loops 1',
+    'sensor gone @unit @dead',
+    'jump 5 equal gone 0',
     'ubind @poly',
-    'op add привязок привязок 1',
-    'op notEqual другой @unit прежний',
-    'op add смен смен другой',
-    'set прежний @unit'
+    'op add binds binds 1',
+    'op notEqual changed @unit previous',
+    'op add swaps swaps changed',
+    'set previous @unit'
 ])
 
 /**
@@ -75,22 +75,22 @@ export const KEEP = three([
  * само прибавляет столько, сколько надо.
  */
 export const EVERY = three([
-    'op add итераций итераций 1',
+    'op add loops loops 1',
     'ubind @poly',
-    'op add привязок привязок 1',
-    'op notEqual другой @unit прежний',
-    'op add смен смен другой',
-    'set прежний @unit'
+    'op add binds binds 1',
+    'op notEqual changed @unit previous',
+    'op add swaps swaps changed',
+    'set previous @unit'
 ])
 
 /** Урок «Привязка к юниту»: запомненный юнит возвращается по объекту. */
 export const REMEMBER = three([
     'ubind @poly',
-    'set мой @unit',
+    'set own @unit',
     'ubind @poly',
     'ubind @poly',
-    'ubind мой',
-    'op equal тотЖе @unit мой',
+    'ubind own',
+    'op equal sameOne @unit own',
     'stop'
 ])
 
@@ -106,12 +106,12 @@ export const LOST = {
         at: [2, 5],
         links: [],
         program: [
-            'jump 3 notEqual мой null',
+            'jump 3 notEqual own null',
             'ubind @flare',
-            'set мой @unit',
-            'sensor мёртв мой @dead',
+            'set own @unit',
+            'sensor dead own @dead',
             'ubind @flare',
-            'op equal живых @unit null'
+            'op equal alive @unit null'
         ].join('\n')
     }]
 }
@@ -130,10 +130,10 @@ export const FOREIGN = {
         links: [],
         program: [
             'ubind @dagger',
-            'set чужой @unit',
+            'set theirs @unit',
             'ubind @poly',
-            'set свой @unit',
-            'sensor команда @unit @team',
+            'set mine @unit',
+            'sensor team @unit @team',
             'stop'
         ].join('\n')
     }]

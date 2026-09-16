@@ -21,10 +21,10 @@ export const CHOICE = {
         at: [2, 2],
         links: ['container1'],
         program: [
-            'sensor медь container1 @copper',
-            'op greaterThanEq хватает медь 100',
-            'select надпись greaterThanEq медь 100 "хватает" "мало"',
-            'select сколькоБрать lessThan медь 100 медь 100'
+            'sensor copper container1 @copper',
+            'op greaterThanEq enough copper 100',
+            'select caption greaterThanEq copper 100 "enough" "low"',
+            'select howMany lessThan copper 100 copper 100'
         ].join('\n')
     }]
 }

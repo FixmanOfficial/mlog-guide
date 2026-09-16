@@ -13,50 +13,60 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 
 import {buildScene} from '@mlog/core/src/scene.js'
+import {russian} from '../src/course/scenes/translate.js'
+
+/**
+ * Сцены пишутся по-английски, а числа и имена ниже сверяются с русскими уроками. Поэтому
+ * тесты гоняют ровно то, что видит русская страница: сцену, переписанную словарём.
+ */
+function russianScenes(module) {
+    return Object.fromEntries(Object.entries(module).map(([name, value]) =>
+        [name, value !== null && typeof value === 'object' ? russian(value) : value]))
+}
 import {createContent} from '@mlog/core/src/content.js'
 import {Processor} from '@mlog/core/src/vm.js'
 import logicIds from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 
-import {BUILDINGS, ITEMS, UNITS, HOLDERS} from '../src/course/scenes/sensor.js'
-import {VALUES, EMPTINESS, PROCESSOR, EDITOR, WATCH, DEBUG, NAMES, LINKS} from '../src/course/scenes/basics.js'
+const {BUILDINGS, ITEMS, UNITS, HOLDERS} = russianScenes(await import('../src/course/scenes/sensor.js'))
+const {VALUES, EMPTINESS, PROCESSOR, EDITOR, WATCH, DEBUG, NAMES, LINKS} = russianScenes(await import('../src/course/scenes/basics.js'))
 import {linkName} from '@mlog/core/src/world.js'
-import {ASSIGN, CONTENT} from '../src/course/scenes/set.js'
-import {BRANCH, LOOP} from '../src/course/scenes/jump.js'
-import {
-    COUNTER, RELATIVE, PRECISE, LABELS, CLOCK, TIMER as DEADLINE, COST, PACKED, CREW, EDGE
-} from '../src/course/scenes/advanced.js'
-import {CHOICE} from '../src/course/scenes/select.js'
-import {TICKS, STOPPED, ENDING, RHYTHM, TIMER} from '../src/course/scenes/wait.js'
-import {BUFFER, PIECES, FLUSH} from '../src/course/scenes/print.js'
-import {TEMPLATE, CHARS} from '../src/course/scenes/format.js'
-import {
+const {ASSIGN, CONTENT} = russianScenes(await import('../src/course/scenes/set.js'))
+const {BRANCH, LOOP} = russianScenes(await import('../src/course/scenes/jump.js'))
+const {
+    COUNTER, RELATIVE, PRECISE, LABELS, CLOCK, TIMER: DEADLINE, COST, PACKED, CREW, EDGE
+} = russianScenes(await import('../src/course/scenes/advanced.js'))
+const {CHOICE} = russianScenes(await import('../src/course/scenes/select.js'))
+const {TICKS, STOPPED, ENDING, RHYTHM, TIMER} = russianScenes(await import('../src/course/scenes/wait.js'))
+const {BUFFER, PIECES, FLUSH} = russianScenes(await import('../src/course/scenes/print.js'))
+const {TEMPLATE, CHARS} = russianScenes(await import('../src/course/scenes/format.js'))
+const {
     CELLS, BOUNDS, STORE, OBJECTS, SHARED, NEIGHBOUR, LETTERS, COMMAND
-} from '../src/course/scenes/memory.js'
-import {
+} = russianScenes(await import('../src/course/scenes/memory.js'))
+const {
     FIRST, FORGOTTEN, SHAPES, COLORS, TEXT, TRANSFORM, OVERFLOW, TWO
-} from '../src/course/scenes/draw.js'
-import {ENABLED, CONFIG, UNLINKED, SHOOT, SHOOTP} from '../src/course/scenes/control.js'
-import {LOOP as LINK_LOOP, BEYOND} from '../src/course/scenes/getlink.js'
-import {FIND, SORT, CACHE} from '../src/course/scenes/radar.js'
-import {TABLE as LOOKUP_TABLE, SCAN as LOOKUP_SCAN} from '../src/course/scenes/lookup.js'
-import {PACK, CHOICE as COLOR_CHOICE, UNPACK} from '../src/course/scenes/color.js'
-import {FULL as RATE_FULL, SLOW as RATE_SLOW, CEILING as RATE_CEILING} from '../src/course/scenes/rate.js'
-import {GUARD, BREAK as LOOP_BREAK, SKIP} from '../src/course/scenes/branching.js'
-import {
-    CYCLE, WATCH as BOUND, NONE as NO_UNITS, REMEMBER, LOST, FOREIGN, KEEP, EVERY
-} from '../src/course/scenes/ubind.js'
-import {
+} = russianScenes(await import('../src/course/scenes/draw.js'))
+const {ENABLED, CONFIG, UNLINKED, SHOOT, SHOOTP} = russianScenes(await import('../src/course/scenes/control.js'))
+const {LOOP: LINK_LOOP, BEYOND} = russianScenes(await import('../src/course/scenes/getlink.js'))
+const {FIND, SORT, CACHE} = russianScenes(await import('../src/course/scenes/radar.js'))
+const {TABLE: LOOKUP_TABLE, SCAN: LOOKUP_SCAN} = russianScenes(await import('../src/course/scenes/lookup.js'))
+const {PACK, CHOICE: COLOR_CHOICE, UNPACK} = russianScenes(await import('../src/course/scenes/color.js'))
+const {FULL: RATE_FULL, SLOW: RATE_SLOW, CEILING: RATE_CEILING} = russianScenes(await import('../src/course/scenes/rate.js'))
+const {GUARD, BREAK: LOOP_BREAK, SKIP} = russianScenes(await import('../src/course/scenes/branching.js'))
+const {
+    CYCLE, WATCH: BOUND, NONE: NO_UNITS, REMEMBER, LOST, FOREIGN, KEEP, EVERY
+} = russianScenes(await import('../src/course/scenes/ubind.js'))
+const {
     MOVE, HALT, ARRIVED, CARRY, FERRY, FLAG, MINE, OWNER, STOLEN, FORGET
-} from '../src/course/scenes/ucontrol.js'
-import {SEEK, ALLY} from '../src/course/scenes/uradar.js'
-import {
-    ORE, LEAD, BUILDINGS as FLAGGED, DAMAGED
-} from '../src/course/scenes/ulocate.js'
-import {
-    PRIVILEGE, FAST, LAYERS, PAINT, ROUNDING as TILE_ROUNDING, TALK, BUSY, RULES, TOUGH
+} = russianScenes(await import('../src/course/scenes/ucontrol.js'))
+const {SEEK, ALLY} = russianScenes(await import('../src/course/scenes/uradar.js'))
+const {
+    ORE, LEAD, BUILDINGS: FLAGGED, DAMAGED
+} = russianScenes(await import('../src/course/scenes/ulocate.js'))
+const {
+    PRIVILEGE, FAST, LAYERS, PAINT, ROUNDING: TILE_ROUNDING, TALK, BUSY, RULES, TOUGH
 , FLAGS, PROPS, FETCH, BOOM, MARKERS, LOCALE, WEATHER, SHOT
-} from '../src/course/scenes/world.js'
-import {AREA, SPAWN as SPAWN_SQUAD, BURN, FROZEN} from '../src/course/scenes/world-units.js'
+} = russianScenes(await import('../src/course/scenes/world.js'))
+const {AREA, SPAWN: SPAWN_SQUAD, BURN, FROZEN} = russianScenes(await import('../src/course/scenes/world-units.js'))
 import iconTable from '@mlog/core/data/icons.json' with {type: 'json'}
 import logicIdsData from '@mlog/core/data/logic-ids.json' with {type: 'json'}
 import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
@@ -80,10 +90,10 @@ function lessonFiles(directory) {
 
     return found
 }
-import {
+const {
     ARITHMETIC, STEPS, INTEGERS, ROUNDING, PRECISION, LOGIC, NEGATION, BITWISE, SHIFTS,
     GEOMETRY, FLOAT, RANDOM, NOISE
-} from '../src/course/scenes/op.js'
+} = russianScenes(await import('../src/course/scenes/op.js'))
 
 const content = createContent(logicIds)
 

@@ -21,9 +21,9 @@ const stand = (program, type) => ({
 
 /** Урок «Скорость процессора»: гиперпроцессор на полном ходу. */
 export const FULL = stand([
-    'set скорость @ipt',
-    'op add итераций итераций 1',
-    'print итераций',
+    'set speed @ipt',
+    'op add loops loops 1',
+    'print loops',
     'printflush message1',
     'end'
 ], 'hyper-processor')
@@ -31,9 +31,9 @@ export const FULL = stand([
 /** Тот же урок: `setrate 1` — один шаг за тик. */
 export const SLOW = stand([
     'setrate 1',
-    'set скорость @ipt',
-    'op add итераций итераций 1',
-    'print итераций',
+    'set speed @ipt',
+    'op add loops loops 1',
+    'print loops',
     'printflush message1',
     'end'
 ], 'hyper-processor')
@@ -41,6 +41,6 @@ export const SLOW = stand([
 /** Тот же урок: выше своего предела процессор не поднимается. */
 export const CEILING = stand([
     'setrate 1000',
-    'set скорость @ipt',
+    'set speed @ipt',
     'stop'
 ], 'micro-processor')

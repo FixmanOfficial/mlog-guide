@@ -35,8 +35,8 @@ function instructionGroups() {
         }))
         .filter(group => group.opcodes.length > 0)
         .map(({category, opcodes}) => ({
-            label: ru.logic.categories[category] ?? category,
-            translations: {en: en.logic.categories[category] ?? category},
+            label: en.logic.categories[category] ?? category,
+            translations: {ru: ru.logic.categories[category] ?? category},
             collapsed: true,
             items: opcodes.map(entry => ({
                 label: entry.opcode,
@@ -54,7 +54,7 @@ function instructionGroups() {
  * пустую категорию незачем.
  */
 function courseParts() {
-    const lessons = fileURLToPath(new URL('src/content/docs/ru/course/', import.meta.url))
+    const lessons = fileURLToPath(new URL('src/content/docs/en/course/', import.meta.url))
 
     /*
      * Группа раскрывается всегда, даже если урок в ней один. Список, где половина пунктов
@@ -62,8 +62,8 @@ function courseParts() {
      * и «End» такие же инструкции, как остальные, и в меню игры стоят с ними в ряд.
      */
     const groupItem = (group) => ({
-        label: group.opcode === undefined ? group.title : instructionName(group.opcode),
-        translations: group.en === undefined ? undefined : {en: group.en},
+        label: group.opcode === undefined ? group.en ?? group.title : instructionName(group.opcode),
+        translations: group.opcode === undefined ? {ru: group.title} : undefined,
         autogenerate: {directory: `course/${group.id}`}
     })
 
@@ -76,8 +76,8 @@ function courseParts() {
         if (groups.length === 0) return null
 
         return {
-            label: ru.logic.categories[entry.category] ?? entry.category,
-            translations: {en: en.logic.categories[entry.category] ?? entry.category},
+            label: en.logic.categories[entry.category] ?? entry.category,
+            translations: {ru: ru.logic.categories[entry.category] ?? entry.category},
             items: groups
         }
     }
@@ -98,7 +98,7 @@ function courseParts() {
              */
             const items = categories.length === 1 ? categories[0].items : categories
 
-            return {label: part.title, translations: {en: part.en}, items}
+            return {label: part.en ?? part.title, translations: {ru: part.title}, items}
         })
         .filter(part => part !== null)
 }
@@ -135,10 +135,10 @@ export default defineConfig({
     integrations: [
         starlight({
             title: 'mlog.guide',
-            defaultLocale: 'ru',
+            defaultLocale: 'en',
             locales: {
-                ru: {label: 'Русский', lang: 'ru'},
-                en: {label: 'English', lang: 'en'}
+                en: {label: 'English', lang: 'en'},
+                ru: {label: 'Русский', lang: 'ru'}
             },
             customCss: ['./src/sandbox/sandbox.css'],
 
@@ -148,7 +148,7 @@ export default defineConfig({
              */
             components: {Sidebar: './src/overrides/Sidebar.astro'},
             sidebar: [
-                {label: 'Песочница', translations: {en: 'Sandbox'}, link: 'sandbox'},
+                {label: 'Sandbox', translations: {ru: 'Песочница'}, link: 'sandbox'},
                 /*
                  * Курс: группа — папка, урок — страница в ней. Имена инструкций
                  * не переводятся, поэтому у большинства групп подпись одна на всех языках.
@@ -160,51 +160,51 @@ export default defineConfig({
                  * тогда же, когда в ней появляется первый урок.
                  */
                 {
-                    label: 'Курс',
-                    translations: {en: 'Course'},
+                    label: 'Course',
+                    translations: {ru: 'Курс'},
                     items: [
                         {
-                            label: 'Все уроки',
-                            translations: {en: 'All lessons'},
+                            label: 'All lessons',
+                            translations: {ru: 'Все уроки'},
                             link: 'course'
                         },
                         ...courseParts()
                     ]
                 },
                 {
-                    label: 'Справочник',
-                    translations: {en: 'Reference'},
+                    label: 'Reference',
+                    translations: {ru: 'Справочник'},
                     items: [
                         {
-                            label: 'Инструкции',
-                            translations: {en: 'Instructions'},
+                            label: 'Instructions',
+                            translations: {ru: 'Инструкции'},
                             items: [
                                 {
-                                    label: 'Все инструкции',
-                                    translations: {en: 'All instructions'},
+                                    label: 'All instructions',
+                                    translations: {ru: 'Все инструкции'},
                                     link: 'reference/instructions'
                                 },
                                 ...instructionGroups()
                             ]
                         },
                         {
-                            label: 'Переменные',
-                            translations: {en: 'Variables'},
+                            label: 'Variables',
+                            translations: {ru: 'Переменные'},
                             link: 'reference/variables'
                         },
                         {
-                            label: 'Свойства sensor',
-                            translations: {en: 'Sensor properties'},
+                            label: 'Sensor properties',
+                            translations: {ru: 'Свойства sensor'},
                             link: 'reference/properties'
                         },
                         {
-                            label: 'Эффекты состояния',
-                            translations: {en: 'Status effects'},
+                            label: 'Status effects',
+                            translations: {ru: 'Эффекты состояния'},
                             link: 'reference/statuses'
                         },
                         {
-                            label: 'Правила игры',
-                            translations: {en: 'Game rules'},
+                            label: 'Game rules',
+                            translations: {ru: 'Правила игры'},
                             link: 'reference/rules'
                         }
                     ]

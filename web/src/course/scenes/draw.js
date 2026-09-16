@@ -62,8 +62,8 @@ export const COLORS = stand([
     'draw rect 20 60 70 70',
     'draw color 60 255 120 128',
     'draw rect 55 90 70 70',
-    'packcolor цвет 0.2 0.5 1 0.6',
-    'draw col цвет',
+    'packcolor colour 0.2 0.5 1 0.6',
+    'draw col colour',
     'draw rect 90 30 70 70',
     'drawflush display1',
     'stop'
@@ -109,15 +109,15 @@ export const TRANSFORM = stand([
 export const OVERFLOW = stand([
     'draw clear 20 20 30',
     'draw color 255 180 60 255',
-    'op mod столбец номер 16',
-    'op idiv строка номер 16',
-    'op mul x столбец 11',
-    'op mul y строка 11',
+    'op mod column index 16',
+    'op idiv row index 16',
+    'op mul x column 11',
+    'op mul y row 11',
     'draw rect x y 9 9',
-    'op add номер номер 1',
-    'jump 2 lessThan номер 256',
+    'op add index index 1',
+    'jump 2 lessThan index 256',
     'drawflush display1',
-    'sensor команд display1 @bufferSize',
+    'sensor commands display1 @bufferSize',
     'stop'
 ], {type: 'hyper-processor'})
 

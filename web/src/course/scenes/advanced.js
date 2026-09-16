@@ -12,10 +12,10 @@ export const COUNTER = {
         at: [3, 2],
         links: [],
         program: [
-            'set куда 3',
-            'set @counter куда',
-            'set пропущено 1',
-            'set дошли 1',
+            'set target 3',
+            'set @counter target',
+            'set skipped 1',
+            'set reached 1',
             'end'
         ].join('\n')
     }]
@@ -34,11 +34,11 @@ export const RELATIVE = {
         at: [3, 2],
         links: [],
         program: [
-            'set шаг 2',
-            'op add @counter @counter шаг',
-            'set первая 1',
-            'set вторая 1',
-            'set третья 1'
+            'set step 2',
+            'op add @counter @counter step',
+            'set firstOne 1',
+            'set secondOne 1',
+            'set thirdOne 1'
         ].join('\n')
     }]
 }
@@ -56,13 +56,13 @@ export const PRECISE = {
         at: [3, 2],
         links: [],
         program: [
-            'op shl сОдной 1 52',
-            'op or сОдной сОдной 1',
-            'op shl безЕдиницы 1 53',
-            'op or безЕдиницы безЕдиницы 1',
-            'op sub проверка безЕдиницы 9007199254740992',
-            'op add дробь 0.1 0.2',
-            'op sub ошибка дробь 0.3',
+            'op shl withOne 1 52',
+            'op or withOne withOne 1',
+            'op shl lostBit 1 53',
+            'op or lostBit lostBit 1',
+            'op sub check lostBit 9007199254740992',
+            'op add fraction 0.1 0.2',
+            'op sub failure fraction 0.3',
             'stop'
         ].join('\n')
     }]
@@ -77,11 +77,11 @@ export const LABELS = {
         at: [3, 2],
         links: [],
         program: [
-            'set счёт 0',
-            'снова:',
-            'op add счёт счёт 1',
-            'jump снова lessThan счёт 5',
-            'set готово 1',
+            'set count 0',
+            'again:',
+            'op add count count 1',
+            'jump again lessThan count 5',
+            'set ready 1',
             'stop'
         ].join('\n')
     }]
@@ -95,11 +95,11 @@ export const CLOCK = {
         at: [2, 3],
         links: [],
         program: [
-            'set миллисекунды @time',
-            'set тики @tick',
-            'set секунды @second',
-            'set минуты @minute',
-            'op idiv изТиков тики 60'
+            'set millis @time',
+            'set ticks @tick',
+            'set seconds @second',
+            'set minutes @minute',
+            'op idiv fromTicks ticks 60'
         ].join('\n')
     }]
 }
@@ -112,17 +112,17 @@ export const TIMER = {
         at: [2, 3],
         links: [],
         program: [
-            'jump 4 lessThan @second срок',
-            'op add срок @second 2',
-            'op add сработало сработало 1',
+            'jump 4 lessThan @second deadline',
+            'op add deadline @second 2',
+            'op add fired fired 1',
             'end',
-            'op add холостых холостых 1',
+            'op add idle idle 1',
             'end'
         ].join('\n')
     }]
 }
 
-/** Урок «Сколько стоит инструкция»: круг из трёх строк на скорости 25. */
+/** Урок «Сколько стоит инструкция»: итерация из трёх строк на скорости 25. */
 export const COST = {
     width: 12, height: 7, floor: 'sand-floor',
     blocks: [{type: 'hyper-processor', x: 2, y: 3}],
@@ -130,9 +130,9 @@ export const COST = {
         at: [2, 3],
         links: [],
         program: [
-            'op add итераций итераций 1',
-            'set скорость @ipt',
-            'op div итерацийЗаТик итераций @tick'
+            'op add loops loops 1',
+            'set speed @ipt',
+            'op div loopsPerTick loops @tick'
         ].join('\n')
     }]
 }
@@ -147,10 +147,10 @@ export const PACKED = {
         program: [
             'set x 37',
             'set y 12',
-            'op mul упаковано x 1000',
-            'op add упаковано упаковано y',
-            'op idiv обратноX упаковано 1000',
-            'op mod обратноY упаковано 1000',
+            'op mul packed x 1000',
+            'op add packed packed y',
+            'op idiv backX packed 1000',
+            'op mod backY packed 1000',
             'stop'
         ].join('\n')
     }]
@@ -171,22 +171,22 @@ export const CREW = {
             at: [2, 7],
             links: ['cell1', 'container1'],
             program: [
-                'sensor меди container1 @copper',
-                'sensor свинца container1 @lead',
-                'write меди cell1 0',
-                'write свинца cell1 1',
-                'op add снимков снимков 1'
+                'sensor copperLeft container1 @copper',
+                'sensor leadLeft container1 @lead',
+                'write copperLeft cell1 0',
+                'write leadLeft cell1 1',
+                'op add samples samples 1'
             ].join('\n')
         },
         {
             at: [2, 3],
             links: ['cell1', 'message1'],
             program: [
-                'read меди cell1 0',
-                'read свинца cell1 1',
-                'op add всего меди свинца',
-                'print "всего "',
-                'print всего',
+                'read copperLeft cell1 0',
+                'read leadLeft cell1 1',
+                'op add everything copperLeft leadLeft',
+                'print "all "',
+                'print everything',
                 'printflush message1'
             ].join('\n')
         }
@@ -201,14 +201,14 @@ export const EDGE = {
         at: [2, 3],
         links: [],
         program: [
-            'op add почти 0.1 0.2',
-            'op equal сДопуском почти 0.3',
-            'op strictEqual строго почти 0.3',
-            'op div наНоль 5 0',
-            'op equal пустоеРавноНулю null 0',
-            'op strictEqual пустоеСтрого null 0',
-            'op equal медьРавнаМеди @copper @copper',
-            'op equal медьРавнаСвинцу @copper @lead',
+            'op add almost 0.1 0.2',
+            'op equal withEpsilon almost 0.3',
+            'op strictEqual strict almost 0.3',
+            'op div byZero 5 0',
+            'op equal blankIsZero null 0',
+            'op strictEqual blankStrictly null 0',
+            'op equal copperIsCopper @copper @copper',
+            'op equal copperIsLead @copper @lead',
             'stop'
         ].join('\n')
     }]

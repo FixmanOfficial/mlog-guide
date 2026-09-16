@@ -15,15 +15,15 @@ export const GUARD = {
         at: [3, 2],
         links: [],
         program: [
-            'set включено 1',
-            'set запас 40',
-            'jump 8 equal включено 0',
-            'jump 8 lessThan запас 10',
-            'set выдать 5',
-            'op sub запас запас выдать',
-            'set сделано 1',
+            'set on 1',
+            'set stock 40',
+            'jump 8 equal on 0',
+            'jump 8 lessThan stock 10',
+            'set give 5',
+            'op sub stock stock give',
+            'set done 1',
             'stop',
-            'set сделано 0'
+            'set done 0'
         ].join('\n')
     }]
 }
@@ -39,14 +39,14 @@ export const BREAK = {
         at: [2, 3],
         links: ['cell1'],
         program: [
-            'set адрес 0',
-            'read значение cell1 адрес',
-            'jump 7 notEqual значение 0',
-            'op add адрес адрес 1',
-            'jump 1 lessThan адрес 64',
-            'set найдено -1',
+            'set address 0',
+            'read value cell1 address',
+            'jump 7 notEqual value 0',
+            'op add address address 1',
+            'jump 1 lessThan address 64',
+            'set wasFound -1',
             'stop',
-            'set найдено адрес',
+            'set wasFound address',
             'stop'
         ].join('\n')
     }]
@@ -60,12 +60,12 @@ export const SKIP = {
         at: [3, 2],
         links: [],
         program: [
-            'set счёт 0',
-            'op mod остаток счёт 2',
-            'jump 4 notEqual остаток 0',
-            'op add итог итог счёт',
-            'op add счёт счёт 1',
-            'jump 1 lessThan счёт 10',
+            'set count 0',
+            'op mod rest count 2',
+            'jump 4 notEqual rest 0',
+            'op add total total count',
+            'op add count count 1',
+            'jump 1 lessThan count 10',
             'stop'
         ].join('\n')
     }]

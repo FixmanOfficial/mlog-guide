@@ -20,10 +20,10 @@ export const ENABLED = {
         at: [1, 6],
         links: ['drill1', 'container1'],
         program: [
-            'sensor медь container1 @copper',
-            'op lessThan мало медь 100',
-            'control enabled drill1 мало',
-            'sensor работает drill1 @enabled'
+            'sensor copper container1 @copper',
+            'op lessThan low copper 100',
+            'control enabled drill1 low',
+            'sensor running drill1 @enabled'
         ].join('\n')
     }]
 }
@@ -40,11 +40,11 @@ export const CONFIG = {
         at: [1, 6],
         links: ['sorter1', 'container1'],
         program: [
-            'sensor меди container1 @copper',
-            'sensor свинца container1 @lead',
-            'select предмет lessThan меди свинца @copper @lead',
-            'control config sorter1 предмет',
-            'sensor настройка sorter1 @config'
+            'sensor copperLeft container1 @copper',
+            'sensor leadLeft container1 @lead',
+            'select item lessThan copperLeft leadLeft @copper @lead',
+            'control config sorter1 item',
+            'sensor setting sorter1 @config'
         ].join('\n')
     }]
 }
@@ -70,11 +70,11 @@ export const UNLINKED = {
             at: [1, 6],
             links: ['processor2', 'drill1'],
             program: [
-                'read чужой processor2 "drill2"',
+                'read theirs processor2 "drill2"',
                 'control enabled drill1 0',
-                'control enabled чужой 0',
-                'sensor свойРаботает drill1 @enabled',
-                'sensor чужойРаботает чужой @enabled'
+                'control enabled theirs 0',
+                'sensor mineRuns drill1 @enabled',
+                'sensor theirsRuns theirs @enabled'
             ].join('\n')
         },
         {
@@ -104,9 +104,9 @@ export const SHOOT = {
         links: ['duo1', 'container1'],
         program: [
             'control shoot duo1 13 4 1',
-            'sensor стреляет duo1 @shooting',
-            'sensor патронов duo1 @ammo',
-            'sensor поворот duo1 @rotation'
+            'sensor shooting duo1 @shooting',
+            'sensor ammo duo1 @ammo',
+            'sensor facing duo1 @rotation'
         ].join('\n')
     }]
 }
@@ -123,10 +123,10 @@ export const SHOOTP = {
         at: [1, 4],
         links: ['duo1'],
         program: [
-            'radar enemy any any distance duo1 1 цель',
-            'control shootp duo1 цель 1',
-            'sensor стреляет duo1 @shooting',
-            'sensor патронов duo1 @ammo'
+            'radar enemy any any distance duo1 1 aim',
+            'control shootp duo1 aim 1',
+            'sensor shooting duo1 @shooting',
+            'sensor ammo duo1 @ammo'
         ].join('\n')
     }]
 }

@@ -13,11 +13,11 @@ export const BRANCH = {
         at: [3, 2],
         links: [],
         program: [
-            'set запас 7',
-            'jump 4 greaterThanEq запас 10',
-            'set мало 1',
+            'set stock 7',
+            'jump 4 greaterThanEq stock 10',
+            'set low 1',
             'end',
-            'set мало 0'
+            'set low 0'
         ].join('\n')
     }]
 }
@@ -30,11 +30,11 @@ export const LOOP = {
         at: [3, 2],
         links: [],
         program: [
-            'set счёт 0',
-            'set итог 0',
-            'op add итог итог счёт',
-            'op add счёт счёт 1',
-            'jump 2 lessThan счёт 5',
+            'set count 0',
+            'set total 0',
+            'op add total total count',
+            'op add count count 1',
+            'jump 2 lessThan count 5',
             'end'
         ].join('\n')
     }]

@@ -21,7 +21,7 @@ import {LEVELS, LEVEL_ORDER} from './levels.js'
 import LessonList from './LessonList.astro'
 import './course.css'
 
-const {locale = 'ru'} = Astro.props
+const {locale = 'en'} = Astro.props
 
 /** Названия категорий берём из переводов игры: в меню «Добавить» они ровно такие. */
 const bundle = locale === 'ru' ? ru : en

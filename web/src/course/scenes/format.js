@@ -16,9 +16,9 @@ export const TEMPLATE = {
         at: [2, 3],
         links: ['container1', 'message1'],
         program: [
-            'sensor медь container1 @copper',
-            'print "меди {0} из {1}"',
-            'format медь',
+            'sensor copper container1 @copper',
+            'print "copper {0} of {1}"',
+            'format copper',
             'format 300',
             'printflush message1',
             'wait 0.5'
@@ -38,10 +38,10 @@ export const CHARS = {
         at: [2, 3],
         links: ['container1', 'message1'],
         program: [
-            'sensor медь container1 @copper',
+            'sensor copper container1 @copper',
             'printchar @copper',
             'print " "',
-            'print медь',
+            'print copper',
             'printchar 32',
             'printchar 8593',
             'printflush message1',

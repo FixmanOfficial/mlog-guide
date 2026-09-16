@@ -24,13 +24,13 @@ export const CELLS = {
         at: [2, 3],
         links: ['cell1', 'message1'],
         program: [
-            'read запас cell1 0',
-            'read расход cell1 1',
-            'read предел cell1 2',
-            'print "запас "',
-            'print запас',
-            'print " из "',
-            'print предел',
+            'read stock cell1 0',
+            'read spend cell1 1',
+            'read limit cell1 2',
+            'print "stock "',
+            'print stock',
+            'print " of "',
+            'print limit',
             'printflush message1'
         ].join('\n')
     }]
@@ -52,11 +52,11 @@ export const BOUNDS = {
         at: [2, 3],
         links: ['cell1'],
         program: [
-            'read дробный cell1 1.9',
-            'read пустое cell1 7',
-            'read заГраницей cell1 64',
-            'read отрицательный cell1 -1',
-            'sensor мест cell1 @memoryCapacity'
+            'read fractional cell1 1.9',
+            'read blank cell1 7',
+            'read pastEnd cell1 64',
+            'read negative cell1 -1',
+            'sensor slots cell1 @memoryCapacity'
         ].join('\n')
     }]
 }
@@ -73,11 +73,11 @@ export const STORE = {
         at: [2, 3],
         links: ['cell1', 'message1'],
         program: [
-            'read итераций cell1 0',
-            'op add итераций итераций 1',
-            'write итераций cell1 0',
-            'print "итераций: "',
-            'print итераций',
+            'read loops cell1 0',
+            'op add loops loops 1',
+            'write loops cell1 0',
+            'print "loops: "',
+            'print loops',
             'printflush message1',
             'wait 0.5'
         ].join('\n')
@@ -104,12 +104,12 @@ export const OBJECTS = {
         program: [
             'write @copper cell1 0',
             'write container1 cell1 1',
-            'read предмет cell1 0',
-            'read склад cell1 1',
-            'sensor сколько склад предмет',
-            'print предмет',
+            'read item cell1 0',
+            'read store cell1 1',
+            'sensor amount store item',
+            'print item',
             'print ": "',
-            'print сколько',
+            'print amount',
             'printflush message1'
         ].join('\n')
     }]
@@ -135,17 +135,17 @@ export const SHARED = {
             at: [2, 5],
             links: ['cell1', 'container1'],
             program: [
-                'sensor медь container1 @copper',
-                'write медь cell1 0'
+                'sensor copper container1 @copper',
+                'write copper cell1 0'
             ].join('\n')
         },
         {
             at: [2, 2],
             links: ['cell1', 'message1'],
             program: [
-                'read медь cell1 0',
-                'print "на складе "',
-                'print медь',
+                'read copper cell1 0',
+                'print "in store "',
+                'print copper',
                 'printflush message1'
             ].join('\n')
         }
@@ -172,13 +172,13 @@ export const NEIGHBOUR = {
             at: [2, 2],
             links: ['processor1', 'message1'],
             program: [
-                'read итераций processor1 "итераций"',
-                'read чужойСклад processor1 "container1"',
-                'sensor медь чужойСклад @copper',
-                'print "итераций "',
-                'print итераций',
-                'print ", меди "',
-                'print медь',
+                'read loops processor1 "loops"',
+                'read enemyStore processor1 "container1"',
+                'sensor copper enemyStore @copper',
+                'print "loops "',
+                'print loops',
+                'print ", copper "',
+                'print copper',
                 'printflush message1'
             ].join('\n')
         },
@@ -186,7 +186,7 @@ export const NEIGHBOUR = {
             at: [2, 5],
             links: ['container1'],
             program: [
-                'op add итераций итераций 1',
+                'op add loops loops 1',
                 'wait 0.25'
             ].join('\n')
         }
@@ -209,10 +209,10 @@ export const LETTERS = {
         at: [2, 3],
         links: ['message1'],
         program: [
-            'read код "mlog" номер',
-            'printchar код',
-            'op add номер номер 1',
-            'jump 0 lessThan номер 4',
+            'read code "mlog" index',
+            'printchar code',
+            'op add index index 1',
+            'jump 0 lessThan index 4',
             'printflush message1',
             'stop'
         ].join('\n')
@@ -222,7 +222,7 @@ export const LETTERS = {
 /**
  * Урок «Переменные соседа»: команда пишется прямо в переменную соседа.
  *
- * Нижний процессор ставит верхнему `нужен` в единицу, тот по ней включает работу и сам же
+ * Нижний процессор ставит верхнему `needed` в единицу, тот по ней включает работу и сам же
  * сбрасывает признак обратно — так выглядит уговор «писать к себе, читать у других»,
  * нарушенный ради одной короткой команды.
  */
@@ -238,7 +238,7 @@ export const COMMAND = {
             at: [2, 2],
             links: ['processor1'],
             program: [
-                'write 1 processor1 "нужен"',
+                'write 1 processor1 "needed"',
                 'wait 1'
             ].join('\n')
         },
@@ -246,11 +246,11 @@ export const COMMAND = {
             at: [2, 5],
             links: ['message1'],
             program: [
-                'jump 0 equal нужен 0',
-                'op add сделано сделано 1',
-                'set нужен 0',
-                'print "сделано "',
-                'print сделано',
+                'jump 0 equal needed 0',
+                'op add done done 1',
+                'set needed 0',
+                'print "done "',
+                'print done',
                 'printflush message1'
             ].join('\n')
         }

@@ -8,16 +8,16 @@
  * считала, что сервер так и не поднялся. Страница отвечает 200 и уводит сама — заодно
  * выбирая язык по браузеру, чего перенаправление в конфиге не умело.
  */
-const LOCALES = ['ru', 'en']
+const LOCALES = ['en', 'ru']
 ---
 
-<html lang="ru">
+<html lang="en">
     <head>
         <meta charset="utf-8" />
         <title>mlog.guide</title>
 
-        <!-- Без JS: уходим на русскую версию через полсекунды -->
-        <meta http-equiv="refresh" content="0.5; url=/ru/" />
+        <!-- Без JS: уходим на английскую версию через полсекунды -->
+        <meta http-equiv="refresh" content="0.5; url=/en/" />
 
         <style>
             body {
@@ -40,12 +40,12 @@ const LOCALES = ['ru', 'en']
         {LOCALES.map(locale => <a href={`/${locale}/`}>{locale}</a>)}
 
         <script is:inline>
-            // Язык браузера, а не наш выбор: сайт двуязычный, и корень ничей
-            const wanted = (navigator.languages ?? [navigator.language ?? 'ru'])
+            // Язык браузера, а не наш выбор; кто не русский и не английский — на английский
+            const wanted = (navigator.languages ?? [navigator.language ?? 'en'])
                 .map(tag => tag.slice(0, 2))
                 .find(tag => tag === 'ru' || tag === 'en')
 
-            location.replace(`/${wanted ?? 'ru'}/`)
+            location.replace(`/${wanted ?? 'en'}/`)
         </script>
     </body>
 </html>

@@ -17,10 +17,10 @@ export const BUFFER = {
         at: [2, 2],
         links: ['container1'],
         program: [
-            'sensor медь container1 @copper',
-            'print "меди: "',
-            'print медь',
-            'print " из "',
+            'sensor copper container1 @copper',
+            'print "copper: "',
+            'print copper',
+            'print " of "',
             'print 300'
         ].join('\n')
     }]
@@ -41,7 +41,7 @@ export const PIECES = {
             'print " "',
             'print container1',
             'print " "',
-            'print пусто',
+            'print empty',
             'print " "',
             'print 0.5'
         ].join('\n')
@@ -60,9 +60,9 @@ export const FLUSH = {
         at: [2, 3],
         links: ['container1', 'message1'],
         program: [
-            'sensor медь container1 @copper',
-            'print "меди: "',
-            'print медь',
+            'sensor copper container1 @copper',
+            'print "copper: "',
+            'print copper',
             'printflush message1',
             'wait 0.5'
         ].join('\n')

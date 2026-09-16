@@ -25,14 +25,14 @@ export const FIND = {
         at: [1, 5],
         links: ['duo1', 'message1'],
         program: [
-            'radar enemy any any distance duo1 1 ближний',
-            'radar enemy flying any distance duo1 1 летящий',
-            'radar ally any any distance duo1 1 свой',
-            'print ближний',
+            'radar enemy any any distance duo1 1 near',
+            'radar enemy flying any distance duo1 1 flying',
+            'radar ally any any distance duo1 1 mine',
+            'print near',
             'print " "',
-            'print летящий',
+            'print flying',
             'print " "',
-            'print свой',
+            'print mine',
             'printflush message1',
             'stop'
         ].join('\n')
@@ -59,12 +59,12 @@ export const SORT = {
         at: [1, 5],
         links: ['duo1'],
         program: [
-            'radar enemy any any distance duo1 1 ближний',
-            'radar enemy any any distance duo1 0 дальний',
-            'radar enemy any any health duo1 1 живучий',
-            'radar enemy any any health duo1 0 слабый',
-            'sensor ближнееЗдоровье ближний @health',
-            'sensor слабоеЗдоровье слабый @health',
+            'radar enemy any any distance duo1 1 near',
+            'radar enemy any any distance duo1 0 far',
+            'radar enemy any any health duo1 1 tough',
+            'radar enemy any any health duo1 0 weakest',
+            'sensor nearHealth near @health',
+            'sensor weakHealth weakest @health',
             'stop'
         ].join('\n')
     }]
@@ -87,10 +87,10 @@ export const CACHE = {
         at: [1, 5],
         links: ['duo1'],
         program: [
-            'radar enemy any any distance duo1 1 цель',
-            'control shootp duo1 цель 1',
-            'sensor мёртв цель @dead',
-            'op add итераций итераций 1'
+            'radar enemy any any distance duo1 1 aim',
+            'control shootp duo1 aim 1',
+            'sensor dead aim @dead',
+            'op add loops loops 1'
         ].join('\n')
     }]
 }

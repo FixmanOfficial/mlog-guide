@@ -70,31 +70,68 @@ test('каждая группа уроков лежит в какой-нибуд
 
 test('словарь имён покрывает все сцены курса', async () => {
     /*
-     * Английская страница показывает ту же сцену с переписанными именами. Слово, которого
-     * нет в словаре, приехало бы в английский пример по-русски — и заметить это можно было
+     * Русская страница показывает ту же сцену с переписанными именами. Имя, которого
+     * нет в словаре, приехало бы в русский пример по-английски — и заметить это можно было
      * бы только глазами, на одной странице из ста двадцати.
+     *
+     * Короткие латинские имена остаются латинскими и в русской версии: `x`, `dx`, `a` —
+     * так их пишут и по-русски. Список закрыт: новое такое имя — осознанное решение.
      */
-    const {english} = await import('../src/course/scenes/translate.js')
+    const {russian} = await import('../src/course/scenes/translate.js')
+    const LATIN = ['a', 'b', 'dx', 'dy', 'x', 'y']
 
     const folder = fileURLToPath(new URL('../src/course/scenes/', import.meta.url))
     const missing = new Set()
     let scenes = 0
 
-    for (const file of readdirSync(folder)) {
-        if (!file.endsWith('.js') || file === 'translate.js' || file === 'names.en.js') continue
+    const modules = readdirSync(folder)
+        .filter(file => file.endsWith('.js') && file !== 'translate.js' && !file.startsWith('names'))
+        .map(file => new URL(`../src/course/scenes/${file}`, import.meta.url))
 
-        const module = await import(new URL(`../src/course/scenes/${file}`, import.meta.url))
+    modules.push(new URL('../src/sandbox/scenes/sandbox.js', import.meta.url))
 
-        for (const value of Object.values(module)) {
+    for (const url of modules) {
+        for (const value of Object.values(await import(url))) {
             if (value !== null && typeof value === 'object') {
-                english(value, missing)
+                russian(value, missing)
                 scenes++
             }
         }
     }
 
     assert.ok(scenes > 100, `сцен нашлось ${scenes}`)
-    assert.deepEqual([...missing], [], 'слова без перевода')
+    assert.deepEqual([...missing].filter(name => !LATIN.includes(name)).sort(), [],
+        'имена без перевода')
+})
+
+test('перевод сцены не трогает слова языка', async () => {
+    /*
+     * Английское имя бывает и словом mlog: `floor` — это и переменная, и операция.
+     * Переписываются только поля, где инструкция ждёт значение.
+     */
+    const {russian} = await import('../src/course/scenes/translate.js')
+    const scene = {processors: [{program: [
+        'op floor floor floor',
+        'lookup item item 0',
+        'makemarker text 0 1 1 true',
+        'jump again always item 0',
+        'again:',
+        'print "copper"'
+    ].join('\n')}], blocks: [{type: 'container', items: {copper: 5}}]}
+
+    const {NAMES, STRINGS} = await import('../src/course/scenes/names.ru.js')
+    const result = russian(scene)
+
+    assert.deepEqual(result.processors[0].program.split('\n'), [
+        `op floor ${NAMES.floor} ${NAMES.floor}`,
+        `lookup item ${NAMES.item} 0`,
+        'makemarker text 0 1 1 true',
+        `jump ${NAMES.again} always ${NAMES.item} 0`,
+        NAMES['again:'],
+        `print "${STRINGS.copper}"`
+    ])
+    // Запасы контейнера — имя предмета, а не текст
+    assert.deepEqual(result.blocks[0].items, {copper: 5})
 })
 
 test('имя переменной и строка с тем же словом переводятся одинаково', async () => {
@@ -103,7 +140,7 @@ test('имя переменной и строка с тем же словом п
      * строку иначе, чем само имя, — и английский пример стал бы писать в переменную,
      * которой нет. Программа при этом не сломается, просто молча ничего не сделает.
      */
-    const {NAMES, STRINGS} = await import('../src/course/scenes/names.en.js')
+    const {NAMES, STRINGS} = await import('../src/course/scenes/names.ru.js')
 
     for (const [russian, asString] of Object.entries(STRINGS)) {
         const asName = NAMES[russian]

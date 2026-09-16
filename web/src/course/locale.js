@@ -5,4 +5,4 @@
  * значило бы однажды забыть. Адрес страницы язык уже знает — `/ru/...` и `/en/...`, —
  * и он же решает, на каком языке её собрали.
  */
-export const localeOf = (url) => url?.pathname?.startsWith('/en/') === true ? 'en' : 'ru'
+export const localeOf = (url) => url?.pathname?.startsWith('/ru/') === true ? 'ru' : 'en'

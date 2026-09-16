@@ -53,7 +53,7 @@ export const ARRIVED = {
         program: [
             'ubind @poly',
             'ucontrol move 16 4 0 0 0',
-            'ucontrol within 16 4 2 прибыл 0',
+            'ucontrol within 16 4 2 arrived 0',
             'sensor x @unit @x'
         ].join('\n')
     }]
@@ -74,9 +74,9 @@ export const CARRY = {
         program: [
             'ubind @poly',
             'ucontrol itemTake container1 @copper 10 0 0',
-            'sensor груз @unit @totalItems',
-            'sensor чего @unit @firstItem',
-            'sensor вСкладе container1 @copper'
+            'sensor cargo @unit @totalItems',
+            'sensor what @unit @firstItem',
+            'sensor inStore container1 @copper'
         ].join('\n')
     }]
 }
@@ -95,12 +95,12 @@ export const FLAG = {
         links: [],
         program: [
             'ubind @poly',
-            'sensor метка @unit @flag',
-            'jump 6 notEqual метка 0',
-            'op add последний последний 1',
-            'ucontrol flag последний 0 0 0 0',
+            'sensor tag @unit @flag',
+            'jump 6 notEqual tag 0',
+            'op add lastTag lastTag 1',
+            'ucontrol flag lastTag 0 0 0 0',
             'end',
-            'op add помечено помечено 1',
+            'op add tagged tagged 1',
             'end'
         ].join('\n')
     }]
@@ -118,9 +118,9 @@ export const MINE = {
         program: [
             'ubind @mono',
             'ucontrol mine 9 4 0 0 0',
-            'sensor груз @unit @totalItems',
-            'sensor чего @unit @firstItem',
-            'sensor копает @unit @mining'
+            'sensor cargo @unit @totalItems',
+            'sensor what @unit @firstItem',
+            'sensor mining @unit @mining'
         ].join('\n')
     }]
 }
@@ -139,14 +139,14 @@ export const FERRY = {
         links: ['container1', 'container2'],
         program: [
             'ubind @poly',
-            'sensor груз @unit @totalItems',
-            'jump 6 greaterThanEq груз 30',
+            'sensor cargo @unit @totalItems',
+            'jump 6 greaterThanEq cargo 30',
             'ucontrol move 5 4 0 0 0',
             'ucontrol itemTake container1 @copper 30 0 0',
             'end',
             'ucontrol move 15 4 0 0 0',
             'ucontrol itemDrop container2 30 0 0 0',
-            'sensor привезено container2 @copper'
+            'sensor delivered container2 @copper'
         ].join('\n')
     }]
 }
@@ -171,8 +171,8 @@ export const OWNER = {
             program: [
                 'ubind @poly',
                 'ucontrol move 16 6 0 0 0',
-                'sensor кто @unit @controller',
-                'op equal мой кто @this'
+                'sensor who @unit @controller',
+                'op equal own who @this'
             ].join('\n')
         },
         {
@@ -180,9 +180,9 @@ export const OWNER = {
             links: [],
             program: [
                 'ubind @poly',
-                'sensor кто @unit @controller',
-                'op equal мой кто @this',
-                'sensor кем @unit @controlled'
+                'sensor who @unit @controller',
+                'op equal own who @this',
+                'sensor ctrl @unit @controlled'
             ].join('\n')
         }
     ]
@@ -208,8 +208,8 @@ export const STOLEN = {
             program: [
                 'ubind @poly',
                 'ucontrol move 18 10 0 0 0',
-                'sensor кто @unit @controller',
-                'op equal мой кто @this'
+                'sensor who @unit @controller',
+                'op equal own who @this'
             ].join('\n')
         },
         {
@@ -218,8 +218,8 @@ export const STOLEN = {
             program: [
                 'ubind @poly',
                 'ucontrol move 18 2 0 0 0',
-                'sensor кто @unit @controller',
-                'op equal мой кто @this'
+                'sensor who @unit @controller',
+                'op equal own who @this'
             ].join('\n')
         }
     ]
@@ -241,12 +241,12 @@ export const FORGET = {
         links: [],
         program: [
             'ubind @poly',
-            'jump 3 notEqual отдал 0',
+            'jump 3 notEqual ordered 0',
             'ucontrol move 16 6 0 0 0',
-            'set отдал 1',
-            'sensor кем @unit @controlled',
-            'sensor кто @unit @controller',
-            'op equal мой кто @this'
+            'set ordered 1',
+            'sensor ctrl @unit @controlled',
+            'sensor who @unit @controller',
+            'op equal own who @this'
         ].join('\n')
     }]
 }

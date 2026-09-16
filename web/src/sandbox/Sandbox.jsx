@@ -116,14 +116,14 @@ const speedLabel = (power) => power >= 0 ? `×${2 ** power}` : `×1/${2 ** -powe
  *                 урок слушает событие, а проп остаётся для программного вызова
  */
 export function Sandbox({allow = {}, scene: description = undefined,
-    storage = null, onDone = null, locale = 'ru'} = {}) {
+    storage = null, onDone = null, locale = 'en'} = {}) {
     const rights = permissions(allow)
 
     /*
      * Язык надписей редактора — общий на модуль, как настройка в игре. Ставится до первой
      * отрисовки, а не эффектом: разметка приходит с сервера уже с подписями.
      */
-    useNameBundle(locale === 'en' ? bundleEn : bundleRu)
+    useNameBundle(locale === 'ru' ? bundleRu : bundleEn)
 
     const text = strings(locale)
 

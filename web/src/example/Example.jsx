@@ -178,13 +178,13 @@ function nextIndex(processor) {
  *              не переводит — она приходит уже переведённой из `Example.astro`
  */
 export function Example({scene: description, world = true, tick = 0, allow = true,
-    buffer = false, locale = 'ru'}) {
+    buffer = false, locale = 'en'}) {
     /*
      * Язык надписей редактора — общий на модуль, как настройка в игре. Ставится до первой
      * отрисовки, а не эффектом: разметка приходит с сервера уже с подписями, и разойдись
      * они с первой отрисовкой в браузере, подписи остались бы серверными.
      */
-    useNameBundle(locale === 'en' ? bundleEn : bundleRu)
+    useNameBundle(locale === 'ru' ? bundleRu : bundleEn)
 
 
     const canvas = useRef(null)

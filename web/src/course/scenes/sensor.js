@@ -17,10 +17,10 @@ export const BUILDINGS = {
         at: [2, 2],
         links: ['container1'],
         program: [
-            'sensor всего container1 @totalItems',
-            'sensor предел container1 @itemCapacity',
-            'sensor здоровье container1 @health',
-            'sensor тип container1 @type'
+            'sensor everything container1 @totalItems',
+            'sensor limit container1 @itemCapacity',
+            'sensor health container1 @health',
+            'sensor kind container1 @type'
         ].join('\n')
     }]
 }
@@ -36,10 +36,10 @@ export const ITEMS = {
         at: [2, 2],
         links: ['vault1'],
         program: [
-            'sensor медь vault1 @copper',
-            'sensor кремний vault1 @silicon',
-            'sensor вода vault1 @water',
-            'sensor первый vault1 @firstItem'
+            'sensor copper vault1 @copper',
+            'sensor silicon vault1 @silicon',
+            'sensor water vault1 @water',
+            'sensor first vault1 @firstItem'
         ].join('\n')
     }]
 }
@@ -56,9 +56,9 @@ export const UNITS = {
             'ubind @poly',
             'sensor x @unit @x',
             'sensor y @unit @y',
-            'sensor здоровье @unit @health',
-            'sensor тип @unit @type',
-            'sensor летит @unit @flying'
+            'sensor health @unit @health',
+            'sensor kind @unit @type',
+            'sensor flies @unit @flying'
         ].join('\n')
     }]
 }
@@ -76,10 +76,10 @@ export const HOLDERS = {
         at: [2, 2],
         links: ['duo1', 'router1', 'cell1'],
         program: [
-            'sensor полное @duo @health',
-            'sensor текущее duo1 @health',
-            'sensor памятьЯчейки cell1 @memoryCapacity',
-            'sensor памятьМаршрута router1 @memoryCapacity'
+            'sensor full @duo @health',
+            'sensor current duo1 @health',
+            'sensor cellSize cell1 @memoryCapacity',
+            'sensor routerSize router1 @memoryCapacity'
         ].join('\n')
     }]
 }

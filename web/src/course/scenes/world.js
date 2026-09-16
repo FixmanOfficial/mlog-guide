@@ -21,8 +21,8 @@ export const PRIVILEGE = {
             links: [],
             program: [
                 'setblock block @router 8 7 @sharded 0',
-                'getblock block поставил 8 7',
-                'set скорость @ipt',
+                'getblock block placed 8 7',
+                'set speed @ipt',
                 'stop'
             ].join('\n')
         },
@@ -31,7 +31,7 @@ export const PRIVILEGE = {
             links: [],
             program: [
                 'setblock block @router 8 2 @sharded 0',
-                'set скорость @ipt',
+                'set speed @ipt',
                 'stop'
             ].join('\n')
         }
@@ -46,9 +46,9 @@ export const FAST = {
         at: [2, 4],
         links: [],
         program: [
-            'set обычная @ipt',
+            'set plain @ipt',
             'setrate 1000',
-            'set разогнанная @ipt',
+            'set boosted @ipt',
             'stop'
         ].join('\n')
     }]
@@ -70,13 +70,13 @@ export const LAYERS = {
         at: [2, 7],
         links: [],
         program: [
-            'getblock floor пол 6 4',
-            'getblock ore руда 9 4',
-            'getblock block стена 12 4',
-            'getblock block блок 6 7',
-            'getblock building здание 6 7',
-            'getblock block пусто 14 2',
-            'getblock ore безРуды 2 2',
+            'getblock floor floor 6 4',
+            'getblock ore ore 9 4',
+            'getblock block wall 12 4',
+            'getblock block block 6 7',
+            'getblock building building 6 7',
+            'getblock block empty 14 2',
+            'getblock ore noOre 2 2',
             'stop'
         ].join('\n')
     }]
@@ -97,10 +97,10 @@ export const PAINT = {
             'setblock ore @ore-titanium 6 4 @sharded 0',
             'setblock block @copper-wall 8 4 @sharded 0',
             'setblock block @air 12 4 @sharded 0',
-            'getblock floor пол 6 4',
-            'getblock ore руда 6 4',
-            'getblock block стена 8 4',
-            'getblock block снесли 12 4',
+            'getblock floor floor 6 4',
+            'getblock ore ore 6 4',
+            'getblock block wall 8 4',
+            'getblock block removed 12 4',
             'stop'
         ].join('\n')
     }]
@@ -115,8 +115,8 @@ export const ROUNDING = {
         links: [],
         program: [
             'setblock block @copper-wall 7.9 4.9 @sharded 0',
-            'getblock block гдеПоставили 7 4',
-            'getblock block поТемЖеЧислам 7.9 4.9',
+            'getblock block wherePlaced 7 4',
+            'getblock block sameNumbers 7.9 4.9',
             'stop'
         ].join('\n')
     }]
@@ -130,9 +130,9 @@ export const TALK = {
         at: [2, 4],
         links: [],
         program: [
-            'print "Держите оборону!"',
+            'print "Hold the line!"',
             'message announce 3 @wait',
-            'op add показов показов 1',
+            'op add frames frames 1',
             'end'
         ].join('\n')
     }]
@@ -146,10 +146,10 @@ export const BUSY = {
         at: [2, 4],
         links: [],
         program: [
-            'print "Волна на подходе"',
-            'message announce 5 первое',
-            'print "И ещё одна"',
-            'message announce 5 второе',
+            'print "Wave incoming"',
+            'message announce 5 firstText',
+            'print "And one more"',
+            'message announce 5 secondText',
             'stop'
         ].join('\n')
     }]
@@ -168,7 +168,7 @@ export const RULES = {
             'setrule unitMineSpeed 4 @sharded 0 0 0',
             'ubind @mono',
             'ucontrol mine 8 4 0 0 0',
-            'sensor груз @unit @totalItems'
+            'sensor cargo @unit @totalItems'
         ].join('\n')
     }]
 }
@@ -187,8 +187,8 @@ export const TOUGH = {
         program: [
             'setrule unitHealth 4 @sharded 0 0 0',
             'ubind @flare',
-            'sensor здоровье @unit @health',
-            'sensor предел @unit @maxHealth'
+            'sensor health @unit @health',
+            'sensor limit @unit @maxHealth'
         ].join('\n')
     }]
 }
@@ -206,11 +206,11 @@ export const FLAGS = {
             at: [2, 7],
             links: ['message1'],
             program: [
-                'getflag тревога "тревога"',
-                'jump 4 equal тревога 0',
-                'print "Тревога!"',
+                'getflag alarm "alarm"',
+                'jump 4 equal alarm 0',
+                'print "Alarm!"',
                 'printflush message1',
-                'op add проверок проверок 1',
+                'op add checks checks 1',
                 'end'
             ].join('\n')
         },
@@ -219,8 +219,8 @@ export const FLAGS = {
             links: [],
             program: [
                 'jump 3 lessThan @time 2000',
-                'setflag "тревога" true',
-                'set подняли 1',
+                'setflag "alarm" true',
+                'set lifted 1',
                 'end'
             ].join('\n')
         }
@@ -244,9 +244,9 @@ export const PROPS = {
             'setprop @copper container1 120',
             'ubind @dagger',
             'setprop @team @unit @crux',
-            'sensor здоровьеТурели duo1 @health',
-            'sensor медиНаСкладе container1 @copper',
-            'sensor чейКинжал @unit @team',
+            'sensor turretHealth duo1 @health',
+            'sensor copperInStore container1 @copper',
+            'sensor whoseDagger @unit @team',
             'stop'
         ].join('\n')
     }]
@@ -270,14 +270,14 @@ export const FETCH = {
         at: [2, 5],
         links: [],
         program: [
-            'fetch unitCount своихЮнитов @sharded 0 0',
-            'fetch buildCount своихЗданий @sharded 0 0',
-            'fetch buildCount турелей @sharded 0 @duo',
-            'fetch unitCount чужихЮнитов @crux 0 0',
-            'fetch core ядро @sharded 0 0',
-            'sensor медьВЯдре ядро @copper',
-            'fetch unit первыйЮнит @sharded 0 0',
-            'sensor типПервого первыйЮнит @type',
+            'fetch unitCount ourUnits @sharded 0 0',
+            'fetch buildCount ourBuildings @sharded 0 0',
+            'fetch buildCount turrets @sharded 0 @duo',
+            'fetch unitCount theirUnits @crux 0 0',
+            'fetch core core @sharded 0 0',
+            'sensor copperInCore core @copper',
+            'fetch unit firstUnit @sharded 0 0',
+            'sensor firstKind firstUnit @type',
             'stop'
         ].join('\n')
     }]
@@ -295,10 +295,10 @@ export const BOOM = {
         at: [2, 5],
         links: [],
         program: [
-            'jump 3 notEqual взорвали 0',
+            'jump 3 notEqual blown 0',
             'explosion @sharded 10 5 3 200 1 1 0 0',
-            'set взорвали 1',
-            'fetch unitCount врагов @crux 0 0',
+            'set blown 1',
+            'fetch unitCount enemies @crux 0 0',
             'stop'
         ].join('\n')
     }]
@@ -312,15 +312,15 @@ export const MARKERS = {
         at: [2, 5],
         links: [],
         program: [
-            'jump 9 notEqual поставили 0',
+            'jump 9 notEqual wasPlaced 0',
             'makemarker shape 1 8 7 1',
             'setmarker color 1 %ff5555 0 0',
             'setmarker radius 1 20 0 0',
             'makemarker text 2 8 3 1',
-            'print "Строить здесь"',
+            'print "Build here"',
             'setmarker flushText 2 0 0 0',
             'makemarker line 3 4 5 1',
-            'set поставили 1',
+            'set wasPlaced 1',
             'setmarker rotation 1 @time 0 0'
         ].join('\n')
     }]
@@ -330,8 +330,8 @@ export const MARKERS = {
 export const LOCALE = {
     width: 16, height: 9, floor: 'sand-floor',
     locales: {
-        'задача.бур': 'Постройте бур',
-        'задача.готово': 'Задача выполнена'
+        'task.drill': 'Build a drill',
+        'task.done': 'Task complete'
     },
     blocks: [
         {type: 'world-processor', x: 2, y: 4},
@@ -341,9 +341,9 @@ export const LOCALE = {
         at: [2, 4],
         links: ['message1'],
         program: [
-            'localeprint "задача.бур"',
+            'localeprint "task.drill"',
             'print " — "',
-            'localeprint "задача.нетТакого"',
+            'localeprint "task.nothing"',
             'print "?"',
             'printflush message1',
             'stop'
@@ -364,11 +364,11 @@ export const WEATHER = {
         program: [
             'jump 3 lessThan @second 2',
             'weatherset @rain true',
-            'set включили 1',
-            'weathersense @rain дождь',
-            'weathersense @sandstorm буря',
-            'print "дождь: "',
-            'print дождь',
+            'set switched 1',
+            'weathersense @rain rain',
+            'weathersense @sandstorm storm',
+            'print "rain: "',
+            'print rain',
             'printflush message1'
         ].join('\n')
     }]
@@ -383,10 +383,10 @@ export const SHOT = {
         at: [2, 5],
         links: [],
         program: [
-            'jump 5 lessThan @second срок',
-            'op add срок @second 1',
-            'bullet пуля @duo @graphite 5 5 0 @sharded null -1 1 1 0 0',
-            'op add выстрелов выстрелов 1',
+            'jump 5 lessThan @second deadline',
+            'op add deadline @second 1',
+            'bullet shot @duo @graphite 5 5 0 @sharded null -1 1 1 0 0',
+            'op add shots shots 1',
             'end'
         ].join('\n')
     }]

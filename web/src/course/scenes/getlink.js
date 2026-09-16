@@ -18,11 +18,11 @@ export const LOOP = {
         at: [1, 4],
         links: ['container1', 'cell1', 'message1'],
         program: [
-            'getlink блок номер',
-            'print блок',
+            'getlink block index',
+            'print block',
             'print " "',
-            'op add номер номер 1',
-            'jump 0 lessThan номер @links',
+            'op add index index 1',
+            'jump 0 lessThan index @links',
             'printflush message1',
             'stop'
         ].join('\n')
@@ -41,11 +41,11 @@ export const BEYOND = {
         at: [1, 4],
         links: ['container1', 'cell1'],
         program: [
-            'set сколько @links',
-            'getlink первый 0',
-            'getlink второй 1',
-            'getlink третий 2',
-            'getlink дробный 1.9',
+            'set amount @links',
+            'getlink first 0',
+            'getlink second 1',
+            'getlink third 2',
+            'getlink fractional 1.9',
             'stop'
         ].join('\n')
     }]
