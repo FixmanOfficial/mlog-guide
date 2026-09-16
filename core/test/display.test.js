@@ -142,3 +142,23 @@ test('@bottomLeft и соседние выравнивания есть в ко�
     assert.equal(processor.num('b'), 1)
     assert.equal(processor.num('c'), 18)
 })
+
+test('draw scale делит во float: 0.15 — это три шага, а не два', () => {
+    // LExecutor.DrawI: `(int)(x.numf() / LogicDisplay.scaleStep)`, где scaleStep — float
+    const processor = new Processor('draw scale 0.15 0.35')
+    processor.run(1)
+
+    const [command] = processor.graphicsBuffer
+    assert.equal(command.x, 3)
+    assert.equal(command.y, 7)
+})
+
+test('draw print считает суррогатную пару двумя символами', () => {
+    // LExecutor.DrawI: обход `str.charAt(i)` — по 16-битным кодам
+    const processor = new Processor('printchar 55357\nprintchar 56832\nprint "A"\ndraw print 0 0 @topLeft')
+    processor.run(4)
+
+    const [command] = processor.graphicsBuffer
+    assert.equal(command.char, 'A')
+    assert.equal(command.x, 14, 'A стоит третьим: перед ним два шага')
+})

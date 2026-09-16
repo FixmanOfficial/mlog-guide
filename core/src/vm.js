@@ -37,6 +37,9 @@ export const MAX_GRAPHICS_BUFFER = 256
 /** LogicDisplay.scaleStep: draw scale хранится шагами по 0.05. */
 export const SCALE_STEP = 0.05
 
+/** Он же во float: так его видит Java. */
+const SCALE_STEP_FLOAT = Math.fround(SCALE_STEP)
+
 /**
  * Поля команды дисплея — по 10 бит: девять на модуль, один на знак.
  * `LExecutor.DrawI.packSign` и `LogicDisplay.unpackSign` вместе дают вот это.
@@ -235,10 +238,14 @@ export class Processor {
             command.p4 = 0
         }
 
-        // Масштаб хранится в шагах по 0.05: LogicDisplay.scaleStep
+        /*
+         * Масштаб хранится в шагах по 0.05: LogicDisplay.scaleStep. Делится **во float**:
+         * `(int)(x.numf() / scaleStep)`. В double 0.15 / 0.05 даёт 2.9999999999999996
+         * и два шага, во float — ровно три.
+         */
         if (type === 'scale') {
-            command.x = packSign(Math.trunc(x.num() / SCALE_STEP))
-            command.y = packSign(Math.trunc(y.num() / SCALE_STEP))
+            command.x = packSign(Math.trunc(Math.fround(x.numf() / SCALE_STEP_FLOAT)))
+            command.y = packSign(Math.trunc(Math.fround(y.numf() / SCALE_STEP_FLOAT)))
         }
 
         this.graphicsBuffer.push(command)

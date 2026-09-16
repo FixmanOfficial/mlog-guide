@@ -662,3 +662,5 @@ Mindustry закрепляет arc хешем коммита в `gradle.properti
 | Обычный потребитель запрашивает `usage * (shouldConsume() ? 1 : 0)`: фабрика, которой некуда класть готовое, энергию сети не отнимает | `ConsumePower.java:56-60` | ✓ `power.test.js` |
 | У меток пустой первый параметр отменяет только общую часть `ObjectiveMarker.control`: виды разбирают параметры отдельными блоками, и второй работает сам по себе | `MapObjectives.java:762,837-851,929-951` | ✓ `objectives.test.js` |
 | Цели проверяются на ходу (`all.each(qualified, ...)`): потомок после родителя в списке выполняется в том же тике | `MapObjectives.update` | ✓ `objectives.test.js` |
+| `draw scale` делится во float: `(int)(x.numf() / 0.05f)`. У 0.15 это ровно три шага, а в double вышло бы два | `LExecutor.java:1012`, `LogicDisplay.java:49` | ✓ `display.test.js` |
+| `draw print` меряет текст по 16-битным кодам: пара суррогатов — два шага курсора | `LExecutor.java:958-992` | ✓ `display.test.js` |

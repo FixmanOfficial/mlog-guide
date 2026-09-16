@@ -71,7 +71,13 @@ export function layoutPrint(text, originX, originY, align) {
     let lineWidth = 0
     let lines = 1
 
-    for (const character of text) {
+    /*
+     * Обход по 16-битным кодам, как `charAt` в Java, а не по кодовым точкам: пара
+     * суррогатов, собранная двумя `printchar`, — это два символа, и шага тоже два.
+     */
+    for (let i = 0; i < text.length; i++) {
+        const character = text[i]
+
         if (character === '\n') {
             maxWidth = Math.max(maxWidth, lineWidth)
             lineWidth = 0
@@ -101,7 +107,9 @@ export function layoutPrint(text, originX, originY, align) {
     let x = originX
     let y = originY
 
-    for (const character of text) {
+    for (let i = 0; i < text.length; i++) {
+        const character = text[i]
+
         if (character === '\n') {
             y -= LINE_HEIGHT
             x = originX
