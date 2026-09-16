@@ -1045,7 +1045,9 @@ export class WorldView {
      */
     tinted(sprite, color, amount) {
         const step = Math.min(1, Math.round(amount * 16) / 16)
-        const key = `tint:${sprite.width}:${sprite.height}:${color}:${step}`
+
+        // В ключе сама картинка: у разных спрайтов бывает один размер, и размера мало
+        const key = `tint:${this.imageId(sprite.image)}:${sprite.width}:${sprite.height}:${color}:${step}`
 
         const cached = this.icons.get(key)
         if (cached !== undefined) return cached
@@ -1065,6 +1067,19 @@ export class WorldView {
 
         this.icons.set(key, canvas)
         return canvas
+    }
+
+    /** Постоянный номер картинки для ключей кеша. */
+    imageId(image) {
+        if (this.imageIds === undefined) this.imageIds = new WeakMap()
+
+        let id = this.imageIds.get(image)
+        if (id === undefined) {
+            id = (this.nextImageId = (this.nextImageId ?? 0) + 1)
+            this.imageIds.set(image, id)
+        }
+
+        return id
     }
 
     /** Имя команды по номеру: под ним лежит её накладка в атласе. */

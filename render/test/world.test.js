@@ -373,3 +373,30 @@ test('цвет луча домножается на спрайт, а не вст
 
     delete globalThis.document
 })
+
+test('подмесь цвета кешируется для каждой картинки своя', () => {
+    // Два разных спрайта одного размера не должны делить одну подкрашенную копию
+    const previous = globalThis.document
+    globalThis.document = {
+        createElement: () => ({
+            getContext: () => ({
+                drawImage() {}, fillRect() {},
+                imageSmoothingEnabled: true, globalCompositeOperation: '', globalAlpha: 1, fillStyle: ''
+            })
+        })
+    }
+
+    try {
+        const map = view(new World({width: 4, height: 4}))
+        const conveyor = {image: {name: 'conveyor'}, width: 32, height: 32}
+        const router = {image: {name: 'router'}, width: 32, height: 32}
+
+        const first = map.tinted(conveyor, '#ffffff', 0.5)
+        const second = map.tinted(router, '#ffffff', 0.5)
+
+        assert.notEqual(first, second)
+        assert.equal(map.tinted(conveyor, '#ffffff', 0.5), first, 'одна и та же картинка должна браться из кеша')
+    } finally {
+        globalThis.document = previous
+    }
+})

@@ -82,8 +82,12 @@ export class DisplayView {
         const {type, x, y, p1, p2, p3, p4} = command
 
         switch (type) {
-            // Core.graphics.clear заливает весь буфер, преобразование ему не указ
-            case 'clear': return this.fillBackground(`rgb(${x & 0xff} ${y & 0xff} ${p1 & 0xff})`)
+            /*
+             * Core.graphics.clear заливает весь буфер, преобразование ему не указ. Каналы
+             * делятся на 255 и уходят в `glClearColor`, а тот зажимает их в [0, 1]:
+             * `draw clear 300 -5 0` — это чистый красный, а не остаток от деления.
+             */
+            case 'clear': return this.fillBackground(`rgb(${channel(x)} ${channel(y)} ${channel(p1)})`)
 
             case 'color': {
                 this.color = packedColor(x, y, p1, p2)
@@ -259,6 +263,9 @@ export class DisplayView {
         context.restore()
     }
 }
+
+/** Канал очистки: `glClearColor` зажимает долю в [0, 1]. */
+const channel = (value) => Math.min(255, Math.max(0, value))
 
 /** Число сторон многоугольника ограничено сверху. LogicDisplay.maxSides */
 const sides = (value) => Math.min(value, MAX_SIDES)
