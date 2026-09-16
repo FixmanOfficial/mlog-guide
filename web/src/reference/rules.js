@@ -14,6 +14,7 @@ import schema from '@mlog/core/data/instructions.json' with {type: 'json'}
 import {TEAM_RULES} from '@mlog/core/src/rules.js'
 
 import {RULES_RU} from './rules.ru.js'
+import {RULES_EN} from './rules.en.js'
 
 /** `SetRuleI`: правила, читаемые как «да/нет» (`value.bool()`). */
 const FLAGS = new Set([
@@ -33,8 +34,7 @@ const SCALED = {
 const CONTENT = new Set(['ban', 'unban'])
 
 export function rules(locale) {
-    // Английских подписей пока нет: перевод справочника идёт отдельным заходом
-    const descriptions = locale === 'ru' ? RULES_RU : {}
+    const descriptions = locale === 'ru' ? RULES_RU : RULES_EN
 
     return schema.enums.LogicRule.map(name => ({
         name,

@@ -15,7 +15,7 @@ import {Icon} from '@mlog/editor/src/Icon.jsx'
 import {ContentIcon} from '@mlog/editor/src/ContentPopup.jsx'
 import {mod} from '@mlog/core/src/arc.js'
 import {ITEM_ORDER} from '@mlog/core/src/world.js'
-import {restoreLocalization, setLocalization, useLocalization} from '@mlog/editor/src/names.js'
+import {restoreLocalization, setLocalization, uiText, useLocalization, useNameBundle} from '@mlog/editor/src/names.js'
 import {DisplayView} from '@mlog/render/src/display.js'
 import {WorldView} from '@mlog/render/src/world.js'
 
@@ -30,6 +30,11 @@ import blockSprites from '@mlog/core/data/block-sprites.json'
 import unitSprites from '@mlog/core/data/unit-sprites.json'
 import terrainSprites from '@mlog/core/data/terrain-sprites.json'
 import teams from '@mlog/core/data/teams.json'
+import bundleEn from '@mlog/core/data/i18n/en.json'
+import bundleRu from '@mlog/core/data/i18n/ru.json'
+import {strings} from './strings.js'
+import {SANDBOX} from './scenes/sandbox.js'
+import {localized as sceneFor} from '../course/scenes/translate.js'
 import {Hud, HideHint} from './Hud.jsx'
 import {permissions, canEdit} from './permissions.js'
 import {loadProgram, saveProgram, forgetPrograms} from './storage.js'
@@ -111,8 +116,16 @@ const speedLabel = (power) => power >= 0 ? `×${2 ** power}` : `×1/${2 ** -powe
  *                 урок слушает событие, а проп остаётся для программного вызова
  */
 export function Sandbox({allow = {}, scene: description = undefined,
-    storage = null, onDone = null} = {}) {
+    storage = null, onDone = null, locale = 'ru'} = {}) {
     const rights = permissions(allow)
+
+    /*
+     * Язык надписей редактора — общий на модуль, как настройка в игре. Ставится до первой
+     * отрисовки, а не эффектом: разметка приходит с сервера уже с подписями.
+     */
+    useNameBundle(locale === 'en' ? bundleEn : bundleRu)
+
+    const text = strings(locale)
 
     const worldCanvas = useRef(null)
     const displayCanvas = useRef(null)
@@ -460,7 +473,8 @@ export function Sandbox({allow = {}, scene: description = undefined,
         setHighlight(storedHighlight())
         restoreLocalization()
 
-        const scene = createScene(description)
+        // Сцена пишется по-русски; на английской странице её имена переписывает словарь
+        const scene = createScene(sceneFor(description ?? SANDBOX, locale))
 
         // Программа, сохранённая с прошлого раза, важнее той, что записана в сцене
         for (const entry of scene.processors) {
@@ -852,7 +866,7 @@ export function Sandbox({allow = {}, scene: description = undefined,
             <div class="sandbox__scene">
                 <div class="sandbox__bar">
                     {rights.reset && (
-                        <button class="game-button sandbox__button" title="Сбросить мир" onClick={reset}>
+                        <button class="game-button sandbox__button" title={text.reset} onClick={reset}>
                             <Icon name="refresh-1" size={20} />
                         </button>
                     )}
@@ -860,7 +874,7 @@ export function Sandbox({allow = {}, scene: description = undefined,
                     {rights.reset && storage !== null && (
                         <button
                             class="game-button sandbox__button"
-                            title="Вернуть исходные программы"
+                            title={text.restore}
                             onClick={() => {
                                 forgetPrograms(storage)
                                 globalThis.location?.reload()
@@ -871,37 +885,37 @@ export function Sandbox({allow = {}, scene: description = undefined,
                     )}
 
                     {rights.time && (<>
-                        <button class="game-button sandbox__button" title="Назад на секунду" onClick={() => rewind(SECOND)}>
+                        <button class="game-button sandbox__button" title={text.backSecond} onClick={() => rewind(SECOND)}>
                             <Icon name="left" size={20} /><Icon name="left" size={20} />
                         </button>
-                        <button class="game-button sandbox__button" title="Назад на тик" onClick={() => rewind(1)}>
+                        <button class="game-button sandbox__button" title={text.backTick} onClick={() => rewind(1)}>
                             <Icon name="left" size={20} />
                         </button>
                     </>)}
 
                     <button
                         class="game-button sandbox__button"
-                        title={running ? 'Пауза' : 'Пуск'}
+                        title={running ? text.pause : text.play}
                         onClick={() => setRunning(!running)}
                     >
                         <Icon name={running ? 'pause' : 'play'} size={20} />
                     </button>
 
                     {rights.time && (<>
-                        <button class="game-button sandbox__button" title="Вперёд на тик" onClick={() => forward(1)}>
+                        <button class="game-button sandbox__button" title={text.forwardTick} onClick={() => forward(1)}>
                             <Icon name="right" size={20} />
                         </button>
-                        <button class="game-button sandbox__button" title="Вперёд на секунду" onClick={() => forward(SECOND)}>
+                        <button class="game-button sandbox__button" title={text.forwardSecond} onClick={() => forward(SECOND)}>
                             <Icon name="right" size={20} /><Icon name="right" size={20} />
                         </button>
 
-                        <button class="game-button sandbox__button" onClick={stepInstruction}>инструкция</button>
+                        <button class="game-button sandbox__button" onClick={stepInstruction}>{text.instruction}</button>
                     </>)}
 
                     {rights.hud && (
                         <button
                             class="game-button sandbox__button"
-                            title={`${hudShown ? 'Скрыть' : 'Показать'} интерфейс (C)`}
+                            title={hudShown ? text.hide : text.show}
                             onClick={() => setHudShown(!hudShown)}
                         >
                             <Icon name={hudShown ? 'eye-off' : 'eye'} size={20} />
@@ -910,17 +924,17 @@ export function Sandbox({allow = {}, scene: description = undefined,
 
                     <label
                         class="sandbox__toggle"
-                        title="Надписи в блоках как в игре: с переводом или по-английски"
+                        title={text.localizeTitle}
                     >
                         <input
                             type="checkbox"
                             checked={localized}
                             onChange={(event) => setLocalization(event.currentTarget.checked)}
                         />
-                        <span>перевод</span>
+                        <span>{text.localize}</span>
                     </label>
 
-                    <label class="sandbox__toggle" title="Подсвечивать строку, которую процессор выполнит следующей">
+                    <label class="sandbox__toggle" title={text.highlightTitle}>
                         <input
                             type="checkbox"
                             checked={highlight}
@@ -934,11 +948,11 @@ export function Sandbox({allow = {}, scene: description = undefined,
                                 }
                             }}
                         />
-                        <span>подсветка</span>
+                        <span>{text.highlight}</span>
                     </label>
 
                     {rights.time && (
-                    <label class="sandbox__speed" title="Скорость времени">
+                    <label class="sandbox__speed" title={text.speed}>
                         <input
                             type="range"
                             min={-8}
@@ -1037,7 +1051,7 @@ export function Sandbox({allow = {}, scene: description = undefined,
                             {configured.type === 'message' && (
                                 <button
                                     class="config-bar__button"
-                                    title="Править сообщение"
+                                    title={text.editMessage}
                                     onClick={() => setBlockDialog('message')}
                                 >
                                     <Icon name="pencil_" size={24} />
@@ -1047,7 +1061,7 @@ export function Sandbox({allow = {}, scene: description = undefined,
                             {configured.memory !== undefined && (
                                 <button
                                     class="config-bar__button"
-                                    title="Посмотреть память"
+                                    title={text.viewMemory}
                                     onClick={() => setBlockDialog('memory')}
                                 >
                                     <Icon name="list" size={24} />
@@ -1057,7 +1071,7 @@ export function Sandbox({allow = {}, scene: description = undefined,
                             {configured.processor !== undefined && canEdit(rights, configured) && (
                                 <button
                                     class="config-bar__button"
-                                    title="Править программу"
+                                    title={text.editProgram}
                                     onClick={() => setEditing(scene.processors.findIndex(
                                         entry => entry.building === configured
                                     ))}
@@ -1069,10 +1083,7 @@ export function Sandbox({allow = {}, scene: description = undefined,
                     )}
                 </div>
 
-                <div class="sandbox__hint">
-                    Щёлкните по процессору, чтобы открыть его программу; по тумблеру — чтобы
-                    переключить его.
-                </div>
+                <div class="sandbox__hint">{text.hint}</div>
             </div>
 
             <div class="sandbox__side">
@@ -1080,18 +1091,18 @@ export function Sandbox({allow = {}, scene: description = undefined,
                     {/* Холст дисплея нужен ссылкой с первого кадра, поэтому он всегда
                         в разметке: в сцене урока дисплея может не быть, и тогда он спрятан */}
                     <div hidden={scene !== null && scene.display === null}>
-                        <div class="sandbox__title">Дисплей</div>
+                        <div class="sandbox__title">{text.display}</div>
                         <canvas class="sandbox__display" ref={displayCanvas} />
                     </div>
                     <div class="sandbox__panel">
-                        <div class="sandbox__title">Блок сообщений</div>
+                        <div class="sandbox__title">{text.message}</div>
                         <div class="sandbox__message">{scene?.message?.message || '—'}</div>
-                        <div class="sandbox__meta">тик {Math.floor(scene?.world.tick ?? 0)}</div>
+                        <div class="sandbox__meta">{text.tick} {Math.floor(scene?.world.tick ?? 0)}</div>
                     </div>
                 </div>
 
                 <div class="sandbox__title sandbox__title--row">
-                    <span>Переменные</span>
+                    <span>{uiText('variables')}</span>
                     {/* Чьи именно: в игре окно принадлежит блоку, который открыли */}
                     <span class="sandbox__owner">{scene?.processors[selected].building.name}</span>
                 </div>
@@ -1101,13 +1112,13 @@ export function Sandbox({allow = {}, scene: description = undefined,
                 {/* LogicDialog: кнопка «@logic.globals» со значком списка, 210 на 64 */}
                 <button class="game-button sandbox__globals" onClick={() => setGlobalsOpen(true)}>
                     <Icon name="list" size={24} />
-                    <span>Встроенные переменные</span>
+                    <span>{uiText('globals')}</span>
                 </button>
 
                 {processor !== null && processor.diagnostics.length > 0 && (
                     <div class="sandbox__errors">
                         {processor.diagnostics.map(error => (
-                            <div key={`${error.line}-${error.code}`}>строка {error.line + 1}: {error.code}</div>
+                            <div key={`${error.line}-${error.code}`}>{text.line} {error.line + 1}: {error.code}</div>
                         ))}
                     </div>
                 )}

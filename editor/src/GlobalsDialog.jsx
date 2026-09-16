@@ -2,6 +2,7 @@ import globals from '@mlog/core/data/globals.json'
 
 import {globalTip} from './tooltips.js'
 import {Overlay} from './Overlay.jsx'
+import {uiText} from './names.js'
 
 /**
  * Окно «Встроенные переменные» — перенос `GlobalVarsDialog`.
@@ -18,7 +19,7 @@ export function GlobalsDialog({onClose}) {
     return (
         <Overlay onClose={onClose}>
             <div class="dialog" onClick={(event) => event.stopPropagation()}>
-                <div class="dialog__title">Встроенные переменные</div>
+                <div class="dialog__title">{uiText('globals')}</div>
 
                 <div class="dialog__body">
                     <div class="globals">
@@ -41,7 +42,7 @@ export function GlobalsDialog({onClose}) {
                 </div>
 
                 <div class="dialog__buttons">
-                    <button class="game-button dialog__back" onClick={onClose}>Назад</button>
+                    <button class="game-button dialog__back" onClick={onClose}>{uiText('back')}</button>
                 </div>
             </div>
         </Overlay>

@@ -1,7 +1,7 @@
 import {useEffect} from 'preact/hooks'
 
 import {ContentIcon, parseMarkup} from '@mlog/editor'
-import bundle from '@mlog/core/data/i18n/ru.json'
+import {nameBundle} from '@mlog/editor/src/names.js'
 
 import {objectiveNodes} from './objectives.js'
 import {Minimap, CoreItems, Position} from './HudPanels.jsx'
@@ -108,7 +108,7 @@ export function HideHint({onDone, seconds = 6}) {
         return () => clearTimeout(timer)
     }, [onDone, seconds])
 
-    const text = (bundle.ui.showui ?? '').replace('{0}', 'C')
+    const text = (nameBundle().ui.showui ?? '').replace('{0}', 'C')
 
     return (
         <div class="hud__message hud__message--announce hud__hint">

@@ -4,6 +4,7 @@ import {Editor} from './Editor.jsx'
 import {EditDialog} from './EditDialog.jsx'
 import {Icon} from './Icon.jsx'
 import {Overlay} from './Overlay.jsx'
+import {uiText} from './names.js'
 import {fromText, toText, MAX_INSTRUCTIONS} from './program.js'
 
 /**
@@ -57,12 +58,12 @@ export function LogicDialog({title, initial, onChange, onRestart, onClose, count
                 <div class="dialog__buttons">
                     <button class="game-button logic-dialog__button" onClick={onClose}>
                         <Icon name="left" size={22} />
-                        <span>Назад</span>
+                        <span>{uiText('back')}</span>
                     </button>
 
                     <button class="game-button logic-dialog__button" onClick={() => setEditing(true)}>
                         <Icon name="pencil_" size={22} />
-                        <span>Правка</span>
+                        <span>{uiText('edit')}</span>
                     </button>
 
                     {/* LogicDialog: кнопка гаснет на пределе в 1000 инструкций */}
@@ -72,7 +73,7 @@ export function LogicDialog({title, initial, onChange, onRestart, onClose, count
                         onClick={() => setAdding(true)}
                     >
                         <Icon name="add" size={22} />
-                        <span>Добавить</span>
+                        <span>{uiText('add')}</span>
                     </button>
                 </div>
             </div>

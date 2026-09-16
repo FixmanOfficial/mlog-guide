@@ -20,11 +20,22 @@ import en from '@mlog/core/data/i18n/en.json' with {type: 'json'}
 import {IMPLEMENTED_INSTRUCTIONS} from '@mlog/core/src/assembler.js'
 
 import {INSTRUCTIONS_RU} from './instructions.ru.js'
+import {INSTRUCTIONS_EN} from './instructions.en.js'
 import {PROPERTIES_RU} from './properties.ru.js'
+import {PROPERTIES_EN} from './properties.en.js'
 import {PROCESSOR_RU, PROCESSOR_VARS} from './variables.ru.js'
+import {PROCESSOR_EN} from './variables.en.js'
 import {CATEGORY_COLORS, CATEGORY_ICONS, CATEGORY_ORDER, displayName} from '@mlog/editor/src/theme.js'
 
 const BUNDLES = {ru, en}
+
+/** Наши описания там, где игра молчит: у инструкций, свойств и переменных процессора. */
+const OURS = {
+    ru: {instructions: INSTRUCTIONS_RU, properties: PROPERTIES_RU, processor: PROCESSOR_RU},
+    en: {instructions: INSTRUCTIONS_EN, properties: PROPERTIES_EN, processor: PROCESSOR_EN}
+}
+
+const ours = (locale) => OURS[locale] ?? OURS.en
 
 export const GAME_VERSION = schema.gameVersion
 
@@ -60,7 +71,7 @@ export function instruction(locale, opcode) {
          * подставляется там, где игра молчит, — у `op`, `ubind` и ещё девяти инструкций.
          */
         description: bundle(locale).logic.instructions[entry.opcode]
-            ?? (locale === 'ru' ? INSTRUCTIONS_RU[entry.opcode] : undefined)
+            ?? ours(locale).instructions[entry.opcode]
             ?? null,
         implemented: IMPLEMENTED_INSTRUCTIONS.has(entry.opcode),
         color: categoryColor(entry.category),
@@ -151,7 +162,7 @@ export function properties(locale) {
      * Описания свойств игра почти не даёт: в бандлах есть только те, что показывает
      * `control`. Остальные написаны нами, и наши идут первыми — они полнее.
      */
-    const ours = locale === 'ru' ? PROPERTIES_RU : {}
+    const own = ours(locale).properties
     const descriptions = bundle(locale).logic.properties
 
     return Object.entries(access.properties).map(([name, property]) => ({
@@ -163,7 +174,7 @@ export function properties(locale) {
         blocks: Object.keys(property.blocks ?? {}),
         setBlocks: property.setBlocks ?? [],
         settable: access.settable.includes(name),
-        description: ours[name] ?? descriptions[name] ?? null
+        description: own[name] ?? descriptions[name] ?? null
     }))
 }
 
@@ -210,6 +221,6 @@ export function globals(locale) {
 export function processorVars(locale) {
     return PROCESSOR_VARS.map(entry => ({
         ...entry,
-        description: locale === 'ru' ? PROCESSOR_RU[entry.name] ?? null : null
+        description: ours(locale).processor[entry.name] ?? null
     }))
 }

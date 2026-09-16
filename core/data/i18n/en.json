@@ -1200,6 +1200,24 @@
     "thousands": "k",
     "millions": "mil",
     "billions": "b",
-    "showui": "UI hidden.\nPress [accent][[{0}][] to show UI."
+    "showui": "UI hidden.\nPress [accent][[{0}][] to show UI.",
+    "dialog": {
+      "add": "Add...",
+      "back": "Back",
+      "cancel": "Cancel",
+      "clear": "Clear",
+      "clearConfirm": "Are you sure you want to clear all code from this processor?",
+      "confirm": "Confirm",
+      "copyClipboard": "Copy to Clipboard",
+      "delete": "Delete",
+      "edit": "Edit",
+      "export": "Export...",
+      "globals": "Built-in Variables",
+      "loadClipboard": "Load from Clipboard",
+      "ok": "OK",
+      "restart": "Restart",
+      "search": "search",
+      "variables": "Vars"
+    }
   }
 }

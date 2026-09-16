@@ -2,9 +2,11 @@ import {useEffect, useMemo, useRef, useState} from 'preact/hooks'
 
 import {ContentIcon, METRICS, selectByNumber, selectByArrow} from '@mlog/editor'
 import {Icon} from '@mlog/editor/src/Icon.jsx'
+import {nameBundle} from '@mlog/editor/src/names.js'
+
+import {strings} from './strings.js'
 
 import specs from '@mlog/core/data/block-specs.json'
-import bundle from '@mlog/core/data/i18n/ru.json'
 import bindings from '@mlog/core/data/bindings.json'
 
 /**
@@ -36,7 +38,7 @@ const CATEGORIES = [
  */
 const categoryIcon = (category) => category === 'power' ? 'power_' : category
 
-const named = (type, name) => bundle.content[type]?.[name] ?? name
+const named = (type, name) => nameBundle().content[type]?.[name] ?? name
 
 /** Клавиша привязки так, как её пишет игра: `num1` — это «1». */
 function keyName(binding) {
@@ -223,13 +225,14 @@ export function BuildPanel({selected, onSelect, building = null, rotation = 0, b
 function PlacementRow({breaking, rotation, rotatable, onBreak, onRotate}) {
     const side = METRICS.placementRowSize ?? 48
     const breakKey = keyName('break_block')
+    const text = strings()
 
     return (
         <div class="build__row">
             <button
                 class={`build__tool${breaking ? ' build__tool--on' : ''}`}
                 style={{width: `${side}px`, height: `${side}px`}}
-                title={`Снос (${breakKey === 'mouseRight' ? 'правая кнопка' : breakKey})`}
+                title={`${text.breaking} (${breakKey === 'mouseRight' ? text.rightButton : breakKey})`}
                 onClick={onBreak}
             >
                 <Icon name="hammer" size={26} />
@@ -279,7 +282,7 @@ function BlockInfo({block, category, index}) {
                         width: `${8 * (METRICS.blockInfoFactor ?? 5)}px`,
                         height: `${8 * (METRICS.blockInfoFactor ?? 5)}px`
                     }}
-                    title="Справочник блока появится вместе со справочником"
+                    title={strings().blockHelp}
                     disabled
                 >?</button>
             </div>

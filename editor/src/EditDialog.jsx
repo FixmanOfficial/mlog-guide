@@ -2,6 +2,7 @@ import {useState} from 'preact/hooks'
 
 import {Overlay} from './Overlay.jsx'
 import {Icon} from './Icon.jsx'
+import {uiText} from './names.js'
 
 /**
  * Окно «Правка» — перенос кнопки `@edit` из `LogicDialog`.
@@ -36,40 +37,40 @@ export function EditDialog({text, onLoad, onClear, onRestart, onClose}) {
     return (
         <Overlay onClose={onClose}>
             <div class="dialog dialog--narrow" onClick={(event) => event.stopPropagation()}>
-                <div class="dialog__title">Правка</div>
+                <div class="dialog__title">{uiText('export')}</div>
 
                 <div class="dialog__body">
                     {paste === null ? (
                         <div class="edit-list">
                             {confirming ? (
                                 <>
-                                    <div class="edit-list__question">Точно очистить программу?</div>
+                                    <div class="edit-list__question">{uiText('clearConfirm')}</div>
                                     <button class="edit-list__item" onClick={() => { onClear(); onClose() }}>
                                         <Icon name="cancel" size={24} />
-                                        <span>Да, очистить</span>
+                                        <span>{uiText('ok')}</span>
                                     </button>
                                     <button class="edit-list__item" onClick={() => setConfirming(false)}>
                                         <Icon name="left" size={24} />
-                                        <span>Отмена</span>
+                                        <span>{uiText('cancel')}</span>
                                     </button>
                                 </>
                             ) : (
                                 <>
                                     <button class="edit-list__item" onClick={() => setConfirming(true)}>
                                         <Icon name="cancel" size={24} />
-                                        <span>Очистить</span>
+                                        <span>{uiText('clear')}</span>
                                     </button>
                                     <button class="edit-list__item" onClick={copy}>
                                         <Icon name="copy" size={24} />
-                                        <span>Скопировать в буфер</span>
+                                        <span>{uiText('copyClipboard')}</span>
                                     </button>
                                     <button class="edit-list__item" onClick={load}>
                                         <Icon name="download" size={24} />
-                                        <span>Загрузить из буфера</span>
+                                        <span>{uiText('loadClipboard')}</span>
                                     </button>
                                     <button class="edit-list__item" onClick={() => { onRestart(); onClose() }}>
                                         <Icon name="refresh-1" size={24} />
-                                        <span>Перезапустить</span>
+                                        <span>{uiText('restart')}</span>
                                     </button>
                                 </>
                             )}
@@ -77,7 +78,7 @@ export function EditDialog({text, onLoad, onClear, onRestart, onClose}) {
                     ) : (
                         <div class="edit-list">
                             <div class="edit-list__question">
-                                Браузер не дал прочитать буфер. Вставьте программу сюда:
+                                {uiText('clipboardDenied')}
                             </div>
                             <textarea
                                 class="edit-list__text"
@@ -90,7 +91,7 @@ export function EditDialog({text, onLoad, onClear, onRestart, onClose}) {
                                 onClick={() => { onLoad(paste.replace(/\r\n/g, '\n')); onClose() }}
                             >
                                 <Icon name="download" size={24} />
-                                <span>Загрузить</span>
+                                <span>{uiText('load')}</span>
                             </button>
                         </div>
                     )}
@@ -99,7 +100,7 @@ export function EditDialog({text, onLoad, onClear, onRestart, onClose}) {
                 <div class="dialog__buttons">
                     <button class="game-button dialog__back" onClick={onClose}>
                         <Icon name="left" size={22} />
-                        <span>Назад</span>
+                        <span>{uiText('back')}</span>
                     </button>
                 </div>
             </div>

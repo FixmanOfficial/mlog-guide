@@ -20,6 +20,7 @@
 import {
     TYPE_COLORS, NAME_BACKGROUND, bufferRow, dim, typeName, valueText
 } from '@mlog/editor/src/variables.js'
+import {uiText} from '@mlog/editor/src/names.js'
 
 import './variables.css'
 
@@ -55,7 +56,7 @@ export function Variables({processor, beat, buffer: showBuffer = true}) {
 
             {/* Буфер печати: в игре его не видно, строку подсмотрели у мода */}
             {!showBuffer ? null : (
-            <div class="vars__row vars__row--extra" title="Текст, накопленный print. Ждёт printflush или draw print">
+            <div class="vars__row vars__row--extra" title={uiText('printBuffer')}>
                 <span class="vars__stub" style={{background: dim(NAME_BACKGROUND)}} />
                 <span class="vars__name">{buffer.name}</span>
 

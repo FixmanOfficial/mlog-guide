@@ -28,6 +28,12 @@ export function useNameBundle(next) {
     bundle = next
 }
 
+/**
+ * Подключённый набор текстов. Нужен тем, кто берёт из него не подписи редактора, а названия
+ * контента и строки целей: у песочницы это панель строительства и подсказки в углу экрана.
+ */
+export const nameBundle = () => bundle
+
 const KEY = 'mlog.editor.localization'
 
 /** Слушатели: настройка одна на страницу, а показывают её несколько мест сразу. */
@@ -143,3 +149,50 @@ export function enumLabel(enumName, value) {
 
     return translated === undefined ? value : strip(translated)
 }
+
+/**
+ * Надписи самого редактора.
+ *
+ * Большая часть их — игровые: на кнопках окна логики написано `@back`, `@add`, `@edit`,
+ * и переведены эти строки самой Mindustry. Их снимает `gen-bundles.mjs` в `ui.dialog`,
+ * и брать надо оттуда, а не сочинять своё.
+ *
+ * Здесь остаётся то, чего в игре нет вовсе: подсказки к кнопкам строки (в игре это иконки
+ * без подсказки) и пустой ответ поиска. Переключателем `logiclocalization` они не
+ * управляются: это язык страницы, а не настройка игры.
+ */
+const UI = {
+    ru: {
+        addBelow: 'Добавить после',
+        copy: 'Копировать',
+        drag: 'Перетащить на строку, куда прыгать',
+        content: 'Выбрать свойство или контент',
+        align: 'Выбрать выравнивание',
+        symbol: 'Выбрать символ',
+        empty: 'Ничего не нашлось',
+        clipboardDenied: 'Браузер не дал прочитать буфер. Вставьте программу сюда:',
+        load: 'Загрузить',
+        printBuffer: 'Текст, накопленный print. Ждёт printflush или draw print'
+    },
+    en: {
+        addBelow: 'Add below',
+        copy: 'Copy',
+        drag: 'Drag onto the line to jump to',
+        content: 'Pick a property or content',
+        align: 'Pick an alignment',
+        symbol: 'Pick a symbol',
+        empty: 'Nothing found',
+        clipboardDenied: 'The browser would not let us read the clipboard. Paste the program here:',
+        load: 'Load',
+        printBuffer: 'The text print has accumulated. Waiting for printflush or draw print'
+    }
+}
+
+/** Язык страницы — тот же, что у подключённого набора текстов. */
+export const uiLocale = () => (UI[bundle.locale] === undefined ? 'ru' : bundle.locale)
+
+/**
+ * Надпись редактора. Игровая идёт первой: она официальная и переведена самой Mindustry;
+ * наша подставляется там, где у игры такой строки нет.
+ */
+export const uiText = (key) => bundle.ui?.dialog?.[key] ?? UI[uiLocale()][key] ?? key

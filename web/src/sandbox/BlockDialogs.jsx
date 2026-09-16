@@ -2,7 +2,10 @@ import {useState} from 'preact/hooks'
 
 import {Overlay} from '@mlog/editor/src/Overlay.jsx'
 import {Icon} from '@mlog/editor/src/Icon.jsx'
+import {uiText} from '@mlog/editor/src/names.js'
 import {MAX_MESSAGE_LENGTH} from '@mlog/core/src/world.js'
+
+import {strings} from './strings.js'
 
 /**
  * Окна настройки блоков, которые открываются щелчком по блоку в мире.
@@ -22,7 +25,7 @@ export function MessageDialog({building, onApply, onClose}) {
     return (
         <Overlay onClose={onClose}>
             <div class="dialog dialog--narrow" onClick={(event) => event.stopPropagation()}>
-                <div class="dialog__title">Правка сообщения</div>
+                <div class="dialog__title">{strings().editMessage}</div>
 
                 <div class="dialog__body">
                     <textarea
@@ -40,13 +43,13 @@ export function MessageDialog({building, onApply, onClose}) {
                 <div class="dialog__buttons">
                     <button class="game-button dialog__back" onClick={onClose}>
                         <Icon name="left" size={22} />
-                        <span>Назад</span>
+                        <span>{uiText('back')}</span>
                     </button>
                     <button
                         class="game-button dialog__back"
                         onClick={() => { onApply(text); onClose() }}
                     >
-                        <span>ОК</span>
+                        <span>{uiText('ok')}</span>
                     </button>
                 </div>
             </div>
@@ -80,7 +83,7 @@ export function MemoryDialog({building, onClose}) {
                 <div class="dialog__buttons">
                     <button class="game-button dialog__back" onClick={onClose}>
                         <Icon name="left" size={22} />
-                        <span>Назад</span>
+                        <span>{uiText('back')}</span>
                     </button>
                 </div>
             </div>

@@ -2,6 +2,7 @@ import {useRef, useState} from 'preact/hooks'
 
 import {ContentPopup} from './ContentPopup.jsx'
 import {Icon} from './Icon.jsx'
+import {uiText} from './names.js'
 
 /**
  * Кнопка рядом с полем свойства у `sensor`: карандаш, открывающий большое меню контента.
@@ -20,7 +21,7 @@ export function ContentButton({value, onPick}) {
             <button
                 class="content-button"
                 ref={anchor}
-                title="Выбрать свойство или контент"
+                title={uiText('content')}
                 onClick={() => setOpen(!open)}
             >
                 <Icon name="pencil_" size={20} />

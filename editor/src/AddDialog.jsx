@@ -6,6 +6,7 @@ import {categoryName, categoryTip, instructionTip} from './tooltips.js'
 import {tipProps} from './tip.js'
 import {Icon} from './Icon.jsx'
 import {Overlay} from './Overlay.jsx'
+import {uiText} from './names.js'
 
 /**
  * Меню добавления инструкции. `LogicDialog.showAddDialog`:
@@ -42,7 +43,7 @@ export function AddDialog({onPick, onClose, privileged = false, unitControl = tr
     return (
         <Overlay onClose={onClose}>
             <div class="dialog dialog--add" onClick={(event) => event.stopPropagation()}>
-                <div class="dialog__title">Добавить</div>
+                <div class="dialog__title">{uiText('add')}</div>
 
                 <div class="dialog__body">
                     <div class="dialog__search">
@@ -51,7 +52,7 @@ export function AddDialog({onPick, onClose, privileged = false, unitControl = tr
                             ref={field}
                             class="dialog__field"
                             value={search}
-                            placeholder="Поиск"
+                            placeholder={uiText('search')}
                             autoFocus
                             onInput={(event) => setSearch(event.currentTarget.value)}
                             /* Escape закрывает окно сам, через Overlay: закрывается верхнее */
@@ -88,7 +89,7 @@ export function AddDialog({onPick, onClose, privileged = false, unitControl = tr
                         ))}
 
                         {groups.length === 0 && (
-                            <div class="dialog__empty">Ничего не нашлось</div>
+                            <div class="dialog__empty">{uiText('empty')}</div>
                         )}
                     </div>
                 </div>
@@ -96,7 +97,7 @@ export function AddDialog({onPick, onClose, privileged = false, unitControl = tr
                 <div class="dialog__buttons">
                     <button class="game-button dialog__back" onClick={onClose}>
                         <Icon name="left" size={22} />
-                        <span>Назад</span>
+                        <span>{uiText('back')}</span>
                     </button>
                 </div>
             </div>

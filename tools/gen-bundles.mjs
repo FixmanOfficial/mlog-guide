@@ -30,6 +30,32 @@ const bundleFile = (locale) => locale === 'en' ? 'bundle.properties' : `bundle_$
 const BACKSLASH = String.fromCharCode(92)
 
 /**
+ * Надписи окна логики — те, что игра берёт из общего бандла, а не из логического.
+ *
+ * Имя слева наше, ключ справа игровой. Список снят с `LogicDialog.java` и `LCanvas.java`:
+ * в нём ровно то, что показано на кнопках окна, — и значит, переведено самой игрой.
+ * Многоточие в `add` и `edit` игра ставит сама; на кнопке оно и стоит.
+ */
+const DIALOG_KEYS = [
+    ['add', 'add'],
+    ['back', 'back'],
+    ['cancel', 'cancel'],
+    ['clear', 'clear'],
+    ['clearConfirm', 'logic.clear.confirm'],
+    ['confirm', 'confirm'],
+    ['copyClipboard', 'copy.clipboard'],
+    ['delete', 'delete'],
+    ['edit', 'edit'],
+    ['export', 'editor.export'],
+    ['globals', 'logic.globals'],
+    ['loadClipboard', 'load.clipboard'],
+    ['ok', 'ok'],
+    ['restart', 'logic.restart'],
+    ['search', 'players.search'],
+    ['variables', 'variables']
+]
+
+/**
  * Разбор .properties. Формат в бандлах Mindustry простой: UTF-8, «ключ = значение»,
  * без переносов строк через обратный слэш и без \uXXXX. Разбираем то, что реально встречается,
  * но экранированные переводы строки раскрываем.
@@ -223,7 +249,13 @@ function main() {
 
             // Подсказка при первом скрытии интерфейса: `HudFragment` показывает её
             // объявлением и подставляет в неё клавишу
-            showui: props.get('showui') ?? ''
+            showui: props.get('showui') ?? '',
+
+            // Надписи окна логики. Своих у нас быть не должно: игра пишет на кнопках
+            // ровно эти строки, и переведены они официально
+            dialog: Object.fromEntries(DIALOG_KEYS
+                .map(([name, key]) => [name, props.get(key) ?? ''])
+                .filter(([, value]) => value !== ''))
         }
 
         const output = {

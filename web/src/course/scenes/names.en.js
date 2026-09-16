@@ -296,7 +296,14 @@ export const NAMES = {
     разные: 'differ',
     снова: 'again',
     'снова:': 'again:',
-    проверок: 'checks'
+    проверок: 'checks',
+
+    // Песочница: сцена по умолчанию
+    открыт: 'open',
+    есть: 'found',
+    фаза: 'phase',
+    юнитX: 'unitX',
+    юнитY: 'unitY'
 }
 
 /**
@@ -331,5 +338,11 @@ export const STRINGS = {
     'Держите оборону!': 'Hold the line!',
     'дождь: ': 'rain: ',
     'Постройте бур': 'Build a drill',
-    'Задача выполнена': 'Task complete'
+    'Задача выполнена': 'Task complete',
+
+    // Песочница: табло и цели сцены по умолчанию
+    'шаг: ': 'step: ',
+    склад: 'store',
+    '[accent]Продержаться: []{0}': '[accent]Hold out: []{0}',
+    '[accent]Натаскать на склад: []10 меди': '[accent]Haul to the store: []10 copper'
 }

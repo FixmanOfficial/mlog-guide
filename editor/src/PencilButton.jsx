@@ -3,6 +3,7 @@ import {useRef, useState} from 'preact/hooks'
 import {ALIGNS} from './bodies.js'
 import {SelectPopup} from './SelectPopup.jsx'
 import {Icon} from './Icon.jsx'
+import {uiText} from './names.js'
 
 /**
  * Карандаш рядом с полем: кнопка 40 на 40 со значком `Icon.pencilSmall`, открывающая табличку
@@ -31,7 +32,7 @@ export function PencilButton({kind, value, onPick}) {
             <button
                 class="pencil"
                 ref={anchor}
-                title={align ? 'Выбрать выравнивание' : 'Выбрать символ'}
+                title={uiText(align ? 'align' : 'symbol')}
                 onClick={() => setOpen(!open)}
             >
                 <Icon name="pencil_" size={20} />

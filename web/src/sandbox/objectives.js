@@ -13,14 +13,14 @@
  * нельзя.
  */
 
-import bundle from '@mlog/core/data/i18n/ru.json'
 import {parseMarkup} from '@mlog/editor'
+import {nameBundle} from '@mlog/editor/src/names.js'
 
 /** Метка на месте иконки: символ, которого не бывает в тексте игры. */
 const MARK = ''
 
 /** Название контента на языке страницы. */
-const named = (type, name) => bundle.content[type]?.[name] ?? name
+const named = (type, name) => nameBundle().content[type]?.[name] ?? name
 
 /**
  * Аргументы по видам целей — в том порядке, в каком их подставляет игра.
@@ -92,7 +92,7 @@ export function objectiveNodes(objective, world) {
         template = data.text
         args = objective.kind === 'timer' ? [timeString(data.left)] : []
     } else {
-        template = bundle.objectives.objectives[data.key.replace('objective.', '')]
+        template = nameBundle().objectives.objectives[data.key.replace('objective.', '')]
         if (template === undefined) return []
 
         args = ARGUMENTS[objective.kind]?.(data) ?? []

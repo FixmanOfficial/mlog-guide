@@ -5,7 +5,7 @@ import {describeBody, CUSTOM_BODIES, DRAW_DEFAULTS} from './bodies.js'
 import {categoryColor, headerTextColor, displayName} from './theme.js'
 import {instructionTip, propertyTip, paramTip} from './tooltips.js'
 import {tipProps, hideTip} from './tip.js'
-import {statementName, tokenName, enumLabel, useLocalization} from './names.js'
+import {statementName, tokenName, enumLabel, uiText, useLocalization} from './names.js'
 import {SelectPopup} from './SelectPopup.jsx'
 import {Icon} from './Icon.jsx'
 import {ContentButton} from './ContentButton.jsx'
@@ -54,13 +54,13 @@ export function StatementRow({
                 <span class="statement__index">{index}</span>
 
                 {/* LCanvas: обе кнопки гаснут, когда инструкций стало максимум */}
-                <button class="statement__button" title="Добавить после" disabled={full} onClick={onAdd}>
+                <button class="statement__button" title={uiText('addBelow')} disabled={full} onClick={onAdd}>
                     <Icon name="add" size={20} />
                 </button>
-                <button class="statement__button" title="Копировать" disabled={full} onClick={onCopy}>
+                <button class="statement__button" title={uiText('copy')} disabled={full} onClick={onCopy}>
                     <Icon name="copy" size={20} />
                 </button>
-                <button class="statement__button" title="Удалить" onClick={onRemove}>
+                <button class="statement__button" title={uiText('delete')} onClick={onRemove}>
                     <Icon name="cancel" size={20} />
                 </button>
             </div>
@@ -75,7 +75,7 @@ export function StatementRow({
                         <span class="statement__spacer" />
                         <button
                             class={`jump-target${selecting ? ' jump-target--active' : ''}`}
-                            title="Перетащить на строку, куда прыгать"
+                            title={uiText('drag')}
                             onPointerDown={onPickTarget}
                         >
                             <JumpNode />
