@@ -63,8 +63,8 @@ function courseParts() {
      */
     const groupItem = (group) => ({
         label: group.opcode === undefined ? group.en ?? group.title : instructionName(group.opcode),
-        translations: group.opcode === undefined ? {ru: group.title} : undefined,
-        autogenerate: {directory: `course/${group.id}`}
+        ...(group.opcode === undefined ? {translations: {ru: group.title}} : {}),
+        items: [{autogenerate: {directory: `course/${group.id}`}}]
     })
 
     /** Категория с написанными группами внутри, или null, если писать ещё нечего. */

@@ -25,7 +25,7 @@ npm workspaces, dependencies go one way:
 
 ## Running
 
-Node 22 or newer.
+Node 22.12 or newer.
 
 ```bash
 npm install

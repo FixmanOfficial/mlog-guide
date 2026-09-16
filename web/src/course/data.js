@@ -25,15 +25,15 @@ export async function groupLessons(locale, group) {
     const prefix = `${locale}/course/${group}/`
 
     const entries = (await getCollection('docs'))
-        .filter(entry => entry.slug.startsWith(prefix))
+        .filter(entry => entry.id.startsWith(prefix))
         // Страница самой группы — не урок: она про группу целиком
-        .filter(entry => !entry.slug.endsWith('/index') && entry.slug !== prefix.slice(0, -1))
+        .filter(entry => !entry.id.endsWith('/index') && entry.id !== prefix.slice(0, -1))
 
     return entries
         .sort((a, b) => (a.data.sidebar?.order ?? 0) - (b.data.sidebar?.order ?? 0))
         .map(entry => ({
-            slug: entry.slug,
-            href: `/${entry.slug}/`,
+            slug: entry.id,
+            href: `/${entry.id}/`,
             title: entry.data.title,
             lead: entry.data.lead ?? null,
             difficulty: entry.data.difficulty ?? 'easy'
@@ -51,7 +51,7 @@ function singleLesson(page, locale, group) {
     if (page === undefined || page.data.difficulty === undefined) return []
 
     return [{
-        slug: page.slug,
+        slug: page.id,
         href: `/${locale}/course/${group}/`,
         title: page.data.title,
         lead: page.data.lead ?? null,
@@ -65,8 +65,8 @@ export async function courseGroups(locale) {
 
     for (const group of GROUPS) {
         const page = (await getCollection('docs'))
-            .find(entry => entry.slug === `${locale}/course/${group}`
-                || entry.slug === `${locale}/course/${group}/index`)
+            .find(entry => entry.id === `${locale}/course/${group}`
+                || entry.id === `${locale}/course/${group}/index`)
 
         const lessons = (await groupLessons(locale, group))
             .concat(singleLesson(page, locale, group))
@@ -82,7 +82,7 @@ export async function courseGroups(locale) {
              * человеческое название: «Основы», а не `basics`.
              */
             title: page?.data.title ?? group,
-            href: page === undefined ? lessons[0].href : `/${page.slug.replace(/\/index$/, '')}/`,
+            href: page === undefined ? lessons[0].href : `/${page.id.replace(/\/index$/, '')}/`,
             lead: page?.data.lead ?? null,
             lessons
         })

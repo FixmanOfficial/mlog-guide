@@ -36,7 +36,7 @@ function resolve(item) {
 
     const path = item.group ?? item.lesson
     const slug = `${locale}/course/${path}`
-    const page = pages.find(entry => entry.slug === slug)
+    const page = pages.find(entry => entry.id === slug)
 
     return {
         title: item.title ?? (item.group === undefined ? path : `${text.group} ${path}`),

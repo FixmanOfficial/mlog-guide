@@ -1,4 +1,6 @@
-import {defineCollection, z} from 'astro:content'
+import {defineCollection} from 'astro:content'
+import {z} from 'astro/zod'
+import {docsLoader, i18nLoader} from '@astrojs/starlight/loaders'
 import {docsSchema, i18nSchema} from '@astrojs/starlight/schema'
 
 /**
@@ -18,9 +20,10 @@ export const collections = {
      * без него берёт надпись языка по умолчанию — и на английской странице кнопка
      * выходила русской.
      */
-    i18n: defineCollection({type: 'data', schema: i18nSchema()}),
+    i18n: defineCollection({loader: i18nLoader(), schema: i18nSchema()}),
 
     docs: defineCollection({
+        loader: docsLoader(),
         schema: docsSchema({
             extend: z.object({
                 difficulty: z.enum(['easy', 'medium', 'hard']).optional(),

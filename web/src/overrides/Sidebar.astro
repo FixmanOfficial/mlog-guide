@@ -24,7 +24,7 @@ const address = (slug) => `/${slug.replace(/\/index$/, '')}/`
 
 const levels = new Map(pages
     .filter(page => page.data.difficulty !== undefined)
-    .map(page => [address(page.slug), page.data.difficulty]))
+    .map(page => [address(page.id), page.data.difficulty]))
 
 /** Дописывает сложность ссылкам меню, не трогая всё остальное. */
 function decorate(entries) {
@@ -39,6 +39,10 @@ function decorate(entries) {
     })
 }
 
+// Меню Starlight берёт из данных маршрута, а не из пропов: дописываем прямо туда
+const route = Astro.locals.starlightRoute
+route.sidebar = decorate(route.sidebar)
+
 /* Цвета уровней уезжают прямо в правила: в CSS их дублировать нельзя, они из палитры игры */
 const rules = [
     // Кружок перед названием урока — тот же, что в списке уроков: 8 точек, цвет из Pal
@@ -50,6 +54,6 @@ const rules = [
 ].join(String.fromCharCode(10))
 ---
 
-<Default {...Astro.props} sidebar={decorate(Astro.props.sidebar)} />
+<Default />
 
 <style is:global set:html={rules}></style>

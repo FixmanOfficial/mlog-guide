@@ -13,10 +13,10 @@ const NOTES = {
     ru: 'Неофициальный проект, с Anuke не связан. Спрайты, шрифты и переводы Mindustry © Anuke, используются по GPL-3.0; Fira Code — по OFL-1.1. Код сайта — GPL-3.0.'
 }
 
-const note = NOTES[Astro.props.locale as keyof typeof NOTES] ?? NOTES.en
+const note = NOTES[Astro.locals.starlightRoute.locale as keyof typeof NOTES] ?? NOTES.en
 ---
 
-<Default {...Astro.props}><slot /></Default>
+<Default><slot /></Default>
 <p class="attribution">{note}</p>
 
 <style>
