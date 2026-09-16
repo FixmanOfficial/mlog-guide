@@ -466,7 +466,13 @@ export class Objectives {
      * процессоров: флаг, поднятый программой в этом тике, цель увидит только в следующем.
      */
     update(world, delta = 1) {
-        for (const objective of this.running()) {
+        /*
+         * Работает ли цель, спрашивается прямо при обходе, а не заранее: `all.each(qualified, …)`.
+         * Цель, чей родитель стоит в списке раньше и выполнился в этом же тике, успевает
+         * проверить себя тут же, а не тиком позже.
+         */
+        for (const objective of [...this.all]) {
+            if (!objective.qualified()) continue
             if (objective.update(world, delta)) objective.done(world)
         }
 

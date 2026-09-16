@@ -660,3 +660,5 @@ Mindustry закрепляет arc хешем коммита в `gradle.properti
 | Маршрутизатор пропускает соседа, если это ворота переполнения, от которых пришёл предмет (`from.block() == Blocks.overflowGate`) | `Router.getTileTarget` | ✓ `distribution.test.js` |
 | Сортировщик настраивается только предметом: `config(Item.class, ...)`, прочий контент не меняет настройку | `Sorter.java:37` | ✓ `world.test.js` |
 | Обычный потребитель запрашивает `usage * (shouldConsume() ? 1 : 0)`: фабрика, которой некуда класть готовое, энергию сети не отнимает | `ConsumePower.java:56-60` | ✓ `power.test.js` |
+| У меток пустой первый параметр отменяет только общую часть `ObjectiveMarker.control`: виды разбирают параметры отдельными блоками, и второй работает сам по себе | `MapObjectives.java:762,837-851,929-951` | ✓ `objectives.test.js` |
+| Цели проверяются на ходу (`all.each(qualified, ...)`): потомок после родителя в списке выполняется в том же тике | `MapObjectives.update` | ✓ `objectives.test.js` |

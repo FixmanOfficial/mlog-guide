@@ -355,3 +355,43 @@ test('разбирается то, что игра считает разбира
     map.setWall(6, 6, 'stone-wall')
     assert.equal(map.canBreak(map.at(6, 6)), false, 'стены нет среди зданий, разбирать нечего')
 })
+
+test('потомок, стоящий в списке после родителя, проверяется в том же тике', () => {
+    // MapObjectives.update: `all.each(MapObjective::qualified, cons)` — проверка на ходу
+    const map = world()
+
+    const first = new CommandModeObjective()
+    const second = new CommandModeObjective()
+    second.parent(first)
+
+    map.objectives.add(first, second)
+    map.objectives.update(map)
+
+    assert.equal(first.completed, true)
+    assert.equal(second.completed, true, 'потомок ждал следующего тика')
+})
+
+test('у метки второй параметр работает и при пустом первом', () => {
+    /*
+     * MapObjectives: `ObjectiveMarker.control` возвращается на NaN, но вид разбирает
+     * параметры своими блоками, и `if(!isNaN(p2))` срабатывает сам по себе.
+     */
+    const text = new Marker('text')
+    text.control('pos', 3, 4)
+    text.control('pos', NaN, 9)
+    assert.deepEqual([text.props.x, text.props.y], [3 * 8, 9 * 8])
+
+    // Подложка не тронута, обводка выключена вторым параметром
+    text.control('labelFlags', NaN, 0)
+    assert.equal(text.props.flags, 1)
+
+    const shape = new Marker('shape')
+    shape.control('shape', NaN, 1, 0)
+    assert.equal(shape.props.sides, 4, 'стороны без первого параметра не меняются')
+    assert.equal(shape.props.fill, true)
+    assert.equal(shape.props.outline, false)
+
+    // Свет — общий для всех видов флаг
+    shape.control('light', 1)
+    assert.equal(shape.light, true)
+})

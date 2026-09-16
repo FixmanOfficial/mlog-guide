@@ -56,7 +56,13 @@ function colorOf(value) {
 /**
  * Виды меток: значения по умолчанию и `control`. Порядок разбора внутри каждого — как
  * в `MapObjectives`, включая то, какой параметр за что отвечает.
+ *
+ * Разбор в игре идёт отдельными блоками: «первый параметр задан», «второй задан»,
+ * «первый и третий заданы». Поэтому второй параметр работает и при пустом первом:
+ * `setmarker labelFlags id null 1` меняет обводку, не трогая подложку.
  */
+const has = (value) => !isNaN_(value)
+
 const TYPES = {
     /** ShapeTextMarker: подпись над фигурой. */
     shapetext: {
@@ -68,22 +74,24 @@ const TYPES = {
             radius: 6, rotation: 0, sides: 4, color: '#ffd37f'
         }),
         control(props, control, p1, p2) {
-            switch (control) {
-                case 'fontSize': props.fontSize = p1; break
-                case 'textHeight': props.textHeight = p1; break
-                case 'textAlign': props.textAlign = int(p1); break
-                case 'lineAlign': props.lineAlign = int(p1); break
-                case 'outline': props.flags = bitmask(props.flags, LABEL_OUTLINE, flagOf(p1)); break
-                case 'radius': props.radius = p1; break
-                case 'rotation': props.rotation = p1; break
-                case 'color': props.color = colorOf(p1); break
-                case 'shape': props.sides = int(p1); break
+            if (has(p1)) {
+                switch (control) {
+                    case 'fontSize': props.fontSize = p1; break
+                    case 'textHeight': props.textHeight = p1; break
+                    case 'textAlign': props.textAlign = int(p1); break
+                    case 'lineAlign': props.lineAlign = int(p1); break
+                    case 'outline': props.flags = bitmask(props.flags, LABEL_OUTLINE, flagOf(p1)); break
+                    case 'labelFlags': props.flags = bitmask(props.flags, LABEL_BACKGROUND, flagOf(p1)); break
+                    case 'radius': props.radius = p1; break
+                    case 'rotation': props.rotation = p1; break
+                    case 'color': props.color = colorOf(p1); break
+                    case 'shape': props.sides = int(p1); break
+                }
+            }
 
-                // Подложка первым параметром, обводка вторым
-                case 'labelFlags':
-                    props.flags = bitmask(props.flags, LABEL_BACKGROUND, flagOf(p1))
-                    if (!isNaN_(p2)) props.flags = bitmask(props.flags, LABEL_OUTLINE, flagOf(p2))
-                    break
+            // Обводка — вторым параметром `labelFlags`
+            if (has(p2) && control === 'labelFlags') {
+                props.flags = bitmask(props.flags, LABEL_OUTLINE, flagOf(p2))
             }
         }
     },
@@ -93,6 +101,8 @@ const TYPES = {
         pos: true,
         fields: () => ({x: 0, y: 0, radius: 5, stroke: 11, color: '#f25555'}),
         control(props, control, p1) {
+            if (!has(p1)) return
+
             switch (control) {
                 case 'radius': props.radius = p1; break
                 case 'stroke': props.stroke = p1; break
@@ -110,25 +120,25 @@ const TYPES = {
             sides: 4, color: '#ffd37f'
         }),
         control(props, control, p1, p2, p3) {
-            switch (control) {
-                case 'radius': props.radius = p1; break
-                case 'stroke': props.stroke = p1; break
-                case 'outline': props.outline = flagOf(p1); break
-                case 'rotation': props.rotation = p1; break
-                case 'color': props.color = colorOf(p1); break
-
-                // У `shape` заняты все три параметра: стороны, заливка, обводка
-                case 'shape':
-                    props.sides = int(p1)
-                    if (!isNaN_(p2)) props.fill = flagOf(p2)
-                    if (!isNaN_(p3)) props.outline = flagOf(p3)
-                    break
-
-                case 'arc':
-                    props.startAngle = p1
-                    if (!isNaN_(p2)) props.endAngle = p2
-                    break
+            if (has(p1)) {
+                switch (control) {
+                    case 'radius': props.radius = p1; break
+                    case 'stroke': props.stroke = p1; break
+                    case 'outline': props.outline = flagOf(p1); break
+                    case 'rotation': props.rotation = p1; break
+                    case 'color': props.color = colorOf(p1); break
+                    case 'shape': props.sides = int(p1); break
+                    case 'arc': props.startAngle = p1; break
+                }
             }
+
+            // У `shape` заняты все три параметра: стороны, заливка, обводка
+            if (has(p2)) {
+                if (control === 'shape') props.fill = flagOf(p2)
+                if (control === 'arc') props.endAngle = p2
+            }
+
+            if (has(p3) && control === 'shape') props.outline = flagOf(p3)
         }
     },
 
@@ -141,16 +151,18 @@ const TYPES = {
             textAlign: ALIGN.center, lineAlign: ALIGN.center
         }),
         control(props, control, p1, p2) {
-            switch (control) {
-                case 'fontSize': props.fontSize = p1; break
-                case 'textAlign': props.textAlign = int(p1); break
-                case 'lineAlign': props.lineAlign = int(p1); break
-                case 'outline': props.flags = bitmask(props.flags, LABEL_OUTLINE, flagOf(p1)); break
+            if (has(p1)) {
+                switch (control) {
+                    case 'fontSize': props.fontSize = p1; break
+                    case 'textAlign': props.textAlign = int(p1); break
+                    case 'lineAlign': props.lineAlign = int(p1); break
+                    case 'outline': props.flags = bitmask(props.flags, LABEL_OUTLINE, flagOf(p1)); break
+                    case 'labelFlags': props.flags = bitmask(props.flags, LABEL_BACKGROUND, flagOf(p1)); break
+                }
+            }
 
-                case 'labelFlags':
-                    props.flags = bitmask(props.flags, LABEL_BACKGROUND, flagOf(p1))
-                    if (!isNaN_(p2)) props.flags = bitmask(props.flags, LABEL_OUTLINE, flagOf(p2))
-                    break
+            if (has(p2) && control === 'labelFlags') {
+                props.flags = bitmask(props.flags, LABEL_OUTLINE, flagOf(p2))
             }
         }
     },
@@ -166,35 +178,39 @@ const TYPES = {
             color1: '#ffd37f', color2: '#ffd37f'
         }),
         control(props, control, p1, p2, p3) {
-            switch (control) {
-                case 'stroke': props.stroke = p1; break
-                case 'outline': props.outline = flagOf(p1); break
+            if (has(p1)) {
+                switch (control) {
+                    case 'endPos': props.endX = p1 * TILE; break
+                    case 'stroke': props.stroke = p1; break
+                    case 'outline': props.outline = flagOf(p1); break
 
-                case 'color':
-                    props.color1 = colorOf(p1)
-                    props.color2 = props.color1
-                    break
+                    case 'color':
+                        props.color1 = colorOf(p1)
+                        props.color2 = props.color1
+                        break
+                }
+            }
 
-                case 'endPos':
-                    props.endX = p1 * TILE
-                    if (!isNaN_(p2)) props.endY = p2 * TILE
-                    break
+            if (has(p2) && control === 'endPos') props.endY = p2 * TILE
 
-                // Номер конца первым параметром: 0 — начало, 1 — конец, прочее в никуда
-                case 'posi': {
-                    const keys = int(p1) === 0 ? ['x', 'y'] : int(p1) === 1 ? ['endX', 'endY'] : null
-                    if (keys === null) break
+            // Номер конца первым параметром: 0 — начало, 1 — конец, прочее в никуда
+            const end = (index, first, second) => int(index) === 0 ? first : int(index) === 1 ? second : null
 
-                    if (!isNaN_(p2)) props[keys[0]] = p2 * TILE
-                    if (!isNaN_(p3)) props[keys[1]] = p3 * TILE
-                    break
+            if (has(p1) && has(p2)) {
+                if (control === 'posi') {
+                    const key = end(p1, 'x', 'endX')
+                    if (key !== null) props[key] = p2 * TILE
                 }
 
-                case 'colori':
-                    if (isNaN_(p2)) break
-                    if (int(p1) === 0) props.color1 = colorOf(p2)
-                    else if (int(p1) === 1) props.color2 = colorOf(p2)
-                    break
+                if (control === 'colori') {
+                    const key = end(p1, 'color1', 'color2')
+                    if (key !== null) props[key] = colorOf(p2)
+                }
+            }
+
+            if (has(p1) && has(p3) && control === 'posi') {
+                const key = end(p1, 'y', 'endY')
+                if (key !== null) props[key] = p3 * TILE
             }
         }
     },
@@ -204,15 +220,15 @@ const TYPES = {
         pos: true,
         fields: () => ({x: 0, y: 0, width: 0, height: 0, rotation: 0, color: '#ffffff', texture: ''}),
         control(props, control, p1, p2) {
-            switch (control) {
-                case 'rotation': props.rotation = p1; break
-                case 'color': props.color = colorOf(p1); break
-
-                case 'textureSize':
-                    props.width = p1 * TILE
-                    if (!isNaN_(p2)) props.height = p2 * TILE
-                    break
+            if (has(p1)) {
+                switch (control) {
+                    case 'rotation': props.rotation = p1; break
+                    case 'textureSize': props.width = p1 * TILE; break
+                    case 'color': props.color = colorOf(p1); break
+                }
             }
+
+            if (has(p2) && control === 'textureSize') props.height = p2 * TILE
         }
     },
 
@@ -229,46 +245,46 @@ const TYPES = {
         control(props, control, p1, p2, p3) {
             const corner = (index) => index >= 0 && index < 4 ? props.corners[index] : null
 
-            switch (control) {
-                // Цветом красятся все четыре вершины сразу
-                case 'color':
-                    for (const each of props.corners) each.color = colorOf(p1)
-                    break
+            if (has(p1)) {
+                switch (control) {
+                    // Цветом красятся все четыре вершины сразу
+                    case 'color':
+                        for (const each of props.corners) each.color = colorOf(p1)
+                        break
 
-                /*
-                 * `pos` у четырёхугольника двигает нулевую вершину — и обе её координаты
-                 * берёт **из первого** параметра. Это ошибка игры (`vertices[1] = p1`),
-                 * но воспроизводится как есть: карты уже написаны под неё.
-                 */
-                case 'pos':
-                    props.corners[0].x = p1 * TILE
-                    if (!isNaN_(p2)) props.corners[0].y = p1 * TILE
-                    break
+                    case 'pos': props.corners[0].x = p1 * TILE; break
 
-                case 'posi': {
-                    const at = corner(int(p1))
-                    if (at === null) break
+                    case 'posi': {
+                        const at = corner(int(p1))
+                        if (at === null) break
 
-                    if (!isNaN_(p2)) at.x = p2 * TILE
-                    if (!isNaN_(p3)) at.y = p3 * TILE
-                    break
+                        if (has(p2)) at.x = p2 * TILE
+                        if (has(p3)) at.y = p3 * TILE
+                        break
+                    }
+
+                    case 'uvi': {
+                        const at = corner(int(p1))
+                        if (at === null) break
+
+                        // Игра зажимает координаты текстуры и переворачивает вторую
+                        if (has(p2)) at.u = Math.min(1, Math.max(0, p2))
+                        if (has(p3)) at.v = 1 - Math.min(1, Math.max(0, p3))
+                        break
+                    }
                 }
+            }
 
-                case 'uvi': {
-                    const at = corner(int(p1))
-                    if (at === null) break
+            /*
+             * `pos` у четырёхугольника берёт обе координаты нулевой вершины **из первого**
+             * параметра. Это ошибка игры (`vertices[1] = p1`), и она воспроизводится как есть:
+             * карты уже написаны под неё.
+             */
+            if (has(p2) && control === 'pos') props.corners[0].y = p1 * TILE
 
-                    // Игра зажимает координаты текстуры и переворачивает вторую
-                    if (!isNaN_(p2)) at.u = Math.min(1, Math.max(0, p2))
-                    if (!isNaN_(p3)) at.v = 1 - Math.min(1, Math.max(0, p3))
-                    break
-                }
-
-                case 'colori': {
-                    const at = corner(int(p1))
-                    if (at !== null && !isNaN_(p2)) at.color = colorOf(p2)
-                    break
-                }
+            if (has(p1) && has(p2) && control === 'colori') {
+                const at = corner(int(p1))
+                if (at !== null) at.color = colorOf(p2)
             }
         }
     }
@@ -285,28 +301,33 @@ export class Marker {
         // Общее у всех: где показывать и на каком слое. ObjectiveMarker
         this.world = true
         this.minimap = false
+        this.light = false
         this.autoscale = false
         this.drawLayer = OVERLAY_UI
     }
 
     /**
-     * ObjectiveMarker.control плюс то, что добавил конкретный вид. NaN в первом параметре
-     * означает «ничего не делать» — и это проверяется до всего остального.
+     * ObjectiveMarker.control плюс то, что добавил конкретный вид.
+     *
+     * Пустой первый параметр отменяет только общую часть: `super.control` возвращается,
+     * а вид дальше разбирает свои параметры сам. Поэтому `setmarker pos id null 5`
+     * двигает метку по вертикали.
      */
     control(control, p1, p2 = NaN, p3 = NaN) {
-        if (isNaN_(p1)) return this
-
-        // Эти четыре понимают все виды без исключения
-        switch (control) {
-            case 'world': this.world = flagOf(p1); break
-            case 'minimap': this.minimap = flagOf(p1); break
-            case 'autoscale': this.autoscale = flagOf(p1); break
-            case 'drawLayer': this.drawLayer = p1; break
+        if (!isNaN_(p1)) {
+            // Эти пять понимают все виды без исключения
+            switch (control) {
+                case 'world': this.world = flagOf(p1); break
+                case 'minimap': this.minimap = flagOf(p1); break
+                case 'light': this.light = flagOf(p1); break
+                case 'autoscale': this.autoscale = flagOf(p1); break
+                case 'drawLayer': this.drawLayer = p1; break
+            }
         }
 
         // Положение живёт в PosMarker, поэтому его понимают все, кроме четырёхугольника
         if (control === 'pos' && TYPES[this.type].pos) {
-            this.props.x = p1 * TILE
+            if (!isNaN_(p1)) this.props.x = p1 * TILE
             if (!isNaN_(p2)) this.props.y = p2 * TILE
         }
 
