@@ -636,3 +636,15 @@ Mindustry закрепляет arc хешем коммита в `gradle.properti
 | Обычное состояние кнопки `squareTogglei` чёрное, наведение — `#454545` (`flatOver` это `whiteui`, тонированный этим цветом) | `ui/Styles.java:116,324-329` | — |
 | Всплывающая таблица создаётся с фоном `Tex.paneSolid` и отступом 4. Разбор спрайта: рамка **4 пикселя** цвета `#454545`, внутри сплошной чёрный. Фон однотонный — ни вкладки, ни списки своего фона не имеют | `sprites/ui/pane-solid.9.png`, `LStatement.showSelectTable` | — |
 | **Прокрутка охватывает и вкладки.** `showSelectTable` оборачивает `ScrollPane` вокруг всего содержимого разом, а не вокруг одного списка, поэтому полоса идёт во всю высоту таблицы | `LStatement.showSelectTable:273-276` | — |
+
+## Ревью 16 сентября: радар, память, печать
+
+| Деталь | Источник | Тест |
+| --- | --- | --- |
+| Цель `radar` от юнита хранится в его контроллере (`ai.execCache.put(this, best)`), а не в инструкции: у каждого юнита своя | `LExecutor.RadarI.run` | ✓ `radar.test.js` |
+| `radar` от здания пересчитывает цель по своему таймеру в 30 тиков **или** когда сменилось здание-источник (`lastSourceBuild != base`). Таймер — поле экземпляра, общий на все инструкции только `best` | `LExecutor.java:733-767` | ✓ `radar.test.js` |
+| Мировой процессор ищет радаром и от чужого источника: `exec.privileged \|\| r.team() == exec.team` | `LExecutor.java:759` | ✓ `radar.test.js` |
+| Ячейка памяти читается и пишется только своей командой и не мировая; мировому процессору — любая. Чужому `read` отвечает пустотой | `MemoryBlock.java:85-109`, `LExecutor.ReadI` | ✓ `radar.test.js` |
+| Адрес ячейки — `position.numi()`: строка как непустой объект даёт единицу | `MemoryBlock.java:90` | ✓ `radar.test.js` |
+| `print` и `format` сравнивают число с `Math.round` — long с насыщением, — приведённым обратно к double. Поэтому `1e19` печатается `1.0E19`, а ровно 2^63 — `9223372036854775807` | `LExecutor.java:1070,1152` | ✓ `semantics.test.js` |
+| `setprop @team` числом: `Team.get((int)value)` = `all[((byte)id) & 0xff]` | `BuildingComp.java:2185`, `UnitComp.java:376`, `Team.java:58` | ✓ `radar.test.js` |

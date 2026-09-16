@@ -241,6 +241,9 @@ const DERELICT_TEAM = 0
  */
 function checkLogicAI(vm, unit, control) {
     if (!(unit instanceof Unit) || unit.dead) return null
+
+    // Управлять можно только тем, кто привязан: `exec.unit.obj() == unit`
+    if (vm.vars.get('@unit')?.obj() !== unit) return null
     if (unit.team !== vm.team && !vm.privileged) return null
     if (!unit.spec.logicControllable) return null
 
@@ -348,67 +351,90 @@ function findBuilding(vm, unit, mode, flag, enemy) {
 function radarBuilder(asm, params, fromUnit) {
     const targets = [0, 1, 2].map(index => params[index] ?? 'any')
     const sort = params[3] ?? 'distance'
-    const from = asm.var(params[4] ?? 'turret1')
+    const from = fromUnit ? asm.var('@unit') : asm.var(params[4] ?? 'turret1')
     const order = asm.var(params[5] ?? '1')
     const output = asm.var(params[6] ?? 'result')
 
     const filters = targets.map(name => RADAR_TARGETS[name] ?? RADAR_TARGETS.any)
     const measure = RADAR_SORTS[sort] ?? RADAR_SORTS.distance
 
-    // Своё состояние на каждую инструкцию: в игре кеш живёт в самом объекте инструкции
-    const state = {found: null, at: -Infinity}
+    /*
+     * Своё состояние на каждую инструкцию: в игре кеш здания живёт в самом объекте
+     * инструкции (`lastTarget`, `lastSourceBuild`, `timer`). Кеш юнита — нет: он лежит
+     * в контроллере юнита (`ai.execCache`), а ключом служит инструкция. Иначе юниты,
+     * которых обходит одна и та же строка, получали бы цели друг друга.
+     */
+    const state = {found: null, at: -Infinity, source: null}
 
     return {
         run: (vm) => {
-            const base = fromUnit ? asm.var('@unit').obj() : from.obj()
+            const base = from.obj()
 
-            if (base === null || base === undefined || base.team !== vm.team || vm.world === null) {
-                return output.setobj(null)
-            }
+            if (base === null || base === undefined || vm.world === null) return output.setobj(null)
+
+            // Мировой процессор ищет и от чужих: `exec.privileged || r.team() == exec.team`
+            if (base.team !== vm.team && !vm.privileged) return output.setobj(null)
 
             /*
-             * Поиск от юнита берёт его под управление и считает по своему окну: набор
-             * посчитанных инструкций живёт в контроллере и чистится раз в 40 тиков.
-             * У здания окно своё — 30 тиков. RadarI: `timer.get(30f)` против
-             * `ai.checkTargetTimer(this)`
+             * Источник — здание или юнит под нашим управлением. Юнит берётся под контроль
+             * и считает по окну контроллера, здание — по своему таймеру в 30 тиков
+             * и заново, стоит источнику смениться. RadarI.run
              */
-            const ai = fromUnit ? checkLogicAI(vm, base, true) : null
-            if (fromUnit && ai === null) return output.setobj(null)
+            const isUnit = base instanceof Unit
+            const ai = isUnit ? checkLogicAI(vm, base, true) : null
+            if (isUnit && ai === null) return output.setobj(null)
+
+            // Привилегированное здание — источник только для мирового процессора
+            if (!isUnit && base.spec?.privileged === true && !vm.privileged) return output.setobj(null)
 
             // У юнита дальность своя, у здания это дальность связи: LogicBlock.range
-            const range = fromUnit ? base.range() : base.spec?.range
+            const range = isUnit ? base.range() : base.spec?.range
             if (range === undefined || range === null) return output.setobj(null)
 
             // Здание живёт в тайлах, юнит в мировых единицах — считаем в мировых
-            const source = fromUnit
+            const source = isUnit
                 ? base
                 : {x: unconv(base.x + base.offset), y: unconv(base.y + base.offset)}
 
-            const recount = fromUnit
-                ? ai.checkTargetTimer(state)
-                : vm.world.tick - state.at >= RADAR_PERIOD
+            let recount
 
-            if (recount) {
-                state.at = vm.world.tick
-                state.found = null
+            if (isUnit) {
+                recount = ai.checkTargetTimer(state)
+            } else {
+                // `timer.get(30f) || lastSourceBuild != base`: таймер сбрасывается, только когда сработал сам
+                const fired = vm.world.tick - state.at >= RADAR_PERIOD
+                if (fired) state.at = vm.world.tick
+                recount = fired || state.source !== base
+            }
 
-                const direction = order.bool() ? 1 : -1
-                let best = 0
+            if (!recount) {
+                return output.setobj(isUnit ? ai.execCache.get(state) ?? null : state.found)
+            }
 
-                for (const unit of vm.world.units) {
-                    if (unit === base || unit.dead || !unit.spec.targetable) continue
-                    if (!unit.within(source.x, source.y, range)) continue
-                    if (!filters.every(filter => filter(base.team, unit))) continue
+            const direction = order.bool() ? 1 : -1
+            let best = 0
+            let found = null
 
-                    const value = measure(source, unit) * direction
-                    if (value > best || state.found === null) {
-                        best = value
-                        state.found = unit
-                    }
+            for (const unit of vm.world.units) {
+                if (unit === base || unit.dead || !unit.spec.targetable) continue
+                if (!unit.within(source.x, source.y, range)) continue
+                if (!filters.every(filter => filter(base.team, unit))) continue
+
+                const value = measure(source, unit) * direction
+                if (value > best || found === null) {
+                    best = value
+                    found = unit
                 }
             }
 
-            output.setobj(state.found)
+            if (isUnit) {
+                ai.execCache.set(state, found)
+            } else {
+                state.source = base
+                state.found = found
+            }
+
+            output.setobj(found)
         }
     }
 }
@@ -454,12 +480,29 @@ function printValue(variable) {
         return '[object]'
     }
 
-    // Порог 1e-5, тот же, что у bool(): близкое к целому печатается целым
-    if (Math.abs(variable.numval - Math.round(variable.numval)) < 0.00001) {
-        return String(Math.round(variable.numval))
-    }
+    return numberText(variable.numval)
+}
 
-    return javaDoubleToString(variable.numval)
+const LONG_MAX = 9223372036854775807n
+const LONG_MIN = -9223372036854775808n
+
+/**
+ * Число так, как его печатают `print` и `format`. Порог 1e-5, тот же, что у bool():
+ * близкое к целому печатается целым.
+ *
+ * Целое в игре — это `Math.round(double)`, то есть **long**: за пределами 2^63 оно упирается
+ * в край. Сравнение затем идёт с этим long, приведённым обратно к double, — поэтому
+ * `1e19` не проходит проверку и печатается дробной записью `1.0E19`, а ровно 2^63
+ * проходит и печатается как `9223372036854775807`. Цифры берутся из BigInt: `String`
+ * у больших чисел перешёл бы на запись с `e+`. LExecutor.PrintI, FormatI
+ */
+function numberText(value) {
+    let rounded = BigInt(Math.round(value))
+    if (rounded > LONG_MAX) rounded = LONG_MAX
+    if (rounded < LONG_MIN) rounded = LONG_MIN
+
+    if (Math.abs(value - Number(rounded)) < 0.00001) return rounded.toString()
+    return javaDoubleToString(value)
 }
 
 /**
@@ -671,11 +714,11 @@ const builders = {
                     else output.setobj(stored ?? null)
                 } else if (Array.isArray(object)) {
                     // Список: так читается @queries, который наполняет `query`
-                    const index = position.num() | 0
+                    const index = position.numi()
                     output.setobj(index < 0 || index >= object.length ? null : object[index])
                 } else if (typeof object === 'string') {
                     // Чтение из строки отдаёт код символа, а за границами — NaN
-                    const index = position.num() | 0
+                    const index = position.numi()
                     output.setnum(index < 0 || index >= object.length ? NaN : object.charCodeAt(index))
                 } else {
                     output.setobj(null)
@@ -1862,7 +1905,7 @@ const builders = {
 
         return {
             run: (vm) => {
-                const address = index.num() | 0
+                const address = index.numi()
                 output.setobj(address >= 0 && address < vm.links.length ? vm.links[address] : null)
             }
         }
@@ -1874,7 +1917,7 @@ const builders = {
         const index = asm.var(params[2] ?? '0')
 
         return {
-            run: (vm) => output.setobj(vm.lookup(type, index.num() | 0))
+            run: (vm) => output.setobj(vm.lookup(type, index.numi()))
         }
     },
 

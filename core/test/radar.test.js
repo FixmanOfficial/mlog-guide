@@ -1190,3 +1190,129 @@ test('множители правил принадлежат команде, а 
     enemy.damage(40)
     assert.equal(was - enemy.health, 40, 'чужому — нет')
 })
+
+/** Процессор, стоящий в мире: обычный или мировой, своей команды. */
+function place(world, type, code, {x = 1, y = 1, team = 1, links = []} = {}) {
+    const building = world.add(type, {x, y, team})
+    const processor = new Processor(code, {
+        world, content, globals: content.globals, building,
+        team, ipt: building.spec.ipt, links
+    })
+
+    building.processor = processor
+    world.addProcessor(processor)
+    return processor
+}
+
+test('uradar держит цель у каждого юнита своей, а не одну на инструкцию', () => {
+    // RadarI: у юнита кеш лежит в контроллере, `ai.execCache.put(this, best)`
+    const {world, processor} = setup([
+        'ubind @poly',
+        'uradar enemy any any distance 0 1 result'
+    ].join('\n'))
+
+    world.spawn('poly', {x: 10, y: 10})
+    world.spawn('poly', {x: 30, y: 30})
+    const nearFirst = world.spawn('dagger', {x: 11, y: 10, team: 2})
+    world.spawn('dagger', {x: 31, y: 30, team: 2})
+
+    // Первый поли, второй поли, и снова первый — уже из кеша своего окна
+    processor.run(6)
+    assert.equal(processor.get('result').obj()?.id, nearFirst.id)
+})
+
+test('radar пересчитывает цель, как только сменился источник', () => {
+    // RadarI: `timer.get(30f) || lastSourceBuild != base`
+    const world = new World({width: 60, height: 20, content, floor: 'stone'})
+    const left = world.add('logic-processor', {x: 5, y: 5})
+    const right = world.add('logic-processor', {x: 50, y: 5})
+    const processor = place(world, 'logic-processor', 'radar enemy any any distance src 1 result',
+        {x: 28, y: 5})
+
+    world.spawn('dagger', {x: 6, y: 5, team: 2})
+    const nearRight = world.spawn('dagger', {x: 51, y: 5, team: 2})
+
+    processor.get('src').setobj(left)
+    processor.run(1)
+
+    // Тот же тик, другой источник: цель уже его, а не левого
+    processor.get('src').setobj(right)
+    processor.run(1)
+    assert.equal(processor.get('result').obj()?.id, nearRight.id)
+})
+
+test('мировой процессор ищет радаром и от чужого здания', () => {
+    // RadarI: `exec.privileged || r.team() == exec.team`
+    const world = new World({width: 40, height: 20, content, floor: 'stone'})
+    const enemy = world.add('logic-processor', {x: 20, y: 5, team: 2})
+    const target = world.spawn('dagger', {x: 21, y: 5, team: 1})
+
+    const code = 'radar enemy any any distance src 1 result'
+    const privileged = place(world, 'world-processor', code, {x: 1, y: 1})
+    const plain = place(world, 'logic-processor', code, {x: 3, y: 1})
+
+    privileged.get('src').setobj(enemy)
+    plain.get('src').setobj(enemy)
+    privileged.run(1)
+    plain.run(1)
+
+    assert.equal(privileged.get('result').obj()?.id, target.id)
+    assert.equal(plain.get('result').obj(), null)
+})
+
+test('ячейка памяти отвечает только своей команде и мировому процессору', () => {
+    // MemoryBuild.readable/writable: `exec.privileged || (team == exec.team && !block.privileged)`
+    const world = new World({width: 20, height: 20, content, floor: 'stone'})
+    const foreign = world.add('memory-cell', {x: 8, y: 8, team: 2})
+    foreign.write(0, 5)
+
+    const code = 'read got cell 0\nwrite 9 cell 1'
+    const plain = place(world, 'logic-processor', code, {x: 1, y: 1})
+    const privileged = place(world, 'world-processor', code.replace('got', 'seen'), {x: 3, y: 1})
+
+    plain.get('cell').setobj(foreign)
+    plain.run(2)
+    assert.equal(plain.get('got').obj(), null, 'чужая ячейка прочиталась')
+    assert.equal(foreign.read(1), 0, 'в чужую ячейку записалось')
+
+    privileged.get('cell').setobj(foreign)
+    privileged.run(2)
+    assert.equal(privileged.num('seen'), 5)
+    assert.equal(foreign.read(1), 9)
+
+    // Мировую ячейку обычный процессор тоже не видит
+    const worldCell = world.add('world-cell', {x: 12, y: 12, team: 1})
+    worldCell.write(0, 7)
+    const again = place(world, 'logic-processor', 'read got cell 0', {x: 5, y: 1})
+    again.get('cell').setobj(worldCell)
+    again.run(1)
+    assert.equal(again.get('got').obj(), null)
+})
+
+test('строка адресом ячейки читает первое место', () => {
+    // MemoryBuild.read: `position.numi()`, а у непустого объекта это единица
+    const world = new World({width: 20, height: 20, content, floor: 'stone'})
+    const cell = world.add('memory-cell', {x: 8, y: 8})
+    cell.write(1, 42)
+
+    const processor = place(world, 'logic-processor', 'read got cell1 "abc"\nwrite 3 cell1 "x"', {links: [cell]})
+    processor.run(2)
+
+    assert.equal(processor.num('got'), 42)
+    assert.equal(cell.read(1), 3)
+})
+
+test('setprop @team берёт номер команды по модулю 256', () => {
+    // Team.get((int)value): `all[((byte)id) & 0xff]`
+    const world = new World({width: 20, height: 20, content, floor: 'stone'})
+    const router = world.add('router', {x: 8, y: 8})
+    const unit = world.spawn('dagger', {x: 5, y: 5})
+
+    const processor = place(world, 'world-processor', 'setprop @team b 258\nsetprop @team u -1')
+    processor.get('b').setobj(router)
+    processor.get('u').setobj(unit)
+    processor.run(2)
+
+    assert.equal(router.team, 2)
+    assert.equal(unit.team, 255)
+})

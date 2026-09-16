@@ -594,7 +594,8 @@ export class Unit {
             case 'velocityY': this.vel.y = value.num() * TILE_SIZE / 60; break
             case 'rotation': this.rotation = value.num(); break
             case 'flag': this.flag = value.num(); break
-            case 'team': this.team = value.isobj ? value.obj()?.teamId ?? this.team : value.num() | 0; break
+            // Team.get((int)value): номер берётся по модулю 256, как байт
+            case 'team': this.team = value.isobj ? value.obj()?.teamId ?? this.team : value.numi() & 0xff; break
         }
 
         return this

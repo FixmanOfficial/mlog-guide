@@ -188,7 +188,8 @@ export class Building {
         }
 
         if (property === 'team') {
-            this.team = value.isobj ? value.obj()?.teamId ?? this.team : value.num() | 0
+            // Team.get((int)value): номер берётся по модулю 256, как байт
+            this.team = value.isobj ? value.obj()?.teamId ?? this.team : value.numi() & 0xff
         }
 
         return this
@@ -232,6 +233,21 @@ export class Building {
         const taken = Math.min(this.items.get(item) ?? 0, amount)
         if (taken > 0) this.items.set(item, this.items.get(item) - taken)
         return taken
+    }
+
+    /**
+     * `readable(exec)`: читать и писать логикой можно целое здание своей команды и не
+     * привилегированное; мировому процессору — любое. Так спрашивают процессор и ячейка памяти.
+     *
+     * Без читателя (прямой вызов из движка или из теста) ограничений нет: в игре читателем
+     * всегда выступает исполнитель инструкции, а внутренние обращения проверять не у кого.
+     */
+    opensTo(other) {
+        if (other === null || other === undefined) return true
+        if (this.health <= 0) return false
+        if (other.privileged === true) return true
+
+        return !this.spec.privileged && this.team === other.team
     }
 
     /** Возвращает здание в исходное состояние. Переопределяется там, где есть что чистить. */
@@ -705,15 +721,27 @@ export class MemoryBuilding extends Building {
         }
     }
 
-    read(address) {
-        if (typeof address !== 'number') return null
-        return address < 0 || address >= this.memory.length ? null : this.memory[address]
+    /*
+     * Адрес у ячейки — всегда `position.numi()`. Строка в игре — непустой объект, и её
+     * `numi()` равен единице: `read x cell1 "abc"` читает место 1, а не пустоту.
+     *
+     * Читать и писать может только своя команда и только не в привилегированную ячейку;
+     * мировому процессору можно всё. Чужому `read` отвечает пустотой, `write` молчит.
+     * MemoryBuild.readable, writable
+     */
+    read(address, reader = null) {
+        if (!this.opensTo(reader)) return null
+
+        const at = typeof address === 'number' ? address : 1
+        return at < 0 || at >= this.memory.length ? null : this.memory[at]
     }
 
-    write(address, value) {
-        if (typeof address !== 'number') return
-        if (address < 0 || address >= this.memory.length) return
-        this.memory[address] = value
+    write(address, value, writer = null) {
+        if (!this.opensTo(writer)) return
+
+        const at = typeof address === 'number' ? address : 1
+        if (at < 0 || at >= this.memory.length) return
+        this.memory[at] = value
     }
 }
 
@@ -734,19 +762,6 @@ export class MemoryBuilding extends Building {
  * спрашивает ровно то же самое (`writable`).
  */
 export class LogicBuilding extends Building {
-    /**
-     * `LogicBuild.readable`: мировой читает всех, остальные — только своих и не мировых.
-     *
-     * Без читателя (прямой вызов из движка или из теста) ограничений нет: в игре читателем
-     * всегда выступает исполнитель инструкции, а внутренние обращения проверять не у кого.
-     */
-    opensTo(other) {
-        if (other === null || other === undefined) return true
-        if (other.privileged === true) return true
-
-        return !this.spec.privileged && this.team === other.team
-    }
-
     read(address, reader = null, output = null) {
         const processor = this.processor
         if (processor === undefined || processor === null) return null

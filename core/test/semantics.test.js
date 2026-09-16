@@ -242,3 +242,41 @@ test('статус накладывается константой контен�
     old.run(8)
     assert.equal(other.hasEffect('burning'), false)
 })
+
+test('print печатает большие числа так же, как игра', () => {
+    /*
+     * PrintI: целое — это `Math.round(double)`, то есть long с насыщением, а сравнение
+     * идёт с ним, приведённым обратно к double. LExecutor.PrintI
+     */
+    const printed = (value) => {
+        const processor = run(`print ${value}`, 1)
+        return processor.textBuffer
+    }
+
+    assert.equal(printed('1e18'), '1000000000000000000')
+    assert.equal(printed('1e19'), '1.0E19', 'за пределом long — дробной записью')
+    assert.equal(printed('1e21'), '1.0E21')
+    const edge = run(['op pow v 2 63', 'print v'].join('\n'), 2).textBuffer
+    assert.equal(edge, '9223372036854775807', 'ровно 2^63 упирается в край long')
+    assert.equal(printed('-3.5'), '-3.5')
+    assert.equal(printed('2.000001'), '2')
+})
+
+test('format подставляет большие числа по тем же правилам', () => {
+    const processor = run('print "x{0}"\nformat 1e21', 2)
+    assert.equal(processor.textBuffer, 'x1.0E21')
+})
+
+test('номер у getlink, lookup и read упирается в край int, а не заворачивается', () => {
+    // numi(): `(int)` в Java насыщает, а не берёт остаток
+    const processor = new Processor([
+        'getlink link 4294967296',
+        'lookup item thing 4294967297',
+        'read char "abc" 4294967297'
+    ].join('\n'), {links: [{name: 'cell1'}], content})
+
+    processor.run(3)
+    assert.equal(processor.get('link').obj(), null)
+    assert.equal(processor.get('thing').obj(), null)
+    assert.equal(processor.get('char').obj(), null, 'за краем строки — NaN, а в переменной он пустота')
+})
