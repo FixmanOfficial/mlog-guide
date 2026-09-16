@@ -172,3 +172,15 @@ test('раздача идёт по кругу, а не в первого поп�
     assert.equal(first.items.get('graphite') ?? 0, 1)
     assert.equal(second.items.get('graphite') ?? 0, 1)
 })
+
+test('сброс мира возвращает буру и поворот сверла', () => {
+    // Перемотка — это сброс и прогон заново: всё, что рисуется, должно вернуться к началу
+    const world = setup({ore: [[3, 3], [4, 3], [3, 4], [4, 4]]})
+    const drill = world.add('mechanical-drill', {x: 3, y: 3})
+
+    world.steps(200)
+    assert.ok(drill.timeDrilled > 0)
+
+    world.reset()
+    assert.equal(drill.timeDrilled, 0)
+})

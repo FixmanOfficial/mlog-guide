@@ -656,3 +656,6 @@ Mindustry закрепляет arc хешем коммита в `gradle.properti
 | `sensor @range` у турели в тайлах: `range() / tilesize` | `BuildingComp.java:2112`, `Turret.java:348` | ✓ `turret.test.js` |
 | Скорость цели для упреждения — её сдвиг за прошлый тик (`Hitboxc.deltaX`), а при вырожденном уравнении игра упреждения не даёт вовсе | `Predict.java:63-103` | ✓ `turret.test.js` |
 | Сплошной урон (`pierce`) раздаётся по клеткам: блок 2×2 целиком внутри круга получает его четырежды | `Damage.completeDamage`, `Damage.java:643-654` | ✓ `turret.test.js` |
+| Маршрутизатор держит указатель обхода отдельно для каждого предмета, и сдвигает его на каждом просмотренном соседе | `Router.java`, `getTileTarget`, `cycles[id]` | ✓ `distribution.test.js` |
+| Маршрутизатор пропускает соседа, если это ворота переполнения, от которых пришёл предмет (`from.block() == Blocks.overflowGate`) | `Router.getTileTarget` | ✓ `distribution.test.js` |
+| Сортировщик настраивается только предметом: `config(Item.class, ...)`, прочий контент не меняет настройку | `Sorter.java:37` | ✓ `world.test.js` |

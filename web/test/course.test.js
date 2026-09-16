@@ -1682,7 +1682,7 @@ test('урок «Настройка блока»: сортировщик вст�
 
     assert.equal(obj(processor, 'предмет').name, 'lead')
     assert.equal(obj(processor, 'настройка').name, 'lead')
-    assert.equal(world.get('sorter1').sortItem.name, 'lead')
+    assert.equal(world.get('sorter1').sortItem, 'lead')
 })
 
 test('урок «Настройка блока»: числом настройка не меняется', () => {

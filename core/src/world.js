@@ -392,7 +392,11 @@ export class Building {
          * У остальных `@config` это пустота. BuildingComp:2140
          */
         if (property === 'config') {
-            return this.spec.configSenseable === true ? this.configItem ?? null : null
+            if (this.spec.configSenseable !== true) return null
+
+            // Настроенный предмет хранится именем, а логике отдаётся объектом контента
+            const value = this.configItem ?? null
+            return typeof value === 'string' ? this.world?.content?.find?.(value) ?? null : value
         }
 
         // Первый предмет — тот, что раньше положили и он ещё не кончился

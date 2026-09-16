@@ -317,7 +317,7 @@ test('control config меняет настройку сортировщика, �
     world.addProcessor(processor)
     processor.run(2)
 
-    assert.equal(sorter.sortItem.name, 'copper')
+    assert.equal(sorter.sortItem, 'copper')
     assert.equal(processor.get('настройка').objval.name, 'copper')
 
     // Числом настройка не меняется: ветка `type.isObj && p1.isobj` до блока не доходит
@@ -325,7 +325,24 @@ test('control config меняет настройку сортировщика, �
     world.addProcessor(byNumber)
     byNumber.run(1)
 
-    assert.equal(sorter.sortItem.name, 'copper')
+    assert.equal(sorter.sortItem, 'copper')
+
+    // Не предмет — не настройка: `config(Item.class, ...)`
+    sorter.control('config', content.find('dagger'))
+    assert.equal(sorter.sortItem, 'copper')
+})
+
+test('сортировщик, настроенный логикой, пропускает свой предмет насквозь', () => {
+    const content = createContent(logicIds)
+    const world = new World({content, width: 10, height: 10})
+    const from = world.add('router', {x: 1, y: 3})
+    const sorter = world.add('sorter', {x: 2, y: 3})
+    world.add('router', {x: 3, y: 3})
+    world.add('router', {x: 2, y: 4})
+
+    sorter.control('config', content.find('copper'))
+    assert.equal(sorter.target('copper', from, false)?.x, 3, 'медь ушла не насквозь')
+    assert.equal(sorter.target('lead', from, false)?.y, 4, 'свинец ушёл не вбок')
 })
 
 test('настройка есть не у всякого блока, и @config у прочих пуст', () => {

@@ -20,6 +20,15 @@ const ITEM_SPACE = 0.4
 /** `Conveyor.capacity`: сколько предметов помещается на одну клетку ленты. Conveyor.java:28 */
 const CAPACITY = 3
 
+/**
+ * Имя предмета из настройки: строкой приходит от песочницы, объектом контента — от логики.
+ * Не предмет — настройка не меняется, как у `config(Item.class, ...)`.
+ */
+export function itemName(value, current) {
+    if (value === null || typeof value === 'string') return value
+    return value?.contentType === 'item' ? value.name : current
+}
+
 /** Смещения по сторонам света: `Geometry.d4`, где ноль это вправо. */
 const D4 = [{x: 1, y: 0}, {x: 0, y: 1}, {x: -1, y: 0}, {x: 0, y: -1}]
 
@@ -288,6 +297,12 @@ export class RouterBuilding extends Building {
         this.lastItem = null
         this.lastInput = null
         this.time = 0
+
+        /*
+         * Указатель обхода — свой у каждого предмета (`cycles[item.id]`): иначе медь и свинец,
+         * идущие через один маршрутизатор, сбивали бы друг другу очередь. Mindustry#12471
+         */
+        this.cycles = new Map()
     }
 
     reset() {
@@ -296,6 +311,7 @@ export class RouterBuilding extends Building {
         this.lastItem = null
         this.lastInput = null
         this.time = 0
+        this.cycles = new Map()
     }
 
     /** `Router.acceptItem`: строго по одному предмету и только от своей команды. */
@@ -313,17 +329,23 @@ export class RouterBuilding extends Building {
     }
 
     /**
-     * `Router.getTileTarget`: соседи перебираются по кругу, а указателем служит поворот блока —
-     * своего поля для этого у маршрутизатора нет.
+     * `Router.getTileTarget`: соседи перебираются по кругу от указателя этого предмета.
+     * Указатель сдвигается на каждом просмотренном соседе, а не только на принявшем.
+     *
+     * Воротам переполнения, от которых предмет пришёл, он назад не отдаётся: иначе ворота
+     * и маршрутизатор перекидывали бы его друг другу. Только обычным воротам —
+     * `from.block() == Blocks.overflowGate`, недополнения это не касается.
      */
     target(item, {advance = false} = {}) {
         const size = this.proximity.length
-        const start = this.rotation
+        const start = this.cycles.get(item) ?? 0
+        const from = this.lastInput
 
         for (let i = 0; i < size; i++) {
             const other = this.proximity[(i + start) % size]
-            if (advance) this.rotation = (this.rotation + 1) % size
+            if (advance) this.cycles.set(item, ((this.cycles.get(item) ?? 0) + 1) % size)
 
+            if (other === from && other.type === 'overflow-gate') continue
             if (other.acceptItem(this, item)) return other
         }
 
@@ -451,13 +473,17 @@ export class SorterBuilding extends Building {
         this.sortItem = this.initial.sortItem
     }
 
-    /** Настройка предметом. `Building.config` */
+    /**
+     * Настройка предметом. `Sorter`: `config(Item.class, ...)` — годится только предмет,
+     * остальной контент игнорируется. Хранится имя: по ленте едут имена, и сравнивать
+     * надо с ними; логика же присылает объект контента.
+     */
     get configItem() {
         return this.sortItem
     }
 
     set configItem(item) {
-        this.sortItem = item
+        this.sortItem = itemName(item, this.sortItem)
     }
 
     /** Мгновенная передача у обоих: два таких блока подряд предмет не гоняют. */

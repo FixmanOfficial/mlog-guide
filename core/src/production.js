@@ -51,6 +51,7 @@ export class DrillBuilding extends Building {
 
         this.progress = 0
         this.warmup = 0
+        this.timeDrilled = 0
     }
 
     /**
@@ -124,6 +125,9 @@ export class DrillBuilding extends Building {
 
         if (this.dominantItem === null) return
 
+        // Drill.updateTile: `timeDrilled += warmup * delta()` — до проверки, поэтому и на остывании
+        this.timeDrilled += this.warmup * delta
+
         const delay = this.drillTime(this.dominantItem)
         const total = [...(this.items?.values() ?? [])].reduce((sum, value) => sum + value, 0)
 
@@ -140,9 +144,6 @@ export class DrillBuilding extends Building {
         }
 
         this.warmup = approachDelta(this.warmup, speed, this.spec.warmupSpeed, delta)
-
-        // Drill.updateTile: `timeDrilled += warmup * delta()`
-        this.timeDrilled += this.warmup * delta
         this.progress += delta * this.dominantItems * speed * this.warmup
 
         if (this.progress >= delay) {

@@ -11,6 +11,7 @@
  */
 
 import {Building, registerBuilders} from './world.js'
+import {itemName} from './distribution.js'
 
 /**
  * Источник предметов.
@@ -45,7 +46,7 @@ export class ItemSourceBuilding extends Building {
     }
 
     set configItem(item) {
-        this.outputItem = item
+        this.outputItem = itemName(item, this.outputItem)
     }
 
     /** Источник ничего не принимает: `ItemSource.acceptItem` возвращает ложь всегда. */

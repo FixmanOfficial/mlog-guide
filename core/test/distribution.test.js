@@ -406,3 +406,38 @@ test('источник кормит сортировщик, а яма забир
 
     assert.ok(sorter.configItem === 'copper')
 })
+
+test('у маршрутизатора очередь соседей своя на каждый предмет', () => {
+    // Router.getTileTarget: `cycles[item.id]`, Mindustry#12471
+    const scene = world()
+    const router = scene.place('router', 5, 5)
+    const right = scene.place('item-void', 6, 5)
+    const up = scene.place('item-void', 5, 6)
+
+    const send = (item) => {
+        router.handleItem(right, item)
+        router.update(1)
+    }
+
+    // Медь ушла направо, свинец начинает свою очередь с начала — тоже направо
+    send('copper')
+    send('lead')
+    assert.deepEqual([right.consumed, up.consumed], [2, 0])
+
+    // Вторая медь идёт по своей очереди дальше — вверх
+    send('copper')
+    assert.deepEqual([right.consumed, up.consumed], [2, 1])
+})
+
+test('маршрутизатор не отдаёт предмет назад воротам переполнения', () => {
+    const scene = world()
+    const router = scene.place('router', 5, 5)
+    const gate = scene.place('overflow-gate', 6, 5)
+    const up = scene.place('item-void', 5, 6)
+
+    router.handleItem(gate, 'copper')
+    router.update(1)
+
+    assert.equal(up.consumed, 1)
+    assert.equal(router.items.get('copper') ?? 0, 0)
+})
