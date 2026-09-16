@@ -132,3 +132,13 @@ test('линия вдоль чужого конвейера его поворо�
     const plans = linePlans('conveyor', {x: 2, y: 2}, {x: 6, y: 2}, 0, world)
     assert.equal(plans.at(-1).rotation, 0)
 })
+
+test('плиточный дисплей протяжкой заполняет прямоугольник, а не линию', () => {
+    // InputHandler.iterateLine: `allowRectanglePlacement` → Placement.normalizeRectangle
+    const plans = linePlans('tile-logic-display', {x: 2, y: 2}, {x: 4, y: 3})
+
+    assert.deepEqual(plans.map(plan => [plan.x, plan.y]), [
+        [2, 2], [3, 2], [4, 2],
+        [2, 3], [3, 3], [4, 3]
+    ])
+})

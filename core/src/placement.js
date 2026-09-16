@@ -66,6 +66,24 @@ export function normalizeLine(startX, startY, endX, endY) {
 }
 
 /**
+ * Клетки прямоугольника. `Placement.normalizeRectangle`: у блоков с `allowRectanglePlacement`
+ * (стены и им подобные) протяжка заполняет область, а не линию, с шагом в размер блока.
+ */
+export function normalizeRectangle(startX, startY, endX, endY, size) {
+    const points = []
+    const width = Math.abs(endX - startX)
+    const height = Math.abs(endY - startY)
+
+    for (let y = 0; y <= height; y += size) {
+        for (let x = 0; x <= width; x += size) {
+            points.push({x: startX + x * Math.sign(endX - startX), y: startY + y * Math.sign(endY - startY)})
+        }
+    }
+
+    return points
+}
+
+/**
  * План постройки: клетки и поворот для каждой.
  *
  * @param type     что ставим
@@ -79,7 +97,9 @@ export function linePlans(type, start, end, rotation = 0, world = null) {
     const spec = BLOCK_SPECS[type]
     if (spec === undefined) return []
 
-    const points = normalizeLine(start.x, start.y, end.x, end.y)
+    const points = spec.allowRectanglePlacement === true
+        ? normalizeRectangle(start.x, start.y, end.x, end.y, spec.size)
+        : normalizeLine(start.x, start.y, end.x, end.y)
 
     /*
      * Линия упёрлась в чужой конвейер или трубу — последний блок берёт их поворот, а не
@@ -106,6 +126,12 @@ export function linePlans(type, start, end, rotation = 0, world = null) {
     const plans = []
     let last = null
 
+    /*
+     * Поворот держится между клетками: у игры это поле переиспользуемого `PlaceLine`, и когда
+     * следующая клетка не соседняя (новый ряд прямоугольника), он просто не меняется.
+     */
+    let held = base
+
     for (let i = 0; i < points.length; i++) {
         const point = points[i]
 
@@ -128,7 +154,10 @@ export function linePlans(type, start, end, rotation = 0, world = null) {
             turn = relativeTo(previous.x, previous.y, point.x, point.y)
         }
 
-        plans.push({type, x: point.x, y: point.y, rotation: spec.rotate === true ? turn : 0})
+        // `if(result != -1) line.rotation = result`
+        if (turn !== -1) held = turn
+
+        plans.push({type, x: point.x, y: point.y, rotation: spec.rotate === true ? held : 0})
         last = point
     }
 
