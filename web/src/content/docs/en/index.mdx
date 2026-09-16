@@ -1,9 +1,52 @@
 ---
 title: mlog.guide
-description: A guide and sandbox for Mindustry logic
+description: An interactive course and sandbox for Mindustry logic
+template: splash
+hero:
+    tagline: An interactive course and sandbox for Mindustry's logic language. Every example runs right on the page.
+    actions:
+        - text: Start the course
+          link: /en/course/basics/
+          icon: right-arrow
+        - text: Open the sandbox
+          link: /en/sandbox/
+          variant: minimal
 ---
 
-An interactive guide and sandbox for Mindustry's logic language.
+import {CardGrid, LinkCard} from '@astrojs/starlight/components'
 
-For now there is only the [sandbox](/en/sandbox/): the block editor, the interpreter and the
-world, all built from the game's own v159.7 sources.
+## What's here
+
+<CardGrid>
+    <LinkCard
+        title="Course"
+        href="/en/course/"
+        description="Over a hundred lessons, from the processor window to units and the world processor. Every instruction has its own group, and every lesson has an example you can edit and run."
+    />
+    <LinkCard
+        title="Sandbox"
+        href="/en/sandbox/"
+        description="The game's block editor, processors, displays, units and buildings. Slow time down, step through a program, or rewind it."
+    />
+    <LinkCard
+        title="Reference"
+        href="/en/reference/instructions/"
+        description="All 53 instructions with their parameters, built-in variables, sensor properties, status effects and game rules."
+    />
+    <LinkCard
+        title="Source code"
+        href="https://github.com/FixmanOfficial/mlog-guide"
+        description="The site's code on GitHub. Found a difference from the game? Open an issue."
+    />
+</CardGrid>
+
+## How close is it to the game
+
+The interpreter and the world are ported from the **Mindustry v160.4** sources rather than written
+from descriptions: a program behaves as it does in the game, down to rounding and execution order.
+The editor follows the game's layout and uses its sprites and fonts.
+
+The sandbox has no liquids, waves, weather or some combat effects. Lessons about those
+instructions say plainly that the example doesn't run them.
+
+The site is in beta.

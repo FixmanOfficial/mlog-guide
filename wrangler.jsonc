@@ -1,0 +1,11 @@
+// Выкладка на Cloudflare Workers: сайт статический, Worker только раздаёт `web/dist`.
+// Сборку запускает Cloudflare (`npm run build --workspace @mlog/web`), потом `wrangler deploy`.
+{
+  "name": "mlog-guide",
+  "compatibility_date": "2026-09-17",
+  "assets": {
+    "directory": "./web/dist",
+    // Несуществующий адрес отдаёт 404.html из сборки, а не пустой ответ
+    "not_found_handling": "404-page"
+  }
+}
