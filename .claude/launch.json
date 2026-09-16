@@ -22,6 +22,17 @@
         "@mlog/web"
       ],
       "port": 4321
+    },
+    {
+      "name": "web-lan",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev:lan",
+        "--workspace",
+        "@mlog/web"
+      ],
+      "port": 4321
     }
   ]
 }

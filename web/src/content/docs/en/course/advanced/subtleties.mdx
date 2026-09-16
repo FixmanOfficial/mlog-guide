@@ -54,9 +54,9 @@ There is no infinity and no "not a number" in mlog variables. The moment a compu
 an answer, the variable becomes **null**:
 
 ```
-op div x 5 0        // x = null
-op div y 0 0        // y = null
-op sqrt z -4        // z = null
+op div x 5 0        # x = null
+op div y 0 0        # y = null
+op sqrt z -4        # z = null
 ```
 
 That is not our invention but how a variable is built in the game: it does not store an unusable
@@ -108,8 +108,8 @@ through <Lesson lesson="read/strings">`read`</Lesson>. What you cannot do with i
 and compare it in order:
 
 ```
-op add x "abc" 5        // not an addition: a string in arithmetic is a one
-op lessThan y "abc" 5   // compares a one, not a string
+op add x "abc" 5        # not an addition: a string in arithmetic is a one
+op lessThan y "abc" 5   # compares a one, not a string
 ```
 
 In numeric operations a string behaves like an object: present is one, absent is zero.

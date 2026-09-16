@@ -82,8 +82,8 @@ jump 1 lessThan номер сколько
 Третье поле — команда, и оно решает, кого считать:
 
 ```
-query circle unit null 9 6 3 0       // всех: трое
-query circle unit @sharded 9 6 3 0   // только своих: двое
+query circle unit null 9 6 3 0       # всех: трое
+query circle unit @sharded 9 6 3 0   # только своих: двое
 ```
 
 Пустота (`null`) означает «любая команда». Конкретная команда — только её юниты. Условия

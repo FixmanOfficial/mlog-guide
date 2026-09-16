@@ -82,8 +82,8 @@ in another branch of the program.
 The third field is a team, and it decides who counts:
 
 ```
-query circle unit null 9 6 3 0       // everyone: three
-query circle unit @sharded 9 6 3 0   // ours only: two
+query circle unit null 9 6 3 0       # everyone: three
+query circle unit @sharded 9 6 3 0   # ours only: two
 ```
 
 Emptiness (`null`) means "any team". A specific team means its units only. There is no
