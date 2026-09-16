@@ -590,7 +590,10 @@ export class Unit {
      */
     setProp(property, value) {
         switch (property) {
-            case 'health': this.health = Math.min(Math.max(value.num(), 0), this.maxHealth); break
+            case 'health':
+                this.health = Math.min(Math.max(value.num(), 0), this.maxHealth)
+                if (this.health <= 0) this.kill()
+                break
             case 'x': this.x = unconv(value.num()); break
             case 'y': this.y = unconv(value.num()); break
             case 'velocityX': this.vel.x = value.num() * TILE_SIZE / 60; break
@@ -754,9 +757,20 @@ export class Unit {
             case 'buildX': return this.plan !== null ? this.plan.x : -1
             case 'buildY': return this.plan !== null ? this.plan.y : -1
             case 'flag': return this.flag
-            case 'speed': return this.spec.speed * 60 / TILE_SIZE
+            // Со множителем от эффектов состояния: `type.speed * 60 / tilesize * speedMultiplier`
+            case 'speed': return this.spec.speed * 60 / TILE_SIZE * this.multipliers.speed
             case 'size': return this.spec.hitSize / TILE_SIZE
+            // Грузов в модели нет; ёмкость — из типа, в тайлах (`tilePayload` = 8 * 8)
             case 'payloadCount': return 0
+            case 'totalPayload': return 0
+            case 'payloadCapacity': return this.spec.payloadCapacity / (TILE_SIZE * TILE_SIZE)
+
+            // Игроков в модели нет: для остальных контроллеров игра отвечает нулём
+            case 'selectedRotation':
+            case 'cameraX':
+            case 'cameraY':
+            case 'cameraWidth':
+            case 'cameraHeight': return 0
             case 'controlled': return this.controller instanceof LogicAI ? CTRL_PROCESSOR : 0
             default: return NaN
         }
@@ -770,9 +784,11 @@ export class Unit {
             case 'firstItem': return this.itemAmount === 0
                 ? null
                 : this.world?.content?.find?.(this.item) ?? null
-            case 'controller': return this.controller instanceof LogicAI
-                ? this.controller.controller
-                : this
+            // У мёртвого юнита контроллера нет вовсе: `!isValid() ? null : ...`
+            case 'controller': if (this.dead) return null
+                return this.controller instanceof LogicAI
+                    ? this.controller.controller
+                    : this
             default: return NOT_SENSED
         }
     }

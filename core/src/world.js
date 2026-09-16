@@ -184,6 +184,18 @@ export class Building {
     setProp(property, value) {
         if (property === 'health') {
             this.health = Math.min(Math.max(value.num(), 0), this.maxHealth)
+
+            // Ноль здоровья — это снос: `Call.buildDestroyed`
+            if (this.health <= 0) this.destroy()
+            return this
+        }
+
+        // Запас энергии пишется только буферу: `consPower.buffered`
+        if (property === 'totalPower') {
+            const consume = (this.spec.consumes ?? []).find(entry => entry.kind === 'power')
+            if (this.power !== null && consume?.buffered === true && consume.capacity > 0) {
+                this.power.status = Math.min(Math.max(value.num() / consume.capacity, 0), 1)
+            }
             return this
         }
 
@@ -317,10 +329,46 @@ export class Building {
             case 'powerNetStored': return this.power === null ? 0 : this.power.graph.lastPowerStored
             case 'powerNetCapacity': return this.power === null ? 0 : this.power.graph.lastCapacity
             case 'efficiency': return this.efficiency
-            case 'dead': return this.health <= 0 ? 1 : 0
+            // Снесённое и заменённое тоже мертво: `!isValid()`
+            case 'dead': return this.isValid() ? 0 : 1
             // BuildingComp: block.solid || checkSolid(). Дверь считает по-своему, см. ниже
             case 'solid': return this.spec.solid === true ? 1 : 0
-            case 'itemCapacity': return this.items === null ? 0 : this.maximumAccepted()
+            // Из блока, а не из `getMaximumAccepted`: `block.hasItems ? block.itemCapacity : 0`
+            case 'itemCapacity': return this.spec.hasItems === true ? this.spec.itemCapacity ?? 0 : 0
+            case 'liquidCapacity': return this.spec.hasLiquids === true ? this.spec.liquidCapacity ?? 0 : 0
+
+            // Жидкостей в модели нет, поэтому и в здании их ноль
+            case 'totalLiquids': return 0
+
+            /*
+             * Заряд: у буфера — доля, умноженная на ёмкость, у обычного потребителя — сама доля
+             * удовлетворённого запроса. `power.status * (buffered ? capacity : 1)`
+             */
+            case 'totalPower': {
+                const consume = (this.spec.consumes ?? []).find(entry => entry.kind === 'power')
+                if (this.power === null || consume === undefined) return 0
+                return this.power.status * (consume.buffered === true ? consume.capacity : 1)
+            }
+
+            case 'armor': return this.spec.armor ?? 0
+
+            // Ускорителей в модели нет: время здания идёт как у всех
+            case 'timescale': return 1
+
+            /*
+             * Дальность есть только у `Ranged`: турелей и логических процессоров — у них она
+             * в выгрузке. Прочим игра отвечает нулём, а не пустотой.
+             */
+            case 'range': return this.spec.range === undefined ? 0 : this.spec.range / 8
+
+            // Игроков, грузов и управляемых блоков в модели нет: ответ игры для прочих зданий
+            case 'controlled':
+            case 'payloadCount':
+            case 'cameraX':
+            case 'cameraY':
+            case 'cameraWidth':
+            case 'cameraHeight': return 0
+
             case 'totalItems': return this.items === null
                 ? 0
                 : [...this.items.values()].reduce((sum, value) => sum + value, 0)

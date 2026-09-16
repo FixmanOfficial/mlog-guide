@@ -11,6 +11,7 @@ import assert from 'node:assert/strict'
 import {readFileSync} from 'node:fs'
 
 import {World} from '../src/world.js'
+import '../src/power.js'
 import {Processor} from '../src/vm.js'
 import {createContent} from '../src/content.js'
 import {UNIT_SPECS, unconv, LogicAI} from '../src/unit.js'
@@ -1328,4 +1329,84 @@ test('снесённый процессор отпускает юнита сра
     building.destroy()
     world.steps(1)
     assert.equal(poly.controller instanceof LogicAI, false)
+})
+
+test('sensor здания отвечает числом там, где игра отвечает числом', () => {
+    // BuildingComp.sense: range у Ranged, у прочих ноль; timescale, armor, ёмкости из блока
+    const {world, processor, linked: [router, battery]} = setup([
+        'sensor range @this @range',
+        'sensor scale @this @timescale',
+        'sensor routerRange container1 @range',
+        'sensor liquid container1 @liquidCapacity',
+        'sensor liquids container1 @totalLiquids',
+        'sensor controlled container1 @controlled',
+        'sensor charge battery1 @totalPower'
+    ].join('\n'), {links: [{type: 'container', x: 3, y: 3}, {type: 'battery', x: 6, y: 3}]})
+
+    battery.power.status = 0.5
+    processor.run(7)
+
+    assert.equal(processor.num('range'), 22, 'у логического процессора дальность связи в тайлах')
+    assert.equal(processor.num('scale'), 1)
+    assert.equal(processor.num('routerRange'), 0, 'у склада дальности нет, но это ноль, а не пустота')
+    assert.equal(processor.num('liquid'), 0)
+    assert.equal(processor.num('liquids'), 0)
+    assert.equal(processor.num('controlled'), 0)
+    assert.equal(processor.num('charge'), 2000, 'у буфера заряд — доля, умноженная на ёмкость')
+    assert.equal(world.buildings.includes(router), true)
+})
+
+test('setprop @health 0 сносит здание и убивает юнита', () => {
+    // BuildingComp.setProp: `Call.buildDestroyed`; UnitComp.setProp: `kill()`
+    const world = new World({width: 20, height: 20, content, floor: 'stone'})
+    const router = world.add('router', {x: 8, y: 8})
+    const unit = world.spawn('dagger', {x: 5, y: 5})
+
+    const processor = place(world, 'world-processor', [
+        'setprop @health b 0',
+        'setprop @health u 0',
+        'sensor dead b @dead'
+    ].join('\n'))
+    processor.get('b').setobj(router)
+    processor.get('u').setobj(unit)
+    processor.run(3)
+
+    assert.equal(world.buildings.includes(router), false)
+    assert.equal(unit.dead, true)
+    assert.equal(processor.num('dead'), 1)
+})
+
+test('setprop @totalPower заряжает только буфер', () => {
+    const world = new World({width: 20, height: 20, content, floor: 'stone'})
+    const battery = world.add('battery', {x: 8, y: 8})
+
+    const processor = place(world, 'world-processor', 'setprop @totalPower b 1000')
+    processor.get('b').setobj(battery)
+    processor.run(1)
+
+    assert.equal(battery.power.status, 0.25)
+})
+
+test('sensor юнита: скорость с эффектами, контроллер мёртвого пуст', () => {
+    // UnitComp.sense: `speed * speedMultiplier`; senseObject: `!isValid() ? null`
+    const world = new World({width: 20, height: 20, content, floor: 'stone'})
+    const unit = world.spawn('mega', {x: 5, y: 5})
+    unit.apply('slow', 600)
+    world.steps(1)
+
+    const processor = place(world, 'world-processor', [
+        'sensor speed u @speed',
+        'sensor capacity u @payloadCapacity',
+        'sensor rotation u @selectedRotation'
+    ].join('\n'))
+    processor.get('u').setobj(unit)
+    processor.run(3)
+
+    const base = UNIT_SPECS.mega.speed * 60 / 8
+    assert.ok(Math.abs(processor.num('speed') - base * 0.4) < 1e-6, 'замедление не учтено')
+    assert.equal(processor.num('capacity'), UNIT_SPECS.mega.payloadCapacity / 64)
+    assert.equal(processor.num('rotation'), 0)
+
+    unit.kill()
+    assert.equal(unit.senseObject('controller'), null)
 })

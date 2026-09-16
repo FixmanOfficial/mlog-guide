@@ -650,3 +650,6 @@ Mindustry закрепляет arc хешем коммита в `gradle.properti
 | `setprop @team` числом: `Team.get((int)value)` = `all[((byte)id) & 0xff]` | `BuildingComp.java:2185`, `UnitComp.java:376`, `Team.java:58` | ✓ `radar.test.js` |
 | `op round` — это `Math::round` для double: результат long, за краем упирается в ±2^63 | `LogicOp.java:49` | ✓ `semantics.test.js` |
 | Контроллер логики отпускает юнита сразу, как только процессор перестал быть действительным | `LogicAI.updateMovement`, `controller.isValid()` | ✓ `radar.test.js` |
+| `sensor @range` у здания — только у `Ranged` (турели, процессоры), у прочих **ноль**, а не пустота; у процессора это дальность связи в тайлах | `BuildingComp.java:2112` | ✓ `radar.test.js` |
+| `setprop @health 0` — это снос здания и смерть юнита, а не просто ноль здоровья | `BuildingComp.java:2176`, `UnitComp.java:356` | ✓ `radar.test.js` |
+| `sensor @speed` у юнита домножается на множитель скорости от эффектов | `UnitComp.java:297` | ✓ `radar.test.js` |
