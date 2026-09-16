@@ -18,11 +18,12 @@ import {openAtlas} from './atlas.mjs'
 import {pack} from './pack.mjs'
 import {UNIT_SPECS} from '../core/src/unit.js'
 import {CONTENT_VERSION} from './version.mjs'
+import {encodeWebp} from './webp.mjs'
 
 /** Ширина атласа. Самый широкий спрайт — токсопид, 400 точек. */
 const WIDTH = 1024
 
-function main() {
+async function main() {
     const atlas = openAtlas(process.argv[2])
 
     const found = []
@@ -50,8 +51,8 @@ function main() {
 
     if (found.length === 0) throw new Error('в атласе не нашлось ни одного юнита')
 
-    const {png, width, height, sprites} = pack(found, WIDTH)
-    writeFileSync('render/assets/units.png', png)
+    const {pixels, width, height, sprites} = pack(found, WIDTH)
+    writeFileSync('render/assets/units.webp', await encodeWebp(width, height, pixels))
 
     writeFileSync('core/data/unit-sprites.json', JSON.stringify({
         gameVersion: CONTENT_VERSION,
@@ -59,7 +60,7 @@ function main() {
         note: 'Файл сгенерирован, править вручную нельзя. Спрайты сняты из упакованного атласа '
             + 'игры, то есть уже с запечённой обводкой. Записи вида «имя-cell» — накладка, '
             + 'которую игра красит цветом команды.',
-        atlas: 'render/assets/units.png',
+        atlas: 'render/assets/units.webp',
         width,
         height,
         sprites
@@ -67,10 +68,10 @@ function main() {
 
     const parts = /-(cell|leg|base)$/
     const bodies = Object.keys(sprites).filter(name => !parts.test(name)).length
-    console.log(`render/assets/units.png: ${width} на ${height}, ${bodies} юнитов`)
+    console.log(`render/assets/units.webp: ${width} на ${height}, ${bodies} юнитов`)
 
     // Ракеты лежат в атласе под другими именами, и логике они недоступны
     if (missing.length > 0) console.log(`без спрайта: ${missing.join(', ')}`)
 }
 
-main()
+await main()

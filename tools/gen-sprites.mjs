@@ -22,6 +22,7 @@ import {openAtlas} from './atlas.mjs'
 import {pack} from './pack.mjs'
 import {resize} from './png.mjs'
 import {CONTENT_VERSION} from './version.mjs'
+import {encodeWebp} from './webp.mjs'
 
 /** Ширина атласа. */
 const WIDTH = 1024
@@ -60,7 +61,7 @@ function fit(image, limit) {
     return resize(image, Math.round(image.width * scale), Math.round(image.height * scale))
 }
 
-function main() {
+async function main() {
     const atlas = openAtlas(process.argv[2])
 
     let ids
@@ -123,10 +124,10 @@ function main() {
 
     if (entries.length === 0) throw new Error('в атласе не нашлось иконок контента')
 
-    const {png, width, height, sprites} = pack(entries, WIDTH)
+    const {pixels, width, height, sprites} = pack(entries, WIDTH)
 
     mkdirSync('editor/assets', {recursive: true})
-    writeFileSync('editor/assets/content.png', png)
+    writeFileSync('editor/assets/content.webp', await encodeWebp(width, height, pixels))
 
     // Указатель раскладывается по типам: так его спрашивают и меню, и дисплей
     const index = {}
@@ -140,7 +141,7 @@ function main() {
         source: 'sprites/sprites.aatls из Mindustry.jar, UnlockableContent.loadIcon',
         note: 'Файл сгенерирован, править вручную нельзя. Иконки сняты готовыми из атласа игры '
             + `и уменьшены до ${LIMIT} точек по большей стороне с сохранением пропорций.`,
-        atlas: 'editor/assets/content.png',
+        atlas: 'editor/assets/content.webp',
         limit: LIMIT,
         width,
         height,
@@ -148,8 +149,8 @@ function main() {
         index
     }, null, 2) + '\n')
 
-    console.log(`editor/assets/content.png: ${width} на ${height}, ${entries.length} иконок`)
+    console.log(`editor/assets/content.webp: ${width} на ${height}, ${entries.length} иконок`)
     if (missing.length > 0) console.log(`без иконки: ${missing.join(', ')}`)
 }
 
-main()
+await main()

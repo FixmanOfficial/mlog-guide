@@ -20,6 +20,7 @@ import {pack} from './pack.mjs'
 import {BLOCK_SPECS} from '../core/src/world.js'
 import teams from '../core/data/teams.json' with {type: 'json'}
 import {CONTENT_VERSION} from './version.mjs'
+import {encodeWebp} from './webp.mjs'
 
 /**
  * Ширина атласа. Спрайты идут в родном разрешении, и самый крупный — ядро-цитадель,
@@ -92,7 +93,7 @@ const PALETTE_TEAMS = Object.entries(teams.teams)
 /** Накладки и подвижные части, которые игра грузит отдельными регионами. */
 const PARTS = ['base', 'preview', 'rotator', 'top', 'rim', 'item', 'heat']
 
-function main() {
+async function main() {
     const atlas = openAtlas(process.argv[2])
 
     const found = []
@@ -181,21 +182,21 @@ function main() {
 
     if (found.length === 0) throw new Error('не нашлось ни одного спрайта блока')
 
-    const {png, width, height, sprites} = pack(found, WIDTH)
-    writeFileSync('render/assets/blocks.png', png)
+    const {pixels, width, height, sprites} = pack(found, WIDTH)
+    writeFileSync('render/assets/blocks.webp', await encodeWebp(width, height, pixels))
 
     writeFileSync('core/data/block-sprites.json', JSON.stringify({
         gameVersion: CONTENT_VERSION,
         source: 'sprites/sprites.aatls из Mindustry.jar',
         note: 'Файл сгенерирован, править вручную нельзя. Спрайты лежат в своём разрешении: '
             + 'сторона блока в тайлах, умноженная на 32.',
-        atlas: 'render/assets/blocks.png',
+        atlas: 'render/assets/blocks.webp',
         width,
         height,
         sprites
     }, null, 2) + '\n')
 
-    console.log(`render/assets/blocks.png: ${width} на ${height}, ${found.length} спрайтов`)
+    console.log(`render/assets/blocks.webp: ${width} на ${height}, ${found.length} спрайтов`)
 }
 
-main()
+await main()

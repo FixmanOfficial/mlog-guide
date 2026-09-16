@@ -2,7 +2,7 @@
   "gameVersion": "v160.4",
   "source": "sprites/sprites.aatls из Mindustry.jar",
   "note": "Файл сгенерирован, править вручную нельзя. Спрайты сняты из упакованного атласа игры, то есть уже с запечённой обводкой. Записи вида «имя-cell» — накладка, которую игра красит цветом команды.",
-  "atlas": "render/assets/units.png",
+  "atlas": "render/assets/units.webp",
   "width": 1024,
   "height": 3507,
   "sprites": {

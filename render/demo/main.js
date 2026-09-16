@@ -11,7 +11,7 @@ import {createContent} from '@mlog/core/src/content.js'
 import logicIds from '@mlog/core/data/logic-ids.json'
 import sprites from '@mlog/core/data/sprites.json'
 
-import atlasUrl from '../../editor/assets/content.png'
+import atlasUrl from '../../editor/assets/content.webp'
 import fontUrl from '../assets/logic.woff2'
 import uiFontUrl from '../../editor/assets/ui.woff2'
 

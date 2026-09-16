@@ -285,7 +285,7 @@ node tools/gen-webfonts.mjs <путь-к-Mindustry>
 node tools/gen-sprites.mjs <путь-к-Mindustry.jar>
 ```
 
-Собирает иконки контента в атлас `editor/assets/content.png` и указатель `core/data/sprites.json`:
+Собирает иконки контента в атлас `editor/assets/content.webp` и указатель `core/data/sprites.json`:
 348 предметов, жидкостей, блоков и юнитов. Нужен меню выбора у `sensor` и инструкции `draw image`.
 
 Иконка в игре — это `UnlockableContent.fullIcon`, и ищется он по цепочке имён, первое из которых
@@ -300,7 +300,7 @@ node tools/gen-sprites.mjs <путь-к-Mindustry.jar>
 node tools/gen-blocks.mjs <путь-к-Mindustry.jar>
 ```
 
-Собирает спрайты блоков мира в атлас `render/assets/blocks.png` и указатель
+Собирает спрайты блоков мира в атлас `render/assets/blocks.webp` и указатель
 `core/data/block-sprites.json`: 379 спрайтов — всё, что игра разрешает строить, плюс четыре
 привилегированных блока, пометки вроде уголков выделения и накладки команд (`<имя>-team`,
 а у команд с палитрой ещё `<имя>-team-<команда>`): без них хранилище и ядро выходят белыми. Отдельно от `gen-sprites.mjs`
@@ -329,11 +329,14 @@ node tools/gen-blocks.mjs <путь-к-Mindustry.jar>
 Отдаём при этом свои атласы, а не игровые: у игры это 8 МБ на четырёх страницах и 5143 региона,
 странице нужно полтысячи. Правило — **источник игровой, упаковка своя**.
 
+Атласы пишутся в WebP без потерь (`tools/webp.mjs`): вдвое меньше PNG при тех же пикселях.
+Кодирует `sharp` — единственная зависимость генераторов, в сайт он не попадает.
+
 ```bash
 node tools/gen-terrain.mjs <путь-к-Mindustry.jar>
 ```
 
-Собирает местность в атлас `render/assets/terrain.png` и указатель `core/data/terrain-sprites.json`:
+Собирает местность в атлас `render/assets/terrain.webp` и указатель `core/data/terrain-sprites.json`:
 полы, руды, статичные стены со всеми вариантами плиток и листы краёв. Вариант плитки выбирается
 не случайно, а `Mathf.randomSeed` от координат тайла — поэтому карта не мельтешит при перерисовке.
 Полы с плиточной и автотайловой раскладкой (`metal-tiles`, вода) пропущены: у них своя механика,
@@ -343,7 +346,7 @@ node tools/gen-terrain.mjs <путь-к-Mindustry.jar>
 node tools/gen-units.mjs <путь-к-Mindustry.jar>
 ```
 
-Собирает спрайты юнитов в атлас `render/assets/units.png` и указатель `core/data/unit-sprites.json`:
+Собирает спрайты юнитов в атлас `render/assets/units.webp` и указатель `core/data/unit-sprites.json`:
 67 юнитов: корпус с обводкой, накладка `-cell` цветом команды, а у мехов ещё ноги `-leg`
 и основание `-base`. Спрайты не квадратные (у скипетра 170 на 140), поэтому атлас свой,
 а не общий с блоками. Огню двигателей спрайт не нужен — игра рисует его двумя кругами.

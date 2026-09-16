@@ -6,7 +6,6 @@
  * получаются в единицы процентов, а PNG их всё равно сжимает почти в ноль.
  */
 
-import {encodePng} from './png.mjs'
 
 /**
  * Прозрачная полоса вокруг каждого спрайта.
@@ -65,5 +64,5 @@ export function pack(entries, width) {
         sprites[name] = {x: left, y: top, width: image.width, height: image.height}
     }
 
-    return {png: encodePng(width, height, pixels), width, height, sprites}
+    return {pixels, width, height, sprites}
 }

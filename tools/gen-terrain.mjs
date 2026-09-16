@@ -19,6 +19,7 @@ import {openAtlas} from './atlas.mjs'
 import {pack} from './pack.mjs'
 import {BLOCK_SPECS} from '../core/src/world.js'
 import {CONTENT_VERSION} from './version.mjs'
+import {encodeWebp} from './webp.mjs'
 
 /** Ширина атласа. */
 const WIDTH = 1024
@@ -29,7 +30,7 @@ const TILE = 32
 /** Что рисуется на карте. Деревья и валуны отложены: они украшение, а не поверхность. */
 const KINDS = new Set(['floor', 'overlay', 'ore', 'staticWall'])
 
-function main() {
+async function main() {
     const atlas = openAtlas(process.argv[2])
 
     const found = []
@@ -61,15 +62,15 @@ function main() {
 
     if (found.length === 0) throw new Error('в атласе не нашлось местности')
 
-    const {png, width, height, sprites} = pack(found, WIDTH)
-    writeFileSync('render/assets/terrain.png', png)
+    const {pixels, width, height, sprites} = pack(found, WIDTH)
+    writeFileSync('render/assets/terrain.webp', await encodeWebp(width, height, pixels))
 
     writeFileSync('core/data/terrain-sprites.json', JSON.stringify({
         gameVersion: CONTENT_VERSION,
         source: 'sprites/sprites.aatls из Mindustry.jar',
         note: 'Файл сгенерирован, править вручную нельзя. Плитки лежат по 32 пикселя, листы '
             + 'краёв — по 96: три на три плитки, как их режет Floor.load.',
-        atlas: 'render/assets/terrain.png',
+        atlas: 'render/assets/terrain.webp',
         tile: TILE,
         width,
         height,
@@ -77,7 +78,7 @@ function main() {
     }, null, 2) + '\n')
 
     const edges = Object.keys(sprites).filter(name => name.endsWith('-edge')).length
-    console.log(`render/assets/terrain.png: ${width} на ${height}, `
+    console.log(`render/assets/terrain.webp: ${width} на ${height}, `
         + `${Object.keys(sprites).length - edges} плиток и ${edges} листов краёв`)
 
     if (missing.length > 0) {
@@ -85,4 +86,4 @@ function main() {
     }
 }
 
-main()
+await main()

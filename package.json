@@ -26,5 +26,8 @@
     "gen:metrics": "node tools/gen-metrics.mjs",
     "gen:font": "node tools/gen-font.mjs",
     "gen:webfonts": "node tools/gen-webfonts.mjs"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.4"
   }
 }

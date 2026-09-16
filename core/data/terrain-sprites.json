@@ -2,7 +2,7 @@
   "gameVersion": "v160.4",
   "source": "sprites/sprites.aatls из Mindustry.jar",
   "note": "Файл сгенерирован, править вручную нельзя. Плитки лежат по 32 пикселя, листы краёв — по 96: три на три плитки, как их режет Floor.load.",
-  "atlas": "render/assets/terrain.png",
+  "atlas": "render/assets/terrain.webp",
   "tile": 32,
   "width": 1024,
   "height": 1056,
